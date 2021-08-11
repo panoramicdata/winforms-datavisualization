@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Design;
+using System.Drawing.Design;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 

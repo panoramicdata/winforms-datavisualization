@@ -296,8 +296,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				dataSource is DataSet ||
 				dataSource is DataView ||
 				dataSource is DataTable ||
-				dataSource is System.Data.SqlClient.SqlCommand ||
-				dataSource is System.Data.SqlClient.SqlDataAdapter ||
+				dataSource is Microsoft.Data.SqlClient.SqlCommand ||
+				dataSource is Microsoft.Data.SqlClient.SqlDataAdapter ||
 				// ADDED: for VS2005 compatibility, DT Nov 25, 2005
 				dataSource.GetType().GetInterface("IDataSource") != null
 				// END ADDED
@@ -371,32 +371,32 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     dataTable = ((DataSet)dataSource).Tables[0];
                 }
-                else if (dataSource is System.Data.SqlClient.SqlDataAdapter)
+                else if (dataSource is Microsoft.Data.SqlClient.SqlDataAdapter)
                 {
                     dataTable = new DataTable();
                     dataTable.Locale = CultureInfo.CurrentCulture;
-                    dataTable = ((System.Data.SqlClient.SqlDataAdapter)dataSource).FillSchema(dataTable, SchemaType.Mapped);
+                    dataTable = ((Microsoft.Data.SqlClient.SqlDataAdapter)dataSource).FillSchema(dataTable, SchemaType.Mapped);
                 }
 
-                else if (dataSource is System.Data.SqlClient.SqlDataReader)
+                else if (dataSource is Microsoft.Data.SqlClient.SqlDataReader)
                 {
                     // Add table columns names
-                    for (int fieldIndex = 0; fieldIndex < ((System.Data.SqlClient.SqlDataReader)dataSource).FieldCount; fieldIndex++)
+                    for (int fieldIndex = 0; fieldIndex < ((Microsoft.Data.SqlClient.SqlDataReader)dataSource).FieldCount; fieldIndex++)
                     {
-                        if (!usedForYValue || ((System.Data.SqlClient.SqlDataReader)dataSource).GetFieldType(fieldIndex) != typeof(string))
+                        if (!usedForYValue || ((Microsoft.Data.SqlClient.SqlDataReader)dataSource).GetFieldType(fieldIndex) != typeof(string))
                         {
-                            names.Add(((System.Data.SqlClient.SqlDataReader)dataSource).GetName(fieldIndex));
+                            names.Add(((Microsoft.Data.SqlClient.SqlDataReader)dataSource).GetName(fieldIndex));
                         }
                     }
                 }
 
-                else if (dataSource is System.Data.SqlClient.SqlCommand)
+                else if (dataSource is Microsoft.Data.SqlClient.SqlCommand)
                 {
-                    System.Data.SqlClient.SqlCommand command = (System.Data.SqlClient.SqlCommand)dataSource;
+                    Microsoft.Data.SqlClient.SqlCommand command = (Microsoft.Data.SqlClient.SqlCommand)dataSource;
                     if (command.Connection != null)
                     {
                         command.Connection.Open();
-                        System.Data.SqlClient.SqlDataReader dataReader = command.ExecuteReader();
+                        Microsoft.Data.SqlClient.SqlDataReader dataReader = command.ExecuteReader();
                         if (dataReader.Read())
                         {
                             for (int fieldIndex = 0; fieldIndex < dataReader.FieldCount; fieldIndex++)
@@ -481,9 +481,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
             {
 
                 // Convert data adapters to command object
-                if (dataSource is System.Data.SqlClient.SqlDataAdapter)
+                if (dataSource is Microsoft.Data.SqlClient.SqlDataAdapter)
                 {
-                    dataSource = ((System.Data.SqlClient.SqlDataAdapter)dataSource).SelectCommand;
+                    dataSource = ((Microsoft.Data.SqlClient.SqlDataAdapter)dataSource).SelectCommand;
                 }
 
                 // Convert data source to recognizable source for the series
@@ -496,11 +496,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
                 {
                     dataSource = new DataView((DataTable)dataSource);
                 }
-                else if (dataSource is System.Data.SqlClient.SqlCommand)
+                else if (dataSource is Microsoft.Data.SqlClient.SqlCommand)
                 {
-                    System.Data.SqlClient.SqlCommand command = (System.Data.SqlClient.SqlCommand)dataSource;
+                    Microsoft.Data.SqlClient.SqlCommand command = (Microsoft.Data.SqlClient.SqlCommand)dataSource;
                     command.Connection.Open();
-                    System.Data.SqlClient.SqlDataReader dataReader = command.ExecuteReader();
+                    Microsoft.Data.SqlClient.SqlDataReader dataReader = command.ExecuteReader();
 
                     this.DataBind(dataReader, null);
 

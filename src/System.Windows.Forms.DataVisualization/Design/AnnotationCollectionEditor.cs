@@ -13,6 +13,7 @@ using System.Drawing.Design;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
 
+
 namespace System.Windows.Forms.Design.DataVisualization.Charting
 {
     /// <summary>
@@ -37,20 +38,20 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting
         protected override Type[] CreateNewItemTypes()
         {
             return new Type[] { 
-				typeof(LineAnnotation), 
-				typeof(VerticalLineAnnotation),
-				typeof(HorizontalLineAnnotation),
-				typeof(TextAnnotation), 
-				typeof(RectangleAnnotation), 
-			    typeof(EllipseAnnotation), 
-			    typeof(ArrowAnnotation),
-				typeof(Border3DAnnotation),
-			    typeof(CalloutAnnotation),
-			    typeof(PolylineAnnotation), 
-			    typeof(PolygonAnnotation), 
-			    typeof(ImageAnnotation), 
-				typeof(AnnotationGroup) 
-			};
+                typeof(LineAnnotation), 
+                typeof(VerticalLineAnnotation),
+                typeof(HorizontalLineAnnotation),
+                typeof(TextAnnotation), 
+                typeof(RectangleAnnotation), 
+                typeof(EllipseAnnotation), 
+                typeof(ArrowAnnotation),
+                typeof(Border3DAnnotation),
+                typeof(CalloutAnnotation),
+                typeof(PolylineAnnotation), 
+                typeof(PolygonAnnotation), 
+                typeof(ImageAnnotation), 
+                typeof(AnnotationGroup) 
+            };
         }
 
         /// <summary>

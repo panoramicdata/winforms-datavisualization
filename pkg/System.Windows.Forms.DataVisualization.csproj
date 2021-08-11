@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk" InitialTargets="SetOutputItemType">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- 
     This pkgproj is used to create a nuget package.
     The ArcadeSDK uses vanilla 'dotnet pack', but creates one package per csproj, which is not what we want.
@@ -21,7 +21,7 @@
 
     <IncludeSymbols>false</IncludeSymbols>
 
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net5.0-windows7.0</TargetFramework>
     <IsPackable>true</IsPackable>
     <NoWarn>$(NoWarn);NU5125</NoWarn>
 
@@ -65,17 +65,6 @@
       <PackagePath>.\</PackagePath>
     </Content>
   </ItemGroup>
-
-  <!-- Force the output item type for all project references to "TfmSpecificPackageFile", which makes them get packed -->
-  <Target Name="SetOutputItemType">
-    <ItemGroup>
-      <ProjectReference>
-        <OutputItemType>TfmSpecificPackageFile</OutputItemType>
-        <Targets>GetPackageContent</Targets>
-        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      </ProjectReference>
-    </ItemGroup>
-  </Target>
 
   <!-- Call custom targets (defined below) when creating the package -->
   <PropertyGroup>
