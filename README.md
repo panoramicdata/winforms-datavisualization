@@ -1,4 +1,14 @@
 
+This fork has been updated to target dotnet 5 and the Microsoft.Data.SqlClient dependency:
+
+Build instructions
+```
+cd src\System.Windows.Forms.DataVisualization
+dotnet build -c Release ChartWin.csproj
+nuget pack ./ChartWin.nuspec -Properties Configuration=Release -version 1.0.0
+```
+
+
 # ⚠️ **This repo is read-only** ⚠️
 We consider the `System.Windows.Forms.DataVisualization` deprecated and we only provide it to ease porting to .NET Core 3. We're not going to innovate in this component and subsequently will not accept any issues and/or PRs.
 You're welcome to fork the source, and update it as you see fit.
