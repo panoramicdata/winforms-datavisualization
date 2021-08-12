@@ -24,9 +24,6 @@ jobs:
         run: |
           cd src\System.Windows.Forms.DataVisualization
           dotnet build -c Release ChartWin.csproj
-      - name: Package
-        run: |
-          dotnet publish Application/ResearchDataManagementPlatform/ResearchDataManagementPlatform.csproj -r win-x64 -c Release -o PublishWinForms --verbosity minimal --nologo
       - name: Get the version
         id: get_version
         # Get the tag name e.g. v5.0.0 but skip the 'v'
