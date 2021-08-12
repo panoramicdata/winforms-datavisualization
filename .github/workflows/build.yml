@@ -33,5 +33,6 @@ jobs:
       - name: Nuget packages
         if: contains(github.ref, 'refs/tags/v')
         run: |
+          cd src\System.Windows.Forms.DataVisualization
           nuget pack ./ChartWin.nuspec -Properties Configuration=Release -Version ${{ steps.get_version.outputs.VERSION }}
           nuget push HIC.System.Windows.Forms.DataVisualization.${{ steps.get_version.outputs.VERSION }}.nupkg -skipDuplicate -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_KEY }}
