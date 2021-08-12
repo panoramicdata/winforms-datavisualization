@@ -1,0 +1,40 @@
+name: Build
+
+# Run this workflow every time a new commit pushed to your repository
+
+on: push
+
+jobs:
+  # Set the job key. The key is displayed as the job name
+  # when a job name is not provided
+  super-lint:
+    # Name the Job
+    name: Build, test, package and sign release
+    # Set the type of machine to run on
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.4
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1.8.1
+        with:
+          dotnet-version: 5.0.x
+      - name: Build
+        run: |
+          cd src\System.Windows.Forms.DataVisualization
+          dotnet build -c Release ChartWin.csproj
+      - name: Package
+        run: |
+          dotnet publish Application/ResearchDataManagementPlatform/ResearchDataManagementPlatform.csproj -r win-x64 -c Release -o PublishWinForms --verbosity minimal --nologo
+      - name: Get the version
+        id: get_version
+        # Get the tag name e.g. v5.0.0 but skip the 'v'
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+        shell: bash
+
+      - name: Nuget packages
+        if: contains(github.ref, 'refs/tags/v')
+        run: |
+          nuget pack ./ChartWin.nuspec -Properties Configuration=Release -Version ${{ steps.get_version.outputs.VERSION }}
+          nuget push HIC.System.Windows.Forms.DataVisualization.${{ steps.get_version.outputs.VERSION }}.nupkg -skipDuplicate -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_KEY }}
