@@ -19,9 +19,6 @@
   <ItemGroup>
     <!-- Versions are defined in eng\Versions.props -->
     <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.0" />
-    <PackageReference Include="System.Resources.Extensions" Version="4.6.0" />
-    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Windows.Extensions" Version="6.0.0-preview.7.21377.19" />
   </ItemGroup>
 
   <ItemGroup Label="Embedded Resources">
