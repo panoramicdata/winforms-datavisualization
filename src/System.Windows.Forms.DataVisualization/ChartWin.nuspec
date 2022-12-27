@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
-    <id>PanoramicData.System.Windows.Forms.DataVisualization</id>
-    <version>$version$</version>
-    <title>PanoramicData.System.Windows.Forms.DataVisualization</title>
-    <authors>Microsoft, adapted for dotnet7 by Panoramic Data Limited</authors>
-    <owners>Panoramic Data Limited</owners>
-    <licenseUrl>https://github.com/panoramicdata/winforms-datavisualization/blob/main/LICENSE.TXT</licenseUrl>
-    <projectUrl>https://github.com/panoramicdata/winforms-datavisualization</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>System.Windows.Forms.DataVisualization ported to dotnet7</description>
-    <copyright>Copyright 2022</copyright>
-    <dependencies>
-      <dependency id="Microsoft.Data.SqlClient" version="3.0.0" />
-    </dependencies>
+	<id>PanoramicData.System.Windows.Forms.DataVisualization</id>
+	<version>$version$</version>
+	<title>PanoramicData.System.Windows.Forms.DataVisualization</title>
+	<authors>Microsoft, adapted for dotnet7 by Panoramic Data Limited</authors>
+	<owners>Panoramic Data Limited</owners>
+	<licenseUrl>https://github.com/panoramicdata/winforms-datavisualization/blob/main/LICENSE.TXT</licenseUrl>
+	<projectUrl>https://github.com/panoramicdata/winforms-datavisualization</projectUrl>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<description>System.Windows.Forms.DataVisualization ported to dotnet7</description>
+	<copyright>Copyright 2022</copyright>
+	<dependencies>
+	  <dependency id="Microsoft.Data.SqlClient" version="3.0.0" />
+	</dependencies>
   </metadata>
   <files>
-    <file src="bin\$configuration$\net7.0-windows7.0\System.Windows.Forms.DataVisualization.dll" target="lib\net7.0-windows7.0"/>
+	<file src="bin\$configuration$\net7.0-windows7.0\System.Windows.Forms.DataVisualization.dll" target="lib\net7.0-windows7.0"/>
   </files>
 </package>

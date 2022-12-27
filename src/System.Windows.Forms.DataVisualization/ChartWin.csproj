@@ -1,13 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows7.0</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CLSCompliant>false</CLSCompliant>
     <NoWarn>$(NoWarn);618</NoWarn>
     <DefineConstants>$(DefineConstants);WINFORMS_CONTROL</DefineConstants>
     <UseWindowsForms>true</UseWindowsForms>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
     <!-- <Win32Manifest>Resources\System\Windows\Forms\XPThemes.manifest</Win32Manifest> -->
   </PropertyGroup>
 
