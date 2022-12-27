@@ -32,7 +32,7 @@
 
   <!-- nuspec properties -->
   <PropertyGroup>
-    <PackageId>System.Windows.Forms.DataVisualization </PackageId>
+    <PackageId>PanoramicData.System.Windows.Forms.DataVisualization</PackageId>
     <Description>This package contains the charting controls for Windows Forms for .NET Core.</Description>
     <Authors>Microsoft</Authors>
     <RepositoryUrl>https://github.com/dotnet/winforms-datavisualization</RepositoryUrl>
