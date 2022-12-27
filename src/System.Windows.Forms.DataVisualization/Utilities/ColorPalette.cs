@@ -20,27 +20,27 @@ using System.Drawing;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-    #region Color palettes enumeration
+	#region Color palettes enumeration
 
-    /// <summary>
-    /// Chart color palettes enumeration
-    /// </summary>
-    public enum ChartColorPalette
-	{ 
+	/// <summary>
+	/// Chart color palettes enumeration
+	/// </summary>
+	public enum ChartColorPalette
+	{
 		/// <summary>
 		/// Palette not set.
 		/// </summary>
-		None, 
+		None,
 
 		/// <summary>
-        /// Bright palette.
+		/// Bright palette.
 		/// </summary>
-		Bright, 
+		Bright,
 
 		/// <summary>
 		/// Palette with gray scale colors.
 		/// </summary>
-		Grayscale, 
+		Grayscale,
 
 		/// <summary>
 		/// Palette with Excel style colors.
@@ -65,7 +65,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Palette with SemiTransparent style colors.
 		/// </summary>
-		SemiTransparent, 
+		SemiTransparent,
 
 		/// <summary>
 		/// Palette with Berry style colors.
@@ -93,30 +93,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		BrightPastel
 	};
 
-	#endregion	
+	#endregion
 }
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 {
-    /// <summary>
-    /// ChartPaletteColors is a utility class which provides access 
-    /// to the predefined chart color palettes. These palettes are 
-    /// used to assign unique colors to different chart series. 
-    /// For some chart types, like Pie, different colors are applied 
-    /// on the data point level.
-    /// 
-    /// GetPaletteColors method takes a ChartColorPalette enumeration 
-    /// as a parameter and returns back an array of Colors. Each 
-    /// palette contains different number of colors but it is a 
-    /// good practice to keep this number around 15.
-    /// </summary>
-    internal static class ChartPaletteColors
+	/// <summary>
+	/// ChartPaletteColors is a utility class which provides access 
+	/// to the predefined chart color palettes. These palettes are 
+	/// used to assign unique colors to different chart series. 
+	/// For some chart types, like Pie, different colors are applied 
+	/// on the data point level.
+	/// 
+	/// GetPaletteColors method takes a ChartColorPalette enumeration 
+	/// as a parameter and returns back an array of Colors. Each 
+	/// palette contains different number of colors but it is a 
+	/// good practice to keep this number around 15.
+	/// </summary>
+	internal static class ChartPaletteColors
 	{
 		#region Fields
 
 		// Fields which store the palette color values
-        private static Color[] _colorsGrayScale = InitializeGrayScaleColors();
-		private static	Color[] _colorsDefault = {
+		private static Color[] _colorsGrayScale = InitializeGrayScaleColors();
+		private static Color[] _colorsDefault = {
 			Color.Green,
 			Color.Blue,
 			Color.Purple,
@@ -134,8 +134,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			Color.Tomato,
 			Color.Moccasin
 			};
-		
-		private static	Color[] _colorsPastel = {
+
+		private static Color[] _colorsPastel = {
 													Color.SkyBlue,
 													Color.LimeGreen,
 													Color.MediumOrchid,
@@ -154,7 +154,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 													Color.LightSalmon
 												};
 
-		private static	Color[] _colorsEarth = {
+		private static Color[] _colorsEarth = {
 												   Color.FromArgb(255, 128, 0),
 												   Color.DarkGoldenrod,
 												   Color.FromArgb(192, 64, 0),
@@ -173,7 +173,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												   Color.FromArgb(192, 0, 0)
 											   };
 
-		private static	Color[] _colorsSemiTransparent = {
+		private static Color[] _colorsSemiTransparent = {
 													Color.FromArgb(150, 255, 0, 0),
 													Color.FromArgb(150, 0, 255, 0),
 													Color.FromArgb(150, 0, 0, 255),
@@ -191,8 +191,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 													Color.FromArgb(150, 100, 120, 50),
 													Color.FromArgb(150, 40, 90, 150)
 											  };
-		
-		private static	Color[] _colorsLight = {
+
+		private static Color[] _colorsLight = {
 												   Color.Lavender,
 												   Color.LavenderBlush,
 												   Color.PeachPuff,
@@ -205,7 +205,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												   Color.LightCyan
 											   };
 
-		private static	Color[] _colorsExcel = {
+		private static Color[] _colorsExcel = {
 			Color.FromArgb(153,153,255),
 			Color.FromArgb(153,51,102),
 			Color.FromArgb(255,255,204),
@@ -223,7 +223,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			Color.FromArgb(0,128,128),
 			Color.FromArgb(0,0,255)};
 
-		private static	Color[] _colorsBerry = {
+		private static Color[] _colorsBerry = {
 												  Color.BlueViolet,
 												  Color.MediumOrchid,
 												  Color.RoyalBlue,
@@ -237,7 +237,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												  Color.Purple
 											  };
 
-		private static	Color[] _colorsChocolate = {
+		private static Color[] _colorsChocolate = {
 												  Color.Sienna,
 												  Color.Chocolate,
 												  Color.DarkRed,
@@ -250,7 +250,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												  Color.FromArgb(182, 92, 58)
 											  };
 
-		private static	Color[] _colorsFire = {
+		private static Color[] _colorsFire = {
 													  Color.Gold,
 													  Color.Red,
 													  Color.DeepPink,
@@ -263,7 +263,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 													  Color.FromArgb(221, 226, 33)
 												  };
 
-		private static	Color[] _colorsSeaGreen = {
+		private static Color[] _colorsSeaGreen = {
 												 Color.SeaGreen,
 												 Color.MediumAquamarine,
 												 Color.SteelBlue,
@@ -276,7 +276,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												 Color.SkyBlue
 											 };
 
-        private static Color[] _colorsBrightPastel = {
+		private static Color[] _colorsBrightPastel = {
 												   Color.FromArgb(65, 140, 240),
 												   Color.FromArgb(252, 180, 65),
 												   Color.FromArgb(224, 64, 10),
@@ -295,7 +295,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 											   };
 
 		#endregion
-		
+
 		#region Constructor
 
 		/// <summary>
@@ -305,57 +305,57 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		{
 			// Define gray scale colors
 			Color[] grayScale = new Color[16];
-			for(int i = 0; i < grayScale.Length; i++)
+			for (int i = 0; i < grayScale.Length; i++)
 			{
-				int colorValue = 200 - i * (180/16);
+				int colorValue = 200 - i * (180 / 16);
 				grayScale[i] = Color.FromArgb(colorValue, colorValue, colorValue);
 			}
 
-            return grayScale;
+			return grayScale;
 		}
 
 		#endregion
 
 		#region Methods
 
-        /// <summary>
-        /// Return array of colors for the specified palette. Number of
-        /// colors returned varies depending on the palette selected.
-        /// </summary>
-        /// <param name="palette">Palette to get the colors for.</param>
-        /// <returns>Array of colors.</returns>
+		/// <summary>
+		/// Return array of colors for the specified palette. Number of
+		/// colors returned varies depending on the palette selected.
+		/// </summary>
+		/// <param name="palette">Palette to get the colors for.</param>
+		/// <returns>Array of colors.</returns>
 		public static Color[] GetPaletteColors(ChartColorPalette palette)
 		{
-			switch(palette)
+			switch (palette)
 			{
-				case(ChartColorPalette.None):
-				{
-                    throw (new ArgumentException(SR.ExceptionPaletteIsEmpty));
-				}
-				case(ChartColorPalette.Bright):
+				case (ChartColorPalette.None):
+					{
+						throw (new ArgumentException(SR.ExceptionPaletteIsEmpty));
+					}
+				case (ChartColorPalette.Bright):
 					return _colorsDefault;
-				case(ChartColorPalette.Grayscale):
-                    return _colorsGrayScale;
-				case(ChartColorPalette.Excel):
+				case (ChartColorPalette.Grayscale):
+					return _colorsGrayScale;
+				case (ChartColorPalette.Excel):
 					return _colorsExcel;
-				case(ChartColorPalette.Pastel):
+				case (ChartColorPalette.Pastel):
 					return _colorsPastel;
-				case(ChartColorPalette.Light):
+				case (ChartColorPalette.Light):
 					return _colorsLight;
-				case(ChartColorPalette.EarthTones):
+				case (ChartColorPalette.EarthTones):
 					return _colorsEarth;
-				case(ChartColorPalette.SemiTransparent):
+				case (ChartColorPalette.SemiTransparent):
 					return _colorsSemiTransparent;
-				case(ChartColorPalette.Berry):
+				case (ChartColorPalette.Berry):
 					return _colorsBerry;
-				case(ChartColorPalette.Chocolate):
+				case (ChartColorPalette.Chocolate):
 					return _colorsChocolate;
-				case(ChartColorPalette.Fire):
+				case (ChartColorPalette.Fire):
 					return _colorsFire;
-				case(ChartColorPalette.SeaGreen):
+				case (ChartColorPalette.SeaGreen):
 					return _colorsSeaGreen;
-				case(ChartColorPalette.BrightPastel):
-                    return _colorsBrightPastel;
+				case (ChartColorPalette.BrightPastel):
+					return _colorsBrightPastel;
 			}
 			return null;
 		}

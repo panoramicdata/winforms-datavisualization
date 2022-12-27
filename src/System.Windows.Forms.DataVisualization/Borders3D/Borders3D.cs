@@ -21,12 +21,12 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting
 {
-    #region Border style enumeration
+	#region Border style enumeration
 
-    /// <summary>
-    /// Styles of the border skin.
-    /// </summary>
-    public enum BorderSkinStyle
+	/// <summary>
+	/// Styles of the border skin.
+	/// </summary>
+	public enum BorderSkinStyle
 	{
 		/// <summary>
 		/// Border not used.
@@ -111,24 +111,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultProperty("SkinStyle"),
 		SRDescription("DescriptionAttributeBorderSkin_BorderSkin"),
 	]
-    public class BorderSkin : ChartElement
+	public class BorderSkin : ChartElement
 	{
-        #region Fields
+		#region Fields
 
 		// Private data members, which store properties values
-		private Color					_pageColor = Color.White;
-		private BorderSkinStyle			_skinStyle = BorderSkinStyle.None;
-		private GradientStyle			_backGradientStyle = GradientStyle.None;
-		private Color					_backSecondaryColor = Color.Empty;
-		private Color					_backColor = Color.Gray;
-		private string					_backImage = "";
-		private ChartImageWrapMode		_backImageWrapMode = ChartImageWrapMode.Tile;
-		private Color					_backImageTransparentColor = Color.Empty;
-		private ChartImageAlignmentStyle			_backImageAlignment = ChartImageAlignmentStyle.TopLeft;
-		private Color					_borderColor = Color.Black;
-		private int						_borderWidth = 1;
-		private ChartDashStyle			_borderDashStyle = ChartDashStyle.NotSet;
-		private ChartHatchStyle			_backHatchStyle = ChartHatchStyle.None;
+		private Color _pageColor = Color.White;
+		private BorderSkinStyle _skinStyle = BorderSkinStyle.None;
+		private GradientStyle _backGradientStyle = GradientStyle.None;
+		private Color _backSecondaryColor = Color.Empty;
+		private Color _backColor = Color.Gray;
+		private string _backImage = "";
+		private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
+		private Color _backImageTransparentColor = Color.Empty;
+		private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
+		private Color _borderColor = Color.Black;
+		private int _borderWidth = 1;
+		private ChartDashStyle _borderDashStyle = ChartDashStyle.NotSet;
+		private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
 
 		#endregion
 
@@ -144,28 +144,28 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Constructor.
 		/// </summary>
-        /// <param name="parent">The parent chart element.</param>
-		internal BorderSkin(IChartElement parent) : base (parent)
+		/// <param name="parent">The parent chart element.</param>
+		internal BorderSkin(IChartElement parent) : base(parent)
 		{
 		}
-	
+
 		#endregion
 
 		#region Border skin properties
 
 		/// <summary>
-        /// Gets or sets the page color of a border skin.
+		/// Gets or sets the page color of a border skin.
 		/// </summary>
 		[
-        SRCategory("CategoryAttributeAppearance"),
+		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(typeof(Color), "White"),
 		SRDescription("DescriptionAttributeBorderSkin_PageColor"),
-        TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
-        ]
-        public Color PageColor
+		TypeConverter(typeof(ColorConverter)),
+		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+		]
+		public Color PageColor
 		{
 			get
 			{
@@ -180,7 +180,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 		/// <summary>
-        /// Gets or sets the style of a border skin.
+		/// Gets or sets the style of a border skin.
 		/// </summary>
 		[
 		SRCategory("CategoryAttributeAppearance"),
@@ -204,7 +204,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets the background color of a skin frame.
+		/// Gets or sets the background color of a skin frame.
 		/// </summary>
 		[
 
@@ -212,11 +212,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(typeof(Color), "Gray"),
-        SRDescription("DescriptionAttributeFrameBackColor"),
-        TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
-        ]
-        public Color BackColor
+		SRDescription("DescriptionAttributeFrameBackColor"),
+		TypeConverter(typeof(ColorConverter)),
+		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+		]
+		public Color BackColor
 		{
 			get
 			{
@@ -230,7 +230,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets the border color of a skin frame.
+		/// Gets or sets the border color of a skin frame.
 		/// </summary>
 		[
 
@@ -238,11 +238,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(typeof(Color), "Black"),
-        SRDescription("DescriptionAttributeBorderColor"),
-        TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
-        ]
-        public Color BorderColor
+		SRDescription("DescriptionAttributeBorderColor"),
+		TypeConverter(typeof(ColorConverter)),
+		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+		]
+		public Color BorderColor
 		{
 			get
 			{
@@ -256,7 +256,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets the background hatch style of a skin frame.
+		/// Gets or sets the background hatch style of a skin frame.
 		/// </summary>
 		[
 
@@ -264,10 +264,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(ChartHatchStyle.None),
-        SRDescription("DescriptionAttributeFrameBackHatchStyle"),
-        Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
-        ]
-        public ChartHatchStyle BackHatchStyle
+		SRDescription("DescriptionAttributeFrameBackHatchStyle"),
+		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
+		]
+		public ChartHatchStyle BackHatchStyle
 		{
 			get
 			{
@@ -281,18 +281,18 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets the background image of a skin frame.
+		/// Gets or sets the background image of a skin frame.
 		/// </summary>
 		[
 
-        SRCategory("CategoryAttributeAppearance"),
+		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(""),
-        SRDescription("DescriptionAttributeBackImage"),
-        Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-        ]
-        public string BackImage
+		SRDescription("DescriptionAttributeBackImage"),
+		Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
+		]
+		public string BackImage
 		{
 			get
 			{
@@ -306,7 +306,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets the drawing mode for the background image of a skin frame.
+		/// Gets or sets the drawing mode for the background image of a skin frame.
 		/// </summary>
 		[
 
@@ -314,7 +314,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(ChartImageWrapMode.Tile),
-        SRDescription("DescriptionAttributeImageWrapMode"),
+		SRDescription("DescriptionAttributeImageWrapMode"),
 		]
 		public ChartImageWrapMode BackImageWrapMode
 		{
@@ -330,20 +330,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets a color which will be replaced with a transparent color 
-        /// while drawing the background image of a skin frame.
+		/// Gets or sets a color which will be replaced with a transparent color 
+		/// while drawing the background image of a skin frame.
 		/// </summary>
 		[
 
-        SRCategory("CategoryAttributeAppearance"),
+		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(typeof(Color), ""),
-        SRDescription("DescriptionAttributeImageTransparentColor"),
-        TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
-        ]
-        public Color BackImageTransparentColor
+		SRDescription("DescriptionAttributeImageTransparentColor"),
+		TypeConverter(typeof(ColorConverter)),
+		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+		]
+		public Color BackImageTransparentColor
 		{
 			get
 			{
@@ -359,16 +359,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <summary>
 		/// Gets or sets the background image alignment of a skin frame.
 		/// </summary>
-        /// <remarks>
-        /// Used by ClampUnscale drawing mode.
-        /// </remarks>
+		/// <remarks>
+		/// Used by ClampUnscale drawing mode.
+		/// </remarks>
 		[
 
-        SRCategory("CategoryAttributeAppearance"),
+		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(ChartImageAlignmentStyle.TopLeft),
-        SRDescription("DescriptionAttributeBackImageAlign"),
+		SRDescription("DescriptionAttributeBackImageAlign"),
 		]
 		public ChartImageAlignmentStyle BackImageAlignment
 		{
@@ -384,7 +384,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets the background gradient style of a skin frame.
+		/// Gets or sets the background gradient style of a skin frame.
 		/// </summary>
 		[
 
@@ -392,10 +392,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(GradientStyle.None),
-        SRDescription("DescriptionAttributeBackGradientStyle"),
-        Editor(typeof(GradientEditor), typeof(UITypeEditor))
-        ]
-        public GradientStyle BackGradientStyle
+		SRDescription("DescriptionAttributeBackGradientStyle"),
+		Editor(typeof(GradientEditor), typeof(UITypeEditor))
+		]
+		public GradientStyle BackGradientStyle
 		{
 			get
 			{
@@ -408,13 +408,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 		}
 
-        /// <summary>
-        /// Gets or sets the secondary background color of a skin frame.
-        /// </summary>
-        /// <remarks>
-        /// This color is used with <see cref="BackColor"/> when <see cref="BackHatchStyle"/> or
-        /// <see cref="BackGradientStyle"/> are used.
-        /// </remarks>
+		/// <summary>
+		/// Gets or sets the secondary background color of a skin frame.
+		/// </summary>
+		/// <remarks>
+		/// This color is used with <see cref="BackColor"/> when <see cref="BackHatchStyle"/> or
+		/// <see cref="BackGradientStyle"/> are used.
+		/// </remarks>
 		[
 
 		SRCategory("CategoryAttributeAppearance"),
@@ -422,10 +422,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		NotifyParentPropertyAttribute(true),
 		DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBorderSkin_FrameBackSecondaryColor"),
-        TypeConverter(typeof(ColorConverter)),
-        Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
-        ]
-        public Color BackSecondaryColor
+		TypeConverter(typeof(ColorConverter)),
+		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
+		]
+		public Color BackSecondaryColor
 		{
 			get
 			{
@@ -457,9 +457,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 			set
 			{
-				if(value < 0)
+				if (value < 0)
 				{
-					throw(new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+					throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
 				}
 				_borderWidth = value;
 				this.Invalidate();
@@ -467,7 +467,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		}
 
 		/// <summary>
-        /// Gets or sets the style of the border line of a skin frame.
+		/// Gets or sets the style of the border line of a skin frame.
 		/// </summary>
 		[
 
@@ -497,19 +497,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 {
-    /// <summary>
-    /// Keep track of all registered 3D borders.
-    /// </summary>
-    internal class BorderTypeRegistry : IServiceProvider
+	/// <summary>
+	/// Keep track of all registered 3D borders.
+	/// </summary>
+	internal class BorderTypeRegistry : IServiceProvider
 	{
 		#region Fields
 
 		// Border types image resource manager
-		private		ResourceManager	_resourceManager = null;
+		private ResourceManager _resourceManager = null;
 
 		// Storage for all registered border types
-        internal Hashtable registeredBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
-        private Hashtable _createdBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
+		internal Hashtable registeredBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
+		private Hashtable _createdBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
 
 		#endregion
 
@@ -522,19 +522,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		{
 		}
 
-        /// <summary>
-        /// Returns border type registry service object
-        /// </summary>
-        /// <param name="serviceType">Service type to get.</param>
-        /// <returns>Border registry service.</returns>
+		/// <summary>
+		/// Returns border type registry service object
+		/// </summary>
+		/// <param name="serviceType">Service type to get.</param>
+		/// <returns>Border registry service.</returns>
 		[EditorBrowsableAttribute(EditorBrowsableState.Never)]
-        object IServiceProvider.GetService(Type serviceType)
+		object IServiceProvider.GetService(Type serviceType)
 		{
-			if(serviceType == typeof(BorderTypeRegistry))
+			if (serviceType == typeof(BorderTypeRegistry))
 			{
 				return this;
 			}
-			throw (new ArgumentException( SR.ExceptionBorderTypeRegistryUnsupportedType( serviceType.ToString()) ));
+			throw (new ArgumentException(SR.ExceptionBorderTypeRegistryUnsupportedType(serviceType.ToString())));
 		}
 
 		#endregion
@@ -549,32 +549,32 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		public void Register(string name, Type borderType)
 		{
 			// First check if border type with specified name already registered
-			if(registeredBorderTypes.Contains(name))
+			if (registeredBorderTypes.Contains(name))
 			{
 				// If same type provided - ignore
-				if(registeredBorderTypes[name].GetType() == borderType)
+				if (registeredBorderTypes[name].GetType() == borderType)
 				{
 					return;
 				}
 
 				// Error - throw exception
-                throw (new ArgumentException(SR.ExceptionBorderTypeNameIsNotUnique( name ) ) );
+				throw (new ArgumentException(SR.ExceptionBorderTypeNameIsNotUnique(name)));
 			}
 
 			// Make sure that specified class support IBorderType interface
-			bool	found = false;
-			Type[]	interfaces = borderType.GetInterfaces();
-			foreach(Type type in interfaces)
-			{   
-				if(type == typeof(IBorderType))
+			bool found = false;
+			Type[] interfaces = borderType.GetInterfaces();
+			foreach (Type type in interfaces)
+			{
+				if (type == typeof(IBorderType))
 				{
 					found = true;
 					break;
 				}
 			}
-			if(!found)
+			if (!found)
 			{
-                throw (new ArgumentException(SR.ExceptionBorderTypeHasNoInterface ));
+				throw (new ArgumentException(SR.ExceptionBorderTypeHasNoInterface));
 			}
 
 			// Add border type to the hash table
@@ -589,16 +589,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		public IBorderType GetBorderType(string name)
 		{
 			// First check if border type with specified name registered
-			if(!registeredBorderTypes.Contains(name))
+			if (!registeredBorderTypes.Contains(name))
 			{
-				throw( new ArgumentException( SR.ExceptionBorderTypeUnknown( name ) ) );
+				throw (new ArgumentException(SR.ExceptionBorderTypeUnknown(name)));
 			}
 
 			// Check if the border type object is already created
-			if(!_createdBorderTypes.Contains(name))
-			{	
+			if (!_createdBorderTypes.Contains(name))
+			{
 				// Create border type object
-				_createdBorderTypes[name] = 
+				_createdBorderTypes[name] =
 					((Type)registeredBorderTypes[name]).Assembly.
 					CreateInstance(((Type)registeredBorderTypes[name]).ToString());
 			}
@@ -609,12 +609,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		/// <summary>
 		/// Border images resource manager.
 		/// </summary>
-		public ResourceManager	ResourceManager
+		public ResourceManager ResourceManager
 		{
 			get
 			{
 				// Create border images resource manager
-				if(_resourceManager == null)
+				if (_resourceManager == null)
 				{
 					_resourceManager = new ResourceManager("System.Web.UI.DataVisualization.Charting", Assembly.GetExecutingAssembly());
 				}
@@ -625,10 +625,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		#endregion
 	}
 
-    /// <summary>
-    /// Interface which defines the set of standard methods and
-    /// properties for each border type.
-    /// </summary>
+	/// <summary>
+	/// Interface which defines the set of standard methods and
+	/// properties for each border type.
+	/// </summary>
 	internal interface IBorderType
 	{
 		#region Properties and Method
@@ -636,53 +636,53 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		/// <summary>
 		/// Border type name.
 		/// </summary>
-		string Name			{ get; }
+		string Name { get; }
 
-        /// <summary>
-        /// Sets/Gets the resolution to draw with;
-        /// </summary>
-        float Resolution
-        {
-            set;
-        }
-        /// <summary>
-        /// Draws 3D border.
-        /// </summary>
-        /// <param name="graph">Graphics to draw the border on.</param>
-        /// <param name="borderSkin">Border skin object.</param>
-        /// <param name="rect">Rectangle of the border.</param>
-        /// <param name="backColor">Color of rectangle.</param>
-        /// <param name="backHatchStyle">Hatch style.</param>
-        /// <param name="backImage">Back Image.</param>
-        /// <param name="backImageWrapMode">Image mode.</param>
-        /// <param name="backImageTransparentColor">Image transparent color.</param>
-        /// <param name="backImageAlign">Image alignment.</param>
-        /// <param name="backGradientStyle">Gradient type.</param>
-        /// <param name="backSecondaryColor">Gradient End Color.</param>
-        /// <param name="borderColor">Border Color.</param>
-        /// <param name="borderWidth">Border Width.</param>
-        /// <param name="borderDashStyle">Border Style.</param>
+		/// <summary>
+		/// Sets/Gets the resolution to draw with;
+		/// </summary>
+		float Resolution
+		{
+			set;
+		}
+		/// <summary>
+		/// Draws 3D border.
+		/// </summary>
+		/// <param name="graph">Graphics to draw the border on.</param>
+		/// <param name="borderSkin">Border skin object.</param>
+		/// <param name="rect">Rectangle of the border.</param>
+		/// <param name="backColor">Color of rectangle.</param>
+		/// <param name="backHatchStyle">Hatch style.</param>
+		/// <param name="backImage">Back Image.</param>
+		/// <param name="backImageWrapMode">Image mode.</param>
+		/// <param name="backImageTransparentColor">Image transparent color.</param>
+		/// <param name="backImageAlign">Image alignment.</param>
+		/// <param name="backGradientStyle">Gradient type.</param>
+		/// <param name="backSecondaryColor">Gradient End Color.</param>
+		/// <param name="borderColor">Border Color.</param>
+		/// <param name="borderWidth">Border Width.</param>
+		/// <param name="borderDashStyle">Border Style.</param>
 		void DrawBorder(
-			ChartGraphics graph, 
+			ChartGraphics graph,
 			BorderSkin borderSkin,
-			RectangleF rect, 
-			Color backColor, 
-			ChartHatchStyle backHatchStyle, 
-			string backImage, 
-			ChartImageWrapMode backImageWrapMode, 
+			RectangleF rect,
+			Color backColor,
+			ChartHatchStyle backHatchStyle,
+			string backImage,
+			ChartImageWrapMode backImageWrapMode,
 			Color backImageTransparentColor,
 			ChartImageAlignmentStyle backImageAlign,
-			GradientStyle backGradientStyle, 
-			Color backSecondaryColor, 
-			Color borderColor, 
-			int borderWidth, 
+			GradientStyle backGradientStyle,
+			Color backSecondaryColor,
+			Color borderColor,
+			int borderWidth,
 			ChartDashStyle borderDashStyle);
 
-        /// <summary>
-        /// Adjust areas rectangle coordinate to fit the 3D border.
-        /// </summary>
-        /// <param name="graph">Graphics to draw the border on.</param>
-        /// <param name="areasRect">Position to adjust.</param>
+		/// <summary>
+		/// Adjust areas rectangle coordinate to fit the 3D border.
+		/// </summary>
+		/// <param name="graph">Graphics to draw the border on.</param>
+		/// <param name="areasRect">Position to adjust.</param>
 		void AdjustAreasPosition(ChartGraphics graph, ref RectangleF areasRect);
 
 		/// <summary>

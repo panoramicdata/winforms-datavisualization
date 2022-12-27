@@ -18,127 +18,126 @@
 
 using System.ComponentModel;
 
-namespace System.Windows.Forms.DataVisualization.Charting
+namespace System.Windows.Forms.DataVisualization.Charting;
+
+/// <summary>
+/// The NamedImagesCollection class is a strongly typed collection of NamedImage
+/// objects.
+/// </summary>
+public class NamedImagesCollection : ChartNamedElementCollection<NamedImage>
 {
-    /// <summary>
-    /// The NamedImagesCollection class is a strongly typed collection of NamedImage
-    /// objects.
-    /// </summary>
-    public class NamedImagesCollection : ChartNamedElementCollection<NamedImage>
+	#region Constructor
+
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	internal NamedImagesCollection() : base(null)
 	{
-		#region Constructor
+	}
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		internal NamedImagesCollection() : base(null)
-		{
-		}
+	#endregion
 
-        #endregion
+}
 
+/// <summary>
+/// The NamedImage class stores a single Image with its unique name.
+/// </summary>
+[
+	SRDescription("DescriptionAttributeNamedImage_NamedImage"),
+	DefaultProperty("Name"),
+]
+public class NamedImage : ChartNamedElement
+{
+	#region Fields
+
+	private string _name = string.Empty;
+	private System.Drawing.Image _image = null;
+
+	#endregion
+
+	#region Constructor
+
+	/// <summary>
+	/// NamedImage constructor.
+	/// </summary>
+	public NamedImage()
+	{
 	}
 
 	/// <summary>
-	/// The NamedImage class stores a single Image with its unique name.
+	/// NamedImage constructor.
+	/// </summary>
+	/// <param name="name">Image name.</param>
+	/// <param name="image">Image object.</param>
+	public NamedImage(string name, System.Drawing.Image image)
+	{
+		this._name = name;
+		this._image = image;
+	}
+
+	#endregion
+
+	#region Properties
+
+	/// <summary>
+	/// Gets or sets the image name.
 	/// </summary>
 	[
-		SRDescription("DescriptionAttributeNamedImage_NamedImage"),
-		DefaultProperty("Name"),
+	Bindable(false),
+	SRDescription("DescriptionAttributeNamedImage_Name"),
 	]
-    public class NamedImage : ChartNamedElement
+	public override string Name
 	{
-		#region Fields
-
-		private	string _name  = string.Empty;
-		private System.Drawing.Image _image = null;
-
-		#endregion
-
-		#region Constructor
-
-		/// <summary>
-        /// NamedImage constructor.
-		/// </summary>
-		public NamedImage()
+		get
 		{
+			return _name;
 		}
-
-		/// <summary>
-        /// NamedImage constructor.
-		/// </summary>
-		/// <param name="name">Image name.</param>
-		/// <param name="image">Image object.</param>
-        public NamedImage(string name, System.Drawing.Image image)
+		set
 		{
-			this._name = name;
-            this._image = image;
+			_name = value;
 		}
-
-		#endregion
-
-		#region Properties
-
-		/// <summary>
-		/// Gets or sets the image name.
-		/// </summary>
-		[
-		Bindable(false),
-		SRDescription("DescriptionAttributeNamedImage_Name"),
-		]
-		public override string Name
-		{
-			get
-			{
-				return _name;
-			}
-			set
-			{
-				_name = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the image object.
-		/// </summary>
-		[
-		Bindable(false),
-		SRDescription("DescriptionAttributeNamedImage_Image"),
-		]
-		public System.Drawing.Image Image
-		{
-			get
-			{
-                return _image;
-			}
-			set
-			{
-                _image = value;
-			}
-		}
-
-		#endregion
-
-
-        #region IDisposable Members
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // Dispose managed resources
-                if (_image != null)
-                {
-                    _image.Dispose();
-                    _image = null;
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 	}
+
+	/// <summary>
+	/// Gets or sets the image object.
+	/// </summary>
+	[
+	Bindable(false),
+	SRDescription("DescriptionAttributeNamedImage_Image"),
+	]
+	public System.Drawing.Image Image
+	{
+		get
+		{
+			return _image;
+		}
+		set
+		{
+			_image = value;
+		}
+	}
+
+	#endregion
+
+
+	#region IDisposable Members
+	/// <summary>
+	/// Releases unmanaged and - optionally - managed resources
+	/// </summary>
+	/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+	protected override void Dispose(bool disposing)
+	{
+		if (disposing)
+		{
+			// Dispose managed resources
+			if (_image != null)
+			{
+				_image.Dispose();
+				_image = null;
+			}
+		}
+		base.Dispose(disposing);
+	}
+
+	#endregion
 }

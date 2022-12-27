@@ -749,7 +749,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			return result;
 		}
 
-#endregion 
+#endregion
 	}
 }
 
