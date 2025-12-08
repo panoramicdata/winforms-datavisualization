@@ -15,11 +15,11 @@ namespace System.Windows.Forms.DataVisualization.Charting;
 
 /// <summary>
 /// <b>AnnotationCollection</b> is a collection that stores chart annotation objects.
-/// <seealso cref="Charting.Chart.Annotations"/>
+/// <seealso cref="Chart.Annotations"/>
 /// </summary>
 /// <remarks>
 /// All chart annotations are stored in this collection.  It is exposed as 
-/// a <see cref="Charting.Chart.Annotations"/> property of the chart. It is also used to 
+/// a <see cref="Chart.Annotations"/> property of the chart. It is also used to 
 /// store annotations inside the <see cref="AnnotationGroup"/> class.
 /// <para>
 /// This class includes methods for adding, inserting, iterating and removing annotations.
@@ -74,16 +74,15 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 	{
 		if (item != null)
 		{
-			TextAnnotation textAnnotation = item as TextAnnotation;
-			if (textAnnotation != null && string.IsNullOrEmpty(textAnnotation.Text) && Chart != null && Chart.IsDesignMode())
+			if (item is TextAnnotation textAnnotation && string.IsNullOrEmpty(textAnnotation.Text) && Chart != null && Chart.IsDesignMode())
 			{
 				textAnnotation.Text = item.Name;
 			}
 
 			//If the collection belongs to annotation group we need to pass a ref to this group to all the child annotations
-			if (this.AnnotationGroup != null)
+			if (AnnotationGroup != null)
 			{
-				item.annotationGroup = this.AnnotationGroup;
+				item.annotationGroup = AnnotationGroup;
 			}
 
 			item.ResetCurrentRelativePosition();
@@ -128,8 +127,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 			}
 
 			// Check if annotation is a group
-			AnnotationGroup annotationGroup = annotation as AnnotationGroup;
-			if (annotationGroup != null)
+			if (annotation is AnnotationGroup annotationGroup)
 			{
 				Annotation result = annotationGroup.Annotations.FindByName(name);
 				if (result != null)
@@ -154,38 +152,35 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "This parameter is used when compiling for the WinForms version of Chart")]
 	internal void Paint(ChartGraphics chartGraph, bool drawAnnotationOnly)
 	{
-		ChartPicture chartPicture = this.Chart.chartPicture;
+		ChartPicture chartPicture = Chart.chartPicture;
 
 		// Restore previous background using double buffered bitmap
-		if (!chartPicture.isSelectionMode &&
-			this.Count > 0 /*&&
+		if (!chartPicture._isSelectionMode &&
+			Count > 0 /*&&
 			!this.Chart.chartPicture.isPrinting*/)
 		{
-			chartPicture.backgroundRestored = true;
-			Rectangle chartPosition = new Rectangle(0, 0, chartPicture.Width, chartPicture.Height);
-			if (chartPicture.nonTopLevelChartBuffer == null || !drawAnnotationOnly)
+			chartPicture._backgroundRestored = true;
+			Rectangle chartPosition = new(0, 0, chartPicture.Width, chartPicture.Height);
+			if (chartPicture._nonTopLevelChartBuffer == null || !drawAnnotationOnly)
 			{
 				// Dispose previous bitmap
-				if (chartPicture.nonTopLevelChartBuffer != null)
-				{
-					chartPicture.nonTopLevelChartBuffer.Dispose();
-					chartPicture.nonTopLevelChartBuffer = null;
-				}
+				chartPicture._nonTopLevelChartBuffer?.Dispose();
+				chartPicture._nonTopLevelChartBuffer = null;
 
 				// Copy chart area plotting rectangle from the chart's dubble buffer image into area dubble buffer image
-				if (this.Chart.paintBufferBitmap != null &&
-					this.Chart.paintBufferBitmap.Size.Width >= chartPosition.Size.Width &&
-					this.Chart.paintBufferBitmap.Size.Height >= chartPosition.Size.Height)
+				if (Chart.paintBufferBitmap != null &&
+					Chart.paintBufferBitmap.Size.Width >= chartPosition.Size.Width &&
+					Chart.paintBufferBitmap.Size.Height >= chartPosition.Size.Height)
 				{
-					chartPicture.nonTopLevelChartBuffer = this.Chart.paintBufferBitmap.Clone(
-						chartPosition, this.Chart.paintBufferBitmap.PixelFormat);
+					chartPicture._nonTopLevelChartBuffer = Chart.paintBufferBitmap.Clone(
+						chartPosition, Chart.paintBufferBitmap.PixelFormat);
 				}
 			}
-			else if (drawAnnotationOnly && chartPicture.nonTopLevelChartBuffer != null)
+			else if (drawAnnotationOnly && chartPicture._nonTopLevelChartBuffer != null)
 			{
 				// Restore previous background
-				this.Chart.paintBufferBitmapGraphics.DrawImageUnscaled(
-				chartPicture.nonTopLevelChartBuffer,
+				Chart.paintBufferBitmapGraphics.DrawImageUnscaled(
+				chartPicture._nonTopLevelChartBuffer,
 				chartPosition);
 			}
 		}
@@ -219,7 +214,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 					}
 
 					// Start Svg Selection mode
-					string url = String.Empty;
+					string url = string.Empty;
 					chartGraph.StartHotRegion(
 						annotation.ReplaceKeywords(url),
 						annotation.ReplaceKeywords(annotation.ToolTip));
@@ -257,15 +252,12 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 
 			if (textAnnotation == null)
 			{
-				AnnotationGroup group = lastClickedAnnotation as AnnotationGroup;
-
-				if (group != null)
+				if (lastClickedAnnotation is AnnotationGroup group)
 				{
 					// Try to edit text annotation in the group
 					foreach (Annotation annot in group.Annotations)
 					{
-						TextAnnotation groupAnnot = annot as TextAnnotation;
-						if (groupAnnot != null &&
+						if (annot is TextAnnotation groupAnnot &&
 							groupAnnot.AllowTextEditing)
 						{
 							// Get annotation position in relative coordinates
@@ -273,11 +265,11 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 							PointF anchorPoint = PointF.Empty;
 							SizeF size = SizeF.Empty;
 							groupAnnot.GetRelativePosition(out firstPoint, out size, out anchorPoint);
-							RectangleF textPosition = new RectangleF(firstPoint, size);
+							RectangleF textPosition = new(firstPoint, size);
 
 							// Check if last clicked coordinate is inside this text annotation
 							if (groupAnnot.GetGraphics() != null &&
-								textPosition.Contains(groupAnnot.GetGraphics().GetRelativePoint(this._movingResizingStartPoint)))
+								textPosition.Contains(groupAnnot.GetGraphics().GetRelativePoint(_movingResizingStartPoint)))
 							{
 								textAnnotation = groupAnnot;
 								lastClickedAnnotation = textAnnotation;
@@ -288,11 +280,8 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 				}
 			}
 
-			if (textAnnotation != null)
-			{
-				// Start annotation text editing
-				textAnnotation.BeginTextEditing();
-			}
+			// Start annotation text editing
+			textAnnotation?.BeginTextEditing();
 		}
 	}
 
@@ -355,8 +344,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 		// Reset last clicked annotation object and stop text editing
 		if (lastClickedAnnotation != null)
 		{
-			TextAnnotation textAnnotation = lastClickedAnnotation as TextAnnotation;
-			if (textAnnotation != null)
+			if (lastClickedAnnotation is TextAnnotation textAnnotation)
 			{
 				// Stop annotation text editing
 				textAnnotation.StopTextEditing();
@@ -366,10 +354,10 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 		}
 
 		// Check if in annotation placement mode
-		if (this.placingAnnotation != null)
+		if (placingAnnotation != null)
 		{
 			// Process mouse down
-			this.placingAnnotation.PlacementMouseDown(new PointF(e.X, e.Y), e.Button);
+			placingAnnotation.PlacementMouseDown(new PointF(e.X, e.Y), e.Button);
 
 			// Set handled flag
 			isHandled = true;
@@ -380,16 +368,16 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 		if (e.Button == MouseButtons.Left)
 		{
 			bool updateRequired = false;
-			this._resizingMode = ResizingMode.None;
+			_resizingMode = ResizingMode.None;
 
 			// Check if mouse buton was pressed in any selection handles areas
 			Annotation annotation =
-				HitTestSelectionHandles(new PointF(e.X, e.Y), ref this._resizingMode);
+				HitTestSelectionHandles(new PointF(e.X, e.Y), ref _resizingMode);
 
 			// Check if mouse button was pressed over one of the annotation objects
-			if (annotation == null && this.Count > 0)
+			if (annotation == null && Count > 0)
 			{
-				HitTestResult result = this.Chart.HitTest(e.X, e.Y, ChartElementType.Annotation);
+				HitTestResult result = Chart.HitTest(e.X, e.Y, ChartElementType.Annotation);
 				if (result != null && result.ChartElementType == ChartElementType.Annotation)
 				{
 					annotation = (Annotation)result.Object;
@@ -402,7 +390,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 				if ((Control.ModifierKeys & Keys.Control) != Keys.Control &&
 					(Control.ModifierKeys & Keys.Shift) != Keys.Shift)
 				{
-					foreach (Annotation annot in this.Chart.Annotations)
+					foreach (Annotation annot in Chart.Annotations)
 					{
 						if (annot != annotation && annot.IsSelected)
 						{
@@ -410,10 +398,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 							updateRequired = true;
 
 							// Call selection changed notification
-							if (this.Chart != null)
-							{
-								this.Chart.OnAnnotationSelectionChanged(annot);
-							}
+							Chart?.OnAnnotationSelectionChanged(annot);
 						}
 					}
 				}
@@ -439,10 +424,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 					updateRequired = true;
 
 					// Call selection changed notification
-					if (this.Chart != null)
-					{
-						this.Chart.OnAnnotationSelectionChanged(selectableAnnotation);
-					}
+					Chart?.OnAnnotationSelectionChanged(selectableAnnotation);
 				}
 				else if ((Control.ModifierKeys & Keys.Control) == Keys.Control ||
 					(Control.ModifierKeys & Keys.Shift) == Keys.Shift)
@@ -451,45 +433,42 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 					updateRequired = true;
 
 					// Call selection changed notification
-					if (this.Chart != null)
-					{
-						this.Chart.OnAnnotationSelectionChanged(selectableAnnotation);
-					}
+					Chart?.OnAnnotationSelectionChanged(selectableAnnotation);
 				}
 
 				// Remember last clicked and selected annotation
 				lastClickedAnnotation = annotation;
 
 				// Rember mouse position
-				this._movingResizingStartPoint = new PointF(e.X, e.Y);
+				_movingResizingStartPoint = new PointF(e.X, e.Y);
 
 				// Start moving, repositioning or resizing of annotation
 				if (annotation.IsSelected)
 				{
 					// Check if one of selection handles was clicked on
-					this._resizingMode = annotation.GetSelectionHandle(this._movingResizingStartPoint);
+					_resizingMode = annotation.GetSelectionHandle(_movingResizingStartPoint);
 					if (!annotation.AllowResizing &&
-						this._resizingMode >= ResizingMode.TopLeftHandle &&
-						this._resizingMode <= ResizingMode.LeftHandle)
+						_resizingMode >= ResizingMode.TopLeftHandle &&
+						_resizingMode <= ResizingMode.LeftHandle)
 					{
-						this._resizingMode = ResizingMode.None;
+						_resizingMode = ResizingMode.None;
 					}
 
 					if (!annotation.AllowAnchorMoving &&
-						this._resizingMode == ResizingMode.AnchorHandle)
+						_resizingMode == ResizingMode.AnchorHandle)
 					{
-						this._resizingMode = ResizingMode.None;
+						_resizingMode = ResizingMode.None;
 					}
 
-					if (this._resizingMode == ResizingMode.None && annotation.AllowMoving)
+					if (_resizingMode == ResizingMode.None && annotation.AllowMoving)
 					{
 						// Annotation moving mode
-						this._resizingMode = ResizingMode.Moving;
+						_resizingMode = ResizingMode.Moving;
 					}
 				}
 				else
 				{
-					if (this._resizingMode == ResizingMode.None && annotation.AllowMoving)
+					if (_resizingMode == ResizingMode.None && annotation.AllowMoving)
 					{
 						// Do not allow moving child annotations inside the group. 
 						// Only the whole group can be selected, resized or repositioned.
@@ -500,7 +479,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 						}
 
 						// Annotation moving mode
-						this._resizingMode = ResizingMode.Moving;
+						_resizingMode = ResizingMode.Moving;
 					}
 				}
 			}
@@ -509,8 +488,8 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 			if (updateRequired)
 			{
 				// Invalidate and update the chart
-				this.Chart.Invalidate(true);
-				this.Chart.UpdateAnnotations();
+				Chart.Invalidate(true);
+				Chart.UpdateAnnotations();
 			}
 		}
 	}
@@ -522,9 +501,9 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 	internal void OnMouseUp(MouseEventArgs e)
 	{
 		// Check if in annotation placement mode
-		if (this.placingAnnotation != null)
+		if (placingAnnotation != null)
 		{
-			if (!this.placingAnnotation.PlacementMouseUp(new PointF(e.X, e.Y), e.Button))
+			if (!placingAnnotation.PlacementMouseUp(new PointF(e.X, e.Y), e.Button))
 			{
 				return;
 			}
@@ -533,12 +512,12 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 		if (e.Button == MouseButtons.Left)
 		{
 			// Reset moving sizing start point 
-			this._movingResizingStartPoint = PointF.Empty;
-			this._resizingMode = ResizingMode.None;
+			_movingResizingStartPoint = PointF.Empty;
+			_resizingMode = ResizingMode.None;
 		}
 
 		// Loop through all annotation objects
-		for (int index = 0; index < this.Count; index++)
+		for (int index = 0; index < Count; index++)
 		{
 			Annotation annotation = this[index];
 
@@ -555,20 +534,14 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 			// Reset start position/location fields
 			annotation.startMovePositionRel = RectangleF.Empty;
 			annotation.startMoveAnchorLocationRel = PointF.Empty;
-			if (annotation.startMovePathRel != null)
-			{
-				annotation.startMovePathRel.Dispose();
-				annotation.startMovePathRel = null;
-			}
+			annotation.startMovePathRel?.Dispose();
+			annotation.startMovePathRel = null;
 
 			// Fire position changed event
 			if (annotation.positionChanged)
 			{
 				annotation.positionChanged = false;
-				if (this.Chart != null)
-				{
-					this.Chart.OnAnnotationPositionChanged(annotation);
-				}
+				Chart?.OnAnnotationPositionChanged(annotation);
 			}
 		}
 	}
@@ -580,50 +553,50 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 	internal void OnMouseMove(MouseEventArgs e)
 	{
 		// Check if in annotation placement mode
-		if (this.placingAnnotation != null)
+		if (placingAnnotation != null)
 		{
-			System.Windows.Forms.Cursor newCursor = this.Chart.Cursor;
-			if (this.placingAnnotation.IsValidPlacementPosition(e.X, e.Y))
+			Forms.Cursor newCursor = Chart.Cursor;
+			if (placingAnnotation.IsValidPlacementPosition(e.X, e.Y))
 			{
 				newCursor = Cursors.Cross;
 			}
 			else
 			{
-				newCursor = this.Chart.defaultCursor;
+				newCursor = Chart.defaultCursor;
 			}
 
 			// Set current chart cursor
-			if (newCursor != this.Chart.Cursor)
+			if (newCursor != Chart.Cursor)
 			{
-				System.Windows.Forms.Cursor tmpCursor = this.Chart.defaultCursor;
-				this.Chart.Cursor = newCursor;
-				this.Chart.defaultCursor = tmpCursor;
+				Forms.Cursor tmpCursor = Chart.defaultCursor;
+				Chart.Cursor = newCursor;
+				Chart.defaultCursor = tmpCursor;
 			}
 
-			this.placingAnnotation.PlacementMouseMove(new PointF(e.X, e.Y));
+			placingAnnotation.PlacementMouseMove(new PointF(e.X, e.Y));
 
 			return;
 		}
 
 		// Check if currently resizing/moving annotation
-		if (!this._movingResizingStartPoint.IsEmpty &&
-			this._resizingMode != ResizingMode.None)
+		if (!_movingResizingStartPoint.IsEmpty &&
+			_resizingMode != ResizingMode.None)
 		{
 			// Calculate how far the mouse was moved
-			SizeF moveDistance = new SizeF(
-				this._movingResizingStartPoint.X - e.X,
-				this._movingResizingStartPoint.Y - e.Y);
+			SizeF moveDistance = new(
+				_movingResizingStartPoint.X - e.X,
+				_movingResizingStartPoint.Y - e.Y);
 
 			// Update location of all selected annotation objects
 			foreach (Annotation annot in this)
 			{
 				if (annot.IsSelected &&
-					((this._resizingMode == ResizingMode.MovingPathPoints && annot.AllowPathEditing) ||
-					(this._resizingMode == ResizingMode.Moving && annot.AllowMoving) ||
-					(this._resizingMode == ResizingMode.AnchorHandle && annot.AllowAnchorMoving) ||
-					(this._resizingMode >= ResizingMode.TopLeftHandle && this._resizingMode <= ResizingMode.LeftHandle && annot.AllowResizing)))
+					((_resizingMode == ResizingMode.MovingPathPoints && annot.AllowPathEditing) ||
+					(_resizingMode == ResizingMode.Moving && annot.AllowMoving) ||
+					(_resizingMode == ResizingMode.AnchorHandle && annot.AllowAnchorMoving) ||
+					(_resizingMode >= ResizingMode.TopLeftHandle && _resizingMode <= ResizingMode.LeftHandle && annot.AllowResizing)))
 				{
-					annot.AdjustLocationSize(moveDistance, this._resizingMode, true, true);
+					annot.AdjustLocationSize(moveDistance, _resizingMode, true, true);
 				}
 			}
 
@@ -631,18 +604,18 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 			if (lastClickedAnnotation != null &&
 				!lastClickedAnnotation.IsSelected)
 			{
-				if (this._resizingMode == ResizingMode.Moving &&
+				if (_resizingMode == ResizingMode.Moving &&
 					lastClickedAnnotation.AllowMoving)
 				{
-					lastClickedAnnotation.AdjustLocationSize(moveDistance, this._resizingMode, true, true);
+					lastClickedAnnotation.AdjustLocationSize(moveDistance, _resizingMode, true, true);
 				}
 			}
 
 			// Invalidate and update the chart
-			this.Chart.Invalidate(true);
-			this.Chart.UpdateAnnotations();
+			Chart.Invalidate(true);
+			Chart.UpdateAnnotations();
 		}
-		else if (this.Count > 0)
+		else if (Count > 0)
 		{
 			// Check if currently placing annotation from the UserInterface
 			bool process = true;
@@ -657,14 +630,14 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 				// Check if mouse pointer over the annotation object movable area
 				if (annotation == null)
 				{
-					HitTestResult result = this.Chart.HitTest(e.X, e.Y, ChartElementType.Annotation);
+					HitTestResult result = Chart.HitTest(e.X, e.Y, ChartElementType.Annotation);
 					if (result != null && result.ChartElementType == ChartElementType.Annotation)
 					{
 						annotation = (Annotation)result.Object;
 						if (annotation != null)
 						{
 							// Check if annotation is in the collection
-							if (this.Contains(annotation))
+							if (Contains(annotation))
 							{
 								currentResizingMode = ResizingMode.Moving;
 								if (annotation.AllowMoving == false)
@@ -691,9 +664,9 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 	private void SetResizingCursor(Annotation annotation, ResizingMode currentResizingMode)
 	{
 		// Change current cursor
-		if (this.Chart != null)
+		if (Chart != null)
 		{
-			System.Windows.Forms.Cursor newCursor = this.Chart.Cursor;
+			Forms.Cursor newCursor = Chart.Cursor;
 			if (annotation != null)
 			{
 				if (currentResizingMode == ResizingMode.MovingPathPoints &&
@@ -752,15 +725,15 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 			}
 			else
 			{
-				newCursor = this.Chart.defaultCursor;
+				newCursor = Chart.defaultCursor;
 			}
 
 			// Set current chart cursor
-			if (newCursor != this.Chart.Cursor)
+			if (newCursor != Chart.Cursor)
 			{
-				System.Windows.Forms.Cursor tmpCursor = this.Chart.defaultCursor;
-				this.Chart.Cursor = newCursor;
-				this.Chart.defaultCursor = tmpCursor;
+				Forms.Cursor tmpCursor = Chart.defaultCursor;
+				Chart.Cursor = newCursor;
+				Chart.defaultCursor = tmpCursor;
 			}
 		}
 	}
@@ -773,15 +746,18 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 	{
 		// If all the chart areas are removed and then a new one is inserted - Annotations don't get bound to it by default
 		if (e.OldElement == null)
+		{
 			return;
+		}
 
 		foreach (Annotation annotation in this)
 		{
 			if (annotation.ClipToChartArea == e.OldName)
+			{
 				annotation.ClipToChartArea = e.NewName;
+			}
 
-			AnnotationGroup group = annotation as AnnotationGroup;
-			if (group != null)
+			if (annotation is AnnotationGroup group)
 			{
 				group.Annotations.ChartAreaNameReferenceChanged(sender, e);
 			}

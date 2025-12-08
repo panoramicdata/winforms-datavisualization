@@ -20,7 +20,7 @@ using System.Text;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
-using Point = System.Drawing.Point;
+using Point = Point;
 
 #region Enumerations
 
@@ -197,16 +197,7 @@ internal class HotRegion : IDisposable
 	#region Fields
 
 	// Private data members, which store properties values
-	private GraphicsPath _path = null;
-	private bool _relativeCoordinates = true;
 	private RectangleF _boundingRectangle = RectangleF.Empty;
-	private object _selectedObject = null;
-	private int _pointIndex = -1;
-	private string _seriesName = "";
-	private ChartElementType _type = ChartElementType.Nothing;
-
-
-	private object _selectedSubObject = null;
 
 
 	#endregion // Fields
@@ -216,33 +207,13 @@ internal class HotRegion : IDisposable
 	/// <summary>
 	/// Region is Graphics path
 	/// </summary>
-	internal GraphicsPath Path
-	{
-		get
-		{
-			return _path;
-		}
-		set
-		{
-			_path = value;
-		}
-	}
+	internal GraphicsPath Path { get; set; } = null;
 
 	/// <summary>
 	/// Relative coordinates are used 
 	/// to define region
 	/// </summary>
-	internal bool RelativeCoordinates
-	{
-		get
-		{
-			return _relativeCoordinates;
-		}
-		set
-		{
-			_relativeCoordinates = value;
-		}
-	}
+	internal bool RelativeCoordinates { get; set; } = true;
 
 	/// <summary>
 	/// Bounding Rectangle of an shape
@@ -262,81 +233,31 @@ internal class HotRegion : IDisposable
 	/// <summary>
 	/// Object which is presented with this region
 	/// </summary>
-	internal object SelectedObject
-	{
-		get
-		{
-			return _selectedObject;
-		}
-		set
-		{
-			_selectedObject = value;
-		}
-	}
+	internal object SelectedObject { get; set; } = null;
 
 
 
 	/// <summary>
 	/// Sub-Object which is presented with this region
 	/// </summary>
-	internal object SelectedSubObject
-	{
-		get
-		{
-			return _selectedSubObject;
-		}
-		set
-		{
-			_selectedSubObject = value;
-		}
-	}
+	internal object SelectedSubObject { get; set; } = null;
 
 
 
 	/// <summary>
 	/// Index of the data point which is presented with this region
 	/// </summary>
-	internal int PointIndex
-	{
-		get
-		{
-			return _pointIndex;
-		}
-		set
-		{
-			_pointIndex = value;
-		}
-	}
+	internal int PointIndex { get; set; } = -1;
 
 	/// <summary>
 	/// Name of the series which is presented with the region
 	/// </summary>
-	internal string SeriesName
-	{
-		get
-		{
-			return _seriesName;
-		}
-		set
-		{
-			_seriesName = value;
-		}
-	}
+	internal string SeriesName { get; set; } = "";
 
 	/// <summary>
 	/// Chart Element AxisName
 	/// </summary>
-	internal ChartElementType Type
-	{
-		get
-		{
-			return _type;
-		}
-		set
-		{
-			_type = value;
-		}
-	}
+	internal ChartElementType Type { get; set; } = ChartElementType.Nothing;
 
 	#endregion // Properties
 
@@ -349,11 +270,8 @@ internal class HotRegion : IDisposable
 	{
 		if (disposing)
 		{
-			if (_path != null)
-			{
-				_path.Dispose();
-				_path = null;
-			}
+			Path?.Dispose();
+			Path = null;
 		}
 	}
 
@@ -377,13 +295,13 @@ internal class HotRegion : IDisposable
 	/// </returns>
 	public override string ToString()
 	{
-		string objectType = this.SelectedObject != null ? this.SelectedObject.ToString() : "null";
-		if (this.SelectedObject == null && !String.IsNullOrEmpty(this.SeriesName))
+		string objectType = SelectedObject != null ? SelectedObject.ToString() : "null";
+		if (SelectedObject == null && !string.IsNullOrEmpty(SeriesName))
 		{
-			objectType = this.SeriesName;
+			objectType = SeriesName;
 		}
 
-		return String.Format(CultureInfo.CurrentCulture, "{0} of {1}", this.Type, objectType);
+		return string.Format(CultureInfo.CurrentCulture, "{0} of {1}", Type, objectType);
 	}
 
 	#endregion //Methods
@@ -400,17 +318,11 @@ internal class HotRegionsList : IDisposable
 	/// <summary>
 	/// Process chart mode Flag
 	/// </summary>
-	private ProcessMode _processChartMode = ProcessMode.Paint;
-
-	/// <summary>
-	/// Collection with Hor Region Elements
-	/// </summary>
-	private System.Collections.ArrayList _regionList = new ArrayList();
 
 	/// <summary>
 	/// Reference to the common elements object
 	/// </summary>
-	private CommonElements _common = null;
+	private readonly CommonElements _common = null;
 
 	/// <summary>
 	/// True if hit test function is called
@@ -425,36 +337,23 @@ internal class HotRegionsList : IDisposable
 	/// Flag used for processing chart types. It could 
 	/// be Paint, HotRegion or both mode.
 	/// </summary>
-	internal ProcessMode ProcessChartMode
-	{
-		get
+	internal ProcessMode ProcessChartMode { get; set
 		{
-			return _processChartMode;
-		}
-		set
-		{
-			_processChartMode = value;
-			if (this._common != null)
+			field = value;
+			if (_common != null)
 			{
-				this._common.processModePaint =
-					(_processChartMode & ProcessMode.Paint) == ProcessMode.Paint;
-				this._common.processModeRegions =
-					(_processChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions ||
-					(_processChartMode & ProcessMode.ImageMaps) == ProcessMode.ImageMaps;
+				_common.processModePaint =
+					(field & ProcessMode.Paint) == ProcessMode.Paint;
+				_common.processModeRegions =
+					(field & ProcessMode.HotRegions) == ProcessMode.HotRegions ||
+					(field & ProcessMode.ImageMaps) == ProcessMode.ImageMaps;
 			}
-		}
-	}
+		} } = ProcessMode.Paint;
 
 	/// <summary>
 	/// Collection with Hor Region Elements
 	/// </summary>
-	internal ArrayList List
-	{
-		get
-		{
-			return _regionList;
-		}
-	}
+	internal ArrayList List { get; } = [];
 
 	#endregion // Properties
 
@@ -466,7 +365,7 @@ internal class HotRegionsList : IDisposable
 	/// <param name="common">Reference to the CommonElements</param>
 	internal HotRegionsList(CommonElements common)
 	{
-		this._common = common;
+		_common = common;
 	}
 
 	/// <summary>
@@ -476,7 +375,7 @@ internal class HotRegionsList : IDisposable
 	/// <param name="point">Data Point</param>
 	/// <param name="seriesName">Data Series</param>
 	/// <param name="pointIndex">Index of an Data Point in the series</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
+	[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
 	public void AddHotRegion(
 	RectangleF rectSize,
 	DataPoint point,
@@ -487,13 +386,14 @@ internal class HotRegionsList : IDisposable
 
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
-			HotRegion region = new HotRegion();
-
-			region.BoundingRectangle = rectSize;
-			region.SeriesName = seriesName;
-			region.PointIndex = pointIndex;
-			region.Type = ChartElementType.DataPoint;
-			region.RelativeCoordinates = true;
+			HotRegion region = new()
+			{
+				BoundingRectangle = rectSize,
+				SeriesName = seriesName,
+				PointIndex = pointIndex,
+				Type = ChartElementType.DataPoint,
+				RelativeCoordinates = true
+			};
 
 
 
@@ -505,7 +405,7 @@ internal class HotRegionsList : IDisposable
 
 
 
-			_regionList.Add(region);
+			List.Add(region);
 		}
 	}
 
@@ -519,7 +419,7 @@ internal class HotRegionsList : IDisposable
 	/// <param name="point">Selected data point</param>
 	/// <param name="seriesName">Name of the series.</param>
 	/// <param name="pointIndex">Index of the point.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph")]
+	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph")]
 	internal void AddHotRegion(
 	GraphicsPath path,
 	bool relativePath,
@@ -537,14 +437,15 @@ internal class HotRegionsList : IDisposable
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
 
-			HotRegion region = new HotRegion();
-
-			region.SeriesName = seriesName;
-			region.PointIndex = pointIndex;
-			region.Type = ChartElementType.DataPoint;
-			region.Path = (GraphicsPath)path.Clone();
-			region.BoundingRectangle = path.GetBounds();
-			region.RelativeCoordinates = relativePath;
+			HotRegion region = new()
+			{
+				SeriesName = seriesName,
+				PointIndex = pointIndex,
+				Type = ChartElementType.DataPoint,
+				Path = (GraphicsPath)path.Clone(),
+				BoundingRectangle = path.GetBounds(),
+				RelativeCoordinates = relativePath
+			};
 
 
 
@@ -556,7 +457,7 @@ internal class HotRegionsList : IDisposable
 
 
 
-			_regionList.Add(region);
+			List.Add(region);
 
 		}
 	}
@@ -572,8 +473,8 @@ internal class HotRegionsList : IDisposable
 	/// <param name="seriesName">Name of the series.</param>
 	/// <param name="pointIndex">Index of the point.</param>
 	[
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "insertIndex")
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "insertIndex")
 	]
 	internal void AddHotRegion(
 	int insertIndex,
@@ -589,14 +490,15 @@ internal class HotRegionsList : IDisposable
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
 
-			HotRegion region = new HotRegion();
-
-			region.SeriesName = seriesName;
-			region.PointIndex = pointIndex;
-			region.Type = ChartElementType.DataPoint;
-			region.Path = (GraphicsPath)path.Clone();
-			region.BoundingRectangle = path.GetBounds();
-			region.RelativeCoordinates = relativePath;
+			HotRegion region = new()
+			{
+				SeriesName = seriesName,
+				PointIndex = pointIndex,
+				Type = ChartElementType.DataPoint,
+				Path = (GraphicsPath)path.Clone(),
+				BoundingRectangle = path.GetBounds(),
+				RelativeCoordinates = relativePath
+			};
 
 
 
@@ -608,7 +510,7 @@ internal class HotRegionsList : IDisposable
 
 
 
-			_regionList.Add(region);
+			List.Add(region);
 
 		}
 	}
@@ -622,21 +524,22 @@ internal class HotRegionsList : IDisposable
 	/// <param name="point">Selected data point</param>
 	/// <param name="seriesName">Data Series</param>
 	/// <param name="pointIndex">Index of an Data Point in the series</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "coord")]
+	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "coord")]
 	internal void AddHotRegion(GraphicsPath path, bool relativePath, float[] coord, DataPoint point, string seriesName, int pointIndex)
 	{
 
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
 
-			HotRegion region = new HotRegion();
-
-			region.SeriesName = seriesName;
-			region.PointIndex = pointIndex;
-			region.Type = ChartElementType.DataPoint;
-			region.Path = (GraphicsPath)path.Clone();
-			region.BoundingRectangle = path.GetBounds();
-			region.RelativeCoordinates = relativePath;
+			HotRegion region = new()
+			{
+				SeriesName = seriesName,
+				PointIndex = pointIndex,
+				Type = ChartElementType.DataPoint,
+				Path = (GraphicsPath)path.Clone(),
+				BoundingRectangle = path.GetBounds(),
+				RelativeCoordinates = relativePath
+			};
 
 
 
@@ -648,7 +551,7 @@ internal class HotRegionsList : IDisposable
 
 
 
-			_regionList.Add(region);
+			List.Add(region);
 
 		}
 
@@ -665,18 +568,18 @@ internal class HotRegionsList : IDisposable
 	/// <param name="point">Selected data point</param>
 	/// <param name="seriesName">Data Series</param>
 	/// <param name="pointIndex">Index of an Data Point in the series</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "insertIndex")]
+	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "insertIndex")]
 	internal void AddHotRegion(int insertIndex, ChartGraphics graph, float x, float y, float radius, DataPoint point, string seriesName, int pointIndex)
 	{
 
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
-			HotRegion region = new HotRegion();
+			HotRegion region = new();
 
 			PointF circleCenter = graph.GetAbsolutePoint(new PointF(x, y));
 			SizeF circleRadius = graph.GetAbsoluteSize(new SizeF(radius, radius));
 
-			GraphicsPath path = new GraphicsPath();
+			GraphicsPath path = new();
 			path.AddEllipse(
 				circleCenter.X - circleRadius.Width,
 				circleCenter.Y - circleRadius.Width,
@@ -698,7 +601,7 @@ internal class HotRegionsList : IDisposable
 				region.PointIndex = int.Parse(point["OriginalPointIndex"], CultureInfo.InvariantCulture);
 			}
 
-			_regionList.Add(region);
+			List.Add(region);
 		}
 	}
 
@@ -715,28 +618,29 @@ internal class HotRegionsList : IDisposable
 	/// <param name="type">AxisName of the object which present hot region</param>
 	/// <param name="series">Selected series</param>
 	[
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
 	]
 	internal void AddHotRegion(RectangleF rectArea, string toolTip, string hRef, string mapAreaAttributes, string postBackValue, object selectedObject, ChartElementType type, string series)
 	{
 
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
-			HotRegion region = new HotRegion();
-
-			region.BoundingRectangle = rectArea;
-			region.RelativeCoordinates = true;
-			region.Type = type;
-			region.SelectedObject = selectedObject;
-			if (!String.IsNullOrEmpty(series))
+			HotRegion region = new()
+			{
+				BoundingRectangle = rectArea,
+				RelativeCoordinates = true,
+				Type = type,
+				SelectedObject = selectedObject
+			};
+			if (!string.IsNullOrEmpty(series))
 			{
 				region.SeriesName = series;
 			}
 
-			_regionList.Add(region);
+			List.Add(region);
 		}
 	}
 
@@ -755,10 +659,10 @@ internal class HotRegionsList : IDisposable
 	/// <param name="type">AxisName of the object which present hot region</param>
 	/// <param name="series">Selected series</param>
 	[
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
 	]
 	internal void AddHotRegion(
 	RectangleF rectArea,
@@ -774,19 +678,20 @@ internal class HotRegionsList : IDisposable
 
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
-			HotRegion region = new HotRegion();
-
-			region.BoundingRectangle = rectArea;
-			region.RelativeCoordinates = true;
-			region.Type = type;
-			region.SelectedObject = selectedObject;
-			region.SelectedSubObject = selectedSubObject;
-			if (!String.IsNullOrEmpty(series))
+			HotRegion region = new()
+			{
+				BoundingRectangle = rectArea,
+				RelativeCoordinates = true,
+				Type = type,
+				SelectedObject = selectedObject,
+				SelectedSubObject = selectedSubObject
+			};
+			if (!string.IsNullOrEmpty(series))
 			{
 				region.SeriesName = series;
 			}
 
-			_regionList.Add(region);
+			List.Add(region);
 		}
 	}
 
@@ -803,11 +708,11 @@ internal class HotRegionsList : IDisposable
 	/// <param name="selectedObject">Object which present hot region</param>
 	/// <param name="type">AxisName of the object which present hot region</param>
 	[
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "graph"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "hRef"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "mapAreaAttributes"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "postBackValue"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "toolTip")
 	]
 	internal void AddHotRegion(ChartGraphics graph, GraphicsPath path, bool relativePath, string toolTip, string hRef, string mapAreaAttributes, string postBackValue, object selectedObject, ChartElementType type)
 	{
@@ -815,15 +720,16 @@ internal class HotRegionsList : IDisposable
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
 
-			HotRegion region = new HotRegion();
+			HotRegion region = new()
+			{
+				Type = type,
+				Path = (GraphicsPath)path.Clone(),
+				SelectedObject = selectedObject,
+				BoundingRectangle = path.GetBounds(),
+				RelativeCoordinates = relativePath
+			};
 
-			region.Type = type;
-			region.Path = (GraphicsPath)path.Clone();
-			region.SelectedObject = selectedObject;
-			region.BoundingRectangle = path.GetBounds();
-			region.RelativeCoordinates = relativePath;
-
-			_regionList.Add(region);
+			List.Add(region);
 
 		}
 	}
@@ -837,7 +743,7 @@ internal class HotRegionsList : IDisposable
 	/// <param name="relativeCoordinates">Coordinates for rectangle are relative</param>
 	internal void AddHotRegion(RectangleF rectArea, object selectedObject, ChartElementType type, bool relativeCoordinates)
 	{
-		this.AddHotRegion(rectArea, selectedObject, type, relativeCoordinates, false);
+		AddHotRegion(rectArea, selectedObject, type, relativeCoordinates, false);
 	}
 
 	/// <summary>
@@ -852,20 +758,21 @@ internal class HotRegionsList : IDisposable
 	{
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
-			HotRegion region = new HotRegion();
-
-			region.BoundingRectangle = rectArea;
-			region.RelativeCoordinates = relativeCoordinates;
-			region.Type = type;
-			region.SelectedObject = selectedObject;
+			HotRegion region = new()
+			{
+				BoundingRectangle = rectArea,
+				RelativeCoordinates = relativeCoordinates,
+				Type = type,
+				SelectedObject = selectedObject
+			};
 
 			if (insertAtBeginning)
 			{
-				_regionList.Insert(_regionList.Count - 1, region);
+				List.Insert(List.Count - 1, region);
 			}
 			else
 			{
-				_regionList.Add(region);
+				List.Add(region);
 			}
 		}
 	}
@@ -887,15 +794,16 @@ internal class HotRegionsList : IDisposable
 		if ((ProcessChartMode & ProcessMode.HotRegions) == ProcessMode.HotRegions)
 		{
 
-			HotRegion region = new HotRegion();
+			HotRegion region = new()
+			{
+				SelectedObject = selectedObject,
+				Type = type,
+				Path = (GraphicsPath)path.Clone(),
+				BoundingRectangle = path.GetBounds(),
+				RelativeCoordinates = relativePath
+			};
 
-			region.SelectedObject = selectedObject;
-			region.Type = type;
-			region.Path = (GraphicsPath)path.Clone();
-			region.BoundingRectangle = path.GetBounds();
-			region.RelativeCoordinates = relativePath;
-
-			_regionList.Add(region);
+			List.Add(region);
 
 		}
 	}
@@ -917,10 +825,12 @@ internal class HotRegionsList : IDisposable
 	/// </summary>
 	public void Clear()
 	{
-		foreach (HotRegion hotRegion in this._regionList)
+		foreach (HotRegion hotRegion in List)
+		{
 			hotRegion.Dispose();
+		}
 
-		this._regionList.Clear();
+		List.Clear();
 	}
 
 	#endregion // Methods
@@ -934,12 +844,14 @@ internal class HotRegionsList : IDisposable
 	{
 		if (disposing)
 		{
-			if (this._regionList != null)
+			if (List != null)
 			{
-				foreach (HotRegion hotRegion in this._regionList)
+				foreach (HotRegion hotRegion in List)
+				{
 					hotRegion.Dispose();
+				}
 
-				this._regionList.Clear();
+				List.Clear();
 			}
 		}
 	}
@@ -964,14 +876,6 @@ public class HitTestResult
 	#region Fields
 
 	// Private members
-	private object _obj = null;
-	private Series _series = null;
-	private int _dataPoint = -1;
-	private ChartArea _chartArea = null;
-	private Axis _axis = null;
-	private ChartElementType _type = ChartElementType.Nothing;
-	private object _subObject = null;
-
 	#endregion
 
 	#region Properties
@@ -979,109 +883,39 @@ public class HitTestResult
 	/// <summary>
 	/// Gets or sets the data series object.
 	/// </summary>
-	public Series Series
-	{
-		get
-		{
-			return _series;
-		}
-		set
-		{
-			_series = value;
-		}
-	}
+	public Series Series { get; set; } = null;
 
 	/// <summary>
 	/// Gets or sets the data point index.
 	/// </summary>
-	public int PointIndex
-	{
-		get
-		{
-			return _dataPoint;
-		}
-		set
-		{
-			_dataPoint = value;
-		}
-	}
+	public int PointIndex { get; set; } = -1;
 
 	/// <summary>
 	/// Gets or sets the chart area object.
 	/// </summary>
-	public ChartArea ChartArea
-	{
-		get
-		{
-			return _chartArea;
-		}
-		set
-		{
-			_chartArea = value;
-		}
-	}
+	public ChartArea ChartArea { get; set; } = null;
 
 	/// <summary>
 	/// Gets or sets the axis object.
 	/// </summary>
-	public Axis Axis
-	{
-		get
-		{
-			return _axis;
-		}
-		set
-		{
-			_axis = value;
-		}
-	}
+	public Axis Axis { get; set; } = null;
 
 	/// <summary>
 	/// Gets or sets the chart element type.
 	/// </summary>
-	public ChartElementType ChartElementType
-	{
-		get
-		{
-			return _type;
-		}
-		set
-		{
-			_type = value;
-		}
-	}
+	public ChartElementType ChartElementType { get; set; } = ChartElementType.Nothing;
 
 	/// <summary>
 	///  Gets or sets the selected object.
 	/// </summary>
-	public object Object
-	{
-		get
-		{
-			return _obj;
-		}
-		set
-		{
-			_obj = value;
-		}
-	}
+	public object Object { get; set; } = null;
 
 
 
 	/// <summary>
 	///  Gets or sets the selected sub object.
 	/// </summary>
-	public object SubObject
-	{
-		get
-		{
-			return _subObject;
-		}
-		set
-		{
-			_subObject = value;
-		}
-	}
+	public object SubObject { get; set; } = null;
 
 	#endregion
 }
@@ -1101,7 +935,7 @@ public class ChartElementOutline : IDisposable
 	/// </summary>
 	internal ChartElementOutline()
 	{
-		this.Markers = new ReadOnlyCollection<PointF>(new PointF[] { });
+		Markers = new ReadOnlyCollection<PointF>(new PointF[] { });
 	}
 
 	/// <summary>
@@ -1127,13 +961,10 @@ public class ChartElementOutline : IDisposable
 	{
 		if (disposing)
 		{
-			if (this.OutlinePath != null)
-			{
-				this.OutlinePath.Dispose();
-				this.OutlinePath = null;
-			}
+			OutlinePath?.Dispose();
+			OutlinePath = null;
 
-			this.Markers = null;
+			Markers = null;
 		}
 	}
 
@@ -1162,12 +993,12 @@ internal class Selection : IServiceProvider
 	/// <summary>
 	/// The chart service container
 	/// </summary>
-	private IServiceContainer _service = null;
+	private readonly IServiceContainer _service = null;
 
 	/// <summary>
 	/// Stores the tooltip of the control.
 	/// </summary>
-	private ToolTip _toolTip = new ToolTip();
+	private ToolTip _toolTip = new();
 
 	/// <summary>
 	/// Used by the tooltip - stores the time when the tooltip is activated.
@@ -1178,7 +1009,7 @@ internal class Selection : IServiceProvider
 	/// Stores the last mouse move X and Y coordinates, so we can ignore false calls to
 	/// OnMouseMove generated my the tooltip.
 	/// </summary>
-	private Point _lastMouseMove = new Point(int.MinValue, int.MinValue);
+	private Point _lastMouseMove = new(int.MinValue, int.MinValue);
 
 
 	// ToolTips enabled or disabled from series or legend
@@ -1197,16 +1028,16 @@ internal class Selection : IServiceProvider
 	/// <param name="service">The service.</param>
 	internal Selection(IServiceContainer service)
 	{
-		this._service = service;
-		this._chartControl = this.ChartControl;
+		_service = service;
+		_chartControl = ChartControl;
 
 		// Set up the tooltip
-		this._toolTip.Active = true;
-		this._toolTip.AutoPopDelay = 30000; // maximum delay possible
-		this._toolTip.InitialDelay = 500;
-		this._toolTip.ReshowDelay = 50;
-		this._toolTip.ShowAlways = true;
-		this._toolTip.Active = false;
+		_toolTip.Active = true;
+		_toolTip.AutoPopDelay = 30000; // maximum delay possible
+		_toolTip.InitialDelay = 500;
+		_toolTip.ReshowDelay = 50;
+		_toolTip.ShowAlways = true;
+		_toolTip.Active = false;
 
 	}
 
@@ -1218,11 +1049,8 @@ internal class Selection : IServiceProvider
 	{
 		if (disposing)
 		{
-			if (_toolTip != null)
-			{
-				_toolTip.Dispose();
-				_toolTip = null;
-			}
+			_toolTip?.Dispose();
+			_toolTip = null;
 		}
 	}
 
@@ -1247,55 +1075,41 @@ internal class Selection : IServiceProvider
 	{
 		get
 		{
-			if (this._chartControl == null)
+			if (_chartControl == null)
 			{
-				if (this.ChartPicture != null)
+				if (ChartPicture != null)
 				{
-					this._chartControl = this.ChartPicture.Chart;
+					_chartControl = ChartPicture.Chart;
 				}
 			}
 
-			return this._chartControl;
+			return _chartControl;
 		}
 	}
 
-	private ChartPicture _chartPicture = null;
 	/// <summary>
 	/// Returns the attached ChartPicture
 	/// </summary>
-	internal ChartPicture ChartPicture
-	{
-		get
+	internal ChartPicture ChartPicture { get
 		{
-			if (this._chartPicture == null)
+			if (field == null)
 			{
-				this._chartPicture = ((IServiceProvider)this).GetService(typeof(ChartImage)) as ChartPicture;
-				if (this._chartPicture == null)
-				{
-					this._chartPicture = ((IServiceProvider)this).GetService(typeof(ChartPicture)) as ChartPicture;
-				}
+				field = ((IServiceProvider)this).GetService(typeof(ChartImage)) as ChartPicture;
+				field ??= ((IServiceProvider)this).GetService(typeof(ChartPicture)) as ChartPicture;
 			}
 
-			return this._chartPicture;
-		}
-	}
+			return field;
+		} } = null;
 
-	private Data.DataManager _dataManager = null;
 	/// <summary>
 	/// Gets the chart data manager ( for series access )
 	/// </summary>
-	internal Data.DataManager DataManager
-	{
-		get
+	internal Data.DataManager DataManager { get
 		{
-			if (this._dataManager == null)
-			{
-				this._dataManager = ((IServiceProvider)this).GetService(typeof(Data.DataManager)) as Data.DataManager;
-			}
+			field ??= ((IServiceProvider)this).GetService(typeof(Data.DataManager)) as Data.DataManager;
 
-			return this._dataManager;
-		}
-	}
+			return field;
+		} } = null;
 
 	/// <summary>
 	/// Gets the chart ChartGraphics
@@ -1304,9 +1118,9 @@ internal class Selection : IServiceProvider
 	{
 		get
 		{
-			if (this.ChartPicture != null)
+			if (ChartPicture != null)
 			{
-				return this.ChartPicture.Common.graph;
+				return ChartPicture.Common.graph;
 			}
 
 			return null;
@@ -1485,7 +1299,7 @@ internal class Selection : IServiceProvider
 
 	[SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
 		Justification = "Too large of a code change to justify making this change")]
-	internal string EvaluateToolTip(System.Windows.Forms.MouseEventArgs e)
+	internal string EvaluateToolTip(MouseEventArgs e)
 	{
 		object obj;
 		object subObj;
@@ -1494,11 +1308,11 @@ internal class Selection : IServiceProvider
 		string seriesName;
 		string toolTipText = " ";
 
-		HitTestResult hitTest = this.HitTest(e.X, e.Y, true);
+		HitTestResult hitTest = HitTest(e.X, e.Y, true);
 
 		type = hitTest.ChartElementType;
 		dataPointIndex = hitTest.PointIndex;
-		seriesName = hitTest.Series != null ? hitTest.Series.Name : String.Empty;
+		seriesName = hitTest.Series != null ? hitTest.Series.Name : string.Empty;
 		obj = hitTest.Object;
 		subObj = hitTest.SubObject;
 
@@ -1515,8 +1329,7 @@ internal class Selection : IServiceProvider
 			}
 			else
 			{
-				DataPoint dataPoint = obj as DataPoint;
-				if (dataPoint != null)
+				if (obj is DataPoint dataPoint)
 				{
 					// Take tool tip from data point
 					toolTipText = dataPoint.ReplaceKeywords(dataPoint.ToolTip);
@@ -1586,8 +1399,7 @@ internal class Selection : IServiceProvider
 
 
 			// Check if cell has it's own tooltip
-			LegendCell legendCell = subObj as LegendCell;
-			if (legendCell != null && legendCell.ToolTip.Length > 0)
+			if (subObj is LegendCell legendCell && legendCell.ToolTip.Length > 0)
 			{
 				toolTipText = legendCell.ToolTip;
 			}
@@ -1620,7 +1432,7 @@ internal class Selection : IServiceProvider
 		}
 
 		// Set event arguments
-		ToolTipEventArgs args = new ToolTipEventArgs(e.X, e.Y, toolTipText, hitTest);
+		ToolTipEventArgs args = new(e.X, e.Y, toolTipText, hitTest);
 
 		// Event
 		_chartControl.OnGetToolTipText(args);
@@ -1635,18 +1447,18 @@ internal class Selection : IServiceProvider
 	/// </summary>
 	/// <param name="sender">Sender</param>
 	/// <param name="e">Arguments</param>
-	internal void Selection_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+	internal void Selection_MouseMove(object sender, MouseEventArgs e)
 	{
 
 		// Ignore false calls to OnMouseMove caused by the tootip control.
-		if (e.X == this._lastMouseMove.X && e.Y == this._lastMouseMove.Y)
+		if (e.X == _lastMouseMove.X && e.Y == _lastMouseMove.Y)
 		{
 			return;
 		}
 		else
 		{
-			this._lastMouseMove.X = e.X;
-			this._lastMouseMove.Y = e.Y;
+			_lastMouseMove.X = e.X;
+			_lastMouseMove.Y = e.Y;
 		}
 
 		// Event is not active and tooltip properties are nor set.
@@ -1655,26 +1467,26 @@ internal class Selection : IServiceProvider
 			return;
 		}
 
-		string newToolTipText = this.EvaluateToolTip(e);
+		string newToolTipText = EvaluateToolTip(e);
 
-		if (!String.IsNullOrEmpty(newToolTipText))
+		if (!string.IsNullOrEmpty(newToolTipText))
 		{
-			string oldToolTipText = this._toolTip.GetToolTip(this._chartControl);
-			TimeSpan timeSpan = DateTime.Now.Subtract(this._toolTipActivationTime);
+			string oldToolTipText = _toolTip.GetToolTip(_chartControl);
+			TimeSpan timeSpan = DateTime.Now.Subtract(_toolTipActivationTime);
 			if (oldToolTipText != newToolTipText || timeSpan.Milliseconds > 600)
 			{
 				// Activate the tooltip
-				this._toolTip.Active = false;
-				this._toolTip.SetToolTip(this._chartControl, newToolTipText);
-				this._toolTip.Active = true;
-				this._toolTipActivationTime = DateTime.Now;
+				_toolTip.Active = false;
+				_toolTip.SetToolTip(_chartControl, newToolTipText);
+				_toolTip.Active = true;
+				_toolTipActivationTime = DateTime.Now;
 			}
 		}
 		else
 		{
 			// We do not have a tooltip, so deactivate it
-			this._toolTip.Active = false;
-			this._toolTip.SetToolTip(this._chartControl, string.Empty);
+			_toolTip.Active = false;
+			_toolTip.SetToolTip(_chartControl, string.Empty);
 		}
 	}
 
@@ -1723,18 +1535,18 @@ internal class Selection : IServiceProvider
 	/// any).</remarks>
 	internal HitTestResult[] HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElementTypes)
 	{
-		List<HitTestResult> result = new List<HitTestResult>();
-		ArrayList regionList = this.ChartPicture.Common.HotRegionsList.List;
+		List<HitTestResult> result = [];
+		ArrayList regionList = ChartPicture.Common.HotRegionsList.List;
 
 		if (regionList.Count == 0)
 		{
-			this.ChartPicture.PaintOffScreen();
+			ChartPicture.PaintOffScreen();
 		}
 
-		string alowedElements = String.Empty;
+		string alowedElements = string.Empty;
 		if (requestedElementTypes.Length > 0)
 		{
-			StringBuilder builder = new StringBuilder();
+			StringBuilder builder = new();
 			foreach (ChartElementType elementType in requestedElementTypes)
 			{
 				builder.Append(elementType.ToString() + ";");
@@ -1750,10 +1562,10 @@ internal class Selection : IServiceProvider
 		RectangleF newMouseRect;
 
 		// Find mouse position in relative and absolute coordinates
-		RectangleF mouseRect = new RectangleF(x - 1, y - 1, 2, 2);
-		relativeX = this.Graph.GetRelativePoint(new PointF(x, y)).X;
-		relativeY = this.Graph.GetRelativePoint(new PointF(x, y)).Y;
-		RectangleF relativeMouseRect = this.Graph.GetRelativeRectangle(mouseRect);
+		RectangleF mouseRect = new(x - 1, y - 1, 2, 2);
+		relativeX = Graph.GetRelativePoint(new PointF(x, y)).X;
+		relativeY = Graph.GetRelativePoint(new PointF(x, y)).Y;
+		RectangleF relativeMouseRect = Graph.GetRelativeRectangle(mouseRect);
 
 		// Try to pass through series object in design time.
 		// The series ussualy contain autogenerated points with short lifetime - during painting;
@@ -1763,7 +1575,7 @@ internal class Selection : IServiceProvider
 			HotRegion region = (HotRegion)regionList[index];
 
 			// Check if only looking for specific chart element type
-			if (!String.IsNullOrEmpty(alowedElements) && alowedElements.IndexOf(region.Type.ToString() + ";", StringComparison.Ordinal) == -1)
+			if (!string.IsNullOrEmpty(alowedElements) && alowedElements.IndexOf(region.Type.ToString() + ";", StringComparison.Ordinal) == -1)
 			{
 				continue;
 			}
@@ -1786,7 +1598,7 @@ internal class Selection : IServiceProvider
 
 			// Check if series name and point index are valid
 			if (region.SeriesName.Length > 0 &&
-			   (this.ChartControl.Series.IndexOf(region.SeriesName) < 0 || region.PointIndex >= this.ChartControl.Series[region.SeriesName].Points.Count)
+			   (ChartControl.Series.IndexOf(region.SeriesName) < 0 || region.PointIndex >= ChartControl.Series[region.SeriesName].Points.Count)
 				)
 			{
 				continue;
@@ -1806,12 +1618,12 @@ internal class Selection : IServiceProvider
 				{
 					// If there is more then one graphical path split them and create 
 					// image maps for every graphical path separately.
-					GraphicsPathIterator iterator = new GraphicsPathIterator(region.Path);
+					GraphicsPathIterator iterator = new(region.Path);
 
 					// There is more then one path.
 					if (iterator.SubpathCount > 1)
 					{
-						GraphicsPath subPath = new GraphicsPath();
+						GraphicsPath subPath = new();
 						while (iterator.NextMarker(subPath) > 0 && pointVisible == false)
 						{
 							if (subPath.IsVisible(newX, newY))
@@ -1838,7 +1650,7 @@ internal class Selection : IServiceProvider
 				// Check if point is inside the hot region
 				if (pointVisible)
 				{
-					HitTestResult hitTestToAdd = this.GetHitTestResult(
+					HitTestResult hitTestToAdd = GetHitTestResult(
 						region.SeriesName,
 						region.PointIndex,
 						region.Type,
@@ -1874,7 +1686,7 @@ internal class Selection : IServiceProvider
 
 		if (result.Count == 0)
 		{
-			result.Add(this.GetHitTestResult(String.Empty, 0, ChartElementType.Nothing, null, null));
+			result.Add(GetHitTestResult(string.Empty, 0, ChartElementType.Nothing, null, null));
 		}
 
 		return result.ToArray();
@@ -1890,7 +1702,7 @@ internal class Selection : IServiceProvider
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	internal HitTestResult HitTest(int x, int y)
 	{
-		return this.HitTest(x, y, false, new ChartElementType[] { })[0];
+		return HitTest(x, y, false, [])[0];
 	}
 
 	/// <summary>
@@ -1904,7 +1716,7 @@ internal class Selection : IServiceProvider
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public HitTestResult HitTest(int x, int y, bool ignoreTransparent)
 	{
-		return this.HitTest(x, y, ignoreTransparent, new ChartElementType[] { })[0];
+		return HitTest(x, y, ignoreTransparent, [])[0];
 	}
 
 	/// <summary>
@@ -1918,7 +1730,7 @@ internal class Selection : IServiceProvider
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public HitTestResult HitTest(int x, int y, ChartElementType requestedElement)
 	{
-		return this.HitTest(x, y, false, requestedElement)[0];
+		return HitTest(x, y, false, requestedElement)[0];
 	}
 
 	/// <summary>
@@ -1932,12 +1744,12 @@ internal class Selection : IServiceProvider
 
 		if (region.Type == ChartElementType.DataPoint)
 		{
-			if (this.ChartControl != null)
+			if (ChartControl != null)
 			{
 				DataPoint dataPoint = region.SelectedObject as DataPoint;
 				if (region.SeriesName.Length > 0)
 				{
-					dataPoint = this.ChartControl.Series[region.SeriesName].Points[region.PointIndex];
+					dataPoint = ChartControl.Series[region.SeriesName].Points[region.PointIndex];
 				}
 
 				if (dataPoint != null && dataPoint.Color == Color.Transparent)
@@ -2019,8 +1831,8 @@ internal class Selection : IServiceProvider
 		object obj,
 		object subObject)
 	{
-		HitTestResult result = new HitTestResult();
-		Chart chart = this.ChartControl;
+		HitTestResult result = new();
+		Chart chart = ChartControl;
 		// If data point is selected convert series 
 		// name to series object.
 		if (seriesName.Length > 0)
@@ -2127,7 +1939,7 @@ internal class Selection : IServiceProvider
 				{
 					CustomLabel label = (CustomLabel)obj;
 					result.Axis = label.Axis;
-					result.ChartArea = label.Axis != null ? label.Axis.ChartArea : null;
+					result.ChartArea = label.Axis?.ChartArea;
 				}
 
 				break;
@@ -2136,7 +1948,7 @@ internal class Selection : IServiceProvider
 				{
 					CustomLabel label = (CustomLabel)obj;
 					result.Axis = label.Axis;
-					result.ChartArea = label.Axis != null ? label.Axis.ChartArea : null;
+					result.ChartArea = label.Axis?.ChartArea;
 				}
 
 				break;
@@ -2216,13 +2028,12 @@ internal class Selection : IServiceProvider
 	internal ChartElementOutline GetChartElementOutline(object chartObject, ChartElementType elementType)
 	{
 		// Check arguments
-		if (chartObject == null)
-			throw new ArgumentNullException("chartObject");
+		ArgumentNullException.ThrowIfNull(chartObject);
 
 		// Get outline
-		ChartElementOutline result = new ChartElementOutline();
-		chartObject = this.GetAutoGeneratedObject(chartObject);
-		ArrayList list = this.GetMarkers(chartObject, elementType);
+		ChartElementOutline result = new();
+		chartObject = GetAutoGeneratedObject(chartObject);
+		ArrayList list = GetMarkers(chartObject, elementType);
 		result.Markers = new ReadOnlyCollection<PointF>((PointF[])list.ToArray(typeof(PointF)));
 		result.OutlinePath = GetGraphicsPath(list, chartObject, elementType);
 		return result;
@@ -2242,8 +2053,7 @@ internal class Selection : IServiceProvider
 	private GraphicsPath GetGraphicsPath(IList markers, object chartObject, ChartElementType elementType)
 	{
 		bool chartArea3D = false;
-		ChartArea chartArea = chartObject as ChartArea;
-		if (chartArea != null && elementType == ChartElementType.PlottingArea)
+		if (chartObject is ChartArea chartArea && elementType == ChartElementType.PlottingArea)
 		{
 			chartArea3D = IsArea3D(chartArea);
 		}
@@ -2255,7 +2065,7 @@ internal class Selection : IServiceProvider
 			!chartArea3D
 			)
 		{
-			GraphicsPath path = new GraphicsPath();
+			GraphicsPath path = new();
 			PointF[] points = new PointF[markers.Count];
 			markers.CopyTo(points, 0);
 			if (points.Length > 3)
@@ -2294,7 +2104,7 @@ internal class Selection : IServiceProvider
 		return null;
 	}
 
-	private static Int32 GetDataPointIndex(DataPoint dataPoint)
+	private static int GetDataPointIndex(DataPoint dataPoint)
 	{
 		int pointIndex = -1;
 		if (dataPoint != null && dataPoint.series != null)
@@ -2302,8 +2112,10 @@ internal class Selection : IServiceProvider
 			pointIndex = dataPoint.series.Points.IndexOf(dataPoint);
 			if (pointIndex == -1 && dataPoint.IsCustomPropertySet("OriginalPointIndex"))
 			{
-				if (!Int32.TryParse(dataPoint.GetCustomProperty("OriginalPointIndex"), out pointIndex))
+				if (!int.TryParse(dataPoint.GetCustomProperty("OriginalPointIndex"), out pointIndex))
+				{
 					return -1;
+				}
 			}
 		}
 
@@ -2317,16 +2129,15 @@ internal class Selection : IServiceProvider
 	/// <returns></returns>
 	private object GetAutoGeneratedObject(object chartObject)
 	{
-		DataPoint dataPoint = chartObject as DataPoint;
-		if (dataPoint != null)
+		if (chartObject is DataPoint dataPoint)
 		{
 			if (dataPoint.series != null)
 			{
 				string seriesName = dataPoint.series.Name;
 				int pointIndex = dataPoint.series.Points.IndexOf(dataPoint);
-				if (this.ChartControl.Series.IndexOf(seriesName) != -1)
+				if (ChartControl.Series.IndexOf(seriesName) != -1)
 				{
-					Series series = this.ChartControl.Series[seriesName];
+					Series series = ChartControl.Series[seriesName];
 					if (series.Points.Contains(dataPoint))
 					{
 						return chartObject;
@@ -2343,17 +2154,16 @@ internal class Selection : IServiceProvider
 			}
 		}
 
-		Series asSeries = chartObject as Series;
-		if (asSeries != null)
+		if (chartObject is Series asSeries)
 		{
-			if (this.ChartControl.Series.Contains(asSeries))
+			if (ChartControl.Series.Contains(asSeries))
 			{
 				return chartObject;
 			}
 
-			if (this.ChartControl.Series.IndexOf(asSeries.Name) != -1)
+			if (ChartControl.Series.IndexOf(asSeries.Name) != -1)
 			{
-				return this.ChartControl.Series[asSeries.Name];
+				return ChartControl.Series[asSeries.Name];
 			}
 		}
 
@@ -2368,9 +2178,9 @@ internal class Selection : IServiceProvider
 	/// <returns></returns>
 	private HotRegion[] GetHotRegions(object cntxObj, ChartElementType elementType)
 	{
-		ArrayList result = new ArrayList();
-		HotRegionsList hrList = this.ChartPicture.Common.HotRegionsList;
-		string dataPointSeries = String.Empty;
+		ArrayList result = [];
+		HotRegionsList hrList = ChartPicture.Common.HotRegionsList;
+		string dataPointSeries = string.Empty;
 		int dataPointIndex = -1;
 
 		for (int i = hrList.List.Count - 1; i >= 0; i--)
@@ -2381,8 +2191,7 @@ internal class Selection : IServiceProvider
 				switch (rgn.Type)
 				{
 					case ChartElementType.LegendItem:
-						LegendItem legendItem = cntxObj as LegendItem;
-						if (legendItem != null)
+						if (cntxObj is LegendItem legendItem)
 						{
 							if (((LegendItem)rgn.SelectedObject).Name == legendItem.Name)
 							{
@@ -2393,9 +2202,8 @@ internal class Selection : IServiceProvider
 						break;
 					case ChartElementType.AxisLabelImage:
 					case ChartElementType.AxisLabels:
-						CustomLabel label1 = cntxObj as CustomLabel;
 						CustomLabel label2 = rgn.SelectedObject as CustomLabel;
-						if (label1 != null)
+						if (cntxObj is CustomLabel label1)
 						{
 							if (label1 != null && label2 != null)
 							{
@@ -2415,8 +2223,7 @@ internal class Selection : IServiceProvider
 						}
 						else
 						{
-							Axis axis = cntxObj as Axis;
-							if (axis != null)
+							if (cntxObj is Axis axis)
 							{
 								if (axis == label2.Axis)
 								{
@@ -2431,10 +2238,9 @@ internal class Selection : IServiceProvider
 						break;
 					case ChartElementType.DataPointLabel:
 					case ChartElementType.DataPoint:
-						DataPoint dataPoint = cntxObj as DataPoint;
-						if (dataPoint != null)
+						if (cntxObj is DataPoint dataPoint)
 						{
-							if (String.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
+							if (string.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
 							{
 								dataPointSeries = dataPoint.series.Name;
 								dataPointIndex = GetDataPointIndex(dataPoint);
@@ -2447,16 +2253,14 @@ internal class Selection : IServiceProvider
 						}
 						else
 						{
-							DataPointCollection dataPointCollection = cntxObj as DataPointCollection;
-							if (dataPointCollection != null)
+							if (cntxObj is DataPointCollection dataPointCollection)
 							{
 								cntxObj = dataPointCollection.series;
 							}
 
-							Series series = cntxObj as Series;
-							if (series != null)
+							if (cntxObj is Series series)
 							{
-								if (String.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
+								if (string.IsNullOrEmpty(dataPointSeries) || dataPointIndex == -1)
 								{
 									dataPointSeries = series.Name;
 								}
@@ -2492,16 +2296,15 @@ internal class Selection : IServiceProvider
 	/// <param name="chartObject">The chart object.</param>
 	/// <param name="elementType">Type of the element.</param>
 	/// <returns></returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
+	[SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
 	private ArrayList GetMarkersFromRegions(object chartObject, ChartElementType elementType)
 	{
-		ArrayList list = new ArrayList();
-		HotRegion[] regions = this.GetHotRegions(chartObject, elementType);
-		ChartGraphics graph = this.Graph;
+		ArrayList list = [];
+		HotRegion[] regions = GetHotRegions(chartObject, elementType);
+		ChartGraphics graph = Graph;
 		RectangleF rect;
 
-		Grid grid = chartObject as Grid;
-		if (grid != null)
+		if (chartObject is Grid grid)
 		{
 			foreach (HotRegion rgn in regions)
 			{
@@ -2509,12 +2312,12 @@ internal class Selection : IServiceProvider
 				{
 					if (IsChartAreaCircular(grid.Axis.ChartArea))
 					{
-						GraphicsPathIterator iterator = new GraphicsPathIterator(rgn.Path);
+						GraphicsPathIterator iterator = new(rgn.Path);
 
 						// There is more then one path.
 						if (iterator.SubpathCount > 1)
 						{
-							GraphicsPath subPath = new GraphicsPath();
+							GraphicsPath subPath = new();
 							while (iterator.NextMarker(subPath) > 0)
 							{
 								rect = subPath.GetBounds();
@@ -2529,7 +2332,7 @@ internal class Selection : IServiceProvider
 					else
 					{
 						// 2D
-						rect = this.GetHotRegionRectangle(rgn, RectangleF.Empty, elementType);
+						rect = GetHotRegionRectangle(rgn, RectangleF.Empty, elementType);
 						if (grid != null)
 						{
 							if (grid.GetAxis().AxisPosition == AxisPosition.Bottom ||
@@ -2545,7 +2348,7 @@ internal class Selection : IServiceProvider
 							}
 						}
 
-						list.AddRange(this.GetMarkers(rect, false));
+						list.AddRange(GetMarkers(rect, false));
 					}
 				}
 				else
@@ -2556,8 +2359,8 @@ internal class Selection : IServiceProvider
 						//One of  the ends of a gridline is in the middle the line between points #0 and #3
 						//Another ends of a gridline is in the middle the line between points #1 and #2
 						//So we find those middles and put a marks to the ends of the gridline.
-						PointF middleP0P3 = new PointF((points[i].X + points[i + 3].X) / 2f, (points[i].Y + points[i + 3].Y) / 2f);
-						PointF middleP1P2 = new PointF((points[i + 1].X + points[i + 2].X) / 2f, (points[i + 1].Y + points[i + 2].Y) / 2f);
+						PointF middleP0P3 = new((points[i].X + points[i + 3].X) / 2f, (points[i].Y + points[i + 3].Y) / 2f);
+						PointF middleP1P2 = new((points[i + 1].X + points[i + 2].X) / 2f, (points[i + 1].Y + points[i + 2].Y) / 2f);
 						list.Add(graph.GetAbsolutePoint(middleP0P3));
 						list.Add(graph.GetAbsolutePoint(middleP1P2));
 					}
@@ -2567,18 +2370,17 @@ internal class Selection : IServiceProvider
 			return list;
 		}
 
-		DataPoint dataPoint = chartObject as DataPoint;
-		if (dataPoint != null && elementType != ChartElementType.DataPointLabel)
+		if (chartObject is DataPoint dataPoint && elementType != ChartElementType.DataPointLabel)
 		{
 			rect = Rectangle.Empty;
 			Series series = dataPoint.series;
-			if (this.ChartControl.ChartAreas.IndexOf(series.ChartArea) == -1)
+			if (ChartControl.ChartAreas.IndexOf(series.ChartArea) == -1)
 			{
 				return list;
 			}
 
-			ChartArea area = this.ChartControl.ChartAreas[series.ChartArea];
-			PointF pp = this.Transform3D(area, dataPoint);
+			ChartArea area = ChartControl.ChartAreas[series.ChartArea];
+			PointF pp = Transform3D(area, dataPoint);
 			if (!(float.IsNaN(pp.X) || float.IsNaN(pp.Y)))
 			{
 				list.Add(graph.GetAbsolutePoint(pp));
@@ -2587,15 +2389,14 @@ internal class Selection : IServiceProvider
 			return list;
 		}
 
-		Axis axis = chartObject as Axis;
-		if (axis != null && elementType == ChartElementType.AxisTitle)
+		if (chartObject is Axis axis && elementType == ChartElementType.AxisTitle)
 		{
 			foreach (HotRegion rgn in regions)
 			{
 				if (!IsArea3D(axis.ChartArea))
 				{   // 2D
-					rect = this.GetHotRegionRectangle(rgn, RectangleF.Empty, elementType);
-					list.AddRange(this.GetMarkers(rect, elementType));
+					rect = GetHotRegionRectangle(rgn, RectangleF.Empty, elementType);
+					list.AddRange(GetMarkers(rect, elementType));
 				}
 				else
 				{   // 3D
@@ -2607,18 +2408,17 @@ internal class Selection : IServiceProvider
 			return list;
 		}
 
-		LegendItem legendItem = chartObject as LegendItem;
-		if (legendItem != null)
+		if (chartObject is LegendItem legendItem)
 		{
 			rect = Rectangle.Empty;
 			foreach (HotRegion rgn in regions)
 			{
-				rect = this.GetHotRegionRectangle(rgn, rect, elementType);
+				rect = GetHotRegionRectangle(rgn, rect, elementType);
 			}
 
 			if (!rect.IsEmpty)
 			{
-				list.AddRange(this.GetMarkers(rect, elementType));
+				list.AddRange(GetMarkers(rect, elementType));
 			}
 
 			return list;
@@ -2628,12 +2428,12 @@ internal class Selection : IServiceProvider
 			rect = Rectangle.Empty;
 			foreach (HotRegion rgn in regions)
 			{
-				rect = this.GetHotRegionRectangle(rgn, rect, elementType);
+				rect = GetHotRegionRectangle(rgn, rect, elementType);
 			}
 
 			if (!rect.IsEmpty)
 			{
-				list.AddRange(this.GetMarkers(rect, elementType));
+				list.AddRange(GetMarkers(rect, elementType));
 			}
 
 			return list;
@@ -2641,8 +2441,8 @@ internal class Selection : IServiceProvider
 
 		foreach (HotRegion rgn in regions)
 		{
-			rect = this.GetHotRegionRectangle(rgn, RectangleF.Empty, elementType);
-			list.AddRange(this.GetMarkers(rect, elementType));
+			rect = GetHotRegionRectangle(rgn, RectangleF.Empty, elementType);
+			list.AddRange(GetMarkers(rect, elementType));
 		}
 
 		return list;
@@ -2658,15 +2458,13 @@ internal class Selection : IServiceProvider
 	/// <returns></returns>
 	private ArrayList GetMarkers(object chartObject, ChartElementType elementType)
 	{
-		ChartArea chartArea = chartObject as ChartArea;
-		if (chartArea != null)
+		if (chartObject is ChartArea chartArea)
 		{
-			return this.GetAreaMarkers(this.Graph, chartArea);
+			return GetAreaMarkers(Graph, chartArea);
 		}
 
 
-		Axis axis = chartObject as Axis;
-		if (axis != null)
+		if (chartObject is Axis axis)
 		{
 			if (
 				elementType == ChartElementType.AxisLabelImage ||
@@ -2674,30 +2472,28 @@ internal class Selection : IServiceProvider
 				elementType == ChartElementType.AxisTitle
 				)
 			{
-				return this.GetMarkersFromRegions(chartObject, elementType);
+				return GetMarkersFromRegions(chartObject, elementType);
 			}
 
-			return this.GetAxisMarkers(this.Graph, axis);
+			return GetAxisMarkers(Graph, axis);
 		}
 
-		DataPoint dataPoint = chartObject as DataPoint;
-		if (dataPoint != null)
+		if (chartObject is DataPoint dataPoint)
 		{
-			return this.GetMarkersFromRegions(chartObject, elementType);
+			return GetMarkersFromRegions(chartObject, elementType);
 		}
 
-		Series series = chartObject as Series;
-		if (series != null)
+		if (chartObject is Series series)
 		{
 			if (elementType == ChartElementType.DataPointLabel)
 			{
-				return this.GetMarkersFromRegions(chartObject, elementType);
+				return GetMarkersFromRegions(chartObject, elementType);
 			}
 
-			return this.GetSeriesMarkers(series);
+			return GetSeriesMarkers(series);
 		}
 
-		return this.GetMarkersFromRegions(chartObject, elementType);
+		return GetMarkersFromRegions(chartObject, elementType);
 	}
 
 	/// <summary>
@@ -2707,7 +2503,7 @@ internal class Selection : IServiceProvider
 	/// <returns>
 	/// 	<c>true</c> if specified chart area is circular; otherwise, <c>false</c>.
 	/// </returns>
-	private Boolean IsChartAreaCircular(ChartArea area)
+	private bool IsChartAreaCircular(ChartArea area)
 	{
 		foreach (object o in area.ChartTypes)
 		{
@@ -2728,9 +2524,9 @@ internal class Selection : IServiceProvider
 	/// <returns>
 	/// 	<c>true</c> if the chart area is in 3D mode; otherwise, <c>false</c>.
 	/// </returns>
-	private Boolean IsArea3D(ChartArea area)
+	private bool IsArea3D(ChartArea area)
 	{
-		return area.Area3DStyle.Enable3D && !this.IsChartAreaCircular(area) && area.matrix3D != null && area.matrix3D.IsInitialized();
+		return area.Area3DStyle.Enable3D && !IsChartAreaCircular(area) && area.matrix3D != null && area.matrix3D.IsInitialized();
 	}
 
 	/// <summary>
@@ -2740,12 +2536,12 @@ internal class Selection : IServiceProvider
 	/// <returns>List of PointF.</returns>
 	private ArrayList GetSeriesMarkers(Series series)
 	{
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
 		if (series != null)
 		{
-			String areaName = series.ChartArea;
+			string areaName = series.ChartArea;
 
-			if (String.IsNullOrEmpty(areaName))
+			if (string.IsNullOrEmpty(areaName))
 			{
 				areaName = ChartPicture.ChartAreas.DefaultNameReference;
 			}
@@ -2769,13 +2565,13 @@ internal class Selection : IServiceProvider
 				// transform points in 3D
 				foreach (DataPoint point in points)
 				{
-					PointF pp = this.Transform3D(chartArea, point);
+					PointF pp = Transform3D(chartArea, point);
 					if (float.IsNaN(pp.X) || float.IsNaN(pp.Y))
 					{
 						continue;
 					}
 
-					list.Add(this.Graph.GetAbsolutePoint(pp));
+					list.Add(Graph.GetAbsolutePoint(pp));
 				}
 			}
 		}
@@ -2791,7 +2587,7 @@ internal class Selection : IServiceProvider
 	/// <returns>List of PointF.</returns>
 	private ArrayList GetAxisMarkers(ChartGraphics graph, Axis axis)
 	{
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
 		if (axis == null)
 		{
 			return list;
@@ -2847,7 +2643,7 @@ internal class Selection : IServiceProvider
 			second.Y = axis.PlotAreaPosition.Y + axis.PlotAreaPosition.Height / 2f;
 		}
 
-		RectangleF rect1 = new RectangleF(first.X, first.Y, second.X - first.X, second.Y - first.Y);
+		RectangleF rect1 = new(first.X, first.Y, second.X - first.X, second.Y - first.Y);
 
 		SizeF size = graph.GetRelativeSize(new SizeF(3, 3));
 		if (axis.AxisPosition == AxisPosition.Top || axis.AxisPosition == AxisPosition.Bottom)
@@ -2859,12 +2655,12 @@ internal class Selection : IServiceProvider
 			rect1.Inflate(size.Width, 2);
 		}
 
-		IList list1 = this.GetMarkers(rect1, ChartElementType.Axis);
+		IList list1 = GetMarkers(rect1, ChartElementType.Axis);
 		ChartArea area = axis.ChartArea;
-		if (this.IsArea3D(area))
+		if (IsArea3D(area))
 		{
 
-			Boolean axisOnEdge = false;
+			bool axisOnEdge;
 			float zPositon = axis.GetMarksZPosition(out axisOnEdge);
 
 			// Transform coordinates
@@ -2897,16 +2693,16 @@ internal class Selection : IServiceProvider
 	/// <returns>List of PointF.</returns>
 	private ArrayList GetAreaMarkers(ChartGraphics graph, ChartArea area)
 	{
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
 		if (area == null)
 		{
 			return list;
 		}
 
-		IList list1 = this.GetMarkers(area.PlotAreaPosition.ToRectangleF(), ChartElementType.PlottingArea);
-		if (this.IsChartAreaCircular(area))
+		IList list1 = GetMarkers(area.PlotAreaPosition.ToRectangleF(), ChartElementType.PlottingArea);
+		if (IsChartAreaCircular(area))
 		{
-			list1 = this.GetMarkers(area.lastAreaPosition, ChartElementType.PlottingArea);
+			list1 = GetMarkers(area.lastAreaPosition, ChartElementType.PlottingArea);
 		}
 
 		if (IsArea3D(area))
@@ -2949,16 +2745,16 @@ internal class Selection : IServiceProvider
 
 		if (elementType.ToString().StartsWith("PlottingArea", StringComparison.Ordinal))
 		{
-			SizeF relSize = this.Graph.GetRelativeSize(new SizeF(4f, 4f));
+			SizeF relSize = Graph.GetRelativeSize(new SizeF(4f, 4f));
 			rect.Inflate(relSize.Width, relSize.Height);
 		}
 
 		if ((elementType != ChartElementType.Nothing) && (elementType != ChartElementType.PlottingArea))
 		{
-			return this.GetMarkers(rect, false);
+			return GetMarkers(rect, false);
 		}
 
-		return this.GetMarkers(rect, true);
+		return GetMarkers(rect, true);
 	}
 
 
@@ -2968,9 +2764,9 @@ internal class Selection : IServiceProvider
 	/// <param name="rect">The rectangle</param>
 	/// <param name="addAdditionalMarkers">Add additional markers to the rectangle.</param>
 	/// <returns>List of PointF</returns>
-	private ArrayList GetMarkers(RectangleF rect, Boolean addAdditionalMarkers)
+	private ArrayList GetMarkers(RectangleF rect, bool addAdditionalMarkers)
 	{
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
 		if (!addAdditionalMarkers)
 		{
 			if (rect.Width > 0 && rect.Height > 0)
@@ -3072,7 +2868,7 @@ internal class Selection : IServiceProvider
 			float positionZ = chartArea.areaSceneDepth;
 			if (point != null && point.series != null)
 			{
-				float depth = 0f;
+				float depth;
 				chartArea.GetSeriesZPositionAndDepth(
 					point.series,
 					out depth,
@@ -3083,8 +2879,7 @@ internal class Selection : IServiceProvider
 			PointF pf = point.positionRel;
 
 			// Define 3D points of annotation object
-			Point3D[] annot3DPoints = new Point3D[1];
-			annot3DPoints[0] = new Point3D(pf.X, pf.Y, positionZ);
+			Point3D[] annot3DPoints = [new Point3D(pf.X, pf.Y, positionZ)];
 
 			// Tranform cube coordinates
 			chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -3116,7 +2911,7 @@ internal class Selection : IServiceProvider
 
 		if (rgn.RelativeCoordinates)
 		{
-			rect = this.Graph.GetAbsoluteRectangle(rect);
+			rect = Graph.GetAbsoluteRectangle(rect);
 		}
 
 		if (elementType == ChartElementType.AxisLabels)
@@ -3181,10 +2976,6 @@ public class ToolTipEventArgs : EventArgs
 	#region Private fields
 
 	// Private fields for properties values storage
-	private int x = 0;
-	private int y = 0;
-	private string text = "";
-	private HitTestResult result = new HitTestResult();
 
 	#endregion
 
@@ -3201,10 +2992,10 @@ public class ToolTipEventArgs : EventArgs
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public ToolTipEventArgs(int x, int y, string text, HitTestResult result)
 	{
-		this.x = x;
-		this.y = y;
-		this.text = text;
-		this.result = result;
+		X = x;
+		Y = y;
+		Text = text;
+		HitTestResult = result;
 	}
 
 	#endregion
@@ -3217,14 +3008,8 @@ public class ToolTipEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeToolTipEventArgs_X"),
 	]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")]
-	public int X
-	{
-		get
-		{
-			return x;
-		}
-	}
+	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")]
+	public int X { get; } = 0;
 
 	/// <summary>
 	/// Gets the result of the hit test.
@@ -3232,13 +3017,7 @@ public class ToolTipEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeToolTipEventArgs_HitTestResult"),
 	]
-	public HitTestResult HitTestResult
-	{
-		get
-		{
-			return result;
-		}
-	}
+	public HitTestResult HitTestResult { get; } = new();
 
 	/// <summary>
 	/// Gets the y-coordinate of the mouse.
@@ -3246,14 +3025,8 @@ public class ToolTipEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeToolTipEventArgs_Y"),
 	]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")]
-	public int Y
-	{
-		get
-		{
-			return y;
-		}
-	}
+	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")]
+	public int Y { get; } = 0;
 
 	/// <summary>
 	/// Gets the text of the tooltip.
@@ -3261,17 +3034,7 @@ public class ToolTipEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeToolTipEventArgs_Text"),
 	]
-	public string Text
-	{
-		get
-		{
-			return text;
-		}
-		set
-		{
-			text = value;
-		}
-	}
+	public string Text { get; set; } = "";
 
 	#endregion
 }

@@ -94,7 +94,7 @@ public class ArrowAnnotation : Annotation
 	Bindable(true),
 	DefaultValue(ArrowStyle.Simple),
 	SRDescription("DescriptionAttributeArrowAnnotation_ArrowStyle"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	virtual public ArrowStyle ArrowStyle
 	{
@@ -121,7 +121,7 @@ public class ArrowAnnotation : Annotation
 	Bindable(true),
 	DefaultValue(5),
 	SRDescription("DescriptionAttributeArrowAnnotation_ArrowSize"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	virtual public int ArrowSize
 	{
@@ -133,12 +133,12 @@ public class ArrowAnnotation : Annotation
 		{
 			if (value <= 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationArrowSizeIsZero));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeIsZero));
 			}
 
 			if (value > 100)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationArrowSizeMustBeLessThen100));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationArrowSizeMustBeLessThen100));
 			}
 
 			_arrowSize = value;
@@ -171,7 +171,7 @@ public class ArrowAnnotation : Annotation
 	[
 	SRCategory("CategoryAttributeAnchor"),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	DefaultValue(typeof(ContentAlignment), "TopLeft"),
 	SRDescription("DescriptionAttributeAnchorAlignment"),
 	]
@@ -205,9 +205,9 @@ public class ArrowAnnotation : Annotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -231,11 +231,11 @@ public class ArrowAnnotation : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -264,14 +264,14 @@ public class ArrowAnnotation : Annotation
 	override internal void Paint(Chart chart, ChartGraphics graphics)
 	{
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+		PointF anchorPoint;
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
-		PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+		PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 		// Create selection rectangle
-		RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+		RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 		// Check if text position is valid
 		if (float.IsNaN(firstPoint.X) ||
@@ -283,49 +283,47 @@ public class ArrowAnnotation : Annotation
 		}
 
 		// Get arrow shape path
-		using (GraphicsPath arrowPathAbs = GetArrowPath(graphics, selectionRect))
+		using GraphicsPath arrowPathAbs = GetArrowPath(graphics, selectionRect);
+
+		// Draw arrow shape
+		if (Common.ProcessModePaint)
 		{
-
-			// Draw arrow shape
-			if (this.Common.ProcessModePaint)
-			{
-				graphics.DrawPathAbs(
-					arrowPathAbs,
-					(this.BackColor.IsEmpty) ? Color.White : this.BackColor,
-					this.BackHatchStyle,
-					String.Empty,
-					ChartImageWrapMode.Scaled,
-					Color.Empty,
-					ChartImageAlignmentStyle.Center,
-					this.BackGradientStyle,
-					this.BackSecondaryColor,
-					this.LineColor,
-					this.LineWidth,
-					this.LineDashStyle,
-					PenAlignment.Center,
-					this.ShadowOffset,
-					this.ShadowColor);
-			}
-
-			// Process hot region
-			if (this.Common.ProcessModeRegions)
-			{
-				// Use callout defined hot region
-				this.Common.HotRegionsList.AddHotRegion(
-					graphics,
-					arrowPathAbs,
-					false,
-					ReplaceKeywords(this.ToolTip),
-				String.Empty,
-				String.Empty,
-				String.Empty,
-					this,
-					ChartElementType.Annotation);
-			}
-
-			// Paint selection handles
-			PaintSelectionHandles(graphics, selectionRect, null);
+			graphics.DrawPathAbs(
+				arrowPathAbs,
+				(BackColor.IsEmpty) ? Color.White : BackColor,
+				BackHatchStyle,
+				string.Empty,
+				ChartImageWrapMode.Scaled,
+				Color.Empty,
+				ChartImageAlignmentStyle.Center,
+				BackGradientStyle,
+				BackSecondaryColor,
+				LineColor,
+				LineWidth,
+				LineDashStyle,
+				PenAlignment.Center,
+				ShadowOffset,
+				ShadowColor);
 		}
+
+		// Process hot region
+		if (Common.ProcessModeRegions)
+		{
+			// Use callout defined hot region
+			Common.HotRegionsList.AddHotRegion(
+				graphics,
+				arrowPathAbs,
+				false,
+				ReplaceKeywords(ToolTip),
+			string.Empty,
+			string.Empty,
+			string.Empty,
+				this,
+				ChartElementType.Annotation);
+		}
+
+		// Paint selection handles
+		PaintSelectionHandles(graphics, selectionRect, null);
 	}
 
 	/// <summary>
@@ -341,7 +339,7 @@ public class ArrowAnnotation : Annotation
 		// Get absolute position
 		RectangleF positionAbs = graphics.GetAbsoluteRectangle(position);
 		PointF firstPoint = positionAbs.Location;
-		PointF secondPoint = new PointF(positionAbs.Right, positionAbs.Bottom);
+		PointF secondPoint = new(positionAbs.Right, positionAbs.Bottom);
 
 		// Calculate arrow length
 		float deltaX = secondPoint.X - firstPoint.X;
@@ -350,47 +348,48 @@ public class ArrowAnnotation : Annotation
 
 		// Create unrotated graphics path for the arrow started at the annotation location
 		// and going to the right for the length of the rotated arrow.
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 
-		PointF[] points = null;
 		float pointerRatio = 2.1f;
-		if (this.ArrowStyle == ArrowStyle.Simple)
+
+		PointF[] points;
+		if (ArrowStyle == ArrowStyle.Simple)
 		{
-			points = new PointF[] {
+			points = [
 									  firstPoint,
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-									  new PointF(firstPoint.X + arrowLength, firstPoint.Y - this.ArrowSize),
-									  new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y - ArrowSize*pointerRatio),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y - ArrowSize),
+									  new(firstPoint.X + arrowLength, firstPoint.Y - ArrowSize),
+									  new(firstPoint.X + arrowLength, firstPoint.Y + ArrowSize),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y + ArrowSize),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y + ArrowSize*pointerRatio) ];
 		}
-		else if (this.ArrowStyle == ArrowStyle.DoubleArrow)
+		else if (ArrowStyle == ArrowStyle.DoubleArrow)
 		{
-			points = new PointF[] {
+			points = [
 									  firstPoint,
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-									  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-									  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-									  new PointF(firstPoint.X + arrowLength, firstPoint.Y),
-									  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio),
-									  new PointF(firstPoint.X + arrowLength - this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y - ArrowSize*pointerRatio),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y - ArrowSize),
+									  new(firstPoint.X + arrowLength - ArrowSize*pointerRatio, firstPoint.Y - ArrowSize),
+									  new(firstPoint.X + arrowLength - ArrowSize*pointerRatio, firstPoint.Y - ArrowSize*pointerRatio),
+									  new(firstPoint.X + arrowLength, firstPoint.Y),
+									  new(firstPoint.X + arrowLength - ArrowSize*pointerRatio, firstPoint.Y + ArrowSize*pointerRatio),
+									  new(firstPoint.X + arrowLength - ArrowSize*pointerRatio, firstPoint.Y + ArrowSize),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y + ArrowSize),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y + ArrowSize*pointerRatio) ];
 		}
-		else if (this.ArrowStyle == ArrowStyle.Tailed)
+		else if (ArrowStyle == ArrowStyle.Tailed)
 		{
 			float tailRatio = 2.1f;
-			points = new PointF[] {
+			points = [
 									  firstPoint,
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize*pointerRatio),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y - this.ArrowSize),
-									  new PointF(firstPoint.X + arrowLength, firstPoint.Y - this.ArrowSize*tailRatio),
-									  new PointF(firstPoint.X + arrowLength - this.ArrowSize*tailRatio, firstPoint.Y),
-									  new PointF(firstPoint.X + arrowLength, firstPoint.Y + this.ArrowSize*tailRatio),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize),
-									  new PointF(firstPoint.X + this.ArrowSize*pointerRatio, firstPoint.Y + this.ArrowSize*pointerRatio) };
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y - ArrowSize*pointerRatio),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y - ArrowSize),
+									  new(firstPoint.X + arrowLength, firstPoint.Y - ArrowSize*tailRatio),
+									  new(firstPoint.X + arrowLength - ArrowSize*tailRatio, firstPoint.Y),
+									  new(firstPoint.X + arrowLength, firstPoint.Y + ArrowSize*tailRatio),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y + ArrowSize),
+									  new(firstPoint.X + ArrowSize*pointerRatio, firstPoint.Y + ArrowSize*pointerRatio) ];
 		}
 		else
 		{
@@ -408,7 +407,7 @@ public class ArrowAnnotation : Annotation
 		}
 
 		// Rotate arrow path around the first point
-		using (Matrix matrix = new Matrix())
+		using (Matrix matrix = new())
 		{
 			matrix.RotateAt(angle, firstPoint);
 			path.Transform(matrix);

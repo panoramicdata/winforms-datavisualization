@@ -57,7 +57,7 @@ internal class StatisticalAnalysis : IFormula
 
 		outLabels = null;
 
-		name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+		name = formulaName.ToUpper(Globalization.CultureInfo.InvariantCulture);
 
 		try
 		{
@@ -150,23 +150,27 @@ internal class StatisticalAnalysis : IFormula
 	{
 		// There is no enough input series
 		if (inputValues.Length < 3)
+		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesNotEnoughInputSeries);
+		}
 
 		outLabels = null;
 
 		for (int index = 0; index < inputValues.Length - 1; index++)
 		{
 			if (inputValues[index].Length != inputValues[index + 1].Length)
+			{
 				throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAnovaTest);
+			}
 		}
 
 		// Alpha value
 		double alpha;
 		try
 		{
-			alpha = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			alpha = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
 		}
@@ -327,9 +331,10 @@ internal class StatisticalAnalysis : IFormula
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -375,9 +380,10 @@ internal class StatisticalAnalysis : IFormula
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -419,7 +425,9 @@ internal class StatisticalAnalysis : IFormula
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		outLabels = null;
 
@@ -431,9 +439,9 @@ internal class StatisticalAnalysis : IFormula
 		// Alpha value
 		try
 		{
-			alpha = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			alpha = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
 		}
@@ -554,7 +562,9 @@ internal class StatisticalAnalysis : IFormula
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		// The number of data points has to be > 1.
 		CheckNumOfPoints(inputValues);
@@ -569,9 +579,9 @@ internal class StatisticalAnalysis : IFormula
 		// Find Hypothesized Mean Difference parameter
 		try
 		{
-			HypothesizedMeanDifference = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			HypothesizedMeanDifference = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMeanDifference);
 		}
@@ -584,9 +594,9 @@ internal class StatisticalAnalysis : IFormula
 		// Find variance of the first group
 		try
 		{
-			variance1 = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			variance1 = double.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariance);
 		}
@@ -594,9 +604,9 @@ internal class StatisticalAnalysis : IFormula
 		// Find variance of the second group
 		try
 		{
-			variance2 = double.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+			variance2 = double.Parse(parameterList[2], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariance);
 		}
@@ -604,9 +614,9 @@ internal class StatisticalAnalysis : IFormula
 		// Alpha value
 		try
 		{
-			alpha = double.Parse(parameterList[3], System.Globalization.CultureInfo.InvariantCulture);
+			alpha = double.Parse(parameterList[3], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
 		}
@@ -712,7 +722,9 @@ internal class StatisticalAnalysis : IFormula
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		outLabels = null;
 
@@ -724,9 +736,9 @@ internal class StatisticalAnalysis : IFormula
 		// Find Hypothesized Mean Difference parameter
 		try
 		{
-			HypothesizedMeanDifference = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			HypothesizedMeanDifference = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMeanDifference);
 		}
@@ -739,9 +751,9 @@ internal class StatisticalAnalysis : IFormula
 		// Alpha value
 		try
 		{
-			alpha = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			alpha = double.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
 		}
@@ -885,10 +897,14 @@ internal class StatisticalAnalysis : IFormula
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		if (inputValues[1].Length != inputValues[2].Length)
+		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariableRanges);
+		}
 
 		outLabels = null;
 
@@ -900,9 +916,9 @@ internal class StatisticalAnalysis : IFormula
 		// Find Hypothesized Mean Difference parameter
 		try
 		{
-			HypothesizedMeanDifference = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			HypothesizedMeanDifference = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidMeanDifference);
 		}
@@ -915,9 +931,9 @@ internal class StatisticalAnalysis : IFormula
 		// Alpha value
 		try
 		{
-			alpha = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			alpha = double.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
 		}
@@ -1027,9 +1043,9 @@ internal class StatisticalAnalysis : IFormula
 		double tValue;
 		try
 		{
-			tValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			tValue = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidTValue);
 		}
@@ -1038,9 +1054,9 @@ internal class StatisticalAnalysis : IFormula
 		int freedom;
 		try
 		{
-			freedom = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			freedom = int.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
@@ -1049,15 +1065,14 @@ internal class StatisticalAnalysis : IFormula
 		int oneTailed;
 		try
 		{
-			oneTailed = int.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+			oneTailed = int.Parse(parameterList[2], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidTailedParameter);
 		}
 
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1097,9 +1112,9 @@ internal class StatisticalAnalysis : IFormula
 		double fValue;
 		try
 		{
-			fValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			fValue = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidTValue);
 		}
@@ -1108,9 +1123,9 @@ internal class StatisticalAnalysis : IFormula
 		int freedom1;
 		try
 		{
-			freedom1 = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			freedom1 = int.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
@@ -1119,14 +1134,13 @@ internal class StatisticalAnalysis : IFormula
 		int freedom2;
 		try
 		{
-			freedom2 = int.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+			freedom2 = int.Parse(parameterList[2], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1158,14 +1172,13 @@ internal class StatisticalAnalysis : IFormula
 		double zValue;
 		try
 		{
-			zValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			zValue = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidZValue);
 		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1184,7 +1197,7 @@ internal class StatisticalAnalysis : IFormula
 
 		outLabels[0][0] = SR.LabelStatisticalProbability;
 		outputValues[0][0] = 1;
-		outputValues[1][0] = this.NormalDistribution(zValue);
+		outputValues[1][0] = NormalDistribution(zValue);
 	}
 
 	/// <summary>
@@ -1201,9 +1214,9 @@ internal class StatisticalAnalysis : IFormula
 		double probability;
 		try
 		{
-			probability = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			probability = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
 		}
@@ -1212,14 +1225,13 @@ internal class StatisticalAnalysis : IFormula
 		int freedom;
 		try
 		{
-			freedom = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			freedom = int.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1260,9 +1272,9 @@ internal class StatisticalAnalysis : IFormula
 		double probability;
 		try
 		{
-			probability = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			probability = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
 		}
@@ -1271,9 +1283,9 @@ internal class StatisticalAnalysis : IFormula
 		int freedom1;
 		try
 		{
-			freedom1 = int.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			freedom1 = int.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
@@ -1282,14 +1294,13 @@ internal class StatisticalAnalysis : IFormula
 		int freedom2;
 		try
 		{
-			freedom2 = int.Parse(parameterList[2], System.Globalization.CultureInfo.InvariantCulture);
+			freedom2 = int.Parse(parameterList[2], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1326,14 +1337,13 @@ internal class StatisticalAnalysis : IFormula
 		double alpha;
 		try
 		{
-			alpha = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			alpha = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidAlphaValue);
 		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1352,7 +1362,7 @@ internal class StatisticalAnalysis : IFormula
 
 		outLabels[0][0] = SR.LabelStatisticalProbability;
 		outputValues[0][0] = 1;
-		outputValues[1][0] = this.NormalDistributionInverse(alpha);
+		outputValues[1][0] = NormalDistributionInverse(alpha);
 	}
 
 	#endregion
@@ -1426,7 +1436,7 @@ internal class StatisticalAnalysis : IFormula
 		double y;
 		double tmp;
 		double sum;
-		double[] cof = { 76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5 };
+		double[] cof = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
 
 		if (n < 0)
 		{
@@ -1479,7 +1489,10 @@ internal class StatisticalAnalysis : IFormula
 		c = 1.0;
 		d = 1.0 - qab * x / qap;
 		if (Math.Abs(d) < FPMIN)
+		{
 			d = FPMIN;
+		}
+
 		d = 1.0 / d;
 		h = d;
 
@@ -1492,12 +1505,16 @@ internal class StatisticalAnalysis : IFormula
 			// Find d coeficient
 			d = 1.0 + aa * d;
 			if (Math.Abs(d) < FPMIN)
+			{
 				d = FPMIN;
+			}
 
 			// Find c coeficient
 			c = 1.0 + aa / c;
 			if (Math.Abs(c) < FPMIN)
+			{
 				c = FPMIN;
+			}
 
 			// Find d coeficient
 			d = 1.0 / d;
@@ -1510,12 +1527,16 @@ internal class StatisticalAnalysis : IFormula
 			// Recalc d coeficient
 			d = 1.0 + aa * d;
 			if (Math.Abs(d) < FPMIN)
+			{
 				d = FPMIN;
+			}
 
 			// Recalc c coeficient
 			c = 1.0 + aa / c;
 			if (Math.Abs(c) < FPMIN)
+			{
 				c = FPMIN;
+			}
 
 			// Recalc d coeficient
 			d = 1.0 / d;
@@ -1559,7 +1580,10 @@ internal class StatisticalAnalysis : IFormula
 	{
 		double bt;
 		if (x < 0.0 || x > 1.0)
+		{
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidInputParameter);
+		}
+
 		if (x == 0.0 || x == 1.0)
 		{
 			bt = 0.0;
@@ -1597,7 +1621,9 @@ internal class StatisticalAnalysis : IFormula
 
 		// Invalid number of data series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidSeriesNumber);
+		}
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1636,7 +1662,7 @@ internal class StatisticalAnalysis : IFormula
 		{
 			sampleVariance = bool.Parse(parameterList[0]);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidVariance);
 		}
@@ -1645,9 +1671,10 @@ internal class StatisticalAnalysis : IFormula
 
 		// Invalid number of data series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidSeriesNumber);
+		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1683,7 +1710,9 @@ internal class StatisticalAnalysis : IFormula
 
 		// Invalid number of data series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidSeriesNumber);
+		}
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1718,9 +1747,9 @@ internal class StatisticalAnalysis : IFormula
 		double m;
 		try
 		{
-			m = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			m = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
@@ -1729,14 +1758,13 @@ internal class StatisticalAnalysis : IFormula
 		double n;
 		try
 		{
-			n = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture);
+			n = double.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
 		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1771,9 +1799,9 @@ internal class StatisticalAnalysis : IFormula
 		double m;
 		try
 		{
-			m = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture);
+			m = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture);
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw new ArgumentException(SR.ExceptionStatisticalAnalysesInvalidInputParameter);
 		}
@@ -1783,7 +1811,6 @@ internal class StatisticalAnalysis : IFormula
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesGammaBetaNegativeParameters);
 		}
 
-		outLabels = null;
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -1947,9 +1974,13 @@ internal class StatisticalAnalysis : IFormula
 		double result = 1 - BetaIncomplete(n / 2.0, 0.5, n / (n + tValue * tValue));
 
 		if (oneTailed)
+		{
 			return (1.0 - result) / 2.0;
+		}
 		else
+		{
 			return 1.0 - result;
+		}
 	}
 
 	/// <summary>
@@ -1963,7 +1994,7 @@ internal class StatisticalAnalysis : IFormula
 	private double NormalDistribution(double zValue)
 	{
 
-		double[] a = { 0.31938153, -0.356563782, 1.781477937, -1.821255978, 1.330274429 };
+		double[] a = [0.31938153, -0.356563782, 1.781477937, -1.821255978, 1.330274429];
 		double result;
 		if (zValue < -7.0)
 		{
@@ -1979,7 +2010,9 @@ internal class StatisticalAnalysis : IFormula
 			result = 1.0 / (1 + result * Math.Abs(zValue));
 			result = 1 - NormalDistributionFunction(zValue) * (result * (a[0] + result * (a[1] + result * (a[2] + result * (a[3] + result * a[4])))));
 			if (zValue <= 0.0)
+			{
 				result = 1.0 - result;
+			}
 		}
 
 		return result;
@@ -1988,15 +2021,29 @@ internal class StatisticalAnalysis : IFormula
 	private double FDistribution(double x, int freedom1, int freedom2)
 	{
 		if (x < 0)
+		{
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidTValue);
+		}
+
 		if (freedom1 <= 0)
+		{
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
+		}
+
 		if (freedom2 <= 0)
+		{
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidDegreeOfFreedom);
+		}
+
 		if (x == 0)
+		{
 			return 1;
+		}
+
 		if (x == double.PositiveInfinity)
+		{
 			return 0;
+		}
 
 		return BetaIncomplete(freedom2 / 2.0, freedom1 / 2.0, freedom2 / (freedom2 + freedom1 * x));
 	}
@@ -2016,11 +2063,17 @@ internal class StatisticalAnalysis : IFormula
 	{
 		//Fix for boundary cases
 		if (probability == 0)
+		{
 			return double.PositiveInfinity;
+		}
 		else if (probability == 1)
+		{
 			return 0;
+		}
 		else if (probability < 0 || probability > 1)
+		{
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
+		}
 
 		int step = 0;
 		return StudentsDistributionSearch(probability, n, step, 0.0, 100000.0);
@@ -2076,9 +2129,9 @@ internal class StatisticalAnalysis : IFormula
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesNormalInvalidProbabilityValue);
 		}
 
-		double[] a = { 2.50662823884, -18.61500062529, 41.39119773534, -25.44106049637 };
-		double[] b = { -8.47351093090, 23.08336743743, -21.06224101826, 3.13082909833 };
-		double[] c = { 0.3374754822726147, 0.9761690190917186, 0.1607979714918209, 0.0276438810333863, 0.0038405729373609, 0.0003951896511919, 0.0000321767881768, 0.0000002888167364, 0.0000003960315187 };
+		double[] a = [2.50662823884, -18.61500062529, 41.39119773534, -25.44106049637];
+		double[] b = [-8.47351093090, 23.08336743743, -21.06224101826, 3.13082909833];
+		double[] c = [0.3374754822726147, 0.9761690190917186, 0.1607979714918209, 0.0276438810333863, 0.0038405729373609, 0.0003951896511919, 0.0000321767881768, 0.0000002888167364, 0.0000003960315187];
 
 		double x, r;
 
@@ -2121,11 +2174,17 @@ internal class StatisticalAnalysis : IFormula
 	{
 		//Fix for boundary cases
 		if (probability == 0)
+		{
 			return double.PositiveInfinity;
+		}
 		else if (probability == 1)
+		{
 			return 0;
+		}
 		else if (probability < 0 || probability > 1)
+		{
 			throw new ArgumentOutOfRangeException(SR.ExceptionStatisticalAnalysesInvalidProbabilityValue);
+		}
 
 		int step = 0;
 		return FDistributionSearch(probability, m, n, step, 0.0, 10000.0);

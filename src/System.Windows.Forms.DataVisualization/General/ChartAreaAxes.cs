@@ -38,10 +38,9 @@ public partial class ChartArea
 	internal Axis axisY2 = null;
 
 	// Array of series which belong to this chart area
-	private List<string> _series = new List<string>();
 
 	// Array of chart types which belong to this chart area
-	internal ArrayList chartTypes = new ArrayList();
+	internal ArrayList chartTypes = [];
 
 	/// <summary>
 	/// List of series names that last interval numbers where cashed for
@@ -112,13 +111,7 @@ public partial class ChartArea
 	/// <summary>
 	/// Data series which belongs to this chart area.
 	/// </summary>
-	internal List<string> Series
-	{
-		get
-		{
-			return _series;
-		}
-	}
+	internal List<string> Series { get; } = [];
 
 	/// <summary>
 	/// Chart types which belongs to this chart area.
@@ -212,7 +205,7 @@ public partial class ChartArea
 		// Primary X Axes
 		// ***********************
 		// Find the  number  of series which belong to this axis
-		if (this.chartAreaIsCurcular)
+		if (chartAreaIsCurcular)
 		{
 			// Set axis Maximum/Minimum and Interval for circular chart
 			axisX.SetAutoMaximum(360.0);
@@ -310,13 +303,13 @@ public partial class ChartArea
 
 		// Enable axes, which are
 		// used in data series.
-		this.EnableAxes();
+		EnableAxes();
 
 
 
 
 		// Get scale break segments
-		Axis[] axesYArray = new Axis[] { axisY, axisY2 };
+		Axis[] axesYArray = [axisY, axisY2];
 		foreach (Axis currentAxis in axesYArray)
 		{
 			// Get automatic scale break segments
@@ -345,7 +338,7 @@ public partial class ChartArea
 		bool useScaleSegments = false;
 
 		// Fill Labels
-		Axis[] axesArray = new Axis[] { axisX, axisX2, axisY, axisY2 };
+		Axis[] axesArray = [axisX, axisX2, axisY, axisY2];
 		foreach (Axis currentAxis in axesArray)
 		{
 
@@ -466,7 +459,7 @@ public partial class ChartArea
 	/// </summary>
 	private void EnableAxes()
 	{
-		if (_series == null)
+		if (Series == null)
 		{
 			return;
 		}
@@ -477,7 +470,7 @@ public partial class ChartArea
 		bool activeY2 = false;
 
 		// Data series from this chart area
-		foreach (string ser in _series)
+		foreach (string ser in Series)
 		{
 			Series dataSeries = Common.DataManager.Series[ser];
 
@@ -488,7 +481,7 @@ public partial class ChartArea
 #if SUBAXES
 				this.Activate( axisX, true, dataSeries.XSubAxisName );
 #else
-				this.Activate(axisX, true);
+				Activate(axisX, true);
 #endif // SUBAXES
 
 			}
@@ -498,7 +491,7 @@ public partial class ChartArea
 #if SUBAXES
 				this.Activate( axisX2, true, dataSeries.XSubAxisName );
 #else
-				this.Activate(axisX2, true);
+				Activate(axisX2, true);
 #endif // SUBAXES
 			}
 			// Y axes
@@ -508,7 +501,7 @@ public partial class ChartArea
 #if SUBAXES
 				this.Activate( axisY, true, dataSeries.YSubAxisName );
 #else
-				this.Activate(axisY, true);
+				Activate(axisY, true);
 #endif // SUBAXES
 			}
 			else
@@ -517,7 +510,7 @@ public partial class ChartArea
 #if SUBAXES
 				this.Activate( axisY2, true, dataSeries.YSubAxisName );
 #else
-				this.Activate(axisY2, true);
+				Activate(axisY2, true);
 #endif // SUBAXES
 			}
 		}
@@ -535,13 +528,24 @@ public partial class ChartArea
 #else // SUBAXES
 		// Enable Axes
 		if (!activeX)
-			this.Activate(axisX, false);
+		{
+			Activate(axisX, false);
+		}
+
 		if (!activeY)
-			this.Activate(axisY, false);
+		{
+			Activate(axisY, false);
+		}
+
 		if (!activeX2)
-			this.Activate(axisX2, false);
+		{
+			Activate(axisX2, false);
+		}
+
 		if (!activeY2)
-			this.Activate(axisY2, false);
+		{
+			Activate(axisY2, false);
+		}
 #endif // SUBAXES
 	}
 
@@ -597,7 +601,7 @@ public partial class ChartArea
 	bool AllEmptyPoints()
 	{
 		// Data series from this chart area
-		foreach (string seriesName in this._series)
+		foreach (string seriesName in Series)
 		{
 			Series dataSeries = Common.DataManager.Series[seriesName];
 
@@ -635,8 +639,8 @@ public partial class ChartArea
 
 
 		// Used for scrolling with logarithmic axes.
-		if (!Double.IsNaN(axis.ScaleView.Position) &&
-			!Double.IsNaN(axis.ScaleView.Size) &&
+		if (!double.IsNaN(axis.ScaleView.Position) &&
+			!double.IsNaN(axis.ScaleView.Size) &&
 			!axis.refreshMinMaxFromData &&
 			axis.IsLogarithmic)
 		{
@@ -646,7 +650,7 @@ public partial class ChartArea
 		// Get minimum and maximum from data source
 		double autoMaximum;
 		double autoMinimum;
-		this.GetValuesFromData(axis, out autoMinimum, out autoMaximum);
+		GetValuesFromData(axis, out autoMinimum, out autoMaximum);
 
 		// ***************************************************
 		// This part of code is used to add a margin to the 
@@ -658,10 +662,10 @@ public partial class ChartArea
 		// The minimum and maximum values from data manager don’t exist.
 
 		if (axis.enabled &&
-			((axis.AutoMaximum || double.IsNaN(axis.Maximum)) && (autoMaximum == Double.MaxValue || autoMaximum == Double.MinValue)) ||
-			((axis.AutoMinimum || double.IsNaN(axis.Minimum)) && (autoMinimum == Double.MaxValue || autoMinimum == Double.MinValue)))
+			((axis.AutoMaximum || double.IsNaN(axis.Maximum)) && (autoMaximum == double.MaxValue || autoMaximum == double.MinValue)) ||
+			((axis.AutoMinimum || double.IsNaN(axis.Minimum)) && (autoMinimum == double.MaxValue || autoMinimum == double.MinValue)))
 		{
-			if (this.AllEmptyPoints())
+			if (AllEmptyPoints())
 			{
 				// Supress exception and use predefined min & max
 				autoMaximum = 8.0;
@@ -669,7 +673,7 @@ public partial class ChartArea
 			}
 			else
 			{
-				if (!this.Common.ChartPicture.SuppressExceptions)
+				if (!Common.ChartPicture.SuppressExceptions)
 				{
 					throw (new InvalidOperationException(SR.ExceptionAxisMinimumMaximumInvalid));
 				}
@@ -680,7 +684,7 @@ public partial class ChartArea
 		axis.marginView = 0.0;
 		if (axis.margin == 100 && (axis.axisType == AxisName.X || axis.axisType == AxisName.X2))
 		{
-			axis.marginView = this.GetPointsInterval(false, 10);
+			axis.marginView = GetPointsInterval(false, 10);
 		}
 
 		// If minimum and maximum are same margin always exist.
@@ -748,7 +752,7 @@ public partial class ChartArea
 					// If start From Zero property is true 0 is always on the axis.
 					// NOTE: Not applicable if date-time values are drawn. Fixes issue #5644
 					else if (axis.isStartedFromZero &&
-						!this.SeriesDateTimeType(axis.axisType, axis.SubAxisName))
+						!SeriesDateTimeType(axis.axisType, axis.SubAxisName))
 					{
 						axis.SetAutoMinimum(0.0);
 					}
@@ -789,7 +793,7 @@ public partial class ChartArea
 		}
 
 		// Check if Minimum == Maximum
-		if (this.Common.ChartPicture.SuppressExceptions &&
+		if (Common.ChartPicture.SuppressExceptions &&
 			axis.maximum == axis.minimum)
 		{
 			axis.minimum = axis.maximum;
@@ -804,11 +808,11 @@ public partial class ChartArea
 	/// <param name="axisName">Name of the axis</param>
 	/// <param name="subAxisName">Sub axis name.</param>
 	/// <returns>True if all series are integer</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
 	internal bool SeriesIntegerType(AxisName axisName, string subAxisName)
 	{
 		// Series which belong to this chart area
-		foreach (string seriesName in this._series)
+		foreach (string seriesName in Series)
 		{
 			Series ser = Common.DataManager.Series[seriesName];
 			// X axes type
@@ -913,11 +917,11 @@ public partial class ChartArea
 	/// <param name="axisName">Name of the axis</param>
 	/// <param name="subAxisName">Sub axis name.</param>
 	/// <returns>True if all series are date-time.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
 	internal bool SeriesDateTimeType(AxisName axisName, string subAxisName)
 	{
 		// Series which belong to this chart area
-		foreach (string seriesName in this._series)
+		foreach (string seriesName in Series)
 		{
 			Series ser = Common.DataManager.Series[seriesName];
 			// X axes type
@@ -1021,7 +1025,7 @@ public partial class ChartArea
 	private void GetValuesFromData(Axis axis, out double autoMinimum, out double autoMaximum)
 	{
 		// Get number of points in series
-		int currentPointsNumber = this.GetNumberOfAllPoints();
+		int currentPointsNumber = GetNumberOfAllPoints();
 
 		if (!axis.refreshMinMaxFromData &&
 			!double.IsNaN(axis.minimumFromData) &&
@@ -1055,7 +1059,7 @@ public partial class ChartArea
 				{
 					Common.DataManager.GetMinMaxXValue(out autoMinimum, out autoMaximum, xAxesSeries);
 				}
-				catch (System.Exception)
+				catch (Exception)
 				{
 					throw (new InvalidOperationException(SR.ExceptionAxisStackedChartsDataPointsNumberMismatch));
 				}
@@ -1105,7 +1109,7 @@ public partial class ChartArea
 						double stackMinArea = double.MaxValue;
 
 						// Split series by group names
-						ArrayList stackedGroups = this.SplitSeriesInStackedGroups(yAxesSeries);
+						ArrayList stackedGroups = SplitSeriesInStackedGroups(yAxesSeries);
 						foreach (string[] groupSeriesNames in stackedGroups)
 						{
 							// For stacked bar and column
@@ -1129,9 +1133,11 @@ public partial class ChartArea
 					}
 					// IsLogarithmic axis
 					if (axis.IsLogarithmic && autoMinimum < 1.0)
+					{
 						autoMinimum = 1.0;
+					}
 				}
-				catch (System.Exception)
+				catch (Exception)
 				{
 					throw (new InvalidOperationException(SR.ExceptionAxisStackedChartsDataPointsNumberMismatch));
 				}
@@ -1150,9 +1156,9 @@ public partial class ChartArea
 			{
 				// Check if any series in the area has ExtraYValuesConnectedToYAxis flag set
 				bool extraYValuesConnectedToYAxis = false;
-				if (this.Common != null && this.Common.Chart != null)
+				if (Common != null && Common.Chart != null)
 				{
-					foreach (Series series in this.Common.Chart.Series)
+					foreach (Series series in Common.Chart.Series)
 					{
 						if (series.ChartArea == ((ChartArea)this).Name)
 						{
@@ -1200,11 +1206,11 @@ public partial class ChartArea
 	/// <returns>An array list that contains sub-arrays of series names split by group name.</returns>
 	private ArrayList SplitSeriesInStackedGroups(string[] seriesNames)
 	{
-		Hashtable groupsHashTable = new Hashtable();
+		Hashtable groupsHashTable = [];
 		foreach (string seriesName in seriesNames)
 		{
 			// Get series object
-			Series series = this.Common.Chart.Series[seriesName];
+			Series series = Common.Chart.Series[seriesName];
 
 			// NOTE: Fix for issue #6716
 			// Double check that series supports stacked group feature
@@ -1223,21 +1229,20 @@ public partial class ChartArea
 			}
 			else
 			{
-				ArrayList list = new ArrayList();
-				list.Add(seriesName);
+				ArrayList list = [seriesName];
 				groupsHashTable.Add(groupName, list);
 			}
 		}
 
 		// Convert results to a list that contains array of strings
-		ArrayList result = new ArrayList();
+		ArrayList result = [];
 		foreach (DictionaryEntry entry in groupsHashTable)
 		{
 			ArrayList list = (ArrayList)entry.Value;
 			if (list.Count > 0)
 			{
 				int index = 0;
-				string[] stringArray = new String[list.Count];
+				string[] stringArray = new string[list.Count];
 				foreach (string str in list)
 				{
 					stringArray[index++] = str;
@@ -1292,7 +1297,9 @@ public partial class ChartArea
 		// Axis margin used only for zooming
 		axis.marginView = 0.0;
 		if (axis.margin == 100)
+		{
 			axis.marginView = 1.0;
+		}
 
 		// If minimum and maximum are same margin always exist.
 		if (autoMaximum + axis.margin / 100 == autoMinimum - axis.margin / 100 + 1)
@@ -1356,7 +1363,7 @@ public partial class ChartArea
 	/// </summary>
 	internal void SetData()
 	{
-		this.SetData(true, true);
+		SetData(true, true);
 	}
 
 	/// <summary>
@@ -1381,26 +1388,26 @@ public partial class ChartArea
 		bool typeSet = false;
 
 		// Remove all elements from the collection
-		this._series.Clear();
+		Series.Clear();
 
 		// Add series to the collection
 		foreach (Series series in Common.DataManager.Series)
 		{
-			if (series.ChartArea == this.Name && series.IsVisible() && series.Points.Count > 0)
+			if (series.ChartArea == Name && series.IsVisible() && series.Points.Count > 0)
 			{
-				this._series.Add(series.Name);
+				Series.Add(series.Name);
 			}
 		}
 
 		// Remove all elements from the collection
-		this.chartTypes.Clear();
+		chartTypes.Clear();
 
 		// Add series to the collection
 		foreach (Series series in Common.DataManager.Series)
 		{
 			// A item already exist.
 			bool foundItem = false;
-			if (series.IsVisible() && series.ChartArea == this.Name)
+			if (series.IsVisible() && series.ChartArea == Name)
 			{
 				foreach (string type in chartTypes)
 				{
@@ -1423,17 +1430,34 @@ public partial class ChartArea
 					if (!typeSet)
 					{
 						if (Common.ChartTypeRegistry.GetChartType(series.ChartTypeName).SwitchValueAxes)
+						{
 							switchValueAxes = true;
+						}
+
 						if (!Common.ChartTypeRegistry.GetChartType(series.ChartTypeName).RequireAxes)
+						{
 							requireAxes = false;
+						}
+
 						if (Common.ChartTypeRegistry.GetChartType(series.ChartTypeName).CircularChartArea)
+						{
 							chartAreaIsCurcular = true;
+						}
+
 						if (Common.ChartTypeRegistry.GetChartType(series.ChartTypeName).HundredPercent)
+						{
 							hundredPercent = true;
+						}
+
 						if (Common.ChartTypeRegistry.GetChartType(series.ChartTypeName).HundredPercentSupportNegative)
+						{
 							hundredPercentNegative = true;
+						}
+
 						if (Common.ChartTypeRegistry.GetChartType(series.ChartTypeName).SecondYScale)
+						{
 							secondYScale = true;
+						}
 
 						typeSet = true;
 					}
@@ -1448,7 +1472,7 @@ public partial class ChartArea
 					// Series is not empty
 					if (Common.DataManager.GetNumberOfPoints(series.Name) != 0)
 					{
-						this.chartTypes.Add(series.ChartTypeName);
+						chartTypes.Add(series.ChartTypeName);
 					}
 				}
 			}
@@ -1459,7 +1483,7 @@ public partial class ChartArea
 		{
 			for (int axisIndex = 0; axisIndex <= 1; axisIndex++)
 			{
-				List<string> seriesArray = this.GetXAxesSeries((axisIndex == 0) ? AxisType.Primary : AxisType.Secondary, string.Empty);
+				List<string> seriesArray = GetXAxesSeries((axisIndex == 0) ? AxisType.Primary : AxisType.Secondary, string.Empty);
 				if (seriesArray.Count > 0)
 				{
 					bool indexed = false;
@@ -1505,11 +1529,11 @@ public partial class ChartArea
 	internal List<string> GetSeriesFromChartType(string chartType)
 	{
 		// New collection
-		List<string> list = new List<string>();
+		List<string> list = [];
 
-		foreach (string seriesName in _series)
+		foreach (string seriesName in Series)
 		{
-			if (String.Compare(chartType, Common.DataManager.Series[seriesName].ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(chartType, Common.DataManager.Series[seriesName].ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				// Add a series name to the collection
 				list.Add(seriesName);
@@ -1526,9 +1550,9 @@ public partial class ChartArea
 	internal List<Series> GetSeries()
 	{
 		// New collection
-		List<Series> list = new List<Series>();
+		List<Series> list = [];
 
-		foreach (string seriesName in _series)
+		foreach (string seriesName in Series)
 		{
 			list.Add(Common.DataManager.Series[seriesName]);
 		}
@@ -1545,13 +1569,13 @@ public partial class ChartArea
 	internal List<string> GetXAxesSeries(AxisType type, string subAxisName)
 	{
 		// Create a new collection of series
-		List<string> list = new List<string>();
-		if (_series.Count == 0)
+		List<string> list = [];
+		if (Series.Count == 0)
 		{
 			return list;
 		}
 		// Ignore sub axis in 3D
-		if (!this.IsSubAxesSupported)
+		if (!IsSubAxesSupported)
 		{
 			if (subAxisName.Length > 0)
 			{
@@ -1560,7 +1584,7 @@ public partial class ChartArea
 		}
 
 		// Find series which have same axis type
-		foreach (string ser in _series)
+		foreach (string ser in Series)
 		{
 #if SUBAXES
 			if( Common.DataManager.Series[ser].XAxisType == type &&
@@ -1604,14 +1628,14 @@ public partial class ChartArea
 	/// <param name="type">Axis type</param>
 	/// <param name="subAxisName">Sub Axis name</param>
 	/// <returns>A list of series</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
 	internal List<string> GetYAxesSeries(AxisType type, string subAxisName)
 	{
 		// Create a new collection of series
-		List<string> list = new List<string>();
+		List<string> list = [];
 
 		// Find series which have same axis type
-		foreach (string ser in _series)
+		foreach (string ser in Series)
 		{
 			// Get series Y axis type
 			AxisType seriesYAxisType = Common.DataManager.Series[ser].YAxisType;
@@ -1668,12 +1692,12 @@ public partial class ChartArea
 	/// <returns>Data series</returns>
 	internal Series GetFirstSeries()
 	{
-		if (_series.Count == 0)
+		if (Series.Count == 0)
 		{
 			throw (new InvalidOperationException(SR.ExceptionChartAreaSeriesNotFound));
 		}
 
-		return Common.DataManager.Series[_series[0]];
+		return Common.DataManager.Series[Series[0]];
 	}
 
 	/// <summary>
@@ -1687,7 +1711,7 @@ public partial class ChartArea
 	internal double GetPointsInterval(bool isLogarithmic, double logarithmBase)
 	{
 		bool sameInterval;
-		return GetPointsInterval(_series, isLogarithmic, logarithmBase, false, out sameInterval);
+		return GetPointsInterval(Series, isLogarithmic, logarithmBase, false, out sameInterval);
 	}
 
 	/// <summary>
@@ -1702,7 +1726,7 @@ public partial class ChartArea
 	/// <returns>Minimum Interval</returns>
 	internal double GetPointsInterval(List<string> seriesList, bool isLogarithmic, double logarithmBase, bool checkSameInterval, out bool sameInterval)
 	{
-		Series nullSeries = null;
+		Series nullSeries;
 		return GetPointsInterval(seriesList, isLogarithmic, logarithmBase, checkSameInterval, out sameInterval, out nullSeries);
 	}
 
@@ -1722,7 +1746,7 @@ public partial class ChartArea
 		long ticksInterval = long.MaxValue;
 		int monthsInteval = 0;
 		double previousInterval = double.MinValue;
-		double oldInterval = Double.MaxValue;
+		double oldInterval = double.MaxValue;
 
 		// Initialize return value
 		sameInterval = true;
@@ -1771,7 +1795,7 @@ public partial class ChartArea
 			bool isXValueDateTime = dataSeries.IsXValueDateTime();
 
 			// Copy X values to array and prepare for sorting Sort X values.
-			seriesXValues[seriesIndex] = new ArrayList();
+			seriesXValues[seriesIndex] = [];
 			bool sortPoints = false;
 			double prevXValue = double.MinValue;
 			double curentXValue = 0.0;
@@ -1875,11 +1899,11 @@ public partial class ChartArea
 		}
 
 		// If interval is not the same check if points from all series are aligned
-		this.diffIntervalAlignmentChecked = false;
+		diffIntervalAlignmentChecked = false;
 		if (checkSameInterval && !sameInterval && seriesXValues.Length > 1)
 		{
 			bool sameXValue = false;
-			this.diffIntervalAlignmentChecked = true;
+			diffIntervalAlignmentChecked = true;
 
 			// All X values must be same
 			int listIndex = 0;
@@ -1914,7 +1938,7 @@ public partial class ChartArea
 
 
 		// Interval not found. Interval is 1.
-		if (oldInterval == Double.MaxValue)
+		if (oldInterval == double.MaxValue)
 		{
 			oldInterval = 1;
 		}

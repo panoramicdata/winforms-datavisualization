@@ -74,8 +74,8 @@ internal class PriceIndicators : IFormula
 		string[] parList = new string[1];
 		string[] extList = new string[1];
 
-		parList[0] = period.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		extList[0] = FromFirst.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		parList[0] = period.ToString(Globalization.CultureInfo.InvariantCulture);
+		extList[0] = FromFirst.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		tempInput[0] = new double[inputValues.Length];
 		tempInput[1] = inputValues;
@@ -120,32 +120,44 @@ internal class PriceIndicators : IFormula
 		// Period for moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Starting average from the first data point or after period.
 		bool startFromFirst = bool.Parse(extraParameterList[0]);
 
 		// There is no enough series
 		if (length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		if (inputValues[0].Length != inputValues[1].Length)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
+		}
 
 		// Not enough values for moving average.
 		if (inputValues[0].Length < period)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsNotEnoughPoints);
+		}
 
 		outputValues = new double[2][];
 
@@ -252,8 +264,8 @@ internal class PriceIndicators : IFormula
 		string[] parList = new string[1];
 		string[] extList = new string[1];
 
-		parList[0] = period.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		extList[0] = startFromFirst.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		parList[0] = period.ToString(Globalization.CultureInfo.InvariantCulture);
+		extList[0] = startFromFirst.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		tempInput[0] = new double[inputValues.Length];
 		tempInput[1] = inputValues;
@@ -295,17 +307,23 @@ internal class PriceIndicators : IFormula
 		// Period for moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Formula for converting period to percentage
 		double exponentialPercentage = 2.0 / (period + 1.0);
@@ -315,15 +333,21 @@ internal class PriceIndicators : IFormula
 
 		// There is no enough series
 		if (length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		if (inputValues[0].Length != inputValues[1].Length)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
+		}
 
 		// Not enough values for moving average.
 		if (inputValues[0].Length < period)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsNotEnoughPoints);
+		}
 
 		outputValues = new double[2][];
 
@@ -356,15 +380,21 @@ internal class PriceIndicators : IFormula
 
 				int realPeriod = period;
 				if (period > point + 1)
+				{
 					realPeriod = point + 1;
+				}
 
 				double movingAvr;
 
 				// Find real period if start from first data point.
 				if (realPeriod <= 1)
+				{
 					movingAvr = 0;
+				}
 				else
+				{
 					movingAvr = sum / (realPeriod - 1);
+				}
 
 				// Formula for converting period to percentage
 				exponentialPercentage = 2.0 / (realPeriod + 1.0);
@@ -402,7 +432,9 @@ internal class PriceIndicators : IFormula
 				}
 				// else use previos day exponential moving average
 				else
+				{
 					movingAvr = outputValues[1][point - 1];
+				}
 
 				// Exponential influence
 				outputValues[1][point] = movingAvr * (1 - exponentialPercentage) + inputValues[1][point + period - 1] * exponentialPercentage;
@@ -439,32 +471,44 @@ internal class PriceIndicators : IFormula
 		// Period for moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Starting average from the first data point or after period.
 		bool startFromFirst = bool.Parse(extraParameterList[0]);
 
 		// There is no enough series
 		if (length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		if (inputValues[0].Length != inputValues[1].Length)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
+		}
 
 		// Not enough values for moving average.
 		if (inputValues[0].Length < period)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsNotEnoughPoints);
+		}
 
 		outputValues = new double[2][];
 
@@ -486,11 +530,15 @@ internal class PriceIndicators : IFormula
 
 		// Set X values
 		if (startFromFirst)
+		{
 			outputValues[0] = inputValues[0];
+		}
 		else
 		{
 			for (int index = 0; index < outputValues[1].Length; index++)
+			{
 				outputValues[0][index] = inputValues[0][((int)(tempPeriod) - 1) * 2 + index];
+			}
 		}
 	}
 
@@ -522,32 +570,44 @@ internal class PriceIndicators : IFormula
 		// Period for moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Starting average from the first data point or after period.
 		bool startFromFirst = bool.Parse(extraParameterList[0]);
 
 		// There is no enough series
 		if (length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		if (inputValues[0].Length != inputValues[1].Length)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
+		}
 
 		// Not enough values for moving average.
 		if (inputValues[0].Length < period)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsNotEnoughPoints);
+		}
 
 		outputValues = new double[2][];
 
@@ -586,9 +646,13 @@ internal class PriceIndicators : IFormula
 
 				// Avoid division by zero.
 				if (point == 0)
+				{
 					movingAvr = inputValues[1][0];
+				}
 				else
+				{
 					movingAvr = sum / indexSum;
+				}
 
 				// Weighted average
 				outputValues[1][point] = movingAvr;
@@ -665,23 +729,29 @@ internal class PriceIndicators : IFormula
 		// Period for moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Standard deviation
 		double deviation;
 		try
-		{ deviation = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture); }
-		catch (System.Exception)
+		{ deviation = double.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture); }
+		catch (Exception)
 		{ throw new InvalidOperationException(SR.ExceptionIndicatorsDeviationMissing); }
 
 		// Starting average from the first data point or after period.
@@ -689,15 +759,21 @@ internal class PriceIndicators : IFormula
 
 		// There is no enough series
 		if (length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		if (inputValues[0].Length != inputValues[1].Length)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
+		}
 
 		// Not enough values for moving average.
 		if (inputValues[0].Length < period)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsNotEnoughPoints);
+		}
 
 		outputValues = new double[3][];
 
@@ -794,7 +870,9 @@ internal class PriceIndicators : IFormula
 
 		// There is no enough series
 		if (length != 4)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresThreeArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 3);
@@ -836,7 +914,9 @@ internal class PriceIndicators : IFormula
 
 		// There is no enough series
 		if (length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 2);
@@ -883,7 +963,9 @@ internal class PriceIndicators : IFormula
 
 		// There is no enough series
 		if (length != 4)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresThreeArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 3);
@@ -941,32 +1023,42 @@ internal class PriceIndicators : IFormula
 		// Period for moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Shift
 		double shift;
 		try
-		{ shift = double.Parse(parameterList[1], System.Globalization.CultureInfo.InvariantCulture); }
-		catch (System.Exception)
+		{ shift = double.Parse(parameterList[1], Globalization.CultureInfo.InvariantCulture); }
+		catch (Exception)
 		{ throw new InvalidOperationException(SR.ExceptionPriceIndicatorsShiftParameterMissing); }
 
 		// There is no enough series
 		if (length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		if (inputValues[0].Length != inputValues[1].Length)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
+		}
 
 		double[][] movingAverage;
 
@@ -1102,7 +1194,7 @@ internal class PriceIndicators : IFormula
 	{
 		string name;
 
-		name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+		name = formulaName.ToUpper(Globalization.CultureInfo.InvariantCulture);
 
 		// Not used for these formulas.
 		outLabels = null;

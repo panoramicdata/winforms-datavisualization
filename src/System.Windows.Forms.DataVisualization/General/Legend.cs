@@ -34,7 +34,7 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
-using Size = System.Drawing.Size;
+using Size = Size;
 
 #region Legend enumerations
 
@@ -192,33 +192,8 @@ public class Legend : ChartNamedElement
 	//** Private data members, which store properties values
 	//***********************************************************
 	private ElementPosition _position = null;
-	private bool _enabled = true;
-
-	private LegendStyle _legendStyle = LegendStyle.Table;
-
-	private LegendTableStyle _legendTableStyle = LegendTableStyle.Auto;
-	private LegendItemsCollection _customLegends = null;
-	private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
-	private string _backImage = "";
-	private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
-	private Color _backImageTransparentColor = Color.Empty;
-	private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
-	private GradientStyle _backGradientStyle = GradientStyle.None;
-	private Color _backSecondaryColor = Color.Empty;
-	private Color _borderColor = Color.Empty;
-	private Color _backColor = Color.Empty;
-	private int _borderWidth = 1;
-	private ChartDashStyle _borderDashStyle = ChartDashStyle.Solid;
-	private FontCache _fontCache = new FontCache();
+	private FontCache _fontCache = new();
 	private Font _font = null;
-	private Color _foreColor = Color.Black;
-	private StringAlignment _legendAlignment = StringAlignment.Near;
-	private Docking _legendDocking = Docking.Right;
-	private int _shadowOffset = 0;
-	private Color _shadowColor = Color.FromArgb(128, 0, 0, 0);
-	private bool _isTextAutoFit = true;
-	private string _dockedToChartArea = Constants.NotSetValue;
-	private bool _isDockedInsideChartArea = true;
 
 	//***********************************************************
 	//** Private data members
@@ -235,69 +210,51 @@ public class Legend : ChartNamedElement
 	internal Font autofitFont = null;
 
 	// Indicates that all items in the legend should be equally spaced
-	private bool _isEquallySpacedItems = false;
 
 
 	// Indicate that legend rows should be drawn with isInterlaced background color.
-	private bool _interlacedRows = false;
 
 	// Legend isInterlaced rows color
-	private Color _interlacedRowsColor = Color.Empty;
 
 	// Legend offsets
 	private Size _offset = Size.Empty;
 
 	// Adjustment point used for legend animation
-	private float _maximumLegendAutoSize = 50f;
 
 	// Text length after which the legend item text will be wrapped on the next whitespace.
-	private int _textWrapThreshold = 25;
 
 	// Value used to calculate auto-fit font size from the legend Font.
 	private int _autoFitFontSizeAdjustment = 0;
 
 	// Legend column collection
-	private LegendCellColumnCollection _cellColumns = null;
 
 	// Indicates that legend items automatically added based on the exsisting 
 	// series in reversed order.
-	private LegendItemOrder _legendItemOrder = LegendItemOrder.Auto;
 
 	// Legend title text
-	private string _title = String.Empty;
 
 	// Legend title color
-	private Color _titleForeColor = Color.Black;
 
 	// Legend title back color
-	private Color _titleBackColor = Color.Empty;
 
 	// Legend title font
 	private Font _titleFont = null;
 
 	// Legend title alignment
-	private StringAlignment _titleAlignment = StringAlignment.Center;
 
 	// Legend title visual separator
-	private LegendSeparatorStyle _titleSeparator = LegendSeparatorStyle.None;
 
 	// Legend title visual separator color
-	private Color _titleSeparatorColor = Color.Black;
 
 	// Legend header visual separator
-	private LegendSeparatorStyle _headerSeparator = LegendSeparatorStyle.None;
 
 	// Legend header visual separator color
-	private Color _headerSeparatorColor = Color.Black;
 
 	// Legend table columns visual separator
-	private LegendSeparatorStyle _itemColumnSeparator = LegendSeparatorStyle.None;
 
 	// Legend table columns visual separator color
-	private Color _itemColumnSeparatorColor = Color.Black;
 
 	// Legend table column spacing calculated as a percentage of the font
-	private int _itemColumnSpacing = 50;
 
 	// Legend table column spacing calculated in relative coordinates
 	private int _itemColumnSpacingRel = 0;
@@ -310,7 +267,6 @@ public class Legend : ChartNamedElement
 	private Rectangle _headerPosition = Rectangle.Empty;
 
 	// Minimum font size that can be used by the legend auto-fitting algorithm
-	private int _autoFitMinFontSize = 7;
 
 	// Horizontal space left after fitting legend items
 	private int _horizontalSpaceLeft = 0;
@@ -337,7 +293,7 @@ public class Legend : ChartNamedElement
 	private bool _legendItemsTruncated = false;
 
 	// Size of the dots (pixels) that will drawn on the bottom of the legend when it is truncated
-	private int _truncatedDotsSize = 3;
+	private readonly int _truncatedDotsSize = 3;
 
 	// Maximum number of cells in the legend item
 	private int _numberOfCells = -1;
@@ -357,9 +313,9 @@ public class Legend : ChartNamedElement
 	{
 		_position = new ElementPosition(this);
 		// Initialize custom items collection
-		_customLegends = new LegendItemsCollection(this);
+		CustomItems = new LegendItemsCollection(this);
 		legendItems = new LegendItemsCollection(this);
-		_cellColumns = new LegendCellColumnCollection(this);
+		CellColumns = new LegendCellColumnCollection(this);
 		_font = _fontCache.DefaultFont;
 		_titleFont = _fontCache.DefaultBoldFont;
 	}
@@ -372,9 +328,9 @@ public class Legend : ChartNamedElement
 	{
 		_position = new ElementPosition(this);
 		// Initialize custom items collection
-		_customLegends = new LegendItemsCollection(this);
+		CustomItems = new LegendItemsCollection(this);
 		legendItems = new LegendItemsCollection(this);
-		_cellColumns = new LegendCellColumnCollection(this);
+		CellColumns = new LegendCellColumnCollection(this);
 		_font = _fontCache.DefaultFont;
 		_titleFont = _fontCache.DefaultBoldFont;
 	}
@@ -399,58 +355,58 @@ public class Legend : ChartNamedElement
 		//** Use size of the "W" characters in current font to 
 		//** calculate legend spacing
 		//***********************************************************
-		this.singleWCharacterSize = chartGraph.MeasureStringAbs("W", this.Font);
-		Size doubleCharacterSize = chartGraph.MeasureStringAbs("WW", this.Font);
-		this.singleWCharacterSize.Width = doubleCharacterSize.Width - this.singleWCharacterSize.Width;
+		singleWCharacterSize = chartGraph.MeasureStringAbs("W", Font);
+		Size doubleCharacterSize = chartGraph.MeasureStringAbs("WW", Font);
+		singleWCharacterSize.Width = doubleCharacterSize.Width - singleWCharacterSize.Width;
 
 		// Calculate left, top offset and column spacing
-		this._offset.Width = (int)Math.Ceiling(singleWCharacterSize.Width / 2f);
-		this._offset.Height = (int)Math.Ceiling(singleWCharacterSize.Width / 3f);
+		_offset.Width = (int)Math.Ceiling(singleWCharacterSize.Width / 2f);
+		_offset.Height = (int)Math.Ceiling(singleWCharacterSize.Width / 3f);
 
 		// Calculate item column spacing and make sure it is dividable by 2
-		this._itemColumnSpacingRel = (int)(singleWCharacterSize.Width * (this._itemColumnSpacing / 100f));
-		if (this._itemColumnSpacingRel % 2 == 1)
+		_itemColumnSpacingRel = (int)(singleWCharacterSize.Width * (ItemColumnSpacing / 100f));
+		if (_itemColumnSpacingRel % 2 == 1)
 		{
-			this._itemColumnSpacingRel += 1;
+			_itemColumnSpacingRel += 1;
 		}
 
 		//***********************************************************
 		//** Calculate how much space required for the title.
 		//***********************************************************
-		this._titlePosition = Rectangle.Empty;
-		if (this.Title.Length > 0)
+		_titlePosition = Rectangle.Empty;
+		if (Title.Length > 0)
 		{
 			// Measure title text size
-			Size titleSize = this.GetTitleSize(chartGraph, legendPosition.Size);
+			Size titleSize = GetTitleSize(chartGraph, legendPosition.Size);
 
 			// Set legend title position
-			this._titlePosition = new Rectangle(
+			_titlePosition = new Rectangle(
 				legendPosition.Location.X,
 				legendPosition.Location.Y,
 				legendPosition.Width,
 				Math.Min(legendPosition.Height, titleSize.Height));
 
 			// Adjust legend items position height
-			legendPosition.Height -= this._titlePosition.Height;
+			legendPosition.Height -= _titlePosition.Height;
 
 			// Increase title top location by border height
-			this._titlePosition.Y += this.GetBorderSize();
+			_titlePosition.Y += GetBorderSize();
 		}
 
 
 		//***********************************************************
 		//** Calculate how much space required for the header.
 		//***********************************************************
-		this._headerPosition = Rectangle.Empty;
+		_headerPosition = Rectangle.Empty;
 
 		// Find the largest (height only) header
 		Size highestHeader = Size.Empty;
-		foreach (LegendCellColumn legendColumn in this.CellColumns)
+		foreach (LegendCellColumn legendColumn in CellColumns)
 		{
 			if (legendColumn.HeaderText.Length > 0)
 			{
 				// Measure header text size
-				Size headerSize = this.GetHeaderSize(chartGraph, legendColumn);
+				Size headerSize = GetHeaderSize(chartGraph, legendColumn);
 
 				// Get header with maximum height
 				highestHeader.Height = Math.Max(highestHeader.Height, headerSize.Height);
@@ -461,82 +417,82 @@ public class Legend : ChartNamedElement
 		if (!highestHeader.IsEmpty)
 		{
 			// Set legend header position
-			this._headerPosition = new Rectangle(
-				legendPosition.Location.X + this.GetBorderSize() + this._offset.Width,
-				legendPosition.Location.Y + this._titlePosition.Height,
-				legendPosition.Width - (this.GetBorderSize() + this._offset.Width) * 2,
-				Math.Min(legendPosition.Height - this._titlePosition.Height, highestHeader.Height));
-			this._headerPosition.Height = Math.Max(this._headerPosition.Height, 0);
+			_headerPosition = new Rectangle(
+				legendPosition.Location.X + GetBorderSize() + _offset.Width,
+				legendPosition.Location.Y + _titlePosition.Height,
+				legendPosition.Width - (GetBorderSize() + _offset.Width) * 2,
+				Math.Min(legendPosition.Height - _titlePosition.Height, highestHeader.Height));
+			_headerPosition.Height = Math.Max(_headerPosition.Height, 0);
 
 			// Adjust legend items position height
-			legendPosition.Height -= this._headerPosition.Height;
+			legendPosition.Height -= _headerPosition.Height;
 
 			// Increase header top location by border height
-			this._headerPosition.Y += this.GetBorderSize();
+			_headerPosition.Y += GetBorderSize();
 		}
 
 
 		//***********************************************************
 		//** Calculate size available for all legend items
 		//***********************************************************
-		this._legendItemsAreaPosition = new Rectangle(
-			legendPosition.X + this._offset.Width + this.GetBorderSize(),
-			legendPosition.Y + this._offset.Height + this.GetBorderSize() + this._titlePosition.Height + this._headerPosition.Height,
-			legendPosition.Width - 2 * (this._offset.Width + this.GetBorderSize()),
-			legendPosition.Height - 2 * (this._offset.Height + this.GetBorderSize()));
+		_legendItemsAreaPosition = new Rectangle(
+			legendPosition.X + _offset.Width + GetBorderSize(),
+			legendPosition.Y + _offset.Height + GetBorderSize() + _titlePosition.Height + _headerPosition.Height,
+			legendPosition.Width - 2 * (_offset.Width + GetBorderSize()),
+			legendPosition.Height - 2 * (_offset.Height + GetBorderSize()));
 
 		//***********************************************************
 		//** Calculate number of rows and columns depending on
 		//** the legend style
 		//***********************************************************
-		this.GetNumberOfRowsAndColumns(
+		GetNumberOfRowsAndColumns(
 			chartGraph,
-			this._legendItemsAreaPosition.Size,
+			_legendItemsAreaPosition.Size,
 			-1,
-			out this._numberOfRowsPerColumn,
-			out this._itemColumns,
-			out this._horizontalSpaceLeft,
-			out this._verticalSpaceLeft);
+			out _numberOfRowsPerColumn,
+			out _itemColumns,
+			out _horizontalSpaceLeft,
+			out _verticalSpaceLeft);
 
 		//***********************************************************
 		//** Try to fit all legend item cells reducing the font size
 		//***********************************************************
 
 		// Reset auto-fit font adjustment value and truncated legend flag
-		this._autoFitFontSizeAdjustment = 0;
-		this._legendItemsTruncated = false;
+		_autoFitFontSizeAdjustment = 0;
+		_legendItemsTruncated = false;
 
 		// Check if legend items fit into the legend area
-		bool autoFitDone = (this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0);
+		bool autoFitDone = (_horizontalSpaceLeft >= 0 && _verticalSpaceLeft >= 0);
 
 		// Calculate total number of items fit and make sure we fit all of them
-		this._numberOfLegendItemsToProcess = this.legendItems.Count;
+		_numberOfLegendItemsToProcess = legendItems.Count;
 		int itemsFit = 0;
-		for (int index = 0; index < this._itemColumns; index++)
+		for (int index = 0; index < _itemColumns; index++)
 		{
-			itemsFit += this._numberOfRowsPerColumn[index];
+			itemsFit += _numberOfRowsPerColumn[index];
 		}
 
-		if (itemsFit < this._numberOfLegendItemsToProcess)
+		if (itemsFit < _numberOfLegendItemsToProcess)
 		{
 			autoFitDone = false;
 		}
 
 		// If items do not fit try reducing font or number of legend items
-		this.autofitFont = this.Font;
+		autofitFont = Font;
 		if (!autoFitDone)
 		{
 			do
 			{
 				// Check if legend item font size can be reduced
-				if (this.IsTextAutoFit &&
-					(this.Font.Size - this._autoFitFontSizeAdjustment) > this._autoFitMinFontSize)
+				if (IsTextAutoFit &&
+					(Font.Size - _autoFitFontSizeAdjustment) > AutoFitMinFontSize)
 				{
 					// Reduce font size by one 
-					++this._autoFitFontSizeAdjustment;
+					++_autoFitFontSizeAdjustment;
 
 					// Calculate new font size
-					int newFontSize = (int)Math.Round(this.Font.Size - this._autoFitFontSizeAdjustment);
+					int newFontSize = (int)Math.Round(Font.Size - _autoFitFontSizeAdjustment);
 					if (newFontSize < 1)
 					{
 						// Font can't be less than size 1
@@ -544,32 +500,32 @@ public class Legend : ChartNamedElement
 					}
 
 					// Create new font
-					this.autofitFont = this.Common.ChartPicture.FontCache.GetFont(
-					this.Font.FontFamily,
+					autofitFont = Common.ChartPicture.FontCache.GetFont(
+					Font.FontFamily,
 					newFontSize,
-					this.Font.Style,
-					this.Font.Unit);
+					Font.Style,
+					Font.Unit);
 
 					// Calculate number of rows and columns 
-					this.GetNumberOfRowsAndColumns(
+					GetNumberOfRowsAndColumns(
 						chartGraph,
-						this._legendItemsAreaPosition.Size,
+						_legendItemsAreaPosition.Size,
 						-1,
-						out this._numberOfRowsPerColumn,
-						out this._itemColumns,
-						out this._horizontalSpaceLeft,
-						out this._verticalSpaceLeft);
+						out _numberOfRowsPerColumn,
+						out _itemColumns,
+						out _horizontalSpaceLeft,
+						out _verticalSpaceLeft);
 
-					autoFitDone = (this._horizontalSpaceLeft >= 0 && this._verticalSpaceLeft >= 0);
+					autoFitDone = (_horizontalSpaceLeft >= 0 && _verticalSpaceLeft >= 0);
 
 					// Calculate total number of items fit and make sure we fit all of them
 					itemsFit = 0;
-					for (int index = 0; index < this._itemColumns; index++)
+					for (int index = 0; index < _itemColumns; index++)
 					{
-						itemsFit += this._numberOfRowsPerColumn[index];
+						itemsFit += _numberOfRowsPerColumn[index];
 					}
 
-					if (itemsFit < this._numberOfLegendItemsToProcess)
+					if (itemsFit < _numberOfLegendItemsToProcess)
 					{
 						autoFitDone = false;
 					}
@@ -578,55 +534,55 @@ public class Legend : ChartNamedElement
 				else
 				{
 					// If font size cannot be reduced start removing legend items
-					if (this._numberOfLegendItemsToProcess > 2)
+					if (_numberOfLegendItemsToProcess > 2)
 					{
 						// Handle case of 1 column that do not fit horizontally
-						if (this._itemColumns == 1 && (this._horizontalSpaceLeft < 0 && this._verticalSpaceLeft >= 0))
+						if (_itemColumns == 1 && (_horizontalSpaceLeft < 0 && _verticalSpaceLeft >= 0))
 						{
 							autoFitDone = true;
-							this._numberOfLegendItemsToProcess =
-								Math.Min(this._numberOfLegendItemsToProcess, this._numberOfRowsPerColumn[0]);
+							_numberOfLegendItemsToProcess =
+								Math.Min(_numberOfLegendItemsToProcess, _numberOfRowsPerColumn[0]);
 						}
 						// Handle case of 1 row that do not fit vertically
-						else if (this.GetMaximumNumberOfRows() == 1 && (this._verticalSpaceLeft < 0 && this._horizontalSpaceLeft >= 0))
+						else if (GetMaximumNumberOfRows() == 1 && (_verticalSpaceLeft < 0 && _horizontalSpaceLeft >= 0))
 						{
 							autoFitDone = true;
-							this._numberOfLegendItemsToProcess =
-								Math.Min(this._numberOfLegendItemsToProcess, this._itemColumns);
+							_numberOfLegendItemsToProcess =
+								Math.Min(_numberOfLegendItemsToProcess, _itemColumns);
 						}
 						else
 						{
 							// Adjust legend items area height by size required to show
 							// visually (dots) that legend is truncated
-							if (!this._legendItemsTruncated)
+							if (!_legendItemsTruncated)
 							{
-								this._legendItemsAreaPosition.Height -= this._truncatedDotsSize;
+								_legendItemsAreaPosition.Height -= _truncatedDotsSize;
 							}
 
 							// Remove last legend item
-							this._legendItemsTruncated = true;
-							--this._numberOfLegendItemsToProcess;
+							_legendItemsTruncated = true;
+							--_numberOfLegendItemsToProcess;
 
 							// RecalculateAxesScale number of rows and columns
-							this.GetNumberOfRowsAndColumns(
+							GetNumberOfRowsAndColumns(
 								chartGraph,
-								this._legendItemsAreaPosition.Size,
-								this._numberOfLegendItemsToProcess,
-								out this._numberOfRowsPerColumn,
-								out this._itemColumns);
+								_legendItemsAreaPosition.Size,
+								_numberOfLegendItemsToProcess,
+								out _numberOfRowsPerColumn,
+								out _itemColumns);
 						}
 
 						// Make sure we show truncated legend symbols when not all items shown
 						if (autoFitDone &&
-							!this._legendItemsTruncated &&
-							this._numberOfLegendItemsToProcess < this.legendItems.Count)
+							!_legendItemsTruncated &&
+							_numberOfLegendItemsToProcess < legendItems.Count)
 						{
 							// Adjust legend items area height by size required to show
 							// visually (dots) that legend is truncated
-							this._legendItemsAreaPosition.Height -= this._truncatedDotsSize;
+							_legendItemsAreaPosition.Height -= _truncatedDotsSize;
 
 							// Legend is truncated
-							this._legendItemsTruncated = true;
+							_legendItemsTruncated = true;
 						}
 					}
 					else
@@ -637,17 +593,17 @@ public class Legend : ChartNamedElement
 					// Check if legend items fit into the legend area
 					if (!autoFitDone)
 					{
-						autoFitDone = this.CheckLegendItemsFit(
+						autoFitDone = CheckLegendItemsFit(
 							chartGraph,
-							this._legendItemsAreaPosition.Size,
-							this._numberOfLegendItemsToProcess,
-							this._autoFitFontSizeAdjustment,
-							this._itemColumns,
-							this._numberOfRowsPerColumn,
-							out this._subColumnSizes,
-							out this._cellHeights,
-							out this._horizontalSpaceLeft,
-							out this._verticalSpaceLeft);
+							_legendItemsAreaPosition.Size,
+							_numberOfLegendItemsToProcess,
+							_autoFitFontSizeAdjustment,
+							_itemColumns,
+							_numberOfRowsPerColumn,
+							out _subColumnSizes,
+							out _cellHeights,
+							out _horizontalSpaceLeft,
+							out _verticalSpaceLeft);
 
 					}
 				}
@@ -661,12 +617,12 @@ public class Legend : ChartNamedElement
 
 		// Calculate item vertical spacing in relative coordinates but rounded on pixel boundary
 		Size itemHalfSpacing = Size.Empty;
-		if (this._verticalSpaceLeft > 0)
+		if (_verticalSpaceLeft > 0)
 		{
-			itemHalfSpacing.Height = (int)(this._verticalSpaceLeft / this.GetMaximumNumberOfRows() / 2);
+			itemHalfSpacing.Height = (int)(_verticalSpaceLeft / GetMaximumNumberOfRows() / 2);
 		}
 
-		if (this._horizontalSpaceLeft > 0)
+		if (_horizontalSpaceLeft > 0)
 		{
 			itemHalfSpacing.Width = (int)(_horizontalSpaceLeft / 2);
 		}
@@ -674,14 +630,14 @@ public class Legend : ChartNamedElement
 		// Iterate through all legend items
 		int currentColumn = 0;
 		int currentRow = 0;
-		if (this._numberOfLegendItemsToProcess < 0)
+		if (_numberOfLegendItemsToProcess < 0)
 		{
-			this._numberOfLegendItemsToProcess = this.legendItems.Count;
+			_numberOfLegendItemsToProcess = legendItems.Count;
 		}
 
-		for (int legendItemIndex = 0; legendItemIndex < this._numberOfLegendItemsToProcess; legendItemIndex++)
+		for (int legendItemIndex = 0; legendItemIndex < _numberOfLegendItemsToProcess; legendItemIndex++)
 		{
-			LegendItem legendItem = this.legendItems[legendItemIndex];
+			LegendItem legendItem = legendItems[legendItemIndex];
 
 			// Iterate through legend item cells
 			for (int cellIndex = 0; cellIndex < legendItem.Cells.Count; cellIndex++)
@@ -690,7 +646,7 @@ public class Legend : ChartNamedElement
 				LegendCell legendCell = legendItem.Cells[cellIndex];
 
 				// Calculate cell position
-				Rectangle cellPosition = this.GetCellPosition(currentColumn, currentRow, cellIndex, itemHalfSpacing);
+				Rectangle cellPosition = GetCellPosition(currentColumn, currentRow, cellIndex, itemHalfSpacing);
 
 				// Check if current cell spans through more than 1 cell
 				int overlappedCellsNumber = 0;
@@ -699,7 +655,7 @@ public class Legend : ChartNamedElement
 					for (int spanIndex = 1; spanIndex < legendCell.CellSpan && (cellIndex + spanIndex) < legendItem.Cells.Count; spanIndex++)
 					{
 						// Calculate overlapped cell position
-						Rectangle overlappedCellPosition = this.GetCellPosition(currentColumn, currentRow, cellIndex + spanIndex, itemHalfSpacing);
+						Rectangle overlappedCellPosition = GetCellPosition(currentColumn, currentRow, cellIndex + spanIndex, itemHalfSpacing);
 
 						// Adjust current cell right position
 						if (cellPosition.Right < overlappedCellPosition.Right)
@@ -715,18 +671,18 @@ public class Legend : ChartNamedElement
 						overlappedLegendCell.SetCellPosition(
 							currentRow,
 							Rectangle.Empty,
-							this.singleWCharacterSize);
+							singleWCharacterSize);
 					}
 				}
 
 				// Make sure cell is drawn inside the legend
-				cellPosition.Intersect(this._legendItemsAreaPosition);
+				cellPosition.Intersect(_legendItemsAreaPosition);
 
 				// Set cell object position
 				legendCell.SetCellPosition(
 					currentRow,
 					cellPosition,
-					this.singleWCharacterSize);
+					singleWCharacterSize);
 
 				// Skip overlapped cells
 				cellIndex += overlappedCellsNumber;
@@ -735,11 +691,11 @@ public class Legend : ChartNamedElement
 			// Advance to the next row/column. Break if number of legend items exceed
 			// number of availabale rows/columns.
 			++currentRow;
-			if (currentRow >= this._numberOfRowsPerColumn[currentColumn])
+			if (currentRow >= _numberOfRowsPerColumn[currentColumn])
 			{
 				++currentColumn;
 				currentRow = 0;
-				if (currentColumn >= this._itemColumns)
+				if (currentColumn >= _itemColumns)
 				{
 					break;
 				}
@@ -761,14 +717,14 @@ public class Legend : ChartNamedElement
 		int cellIndex,
 		Size itemHalfSpacing)
 	{
-		Rectangle cellPosition = this._legendItemsAreaPosition;
+		Rectangle cellPosition = _legendItemsAreaPosition;
 
 		//*****************************************************************
 		//** Get cell Top location
 		//*****************************************************************
 		for (int index = 0; index < rowIndex; index++)
 		{
-			cellPosition.Y += this._cellHeights[columnIndex, index];
+			cellPosition.Y += _cellHeights[columnIndex, index];
 		}
 
 		if (itemHalfSpacing.Height > 0)
@@ -781,13 +737,13 @@ public class Legend : ChartNamedElement
 		//*****************************************************************
 
 		// Add extar space left after auto fitting
-		if (this._horizontalSpaceLeft > 0)
+		if (_horizontalSpaceLeft > 0)
 		{
 			cellPosition.X += itemHalfSpacing.Width;
 		}
 
 		// Calculate how many sub-columns (cells) this legend has
-		int numberOfSubColumns = this.GetNumberOfCells();
+		int numberOfSubColumns = GetNumberOfCells();
 
 		// Iterate through all prev. columns
 		for (int index = 0; index < columnIndex; index++)
@@ -795,27 +751,27 @@ public class Legend : ChartNamedElement
 			// Add width of previous columns
 			for (int subColumnIndex = 0; subColumnIndex < numberOfSubColumns; subColumnIndex++)
 			{
-				cellPosition.X += this._subColumnSizes[index, subColumnIndex];
+				cellPosition.X += _subColumnSizes[index, subColumnIndex];
 			}
 
 			// Add width of separator for the previous columns
-			cellPosition.X += this.GetSeparatorSize(this.ItemColumnSeparator).Width;
+			cellPosition.X += GetSeparatorSize(ItemColumnSeparator).Width;
 		}
 		// Add width of current column cells
 		for (int subColumnIndex = 0; subColumnIndex < cellIndex; subColumnIndex++)
 		{
-			cellPosition.X += this._subColumnSizes[columnIndex, subColumnIndex];
+			cellPosition.X += _subColumnSizes[columnIndex, subColumnIndex];
 		}
 
 		//*****************************************************************
 		//** Get cell Height
 		//*****************************************************************
-		cellPosition.Height = this._cellHeights[columnIndex, rowIndex];
+		cellPosition.Height = _cellHeights[columnIndex, rowIndex];
 
 		//*****************************************************************
 		//** Get cell Width
 		//*****************************************************************
-		cellPosition.Width = this._subColumnSizes[columnIndex, cellIndex];
+		cellPosition.Width = _subColumnSizes[columnIndex, cellIndex];
 
 		return cellPosition;
 	}
@@ -829,25 +785,25 @@ public class Legend : ChartNamedElement
 	private SizeF GetOptimalSize(ChartGraphics chartGraph, SizeF maxSizeRel)
 	{
 		// Reset some values
-		this._offset = Size.Empty;
-		this._itemColumns = 0;
-		this._horizontalSpaceLeft = 0;
-		this._verticalSpaceLeft = 0;
-		this._subColumnSizes = null;
-		this._numberOfRowsPerColumn = null;
-		this._cellHeights = null;
-		this.autofitFont = null;
-		this._autoFitFontSizeAdjustment = 0;
-		this._numberOfCells = -1;
-		this._numberOfLegendItemsToProcess = -1;
+		_offset = Size.Empty;
+		_itemColumns = 0;
+		_horizontalSpaceLeft = 0;
+		_verticalSpaceLeft = 0;
+		_subColumnSizes = null;
+		_numberOfRowsPerColumn = null;
+		_cellHeights = null;
+		autofitFont = null;
+		_autoFitFontSizeAdjustment = 0;
+		_numberOfCells = -1;
+		_numberOfLegendItemsToProcess = -1;
 		Size optimalSize = Size.Empty;
 
 		// Convert to pixels
 		SizeF maxSizeAbs = chartGraph.GetAbsoluteSize(maxSizeRel);
-		Size maxSize = new Size((int)maxSizeAbs.Width, (int)maxSizeAbs.Height);
+		Size maxSize = new((int)maxSizeAbs.Width, (int)maxSizeAbs.Height);
 
 		// Clear all legend item cells cached information
-		foreach (LegendItem legendItem in this.legendItems)
+		foreach (LegendItem legendItem in legendItems)
 		{
 			foreach (LegendCell cell in legendItem.Cells)
 			{
@@ -856,32 +812,32 @@ public class Legend : ChartNamedElement
 		}
 
 		// Check if legend is enabled
-		if (this.IsEnabled())
+		if (IsEnabled())
 		{
 			// Add all series legend into items collection and then add custom legend items
 			FillLegendItemsCollection();
 
 			// Call a notification event, so that legend items collection can be modified by user
-			this.Common.Chart.CallOnCustomizeLegend(legendItems, this.Name);
+			Common.Chart.CallOnCustomizeLegend(legendItems, Name);
 
 			// Check if there are any items in the legend
-			if (this.legendItems.Count > 0)
+			if (legendItems.Count > 0)
 			{
 				//***********************************************************
 				//** Use size of the "W" character in current font to 
 				//** calculate legend spacing
 				//***********************************************************
-				this.singleWCharacterSize = chartGraph.MeasureStringAbs("W", this.Font);
-				Size doubleCharacterSize = chartGraph.MeasureStringAbs("WW", this.Font);
-				this.singleWCharacterSize.Width = doubleCharacterSize.Width - this.singleWCharacterSize.Width;
+				singleWCharacterSize = chartGraph.MeasureStringAbs("W", Font);
+				Size doubleCharacterSize = chartGraph.MeasureStringAbs("WW", Font);
+				singleWCharacterSize.Width = doubleCharacterSize.Width - singleWCharacterSize.Width;
 
 				// Calculate left, top offset and column spacing
-				this._offset.Width = (int)Math.Ceiling(singleWCharacterSize.Width / 2f);
-				this._offset.Height = (int)Math.Ceiling(singleWCharacterSize.Width / 3f);
-				this._itemColumnSpacingRel = (int)(singleWCharacterSize.Width * (this._itemColumnSpacing / 100f));
-				if (this._itemColumnSpacingRel % 2 == 1)
+				_offset.Width = (int)Math.Ceiling(singleWCharacterSize.Width / 2f);
+				_offset.Height = (int)Math.Ceiling(singleWCharacterSize.Width / 3f);
+				_itemColumnSpacingRel = (int)(singleWCharacterSize.Width * (ItemColumnSpacing / 100f));
+				if (_itemColumnSpacingRel % 2 == 1)
 				{
-					this._itemColumnSpacingRel += 1;
+					_itemColumnSpacingRel += 1;
 				}
 
 
@@ -890,9 +846,9 @@ public class Legend : ChartNamedElement
 				//***********************************************************
 
 				Size titleSize = Size.Empty;
-				if (this.Title.Length > 0)
+				if (Title.Length > 0)
 				{
-					titleSize = this.GetTitleSize(chartGraph, maxSize);
+					titleSize = GetTitleSize(chartGraph, maxSize);
 				}
 
 				//***********************************************************
@@ -900,12 +856,12 @@ public class Legend : ChartNamedElement
 				//***********************************************************
 
 				Size highestHeader = Size.Empty;
-				foreach (LegendCellColumn legendColumn in this.CellColumns)
+				foreach (LegendCellColumn legendColumn in CellColumns)
 				{
 					if (legendColumn.HeaderText.Length > 0)
 					{
 						// Measure header text size
-						Size headerSize = this.GetHeaderSize(chartGraph, legendColumn);
+						Size headerSize = GetHeaderSize(chartGraph, legendColumn);
 
 						// Get header with maximum height
 						highestHeader.Height = Math.Max(highestHeader.Height, headerSize.Height);
@@ -916,8 +872,8 @@ public class Legend : ChartNamedElement
 				//** Calculate size available for legend items
 				//***********************************************************
 				Size legenItemsMaxSize = maxSize;
-				legenItemsMaxSize.Width -= 2 * (this._offset.Width + this.GetBorderSize());
-				legenItemsMaxSize.Height -= 2 * (this._offset.Height + this.GetBorderSize());
+				legenItemsMaxSize.Width -= 2 * (_offset.Width + GetBorderSize());
+				legenItemsMaxSize.Height -= 2 * (_offset.Height + GetBorderSize());
 				legenItemsMaxSize.Height -= titleSize.Height;
 				legenItemsMaxSize.Height -= highestHeader.Height;
 
@@ -925,44 +881,44 @@ public class Legend : ChartNamedElement
 				//** Calculate number of rows and columns depending on
 				//** the legend style
 				//***********************************************************
-				this._autoFitFontSizeAdjustment = 0;
+				_autoFitFontSizeAdjustment = 0;
 
-				this.autofitFont = this.Font;
-				int vertSpaceLeft = 0;
-				int horizSpaceLeft = 0;
-				bool reduceFont = this.IsTextAutoFit;
-				bool autoFit = false;
+				autofitFont = Font;
+				bool reduceFont = IsTextAutoFit;
+				int vertSpaceLeft;
+				int horizSpaceLeft;
+				bool autoFit;
 				do
 				{
 					// Get number of columns and rows that we can fit in the legend
-					this.GetNumberOfRowsAndColumns(
+					GetNumberOfRowsAndColumns(
 						chartGraph,
 						legenItemsMaxSize,
 						-1,
-						out this._numberOfRowsPerColumn,
-						out this._itemColumns,
+						out _numberOfRowsPerColumn,
+						out _itemColumns,
 						out horizSpaceLeft,
 						out vertSpaceLeft);
 
 					// Calculate total number of items fit and make sure we fit all of them
 					int itemsFit = 0;
-					for (int index = 0; index < this._itemColumns; index++)
+					for (int index = 0; index < _itemColumns; index++)
 					{
-						itemsFit += this._numberOfRowsPerColumn[index];
+						itemsFit += _numberOfRowsPerColumn[index];
 					}
 
-					autoFit = (horizSpaceLeft >= 0 && vertSpaceLeft >= 0 && itemsFit >= this.legendItems.Count);
+					autoFit = (horizSpaceLeft >= 0 && vertSpaceLeft >= 0 && itemsFit >= legendItems.Count);
 
 					// Check if items fit
 					if (reduceFont && !autoFit)
 					{
-						if ((this.Font.Size - this._autoFitFontSizeAdjustment) > this._autoFitMinFontSize)
+						if ((Font.Size - _autoFitFontSizeAdjustment) > AutoFitMinFontSize)
 						{
 							// Reduce font size by one 
-							++this._autoFitFontSizeAdjustment;
+							++_autoFitFontSizeAdjustment;
 
 							// Calculate new font size
-							int newFontSize = (int)Math.Round(this.Font.Size - this._autoFitFontSizeAdjustment);
+							int newFontSize = (int)Math.Round(Font.Size - _autoFitFontSizeAdjustment);
 							if (newFontSize < 1)
 							{
 								// Font can't be less than size 1
@@ -970,11 +926,11 @@ public class Legend : ChartNamedElement
 							}
 
 							// Create new font
-							this.autofitFont = this.Common.ChartPicture.FontCache.GetFont(
-							this.Font.FontFamily,
+							autofitFont = Common.ChartPicture.FontCache.GetFont(
+							Font.FontFamily,
 							newFontSize,
-							this.Font.Style,
-							this.Font.Unit);
+							Font.Style,
+							Font.Unit);
 						}
 						else
 						{
@@ -993,16 +949,16 @@ public class Legend : ChartNamedElement
 				//***********************************************************
 				optimalSize.Width = (legenItemsMaxSize.Width - horizSpaceLeft);
 				optimalSize.Width = Math.Max(optimalSize.Width, titleSize.Width);
-				optimalSize.Width += 2 * (this._offset.Width + this.GetBorderSize());
+				optimalSize.Width += 2 * (_offset.Width + GetBorderSize());
 
 				optimalSize.Height = (legenItemsMaxSize.Height - vertSpaceLeft) + titleSize.Height + highestHeader.Height;
-				optimalSize.Height += 2 * (this._offset.Height + this.GetBorderSize());
+				optimalSize.Height += 2 * (_offset.Height + GetBorderSize());
 
 				// Adjust legend items area height by size required to show
 				// visually (dots) that legend is truncated
 				if (horizSpaceLeft < 0 || vertSpaceLeft < 0)
 				{
-					optimalSize.Height += this._truncatedDotsSize;
+					optimalSize.Height += _truncatedDotsSize;
 				}
 
 				//***********************************************************
@@ -1047,22 +1003,22 @@ public class Legend : ChartNamedElement
 		ref RectangleF chartAreasRectangle,
 		float elementSpacing)
 	{
-		RectangleF legendPosition = new RectangleF();
+		RectangleF legendPosition = new();
 
 		// Get optimal legend size
-		SizeF maxSize = new SizeF(chartAreasRectangle.Width - 2 * elementSpacing, chartAreasRectangle.Height - 2 * elementSpacing);
-		if (this.DockedToChartArea == Constants.NotSetValue)
+		SizeF maxSize = new(chartAreasRectangle.Width - 2 * elementSpacing, chartAreasRectangle.Height - 2 * elementSpacing);
+		if (DockedToChartArea == Constants.NotSetValue)
 		{
 
 			// Note: 'maxLegendSize' parameter is ignored. New legend property 
 			// 'maximumLegendAutoSize' is used instead.
-			if (this.Docking == Docking.Top || this.Docking == Docking.Bottom)
+			if (Docking == Docking.Top || Docking == Docking.Bottom)
 			{
-				maxSize.Height = (maxSize.Height / 100F) * this._maximumLegendAutoSize;
+				maxSize.Height = (maxSize.Height / 100F) * MaximumAutoSize;
 			}
 			else
 			{
-				maxSize.Width = (maxSize.Width / 100F) * this._maximumLegendAutoSize;
+				maxSize.Width = (maxSize.Width / 100F) * MaximumAutoSize;
 			}
 		}
 
@@ -1071,7 +1027,7 @@ public class Legend : ChartNamedElement
 			return;
 		}
 
-		SizeF legendSize = this.GetOptimalSize(chartGraph, maxSize);
+		SizeF legendSize = GetOptimalSize(chartGraph, maxSize);
 		legendPosition.Height = legendSize.Height;
 		legendPosition.Width = legendSize.Width;
 		if (float.IsNaN(legendSize.Height) || float.IsNaN(legendSize.Width))
@@ -1080,18 +1036,18 @@ public class Legend : ChartNamedElement
 		}
 
 		// Calculate legend position
-		if (this.Docking == Docking.Top)
+		if (Docking == Docking.Top)
 		{
 			legendPosition.Y = chartAreasRectangle.Y + elementSpacing;
-			if (this.Alignment == StringAlignment.Near)
+			if (Alignment == StringAlignment.Near)
 			{
 				legendPosition.X = chartAreasRectangle.X + elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Far)
+			else if (Alignment == StringAlignment.Far)
 			{
 				legendPosition.X = chartAreasRectangle.Right - legendSize.Width - elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Center)
+			else if (Alignment == StringAlignment.Center)
 			{
 				legendPosition.X = chartAreasRectangle.X + (chartAreasRectangle.Width - legendSize.Width) / 2F;
 			}
@@ -1100,18 +1056,18 @@ public class Legend : ChartNamedElement
 			chartAreasRectangle.Height -= legendPosition.Height + elementSpacing;
 			chartAreasRectangle.Y = legendPosition.Bottom;
 		}
-		else if (this.Docking == Docking.Bottom)
+		else if (Docking == Docking.Bottom)
 		{
 			legendPosition.Y = chartAreasRectangle.Bottom - legendSize.Height - elementSpacing;
-			if (this.Alignment == StringAlignment.Near)
+			if (Alignment == StringAlignment.Near)
 			{
 				legendPosition.X = chartAreasRectangle.X + elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Far)
+			else if (Alignment == StringAlignment.Far)
 			{
 				legendPosition.X = chartAreasRectangle.Right - legendSize.Width - elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Center)
+			else if (Alignment == StringAlignment.Center)
 			{
 				legendPosition.X = chartAreasRectangle.X + (chartAreasRectangle.Width - legendSize.Width) / 2F;
 			}
@@ -1120,18 +1076,18 @@ public class Legend : ChartNamedElement
 			chartAreasRectangle.Height -= legendPosition.Height + elementSpacing;
 		}
 
-		if (this.Docking == Docking.Left)
+		if (Docking == Docking.Left)
 		{
 			legendPosition.X = chartAreasRectangle.X + elementSpacing;
-			if (this.Alignment == StringAlignment.Near)
+			if (Alignment == StringAlignment.Near)
 			{
 				legendPosition.Y = chartAreasRectangle.Y + elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Far)
+			else if (Alignment == StringAlignment.Far)
 			{
 				legendPosition.Y = chartAreasRectangle.Bottom - legendSize.Height - elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Center)
+			else if (Alignment == StringAlignment.Center)
 			{
 				legendPosition.Y = chartAreasRectangle.Y + (chartAreasRectangle.Height - legendSize.Height) / 2F;
 			}
@@ -1141,18 +1097,18 @@ public class Legend : ChartNamedElement
 			chartAreasRectangle.X = legendPosition.Right;
 		}
 
-		if (this.Docking == Docking.Right)
+		if (Docking == Docking.Right)
 		{
 			legendPosition.X = chartAreasRectangle.Right - legendSize.Width - elementSpacing;
-			if (this.Alignment == StringAlignment.Near)
+			if (Alignment == StringAlignment.Near)
 			{
 				legendPosition.Y = chartAreasRectangle.Y + elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Far)
+			else if (Alignment == StringAlignment.Far)
 			{
 				legendPosition.Y = chartAreasRectangle.Bottom - legendSize.Height - elementSpacing;
 			}
-			else if (this.Alignment == StringAlignment.Center)
+			else if (Alignment == StringAlignment.Center)
 			{
 				legendPosition.Y = chartAreasRectangle.Y + (chartAreasRectangle.Height - legendSize.Height) / 2F;
 			}
@@ -1161,7 +1117,7 @@ public class Legend : ChartNamedElement
 			chartAreasRectangle.Width -= legendPosition.Width + elementSpacing;
 		}
 
-		this.Position.SetPositionNoAuto(legendPosition.X, legendPosition.Y, legendPosition.Width, legendPosition.Height);
+		Position.SetPositionNoAuto(legendPosition.X, legendPosition.Y, legendPosition.Width, legendPosition.Height);
 	}
 
 
@@ -1181,9 +1137,9 @@ public class Legend : ChartNamedElement
 		out int[] numberOfRowsPerColumn,
 		out int columnNumber)
 	{
-		int horSpaceLeft = 0;
-		int vertSpaceLeft = 0;
-		this.GetNumberOfRowsAndColumns(
+		int horSpaceLeft;
+		int vertSpaceLeft;
+		GetNumberOfRowsAndColumns(
 			chartGraph,
 			legendSize,
 			numberOfItemsToCheck,
@@ -1215,8 +1171,6 @@ public class Legend : ChartNamedElement
 		// Initialize output parameters
 		numberOfRowsPerColumn = null;
 		columnNumber = 1;
-		horSpaceLeft = 0;
-		vertSpaceLeft = 0;
 
 		// If number of items to check is nor set use total number of items in the collection
 		if (numberOfItemsToCheck < 0)
@@ -1225,12 +1179,12 @@ public class Legend : ChartNamedElement
 		}
 
 		// Check legend style
-		if (this.LegendStyle == LegendStyle.Column || numberOfItemsToCheck <= 1)
+		if (LegendStyle == LegendStyle.Column || numberOfItemsToCheck <= 1)
 		{
 			columnNumber = 1;
-			numberOfRowsPerColumn = new int[] { numberOfItemsToCheck };
+			numberOfRowsPerColumn = [numberOfItemsToCheck];
 		}
-		else if (this.LegendStyle == LegendStyle.Row)
+		else if (LegendStyle == LegendStyle.Row)
 		{
 			columnNumber = numberOfItemsToCheck;
 			numberOfRowsPerColumn = new int[columnNumber];
@@ -1239,14 +1193,14 @@ public class Legend : ChartNamedElement
 				numberOfRowsPerColumn[index] = 1;
 			}
 		}
-		else if (this.LegendStyle == LegendStyle.Table)
+		else if (LegendStyle == LegendStyle.Table)
 		{
 			// Start with 1 column and 1 row
 			columnNumber = 1;
-			numberOfRowsPerColumn = new int[] { 1 };
+			numberOfRowsPerColumn = [1];
 
 			// Get legend table style and adjust number of columns and rows accordinly
-			LegendTableStyle tableStyle = this.GetLegendTableStyle(chartGraph);
+			LegendTableStyle tableStyle = GetLegendTableStyle(chartGraph);
 
 			//*********************************************************************************
 			//** Tall table layout
@@ -1255,22 +1209,22 @@ public class Legend : ChartNamedElement
 			{
 				// Iterate from second item trying to add them and check if their fit
 				bool exitLoop = false;
-				int legendItemIndex = 1;
+				int legendItemIndex;
 				for (legendItemIndex = 1; !exitLoop && legendItemIndex < numberOfItemsToCheck; legendItemIndex++)
 				{
 					// Try to increase number of rows in the current column
 					++numberOfRowsPerColumn[columnNumber - 1];
 
 					// Check if legend items fit into the legend area
-					bool autoFitDone = this.CheckLegendItemsFit(
+					bool autoFitDone = CheckLegendItemsFit(
 						chartGraph,
 						legendSize,
 						legendItemIndex + 1,
-						this._autoFitFontSizeAdjustment,
+						_autoFitFontSizeAdjustment,
 						columnNumber,
 						numberOfRowsPerColumn,
-						out this._subColumnSizes,
-						out this._cellHeights,
+						out _subColumnSizes,
+						out _cellHeights,
 						out horSpaceLeft,
 						out vertSpaceLeft);
 
@@ -1317,15 +1271,15 @@ public class Legend : ChartNamedElement
 							// call the auto fitting method before leaving the loop
 							if (legendItemIndex == numberOfItemsToCheck - 1)
 							{
-								this.CheckLegendItemsFit(
+								CheckLegendItemsFit(
 									chartGraph,
 									legendSize,
 									legendItemIndex + 1,
-									this._autoFitFontSizeAdjustment,
+									_autoFitFontSizeAdjustment,
 									columnNumber,
 									numberOfRowsPerColumn,
-									out this._subColumnSizes,
-									out this._cellHeights,
+									out _subColumnSizes,
+									out _cellHeights,
 									out horSpaceLeft,
 									out vertSpaceLeft);
 							}
@@ -1355,9 +1309,9 @@ public class Legend : ChartNamedElement
 						{
 							// Calculate current column height not taking the last row in consideration
 							int columnHeight = 0;
-							for (int rowIndex = 0; rowIndex < this._numberOfRowsPerColumn[columnIndex] - 1; rowIndex++)
+							for (int rowIndex = 0; rowIndex < _numberOfRowsPerColumn[columnIndex] - 1; rowIndex++)
 							{
-								columnHeight += this._cellHeights[columnIndex, rowIndex];
+								columnHeight += _cellHeights[columnIndex, rowIndex];
 							}
 
 							// Find maximum height
@@ -1368,9 +1322,9 @@ public class Legend : ChartNamedElement
 						int totalHieghtOfItemInLastRow = 0;
 						for (int columnIndex = 0; columnIndex < (columnNumber - 1); columnIndex++)
 						{
-							if (this._numberOfRowsPerColumn[columnIndex] > 1)
+							if (_numberOfRowsPerColumn[columnIndex] > 1)
 							{
-								totalHieghtOfItemInLastRow += this._cellHeights[columnIndex, this._numberOfRowsPerColumn[columnIndex] - 1];
+								totalHieghtOfItemInLastRow += _cellHeights[columnIndex, _numberOfRowsPerColumn[columnIndex] - 1];
 							}
 						}
 
@@ -1378,7 +1332,7 @@ public class Legend : ChartNamedElement
 						if (totalHieghtOfItemInLastRow > 0)
 						{
 							// Get last column height
-							int lastColumnHeight = this.GetColumnHeight(columnNumber - 1);
+							int lastColumnHeight = GetColumnHeight(columnNumber - 1);
 
 							// Check if all items in the last row can vertically fit in last column
 							if ((lastColumnHeight + totalHieghtOfItemInLastRow) <= maxColumnHeight)
@@ -1387,9 +1341,9 @@ public class Legend : ChartNamedElement
 								int itemsToAdd = 0;
 								for (int columnIndex = 0; columnIndex < (columnNumber - 1); columnIndex++)
 								{
-									if (this._numberOfRowsPerColumn[columnIndex] > 1)
+									if (_numberOfRowsPerColumn[columnIndex] > 1)
 									{
-										--this._numberOfRowsPerColumn[columnIndex];
+										--_numberOfRowsPerColumn[columnIndex];
 										++itemsToAdd;
 									}
 								}
@@ -1398,18 +1352,18 @@ public class Legend : ChartNamedElement
 								if (itemsToAdd > 0)
 								{
 									// Add roes into the last column
-									this._numberOfRowsPerColumn[columnNumber - 1] += itemsToAdd;
+									_numberOfRowsPerColumn[columnNumber - 1] += itemsToAdd;
 
 									// Check if legend items fit into the legend area
-									bool autoFitDone = this.CheckLegendItemsFit(
+									bool autoFitDone = CheckLegendItemsFit(
 										chartGraph,
 										legendSize,
 										legendItemIndex + 1,
-										this._autoFitFontSizeAdjustment,
+										_autoFitFontSizeAdjustment,
 										columnNumber,
 										numberOfRowsPerColumn,
-										out this._subColumnSizes,
-										out this._cellHeights,
+										out _subColumnSizes,
+										out _cellHeights,
 										out horSpaceLeft,
 										out vertSpaceLeft);
 
@@ -1428,7 +1382,7 @@ public class Legend : ChartNamedElement
 			{
 				// Iterate from second item trying to add them and check if they fit
 				bool exitLoop = false;
-				int legendItemIndex = 1;
+				int legendItemIndex;
 				for (legendItemIndex = 1; !exitLoop && legendItemIndex < numberOfItemsToCheck; legendItemIndex++)
 				{
 					// Try to increase number of columns
@@ -1445,22 +1399,22 @@ public class Legend : ChartNamedElement
 					numberOfRowsPerColumn[columnNumber - 1] = 1;
 
 					// Check if legend items fit into the legend area
-					bool autoFitDone = this.CheckLegendItemsFit(
+					bool autoFitDone = CheckLegendItemsFit(
 						chartGraph,
 						legendSize,
 						legendItemIndex + 1,
-						this._autoFitFontSizeAdjustment,
+						_autoFitFontSizeAdjustment,
 						columnNumber,
 						numberOfRowsPerColumn,
-						out this._subColumnSizes,
-						out this._cellHeights,
+						out _subColumnSizes,
+						out _cellHeights,
 						out horSpaceLeft,
 						out vertSpaceLeft);
 
 					// Check if we fit or if we have just one row that do not fit
 					// vertically but still have horizontal space.
 					if (autoFitDone ||
-						((this.GetMaximumNumberOfRows(numberOfRowsPerColumn) == 1 || vertSpaceLeft < 0) && horSpaceLeft > 0))
+						((GetMaximumNumberOfRows(numberOfRowsPerColumn) == 1 || vertSpaceLeft < 0) && horSpaceLeft > 0))
 					{
 						// Continue adding columns
 						continue;
@@ -1497,11 +1451,11 @@ public class Legend : ChartNamedElement
 								int columnMinHeight = int.MaxValue;
 								for (int columnIndex = 0; columnIndex < columnNumber; columnIndex++)
 								{
-									int columnHeight = this.GetColumnHeight(columnIndex);
+									int columnHeight = GetColumnHeight(columnIndex);
 									int nextColumnFirstItemHeight = 0;
 									if (columnIndex < columnNumber - 1)
 									{
-										nextColumnFirstItemHeight = this._cellHeights[columnIndex + 1, 0];
+										nextColumnFirstItemHeight = _cellHeights[columnIndex + 1, 0];
 									}
 
 									if (columnHeight < columnMinHeight &&
@@ -1517,15 +1471,15 @@ public class Legend : ChartNamedElement
 								if (smallestColumnIndex < 0)
 								{
 									// Check if legend items fit into the legend area
-									autoFitDone = this.CheckLegendItemsFit(
+									autoFitDone = CheckLegendItemsFit(
 										chartGraph,
 										legendSize,
 										legendItemIndex + 1,
-										this._autoFitFontSizeAdjustment,
+										_autoFitFontSizeAdjustment,
 										columnNumber,
 										numberOfRowsPerColumn,
-										out this._subColumnSizes,
-										out this._cellHeights,
+										out _subColumnSizes,
+										out _cellHeights,
 										out horSpaceLeft,
 										out vertSpaceLeft);
 
@@ -1553,15 +1507,15 @@ public class Legend : ChartNamedElement
 								}
 
 								// Check if legend items fit into the legend area
-								autoFitDone = this.CheckLegendItemsFit(
+								autoFitDone = CheckLegendItemsFit(
 									chartGraph,
 									legendSize,
 									legendItemIndex + 1,
-									this._autoFitFontSizeAdjustment,
+									_autoFitFontSizeAdjustment,
 									columnNumber,
 									numberOfRowsPerColumn,
-									out this._subColumnSizes,
-									out this._cellHeights,
+									out _subColumnSizes,
+									out _cellHeights,
 									out horSpaceLeft,
 									out vertSpaceLeft);
 
@@ -1582,15 +1536,15 @@ public class Legend : ChartNamedElement
 		}
 
 		// Check if items fit and how much empty space left
-		this.CheckLegendItemsFit(
+		CheckLegendItemsFit(
 			chartGraph,
 			legendSize,
 			-1,
-			this._autoFitFontSizeAdjustment,
+			_autoFitFontSizeAdjustment,
 			columnNumber,
 			numberOfRowsPerColumn,
-			out this._subColumnSizes,
-			out this._cellHeights,
+			out _subColumnSizes,
+			out _cellHeights,
 			out horSpaceLeft,
 			out vertSpaceLeft);
 	}
@@ -1604,9 +1558,9 @@ public class Legend : ChartNamedElement
 	{
 		// Calculate current column height
 		int columnHeight = 0;
-		for (int rowIndex = 0; rowIndex < this._numberOfRowsPerColumn[columnIndex]; rowIndex++)
+		for (int rowIndex = 0; rowIndex < _numberOfRowsPerColumn[columnIndex]; rowIndex++)
 		{
-			columnHeight += this._cellHeights[columnIndex, rowIndex];
+			columnHeight += _cellHeights[columnIndex, rowIndex];
 		}
 
 		return columnHeight;
@@ -1617,7 +1571,7 @@ public class Legend : ChartNamedElement
 	/// </summary>
 	internal void SelectLegendBackground()
 	{
-		Common.HotRegionsList.AddHotRegion(this.Position.ToRectangleF(), this, ChartElementType.LegendArea, true);
+		Common.HotRegionsList.AddHotRegion(Position.ToRectangleF(), this, ChartElementType.LegendArea, true);
 	}
 
 	#endregion Legend position & size methods
@@ -1630,7 +1584,7 @@ public class Legend : ChartNamedElement
 	/// <returns>Maximum number of rows.</returns>
 	private int GetMaximumNumberOfRows()
 	{
-		return this.GetMaximumNumberOfRows(this._numberOfRowsPerColumn);
+		return GetMaximumNumberOfRows(_numberOfRowsPerColumn);
 	}
 
 	/// <summary>
@@ -1682,20 +1636,18 @@ public class Legend : ChartNamedElement
 		bool fitFlag = true;
 
 		// Initialize output values
-		horizontalSpaceLeft = 0;
-		verticalSpaceLeft = 0;
 
 		// Use current legend item count if number of items to check is not specified
 		if (numberOfItemsToCheck < 0)
 		{
-			numberOfItemsToCheck = this.legendItems.Count;
+			numberOfItemsToCheck = legendItems.Count;
 		}
 
 		// Calculate how many sub-columns (cells) this legend has
-		int numberOfSubColumns = this.GetNumberOfCells();
+		int numberOfSubColumns = GetNumberOfCells();
 
 		// Each column may have its own number of rows. Calculate the maximum number of rows.
-		int maxNumberOfRows = this.GetMaximumNumberOfRows(numberOfRowsPerColumn);
+		int maxNumberOfRows = GetMaximumNumberOfRows(numberOfRowsPerColumn);
 
 		// Create multidimensional arrays that will be holding the widths and heightsof all 
 		// individual cells. First dimension will be the legend column index, second dimension 
@@ -1707,9 +1659,9 @@ public class Legend : ChartNamedElement
 		//*************************************************************************
 		//** Measure legend font single character
 		//*************************************************************************
-		this.singleWCharacterSize = graph.MeasureStringAbs("W", (this.autofitFont == null) ? this.Font : this.autofitFont);
-		Size doubleCharacterSize = graph.MeasureStringAbs("WW", (this.autofitFont == null) ? this.Font : this.autofitFont);
-		this.singleWCharacterSize.Width = doubleCharacterSize.Width - this.singleWCharacterSize.Width;
+		singleWCharacterSize = graph.MeasureStringAbs("W", (autofitFont == null) ? Font : autofitFont);
+		Size doubleCharacterSize = graph.MeasureStringAbs("WW", (autofitFont == null) ? Font : autofitFont);
+		singleWCharacterSize.Width = doubleCharacterSize.Width - singleWCharacterSize.Width;
 
 
 		//*************************************************************************
@@ -1719,7 +1671,7 @@ public class Legend : ChartNamedElement
 		int currentRow = 0;
 		for (int legendItemIndex = 0; legendItemIndex < numberOfItemsToCheck; legendItemIndex++)
 		{
-			LegendItem legendItem = this.legendItems[legendItemIndex];
+			LegendItem legendItem = legendItems[legendItemIndex];
 
 			// Iterate through legend item cells
 			int numberOfCellsToSkip = 0;
@@ -1730,9 +1682,9 @@ public class Legend : ChartNamedElement
 
 				// Get assocated legend column object (may be NULL)
 				LegendCellColumn legendColumn = null;
-				if (cellIndex < this.CellColumns.Count)
+				if (cellIndex < CellColumns.Count)
 				{
-					legendColumn = this.CellColumns[cellIndex];
+					legendColumn = CellColumns[cellIndex];
 				}
 
 				// Check if current cell should be skipped becuse it's overlapped 
@@ -1755,8 +1707,8 @@ public class Legend : ChartNamedElement
 				Size cellSize = legendCell.MeasureCell(
 					graph,
 					fontSizeReducedBy,
-					(this.autofitFont == null) ? this.Font : this.autofitFont,
-					this.singleWCharacterSize);
+					(autofitFont == null) ? Font : autofitFont,
+					singleWCharacterSize);
 
 				// Check for column maximum/minimum cell width restrictions
 				if (legendColumn != null)
@@ -1856,9 +1808,9 @@ public class Legend : ChartNamedElement
 		{
 			for (int currentSubColumn = 0; currentSubColumn < numberOfSubColumns; currentSubColumn++)
 			{
-				if (currentSubColumn < this.CellColumns.Count)
+				if (currentSubColumn < CellColumns.Count)
 				{
-					LegendCellColumn legendColumn = this.CellColumns[currentSubColumn];
+					LegendCellColumn legendColumn = CellColumns[currentSubColumn];
 					if (legendColumn.HeaderText.Length > 0)
 					{
 						// Note that extra "I" character added to add more horizontal spacing
@@ -1943,7 +1895,7 @@ public class Legend : ChartNamedElement
 		//*************************************************************************
 		//** Check if equally spaced legend columns are used
 		//*************************************************************************
-		if (this.IsEquallySpacedItems)
+		if (IsEquallySpacedItems)
 		{
 			// Makre sure that same sub-colimn width are used in all columns
 			for (int currentSubColumn = 0; currentSubColumn < numberOfSubColumns; currentSubColumn++)
@@ -1978,7 +1930,7 @@ public class Legend : ChartNamedElement
 			// Add spacer between columns
 			if (currentColumn < numberOfColumns - 1)
 			{
-				totalTableColumnSpacingWidth += this.GetSeparatorSize(this.ItemColumnSeparator).Width;
+				totalTableColumnSpacingWidth += GetSeparatorSize(ItemColumnSeparator).Width;
 			}
 		}
 
@@ -2020,19 +1972,19 @@ public class Legend : ChartNamedElement
 	private int GetNumberOfCells()
 	{
 		// Calculate cell number if it was not previously cached
-		if (this._numberOfCells < 0)
+		if (_numberOfCells < 0)
 		{
 			// Initialize with number of defined columns
-			this._numberOfCells = this.CellColumns.Count;
+			_numberOfCells = CellColumns.Count;
 
 			// Check if number of cells in legend items exceed number of defined columns
-			foreach (LegendItem legendItem in this.legendItems)
+			foreach (LegendItem legendItem in legendItems)
 			{
-				this._numberOfCells = Math.Max(this._numberOfCells, legendItem.Cells.Count);
+				_numberOfCells = Math.Max(_numberOfCells, legendItem.Cells.Count);
 			}
 		}
 
-		return this._numberOfCells;
+		return _numberOfCells;
 	}
 
 	#endregion // Legend Items Fitting Methods
@@ -2049,9 +2001,9 @@ public class Legend : ChartNamedElement
 		legendItems.Clear();
 
 		// Check that there is no invalid legend names in the series
-		foreach (Series series in this.Common.DataManager.Series)
+		foreach (Series series in Common.DataManager.Series)
 		{
-			if (this.Common.ChartPicture.Legends.IndexOf(series.Legend) < 0)
+			if (Common.ChartPicture.Legends.IndexOf(series.Legend) < 0)
 			{
 				throw (new InvalidOperationException(SR.ExceptionLegendReferencedInSeriesNotFound(series.Name, series.Legend)));
 			}
@@ -2061,11 +2013,11 @@ public class Legend : ChartNamedElement
 		bool seriesWithReversedLegendItemsPresent = false;
 
 		// Add legend items based on the exsisting chart series
-		foreach (Series series in this.Common.DataManager.Series)
+		foreach (Series series in Common.DataManager.Series)
 		{
 			// Check if series uses this legend
 			// VSTS issue #140694 fix: support of series.Legend = "Default";
-			if (this.Common.ChartPicture.Legends[series.Legend] != this)
+			if (Common.ChartPicture.Legends[series.Legend] != this)
 			{
 				continue;
 			}
@@ -2075,7 +2027,7 @@ public class Legend : ChartNamedElement
 			{
 				// Check if chart area name is valid
 				bool areaNameFound = false;
-				foreach (ChartArea area in this.Common.ChartPicture.ChartAreas)
+				foreach (ChartArea area in Common.ChartPicture.ChartAreas)
 				{
 					if (area.Name == series.ChartArea)
 					{
@@ -2088,11 +2040,11 @@ public class Legend : ChartNamedElement
 				if (series.IsVisible() && areaNameFound)
 				{
 					// Check if we should add all data points into the legend
-					IChartType chartType = this.Common.ChartTypeRegistry.GetChartType(series.ChartTypeName);
+					IChartType chartType = Common.ChartTypeRegistry.GetChartType(series.ChartTypeName);
 
 
 					// Check if series legend items should be reversed
-					if (this.LegendItemOrder == LegendItemOrder.Auto)
+					if (LegendItemOrder == LegendItemOrder.Auto)
 					{
 						if (series.ChartType == SeriesChartType.StackedArea ||
 							series.ChartType == SeriesChartType.StackedArea100 ||
@@ -2136,13 +2088,13 @@ public class Legend : ChartNamedElement
 							}
 
 							// Create new legend item
-							LegendItem item = new LegendItem(point.Label, point.Color, "");
+							LegendItem item = new(point.Label, point.Color, "");
 
 							// Check if series is drawn in 3D chart area
-							bool area3D = this.Common.Chart.ChartAreas[series.ChartArea].Area3DStyle.Enable3D;
+							bool area3D = Common.Chart.ChartAreas[series.ChartArea].Area3DStyle.Enable3D;
 
 							// Set legend item appearance properties
-							item.SetAttributes(this.Common, series);
+							item.SetAttributes(Common, series);
 							item.SetAttributes(point, area3D);
 
 							// Set chart image map properties
@@ -2161,7 +2113,7 @@ public class Legend : ChartNamedElement
 								item.Name = ValueConverter.FormatValue(
 									series.Chart,
 									this,
-										this.Tag,
+										Tag,
 									point.XValue,
 									"", // Do not use point label format! For Y values only! point.LabelFormat, 
 									point.series.XValueType,
@@ -2203,8 +2155,8 @@ public class Legend : ChartNamedElement
 						}
 
 						// Create legend item
-						LegendItem item = new LegendItem(series.Name, series.Color, "");
-						item.SetAttributes(this.Common, series);
+						LegendItem item = new(series.Name, series.Color, "");
+						item.SetAttributes(Common, series);
 
 						item.ToolTip = series.ReplaceKeywords(series.LegendToolTip);
 
@@ -2236,8 +2188,8 @@ public class Legend : ChartNamedElement
 
 
 		// Check if series legend items should be reversed
-		if (this.LegendItemOrder == LegendItemOrder.SameAsSeriesOrder ||
-			(this.LegendItemOrder == LegendItemOrder.Auto && seriesWithReversedLegendItemsPresent))
+		if (LegendItemOrder == LegendItemOrder.SameAsSeriesOrder ||
+			(LegendItemOrder == LegendItemOrder.Auto && seriesWithReversedLegendItemsPresent))
 		{
 			// Reversed series generated legend items
 			legendItems.Reverse();
@@ -2245,7 +2197,7 @@ public class Legend : ChartNamedElement
 
 
 		// Add custom items
-		foreach (LegendItem item in this._customLegends)
+		foreach (LegendItem item in CustomItems)
 		{
 			if (item.Enabled)
 			{
@@ -2254,18 +2206,20 @@ public class Legend : ChartNamedElement
 		}
 
 		// Legend can't be empty at design time
-		if (legendItems.Count == 0 && this.Common != null && this.Common.Chart != null)
+		if (legendItems.Count == 0 && Common != null && Common.Chart != null)
 		{
-			if (this.Common.Chart.IsDesignMode())
+			if (Common.Chart.IsDesignMode())
 			{
-				LegendItem item = new LegendItem(this.Name + " - " + SR.DescriptionTypeEmpty, Color.White, "");
-				item.ImageStyle = LegendImageStyle.Line;
+				LegendItem item = new(Name + " - " + SR.DescriptionTypeEmpty, Color.White, "")
+				{
+					ImageStyle = LegendImageStyle.Line
+				};
 				legendItems.Add(item);
 			}
 		}
 
 		// Add legend item cells based on predefined columns
-		foreach (LegendItem item in this.legendItems)
+		foreach (LegendItem item in legendItems)
 		{
 			item.AddAutomaticCells(this);
 		}
@@ -2283,21 +2237,21 @@ public class Legend : ChartNamedElement
 	internal void Paint(ChartGraphics chartGraph)
 	{
 		// Reset some values
-		this._offset = Size.Empty;
-		this._itemColumns = 0;
-		this._horizontalSpaceLeft = 0;
-		this._verticalSpaceLeft = 0;
-		this._subColumnSizes = null;
-		this._numberOfRowsPerColumn = null;
-		this._cellHeights = null;
-		this.autofitFont = null;
-		this._autoFitFontSizeAdjustment = 0;
-		this._numberOfCells = -1;
-		this._numberOfLegendItemsToProcess = -1;
+		_offset = Size.Empty;
+		_itemColumns = 0;
+		_horizontalSpaceLeft = 0;
+		_verticalSpaceLeft = 0;
+		_subColumnSizes = null;
+		_numberOfRowsPerColumn = null;
+		_cellHeights = null;
+		autofitFont = null;
+		_autoFitFontSizeAdjustment = 0;
+		_numberOfCells = -1;
+		_numberOfLegendItemsToProcess = -1;
 
 		// Do nothing if legend disabled
-		if (!this.IsEnabled() ||
-			(this.MaximumAutoSize == 0f && this.Position.Auto))
+		if (!IsEnabled() ||
+			(MaximumAutoSize == 0f && Position.Auto))
 		{
 			return;
 		}
@@ -2306,7 +2260,7 @@ public class Legend : ChartNamedElement
 		FillLegendItemsCollection();
 
 		// Clear all legend item cells information
-		foreach (LegendItem legendItem in this.legendItems)
+		foreach (LegendItem legendItem in legendItems)
 		{
 			foreach (LegendCell cell in legendItem.Cells)
 			{
@@ -2315,10 +2269,10 @@ public class Legend : ChartNamedElement
 		}
 
 		// Call a notification event, so that legend items collection can be modified by user
-		this.Common.Chart.CallOnCustomizeLegend(legendItems, this.Name);
+		Common.Chart.CallOnCustomizeLegend(legendItems, Name);
 
 		// Check if legend is empty
-		if (this.legendItems.Count == 0)
+		if (legendItems.Count == 0)
 		{
 			return;
 		}
@@ -2326,7 +2280,7 @@ public class Legend : ChartNamedElement
 		//***********************************************************
 		//** RecalculateAxesScale legend information
 		//***********************************************************
-		this.RecalcLegendInfo(chartGraph);
+		RecalcLegendInfo(chartGraph);
 
 
 
@@ -2339,7 +2293,7 @@ public class Legend : ChartNamedElement
 		{
 			// Draw legend background, border and shadow
 			chartGraph.FillRectangleRel(
-				chartGraph.GetRelativeRectangle(Rectangle.Round(chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()))),
+				chartGraph.GetRelativeRectangle(Rectangle.Round(chartGraph.GetAbsoluteRectangle(Position.ToRectangleF()))),
 				BackColor,
 				BackHatchStyle,
 				BackImage,
@@ -2349,7 +2303,7 @@ public class Legend : ChartNamedElement
 				BackGradientStyle,
 				BackSecondaryColor,
 				BorderColor,
-				this.GetBorderSize(),
+				GetBorderSize(),
 				BorderDashStyle,
 				ShadowColor,
 				ShadowOffset,
@@ -2367,31 +2321,31 @@ public class Legend : ChartNamedElement
 		//** Draw legend header
 		//***********************************************************
 
-		this.DrawLegendHeader(chartGraph);
+		DrawLegendHeader(chartGraph);
 
 		//***********************************************************
 		//** Draw legend title
 		//***********************************************************
 
-		this.DrawLegendTitle(chartGraph);
+		DrawLegendTitle(chartGraph);
 
 		// Add legend title hot region
-		if (Common.ProcessModeRegions && !this._titlePosition.IsEmpty)
+		if (Common.ProcessModeRegions && !_titlePosition.IsEmpty)
 		{
-			Common.HotRegionsList.AddHotRegion(chartGraph.GetRelativeRectangle(this._titlePosition), this, ChartElementType.LegendTitle, true);
+			Common.HotRegionsList.AddHotRegion(chartGraph.GetRelativeRectangle(_titlePosition), this, ChartElementType.LegendTitle, true);
 		}
 
 		//***********************************************************
 		//** Draw legend items
 		//***********************************************************
-		if (this._numberOfLegendItemsToProcess < 0)
+		if (_numberOfLegendItemsToProcess < 0)
 		{
-			this._numberOfLegendItemsToProcess = this.legendItems.Count;
+			_numberOfLegendItemsToProcess = legendItems.Count;
 		}
 
-		for (int itemIndex = 0; itemIndex < this._numberOfLegendItemsToProcess; itemIndex++)
+		for (int itemIndex = 0; itemIndex < _numberOfLegendItemsToProcess; itemIndex++)
 		{
-			LegendItem legendItem = this.legendItems[itemIndex];
+			LegendItem legendItem = legendItems[itemIndex];
 
 			// Iterate through legend item cells
 			for (int cellIndex = 0; cellIndex < legendItem.Cells.Count; cellIndex++)
@@ -2402,9 +2356,9 @@ public class Legend : ChartNamedElement
 				// Paint cell
 				legendCell.Paint(
 					chartGraph,
-					this._autoFitFontSizeAdjustment,
-					this.autofitFont,
-					this.singleWCharacterSize);
+					_autoFitFontSizeAdjustment,
+					autofitFont,
+					singleWCharacterSize);
 			}
 
 			// Paint legend item separator
@@ -2428,11 +2382,11 @@ public class Legend : ChartNamedElement
 
 				separatorPosition.Width = right - separatorPosition.X;
 				separatorPosition.Y = legendItem.Cells[0].cellPosition.Bottom;
-				separatorPosition.Height = this.GetSeparatorSize(legendItem.SeparatorType).Height;
-				separatorPosition.Intersect(this._legendItemsAreaPosition);
+				separatorPosition.Height = GetSeparatorSize(legendItem.SeparatorType).Height;
+				separatorPosition.Intersect(_legendItemsAreaPosition);
 
 				// Draw separator
-				this.DrawSeparator(
+				DrawSeparator(
 					chartGraph,
 					legendItem.SeparatorType,
 					legendItem.SeparatorColor,
@@ -2445,35 +2399,35 @@ public class Legend : ChartNamedElement
 		//** If legend items are in multiple columns draw vertical
 		//** separator
 		//***********************************************************
-		if (this.ItemColumnSeparator != LegendSeparatorStyle.None)
+		if (ItemColumnSeparator != LegendSeparatorStyle.None)
 		{
-			Rectangle separatorRect = Rectangle.Round(chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()));
-			separatorRect.Y += this.GetBorderSize() + this._titlePosition.Height;
-			separatorRect.Height -= 2 * this.GetBorderSize() + this._titlePosition.Height;
-			separatorRect.X += this.GetBorderSize() + this._offset.Width;
-			separatorRect.Width = this.GetSeparatorSize(this.ItemColumnSeparator).Width;
-			if (this._horizontalSpaceLeft > 0)
+			Rectangle separatorRect = Rectangle.Round(chartGraph.GetAbsoluteRectangle(Position.ToRectangleF()));
+			separatorRect.Y += GetBorderSize() + _titlePosition.Height;
+			separatorRect.Height -= 2 * GetBorderSize() + _titlePosition.Height;
+			separatorRect.X += GetBorderSize() + _offset.Width;
+			separatorRect.Width = GetSeparatorSize(ItemColumnSeparator).Width;
+			if (_horizontalSpaceLeft > 0)
 			{
-				separatorRect.X += this._horizontalSpaceLeft / 2;
+				separatorRect.X += _horizontalSpaceLeft / 2;
 			}
 
 			// Check position
 			if (separatorRect.Width > 0 && separatorRect.Height > 0)
 			{
 				// Iterate through all columns
-				for (int columnIndex = 0; columnIndex < this._itemColumns; columnIndex++)
+				for (int columnIndex = 0; columnIndex < _itemColumns; columnIndex++)
 				{
 					// Iterate through all sub-columns
-					int cellCount = this.GetNumberOfCells();
+					int cellCount = GetNumberOfCells();
 					for (int subColumnIndex = 0; subColumnIndex < cellCount; subColumnIndex++)
 					{
-						separatorRect.X += this._subColumnSizes[columnIndex, subColumnIndex];
+						separatorRect.X += _subColumnSizes[columnIndex, subColumnIndex];
 					}
 
 					// Draw separator if not the last column
-					if (columnIndex < this._itemColumns - 1)
+					if (columnIndex < _itemColumns - 1)
 					{
-						this.DrawSeparator(chartGraph, this.ItemColumnSeparator, this.ItemColumnSeparatorColor, false, separatorRect);
+						DrawSeparator(chartGraph, ItemColumnSeparator, ItemColumnSeparatorColor, false, separatorRect);
 					}
 
 					// Add separator width
@@ -2486,18 +2440,18 @@ public class Legend : ChartNamedElement
 		//** Draw special indicator on the bottom of the legend if 
 		//** it was truncated.
 		//***********************************************************
-		if (this._legendItemsTruncated &&
-			this._legendItemsAreaPosition.Height > this._truncatedDotsSize / 2)
+		if (_legendItemsTruncated &&
+			_legendItemsAreaPosition.Height > _truncatedDotsSize / 2)
 		{
 			// Calculate dots step (no more than 10 pixel)
 			int markerCount = 3;
-			int step = (this._legendItemsAreaPosition.Width / 3) / markerCount;
+			int step = (_legendItemsAreaPosition.Width / 3) / markerCount;
 			step = (int)Math.Min(step, 10);
 
 			// Calculate start point
-			PointF point = new PointF(
-				this._legendItemsAreaPosition.X + this._legendItemsAreaPosition.Width / 2 - step * (float)Math.Floor(markerCount / 2f),
-				this._legendItemsAreaPosition.Bottom + (this._truncatedDotsSize + this._offset.Height) / 2);
+			PointF point = new(
+				_legendItemsAreaPosition.X + _legendItemsAreaPosition.Width / 2 - step * (float)Math.Floor(markerCount / 2f),
+				_legendItemsAreaPosition.Bottom + (_truncatedDotsSize + _offset.Height) / 2);
 
 			// Draw several dots at the bottom of the legend
 			for (int index = 0; index < markerCount; index++)
@@ -2505,8 +2459,8 @@ public class Legend : ChartNamedElement
 				chartGraph.DrawMarkerRel(
 					chartGraph.GetRelativePoint(point),
 					MarkerStyle.Circle,
-					this._truncatedDotsSize,
-					this.ForeColor,
+					_truncatedDotsSize,
+					ForeColor,
 					Color.Empty,
 					0,
 					string.Empty,
@@ -2529,7 +2483,7 @@ public class Legend : ChartNamedElement
 		}
 
 		// Remove temporary cells from legend items
-		foreach (LegendItem legendItem in this.legendItems)
+		foreach (LegendItem legendItem in legendItems)
 		{
 			if (legendItem.clearTempCells)
 			{
@@ -2551,7 +2505,7 @@ public class Legend : ChartNamedElement
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeLegend_Name"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public override string Name
 	{
@@ -2575,21 +2529,15 @@ public class Legend : ChartNamedElement
 		DefaultValue(Constants.NotSetValue),
 	SRDescription("DescriptionAttributeLegend_DockToChartArea"),
 		TypeConverter(typeof(LegendAreaNameConverter)),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public string DockedToChartArea
-	{
-		get
+	public string DockedToChartArea { get; set
 		{
-			return _dockedToChartArea;
-		}
-		set
-		{
-			if (value != _dockedToChartArea)
+			if (value != field)
 			{
-				if (String.IsNullOrEmpty(value))
+				if (string.IsNullOrEmpty(value))
 				{
-					_dockedToChartArea = Constants.NotSetValue;
+					field = Constants.NotSetValue;
 				}
 				else
 				{
@@ -2598,13 +2546,12 @@ public class Legend : ChartNamedElement
 						Chart.ChartAreas.VerifyNameReference(value);
 					}
 
-					_dockedToChartArea = value;
+					field = value;
 				}
 
-				this.Invalidate(false);
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Constants.NotSetValue;
 
 	/// <summary>
 	/// Gets or sets a property which indicates whether 
@@ -2616,23 +2563,16 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeLegend_DockInsideChartArea"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public bool IsDockedInsideChartArea
-	{
-		get
+	public bool IsDockedInsideChartArea { get; set
 		{
-			return _isDockedInsideChartArea;
-		}
-		set
-		{
-			if (value != _isDockedInsideChartArea)
+			if (value != field)
 			{
-				_isDockedInsideChartArea = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = true;
 
 	/// <summary>
 	/// Gets or sets the position of the legend.
@@ -2642,16 +2582,16 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	SRDescription("DescriptionAttributeLegend_Position"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ElementPositionConverter)),
-	SerializationVisibilityAttribute(SerializationVisibility.Element)
+	SerializationVisibility(SerializationVisibility.Element)
 	]
 	public ElementPosition Position
 	{
 		get
 		{
 			// Serialize only position values if Auto set to false
-			if (this.Common != null && this.Common.Chart != null && this.Common.Chart.serializationStatus == SerializationStatus.Saving)
+			if (Common != null && Common.Chart != null && Common.Chart.serializationStatus == SerializationStatus.Saving)
 			{
 				if (_position.Auto)
 				{
@@ -2659,8 +2599,10 @@ public class Legend : ChartNamedElement
 				}
 				else
 				{
-					ElementPosition newPosition = new ElementPosition();
-					newPosition.Auto = false;
+					ElementPosition newPosition = new()
+					{
+						Auto = false
+					};
 					newPosition.SetPositionNoAuto(_position.X, _position.Y, _position.Width, _position.Height);
 					return newPosition;
 				}
@@ -2671,7 +2613,7 @@ public class Legend : ChartNamedElement
 		set
 		{
 			_position = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -2681,7 +2623,7 @@ public class Legend : ChartNamedElement
 	/// <returns></returns>
 	internal bool ShouldSerializePosition()
 	{
-		return !this.Position.Auto;
+		return !Position.Auto;
 	}
 
 
@@ -2694,20 +2636,13 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeLegend_EquallySpacedItems"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public bool IsEquallySpacedItems
-	{
-		get
+	public bool IsEquallySpacedItems { get; set
 		{
-			return _isEquallySpacedItems;
-		}
-		set
-		{
-			_isEquallySpacedItems = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = false;
 
 	/// <summary>
 	/// Gets or sets a flag which indicates whether the legend is enabled.
@@ -2717,21 +2652,14 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeLegend_Enabled"),
-	NotifyParentPropertyAttribute(true),
-	ParenthesizePropertyNameAttribute(true)
+	NotifyParentProperty(true),
+	ParenthesizePropertyName(true)
 	]
-	public bool Enabled
-	{
-		get
+	public bool Enabled { get; set
 		{
-			return _enabled;
-		}
-		set
-		{
-			_enabled = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = true;
 
 	/// <summary>
 	/// Gets or sets a value that indicates if legend text is automatically sized.
@@ -2741,19 +2669,13 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeLegend_AutoFitText"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public bool IsTextAutoFit
-	{
-		get
+	public bool IsTextAutoFit { get; set
 		{
-			return _isTextAutoFit;
-		}
-		set
-		{
-			_isTextAutoFit = value;
+			field = value;
 
-			if (_isTextAutoFit)
+			if (field)
 			{
 				// Reset the font size to "8"
 				// Use current font family name ans style if possible.
@@ -2768,9 +2690,8 @@ public class Legend : ChartNamedElement
 				}
 			}
 
-			this.Invalidate(false);
-		}
-	}
+			Invalidate(false);
+		} } = true;
 
 	/// <summary>
 	/// Gets or sets the legend style.
@@ -2780,21 +2701,14 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(LegendStyle.Table),
 	SRDescription("DescriptionAttributeLegend_LegendStyle"),
-	NotifyParentPropertyAttribute(true),
-	ParenthesizePropertyNameAttribute(true)
+	NotifyParentProperty(true),
+	ParenthesizePropertyName(true)
 	]
-	public LegendStyle LegendStyle
-	{
-		get
+	public LegendStyle LegendStyle { get; set
 		{
-			return _legendStyle;
-		}
-		set
-		{
-			_legendStyle = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = LegendStyle.Table;
 
 
 	/// <summary>
@@ -2805,13 +2719,7 @@ public class Legend : ChartNamedElement
 	DefaultValue(7),
 	SRDescription("DescriptionAttributeLegend_AutoFitMinFontSize"),
 	]
-	public int AutoFitMinFontSize
-	{
-		get
-		{
-			return this._autoFitMinFontSize;
-		}
-		set
+	public int AutoFitMinFontSize { get; set
 		{
 			// Font size cannot be less than 5
 			if (value < 5)
@@ -2819,10 +2727,9 @@ public class Legend : ChartNamedElement
 				throw (new InvalidOperationException(SR.ExceptionLegendAutoFitMinFontSizeInvalid));
 			}
 
-			this._autoFitMinFontSize = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = 7;
 
 	/// <summary>
 	/// Gets or sets the maximum size (in percentage) of the legend used in the automatic layout algorithm.
@@ -2836,23 +2743,16 @@ public class Legend : ChartNamedElement
 	DefaultValue(50f),
 	SRDescription("DescriptionAttributeLegend_MaxAutoSize"),
 	]
-	public float MaximumAutoSize
-	{
-		get
-		{
-			return this._maximumLegendAutoSize;
-		}
-		set
+	public float MaximumAutoSize { get; set
 		{
 			if (value < 0f || value > 100f)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendMaximumAutoSizeInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMaximumAutoSizeInvalid));
 			}
 
-			this._maximumLegendAutoSize = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = 50f;
 
 	/// <summary>
 	/// Gets a collection of legend columns.
@@ -2863,13 +2763,7 @@ public class Legend : ChartNamedElement
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		Editor(typeof(LegendCellColumnCollectionEditor), typeof(UITypeEditor)),
 		]
-	public LegendCellColumnCollection CellColumns
-	{
-		get
-		{
-			return this._cellColumns;
-		}
-	}
+	public LegendCellColumnCollection CellColumns { get; private set; } = null;
 
 	/// <summary>
 	/// Gets the legend table style.
@@ -2879,21 +2773,14 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(LegendTableStyle.Auto),
 	SRDescription("DescriptionAttributeLegend_TableStyle"),
-	NotifyParentPropertyAttribute(true),
-	ParenthesizePropertyNameAttribute(true)
+	NotifyParentProperty(true),
+	ParenthesizePropertyName(true)
 	]
-	public LegendTableStyle TableStyle
-	{
-		get
+	public LegendTableStyle TableStyle { get; set
 		{
-			return this._legendTableStyle;
-		}
-		set
-		{
-			this._legendTableStyle = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = LegendTableStyle.Auto;
 
 	/// <summary>
 	/// Gets the legend header separator style.
@@ -2903,21 +2790,14 @@ public class Legend : ChartNamedElement
 	DefaultValue(typeof(LegendSeparatorStyle), "None"),
 	SRDescription("DescriptionAttributeLegend_HeaderSeparator"),
 	]
-	public LegendSeparatorStyle HeaderSeparator
-	{
-		get
+	public LegendSeparatorStyle HeaderSeparator { get; set
 		{
-			return this._headerSeparator;
-		}
-		set
-		{
-			if (value != this._headerSeparator)
+			if (value != field)
 			{
-				this._headerSeparator = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = LegendSeparatorStyle.None;
 
 	/// <summary>
 	/// Gets or sets the color of the legend header separator.
@@ -2929,21 +2809,14 @@ public class Legend : ChartNamedElement
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color HeaderSeparatorColor
-	{
-		get
+	public Color HeaderSeparatorColor { get; set
 		{
-			return this._headerSeparatorColor;
-		}
-		set
-		{
-			if (value != this._headerSeparatorColor)
+			if (value != field)
 			{
-				this._headerSeparatorColor = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the separator style of the legend table columns.
@@ -2953,21 +2826,14 @@ public class Legend : ChartNamedElement
 	DefaultValue(typeof(LegendSeparatorStyle), "None"),
 	SRDescription("DescriptionAttributeLegend_ItemColumnSeparator"),
 	]
-	public LegendSeparatorStyle ItemColumnSeparator
-	{
-		get
+	public LegendSeparatorStyle ItemColumnSeparator { get; set
 		{
-			return this._itemColumnSeparator;
-		}
-		set
-		{
-			if (value != this._itemColumnSeparator)
+			if (value != field)
 			{
-				this._itemColumnSeparator = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = LegendSeparatorStyle.None;
 
 	/// <summary>
 	/// Gets or sets the color of the separator of the legend table columns.
@@ -2979,21 +2845,14 @@ public class Legend : ChartNamedElement
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color ItemColumnSeparatorColor
-	{
-		get
+	public Color ItemColumnSeparatorColor { get; set
 		{
-			return this._itemColumnSeparatorColor;
-		}
-		set
-		{
-			if (value != this._itemColumnSeparatorColor)
+			if (value != field)
 			{
-				this._itemColumnSeparatorColor = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Color.Black;
 
 
 	/// <summary>
@@ -3004,26 +2863,19 @@ public class Legend : ChartNamedElement
 	DefaultValue(50),
 	SRDescription("DescriptionAttributeLegend_ItemColumnSpacing"),
 	]
-	public int ItemColumnSpacing
-	{
-		get
+	public int ItemColumnSpacing { get; set
 		{
-			return this._itemColumnSpacing;
-		}
-		set
-		{
-			if (value != this._itemColumnSpacing)
+			if (value != field)
 			{
 				if (value < 0)
 				{
-					throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendColumnSpacingInvalid));
+					throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendColumnSpacingInvalid));
 				}
 
-				this._itemColumnSpacing = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = 50;
 
 
 
@@ -3035,22 +2887,15 @@ public class Legend : ChartNamedElement
 		SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 		SRDescription("DescriptionAttributeBackColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color BackColor
-	{
-		get
+	public Color BackColor { get; set
 		{
-			return _backColor;
-		}
-		set
-		{
-			_backColor = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the legend border color.
@@ -3060,22 +2905,15 @@ public class Legend : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 		SRDescription("DescriptionAttributeBorderColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color BorderColor
-	{
-		get
+	public Color BorderColor { get; set
 		{
-			return _borderColor;
-		}
-		set
-		{
-			_borderColor = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the legend border style.
@@ -3086,20 +2924,13 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(ChartDashStyle.Solid),
 		SRDescription("DescriptionAttributeBorderDashStyle"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public ChartDashStyle BorderDashStyle
-	{
-		get
+	public ChartDashStyle BorderDashStyle { get; set
 		{
-			return _borderDashStyle;
-		}
-		set
-		{
-			_borderDashStyle = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = ChartDashStyle.Solid;
 
 	/// <summary>
 	/// Gets or sets the legend border width.
@@ -3110,25 +2941,18 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(1),
 		SRDescription("DescriptionAttributeBorderWidth"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public int BorderWidth
-	{
-		get
-		{
-			return _borderWidth;
-		}
-		set
+	public int BorderWidth { get; set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendBorderWidthIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendBorderWidthIsNegative));
 			}
 
-			_borderWidth = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = 1;
 
 	/// <summary>
 	/// Gets or sets the legend background image.
@@ -3139,20 +2963,13 @@ public class Legend : ChartNamedElement
 	DefaultValue(""),
 		SRDescription("DescriptionAttributeBackImage"),
 		Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-		NotifyParentPropertyAttribute(true)
+		NotifyParentProperty(true)
 	]
-	public string BackImage
-	{
-		get
+	public string BackImage { get; set
 		{
-			return _backImage;
-		}
-		set
-		{
-			_backImage = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = "";
 
 	/// <summary>
 	/// Gets or sets the legend background image drawing mode.
@@ -3161,21 +2978,14 @@ public class Legend : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageWrapMode.Tile),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageWrapMode")
 	]
-	public ChartImageWrapMode BackImageWrapMode
-	{
-		get
+	public ChartImageWrapMode BackImageWrapMode { get; set
 		{
-			return _backImageWrapMode;
-		}
-		set
-		{
-			_backImageWrapMode = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = ChartImageWrapMode.Tile;
 
 	/// <summary>
 	/// Gets or sets a color which will be replaced with a transparent color while drawing the background image.
@@ -3184,23 +2994,16 @@ public class Legend : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageTransparentColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color BackImageTransparentColor
-	{
-		get
+	public Color BackImageTransparentColor { get; set
 		{
-			return _backImageTransparentColor;
-		}
-		set
-		{
-			_backImageTransparentColor = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the background image alignment used for the unscaled drawing mode.
@@ -3209,21 +3012,14 @@ public class Legend : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageAlignmentStyle.TopLeft),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackImageAlign")
 	]
-	public ChartImageAlignmentStyle BackImageAlignment
-	{
-		get
+	public ChartImageAlignmentStyle BackImageAlignment { get; set
 		{
-			return _backImageAlignment;
-		}
-		set
-		{
-			_backImageAlignment = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = ChartImageAlignmentStyle.TopLeft;
 
 	/// <summary>
 	/// Gets or sets background gradient style of the legend.
@@ -3233,22 +3029,15 @@ public class Legend : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
-	public GradientStyle BackGradientStyle
-	{
-		get
+	public GradientStyle BackGradientStyle { get; set
 		{
-			return _backGradientStyle;
-		}
-		set
-		{
-			_backGradientStyle = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = GradientStyle.None;
 
 	/// <summary>
 	/// Gets or sets the secondary background color.
@@ -3269,23 +3058,16 @@ public class Legend : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color BackSecondaryColor
-	{
-		get
+	public Color BackSecondaryColor { get; set
 		{
-			return _backSecondaryColor;
-		}
-		set
-		{
-			_backSecondaryColor = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the background hatch style.
@@ -3304,22 +3086,15 @@ public class Legend : ChartNamedElement
 		SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
-	public ChartHatchStyle BackHatchStyle
-	{
-		get
+	public ChartHatchStyle BackHatchStyle { get; set
 		{
-			return _backHatchStyle;
-		}
-		set
-		{
-			_backHatchStyle = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = ChartHatchStyle.None;
 
 	/// <summary>
 	/// Gets or sets the font of the legend text.
@@ -3330,7 +3105,7 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
 	SRDescription("DescriptionAttributeLegend_Font"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public Font Font
 	{
@@ -3340,10 +3115,10 @@ public class Legend : ChartNamedElement
 		}
 		set
 		{
-			this.IsTextAutoFit = false;
+			IsTextAutoFit = false;
 
 			_font = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -3356,22 +3131,15 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(Color), "Black"),
 		SRDescription("DescriptionAttributeLegendFontColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color ForeColor
-	{
-		get
+	public Color ForeColor { get; set
 		{
-			return _foreColor;
-		}
-		set
-		{
-			_foreColor = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the text alignment.
@@ -3381,20 +3149,13 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(StringAlignment.Near),
 	SRDescription("DescriptionAttributeLegend_Alignment"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public StringAlignment Alignment
-	{
-		get
+	public StringAlignment Alignment { get; set
 		{
-			return _legendAlignment;
-		}
-		set
-		{
-			_legendAlignment = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = StringAlignment.Near;
 
 	/// <summary>
 	/// Gets or sets the property that specifies where the legend docks.
@@ -3404,20 +3165,13 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(Docking.Right),
 	SRDescription("DescriptionAttributeLegend_Docking"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public Docking Docking
-	{
-		get
+	public Docking Docking { get; set
 		{
-			return _legendDocking;
-		}
-		set
-		{
-			_legendDocking = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = Docking.Right;
 
 	/// <summary>
 	/// Gets or sets the offset between the legend and its shadow.
@@ -3431,20 +3185,13 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(0),
 		SRDescription("DescriptionAttributeShadowOffset"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
-	public int ShadowOffset
-	{
-		get
+	public int ShadowOffset { get; set
 		{
-			return _shadowOffset;
-		}
-		set
-		{
-			_shadowOffset = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = 0;
 
 	/// <summary>
 	/// Gets or sets the color of a legend's shadow.
@@ -3458,22 +3205,15 @@ public class Legend : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(Color), "128, 0, 0, 0"),
 		SRDescription("DescriptionAttributeShadowColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color ShadowColor
-	{
-		get
+	public Color ShadowColor { get; set
 		{
-			return _shadowColor;
-		}
-		set
-		{
-			_shadowColor = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = Color.FromArgb(128, 0, 0, 0);
 
 	/// <summary>
 	/// Gets or sets the name of the chart area name inside which the legend is drawn.
@@ -3483,38 +3223,38 @@ public class Legend : ChartNamedElement
 	Browsable(false),
 	Bindable(false),
 		DefaultValue(Constants.NotSetValue),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeLegend_InsideChartArea"),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Content),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	TypeConverter(typeof(LegendAreaNameConverter))
 	]
 	public string InsideChartArea
 	{
 		get
 		{
-			if (this.Common != null &&
-				this.Common.Chart != null &&
-				this.Common.Chart.serializing)
+			if (Common != null &&
+				Common.Chart != null &&
+				Common.Chart.serializing)
 			{
 				return "NotSet";
 			}
 
-			return this.DockedToChartArea;
+			return DockedToChartArea;
 		}
 		set
 		{
 			if (value.Length == 0)
 			{
-				this.DockedToChartArea = Constants.NotSetValue;
+				DockedToChartArea = Constants.NotSetValue;
 			}
 			else
 			{
-				this.DockedToChartArea = value;
+				DockedToChartArea = value;
 			}
 
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -3525,18 +3265,12 @@ public class Legend : ChartNamedElement
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeLegend_CustomItems"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		Editor(typeof(LegendItemCollectionEditor), typeof(UITypeEditor))
 		]
-	public LegendItemsCollection CustomItems
-	{
-		get
-		{
-			return _customLegends;
-		}
-	}
+	public LegendItemsCollection CustomItems { get; private set; } = null;
 
 
 
@@ -3553,26 +3287,19 @@ public class Legend : ChartNamedElement
 	DefaultValue(25),
 	SRDescription("DescriptionAttributeLegend_TextWrapThreshold"),
 	]
-	public int TextWrapThreshold
-	{
-		get
+	public int TextWrapThreshold { get; set
 		{
-			return this._textWrapThreshold;
-		}
-		set
-		{
-			if (value != this._textWrapThreshold)
+			if (value != field)
 			{
 				if (value < 0)
 				{
-					throw (new ArgumentException(SR.ExceptionTextThresholdIsNegative, "value"));
+					throw (new ArgumentException(SR.ExceptionTextThresholdIsNegative, nameof(value)));
 				}
 
-				this._textWrapThreshold = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = 25;
 
 	/// <summary>
 	/// Gets or sets a property that specifies the order that legend items are shown. This property only affects 
@@ -3587,21 +3314,14 @@ public class Legend : ChartNamedElement
 		DefaultValue(LegendItemOrder.Auto),
 	SRDescription("DescriptionAttributeLegend_Reversed"),
 	]
-	public LegendItemOrder LegendItemOrder
-	{
-		get
+	public LegendItemOrder LegendItemOrder { get; set
 		{
-			return this._legendItemOrder;
-		}
-		set
-		{
-			if (value != this._legendItemOrder)
+			if (value != field)
 			{
-				this._legendItemOrder = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = LegendItemOrder.Auto;
 
 	/// <summary>
 	/// Gets or sets a flag which indicates whether 
@@ -3612,21 +3332,14 @@ public class Legend : ChartNamedElement
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeLegend_InterlacedRows"),
 	]
-	public bool InterlacedRows
-	{
-		get
+	public bool InterlacedRows { get; set
 		{
-			return this._interlacedRows;
-		}
-		set
-		{
-			if (value != this._interlacedRows)
+			if (value != field)
 			{
-				this._interlacedRows = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = false;
 
 	/// <summary>
 	/// Gets or sets the legend interlaced row's background color. Only applicable if interlaced rows are used. 
@@ -3638,21 +3351,14 @@ public class Legend : ChartNamedElement
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color InterlacedRowsColor
-	{
-		get
+	public Color InterlacedRowsColor { get; set
 		{
-			return this._interlacedRowsColor;
-		}
-		set
-		{
-			if (value != this._interlacedRowsColor)
+			if (value != field)
 			{
-				this._interlacedRowsColor = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Color.Empty;
 
 	#endregion
 
@@ -3666,21 +3372,14 @@ public class Legend : ChartNamedElement
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeLegend_Title"),
 	]
-	public string Title
-	{
-		get
+	public string Title { get; set
 		{
-			return this._title;
-		}
-		set
-		{
-			if (value != this._title)
+			if (value != field)
 			{
-				this._title = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the text color of the legend title.
@@ -3692,21 +3391,14 @@ public class Legend : ChartNamedElement
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color TitleForeColor
-	{
-		get
+	public Color TitleForeColor { get; set
 		{
-			return this._titleForeColor;
-		}
-		set
-		{
-			if (value != this._titleForeColor)
+			if (value != field)
 			{
-				this._titleForeColor = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the background color of the legend title. 
@@ -3718,21 +3410,14 @@ public class Legend : ChartNamedElement
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color TitleBackColor
-	{
-		get
+	public Color TitleBackColor { get; set
 		{
-			return this._titleBackColor;
-		}
-		set
-		{
-			if (value != this._titleBackColor)
+			if (value != field)
 			{
-				this._titleBackColor = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the font of the legend title. 
@@ -3746,14 +3431,14 @@ public class Legend : ChartNamedElement
 	{
 		get
 		{
-			return this._titleFont;
+			return _titleFont;
 		}
 		set
 		{
-			if (value != this._titleFont)
+			if (value != _titleFont)
 			{
-				this._titleFont = value;
-				this.Invalidate(false);
+				_titleFont = value;
+				Invalidate(false);
 			}
 		}
 	}
@@ -3766,21 +3451,14 @@ public class Legend : ChartNamedElement
 	DefaultValue(typeof(StringAlignment), "Center"),
 	SRDescription("DescriptionAttributeLegend_TitleAlignment"),
 	]
-	public StringAlignment TitleAlignment
-	{
-		get
+	public StringAlignment TitleAlignment { get; set
 		{
-			return this._titleAlignment;
-		}
-		set
-		{
-			if (value != this._titleAlignment)
+			if (value != field)
 			{
-				this._titleAlignment = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = StringAlignment.Center;
 
 	/// <summary>
 	/// Gets or sets the separator style of the legend title.
@@ -3790,21 +3468,14 @@ public class Legend : ChartNamedElement
 	DefaultValue(typeof(LegendSeparatorStyle), "None"),
 	SRDescription("DescriptionAttributeLegend_TitleSeparator"),
 	]
-	public LegendSeparatorStyle TitleSeparator
-	{
-		get
+	public LegendSeparatorStyle TitleSeparator { get; set
 		{
-			return this._titleSeparator;
-		}
-		set
-		{
-			if (value != this._titleSeparator)
+			if (value != field)
 			{
-				this._titleSeparator = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = LegendSeparatorStyle.None;
 
 	/// <summary>
 	/// Gets or sets the separator color of the legend title.
@@ -3816,21 +3487,14 @@ public class Legend : ChartNamedElement
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color TitleSeparatorColor
-	{
-		get
+	public Color TitleSeparatorColor { get; set
 		{
-			return this._titleSeparatorColor;
-		}
-		set
-		{
-			if (value != this._titleSeparatorColor)
+			if (value != field)
 			{
-				this._titleSeparatorColor = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Color.Black;
 
 
 
@@ -3847,24 +3511,24 @@ public class Legend : ChartNamedElement
 	private Size GetTitleSize(ChartGraphics chartGraph, Size titleMaxSize)
 	{
 		Size titleSize = Size.Empty;
-		if (this.Title.Length > 0)
+		if (Title.Length > 0)
 		{
 			// Adjust available space
-			titleMaxSize.Width -= this.GetBorderSize() * 2 + this._offset.Width;
+			titleMaxSize.Width -= GetBorderSize() * 2 + _offset.Width;
 
 			// Measure title text size
 			titleSize = chartGraph.MeasureStringAbs(
-				this.Title.Replace("\\n", "\n"),
-				this.TitleFont,
+				Title.Replace("\\n", "\n"),
+				TitleFont,
 				titleMaxSize,
 				StringFormat.GenericTypographic);
 
 			// Add text spacing
-			titleSize.Height += this._offset.Height;
-			titleSize.Width += this._offset.Width;
+			titleSize.Height += _offset.Height;
+			titleSize.Width += _offset.Width;
 
 			// Add space required for the title separator
-			titleSize.Height += this.GetSeparatorSize(this.TitleSeparator).Height;
+			titleSize.Height += GetSeparatorSize(TitleSeparator).Height;
 		}
 
 		return titleSize;
@@ -3887,11 +3551,11 @@ public class Legend : ChartNamedElement
 				legendColumn.HeaderFont);
 
 			// Add text spacing
-			headerSize.Height += this._offset.Height;
-			headerSize.Width += this._offset.Width;
+			headerSize.Height += _offset.Height;
+			headerSize.Width += _offset.Width;
 
 			// Add space required for the title separator
-			headerSize.Height += this.GetSeparatorSize(this.HeaderSeparator).Height;
+			headerSize.Height += GetSeparatorSize(HeaderSeparator).Height;
 		}
 
 		return headerSize;
@@ -3904,20 +3568,20 @@ public class Legend : ChartNamedElement
 	private void DrawLegendHeader(ChartGraphics chartGraph)
 	{
 		// Check if header should be drawn
-		if (!this._headerPosition.IsEmpty &&
-			this._headerPosition.Width > 0 &&
-			this._headerPosition.Height > 0)
+		if (!_headerPosition.IsEmpty &&
+			_headerPosition.Width > 0 &&
+			_headerPosition.Height > 0)
 		{
 			int prevRightLocation = -1;
 			bool redrawLegendBorder = false;
 
 			// Get Legend position
-			Rectangle legendPosition = Rectangle.Round(chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()));
-			legendPosition.Y += /*this.offset.Height + */this.GetBorderSize();
-			legendPosition.Height -= 2 * (this._offset.Height + this.GetBorderSize());
-			legendPosition.X += this.GetBorderSize();
-			legendPosition.Width -= 2 * this.GetBorderSize();
-			if (this.GetBorderSize() > 0)
+			Rectangle legendPosition = Rectangle.Round(chartGraph.GetAbsoluteRectangle(Position.ToRectangleF()));
+			legendPosition.Y += /*this.offset.Height + */GetBorderSize();
+			legendPosition.Height -= 2 * (_offset.Height + GetBorderSize());
+			legendPosition.X += GetBorderSize();
+			legendPosition.Width -= 2 * GetBorderSize();
+			if (GetBorderSize() > 0)
 			{
 				++legendPosition.Height;
 				++legendPosition.Width;
@@ -3925,9 +3589,9 @@ public class Legend : ChartNamedElement
 
 			// Check if at least 1 column header has non-empty background color
 			bool headerBackFill = false;
-			for (int subColumnIndex = 0; subColumnIndex < this.CellColumns.Count; subColumnIndex++)
+			for (int subColumnIndex = 0; subColumnIndex < CellColumns.Count; subColumnIndex++)
 			{
-				LegendCellColumn legendColumn = this.CellColumns[subColumnIndex];
+				LegendCellColumn legendColumn = CellColumns[subColumnIndex];
 				if (!legendColumn.HeaderBackColor.IsEmpty)
 				{
 					headerBackFill = true;
@@ -3935,20 +3599,20 @@ public class Legend : ChartNamedElement
 			}
 
 			// Iterate through all columns
-			for (int columnIndex = 0; columnIndex < this._itemColumns; columnIndex++)
+			for (int columnIndex = 0; columnIndex < _itemColumns; columnIndex++)
 			{
 				int columnStart = 0;
 				int columnWidth = 0;
 
 				// Iterate through all sub-columns
-				int numberOfSubColumns = this._subColumnSizes.GetLength(1);
+				int numberOfSubColumns = _subColumnSizes.GetLength(1);
 				for (int subColumnIndex = 0; subColumnIndex < numberOfSubColumns; subColumnIndex++)
 				{
 					// Calculate position of the header
-					Rectangle rect = this._headerPosition;
+					Rectangle rect = _headerPosition;
 					if (_horizontalSpaceLeft > 0)
 					{
-						rect.X += (int)(this._horizontalSpaceLeft / 2f);
+						rect.X += (int)(_horizontalSpaceLeft / 2f);
 					}
 
 					if (prevRightLocation != -1)
@@ -3956,7 +3620,7 @@ public class Legend : ChartNamedElement
 						rect.X = prevRightLocation;
 					}
 
-					rect.Width = this._subColumnSizes[columnIndex, subColumnIndex];
+					rect.Width = _subColumnSizes[columnIndex, subColumnIndex];
 					prevRightLocation = rect.Right;
 
 					// Remember column start position and update width
@@ -3975,16 +3639,16 @@ public class Legend : ChartNamedElement
 						Rectangle fillRect = rect;
 
 						// Make sure header fill riches legend top border
-						if (this._titlePosition.Height <= 0)
+						if (_titlePosition.Height <= 0)
 						{
-							fillRect.Y -= this._offset.Height;
-							fillRect.Height += this._offset.Height;
+							fillRect.Y -= _offset.Height;
+							fillRect.Height += _offset.Height;
 						}
 
 						// Stretch header fill rectangle and separators when vertical 
 						// separator are used or if there is 1 column with header background
-						if ((this._itemColumns == 1 && headerBackFill) ||
-							this.ItemColumnSeparator != LegendSeparatorStyle.None)
+						if ((_itemColumns == 1 && headerBackFill) ||
+							ItemColumnSeparator != LegendSeparatorStyle.None)
 						{
 							// For the first cell in the first column stretch filling
 							// to the left side of the legend
@@ -3999,7 +3663,7 @@ public class Legend : ChartNamedElement
 
 							// For the last cell in the last column stretch filling
 							// to the right side of the legend
-							if (columnIndex == (this._itemColumns - 1) &&
+							if (columnIndex == (_itemColumns - 1) &&
 								subColumnIndex == (numberOfSubColumns - 1))
 							{
 								columnWidth += legendPosition.Right - fillRect.Right + 1;
@@ -4010,26 +3674,26 @@ public class Legend : ChartNamedElement
 							// make sure we also fill the item column spacing
 							if (columnIndex != 0 && subColumnIndex == 0)
 							{
-								columnWidth += this._itemColumnSpacingRel / 2;
-								columnStart -= this._itemColumnSpacingRel / 2;
-								fillRect.Width += this._itemColumnSpacingRel / 2;
-								fillRect.X -= this._itemColumnSpacingRel / 2;
+								columnWidth += _itemColumnSpacingRel / 2;
+								columnStart -= _itemColumnSpacingRel / 2;
+								fillRect.Width += _itemColumnSpacingRel / 2;
+								fillRect.X -= _itemColumnSpacingRel / 2;
 							}
 
 							// For the last cell in all columns except the last one 
 							// make sure we also fill the item column spacing
-							if (columnIndex != (this._itemColumns - 1) &&
+							if (columnIndex != (_itemColumns - 1) &&
 								subColumnIndex == (numberOfSubColumns - 1))
 							{
-								columnWidth += this._itemColumnSpacingRel / 2;
-								fillRect.Width += this._itemColumnSpacingRel / 2;
+								columnWidth += _itemColumnSpacingRel / 2;
+								fillRect.Width += _itemColumnSpacingRel / 2;
 							}
 						}
 
-						if (subColumnIndex < this.CellColumns.Count)
+						if (subColumnIndex < CellColumns.Count)
 						{
 							// Draw header background
-							LegendCellColumn legendColumn = this.CellColumns[subColumnIndex];
+							LegendCellColumn legendColumn = CellColumns[subColumnIndex];
 							if (!legendColumn.HeaderBackColor.IsEmpty)
 							{
 								redrawLegendBorder = true;
@@ -4067,34 +3731,30 @@ public class Legend : ChartNamedElement
 							}
 
 							// Draw header text
-							using (SolidBrush textBrush = new SolidBrush(legendColumn.HeaderForeColor))
-							{
-								// Set text alignment
-								using (StringFormat format = new StringFormat())
-								{
-									format.Alignment = legendColumn.HeaderAlignment;
-									format.LineAlignment = StringAlignment.Center;
-									format.FormatFlags = StringFormatFlags.LineLimit;
-									format.Trimming = StringTrimming.EllipsisCharacter;
+							using SolidBrush textBrush = new(legendColumn.HeaderForeColor);
+							// Set text alignment
+							using StringFormat format = new();
+							format.Alignment = legendColumn.HeaderAlignment;
+							format.LineAlignment = StringAlignment.Center;
+							format.FormatFlags = StringFormatFlags.LineLimit;
+							format.Trimming = StringTrimming.EllipsisCharacter;
 
-									// Draw string using relative coordinates
-									chartGraph.DrawStringRel(
-										legendColumn.HeaderText,
-										legendColumn.HeaderFont,
-										textBrush,
-										chartGraph.GetRelativeRectangle(rect),
-										format);
-								}
-							}
+							// Draw string using relative coordinates
+							chartGraph.DrawStringRel(
+								legendColumn.HeaderText,
+								legendColumn.HeaderFont,
+								textBrush,
+								chartGraph.GetRelativeRectangle(rect),
+								format);
 						}
 					}
 				}
 
 				// Draw header separator for each column
-				Rectangle separatorRect = this._headerPosition;
+				Rectangle separatorRect = _headerPosition;
 				separatorRect.X = columnStart;
 				separatorRect.Width = columnWidth;
-				if (this.HeaderSeparator == LegendSeparatorStyle.Line || this.HeaderSeparator == LegendSeparatorStyle.DoubleLine)
+				if (HeaderSeparator == LegendSeparatorStyle.Line || HeaderSeparator == LegendSeparatorStyle.DoubleLine)
 				{
 					// NOTE: For some reason a line with a single pen width is drawn 1 pixel longer than 
 					// any other line. Reduce width to solve the issue.
@@ -4102,17 +3762,17 @@ public class Legend : ChartNamedElement
 				}
 
 				separatorRect.Intersect(legendPosition);
-				this.DrawSeparator(chartGraph, this.HeaderSeparator, this.HeaderSeparatorColor, true, separatorRect);
+				DrawSeparator(chartGraph, HeaderSeparator, HeaderSeparatorColor, true, separatorRect);
 
 				// Add spacing between columns
-				prevRightLocation += this.GetSeparatorSize(this.ItemColumnSeparator).Width;
+				prevRightLocation += GetSeparatorSize(ItemColumnSeparator).Width;
 			}
 
 			// Draw legend border to solve any issues with header background overlapping
 			if (redrawLegendBorder)
 			{
 				chartGraph.FillRectangleRel(
-					chartGraph.GetRelativeRectangle(Rectangle.Round(chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()))),
+					chartGraph.GetRelativeRectangle(Rectangle.Round(chartGraph.GetAbsoluteRectangle(Position.ToRectangleF()))),
 					Color.Transparent,
 					ChartHatchStyle.None,
 					string.Empty,
@@ -4122,7 +3782,7 @@ public class Legend : ChartNamedElement
 					GradientStyle.None,
 					Color.Empty,
 					BorderColor,
-					this.GetBorderSize(),
+					GetBorderSize(),
 					BorderDashStyle,
 					Color.Empty,
 					0,
@@ -4131,9 +3791,9 @@ public class Legend : ChartNamedElement
 			}
 
 			// Add legend header hot region
-			if (Common.ProcessModeRegions && !this._headerPosition.IsEmpty)
+			if (Common.ProcessModeRegions && !_headerPosition.IsEmpty)
 			{
-				Common.HotRegionsList.AddHotRegion(chartGraph.GetRelativeRectangle(this._headerPosition), this, ChartElementType.LegendHeader, true);
+				Common.HotRegionsList.AddHotRegion(chartGraph.GetRelativeRectangle(_headerPosition), this, ChartElementType.LegendHeader, true);
 			}
 
 		}
@@ -4146,30 +3806,30 @@ public class Legend : ChartNamedElement
 	private void DrawLegendTitle(ChartGraphics chartGraph)
 	{
 		// Check if title text is specified and position recalculated
-		if (this.Title.Length > 0 &&
-			!this._titlePosition.IsEmpty)
+		if (Title.Length > 0 &&
+			!_titlePosition.IsEmpty)
 		{
 			// Get Legend position
-			Rectangle legendPosition = Rectangle.Round(chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()));
-			legendPosition.Y += this.GetBorderSize();
-			legendPosition.Height -= 2 * this.GetBorderSize();
-			legendPosition.X += this.GetBorderSize();
-			legendPosition.Width -= 2 * this.GetBorderSize();
-			if (this.GetBorderSize() > 0)
+			Rectangle legendPosition = Rectangle.Round(chartGraph.GetAbsoluteRectangle(Position.ToRectangleF()));
+			legendPosition.Y += GetBorderSize();
+			legendPosition.Height -= 2 * GetBorderSize();
+			legendPosition.X += GetBorderSize();
+			legendPosition.Width -= 2 * GetBorderSize();
+			if (GetBorderSize() > 0)
 			{
 				++legendPosition.Height;
 				++legendPosition.Width;
 			}
 
 			// Draw title background
-			if (!this.TitleBackColor.IsEmpty)
+			if (!TitleBackColor.IsEmpty)
 			{
 				// Fill title background
-				Rectangle fillRect = this._titlePosition;
+				Rectangle fillRect = _titlePosition;
 				fillRect.Intersect(legendPosition);
 				chartGraph.FillRectangleRel(
 					chartGraph.GetRelativeRectangle(fillRect),
-					this.TitleBackColor,
+					TitleBackColor,
 					ChartHatchStyle.None,
 					string.Empty,
 					ChartImageWrapMode.Tile,
@@ -4186,33 +3846,35 @@ public class Legend : ChartNamedElement
 			}
 
 			// Draw title text
-			using (SolidBrush textBrush = new SolidBrush(this.TitleForeColor))
+			using (SolidBrush textBrush = new(TitleForeColor))
 			{
 				// Set text alignment
-				StringFormat format = new StringFormat();
-				format.Alignment = this.TitleAlignment;
+				StringFormat format = new()
+				{
+					Alignment = TitleAlignment
+				};
 				//format.LineAlignment = StringAlignment.Center;
 
 				// Shift text rectangle by the top offset amount
-				Rectangle rect = this._titlePosition;
-				rect.Y += this._offset.Height;
-				rect.X += this._offset.Width;
-				rect.X += this.GetBorderSize();
-				rect.Width -= this.GetBorderSize() * 2 + this._offset.Width;
+				Rectangle rect = _titlePosition;
+				rect.Y += _offset.Height;
+				rect.X += _offset.Width;
+				rect.X += GetBorderSize();
+				rect.Width -= GetBorderSize() * 2 + _offset.Width;
 
 				// Draw string using relative coordinates
 				rect.Intersect(legendPosition);
 				chartGraph.DrawStringRel(
-					this.Title.Replace("\\n", "\n"),
-					this.TitleFont,
+					Title.Replace("\\n", "\n"),
+					TitleFont,
 					textBrush,
 					chartGraph.GetRelativeRectangle(rect),
 					format);
 			}
 
 			// Draw title separator
-			Rectangle separatorPosition = this._titlePosition;
-			if (this.TitleSeparator == LegendSeparatorStyle.Line || this.TitleSeparator == LegendSeparatorStyle.DoubleLine)
+			Rectangle separatorPosition = _titlePosition;
+			if (TitleSeparator == LegendSeparatorStyle.Line || TitleSeparator == LegendSeparatorStyle.DoubleLine)
 			{
 				// NOTE: For some reason a line with a single pen width is drawn 1 pixel longer than 
 				// any other line. Reduce width to solve the issue.
@@ -4220,14 +3882,14 @@ public class Legend : ChartNamedElement
 			}
 
 			separatorPosition.Intersect(legendPosition);
-			this.DrawSeparator(chartGraph, this.TitleSeparator, this.TitleSeparatorColor, true, separatorPosition);
+			DrawSeparator(chartGraph, TitleSeparator, TitleSeparatorColor, true, separatorPosition);
 
 			// Draw legend border to solve any issues with title background overlapping
-			if (!this.TitleBackColor.IsEmpty ||
-				this.TitleSeparator != LegendSeparatorStyle.None)
+			if (!TitleBackColor.IsEmpty ||
+				TitleSeparator != LegendSeparatorStyle.None)
 			{
 				chartGraph.FillRectangleRel(
-					chartGraph.GetRelativeRectangle(Rectangle.Round(chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()))),
+					chartGraph.GetRelativeRectangle(Rectangle.Round(chartGraph.GetAbsoluteRectangle(Position.ToRectangleF()))),
 					Color.Transparent,
 					ChartHatchStyle.None,
 					string.Empty,
@@ -4237,7 +3899,7 @@ public class Legend : ChartNamedElement
 					GradientStyle.None,
 					Color.Empty,
 					BorderColor,
-					this.GetBorderSize(),
+					GetBorderSize(),
 					BorderDashStyle,
 					Color.Empty,
 					0,
@@ -4254,8 +3916,7 @@ public class Legend : ChartNamedElement
 	/// <returns>Separator size in relative coordinates.</returns>
 	internal Size GetSeparatorSize(LegendSeparatorStyle separatorType)
 	{
-		Size size = Size.Empty;
-
+		Size size;
 		if (separatorType == LegendSeparatorStyle.None)
 		{
 			size = Size.Empty;
@@ -4294,7 +3955,7 @@ public class Legend : ChartNamedElement
 		}
 
 		// For the vertical part of the separator always add additiobal spacing
-		size.Width += this._itemColumnSpacingRel;
+		size.Width += _itemColumnSpacingRel;
 
 		return size;
 	}
@@ -4549,12 +4210,12 @@ public class Legend : ChartNamedElement
 	/// <returns>Visible legend border size.</returns>
 	private int GetBorderSize()
 	{
-		if (this.BorderWidth > 0 &&
-			this.BorderDashStyle != ChartDashStyle.NotSet &&
-			!this.BorderColor.IsEmpty &&
-			this.BorderColor != Color.Transparent)
+		if (BorderWidth > 0 &&
+			BorderDashStyle != ChartDashStyle.NotSet &&
+			!BorderColor.IsEmpty &&
+			BorderColor != Color.Transparent)
 		{
-			return this.BorderWidth;
+			return BorderWidth;
 		}
 
 		return 0;
@@ -4567,15 +4228,15 @@ public class Legend : ChartNamedElement
 	/// <returns>Legend table style.</returns>
 	private LegendTableStyle GetLegendTableStyle(ChartGraphics chartGraph)
 	{
-		LegendTableStyle style = this.TableStyle;
-		if (this.TableStyle == LegendTableStyle.Auto)
+		LegendTableStyle style = TableStyle;
+		if (TableStyle == LegendTableStyle.Auto)
 		{
-			if (this.Position.Auto)
+			if (Position.Auto)
 			{
 				// If legend is automatically positioned, use docking
 				// do determine preffered table style
-				if (this.Docking == Docking.Left ||
-					this.Docking == Docking.Right)
+				if (Docking == Docking.Left ||
+					Docking == Docking.Right)
 				{
 					return LegendTableStyle.Tall;
 				}
@@ -4588,7 +4249,7 @@ public class Legend : ChartNamedElement
 			{
 				// If legend is custom positioned, use legend width and heiht
 				// to determine the best table layout.
-				SizeF legendPixelSize = chartGraph.GetAbsoluteRectangle(this.Position.ToRectangleF()).Size;
+				SizeF legendPixelSize = chartGraph.GetAbsoluteRectangle(Position.ToRectangleF()).Size;
 				if (legendPixelSize.Width < legendPixelSize.Height)
 				{
 					return LegendTableStyle.Tall;
@@ -4611,18 +4272,18 @@ public class Legend : ChartNamedElement
 	/// <returns>True if legend is enabled.</returns>
 	internal bool IsEnabled()
 	{
-		if (this.Enabled)
+		if (Enabled)
 		{
 
 			// Check if legend is docked to the chart area
-			if (this.DockedToChartArea.Length > 0 &&
-				this.Common != null &&
-				this.Common.ChartPicture != null)
+			if (DockedToChartArea.Length > 0 &&
+				Common != null &&
+				Common.ChartPicture != null)
 			{
-				if (this.Common.ChartPicture.ChartAreas.IndexOf(this.DockedToChartArea) >= 0)
+				if (Common.ChartPicture.ChartAreas.IndexOf(DockedToChartArea) >= 0)
 				{
 					// Do not show legend when it is docked to invisible chart area
-					ChartArea area = this.Common.ChartPicture.ChartAreas[this.DockedToChartArea];
+					ChartArea area = Common.ChartPicture.ChartAreas[DockedToChartArea];
 					if (!area.Visible)
 					{
 						return false;
@@ -4650,16 +4311,16 @@ public class Legend : ChartNamedElement
 			{
 				// Calculate the position of the legend
 				Rectangle invalRect = Chart.ClientRectangle;
-				if (this.Position.Width != 0 && this.Position.Height != 0)
+				if (Position.Width != 0 && Position.Height != 0)
 				{
 					// Convert relative coordinates to absolute coordinates
-					invalRect.X = (int)(this.Position.X * (this.Common.ChartPicture.Width - 1) / 100F);
-					invalRect.Y = (int)(this.Position.Y * (this.Common.ChartPicture.Height - 1) / 100F);
-					invalRect.Width = (int)(this.Position.Width * (this.Common.ChartPicture.Width - 1) / 100F);
-					invalRect.Height = (int)(this.Position.Height * (this.Common.ChartPicture.Height - 1) / 100F);
+					invalRect.X = (int)(Position.X * (Common.ChartPicture.Width - 1) / 100F);
+					invalRect.Y = (int)(Position.Y * (Common.ChartPicture.Height - 1) / 100F);
+					invalRect.Width = (int)(Position.Width * (Common.ChartPicture.Width - 1) / 100F);
+					invalRect.Height = (int)(Position.Height * (Common.ChartPicture.Height - 1) / 100F);
 
 					// Inflate rectangle size using border size and shadow size
-					invalRect.Inflate(this.BorderWidth + this.ShadowOffset + 1, this.BorderWidth + this.ShadowOffset + 1);
+					invalRect.Inflate(BorderWidth + ShadowOffset + 1, BorderWidth + ShadowOffset + 1);
 				}
 
 				// Invalidate legend rectangle only
@@ -4686,35 +4347,20 @@ public class Legend : ChartNamedElement
 		if (disposing)
 		{
 			//Free managed resources
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			_fontCache?.Dispose();
+			_fontCache = null;
 
-			if (legendItems != null)
-			{
-				legendItems.Dispose();
-				legendItems = null;
-			}
+			legendItems?.Dispose();
+			legendItems = null;
 
-			if (_cellColumns != null)
-			{
-				_cellColumns.Dispose();
-				_cellColumns = null;
-			}
+			CellColumns?.Dispose();
+			CellColumns = null;
 
-			if (_customLegends != null)
-			{
-				_customLegends.Dispose();
-				_customLegends = null;
-			}
+			CustomItems?.Dispose();
+			CustomItems = null;
 
-			if (_position != null)
-			{
-				_position.Dispose();
-				_position = null;
-			}
+			_position?.Dispose();
+			_position = null;
 		}
 	}
 
@@ -4748,7 +4394,7 @@ public class LegendCollection : ChartNamedElementCollection<Legend>
 	/// </summary>
 	internal string DefaultNameReference
 	{
-		get { return this.Count > 0 ? this[0].Name : String.Empty; }
+		get { return Count > 0 ? this[0].Name : string.Empty; }
 	}
 	#endregion
 
@@ -4761,8 +4407,8 @@ public class LegendCollection : ChartNamedElementCollection<Legend>
 	/// <returns>New legend</returns>
 	public Legend Add(string name)
 	{
-		Legend legend = new Legend(name);
-		this.Add(legend);
+		Legend legend = new(name);
+		Add(legend);
 		return legend;
 	}
 
@@ -4812,7 +4458,7 @@ public class LegendCollection : ChartNamedElementCollection<Legend>
 			foreach (Legend legend in this)
 			{
 				// Check if all chart area names are valid
-				if (legend.DockedToChartArea != Constants.NotSetValue && this.Chart.ChartAreas.IndexOf(legend.DockedToChartArea) < 0)
+				if (legend.DockedToChartArea != Constants.NotSetValue && Chart.ChartAreas.IndexOf(legend.DockedToChartArea) < 0)
 				{
 					throw (new ArgumentException(SR.ExceptionLegendDockedChartAreaIsMissing((string)legend.DockedToChartArea)));
 				}
@@ -4938,11 +4584,17 @@ public class LegendCollection : ChartNamedElementCollection<Legend>
 	{
 		//If all the chart areas are removed and then the first one is added we don't want to dock the legends
 		if (e.OldElement == null)
+		{
 			return;
+		}
 
 		foreach (Legend legend in this)
+		{
 			if (legend.DockedToChartArea == e.OldName)
+			{
 				legend.DockedToChartArea = e.NewName;
+			}
+		}
 	}
 	#endregion
 
@@ -4978,7 +4630,7 @@ public class LegendItemsCollection : ChartElementCollection<LegendItem>
 	/// <returns>Index of newly added item.</returns>
 	public int Add(Color color, string text)
 	{
-		LegendItem item = new LegendItem(text, color, "");
+		LegendItem item = new(text, color, "");
 		Add(item);
 		return Count - 1;
 	}
@@ -4992,8 +4644,8 @@ public class LegendItemsCollection : ChartElementCollection<LegendItem>
 	/// <returns>Index of newly added item.</returns>
 	public void Insert(int index, Color color, string text)
 	{
-		LegendItem item = new LegendItem(text, color, "");
-		this.Insert(index, item);
+		LegendItem item = new(text, color, "");
+		Insert(index, item);
 	}
 
 	/// <summary>
@@ -5004,7 +4656,7 @@ public class LegendItemsCollection : ChartElementCollection<LegendItem>
 	/// <returns>Index of newly added item.</returns>
 	public int Add(string image, string text)
 	{
-		LegendItem item = new LegendItem(text, Color.Empty, image);
+		LegendItem item = new(text, Color.Empty, image);
 		Add(item);
 		return Count - 1;
 	}
@@ -5018,8 +4670,8 @@ public class LegendItemsCollection : ChartElementCollection<LegendItem>
 	/// <returns>Index of newly added item.</returns>
 	public void Insert(int index, string image, string text)
 	{
-		LegendItem item = new LegendItem(text, Color.Empty, image);
-		this.Insert(index, item);
+		LegendItem item = new(text, Color.Empty, image);
+		Insert(index, item);
 	}
 
 	/// <summary>
@@ -5027,7 +4679,7 @@ public class LegendItemsCollection : ChartElementCollection<LegendItem>
 	/// </summary>
 	public void Reverse()
 	{
-		List<LegendItem> list = this.Items as List<LegendItem>;
+		List<LegendItem> list = Items as List<LegendItem>;
 		list.Reverse();
 		Invalidate();
 	}
@@ -5053,11 +4705,8 @@ public class LegendItem : ChartNamedElement
 	// Private data members, which store properties values
 	private Color _color = Color.Empty;
 	private string _image = "";
-	private string _seriesName = "";
-	private int _seriesPointIndex = -1;
 
 	// Chart image map properties 
-	private string _toolTip = "";
 
 
 	// Additional appearance properties
@@ -5083,19 +4732,15 @@ public class LegendItem : ChartNamedElement
 	internal Color markerBorderColor = Color.Empty;
 
 	// True if legend item is enabled.
-	private bool _enabled = true;
 
 	// Series marker border width
 	private int _markerBorderWidth = 1;
 
 	// Collection of legend item cells
-	private LegendCellCollection _cells = null;
 
 	// Legend item visual separator
-	private LegendSeparatorStyle _separatorType = LegendSeparatorStyle.None;
 
 	// Legend item visual separator color
-	private Color _separatorColor = Color.Black;
 
 	// Indicates that temporary cells where added and thet have to be removed
 	internal bool clearTempCells = false;
@@ -5111,7 +4756,7 @@ public class LegendItem : ChartNamedElement
 	{
 
 		// Create collection of legend item cells
-		this._cells = new LegendCellCollection(this);
+		Cells = new LegendCellCollection(this);
 	}
 
 	/// <summary>
@@ -5122,11 +4767,11 @@ public class LegendItem : ChartNamedElement
 	/// <param name="image">Item image.</param>
 	public LegendItem(string name, Color color, string image) : base(name)
 	{
-		this._color = color;
-		this._image = image;
+		_color = color;
+		_image = image;
 
 		// Create collection of legend item cells
-		this._cells = new LegendCellCollection(this);
+		Cells = new LegendCellCollection(this);
 	}
 
 	#endregion
@@ -5139,17 +4784,21 @@ public class LegendItem : ChartNamedElement
 	[
 		Bindable(false),
 		Browsable(false),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+		DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+		SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	public Legend Legend
 	{
 		get
 		{
 			if (Parent != null)
+			{
 				return Parent.Parent as Legend;
+			}
 			else
+			{
 				return null;
+			}
 		}
 	}
 
@@ -5160,8 +4809,8 @@ public class LegendItem : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeLegendItem_Name"),
-	NotifyParentPropertyAttribute(true),
-			ParenthesizePropertyNameAttribute(true)
+	NotifyParentProperty(true),
+			ParenthesizePropertyName(true)
 	]
 	public override string Name
 	{
@@ -5183,7 +4832,7 @@ public class LegendItem : ChartNamedElement
 	Bindable(true),
 	SRDescription("DescriptionAttributeLegendItem_Color"),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -5196,7 +4845,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			_color = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5209,7 +4858,7 @@ public class LegendItem : ChartNamedElement
 	SRDescription("DescriptionAttributeLegendItem_Image"),
 	DefaultValue(""),
 		Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-		NotifyParentPropertyAttribute(true)
+		NotifyParentProperty(true)
 	]
 	public string Image
 	{
@@ -5220,7 +4869,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			_image = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -5232,7 +4881,7 @@ public class LegendItem : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(LegendImageStyle), "Rectangle"),
 	SRDescription("DescriptionAttributeLegendItem_Style"),
-			ParenthesizePropertyNameAttribute(true)
+			ParenthesizePropertyName(true)
 	]
 	public LegendImageStyle ImageStyle
 	{
@@ -5243,7 +4892,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			style = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5268,7 +4917,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			borderColor = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5291,7 +4940,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			backHatchStyle = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5302,7 +4951,7 @@ public class LegendItem : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageTransparentColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
@@ -5316,7 +4965,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			backImageTransparentColor = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5339,7 +4988,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			backGradientStyle = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5380,7 +5029,7 @@ public class LegendItem : ChartNamedElement
 
 			backSecondaryColor = value;
 
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5403,11 +5052,11 @@ public class LegendItem : ChartNamedElement
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsZero));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsZero));
 			}
 
 			borderWidth = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -5420,20 +5069,17 @@ public class LegendItem : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeLegendItem_Enabled"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	public bool Enabled
 	{
-		get
-		{
-			return this._enabled;
-		}
+		get;
 		set
 		{
-			this._enabled = value;
-			this.Invalidate(false);
+			field = value;
+			Invalidate(false);
 		}
-	}
+	} = true;
 
 	/// <summary>
 	/// Gets or sets the marker border width of the legend item.
@@ -5447,17 +5093,17 @@ public class LegendItem : ChartNamedElement
 	{
 		get
 		{
-			return this._markerBorderWidth;
+			return _markerBorderWidth;
 		}
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendMarkerBorderWidthIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionLegendMarkerBorderWidthIsNegative));
 			}
 
-			this._markerBorderWidth = value;
-			this.Invalidate(false);
+			_markerBorderWidth = value;
+			Invalidate(false);
 		}
 	}
 
@@ -5481,7 +5127,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			borderDashStyle = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5507,7 +5153,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			shadowOffset = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -5535,7 +5181,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			shadowColor = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5559,7 +5205,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			markerStyle = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5582,7 +5228,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			markerSize = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -5606,7 +5252,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			markerImage = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5631,7 +5277,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			markerImageTransparentColor = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5656,7 +5302,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			markerColor = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5681,7 +5327,7 @@ public class LegendItem : ChartNamedElement
 		set
 		{
 			markerBorderColor = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -5691,44 +5337,24 @@ public class LegendItem : ChartNamedElement
 	/// </summary>
 	[
 	Browsable(false),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+		DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+		SerializationVisibility(SerializationVisibility.Hidden),
 		SRDescription("DescriptionAttributeLegendItem_SeriesName"),
 	DefaultValue("")
 	]
-	public string SeriesName
-	{
-		get
-		{
-			return _seriesName;
-		}
-		set
-		{
-			_seriesName = value;
-		}
-	}
+	public string SeriesName { get; set; } = "";
 
 	/// <summary>
 	/// Gets or sets the index of the legend item's associated DataPoint object.
 	/// </summary>
 	[
 	Browsable(false),
-		DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+		DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+		SerializationVisibility(SerializationVisibility.Hidden),
 		SRDescription("DescriptionAttributeLegendItem_SeriesPointIndex"),
 	DefaultValue(-1)
 	]
-	public int SeriesPointIndex
-	{
-		get
-		{
-			return _seriesPointIndex;
-		}
-		set
-		{
-			_seriesPointIndex = value;
-		}
-	}
+	public int SeriesPointIndex { get; set; } = -1;
 
 
 
@@ -5741,21 +5367,14 @@ public class LegendItem : ChartNamedElement
 	DefaultValue(typeof(LegendSeparatorStyle), "None"),
 	SRDescription("DescriptionAttributeLegendItem_Separator"),
 	]
-	public LegendSeparatorStyle SeparatorType
-	{
-		get
+	public LegendSeparatorStyle SeparatorType { get; set
 		{
-			return this._separatorType;
-		}
-		set
-		{
-			if (value != this._separatorType)
+			if (value != field)
 			{
-				this._separatorType = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = LegendSeparatorStyle.None;
 
 	/// <summary>
 	/// Gets or sets the separator color of the legend item.
@@ -5767,21 +5386,14 @@ public class LegendItem : ChartNamedElement
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color SeparatorColor
-	{
-		get
+	public Color SeparatorColor { get; set
 		{
-			return this._separatorColor;
-		}
-		set
-		{
-			if (value != this._separatorColor)
+			if (value != field)
 			{
-				this._separatorColor = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
-		}
-	}
+		} } = Color.Black;
 
 
 	/// <summary>
@@ -5793,13 +5405,7 @@ public class LegendItem : ChartNamedElement
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		Editor(typeof(LegendCollectionEditor), typeof(UITypeEditor))
 		]
-	public LegendCellCollection Cells
-	{
-		get
-		{
-			return this._cells;
-		}
-	}
+	public LegendCellCollection Cells { get; private set; } = null;
 
 	#endregion
 
@@ -5814,22 +5420,16 @@ public class LegendItem : ChartNamedElement
 		SRDescription("DescriptionAttributeToolTip"),
 	DefaultValue("")
 	]
-	public string ToolTip
-	{
-		set
+	public string ToolTip { set
 		{
-			_toolTip = value;
+			field = value;
 			if (Chart != null && Chart.selection != null)
 			{
 				Chart.selection.enabledChecked = false;
 			}
 
 		}
-		get
-		{
-			return _toolTip;
-		}
-	}
+		get; } = "";
 
 	#endregion
 
@@ -5844,10 +5444,10 @@ public class LegendItem : ChartNamedElement
 	internal void AddAutomaticCells(Legend legend)
 	{
 		// Check if cells defined
-		if (this.Cells.Count == 0)
+		if (Cells.Count == 0)
 		{
 			// Check if legend item was generated for the series
-			if (this.SeriesName.Length > 0)
+			if (SeriesName.Length > 0)
 			{
 				// If legend do not have any columns set add a series marker
 				// and legend text cells
@@ -5856,13 +5456,13 @@ public class LegendItem : ChartNamedElement
 					// VSTS 96787 - Text Direction (RTL/LTR)	
 					if (legend.Common != null && legend.Common.ChartPicture.RightToLeft == RightToLeft.Yes)
 					{
-						this.Cells.Add(LegendCellType.Text, KeywordName.LegendText, ContentAlignment.MiddleLeft);
-						this.Cells.Add(LegendCellType.SeriesSymbol, string.Empty, ContentAlignment.MiddleCenter);
+						Cells.Add(LegendCellType.Text, KeywordName.LegendText, ContentAlignment.MiddleLeft);
+						Cells.Add(LegendCellType.SeriesSymbol, string.Empty, ContentAlignment.MiddleCenter);
 					}
 					else
 					{
-						this.Cells.Add(LegendCellType.SeriesSymbol, string.Empty, ContentAlignment.MiddleCenter);
-						this.Cells.Add(LegendCellType.Text, KeywordName.LegendText, ContentAlignment.MiddleLeft);
+						Cells.Add(LegendCellType.SeriesSymbol, string.Empty, ContentAlignment.MiddleCenter);
+						Cells.Add(LegendCellType.Text, KeywordName.LegendText, ContentAlignment.MiddleLeft);
 					}
 				}
 				else
@@ -5870,16 +5470,16 @@ public class LegendItem : ChartNamedElement
 					// Add cell for each of the columns
 					foreach (LegendCellColumn legendColumn in legend.CellColumns)
 					{
-						this.Cells.Add(legendColumn.CreateNewCell());
+						Cells.Add(legendColumn.CreateNewCell());
 					}
 				}
 			}
 			else
 			{
 				// Add Marker plus text for everything else
-				this.clearTempCells = true;
-				this.Cells.Add(LegendCellType.SeriesSymbol, string.Empty, ContentAlignment.MiddleCenter);
-				this.Cells.Add(LegendCellType.Text, KeywordName.LegendText, ContentAlignment.MiddleLeft);
+				clearTempCells = true;
+				Cells.Add(LegendCellType.SeriesSymbol, string.Empty, ContentAlignment.MiddleCenter);
+				Cells.Add(LegendCellType.Text, KeywordName.LegendText, ContentAlignment.MiddleLeft);
 			}
 		}
 	}
@@ -5897,7 +5497,7 @@ public class LegendItem : ChartNamedElement
 		style = chartType.GetLegendImageStyle(series);
 
 		// Set series name
-		_seriesName = series.Name;
+		SeriesName = series.Name;
 
 		// Get shadow properties
 		shadowOffset = series.ShadowOffset;
@@ -5928,18 +5528,20 @@ public class LegendItem : ChartNamedElement
 		markerBorderColor = properties.MarkerBorderColor;
 
 
-		this._markerBorderWidth = properties.MarkerBorderWidth;
+		_markerBorderWidth = properties.MarkerBorderWidth;
 
 		float dpi = 96;
 
 		if (Common != null)
+		{
 			dpi = Common.graph.Graphics.DpiX;
+		}
 
 		int maxBorderWidth = (int)Math.Round((2 * dpi) / 96);
 
-		if (this._markerBorderWidth > maxBorderWidth)
+		if (_markerBorderWidth > maxBorderWidth)
 		{
-			this._markerBorderWidth = maxBorderWidth;
+			_markerBorderWidth = maxBorderWidth;
 		}
 
 		if (properties.MarkerBorderWidth <= 0)
@@ -5948,7 +5550,7 @@ public class LegendItem : ChartNamedElement
 		}
 
 		// Improve readability of the line series marker by using at least 2 pixel wide lines
-		if (this.style == LegendImageStyle.Line &&
+		if (style == LegendImageStyle.Line &&
 				borderWidth <= (int)Math.Round(dpi / 96))
 		{
 			borderWidth = maxBorderWidth;
@@ -5971,11 +5573,8 @@ public class LegendItem : ChartNamedElement
 	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "This parameter is used when compiling for the WinForms version of Chart")]
 	private void Invalidate(bool invalidateLegendOnly)
 	{
-		if (Legend != null)
-		{
-			// Invalidate control
-			Legend.Invalidate(invalidateLegendOnly);
-		}
+		// Invalidate control
+		Legend?.Invalidate(invalidateLegendOnly);
 	}
 
 	#endregion
@@ -5990,11 +5589,8 @@ public class LegendItem : ChartNamedElement
 	{
 		if (disposing)
 		{
-			if (_cells != null)
-			{
-				_cells.Dispose();
-				_cells = null;
-			}
+			Cells?.Dispose();
+			Cells = null;
 		}
 
 		base.Dispose(disposing);

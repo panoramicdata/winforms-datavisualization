@@ -22,7 +22,7 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.Design.DataVisualization.Charting;
-using SizeF = System.Drawing.SizeF;
+using SizeF = Drawing.SizeF;
 
 #region Enumerations
 
@@ -91,13 +91,13 @@ public class LegendCellColumn : ChartNamedElement
 	private Color _backColor = Color.Empty;
 
 	// Font cache
-	private FontCache _fontCache = new FontCache();
+	private FontCache _fontCache = new();
 
 	// Legend column text font
 	private Font _font = null;
 
 	// Legend column series symbol size
-	private Size _seriesSymbolSize = new Size(200, 70);
+	private Size _seriesSymbolSize = new(200, 70);
 
 	// Legend column content allignment
 	private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
@@ -106,13 +106,12 @@ public class LegendCellColumn : ChartNamedElement
 	private string _toolTip = string.Empty;
 
 	// Legend column margins
-	private Margins _margins = new Margins(0, 0, 15, 15);
+	private Margins _margins = new(0, 0, 15, 15);
 
 	// Legend column header text
 	private string _headerText = string.Empty;
 
 	// Legend column/cell content allignment
-	private StringAlignment _headerAlignment = StringAlignment.Center;
 
 	// Legend column header text color
 	private Color _headerForeColor = Color.Black;
@@ -163,10 +162,10 @@ public class LegendCellColumn : ChartNamedElement
 	/// <param name="alignment">Column cell content alignment.</param>
 	public LegendCellColumn(string headerText, LegendCellColumnType columnType, string text, ContentAlignment alignment)
 	{
-		this._headerText = headerText;
-		this._columnType = columnType;
-		this._text = text;
-		this._alignment = alignment;
+		_headerText = headerText;
+		_columnType = columnType;
+		_text = text;
+		_alignment = alignment;
 	}
 
 
@@ -199,17 +198,21 @@ public class LegendCellColumn : ChartNamedElement
 	/// </summary>
 	[
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	public virtual Legend Legend
 	{
 		get
 		{
 			if (Parent != null)
+			{
 				return Parent.Parent as Legend;
+			}
 			else
+			{
 				return null;
+			}
 		}
 	}
 
@@ -221,18 +224,18 @@ public class LegendCellColumn : ChartNamedElement
 	SRCategory("CategoryAttributeSeriesItems"),
 	DefaultValue(LegendCellColumnType.Text),
 	SRDescription("DescriptionAttributeLegendCellColumn_ColumnType"),
-	ParenthesizePropertyNameAttribute(true)
+	ParenthesizePropertyName(true)
 	]
 	public virtual LegendCellColumnType ColumnType
 	{
 		get
 		{
-			return this._columnType;
+			return _columnType;
 		}
 		set
 		{
-			this._columnType = value;
-			this.Invalidate();
+			_columnType = value;
+			Invalidate();
 		}
 	}
 
@@ -250,12 +253,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._text;
+			return _text;
 		}
 		set
 		{
-			this._text = value;
-			this.Invalidate();
+			_text = value;
+			Invalidate();
 		}
 	}
 
@@ -273,12 +276,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._foreColor;
+			return _foreColor;
 		}
 		set
 		{
-			this._foreColor = value;
-			this.Invalidate();
+			_foreColor = value;
+			Invalidate();
 		}
 	}
 
@@ -296,12 +299,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._backColor;
+			return _backColor;
 		}
 		set
 		{
-			this._backColor = value;
-			this.Invalidate();
+			_backColor = value;
+			Invalidate();
 		}
 	}
 
@@ -318,12 +321,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._font;
+			return _font;
 		}
 		set
 		{
-			this._font = value;
-			this.Invalidate();
+			_font = value;
+			Invalidate();
 		}
 	}
 
@@ -340,17 +343,17 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._seriesSymbolSize;
+			return _seriesSymbolSize;
 		}
 		set
 		{
 			if (value.Width < 0 || value.Height < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, nameof(value)));
 			}
 
-			this._seriesSymbolSize = value;
-			this.Invalidate();
+			_seriesSymbolSize = value;
+			Invalidate();
 		}
 	}
 
@@ -367,12 +370,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._alignment;
+			return _alignment;
 		}
 		set
 		{
-			this._alignment = value;
-			this.Invalidate();
+			_alignment = value;
+			Invalidate();
 		}
 	}
 
@@ -384,25 +387,25 @@ public class LegendCellColumn : ChartNamedElement
 	SRCategory("CategoryAttributeSeriesItems"),
 	DefaultValue(typeof(Margins), "0,0,15,15"),
 	SRDescription("DescriptionAttributeLegendCellColumn_Margins"),
-	SerializationVisibilityAttribute(SerializationVisibility.Attribute),
+	SerializationVisibility(SerializationVisibility.Attribute),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public virtual Margins Margins
 	{
 		get
 		{
-			return this._margins;
+			return _margins;
 		}
 		set
 		{
-			this._margins = value;
-			this.Invalidate();
+			_margins = value;
+			Invalidate();
 
 			// Set common elements of the new margins class
-			if (this.Legend != null)
+			if (Legend != null)
 			{
-				this._margins.Common = this.Legend.Common;
+				_margins.Common = Legend.Common;
 			}
 		}
 	}
@@ -410,13 +413,13 @@ public class LegendCellColumn : ChartNamedElement
 	/// <summary>
 	/// Returns true if property should be serialized.  This is for internal use only.
 	/// </summary>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public bool ShouldSerializeMargins()
 	{
-		if (this._margins.Top == 0 &&
-			this._margins.Bottom == 0 &&
-			this._margins.Left == 15 &&
-			this._margins.Right == 15)
+		if (_margins.Top == 0 &&
+			_margins.Bottom == 0 &&
+			_margins.Left == 15 &&
+			_margins.Right == 15)
 		{
 			return false;
 		}
@@ -437,7 +440,7 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		set
 		{
-			this._toolTip = value;
+			_toolTip = value;
 			if (Chart != null &&
 			   Chart.selection != null)
 			{
@@ -446,7 +449,7 @@ public class LegendCellColumn : ChartNamedElement
 		}
 		get
 		{
-			return this._toolTip;
+			return _toolTip;
 		}
 	}
 
@@ -462,12 +465,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._headerText;
+			return _headerText;
 		}
 		set
 		{
-			this._headerText = value;
-			this.Invalidate();
+			_headerText = value;
+			Invalidate();
 		}
 	}
 
@@ -485,12 +488,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._headerForeColor;
+			return _headerForeColor;
 		}
 		set
 		{
-			this._headerForeColor = value;
-			this.Invalidate();
+			_headerForeColor = value;
+			Invalidate();
 		}
 	}
 
@@ -508,12 +511,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._headerBackColor;
+			return _headerBackColor;
 		}
 		set
 		{
-			this._headerBackColor = value;
-			this.Invalidate();
+			_headerBackColor = value;
+			Invalidate();
 		}
 	}
 
@@ -529,12 +532,12 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._headerFont;
+			return _headerFont;
 		}
 		set
 		{
-			this._headerFont = value;
-			this.Invalidate();
+			_headerFont = value;
+			Invalidate();
 		}
 	}
 
@@ -548,19 +551,16 @@ public class LegendCellColumn : ChartNamedElement
 	]
 	public StringAlignment HeaderAlignment
 	{
-		get
-		{
-			return this._headerAlignment;
-		}
+		get;
 		set
 		{
-			if (value != this._headerAlignment)
+			if (value != field)
 			{
-				this._headerAlignment = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
 		}
-	}
+	} = StringAlignment.Center;
 
 	/// <summary>
 	/// Gets or sets the minimum width (as a percentage of legend font size) of legend column. Set this property to -1 for automatic calculation.
@@ -575,17 +575,17 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._minimumCellWidth;
+			return _minimumCellWidth;
 		}
 		set
 		{
 			if (value < -1)
 			{
-				throw (new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, "value"));
+				throw (new ArgumentException(SR.ExceptionMinimumCellWidthIsWrong, nameof(value)));
 			}
 
-			this._minimumCellWidth = value;
-			this.Invalidate();
+			_minimumCellWidth = value;
+			Invalidate();
 		}
 	}
 
@@ -602,17 +602,17 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		get
 		{
-			return this._maximumCellWidth;
+			return _maximumCellWidth;
 		}
 		set
 		{
 			if (value < -1)
 			{
-				throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, "value"));
+				throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, nameof(value)));
 			}
 
-			this._maximumCellWidth = value;
-			this.Invalidate();
+			_maximumCellWidth = value;
+			Invalidate();
 		}
 	}
 
@@ -627,13 +627,15 @@ public class LegendCellColumn : ChartNamedElement
 	/// <returns>A new copy of the LegendCell</returns>
 	internal LegendCell CreateNewCell()
 	{
-		LegendCell newCell = new LegendCell();
-		newCell.CellType = (this.ColumnType == LegendCellColumnType.SeriesSymbol) ? LegendCellType.SeriesSymbol : LegendCellType.Text;
-		newCell.Text = this.Text;
-		newCell.ToolTip = this.ToolTip;
-		newCell.SeriesSymbolSize = this.SeriesSymbolSize;
-		newCell.Alignment = this.Alignment;
-		newCell.Margins = new Margins(this.Margins.Top, this.Margins.Bottom, this.Margins.Left, this.Margins.Right);
+		LegendCell newCell = new()
+		{
+			CellType = (ColumnType == LegendCellColumnType.SeriesSymbol) ? LegendCellType.SeriesSymbol : LegendCellType.Text,
+			Text = Text,
+			ToolTip = ToolTip,
+			SeriesSymbolSize = SeriesSymbolSize,
+			Alignment = Alignment,
+			Margins = new Margins(Margins.Top, Margins.Bottom, Margins.Left, Margins.Right)
+		};
 		return newCell;
 	}
 
@@ -649,11 +651,8 @@ public class LegendCellColumn : ChartNamedElement
 	{
 		if (disposing)
 		{
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			_fontCache?.Dispose();
+			_fontCache = null;
 		}
 	}
 
@@ -689,7 +688,7 @@ public class LegendCell : ChartNamedElement
 	private Color _backColor = Color.Empty;
 
 	// Font cache
-	private FontCache _fontCache = new FontCache();
+	private FontCache _fontCache = new();
 
 	// Legend cell text font
 	private Font _font = null;
@@ -704,7 +703,7 @@ public class LegendCell : ChartNamedElement
 	private Size _imageSize = Size.Empty;
 
 	// Legend cell series symbol size
-	private Size _seriesSymbolSize = new Size(200, 70);
+	private Size _seriesSymbolSize = new(200, 70);
 
 	// Legend cell content allignment
 	private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
@@ -716,7 +715,7 @@ public class LegendCell : ChartNamedElement
 	private string _toolTip = string.Empty;
 
 	// Legend cell margins
-	private Margins _margins = new Margins(0, 0, 15, 15);
+	private Margins _margins = new(0, 0, 15, 15);
 
 	// Cell row index
 	private int _rowIndex = -1;
@@ -744,7 +743,7 @@ public class LegendCell : ChartNamedElement
 	/// </summary>
 	public LegendCell()
 	{
-		this.Intitialize(LegendCellType.Text, string.Empty, ContentAlignment.MiddleCenter);
+		Intitialize(LegendCellType.Text, string.Empty, ContentAlignment.MiddleCenter);
 	}
 
 	/// <summary>
@@ -753,7 +752,7 @@ public class LegendCell : ChartNamedElement
 	/// <param name="text">Cell text or image name, depending on the type.</param>
 	public LegendCell(string text)
 	{
-		this.Intitialize(LegendCellType.Text, text, ContentAlignment.MiddleCenter);
+		Intitialize(LegendCellType.Text, text, ContentAlignment.MiddleCenter);
 	}
 
 	/// <summary>
@@ -763,7 +762,7 @@ public class LegendCell : ChartNamedElement
 	/// <param name="text">Cell text or image name, depending on the type.</param>
 	public LegendCell(LegendCellType cellType, string text)
 	{
-		this.Intitialize(cellType, text, ContentAlignment.MiddleCenter);
+		Intitialize(cellType, text, ContentAlignment.MiddleCenter);
 	}
 
 	/// <summary>
@@ -774,7 +773,7 @@ public class LegendCell : ChartNamedElement
 	/// <param name="alignment">Cell content alignment.</param>
 	public LegendCell(LegendCellType cellType, string text, ContentAlignment alignment)
 	{
-		this.Intitialize(cellType, text, alignment);
+		Intitialize(cellType, text, alignment);
 	}
 
 	/// <summary>
@@ -785,17 +784,17 @@ public class LegendCell : ChartNamedElement
 	/// <param name="alignment">Cell content alignment.</param>
 	private void Intitialize(LegendCellType cellType, string text, ContentAlignment alignment)
 	{
-		this._cellType = cellType;
-		if (this._cellType == LegendCellType.Image)
+		_cellType = cellType;
+		if (_cellType == LegendCellType.Image)
 		{
-			this._image = text;
+			_image = text;
 		}
 		else
 		{
-			this._text = text;
+			_text = text;
 		}
 
-		this._alignment = alignment;
+		_alignment = alignment;
 	}
 
 	#endregion // Constructors
@@ -828,18 +827,18 @@ public class LegendCell : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(LegendCellType.Text),
 	SRDescription("DescriptionAttributeLegendCell_CellType"),
-	ParenthesizePropertyNameAttribute(true)
+	ParenthesizePropertyName(true)
 	]
 	public virtual LegendCellType CellType
 	{
 		get
 		{
-			return this._cellType;
+			return _cellType;
 		}
 		set
 		{
-			this._cellType = value;
-			this.Invalidate();
+			_cellType = value;
+			Invalidate();
 		}
 	}
 
@@ -848,18 +847,22 @@ public class LegendCell : ChartNamedElement
 	/// </summary>
 	[
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	public virtual Legend Legend
 	{
 		get
 		{
-			LegendItem item = this.LegendItem;
+			LegendItem item = LegendItem;
 			if (item != null)
+			{
 				return item.Legend;
+			}
 			else
+			{
 				return null;
+			}
 		}
 	}
 
@@ -868,17 +871,21 @@ public class LegendCell : ChartNamedElement
 	/// </summary>
 	[
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	public virtual LegendItem LegendItem
 	{
 		get
 		{
 			if (Parent != null)
+			{
 				return Parent.Parent as LegendItem;
+			}
 			else
+			{
 				return null;
+			}
 		}
 	}
 
@@ -896,12 +903,12 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._text;
+			return _text;
 		}
 		set
 		{
-			this._text = value;
-			this.Invalidate();
+			_text = value;
+			Invalidate();
 		}
 	}
 
@@ -919,12 +926,12 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._foreColor;
+			return _foreColor;
 		}
 		set
 		{
-			this._foreColor = value;
-			this.Invalidate();
+			_foreColor = value;
+			Invalidate();
 		}
 	}
 
@@ -942,12 +949,12 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._backColor;
+			return _backColor;
 		}
 		set
 		{
-			this._backColor = value;
-			this.Invalidate();
+			_backColor = value;
+			Invalidate();
 		}
 	}
 
@@ -963,12 +970,12 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._font;
+			return _font;
 		}
 		set
 		{
-			this._font = value;
-			this.Invalidate();
+			_font = value;
+			Invalidate();
 		}
 	}
 
@@ -985,12 +992,12 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._image;
+			return _image;
 		}
 		set
 		{
-			this._image = value;
-			this.Invalidate();
+			_image = value;
+			Invalidate();
 		}
 	}
 
@@ -1008,12 +1015,12 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._imageTransparentColor;
+			return _imageTransparentColor;
 		}
 		set
 		{
-			this._imageTransparentColor = value;
-			this.Invalidate();
+			_imageTransparentColor = value;
+			Invalidate();
 		}
 	}
 
@@ -1034,17 +1041,17 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._imageSize;
+			return _imageSize;
 		}
 		set
 		{
 			if (value.Width < 0 || value.Height < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, nameof(value)));
 			}
 
-			this._imageSize = value;
-			this.Invalidate();
+			_imageSize = value;
+			Invalidate();
 		}
 	}
 
@@ -1061,17 +1068,17 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._seriesSymbolSize;
+			return _seriesSymbolSize;
 		}
 		set
 		{
 			if (value.Width < 0 || value.Height < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, nameof(value)));
 			}
 
-			this._seriesSymbolSize = value;
-			this.Invalidate();
+			_seriesSymbolSize = value;
+			Invalidate();
 		}
 	}
 
@@ -1087,12 +1094,12 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._alignment;
+			return _alignment;
 		}
 		set
 		{
-			this._alignment = value;
-			this.Invalidate();
+			_alignment = value;
+			Invalidate();
 		}
 	}
 
@@ -1108,17 +1115,17 @@ public class LegendCell : ChartNamedElement
 	{
 		get
 		{
-			return this._cellSpan;
+			return _cellSpan;
 		}
 		set
 		{
 			if (value < 1)
 			{
-				throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, "value"));
+				throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, nameof(value)));
 			}
 
-			this._cellSpan = value;
-			this.Invalidate();
+			_cellSpan = value;
+			Invalidate();
 		}
 	}
 
@@ -1129,24 +1136,24 @@ public class LegendCell : ChartNamedElement
 	SRCategory("CategoryAttributeLayout"),
 	DefaultValue(typeof(Margins), "0,0,15,15"),
 	SRDescription("DescriptionAttributeLegendCell_Margins"),
-	SerializationVisibilityAttribute(SerializationVisibility.Attribute),
-	NotifyParentPropertyAttribute(true),
+	SerializationVisibility(SerializationVisibility.Attribute),
+	NotifyParentProperty(true),
 	]
 	public virtual Margins Margins
 	{
 		get
 		{
-			return this._margins;
+			return _margins;
 		}
 		set
 		{
-			this._margins = value;
-			this.Invalidate();
+			_margins = value;
+			Invalidate();
 
 			// Set common elements of the new margins class
-			if (this.Legend != null)
+			if (Legend != null)
 			{
-				this._margins.Common = this.Common;
+				_margins.Common = Common;
 			}
 		}
 	}
@@ -1154,13 +1161,13 @@ public class LegendCell : ChartNamedElement
 	/// <summary>
 	/// Returns true if property should be serialized.  This method is for internal use only.
 	/// </summary>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	internal bool ShouldSerializeMargins()
 	{
-		if (this._margins.Top == 0 &&
-			this._margins.Bottom == 0 &&
-			this._margins.Left == 15 &&
-			this._margins.Right == 15)
+		if (_margins.Top == 0 &&
+			_margins.Bottom == 0 &&
+			_margins.Left == 15 &&
+			_margins.Right == 15)
 		{
 			return false;
 		}
@@ -1180,16 +1187,16 @@ public class LegendCell : ChartNamedElement
 	{
 		set
 		{
-			this._toolTip = value;
-			if (this.Chart != null &&
-			   this.Chart.selection != null)
+			_toolTip = value;
+			if (Chart != null &&
+			   Chart.selection != null)
 			{
-				this.Chart.selection.enabledChecked = false;
+				Chart.selection.enabledChecked = false;
 			}
 		}
 		get
 		{
-			return this._toolTip;
+			return _toolTip;
 		}
 	}
 
@@ -1202,8 +1209,8 @@ public class LegendCell : ChartNamedElement
 	/// </summary>
 	internal void ResetCache()
 	{
-		this._cachedCellSize = Size.Empty;
-		this._cachedCellSizeFontReducedBy = 0;
+		_cachedCellSize = Size.Empty;
+		_cachedCellSizeFontReducedBy = 0;
 	}
 
 	/// <summary>
@@ -1218,23 +1225,23 @@ public class LegendCell : ChartNamedElement
 		Size singleWCharacterSize)
 	{
 		// Set cell position 
-		this.cellPosition = position;
-		this.cellPositionWithMargins = position;
-		this._rowIndex = rowIndex;
+		cellPosition = position;
+		cellPositionWithMargins = position;
+		_rowIndex = rowIndex;
 
 		// Adjust cell position by specified margin
-		this.cellPosition.X += (int)(this.Margins.Left * singleWCharacterSize.Width / 100f);
-		this.cellPosition.Y += (int)(this.Margins.Top * singleWCharacterSize.Height / 100f);
-		this.cellPosition.Width -= (int)(this.Margins.Left * singleWCharacterSize.Width / 100f)
-			+ (int)(this.Margins.Right * singleWCharacterSize.Width / 100f);
-		this.cellPosition.Height -= (int)(this.Margins.Top * singleWCharacterSize.Height / 100f)
-			+ (int)(this.Margins.Bottom * singleWCharacterSize.Height / 100f);
+		cellPosition.X += (int)(Margins.Left * singleWCharacterSize.Width / 100f);
+		cellPosition.Y += (int)(Margins.Top * singleWCharacterSize.Height / 100f);
+		cellPosition.Width -= (int)(Margins.Left * singleWCharacterSize.Width / 100f)
+			+ (int)(Margins.Right * singleWCharacterSize.Width / 100f);
+		cellPosition.Height -= (int)(Margins.Top * singleWCharacterSize.Height / 100f)
+			+ (int)(Margins.Bottom * singleWCharacterSize.Height / 100f);
 
 		// Adjust cell position by space required for the separatorType
 		if (LegendItem != null &&
 			LegendItem.SeparatorType != LegendSeparatorStyle.None)
 		{
-			this.cellPosition.Height -= this.Legend.GetSeparatorSize(LegendItem.SeparatorType).Height;
+			cellPosition.Height -= Legend.GetSeparatorSize(LegendItem.SeparatorType).Height;
 		}
 	}
 
@@ -1262,31 +1269,31 @@ public class LegendCell : ChartNamedElement
 		Size singleWCharacterSize)
 	{
 		// Check if cached size may be reused
-		if (this._cachedCellSizeFontReducedBy == fontSizeReducedBy &&
-			!this._cachedCellSize.IsEmpty)
+		if (_cachedCellSizeFontReducedBy == fontSizeReducedBy &&
+			!_cachedCellSize.IsEmpty)
 		{
-			return this._cachedCellSize;
+			return _cachedCellSize;
 		}
 
 		// Get cell font
 		Size cellSize = Size.Empty;
-		bool disposeFont = false;
-		Font cellFont = this.GetCellFont(legendAutoFont, fontSizeReducedBy, out disposeFont);
+		bool disposeFont;
+		Font cellFont = GetCellFont(legendAutoFont, fontSizeReducedBy, out disposeFont);
 
 		// Measure cell content size based on the type
-		if (this.CellType == LegendCellType.SeriesSymbol)
+		if (CellType == LegendCellType.SeriesSymbol)
 		{
-			cellSize.Width = (int)(Math.Abs(this.SeriesSymbolSize.Width) * singleWCharacterSize.Width / 100f);
-			cellSize.Height = (int)(Math.Abs(this.SeriesSymbolSize.Height) * singleWCharacterSize.Height / 100f);
+			cellSize.Width = (int)(Math.Abs(SeriesSymbolSize.Width) * singleWCharacterSize.Width / 100f);
+			cellSize.Height = (int)(Math.Abs(SeriesSymbolSize.Height) * singleWCharacterSize.Height / 100f);
 		}
-		else if (this.CellType == LegendCellType.Image)
+		else if (CellType == LegendCellType.Image)
 		{
-			if (this.ImageSize.IsEmpty && this.Image.Length > 0)
+			if (ImageSize.IsEmpty && Image.Length > 0)
 			{
-				SizeF imageSize = new SizeF();
+				SizeF imageSize = new();
 
 				// Use original image size
-				if (this.Common.ImageLoader.GetAdjustedImageSize(this.Image, graph.Graphics, ref imageSize))
+				if (Common.ImageLoader.GetAdjustedImageSize(Image, graph.Graphics, ref imageSize))
 				{
 					cellSize.Width = (int)imageSize.Width;
 					cellSize.Height = (int)imageSize.Height;
@@ -1294,15 +1301,15 @@ public class LegendCell : ChartNamedElement
 			}
 			else
 			{
-				cellSize.Width = (int)(Math.Abs(this.ImageSize.Width) * singleWCharacterSize.Width / 100f);
-				cellSize.Height = (int)(Math.Abs(this.ImageSize.Height) * singleWCharacterSize.Height / 100f);
+				cellSize.Width = (int)(Math.Abs(ImageSize.Width) * singleWCharacterSize.Width / 100f);
+				cellSize.Height = (int)(Math.Abs(ImageSize.Height) * singleWCharacterSize.Height / 100f);
 			}
 		}
-		else if (this.CellType == LegendCellType.Text)
+		else if (CellType == LegendCellType.Text)
 		{
 			// Get current cell text taking in consideration keywords
 			// and automatic text wrapping.
-			string cellText = this.GetCellText();
+			string cellText = GetCellText();
 
 			// Measure text size.
 			// Note that extra "I" character added to add more horizontal spacing
@@ -1310,30 +1317,29 @@ public class LegendCell : ChartNamedElement
 		}
 		else
 		{
-			throw (new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(this.CellType.ToString())));
+			throw (new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(CellType.ToString())));
 		}
 
 		// Add cell margins 
-		cellSize.Width += (int)((this.Margins.Left + this.Margins.Right) * singleWCharacterSize.Width / 100f);
-		cellSize.Height += (int)((this.Margins.Top + this.Margins.Bottom) * singleWCharacterSize.Height / 100f);
+		cellSize.Width += (int)((Margins.Left + Margins.Right) * singleWCharacterSize.Width / 100f);
+		cellSize.Height += (int)((Margins.Top + Margins.Bottom) * singleWCharacterSize.Height / 100f);
 
 		// Add space required for the separatorType
 		if (LegendItem != null &&
 			LegendItem.SeparatorType != LegendSeparatorStyle.None)
 		{
-			cellSize.Height += this.Legend.GetSeparatorSize(LegendItem.SeparatorType).Height;
+			cellSize.Height += Legend.GetSeparatorSize(LegendItem.SeparatorType).Height;
 		}
 
 		// Dispose created font object
 		if (disposeFont)
 		{
 			cellFont.Dispose();
-			cellFont = null;
 		}
 
 		// Save calculated size
-		this._cachedCellSize = cellSize;
-		this._cachedCellSizeFontReducedBy = fontSizeReducedBy;
+		_cachedCellSize = cellSize;
+		_cachedCellSizeFontReducedBy = fontSizeReducedBy;
 
 		return cellSize;
 	}
@@ -1344,39 +1350,39 @@ public class LegendCell : ChartNamedElement
 	/// <returns></returns>
 	private Color GetCellBackColor()
 	{
-		Color resultColor = this.BackColor;
-		if (this.BackColor.IsEmpty && this.Legend != null)
+		Color resultColor = BackColor;
+		if (BackColor.IsEmpty && Legend != null)
 		{
 			// Try getting back color from the associated column
-			if (this.LegendItem != null)
+			if (LegendItem != null)
 			{
 				// Get index of this cell
-				int cellIndex = this.LegendItem.Cells.IndexOf(this);
+				int cellIndex = LegendItem.Cells.IndexOf(this);
 				if (cellIndex >= 0)
 				{
 					// Check if associated column exsists
-					if (cellIndex < this.Legend.CellColumns.Count &&
-						!this.Legend.CellColumns[cellIndex].BackColor.IsEmpty)
+					if (cellIndex < Legend.CellColumns.Count &&
+						!Legend.CellColumns[cellIndex].BackColor.IsEmpty)
 					{
-						resultColor = this.Legend.CellColumns[cellIndex].BackColor;
+						resultColor = Legend.CellColumns[cellIndex].BackColor;
 					}
 				}
 			}
 
 			// Get font from the legend isInterlaced 
 			if (resultColor.IsEmpty &&
-				this.Legend.InterlacedRows &&
-				this._rowIndex % 2 != 0)
+				Legend.InterlacedRows &&
+				_rowIndex % 2 != 0)
 			{
-				if (this.Legend.InterlacedRowsColor.IsEmpty)
+				if (Legend.InterlacedRowsColor.IsEmpty)
 				{
 					// Automatically determine background color
 					// If isInterlaced strips color is not set - use darker color of the area
-					if (this.Legend.BackColor == Color.Empty)
+					if (Legend.BackColor == Color.Empty)
 					{
 						resultColor = Color.LightGray;
 					}
-					else if (this.Legend.BackColor == Color.Transparent)
+					else if (Legend.BackColor == Color.Transparent)
 					{
 						if (Chart.BackColor != Color.Transparent &&
 							Chart.BackColor != Color.Black)
@@ -1390,12 +1396,12 @@ public class LegendCell : ChartNamedElement
 					}
 					else
 					{
-						resultColor = ChartGraphics.GetGradientColor(this.Legend.BackColor, Color.Black, 0.2);
+						resultColor = ChartGraphics.GetGradientColor(Legend.BackColor, Color.Black, 0.2);
 					}
 				}
 				else
 				{
-					resultColor = this.Legend.InterlacedRowsColor;
+					resultColor = Legend.InterlacedRowsColor;
 				}
 			}
 		}
@@ -1412,25 +1418,25 @@ public class LegendCell : ChartNamedElement
 	/// <returns>Default cell font.</returns>
 	private Font GetCellFont(Font legendAutoFont, int fontSizeReducedBy, out bool disposeFont)
 	{
-		Font cellFont = this.Font;
+		Font cellFont = Font;
 		disposeFont = false;
 
 		// Check if font is not set in the cell and legend object reference is valid
 		if (cellFont == null &&
-			this.Legend != null)
+			Legend != null)
 		{
 			// Try getting font from the associated column
-			if (this.LegendItem != null)
+			if (LegendItem != null)
 			{
 				// Get index of this cell
-				int cellIndex = this.LegendItem.Cells.IndexOf(this);
+				int cellIndex = LegendItem.Cells.IndexOf(this);
 				if (cellIndex >= 0)
 				{
 					// Check if associated column exsists
-					if (cellIndex < this.Legend.CellColumns.Count &&
-						this.Legend.CellColumns[cellIndex].Font != null)
+					if (cellIndex < Legend.CellColumns.Count &&
+						Legend.CellColumns[cellIndex].Font != null)
 					{
-						cellFont = this.Legend.CellColumns[cellIndex].Font;
+						cellFont = Legend.CellColumns[cellIndex].Font;
 					}
 				}
 			}
@@ -1482,15 +1488,15 @@ public class LegendCell : ChartNamedElement
 	private string GetCellToolTip()
 	{
 		// Check if tooltip is set in the cell (highest priority)
-		if (this.ToolTip.Length > 0)
+		if (ToolTip.Length > 0)
 		{
-			return this.ToolTip;
+			return ToolTip;
 		}
 
 		// Check if tooltip is set in associated legend item
-		if (this.LegendItem != null)
+		if (LegendItem != null)
 		{
-			return this.LegendItem.ToolTip;
+			return LegendItem.ToolTip;
 		}
 
 		return string.Empty;
@@ -1546,12 +1552,12 @@ public class LegendCell : ChartNamedElement
 	private string GetCellText()
 	{
 		// Replace all "\n" strings with the new line character
-		string resultString = this.Text.Replace("\\n", "\n");
+		string resultString = Text.Replace("\\n", "\n");
 
 		// Replace the KeywordName.LegendText keyword with legend item Name property
-		if (this.LegendItem != null)
+		if (LegendItem != null)
 		{
-			resultString = resultString.Replace(KeywordName.LegendText, this.LegendItem.Name);
+			resultString = resultString.Replace(KeywordName.LegendText, LegendItem.Name);
 		}
 		else
 		{
@@ -1559,9 +1565,9 @@ public class LegendCell : ChartNamedElement
 		}
 
 		// Check if text width exceeds recomended character length
-		if (this.Legend != null)
+		if (Legend != null)
 		{
-			int recomendedTextLength = this.Legend.TextWrapThreshold;
+			int recomendedTextLength = Legend.TextWrapThreshold;
 
 			if (recomendedTextLength > 0 &&
 				resultString.Length > recomendedTextLength)
@@ -1604,32 +1610,32 @@ public class LegendCell : ChartNamedElement
 	private Color GetCellForeColor()
 	{
 		// Check if cell text color defined in the cell
-		if (!this.ForeColor.IsEmpty)
+		if (!ForeColor.IsEmpty)
 		{
-			return this.ForeColor;
+			return ForeColor;
 		}
 
 		// Check if color from the Column or legend should be used
-		if (this.Legend != null)
+		if (Legend != null)
 		{
 			// Try getting font from the associated column
-			if (this.LegendItem != null)
+			if (LegendItem != null)
 			{
 				// Get index of this cell
-				int cellIndex = this.LegendItem.Cells.IndexOf(this);
+				int cellIndex = LegendItem.Cells.IndexOf(this);
 				if (cellIndex >= 0)
 				{
 					// Check if associated column exsists
-					if (cellIndex < this.Legend.CellColumns.Count &&
-						!this.Legend.CellColumns[cellIndex].ForeColor.IsEmpty)
+					if (cellIndex < Legend.CellColumns.Count &&
+						!Legend.CellColumns[cellIndex].ForeColor.IsEmpty)
 					{
-						return this.Legend.CellColumns[cellIndex].ForeColor;
+						return Legend.CellColumns[cellIndex].ForeColor;
 					}
 				}
 			}
 
 			// Use legend text color
-			return this.Legend.ForeColor;
+			return Legend.ForeColor;
 		}
 
 		return Color.Black;
@@ -1653,17 +1659,17 @@ public class LegendCell : ChartNamedElement
 		Size singleWCharacterSize)
 	{
 		// Check cell size before painting
-		if (this.cellPosition.Width <= 0 || this.cellPosition.Height <= 0)
+		if (cellPosition.Width <= 0 || cellPosition.Height <= 0)
 		{
 			return;
 		}
 
 		// Chart elements painting mode
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
 			// Check if cell background should be painted
-			Color cellBackColor = this.GetCellBackColor();
-			RectangleF rectRelative = chartGraph.GetRelativeRectangle(this.cellPositionWithMargins);
+			Color cellBackColor = GetCellBackColor();
+			RectangleF rectRelative = chartGraph.GetRelativeRectangle(cellPositionWithMargins);
 			if (!cellBackColor.IsEmpty)
 			{
 				chartGraph.FillRectangleRel(
@@ -1685,26 +1691,26 @@ public class LegendCell : ChartNamedElement
 			}
 
 			// Fire an event for custom cell back drawing
-			this.Chart.CallOnPrePaint(new ChartPaintEventArgs(this, chartGraph, this.Common, new ElementPosition(rectRelative.X, rectRelative.Y, rectRelative.Width, rectRelative.Height)));
+			Chart.CallOnPrePaint(new ChartPaintEventArgs(this, chartGraph, Common, new ElementPosition(rectRelative.X, rectRelative.Y, rectRelative.Width, rectRelative.Height)));
 
 			// Check legend cell type
-			switch (this.CellType)
+			switch (CellType)
 			{
 				case (LegendCellType.Text):
-					this.PaintCellText(chartGraph, fontSizeReducedBy, legendAutoFont);
+					PaintCellText(chartGraph, fontSizeReducedBy, legendAutoFont);
 					break;
 				case (LegendCellType.Image):
-					this.PaintCellImage(chartGraph, singleWCharacterSize);
+					PaintCellImage(chartGraph, singleWCharacterSize);
 					break;
 				case (LegendCellType.SeriesSymbol):
-					this.PaintCellSeriesSymbol(chartGraph, singleWCharacterSize);
+					PaintCellSeriesSymbol(chartGraph, singleWCharacterSize);
 					break;
 				default:
-					throw (new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(this.CellType.ToString())));
+					throw (new InvalidOperationException(SR.ExceptionLegendCellTypeUnknown(CellType.ToString())));
 			}
 
 			// Fire an event for custom cell drawing
-			this.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, chartGraph, this.Common, new ElementPosition(rectRelative.X, rectRelative.Y, rectRelative.Width, rectRelative.Height)));
+			Chart.CallOnPostPaint(new ChartPaintEventArgs(this, chartGraph, Common, new ElementPosition(rectRelative.X, rectRelative.Y, rectRelative.Width, rectRelative.Height)));
 		}
 #if DEBUG
 		// Draw bounding rectangle for debug purpose
@@ -1713,20 +1719,20 @@ public class LegendCell : ChartNamedElement
 #endif // DEBUG
 
 		// Legend cell selection mode
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Add hot region.
 			// Note that legend cell is passed as sub-object of legend item
-			this.Common.HotRegionsList.AddHotRegion(
-				chartGraph.GetRelativeRectangle(this.cellPositionWithMargins),
-				this.GetCellToolTip(),
-				this.GetCellUrl(),
-				this.GetCellMapAreaAttributes(),
-				this.GetCellPostBackValue(),
-				this.LegendItem,
+			Common.HotRegionsList.AddHotRegion(
+				chartGraph.GetRelativeRectangle(cellPositionWithMargins),
+				GetCellToolTip(),
+				GetCellUrl(),
+				GetCellMapAreaAttributes(),
+				GetCellPostBackValue(),
+				LegendItem,
 				this,
 				ChartElementType.LegendItem,
-				this.LegendItem.SeriesName);
+				LegendItem.SeriesName);
 		}
 	}
 
@@ -1742,70 +1748,68 @@ public class LegendCell : ChartNamedElement
 		Font legendAutoFont)
 	{
 		// Get cell font
-		bool disposeFont = false;
-		Font cellFont = this.GetCellFont(legendAutoFont, fontSizeReducedBy, out disposeFont);
+		bool disposeFont;
+		Font cellFont = GetCellFont(legendAutoFont, fontSizeReducedBy, out disposeFont);
 
 		// Start Svg Selection mode
-		chartGraph.StartHotRegion(this.GetCellUrl(), this.GetCellToolTip());
+		chartGraph.StartHotRegion(GetCellUrl(), GetCellToolTip());
 
 		// Create font brush
-		using (SolidBrush fontBrush = new SolidBrush(this.GetCellForeColor()))
+		using (SolidBrush fontBrush = new(GetCellForeColor()))
 		{
 			// Create cell text format
-			using (StringFormat format = new StringFormat(StringFormat.GenericDefault))
+			using StringFormat format = new(StringFormat.GenericDefault);
+			format.FormatFlags = StringFormatFlags.LineLimit;
+			format.Trimming = StringTrimming.EllipsisCharacter;
+			format.Alignment = StringAlignment.Center;
+			if (Alignment == ContentAlignment.BottomLeft ||
+				Alignment == ContentAlignment.MiddleLeft ||
+				Alignment == ContentAlignment.TopLeft)
 			{
-				format.FormatFlags = StringFormatFlags.LineLimit;
-				format.Trimming = StringTrimming.EllipsisCharacter;
-				format.Alignment = StringAlignment.Center;
-				if (this.Alignment == ContentAlignment.BottomLeft ||
-					this.Alignment == ContentAlignment.MiddleLeft ||
-					this.Alignment == ContentAlignment.TopLeft)
-				{
-					format.Alignment = StringAlignment.Near;
-				}
-				else if (this.Alignment == ContentAlignment.BottomRight ||
-					this.Alignment == ContentAlignment.MiddleRight ||
-					this.Alignment == ContentAlignment.TopRight)
-				{
-					format.Alignment = StringAlignment.Far;
-				}
-
-				format.LineAlignment = StringAlignment.Center;
-				if (this.Alignment == ContentAlignment.BottomCenter ||
-					this.Alignment == ContentAlignment.BottomLeft ||
-					this.Alignment == ContentAlignment.BottomRight)
-				{
-					format.LineAlignment = StringAlignment.Far;
-				}
-				else if (this.Alignment == ContentAlignment.TopCenter ||
-					this.Alignment == ContentAlignment.TopLeft ||
-					this.Alignment == ContentAlignment.TopRight)
-				{
-					format.LineAlignment = StringAlignment.Near;
-				}
-
-				// Measure string height out of one character
-				SizeF charSize = chartGraph.MeasureStringAbs(this.GetCellText(), cellFont, new SizeF(10000f, 10000f), format);
-
-				// If height of one characte is more than rectangle heigjt - remove LineLimit flag
-				if (charSize.Height > this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) != 0)
-				{
-					format.FormatFlags ^= StringFormatFlags.LineLimit;
-				}
-
-				else if (charSize.Height < this.cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) == 0)
-				{
-					format.FormatFlags |= StringFormatFlags.LineLimit;
-				}
-
-				// Draw text
-				chartGraph.DrawStringRel(
-					this.GetCellText(),
-					cellFont,
-					fontBrush,
-					chartGraph.GetRelativeRectangle(this.cellPosition),
-					format);
+				format.Alignment = StringAlignment.Near;
 			}
+			else if (Alignment == ContentAlignment.BottomRight ||
+				Alignment == ContentAlignment.MiddleRight ||
+				Alignment == ContentAlignment.TopRight)
+			{
+				format.Alignment = StringAlignment.Far;
+			}
+
+			format.LineAlignment = StringAlignment.Center;
+			if (Alignment == ContentAlignment.BottomCenter ||
+				Alignment == ContentAlignment.BottomLeft ||
+				Alignment == ContentAlignment.BottomRight)
+			{
+				format.LineAlignment = StringAlignment.Far;
+			}
+			else if (Alignment == ContentAlignment.TopCenter ||
+				Alignment == ContentAlignment.TopLeft ||
+				Alignment == ContentAlignment.TopRight)
+			{
+				format.LineAlignment = StringAlignment.Near;
+			}
+
+			// Measure string height out of one character
+			SizeF charSize = chartGraph.MeasureStringAbs(GetCellText(), cellFont, new SizeF(10000f, 10000f), format);
+
+			// If height of one characte is more than rectangle heigjt - remove LineLimit flag
+			if (charSize.Height > cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) != 0)
+			{
+				format.FormatFlags ^= StringFormatFlags.LineLimit;
+			}
+
+			else if (charSize.Height < cellPosition.Height && (format.FormatFlags & StringFormatFlags.LineLimit) == 0)
+			{
+				format.FormatFlags |= StringFormatFlags.LineLimit;
+			}
+
+			// Draw text
+			chartGraph.DrawStringRel(
+				GetCellText(),
+				cellFont,
+				fontBrush,
+				chartGraph.GetRelativeRectangle(cellPosition),
+				format);
 		}
 
 		// End Svg Selection mode
@@ -1815,7 +1819,6 @@ public class LegendCell : ChartNamedElement
 		if (disposeFont)
 		{
 			cellFont.Dispose();
-			cellFont = null;
 		}
 	}
 
@@ -1828,13 +1831,13 @@ public class LegendCell : ChartNamedElement
 		ChartGraphics chartGraph,
 		Size singleWCharacterSize)
 	{
-		if (this.Image.Length > 0)
+		if (Image.Length > 0)
 		{
 			// Get image size in relative coordinates
 			Rectangle imagePosition = Rectangle.Empty;
-			System.Drawing.Image image = this.Common.ImageLoader.LoadImage(this.Image);
+			Image image = Common.ImageLoader.LoadImage(Image);
 
-			SizeF imageSize = new SizeF();
+			SizeF imageSize = new();
 
 			ImageLoader.GetAdjustedImageSize(image, chartGraph.Graphics, ref imageSize);
 
@@ -1842,29 +1845,29 @@ public class LegendCell : ChartNamedElement
 			imagePosition.Height = (int)imageSize.Height;
 
 			// Calculate cell position
-			Rectangle imageCellPosition = this.cellPosition;
+			Rectangle imageCellPosition = cellPosition;
 			imageCellPosition.Width = imagePosition.Width;
 			imageCellPosition.Height = imagePosition.Height;
-			if (!this.ImageSize.IsEmpty)
+			if (!ImageSize.IsEmpty)
 			{
 				// Adjust cell size using image symbol size specified
-				if (this.ImageSize.Width > 0)
+				if (ImageSize.Width > 0)
 				{
-					int newWidth = (int)(this.ImageSize.Width * singleWCharacterSize.Width / 100f);
-					if (newWidth > this.cellPosition.Width)
+					int newWidth = (int)(ImageSize.Width * singleWCharacterSize.Width / 100f);
+					if (newWidth > cellPosition.Width)
 					{
-						newWidth = this.cellPosition.Width;
+						newWidth = cellPosition.Width;
 					}
 
 					imageCellPosition.Width = newWidth;
 				}
 
-				if (this.ImageSize.Height > 0)
+				if (ImageSize.Height > 0)
 				{
-					int newHeight = (int)(this.ImageSize.Height * singleWCharacterSize.Height / 100f);
-					if (newHeight > this.cellPosition.Height)
+					int newHeight = (int)(ImageSize.Height * singleWCharacterSize.Height / 100f);
+					if (newHeight > cellPosition.Height)
 					{
-						newHeight = this.cellPosition.Height;
+						newHeight = cellPosition.Height;
 					}
 
 					imageCellPosition.Height = newHeight;
@@ -1888,41 +1891,41 @@ public class LegendCell : ChartNamedElement
 			imagePosition.Width = (int)(imagePosition.Width / scaleValue);
 
 			// Get image location
-			imagePosition.X = (int)((this.cellPosition.X + this.cellPosition.Width / 2f) - imagePosition.Width / 2f);
-			imagePosition.Y = (int)((this.cellPosition.Y + this.cellPosition.Height / 2f) - imagePosition.Height / 2f);
+			imagePosition.X = (int)((cellPosition.X + cellPosition.Width / 2f) - imagePosition.Width / 2f);
+			imagePosition.Y = (int)((cellPosition.Y + cellPosition.Height / 2f) - imagePosition.Height / 2f);
 
 			// Adjust image location based on the cell content alignment
-			if (this.Alignment == ContentAlignment.BottomLeft ||
-				this.Alignment == ContentAlignment.MiddleLeft ||
-				this.Alignment == ContentAlignment.TopLeft)
+			if (Alignment == ContentAlignment.BottomLeft ||
+				Alignment == ContentAlignment.MiddleLeft ||
+				Alignment == ContentAlignment.TopLeft)
 			{
-				imagePosition.X = this.cellPosition.X;
+				imagePosition.X = cellPosition.X;
 			}
-			else if (this.Alignment == ContentAlignment.BottomRight ||
-				this.Alignment == ContentAlignment.MiddleRight ||
-				this.Alignment == ContentAlignment.TopRight)
+			else if (Alignment == ContentAlignment.BottomRight ||
+				Alignment == ContentAlignment.MiddleRight ||
+				Alignment == ContentAlignment.TopRight)
 			{
-				imagePosition.X = this.cellPosition.Right - imagePosition.Width;
+				imagePosition.X = cellPosition.Right - imagePosition.Width;
 			}
 
-			if (this.Alignment == ContentAlignment.BottomCenter ||
-				this.Alignment == ContentAlignment.BottomLeft ||
-				this.Alignment == ContentAlignment.BottomRight)
+			if (Alignment == ContentAlignment.BottomCenter ||
+				Alignment == ContentAlignment.BottomLeft ||
+				Alignment == ContentAlignment.BottomRight)
 			{
-				imagePosition.Y = this.cellPosition.Bottom - imagePosition.Height;
+				imagePosition.Y = cellPosition.Bottom - imagePosition.Height;
 			}
-			else if (this.Alignment == ContentAlignment.TopCenter ||
-				this.Alignment == ContentAlignment.TopLeft ||
-				this.Alignment == ContentAlignment.TopRight)
+			else if (Alignment == ContentAlignment.TopCenter ||
+				Alignment == ContentAlignment.TopLeft ||
+				Alignment == ContentAlignment.TopRight)
 			{
-				imagePosition.Y = this.cellPosition.Y;
+				imagePosition.Y = cellPosition.Y;
 			}
 
 			// Set image transparent color
-			System.Drawing.Imaging.ImageAttributes imageAttributes = new System.Drawing.Imaging.ImageAttributes();
-			if (this.ImageTransparentColor != Color.Empty)
+			Drawing.Imaging.ImageAttributes imageAttributes = new();
+			if (ImageTransparentColor != Color.Empty)
 			{
-				imageAttributes.SetColorKey(this.ImageTransparentColor, this.ImageTransparentColor, System.Drawing.Imaging.ColorAdjustType.Default);
+				imageAttributes.SetColorKey(ImageTransparentColor, ImageTransparentColor, Drawing.Imaging.ColorAdjustType.Default);
 			}
 
 			// Increase quality of image scaling
@@ -1961,29 +1964,29 @@ public class LegendCell : ChartNamedElement
 		SizeF singleWCharacterSize)
 	{
 		//Cache legend item
-		LegendItem legendItem = this.LegendItem;
+		LegendItem legendItem = LegendItem;
 
 		// Calculate cell position
-		Rectangle seriesMarkerPosition = this.cellPosition;
+		Rectangle seriesMarkerPosition = cellPosition;
 
 		// Adjust cell size using image symbol size specified
-		if (this.SeriesSymbolSize.Width >= 0)
+		if (SeriesSymbolSize.Width >= 0)
 		{
-			int newWidth = (int)(this.SeriesSymbolSize.Width * singleWCharacterSize.Width / 100f);
-			if (newWidth > this.cellPosition.Width)
+			int newWidth = (int)(SeriesSymbolSize.Width * singleWCharacterSize.Width / 100f);
+			if (newWidth > cellPosition.Width)
 			{
-				newWidth = this.cellPosition.Width;
+				newWidth = cellPosition.Width;
 			}
 
 			seriesMarkerPosition.Width = newWidth;
 		}
 
-		if (this.SeriesSymbolSize.Height >= 0)
+		if (SeriesSymbolSize.Height >= 0)
 		{
-			int newHeight = (int)(this.SeriesSymbolSize.Height * singleWCharacterSize.Height / 100f);
-			if (newHeight > this.cellPosition.Height)
+			int newHeight = (int)(SeriesSymbolSize.Height * singleWCharacterSize.Height / 100f);
+			if (newHeight > cellPosition.Height)
 			{
-				newHeight = this.cellPosition.Height;
+				newHeight = cellPosition.Height;
 			}
 
 			seriesMarkerPosition.Height = newHeight;
@@ -1996,49 +1999,49 @@ public class LegendCell : ChartNamedElement
 		}
 
 		// Get symbol location
-		seriesMarkerPosition.X = (int)((this.cellPosition.X + this.cellPosition.Width / 2f) - seriesMarkerPosition.Width / 2f);
-		seriesMarkerPosition.Y = (int)((this.cellPosition.Y + this.cellPosition.Height / 2f) - seriesMarkerPosition.Height / 2f);
+		seriesMarkerPosition.X = (int)((cellPosition.X + cellPosition.Width / 2f) - seriesMarkerPosition.Width / 2f);
+		seriesMarkerPosition.Y = (int)((cellPosition.Y + cellPosition.Height / 2f) - seriesMarkerPosition.Height / 2f);
 
 		// Adjust image location based on the cell content alignment
-		if (this.Alignment == ContentAlignment.BottomLeft ||
-			this.Alignment == ContentAlignment.MiddleLeft ||
-			this.Alignment == ContentAlignment.TopLeft)
+		if (Alignment == ContentAlignment.BottomLeft ||
+			Alignment == ContentAlignment.MiddleLeft ||
+			Alignment == ContentAlignment.TopLeft)
 		{
-			seriesMarkerPosition.X = this.cellPosition.X;
+			seriesMarkerPosition.X = cellPosition.X;
 		}
-		else if (this.Alignment == ContentAlignment.BottomRight ||
-			this.Alignment == ContentAlignment.MiddleRight ||
-			this.Alignment == ContentAlignment.TopRight)
+		else if (Alignment == ContentAlignment.BottomRight ||
+			Alignment == ContentAlignment.MiddleRight ||
+			Alignment == ContentAlignment.TopRight)
 		{
-			seriesMarkerPosition.X = this.cellPosition.Right - seriesMarkerPosition.Width;
+			seriesMarkerPosition.X = cellPosition.Right - seriesMarkerPosition.Width;
 		}
 
-		if (this.Alignment == ContentAlignment.BottomCenter ||
-			this.Alignment == ContentAlignment.BottomLeft ||
-			this.Alignment == ContentAlignment.BottomRight)
+		if (Alignment == ContentAlignment.BottomCenter ||
+			Alignment == ContentAlignment.BottomLeft ||
+			Alignment == ContentAlignment.BottomRight)
 		{
-			seriesMarkerPosition.Y = this.cellPosition.Bottom - seriesMarkerPosition.Height;
+			seriesMarkerPosition.Y = cellPosition.Bottom - seriesMarkerPosition.Height;
 		}
-		else if (this.Alignment == ContentAlignment.TopCenter ||
-			this.Alignment == ContentAlignment.TopLeft ||
-			this.Alignment == ContentAlignment.TopRight)
+		else if (Alignment == ContentAlignment.TopCenter ||
+			Alignment == ContentAlignment.TopLeft ||
+			Alignment == ContentAlignment.TopRight)
 		{
-			seriesMarkerPosition.Y = this.cellPosition.Y;
+			seriesMarkerPosition.Y = cellPosition.Y;
 		}
 
 		// Start Svg Selection mode
-		chartGraph.StartHotRegion(this.GetCellUrl(), this.GetCellToolTip());
+		chartGraph.StartHotRegion(GetCellUrl(), GetCellToolTip());
 
 		// Draw legend item image
 		if (legendItem.Image.Length > 0)
 		{
 			// Get image size
 			Rectangle imageScale = Rectangle.Empty;
-			System.Drawing.Image image = this.Common.ImageLoader.LoadImage(legendItem.Image);
+			Image image = Common.ImageLoader.LoadImage(legendItem.Image);
 
 			if (image != null)
 			{
-				SizeF imageSize = new SizeF();
+				SizeF imageSize = new();
 
 				ImageLoader.GetAdjustedImageSize(image, chartGraph.Graphics, ref imageSize);
 
@@ -2065,10 +2068,10 @@ public class LegendCell : ChartNamedElement
 				imageScale.Y = (int)((seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2f) - imageScale.Height / 2f);
 
 				// Set image transparent color
-				System.Drawing.Imaging.ImageAttributes imageAttributes = new System.Drawing.Imaging.ImageAttributes();
+				Drawing.Imaging.ImageAttributes imageAttributes = new();
 				if (legendItem.BackImageTransparentColor != Color.Empty)
 				{
-					imageAttributes.SetColorKey(legendItem.BackImageTransparentColor, legendItem.BackImageTransparentColor, System.Drawing.Imaging.ColorAdjustType.Default);
+					imageAttributes.SetColorKey(legendItem.BackImageTransparentColor, legendItem.BackImageTransparentColor, Drawing.Imaging.ColorAdjustType.Default);
 				}
 
 				// Draw image
@@ -2115,12 +2118,16 @@ public class LegendCell : ChartNamedElement
 			if (legendItem.ImageStyle == LegendImageStyle.Line)
 			{
 				// Prepare line coordinates
-				Point point1 = new Point();
-				point1.X = seriesMarkerPosition.X;
-				point1.Y = (int)(seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2F);
-				Point point2 = new Point();
-				point2.Y = point1.Y;
-				point2.X = seriesMarkerPosition.Right;
+				Point point1 = new()
+				{
+					X = seriesMarkerPosition.X,
+					Y = (int)(seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2F)
+				};
+				Point point2 = new()
+				{
+					Y = point1.Y,
+					X = seriesMarkerPosition.Right
+				};
 
 				// Disable antialiasing
 				SmoothingMode oldMode = chartGraph.SmoothingMode;
@@ -2170,18 +2177,20 @@ public class LegendCell : ChartNamedElement
 					}
 
 					// Draw marker
-					Point point = new Point();
-					point.X = (int)(seriesMarkerPosition.X + seriesMarkerPosition.Width / 2f);
-					point.Y = (int)(seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2f);
+					Point point = new()
+					{
+						X = (int)(seriesMarkerPosition.X + seriesMarkerPosition.Width / 2f),
+						Y = (int)(seriesMarkerPosition.Y + seriesMarkerPosition.Height / 2f)
+					};
 
 					// Calculate image scale
 					Rectangle imageScale = Rectangle.Empty;
 					if (legendItem.markerImage.Length > 0)
 					{
 						// Get image size
-						System.Drawing.Image image = this.Common.ImageLoader.LoadImage(legendItem.markerImage);
+						Image image = Common.ImageLoader.LoadImage(legendItem.markerImage);
 
-						SizeF imageSize = new SizeF();
+						SizeF imageSize = new();
 
 						ImageLoader.GetAdjustedImageSize(image, chartGraph.Graphics, ref imageSize);
 
@@ -2207,7 +2216,7 @@ public class LegendCell : ChartNamedElement
 
 					// Adjust marker position so that it always drawn on pixel
 					// boundary.
-					PointF pointF = new PointF(point.X, point.Y);
+					PointF pointF = new(point.X, point.Y);
 					if ((markerSize % 2) != 0.0)
 					{
 						pointF.X -= 0.5f;
@@ -2247,11 +2256,8 @@ public class LegendCell : ChartNamedElement
 	{
 		if (disposing)
 		{
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			_fontCache?.Dispose();
+			_fontCache = null;
 		}
 
 		base.Dispose(disposing);
@@ -2308,10 +2314,10 @@ public class Margins
 	/// <param name="right">Right margin.</param>
 	public Margins(int top, int bottom, int left, int right)
 	{
-		this._top = top;
-		this._bottom = bottom;
-		this._left = left;
-		this._right = right;
+		_top = top;
+		_bottom = bottom;
+		_left = left;
+		_right = right;
 	}
 
 	#endregion // Constructor
@@ -2325,24 +2331,24 @@ public class Margins
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue(0),
 	SRDescription("DescriptionAttributeMargins_Top"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
-	NotifyParentPropertyAttribute(true),
+	RefreshProperties(RefreshProperties.All),
+	NotifyParentProperty(true),
 	]
 	public int Top
 	{
 		get
 		{
-			return this._top;
+			return _top;
 		}
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, nameof(value)));
 			}
 
-			this._top = value;
-			this.Invalidate();
+			_top = value;
+			Invalidate();
 		}
 	}
 
@@ -2353,24 +2359,24 @@ public class Margins
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue(0),
 	SRDescription("DescriptionAttributeMargins_Bottom"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
-	NotifyParentPropertyAttribute(true),
+	RefreshProperties(RefreshProperties.All),
+	NotifyParentProperty(true),
 	]
 	public int Bottom
 	{
 		get
 		{
-			return this._bottom;
+			return _bottom;
 		}
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, nameof(value)));
 			}
 
-			this._bottom = value;
-			this.Invalidate();
+			_bottom = value;
+			Invalidate();
 		}
 	}
 
@@ -2380,25 +2386,25 @@ public class Margins
 	[
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue(0),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	SRDescription("DescriptionAttributeMargins_Left"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public int Left
 	{
 		get
 		{
-			return this._left;
+			return _left;
 		}
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, nameof(value)));
 			}
 
-			this._left = value;
-			this.Invalidate();
+			_left = value;
+			Invalidate();
 		}
 	}
 
@@ -2409,24 +2415,24 @@ public class Margins
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue(0),
 	SRDescription("DescriptionAttributeMargins_Right"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
-	NotifyParentPropertyAttribute(true),
+	RefreshProperties(RefreshProperties.All),
+	NotifyParentProperty(true),
 	]
 	public int Right
 	{
 		get
 		{
-			return this._right;
+			return _right;
 		}
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, nameof(value)));
 			}
 
-			this._right = value;
-			this.Invalidate();
+			_right = value;
+			Invalidate();
 		}
 	}
 
@@ -2444,10 +2450,10 @@ public class Margins
 		return string.Format(
 			CultureInfo.InvariantCulture,
 			"{0:D}, {1:D}, {2:D}, {3:D}",
-			this.Top,
-			this.Bottom,
-			this.Left,
-			this.Right);
+			Top,
+			Bottom,
+			Left,
+			Right);
 	}
 
 	/// <summary>
@@ -2462,13 +2468,12 @@ public class Margins
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	public override bool Equals(object obj)
 	{
-		Margins margins = obj as Margins;
-		if (margins != null)
+		if (obj is Margins margins)
 		{
-			if (this.Top == margins.Top &&
-				this.Bottom == margins.Bottom &&
-				this.Left == margins.Left &&
-				this.Right == margins.Right)
+			if (Top == margins.Top &&
+				Bottom == margins.Bottom &&
+				Left == margins.Left &&
+				Right == margins.Right)
 			{
 				return true;
 			}
@@ -2484,7 +2489,7 @@ public class Margins
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	public override int GetHashCode()
 	{
-		return this.Top.GetHashCode() + this.Bottom.GetHashCode() + this.Left.GetHashCode() + this.Right.GetHashCode();
+		return Top.GetHashCode() + Bottom.GetHashCode() + Left.GetHashCode() + Right.GetHashCode();
 	}
 
 	/// <summary>
@@ -2495,7 +2500,7 @@ public class Margins
 	/// </returns>
 	public bool IsEmpty()
 	{
-		return (this.Top == 0 && this.Bottom == 0 && this.Left == 0 && this.Right == 0);
+		return (Top == 0 && Bottom == 0 && Left == 0 && Right == 0);
 	}
 
 	/// <summary>
@@ -2504,7 +2509,7 @@ public class Margins
 	/// <returns>A RectangleF class that contains the values of the margins.</returns>
 	public RectangleF ToRectangleF()
 	{
-		return new RectangleF(this.Left, this.Top, this.Right, this.Bottom);
+		return new RectangleF(Left, Top, Right, Bottom);
 	}
 
 	/// <summary>
@@ -2512,9 +2517,9 @@ public class Margins
 	/// </summary>
 	private void Invalidate()
 	{
-		if (this.Common != null && this.Common.Chart != null)
+		if (Common != null && Common.Chart != null)
 		{
-			this.Common.Chart.Invalidate();
+			Common.Chart.Invalidate();
 		}
 	}
 
@@ -2586,7 +2591,7 @@ public class LegendCellCollection : ChartNamedElementCollection<LegendCell>
 	/// </param>
 	public void Insert(int index, LegendCellType cellType, string text, ContentAlignment alignment)
 	{
-		this.Insert(index, new LegendCell(cellType, text, alignment));
+		Insert(index, new LegendCell(cellType, text, alignment));
 	}
 
 	#endregion
@@ -2637,7 +2642,7 @@ public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCell
 				item.Dispose();
 			}
 
-			this.ClearItems();
+			ClearItems();
 		}
 
 		base.Dispose(disposing);

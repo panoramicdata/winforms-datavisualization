@@ -21,9 +21,9 @@ internal class FormulaRegistry : IServiceProvider
 	#region Fields
 
 	// Storage for all registered formula modules
-	internal Hashtable registeredModules = new Hashtable(StringComparer.OrdinalIgnoreCase);
-	private Hashtable _createdModules = new Hashtable(StringComparer.OrdinalIgnoreCase);
-	private ArrayList _modulesNames = new ArrayList();
+	internal Hashtable registeredModules = new(StringComparer.OrdinalIgnoreCase);
+	private readonly Hashtable _createdModules = new(StringComparer.OrdinalIgnoreCase);
+	private readonly ArrayList _modulesNames = [];
 
 	#endregion
 
@@ -85,7 +85,7 @@ internal class FormulaRegistry : IServiceProvider
 	/// </summary>
 	/// <param name="serviceType">Service AxisName.</param>
 	/// <returns>Service object.</returns>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	object IServiceProvider.GetService(Type serviceType)
 	{
 		if (serviceType == typeof(FormulaRegistry))

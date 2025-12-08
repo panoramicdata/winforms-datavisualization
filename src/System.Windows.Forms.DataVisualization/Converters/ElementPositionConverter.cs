@@ -80,10 +80,9 @@ internal class ElementPositionConverter : ExpandableObjectConverter
 	/// <returns>Indicates if convertion is possible.</returns>
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
-		string posValue = value as string;
-		if (posValue != null)
+		if (value is string posValue)
 		{
-			if (String.Compare(posValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(posValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				return new ElementPosition();
 			}
@@ -93,10 +92,10 @@ internal class ElementPositionConverter : ExpandableObjectConverter
 				if (array.Length == 4)
 				{
 					return new ElementPosition(
-						float.Parse(array[0], System.Globalization.CultureInfo.CurrentCulture),
-						float.Parse(array[1], System.Globalization.CultureInfo.CurrentCulture),
-						float.Parse(array[2], System.Globalization.CultureInfo.CurrentCulture),
-						float.Parse(array[3], System.Globalization.CultureInfo.CurrentCulture));
+						float.Parse(array[0], CultureInfo.CurrentCulture),
+						float.Parse(array[1], CultureInfo.CurrentCulture),
+						float.Parse(array[2], CultureInfo.CurrentCulture),
+						float.Parse(array[3], CultureInfo.CurrentCulture));
 				}
 				else
 				{

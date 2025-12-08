@@ -68,7 +68,7 @@ internal class LegendCollectionEditor : ChartCollectionEditor
 			Chart control = (Chart)Context.Instance;
 			// Create legend with unique name
 			int countLegend = control.Legends.Count + 1;
-			string legendName = "Legend" + countLegend.ToString(System.Globalization.CultureInfo.InvariantCulture);
+			string legendName = "Legend" + countLegend.ToString(Globalization.CultureInfo.InvariantCulture);
 
 			// Check if this name already in use
 			bool legendFound = true;
@@ -86,12 +86,12 @@ internal class LegendCollectionEditor : ChartCollectionEditor
 				if (legendFound)
 				{
 					++countLegend;
-					legendName = "Legend" + countLegend.ToString(System.Globalization.CultureInfo.InvariantCulture);
+					legendName = "Legend" + countLegend.ToString(Globalization.CultureInfo.InvariantCulture);
 				}
 			}
 
 			// Create new legend
-			Legend newLegend = new Legend(legendName);
+			Legend newLegend = new(legendName);
 			return newLegend;
 		}
 
@@ -126,11 +126,10 @@ internal class LegendCellColumnCollectionEditor : ChartCollectionEditor
 	{
 		if (Context != null && Context.Instance != null)
 		{
-			Legend legend = Context.Instance as Legend;
-			if (legend != null)
+			if (Context.Instance is Legend legend)
 			{
 				int itemCount = legend.CellColumns.Count + 1;
-				string itemName = "Column" + itemCount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+				string itemName = "Column" + itemCount.ToString(Globalization.CultureInfo.InvariantCulture);
 
 				// Check if this name already in use
 				bool itemFound = true;
@@ -148,13 +147,15 @@ internal class LegendCellColumnCollectionEditor : ChartCollectionEditor
 					if (itemFound)
 					{
 						++itemCount;
-						itemName = "Column" + itemCount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+						itemName = "Column" + itemCount.ToString(Globalization.CultureInfo.InvariantCulture);
 					}
 				}
 
 				// Create new legend column
-				LegendCellColumn legendColumn = new LegendCellColumn();
-				legendColumn.Name = itemName;
+				LegendCellColumn legendColumn = new()
+				{
+					Name = itemName
+				};
 				return legendColumn;
 			}
 		}
@@ -188,11 +189,10 @@ internal class LegendCellCollectionEditor : ChartCollectionEditor
 	{
 		if (Context != null && Context.Instance != null)
 		{
-			LegendItem legendItem = Context.Instance as LegendItem;
-			if (legendItem != null)
+			if (Context.Instance is LegendItem legendItem)
 			{
 				int itemCount = legendItem.Cells.Count + 1;
-				string itemName = "Cell" + itemCount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+				string itemName = "Cell" + itemCount.ToString(Globalization.CultureInfo.InvariantCulture);
 
 				// Check if this name already in use
 				bool itemFound = true;
@@ -210,13 +210,15 @@ internal class LegendCellCollectionEditor : ChartCollectionEditor
 					if (itemFound)
 					{
 						++itemCount;
-						itemName = "Cell" + itemCount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+						itemName = "Cell" + itemCount.ToString(Globalization.CultureInfo.InvariantCulture);
 					}
 				}
 
 				// Create new legend cell
-				LegendCell legendCell = new LegendCell();
-				legendCell.Name = itemName;
+				LegendCell legendCell = new()
+				{
+					Name = itemName
+				};
 				return legendCell;
 			}
 		}

@@ -75,9 +75,9 @@ internal class BubbleChart : PointChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -138,13 +138,13 @@ internal class BubbleChart : PointChart
 		string markerImage)
 	{
 		// Check required Y values number
-		if (point.YValues.Length < this.YValuesPerPoint)
+		if (point.YValues.Length < YValuesPerPoint)
 		{
-			throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+			throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(Name, YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
 		}
 
 		// Marker size
-		SizeF size = new SizeF(markerSize, markerSize);
+		SizeF size = new(markerSize, markerSize);
 		if (graph != null && graph.Graphics != null)
 		{
 			// Marker size is in pixels and we do the mapping for higher DPIs
@@ -181,7 +181,7 @@ internal class BubbleChart : PointChart
 			_maxAll = double.MinValue;
 			foreach (Series ser in common.DataManager.Series)
 			{
-				if (String.Compare(ser.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0 &&
+				if (string.Compare(ser.ChartTypeName, Name, true, CultureInfo.CurrentCulture) == 0 &&
 					ser.ChartArea == area.Name &&
 					ser.IsVisible())
 				{
@@ -221,7 +221,7 @@ internal class BubbleChart : PointChart
 					labelYValueIndex = 0;
 					if (ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
 					{
-						if (String.Compare(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase) == 0)
+						if (string.Compare(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							labelYValueIndex = 1;
 							break;
@@ -237,16 +237,16 @@ internal class BubbleChart : PointChart
 				double maxSer = double.MinValue;
 				foreach (Series ser in common.DataManager.Series)
 				{
-					if (ser.ChartTypeName == this.Name && ser.ChartArea == area.Name && ser.IsVisible())
+					if (ser.ChartTypeName == Name && ser.ChartArea == area.Name && ser.IsVisible())
 					{
 						foreach (DataPoint point in ser.Points)
 						{
 							if (!point.IsEmpty)
 							{
 								// Check required Y values number
-								if (point.YValues.Length < this.YValuesPerPoint)
+								if (point.YValues.Length < YValuesPerPoint)
 								{
-									throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+									throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(Name, YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
 								}
 
 								minSer = Math.Min(minSer, point.YValues[1]);
@@ -275,13 +275,13 @@ internal class BubbleChart : PointChart
 			// Calculate scaling variables depending on the Min/Max values
 			if (_maxAll == _minAll)
 			{
-				this._valueScale = 1;
-				this._valueDiff = _minAll - (_maxBubleSize - _minBubleSize) / 2f;
+				_valueScale = 1;
+				_valueDiff = _minAll - (_maxBubleSize - _minBubleSize) / 2f;
 			}
 			else
 			{
-				this._valueScale = (_maxBubleSize - _minBubleSize) / (_maxAll - _minAll);
-				this._valueDiff = _minAll;
+				_valueScale = (_maxBubleSize - _minBubleSize) / (_maxAll - _minAll);
+				_valueDiff = _minAll;
 			}
 
 			_scaleDetected = true;
@@ -299,7 +299,7 @@ internal class BubbleChart : PointChart
 		}
 
 		// Return scaled value
-		return (float)((value - this._valueDiff) * this._valueScale) + _minBubleSize;
+		return (float)((value - _valueDiff) * _valueScale) + _minBubleSize;
 	}
 
 	/// <summary>
@@ -324,7 +324,7 @@ internal class BubbleChart : PointChart
 		double valueDiff;
 		foreach (Series ser in common.DataManager.Series)
 		{
-			if (String.Compare(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0 &&
+			if (string.Compare(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0 &&
 				ser.ChartArea == area.Name &&
 				ser.IsVisible())
 			{
@@ -352,7 +352,7 @@ internal class BubbleChart : PointChart
 				// Check if custom properties set to use second Y value (bubble size) as label text
 				if (ser.IsCustomPropertySet(CustomPropertyName.BubbleUseSizeForLabel))
 				{
-					if (String.Compare(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase) == 0)
+					if (string.Compare(ser[CustomPropertyName.BubbleUseSizeForLabel], "true", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						break;
 					}
@@ -367,7 +367,7 @@ internal class BubbleChart : PointChart
 		double maxSer = double.MinValue;
 		foreach (Series ser in common.DataManager.Series)
 		{
-			if (String.Compare(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0
+			if (string.Compare(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0
 					&& ser.ChartArea == area.Name
 					&& ser.IsVisible())
 			{
@@ -446,7 +446,7 @@ internal class BubbleChart : PointChart
 		// Try to find bubble size scale in the custom series properties
 		foreach (Series ser in area.Common.DataManager.Series)
 		{
-			if (String.Compare(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0 &&
+			if (string.Compare(ser.ChartTypeName, ChartTypeNames.Bubble, StringComparison.OrdinalIgnoreCase) == 0 &&
 				ser.ChartArea == area.Name &&
 				ser.IsVisible())
 			{

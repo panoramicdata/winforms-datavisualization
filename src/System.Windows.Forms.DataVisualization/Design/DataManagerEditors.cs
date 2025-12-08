@@ -22,7 +22,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting;
 /// <summary>
 /// UI type editor for the Y data source members of the series.
 /// </summary>
-internal class SeriesDataSourceMemberValueAxisUITypeEditor : System.Drawing.Design.UITypeEditor
+internal class SeriesDataSourceMemberValueAxisUITypeEditor : UITypeEditor
 {
 	#region Editor methods and properties
 
@@ -52,7 +52,7 @@ internal class SeriesDataSourceMemberValueAxisUITypeEditor : System.Drawing.Desi
 				{
 
 					// Create control for editing
-					SeriesDataSourceMemberYCheckedListBox control = this.GetDropDownControl(chart, context, value, true);
+					SeriesDataSourceMemberYCheckedListBox control = GetDropDownControl(chart, context, value, true);
 
 					// Show drop down control
 					edSvc.DropDownControl(control);
@@ -105,7 +105,7 @@ internal class SeriesDataSourceMemberValueAxisUITypeEditor : System.Drawing.Desi
 internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 {
 	// Chart object
-	private Chart _chart = null;
+	private readonly Chart _chart = null;
 
 	// Object to edit
 	protected object editValue = null;
@@ -129,9 +129,9 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 		this.usedForYValue = usedForYValue;
 
 		// Set control border style
-		this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+		BorderStyle = BorderStyle.None;
 
-		this.IntegralHeight = false;
+		IntegralHeight = false;
 		// Fill member items list
 		//this.FillList();
 
@@ -145,7 +145,7 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 
 	protected override void OnCreateControl()
 	{
-		this.FillList();
+		FillList();
 	}
 
 	internal virtual ArrayList GetMemberNames()
@@ -159,10 +159,10 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 		// Get list of members
 		if (dataSource != null)
 		{
-			return ChartImage.GetDataSourceMemberNames(dataSource, this.usedForYValue);
+			return ChartImage.GetDataSourceMemberNames(dataSource, usedForYValue);
 		}
 
-		return new ArrayList();
+		return [];
 	}
 
 	/// <summary>
@@ -178,7 +178,7 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 			currentNames = editedString.Split(',');
 		}
 
-		ArrayList memberNames = this.GetMemberNames();
+		ArrayList memberNames = GetMemberNames();
 
 		// Fill list with all possible values in the enumeration
 		foreach (string name in memberNames)
@@ -197,7 +197,7 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 			}
 
 			// Add items into the list
-			this.Items.Add(name, isChecked);
+			Items.Add(name, isChecked);
 		}
 	}
 
@@ -208,8 +208,8 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 	public string GetNewValue()
 	{
 		// Update enumeration flags
-		string result = String.Empty;
-		foreach (object checkedItem in this.CheckedItems)
+		string result = string.Empty;
+		foreach (object checkedItem in CheckedItems)
 		{
 			if (result.Length > 0)
 			{
@@ -246,10 +246,9 @@ internal class ChartTypeEditor : UITypeEditor
 		// Initialize the chartTypeRegistry using context
 		if (context != null && context.Instance != null)
 		{
-			IChartElement chartElement = context.Instance as IChartElement;
-			if (chartElement != null)
+			if (context.Instance is IChartElement chartElement)
 			{
-				this._chartTypeRegistry = chartElement.Common.ChartTypeRegistry;
+				_chartTypeRegistry = chartElement.Common.ChartTypeRegistry;
 			}
 		}
 
@@ -263,7 +262,7 @@ internal class ChartTypeEditor : UITypeEditor
 	/// <param name="e">Paint value event arguments.</param>
 	public override void PaintValue(PaintValueEventArgs e)
 	{
-		string chartTypeName = String.Empty;
+		string chartTypeName = string.Empty;
 		if (_chartTypeRegistry != null && e != null)
 		{
 			if (e.Value is string)
@@ -281,7 +280,7 @@ internal class ChartTypeEditor : UITypeEditor
 				IChartType chartType = _chartTypeRegistry.GetChartType(chartTypeName);
 
 				// Get imahe from the chart type
-				System.Drawing.Image chartImage = null;
+				Drawing.Image chartImage = null;
 				if (chartType != null)
 				{
 					chartImage = chartType.GetImage(_chartTypeRegistry);
@@ -346,7 +345,7 @@ internal class DataPointCollectionEditor : ChartCollectionEditor
 			if (Context.Instance is Series)
 			{
 				Series series = (Series)Context.Instance;
-				DataPoint newDataPoint = new DataPoint(series);
+				DataPoint newDataPoint = new(series);
 				return newDataPoint;
 			}
 			else if (Context.Instance is Array)
@@ -437,10 +436,9 @@ internal class ChartCollectionEditor : CollectionEditor
 	/// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
 	private void OnNameReferenceChanging(object sender, NameReferenceChangedEventArgs e)
 	{
-		IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-		if (svc != null)
+		if (_context.GetService(typeof(IComponentChangeService)) is IComponentChangeService svc)
 		{
-			svc.OnComponentChanging(this._chart, null);
+			svc.OnComponentChanging(_chart, null);
 		}
 	}
 
@@ -451,10 +449,9 @@ internal class ChartCollectionEditor : CollectionEditor
 	/// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
 	private void OnNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
 	{
-		IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-		if (svc != null)
+		if (_context.GetService(typeof(IComponentChangeService)) is IComponentChangeService svc)
 		{
-			svc.OnComponentChanged(this._chart, null, null, null);
+			svc.OnComponentChanged(_chart, null, null, null);
 		}
 	}
 
@@ -469,10 +466,7 @@ internal class ChartCollectionEditor : CollectionEditor
 	protected override object SetItems(object editValue, object[] value)
 	{
 		object result = base.SetItems(editValue, value);
-
-		IComponentChangeService svc = _context.GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-		INameController controller = editValue as INameController;
-		if (controller != null && svc != null && (editValue is ChartAreaCollection || editValue is LegendCollection))
+		if (editValue is INameController controller && _context.GetService(typeof(IComponentChangeService)) is IComponentChangeService svc && (editValue is ChartAreaCollection || editValue is LegendCollection))
 		{
 			IList newList = (IList)result;
 			bool elementsRemoved = false;
@@ -486,7 +480,7 @@ internal class ChartCollectionEditor : CollectionEditor
 
 			if (elementsRemoved)
 			{
-				svc.OnComponentChanging(this._chart, null);
+				svc.OnComponentChanging(_chart, null);
 				ChartNamedElement defaultElement = (ChartNamedElement)(newList.Count > 0 ? newList[0] : null);
 				foreach (ChartNamedElement element in controller.Snapshot)
 				{
@@ -496,7 +490,7 @@ internal class ChartCollectionEditor : CollectionEditor
 					}
 				}
 
-				svc.OnComponentChanged(this._chart, null, null, null);
+				svc.OnComponentChanged(_chart, null, null, null);
 			}
 		}
 
@@ -523,7 +517,7 @@ internal class ChartCollectionEditor : CollectionEditor
 	{
 		// Init topic name
 		_helpTopic = "";
-		PropertyGrid grid = this.GetPropertyGrid(_form.Controls);
+		PropertyGrid grid = GetPropertyGrid(_form.Controls);
 
 		// Check currently selected grid item
 		if (grid != null)
@@ -547,12 +541,11 @@ internal class ChartCollectionEditor : CollectionEditor
 	/// </summary>
 	/// <param name="controls"></param>
 	/// <returns></returns>
-	private PropertyGrid GetPropertyGrid(System.Windows.Forms.Control.ControlCollection controls)
+	private PropertyGrid GetPropertyGrid(Control.ControlCollection controls)
 	{
-		foreach (System.Windows.Forms.Control control in controls)
+		foreach (Control control in controls)
 		{
-			PropertyGrid grid = control as PropertyGrid;
-			if (grid != null)
+			if (control is PropertyGrid grid)
 			{
 				return grid;
 			}
@@ -575,11 +568,11 @@ internal class ChartCollectionEditor : CollectionEditor
 	/// </summary>
 	/// <param name="buttons"></param>
 	/// <param name="controls"></param>
-	private void CollectButtons(ArrayList buttons, System.Windows.Forms.Control.ControlCollection controls)
+	private void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
 	{
-		foreach (System.Windows.Forms.Control control in controls)
+		foreach (Control control in controls)
 		{
-			if (control is System.Windows.Forms.Button)
+			if (control is Button)
 			{
 				buttons.Add(control);
 			}
@@ -608,21 +601,21 @@ internal class ChartCollectionEditor : CollectionEditor
 			grid.CommandsVisibleIfAvailable = true;
 
 			// Hookup to the update events
-			grid.PropertyValueChanged += new PropertyValueChangedEventHandler(this.OnPropertyChanged);
-			grid.ControlAdded += new ControlEventHandler(this.OnControlAddedRemoved);
-			grid.ControlRemoved += new ControlEventHandler(this.OnControlAddedRemoved);
+			grid.PropertyValueChanged += new PropertyValueChangedEventHandler(OnPropertyChanged);
+			grid.ControlAdded += new ControlEventHandler(OnControlAddedRemoved);
+			grid.ControlRemoved += new ControlEventHandler(OnControlAddedRemoved);
 
 		}
 
 		// Changed Apr 29, DT, for VS2005 compatibility
-		ArrayList buttons = new ArrayList();
-		this.CollectButtons(buttons, _form.Controls);
-		foreach (System.Windows.Forms.Button button in buttons)
+		ArrayList buttons = [];
+		CollectButtons(buttons, _form.Controls);
+		foreach (Button button in buttons)
 		{
 			if (button.DialogResult == DialogResult.OK ||
 				button.DialogResult == DialogResult.Cancel)
 			{
-				button.Click += new EventHandler(this.OnOkClicked);
+				button.Click += new EventHandler(OnOkClicked);
 			}
 
 		}
@@ -673,11 +666,14 @@ internal class ChartCollectionEditor : CollectionEditor
 		}
 
 		// Read chart reference from the "chart" field.
-		IChartElement element = instance as IChartElement;
-		if (element != null)
+		if (instance is IChartElement element)
+		{
 			return element.Common.Chart;
+		}
 		else
+		{
 			throw (new InvalidOperationException(SR.ExceptionEditorContectInstantsIsNotChartObject));
+		}
 	}
 
 	protected override void DestroyInstance(object instance)
@@ -706,7 +702,7 @@ internal class SeriesCollectionEditor : ChartCollectionEditor
 	internal static Series CreateNewSeries(Chart control, string suggestedChartArea)
 	{
 		int countSeries = control.Series.Count + 1;
-		string seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string seriesName = "Series" + countSeries.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Check if this name already in use
 		bool seriesFound = true;
@@ -724,12 +720,12 @@ internal class SeriesCollectionEditor : ChartCollectionEditor
 			if (seriesFound)
 			{
 				++countSeries;
-				seriesName = "Series" + countSeries.ToString(System.Globalization.CultureInfo.InvariantCulture);
+				seriesName = "Series" + countSeries.ToString(Globalization.CultureInfo.InvariantCulture);
 			}
 		}
 
 		// Create new series
-		Series newSeries = new Series(seriesName);
+		Series newSeries = new(seriesName);
 
 		// Check if default chart area name exists
 		if (control.ChartAreas.Count > 0)
@@ -767,8 +763,7 @@ internal class SeriesCollectionEditor : ChartCollectionEditor
 				newSeries.ChartTypeName = ChartTypeNames.Radar;
 
 				// Check if it's a Polar chart type
-				IChartType chartType = control.ChartAreas[newSeries.ChartArea].GetCircularChartType() as IChartType;
-				if (chartType != null && String.Compare(chartType.Name, ChartTypeNames.Polar, StringComparison.OrdinalIgnoreCase) == 0)
+				if (control.ChartAreas[newSeries.ChartArea].GetCircularChartType() is IChartType chartType && string.Compare(chartType.Name, ChartTypeNames.Polar, StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					newSeries.ChartTypeName = ChartTypeNames.Polar;
 				}
@@ -788,7 +783,7 @@ internal class SeriesCollectionEditor : ChartCollectionEditor
 		if (Context != null && Context.Instance != null)
 		{
 			Chart control = (Chart)GetChartReference(Context.Instance);
-			return SeriesCollectionEditor.CreateNewSeries(control, String.Empty);
+			return CreateNewSeries(control, string.Empty);
 		}
 
 		return base.CreateInstance(itemType);

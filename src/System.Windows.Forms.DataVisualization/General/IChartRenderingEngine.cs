@@ -68,7 +68,7 @@ internal interface IChartRenderingEngine
 	/// <param name="srcUnit">Member of the GraphicsUnit enumeration that specifies the units of measure used to determine the source rectangle.</param>
 	/// <param name="imageAttr">ImageAttributes object that specifies recoloring and gamma information for the image object.</param>
 	void DrawImage(
-			System.Drawing.Image image,
+			Image image,
 		Rectangle destRect,
 		int srcX,
 		int srcY,
@@ -183,7 +183,7 @@ internal interface IChartRenderingEngine
 	/// <param name="srcUnit">Member of the GraphicsUnit enumeration that specifies the units of measure used to determine the source rectangle.</param>
 	/// <param name="imageAttrs">ImageAttributes object that specifies recoloring and gamma information for the image object.</param>
 	void DrawImage(
-			System.Drawing.Image image,
+			Image image,
 		Rectangle destRect,
 		float srcX,
 		float srcY,
@@ -265,7 +265,7 @@ internal interface IChartRenderingEngine
 	/// <param name="image">Image object to draw.</param>
 	/// <param name="rect">RectangleF structure that specifies the location and size of the drawn image.</param>
 	void DrawImage(
-			System.Drawing.Image image,
+			Image image,
 		RectangleF rect
 		);
 

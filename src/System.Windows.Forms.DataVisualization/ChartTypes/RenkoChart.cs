@@ -77,7 +77,7 @@ internal class RenkoChart : IChartType
 	internal static void PrepareData(Series series)
 	{
 		// Check series chart type
-		if (String.Compare(series.ChartTypeName, ChartTypeNames.Renko, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
+		if (string.Compare(series.ChartTypeName, ChartTypeNames.Renko, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
 		{
 			return;
 		}
@@ -101,9 +101,11 @@ internal class RenkoChart : IChartType
 
 
 		// Create a temp series which will hold original series data points
-		Series seriesOriginalData = new Series("RENKO_ORIGINAL_DATA_" + series.Name, series.YValuesPerPoint);
-		seriesOriginalData.Enabled = false;
-		seriesOriginalData.IsVisibleInLegend = false;
+		Series seriesOriginalData = new("RENKO_ORIGINAL_DATA_" + series.Name, series.YValuesPerPoint)
+		{
+			Enabled = false,
+			IsVisibleInLegend = false
+		};
 		chart.Series.Add(seriesOriginalData);
 		foreach (DataPoint dp in series.Points)
 		{
@@ -166,7 +168,7 @@ internal class RenkoChart : IChartType
 					series["OldAutomaticXAxisInterval"] = "true";
 
 					// Calculate and set axis date-time interval
-					DateTimeIntervalType intervalType = DateTimeIntervalType.Auto;
+					DateTimeIntervalType intervalType;
 					xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out intervalType, series.XValueType);
 					xAxis.intervalType = intervalType;
 				}
@@ -299,7 +301,6 @@ internal class RenkoChart : IChartType
 		if (percentOfPriceRange > 0.0)
 		{
 			// Set default box size
-			boxSize = 1.0;
 
 			// Calculate percent of the highest and lowest price difference.
 			double highest = double.MinValue;
@@ -339,8 +340,7 @@ internal class RenkoChart : IChartType
 			if (roundBoxSize)
 			{
 
-				double[] availableBoxSizes = new double[]
-					{ 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 0.25, 0.5, 1.0, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 25.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 5000.0, 10000.0, 50000.0, 100000.0, 1000000.0, 1000000.0};
+				double[] availableBoxSizes = [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 0.25, 0.5, 1.0, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 25.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 5000.0, 10000.0, 50000.0, 100000.0, 1000000.0, 1000000.0];
 
 				for (int index = 1; index < availableBoxSizes.Length; index++)
 				{
@@ -411,16 +411,13 @@ internal class RenkoChart : IChartType
 				// Get Up Brick color
 				Color upBrickColor = Color.Transparent;
 				string upBrickColorString = dataPoint[CustomPropertyName.PriceUpColor];
-				if (upBrickColorString == null)
-				{
-					upBrickColorString = series[CustomPropertyName.PriceUpColor];
-				}
+				upBrickColorString ??= series[CustomPropertyName.PriceUpColor];
 
 				if (upBrickColorString != null)
 				{
 					try
 					{
-						ColorConverter colorConverter = new ColorConverter();
+						ColorConverter colorConverter = new();
 						upBrickColor = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, upBrickColorString);
 					}
 					catch
@@ -624,9 +621,9 @@ internal class RenkoChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 	#endregion
 

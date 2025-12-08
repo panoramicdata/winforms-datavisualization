@@ -48,8 +48,7 @@ internal class LegendAreaNameConverter : StringConverter
 	/// <returns>Standart values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
-		values.Add(Constants.NotSetValue);
+		ArrayList values = [Constants.NotSetValue];
 
 		ChartAreaCollection areaCollection = null;
 		string areaName = "";
@@ -93,9 +92,8 @@ internal class LegendAreaNameConverter : StringConverter
 			{
 				IServiceProvider provider = context.Instance as IServiceProvider;
 
-				Chart chart = provider.GetService(typeof(Chart)) as Chart;
 
-				if (chart != null)
+				if (provider.GetService(typeof(Chart)) is Chart chart)
 				{
 					areaCollection = chart.ChartAreas;
 				}
@@ -168,7 +166,7 @@ internal class LegendConverter : NoNameExpandableObjectConverter
 /// Designer converter class
 /// Converts Size.Emty tofrom "Auto".
 /// </summary>
-internal class SizeEmptyValueConverter : System.Drawing.SizeConverter
+internal class SizeEmptyValueConverter : Drawing.SizeConverter
 {
 	#region Converter methods
 
@@ -198,8 +196,7 @@ internal class SizeEmptyValueConverter : System.Drawing.SizeConverter
 	/// <param name="context">Descriptor context.</param>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
-		values.Add(System.Drawing.Size.Empty);
+		ArrayList values = [Drawing.Size.Empty];
 
 		return new StandardValuesCollection(values);
 	}
@@ -212,11 +209,11 @@ internal class SizeEmptyValueConverter : System.Drawing.SizeConverter
 	/// <param name="value">Value to convert.</param>
 	/// <param name="destinationType">Convertion destination type.</param>
 	/// <returns>Converted object.</returns>
-	public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 	{
 		if (destinationType == typeof(string))
 		{
-			if (((System.Drawing.Size)value).IsEmpty)
+			if (((Drawing.Size)value).IsEmpty)
 			{
 				return Constants.AutoValue;
 			}
@@ -229,15 +226,14 @@ internal class SizeEmptyValueConverter : System.Drawing.SizeConverter
 	/// <summary>
 	/// Convert minimum or maximum values from string
 	/// </summary>
-	public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		// If converting from string value
-		string stringValue = value as string;
-		if (stringValue != null)
+		if (value is string stringValue)
 		{
-			if (String.Compare(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
-				return System.Drawing.Size.Empty;
+				return Drawing.Size.Empty;
 			}
 		}
 
@@ -303,8 +299,7 @@ internal class MarginExpandableObjectConverter : ExpandableObjectConverter
 	/// <returns>Converted object.</returns>
 	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 	{
-		Margins margins = value as Margins;
-		if (destinationType == typeof(string) && margins != null)
+		if (destinationType == typeof(string) && value is Margins margins)
 		{
 			return string.Format(
 					CultureInfo.InvariantCulture,
@@ -329,10 +324,9 @@ internal class MarginExpandableObjectConverter : ExpandableObjectConverter
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		// Can convert from string where each array element is separated by comma
-		string stringValue = value as string;
-		if (stringValue != null)
+		if (value is string stringValue)
 		{
-			Margins margins = new Margins();
+			Margins margins = new();
 			string[] values = stringValue.Split(',');
 			if (values.Length == 4)
 			{
@@ -397,8 +391,7 @@ internal class IntNanValueConverter : Int32Converter
 	/// <param name="context">Descriptor context.</param>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
-		values.Add(-1);
+		ArrayList values = [-1];
 
 		return new StandardValuesCollection(values);
 	}
@@ -411,7 +404,7 @@ internal class IntNanValueConverter : Int32Converter
 	/// <param name="value">Value to convert.</param>
 	/// <param name="destinationType">Convertion destination type.</param>
 	/// <returns>Converted object.</returns>
-	public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 	{
 		int intValue = (int)value;
 		if (destinationType == typeof(string))
@@ -429,13 +422,12 @@ internal class IntNanValueConverter : Int32Converter
 	/// <summary>
 	/// Convert minimum or maximum values from string
 	/// </summary>
-	public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		// If converting from string value
-		string stringValue = value as string;
-		if (stringValue != null)
+		if (value is string stringValue)
 		{
-			if (String.Compare(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(stringValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				return -1;
 			}

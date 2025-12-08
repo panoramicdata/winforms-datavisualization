@@ -21,7 +21,7 @@ using System.Security;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities;
 
-using Size = System.Drawing.Size;
+using Size = Size;
 
 /// <summary>
 /// ImageLoader utility class loads and returns specified image 
@@ -38,7 +38,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	private Hashtable _imageData = null;
 
 	// Reference to the service container
-	private IServiceContainer _serviceContainer = null;
+	private readonly IServiceContainer _serviceContainer = null;
 
 	#endregion
 
@@ -70,7 +70,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	/// </summary>
 	/// <param name="serviceType">Requested service type.</param>
 	/// <returns>Image Loader service object.</returns>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	object IServiceProvider.GetService(Type serviceType)
 	{
 		if (serviceType == typeof(ImageLoader))
@@ -110,7 +110,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	/// </summary>
 	/// <param name="imageURL">Image name (FileName, URL, Resource).</param>
 	/// <returns>Image object.</returns>
-	public System.Drawing.Image LoadImage(string imageURL)
+	public Image LoadImage(string imageURL)
 	{
 		return LoadImage(imageURL, true);
 	}
@@ -121,9 +121,9 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	/// <param name="imageURL">Image name (FileName, URL, Resource).</param>
 	/// <param name="saveImage">True if loaded image should be saved in cache.</param>
 	/// <returns>Image object</returns>
-	public System.Drawing.Image LoadImage(string imageURL, bool saveImage)
+	public Image LoadImage(string imageURL, bool saveImage)
 	{
-		System.Drawing.Image image = null;
+		Image image = null;
 
 		// Check if image is defined in the chart image collection
 		if (_serviceContainer != null)
@@ -142,15 +142,12 @@ internal class ImageLoader : IDisposable, IServiceProvider
 		}
 
 		// Create new hashtable
-		if (_imageData == null)
-		{
-			_imageData = new Hashtable(StringComparer.OrdinalIgnoreCase);
-		}
+		_imageData ??= new Hashtable(StringComparer.OrdinalIgnoreCase);
 
 		// First check if image with this name already loaded
 		if (_imageData.Contains(imageURL))
 		{
-			image = (System.Drawing.Image)_imageData[imageURL];
+			image = (Image)_imageData[imageURL];
 		}
 
 		// Try to load image from resource
@@ -165,8 +162,8 @@ internal class ImageLoader : IDisposable, IServiceProvider
 				{
 					string resourceRootName = imageURL.Substring(0, columnIndex);
 					string resourceName = imageURL.Substring(columnIndex + 2);
-					System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(resourceRootName, Assembly.GetExecutingAssembly());
-					image = (System.Drawing.Image)(resourceManager.GetObject(resourceName));
+					ResourceManager resourceManager = new(resourceRootName, Assembly.GetExecutingAssembly());
+					image = (Image)(resourceManager.GetObject(resourceName));
 				}
 				else if (Assembly.GetEntryAssembly() != null)
 				{
@@ -176,7 +173,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 					{
 						string resourceRootName = imageURL.Substring(0, columnIndex);
 						string resourceName = imageURL.Substring(columnIndex + 1);
-						System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(resourceRootName, Assembly.GetEntryAssembly());
+						ResourceManager resourceManager = new(resourceRootName, Assembly.GetEntryAssembly());
 						image = (Image)(resourceManager.GetObject(resourceName));
 					}
 					else
@@ -187,7 +184,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 						{
 							foreach (Type type in entryAssembly.GetTypes())
 							{
-								System.Resources.ResourceManager resourceManager = new System.Resources.ResourceManager(type);
+								ResourceManager resourceManager = new(type);
 								try
 								{
 									image = (Image)(resourceManager.GetObject(imageURL));
@@ -234,7 +231,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 				try
 				{
 					WebRequest request = WebRequest.Create(imageUri);
-					image = System.Drawing.Image.FromStream(request.GetResponse().GetResponseStream());
+					image = Image.FromStream(request.GetResponse().GetResponseStream());
 				}
 				catch (ArgumentException)
 				{
@@ -250,10 +247,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 
 		// absolute uri(without Server.MapPath)in web is not allowed. Loading from replative uri Server[Page].MapPath is done above.
 		// Try to load as file
-		if (image == null)
-		{
-			image = LoadFromFile(imageURL);
-		}
+		image ??= LoadFromFile(imageURL);
 
 		// Error loading image
 		if (image == null)
@@ -275,12 +269,12 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	/// </summary>
 	/// <param name="fileName">File name.</param>
 	/// <returns>Loaded image or null.</returns>
-	private System.Drawing.Image LoadFromFile(string fileName)
+	private Image LoadFromFile(string fileName)
 	{
 		// Try to load image from file
 		try
 		{
-			return System.Drawing.Image.FromFile(fileName);
+			return Image.FromFile(fileName);
 		}
 		catch (FileNotFoundException)
 		{
@@ -300,7 +294,9 @@ internal class ImageLoader : IDisposable, IServiceProvider
 		Image image = LoadImage(name);
 
 		if (image == null)
+		{
 			return false;
+		}
 
 		GetAdjustedImageSize(image, graphics, ref size);
 
@@ -341,7 +337,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 
 	internal static Image GetScaledImage(Image image, Graphics graphics)
 	{
-		Bitmap scaledImage = new Bitmap(image, new Size((int)(image.Width * graphics.DpiX / image.HorizontalResolution),
+		Bitmap scaledImage = new(image, new Size((int)(image.Width * graphics.DpiX / image.HorizontalResolution),
 			(int)(image.Height * graphics.DpiY / image.VerticalResolution)));
 
 		return scaledImage;

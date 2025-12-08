@@ -103,25 +103,19 @@ public class AxisScrollBar : IDisposable
 	internal Axis axis = null;
 
 	// Indicates that scollbra will be drawn
-	private bool _enabled = true;
 
 	// Axis data scaleView scroll bar style
-	private ScrollBarButtonStyles _scrollBarButtonStyle = ScrollBarButtonStyles.All;
 
 	// Axis data scaleView scroll bar size
-	private double _scrollBarSize = 14.0;
 
 	// Index of the pressed butoon in the scroll bar
 	private int _pressedButtonType = int.MaxValue;
 
 	// Axis data scaleView scroll bar buttons color
-	private Color _buttonColor = Color.Empty;
 
 	// Axis data scaleView scroll bar back color
-	private Color _backColor = Color.Empty;
 
 	// Axis data scaleView scroll bar lines color
-	private Color _lineColor = Color.Empty;
 
 	// Current scroll bar drawing colors
 	private Color _buttonCurrentColor = Color.Empty;
@@ -133,13 +127,12 @@ public class AxisScrollBar : IDisposable
 	private double _lastClickViewPosition = double.NaN;
 
 	// Timer used to scroll the data while selecting
-	private System.Windows.Forms.Timer _scrollTimer = new System.Windows.Forms.Timer();
+	private Timer _scrollTimer = new();
 
 	// Scroll size and direction when AutoScroll is set
 	private MouseEventArgs _mouseArguments = null;
 
 	// Position of the scrollbar (true - edge of PlotArea, false - edge of chart area)
-	private bool _isPositionedInside = true;
 
 	#endregion
 
@@ -182,24 +175,14 @@ public class AxisScrollBar : IDisposable
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeAxisScrollBar_PositionInside")
 	]
-	public bool IsPositionedInside
-	{
-		get
+	public bool IsPositionedInside { get; set
 		{
-			return _isPositionedInside;
-		}
-		set
-		{
-			if (_isPositionedInside != value)
+			if (field != value)
 			{
-				_isPositionedInside = value;
-				if (axis != null)
-				{
-					axis.ChartArea.Invalidate();
-				}
+				field = value;
+				axis?.ChartArea.Invalidate();
 			}
-		}
-	}
+		} } = true;
 
 
 	/// <summary>
@@ -211,24 +194,14 @@ public class AxisScrollBar : IDisposable
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeAxisScrollBar_Enabled")
 	]
-	public bool Enabled
-	{
-		get
+	public bool Enabled { get; set
 		{
-			return _enabled;
-		}
-		set
-		{
-			if (_enabled != value)
+			if (field != value)
 			{
-				_enabled = value;
-				if (axis != null)
-				{
-					axis.ChartArea.Invalidate();
-				}
+				field = value;
+				axis?.ChartArea.Invalidate();
 			}
-		}
-	}
+		} } = true;
 
 	/// <summary>
 	/// Gets the ChartArea that contains this scrollbar.
@@ -236,14 +209,14 @@ public class AxisScrollBar : IDisposable
 	[
 	Browsable(false),
 	Bindable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public ChartArea ChartArea
 	{
 		get
 		{
-			return this.axis.ChartArea;
+			return axis.ChartArea;
 		}
 	}
 
@@ -253,14 +226,14 @@ public class AxisScrollBar : IDisposable
 	[
 	Browsable(false),
 	Bindable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public Axis Axis
 	{
 		get
 		{
-			return this.axis;
+			return axis;
 		}
 	}
 
@@ -274,24 +247,14 @@ public class AxisScrollBar : IDisposable
 	SRDescription("DescriptionAttributeAxisScrollBar_Buttons"),
 		Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
 		]
-	public ScrollBarButtonStyles ButtonStyle
-	{
-		get
+	public ScrollBarButtonStyles ButtonStyle { get; set
 		{
-			return _scrollBarButtonStyle;
-		}
-		set
-		{
-			if (_scrollBarButtonStyle != value)
+			if (field != value)
 			{
-				_scrollBarButtonStyle = value;
-				if (axis != null)
-				{
-					axis.ChartArea.Invalidate();
-				}
+				field = value;
+				axis?.ChartArea.Invalidate();
 			}
-		}
-	}
+		} } = ScrollBarButtonStyles.All;
 
 	/// <summary>
 	/// Gets or sets the size of the scrollbar.
@@ -302,30 +265,20 @@ public class AxisScrollBar : IDisposable
 	DefaultValue(14.0),
 	SRDescription("DescriptionAttributeAxisScrollBar_Size"),
 	]
-	public double Size
-	{
-		get
+	public double Size { get; set
 		{
-			return _scrollBarSize;
-		}
-		set
-		{
-			if (_scrollBarSize != value)
+			if (field != value)
 			{
 				// Check values range
 				if (value < 5.0 || value > 20.0)
 				{
-					throw (new ArgumentOutOfRangeException("value", SR.ExceptionScrollBarSizeInvalid));
+					throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionScrollBarSizeInvalid));
 				}
 
-				_scrollBarSize = value;
-				if (axis != null)
-				{
-					axis.ChartArea.Invalidate();
-				}
+				field = value;
+				axis?.ChartArea.Invalidate();
 			}
-		}
-	}
+		} } = 14.0;
 
 	/// <summary>
 	/// Gets or sets the button color of the scrollbar.
@@ -338,24 +291,14 @@ public class AxisScrollBar : IDisposable
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color ButtonColor
-	{
-		get
+	public Color ButtonColor { get; set
 		{
-			return _buttonColor;
-		}
-		set
-		{
-			if (_buttonColor != value)
+			if (field != value)
 			{
-				_buttonColor = value;
-				if (axis != null)
-				{
-					axis.ChartArea.Invalidate();
-				}
+				field = value;
+				axis?.ChartArea.Invalidate();
 			}
-		}
-	}
+		} } = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the line color of the scrollbar.
@@ -368,24 +311,14 @@ public class AxisScrollBar : IDisposable
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color LineColor
-	{
-		get
+	public Color LineColor { get; set
 		{
-			return _lineColor;
-		}
-		set
-		{
-			if (_lineColor != value)
+			if (field != value)
 			{
-				_lineColor = value;
-				if (axis != null)
-				{
-					axis.ChartArea.Invalidate();
-				}
+				field = value;
+				axis?.ChartArea.Invalidate();
 			}
-		}
-	}
+		} } = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the background color of the scrollbar.
@@ -398,24 +331,14 @@ public class AxisScrollBar : IDisposable
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color BackColor
-	{
-		get
+	public Color BackColor { get; set
 		{
-			return _backColor;
-		}
-		set
-		{
-			if (_backColor != value)
+			if (field != value)
 			{
-				_backColor = value;
-				if (axis != null)
-				{
-					axis.ChartArea.Invalidate();
-				}
+				field = value;
+				axis?.ChartArea.Invalidate();
 			}
-		}
-	}
+		} } = Color.Empty;
 
 	#endregion
 
@@ -425,23 +348,23 @@ public class AxisScrollBar : IDisposable
 	/// This method returns true if the scrollbar is visible.
 	/// </summary>
 	[Browsable(false)]
-	[Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)]
+	[SerializationVisibility(SerializationVisibility.Hidden)]
 	public bool IsVisible
 	{
 		get
 		{
 			// Check scroll bar enabled flag
-			if (!this.Enabled)
+			if (!Enabled)
 			{
 				return false;
 			}
 
 			// Do not show scroll bars while printing
-			if (this.axis == null ||
-				this.axis.ChartArea == null ||
-				this.axis.ChartArea.Common == null ||
-				this.axis.ChartArea.Common.ChartPicture == null ||
-				this.axis.ChartArea.Common.ChartPicture.isPrinting)
+			if (axis == null ||
+				axis.ChartArea == null ||
+				axis.ChartArea.Common == null ||
+				axis.ChartArea.Common.ChartPicture == null ||
+				axis.ChartArea.Common.ChartPicture._isPrinting)
 			{
 				return false;
 			}
@@ -473,7 +396,7 @@ public class AxisScrollBar : IDisposable
 		int borderWidth = 1;
 
 		// Scroll bar should not be visible
-		if (!this.IsVisible)
+		if (!IsVisible)
 		{
 			return;
 		}
@@ -487,14 +410,14 @@ public class AxisScrollBar : IDisposable
 #endif //SUBAXES
 
 		// Set current scroll bar colors
-		_buttonCurrentColor = this._buttonColor;
-		_backCurrentColor = this._backColor;
-		_lineCurrentColor = this._lineColor;
+		_buttonCurrentColor = ButtonColor;
+		_backCurrentColor = BackColor;
+		_lineCurrentColor = LineColor;
 
 		// Make sure the current colors are not empty
 		if (_buttonCurrentColor == Color.Empty)
 		{
-			_buttonCurrentColor = this.axis.ChartArea.BackColor;
+			_buttonCurrentColor = axis.ChartArea.BackColor;
 			if (_buttonCurrentColor == Color.Empty)
 			{
 				_buttonCurrentColor = Color.DarkGray;
@@ -503,7 +426,7 @@ public class AxisScrollBar : IDisposable
 
 		if (_backCurrentColor == Color.Empty)
 		{
-			_backCurrentColor = this.axis.ChartArea.BackColor;
+			_backCurrentColor = axis.ChartArea.BackColor;
 			if (_backCurrentColor == Color.Empty)
 			{
 				_backCurrentColor = Color.LightGray;
@@ -512,7 +435,7 @@ public class AxisScrollBar : IDisposable
 
 		if (_lineCurrentColor == Color.Empty)
 		{
-			_lineCurrentColor = this.axis.LineColor;
+			_lineCurrentColor = axis.LineColor;
 			if (_lineCurrentColor == Color.Empty)
 			{
 				_lineCurrentColor = Color.Black;
@@ -520,7 +443,7 @@ public class AxisScrollBar : IDisposable
 		}
 
 		// Get scroll bar rectangle
-		RectangleF scrollBarRect = this.GetScrollBarRect();
+		RectangleF scrollBarRect = GetScrollBarRect();
 
 		// Fill scroll bar background
 		graph.FillRectangleRel(
@@ -544,16 +467,16 @@ public class AxisScrollBar : IDisposable
 		PaintScrollBarConnectionRect(graph, scrollBarRect, borderWidth);
 
 		// Get scroll bar client rectangle
-		SizeF borderRelativeSize = new SizeF(borderWidth, borderWidth);
+		SizeF borderRelativeSize = new(borderWidth, borderWidth);
 		borderRelativeSize = graph.GetRelativeSize(borderRelativeSize);
-		RectangleF scrollBarClientRect = new RectangleF(scrollBarRect.Location, scrollBarRect.Size);
+		RectangleF scrollBarClientRect = new(scrollBarRect.Location, scrollBarRect.Size);
 		scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
 
 		// Draw all button types
 		foreach (ScrollBarButtonType buttonType in Enum.GetValues(typeof(ScrollBarButtonType)))
 		{
 			// Get button rectangle
-			RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)buttonType);
+			RectangleF buttonRect = GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)buttonType);
 
 			// Paint button
 			if (!buttonRect.IsEmpty)
@@ -561,14 +484,14 @@ public class AxisScrollBar : IDisposable
 				PaintScrollBar3DButton(
 					graph,
 					buttonRect,
-					((ScrollBarButtonType)this._pressedButtonType) == (ScrollBarButtonType)buttonType,
+					((ScrollBarButtonType)_pressedButtonType) == (ScrollBarButtonType)buttonType,
 					(ScrollBarButtonType)buttonType);
 			}
 		}
 
-		if (this.ChartArea.Common.ProcessModeRegions)
+		if (ChartArea.Common.ProcessModeRegions)
 		{
-			SetHotRegionElement(this.ChartArea.Common);
+			SetHotRegionElement(ChartArea.Common);
 		}
 	}
 
@@ -584,8 +507,8 @@ public class AxisScrollBar : IDisposable
 		int borderWidth)
 	{
 		// Do not draw anything if scroll bar is vertical
-		if (this.axis.AxisPosition == AxisPosition.Left ||
-			this.axis.AxisPosition == AxisPosition.Right)
+		if (axis.AxisPosition == AxisPosition.Left ||
+			axis.AxisPosition == AxisPosition.Right)
 		{
 			return;
 		}
@@ -595,21 +518,21 @@ public class AxisScrollBar : IDisposable
 		float leftSize = 0f;
 		float rightSize = 0f;
 
-		foreach (Axis a in this.axis.ChartArea.Axes)
+		foreach (Axis a in axis.ChartArea.Axes)
 		{
-			if (a.AxisPosition == AxisPosition.Left && a.ScrollBar.IsVisible && a.ScrollBar.IsPositionedInside == this.axis.ScrollBar.IsPositionedInside)
+			if (a.AxisPosition == AxisPosition.Left && a.ScrollBar.IsVisible && a.ScrollBar.IsPositionedInside == axis.ScrollBar.IsPositionedInside)
 			{
 				leftSize = (float)a.ScrollBar.GetScrollBarRelativeSize();
 			}
 
-			if (a.AxisPosition == AxisPosition.Right && a.ScrollBar.IsVisible && a.ScrollBar.IsPositionedInside == this.axis.ScrollBar.IsPositionedInside)
+			if (a.AxisPosition == AxisPosition.Right && a.ScrollBar.IsVisible && a.ScrollBar.IsPositionedInside == axis.ScrollBar.IsPositionedInside)
 			{
 				rightSize = (float)a.ScrollBar.GetScrollBarRelativeSize();
 			}
 		}
 
 		// Prepare generic rectangle coordinates
-		RectangleF connectorRect = new RectangleF(scrollBarRect.Location, scrollBarRect.Size);
+		RectangleF connectorRect = new(scrollBarRect.Location, scrollBarRect.Size);
 
 		// Prepare coordinates and fill area to the left
 		if (leftSize > 0f)
@@ -706,13 +629,13 @@ public class AxisScrollBar : IDisposable
 			PenAlignment.Outset);
 
 		// Check if 2 or 1 pixel border will be drawn (if size too small)
-		bool singlePixelBorder = this.Size <= 12;
+		bool singlePixelBorder = Size <= 12;
 
 		// Draw 3D effect around the button when not pressed
 		if (!pressedState)
 		{
 			// Get relative size of 1 pixel
-			SizeF pixelRelativeSize = new SizeF(1, 1);
+			SizeF pixelRelativeSize = new(1, 1);
 			pixelRelativeSize = graph.GetRelativeSize(pixelRelativeSize);
 
 			// Draw top/left border with button color
@@ -760,8 +683,8 @@ public class AxisScrollBar : IDisposable
 		}
 
 		// Check axis orientation
-		bool verticalAxis = (this.axis.AxisPosition == AxisPosition.Left ||
-			this.axis.AxisPosition == AxisPosition.Right) ? true : false;
+		bool verticalAxis = (axis.AxisPosition == AxisPosition.Left ||
+			axis.AxisPosition == AxisPosition.Right) ? true : false;
 
 		// Set graphics transformation for button pressed mode
 		float pressedShifting = (singlePixelBorder) ? 0.5f : 1f;
@@ -798,10 +721,8 @@ public class AxisScrollBar : IDisposable
 						points[2].Y = buttonAbsRect.Bottom - imageOffset;
 					}
 
-					using (Brush brush = new SolidBrush(this._lineCurrentColor))
-					{
-						graph.FillPolygon(brush, points);
-					}
+					using Brush brush = new SolidBrush(_lineCurrentColor);
+					graph.FillPolygon(brush, points);
 
 					break;
 				}
@@ -828,21 +749,17 @@ public class AxisScrollBar : IDisposable
 						points[2].Y = buttonAbsRect.Bottom - imageOffset;
 					}
 
-					using (Brush brush = new SolidBrush(this._lineCurrentColor))
-					{
-						graph.FillPolygon(brush, points);
-					}
+					using Brush brush = new SolidBrush(_lineCurrentColor);
+					graph.FillPolygon(brush, points);
 
 					break;
 				}
 			case (ScrollBarButtonType.ZoomReset):
 				{
 					// Draw circule with a minus sign
-					using (Pen pen = new Pen(this._lineCurrentColor, 1))
-					{
-						graph.DrawEllipse(pen, buttonAbsRect.X + imageOffset - 0.5f, buttonAbsRect.Y + imageOffset - 0.5f, buttonAbsRect.Width - 2f * imageOffset, buttonAbsRect.Height - 2f * imageOffset);
-						graph.DrawLine(pen, buttonAbsRect.X + imageOffset + 1.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f, buttonAbsRect.Right - imageOffset - 2.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f);
-					}
+					using Pen pen = new(_lineCurrentColor, 1);
+					graph.DrawEllipse(pen, buttonAbsRect.X + imageOffset - 0.5f, buttonAbsRect.Y + imageOffset - 0.5f, buttonAbsRect.Width - 2f * imageOffset, buttonAbsRect.Height - 2f * imageOffset);
+					graph.DrawLine(pen, buttonAbsRect.X + imageOffset + 1.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f, buttonAbsRect.Right - imageOffset - 2.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f);
 
 					break;
 				}
@@ -862,20 +779,20 @@ public class AxisScrollBar : IDisposable
 	/// <summary>
 	/// Mouse down event handler.
 	/// </summary>
-	internal void ScrollBar_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+	internal void ScrollBar_MouseDown(object sender, MouseEventArgs e)
 	{
 		// Process left mouse button
-		if (e.Button == MouseButtons.Left && this.IsVisible)
+		if (e.Button == MouseButtons.Left && IsVisible)
 		{
 			// Remember position where mouse was clicked
 			_lastClickMousePosition = new PointF(e.X, e.Y);
-			_lastClickViewPosition = this.axis.ScaleView.Position;
+			_lastClickViewPosition = axis.ScaleView.Position;
 
 			// Check if button was pressed inside the scroll bar
 			ScrollBarButtonType buttonType;
 			if (GetElementByPixelPosition(e.X, e.Y, out buttonType))
 			{
-				this.ButtonClicked(buttonType, e.X, e.Y);
+				ButtonClicked(buttonType, e.X, e.Y);
 			}
 		}
 	}
@@ -883,10 +800,10 @@ public class AxisScrollBar : IDisposable
 	/// <summary>
 	/// Mouse up event handler.
 	/// </summary>
-	internal void ScrollBar_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+	internal void ScrollBar_MouseUp(object sender, MouseEventArgs e)
 	{
 		// If scroll bar button was pressed
-		if (this._pressedButtonType != int.MaxValue)
+		if (_pressedButtonType != int.MaxValue)
 		{
 			// Check if button was unpressed inside the reset zoom button
 			ScrollBarButtonType buttonType;
@@ -894,7 +811,7 @@ public class AxisScrollBar : IDisposable
 			{
 				if (buttonType == ScrollBarButtonType.ZoomReset)
 				{
-					this.ButtonClicked(buttonType, e.X, e.Y);
+					ButtonClicked(buttonType, e.X, e.Y);
 				}
 			}
 
@@ -903,31 +820,31 @@ public class AxisScrollBar : IDisposable
 			_mouseArguments = null;
 
 			// Clear pressed button state
-			this._pressedButtonType = int.MaxValue;
+			_pressedButtonType = int.MaxValue;
 
 			// Invalidate chart
-			this.axis.Invalidate();
+			axis.Invalidate();
 		}
 	}
 
 	/// <summary>
 	/// Mouse move event handler.
 	/// </summary>
-	internal void ScrollBar_MouseMove(System.Windows.Forms.MouseEventArgs e, ref bool handled)
+	internal void ScrollBar_MouseMove(MouseEventArgs e, ref bool handled)
 	{
 		// If scroll bar button was pressed
-		if (this._pressedButtonType != int.MaxValue)
+		if (_pressedButtonType != int.MaxValue)
 		{
 			// Mouse move event should not be handled by any other chart elements
 			handled = true;
 
 			// Check if tracking buton was pressed
-			if ((ScrollBarButtonType)this._pressedButtonType == ScrollBarButtonType.ThumbTracker)
+			if ((ScrollBarButtonType)_pressedButtonType == ScrollBarButtonType.ThumbTracker)
 			{
 				// Proceed if last clicked position is known
 				if (!_lastClickMousePosition.IsEmpty)
 				{
-					this.ButtonClicked(ScrollBarButtonType.ThumbTracker, e.X, e.Y);
+					ButtonClicked(ScrollBarButtonType.ThumbTracker, e.X, e.Y);
 				}
 			}
 
@@ -939,7 +856,7 @@ public class AxisScrollBar : IDisposable
 				ScrollBarButtonType buttonType;
 				if (GetElementByPixelPosition(e.X, e.Y, out buttonType))
 				{
-					if (buttonType == (ScrollBarButtonType)this._pressedButtonType)
+					if (buttonType == (ScrollBarButtonType)_pressedButtonType)
 					{
 						inPressedButton = true;
 					}
@@ -953,10 +870,10 @@ public class AxisScrollBar : IDisposable
 					_mouseArguments = null;
 
 					// Clear pressed button state
-					this._pressedButtonType = int.MaxValue;
+					_pressedButtonType = int.MaxValue;
 
 					// Invalidate chart
-					this.axis.Invalidate();
+					axis.Invalidate();
 				}
 			}
 		}
@@ -973,20 +890,20 @@ public class AxisScrollBar : IDisposable
 	{
 		// Call zoom reset on the second pass when button is released
 		if (buttonType != ScrollBarButtonType.ZoomReset ||
-			(ScrollBarButtonType)this._pressedButtonType == buttonType)
+			(ScrollBarButtonType)_pressedButtonType == buttonType)
 		{
 
 			//**************************************************
 			//** Fire scroll bar button clicked event
 			//**************************************************
-			ScrollBarEventArgs eventArg = new ScrollBarEventArgs(this.axis, x, y, buttonType);
-			this.axis.ScaleView.GetChartObject().OnAxisScrollBarClicked(eventArg);
+			ScrollBarEventArgs eventArg = new(axis, x, y, buttonType);
+			axis.ScaleView.GetChartObject().OnAxisScrollBarClicked(eventArg);
 
 			// Check if event was handled by user
 			if (eventArg.IsHandled)
 			{
 				// Save type of the button pressed
-				this._pressedButtonType = (int)buttonType;
+				_pressedButtonType = (int)buttonType;
 
 				return;
 			}
@@ -997,40 +914,40 @@ public class AxisScrollBar : IDisposable
 			switch (buttonType)
 			{
 				case (ScrollBarButtonType.SmallIncrement):
-					this.axis.ScaleView.Scroll(ScrollType.SmallIncrement, true);
+					axis.ScaleView.Scroll(ScrollType.SmallIncrement, true);
 					break;
 				case (ScrollBarButtonType.SmallDecrement):
-					this.axis.ScaleView.Scroll(ScrollType.SmallDecrement, true);
+					axis.ScaleView.Scroll(ScrollType.SmallDecrement, true);
 					break;
 				case (ScrollBarButtonType.LargeIncrement):
-					this.axis.ScaleView.Scroll(ScrollType.LargeIncrement, true);
+					axis.ScaleView.Scroll(ScrollType.LargeIncrement, true);
 					break;
 				case (ScrollBarButtonType.LargeDecrement):
-					this.axis.ScaleView.Scroll(ScrollType.LargeDecrement, true);
+					axis.ScaleView.Scroll(ScrollType.LargeDecrement, true);
 					break;
 				case (ScrollBarButtonType.ZoomReset):
-					this.axis.ScaleView.ZoomReset(1, true);
+					axis.ScaleView.ZoomReset(1, true);
 					break;
 				case (ScrollBarButtonType.ThumbTracker):
 					{
 						if (!_lastClickMousePosition.IsEmpty &&
-							!double.IsNaN(this._lastClickViewPosition) &&
+							!double.IsNaN(_lastClickViewPosition) &&
 							(_lastClickMousePosition.X != x || _lastClickMousePosition.Y != y))
 						{
 							// Get scroll bar client rectangle
-							RectangleF scrollBarRect = this.GetScrollBarRect();
-							SizeF borderRelativeSize = new SizeF(1, 1);
-							borderRelativeSize = this.GetRelativeSize(borderRelativeSize);
-							RectangleF scrollBarClientRect = new RectangleF(scrollBarRect.Location, scrollBarRect.Size);
+							RectangleF scrollBarRect = GetScrollBarRect();
+							SizeF borderRelativeSize = new(1, 1);
+							borderRelativeSize = GetRelativeSize(borderRelativeSize);
+							RectangleF scrollBarClientRect = new(scrollBarRect.Location, scrollBarRect.Size);
 							scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
 
 							// Check axis orientation
-							bool verticalAxis = (this.axis.AxisPosition == AxisPosition.Left ||
-								this.axis.AxisPosition == AxisPosition.Right) ? true : false;
+							bool verticalAxis = (axis.AxisPosition == AxisPosition.Left ||
+								axis.AxisPosition == AxisPosition.Right) ? true : false;
 
 							// Get button relative size
-							SizeF buttonSize = new SizeF(scrollBarClientRect.Width, scrollBarClientRect.Height);
-							buttonSize = this.GetAbsoluteSize(buttonSize);
+							SizeF buttonSize = new(scrollBarClientRect.Width, scrollBarClientRect.Height);
+							buttonSize = GetAbsoluteSize(buttonSize);
 							if (verticalAxis)
 							{
 								buttonSize.Height = buttonSize.Width;
@@ -1040,7 +957,7 @@ public class AxisScrollBar : IDisposable
 								buttonSize.Width = buttonSize.Height;
 							}
 
-							buttonSize = this.GetRelativeSize(buttonSize);
+							buttonSize = GetRelativeSize(buttonSize);
 
 							// Calculate the distance in percentages the mouse was moved 
 							// from it's original (clicked) position.
@@ -1049,19 +966,19 @@ public class AxisScrollBar : IDisposable
 							if (verticalAxis)
 							{
 								// Calculate max tracking size
-								trackingAreaSize = scrollBarClientRect.Height - this.GetButtonsNumberAll() * buttonSize.Height;
+								trackingAreaSize = scrollBarClientRect.Height - GetButtonsNumberAll() * buttonSize.Height;
 								distance = _lastClickMousePosition.Y - y;
 
 								// Convert to relative coordinates
-								distance = distance * 100F / ((float)(this.axis.Common.Height - 1));
+								distance = distance * 100F / ((float)(axis.Common.Height - 1));
 							}
 							else
 							{
-								trackingAreaSize = scrollBarClientRect.Width - this.GetButtonsNumberAll() * buttonSize.Width;
+								trackingAreaSize = scrollBarClientRect.Width - GetButtonsNumberAll() * buttonSize.Width;
 								distance = x - _lastClickMousePosition.X;
 
 								// Convert to relative coordinates
-								distance = distance * 100F / ((float)(this.axis.Common.Width - 1));
+								distance = distance * 100F / ((float)(axis.Common.Width - 1));
 							}
 
 							// Convert to percentages from total tracking area
@@ -1069,8 +986,8 @@ public class AxisScrollBar : IDisposable
 
 							// Get axis scale size without margins
 							double axisScaleSize = Math.Abs(
-								(this.axis.maximum - this.axis.marginView) -
-								(this.axis.minimum + this.axis.marginView));
+								(axis.maximum - axis.marginView) -
+								(axis.minimum + axis.marginView));
 
 							// Calculate the same percentage using axis scale
 							distance = (float)(distance * (axisScaleSize / 100f));
@@ -1085,7 +1002,7 @@ public class AxisScrollBar : IDisposable
 							}
 
 							// Scroll scaleView into the new position
-							this.axis.ScaleView.Scroll(this._lastClickViewPosition + ((this.axis.IsReversed) ? -1 : 1) * distance, true);
+							axis.ScaleView.Scroll(_lastClickViewPosition + ((axis.IsReversed) ? -1 : 1) * distance, true);
 						}
 
 						break;
@@ -1119,10 +1036,10 @@ public class AxisScrollBar : IDisposable
 		//************************************************************
 
 		// Save type of the button pressed
-		this._pressedButtonType = (int)buttonType;
+		_pressedButtonType = (int)buttonType;
 
 		// Invalidate
-		this.axis.Invalidate();
+		axis.Invalidate();
 	}
 
 	/// <summary>
@@ -1132,13 +1049,13 @@ public class AxisScrollBar : IDisposable
 	/// <param name="myObject">Object.</param>
 	/// <param name="myEventArgs">Event arguments.</param>
 	[SuppressMessage("Microsoft.Mobility", "CA1601:DoNotUseTimersThatPreventPowerStateChanges", Justification = "The timer is used for simulating scrolling behavior")]
-	private void ScrollingTimerEventProcessor(Object myObject, EventArgs myEventArgs)
+	private void ScrollingTimerEventProcessor(object myObject, EventArgs myEventArgs)
 	{
 		// Simulate mouse move events
 		if (_mouseArguments != null)
 		{
 			_scrollTimer.Interval = 200;
-			this.ScrollBar_MouseDown(null, _mouseArguments);
+			ScrollBar_MouseDown(null, _mouseArguments);
 		}
 	}
 
@@ -1151,12 +1068,12 @@ public class AxisScrollBar : IDisposable
 	private void SetHotRegionElement(CommonElements common)
 	{
 		// Check if mouse button was clicked in the scroll bar
-		RectangleF scrollBarRect = this.GetScrollBarRect();
+		RectangleF scrollBarRect = GetScrollBarRect();
 
 		// Get scroll bar client rectangle
-		SizeF borderRelativeSize = new SizeF(1, 1);
-		borderRelativeSize = this.GetRelativeSize(borderRelativeSize);
-		RectangleF scrollBarClientRect = new RectangleF(scrollBarRect.Location, scrollBarRect.Size);
+		SizeF borderRelativeSize = new(1, 1);
+		borderRelativeSize = GetRelativeSize(borderRelativeSize);
+		RectangleF scrollBarClientRect = new(scrollBarRect.Location, scrollBarRect.Size);
 		scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
 
 		ChartElementType buttonType = ChartElementType.Nothing;
@@ -1189,7 +1106,7 @@ public class AxisScrollBar : IDisposable
 			}
 
 			// Get button rectangle
-			RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)type);
+			RectangleF buttonRect = GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)type);
 
 			common.HotRegionsList.AddHotRegion(buttonRect, this, buttonType, true);
 
@@ -1211,18 +1128,20 @@ public class AxisScrollBar : IDisposable
 		buttonType = ScrollBarButtonType.ThumbTracker;
 
 		// Convert mouse click coordinates to relative
-		PointF position = new PointF(x, y);
-		position.X = x * 100F / ((float)(this.axis.Common.Width - 1));
-		position.Y = y * 100F / ((float)(this.axis.Common.Height - 1));
+		PointF position = new(x, y)
+		{
+			X = x * 100F / ((float)(axis.Common.Width - 1)),
+			Y = y * 100F / ((float)(axis.Common.Height - 1))
+		};
 
 		// Check if mouse button was clicked in the scroll bar
-		RectangleF scrollBarRect = this.GetScrollBarRect();
+		RectangleF scrollBarRect = GetScrollBarRect();
 		if (scrollBarRect.Contains(position))
 		{
 			// Get scroll bar client rectangle
-			SizeF borderRelativeSize = new SizeF(1, 1);
-			borderRelativeSize = this.GetRelativeSize(borderRelativeSize);
-			RectangleF scrollBarClientRect = new RectangleF(scrollBarRect.Location, scrollBarRect.Size);
+			SizeF borderRelativeSize = new(1, 1);
+			borderRelativeSize = GetRelativeSize(borderRelativeSize);
+			RectangleF scrollBarClientRect = new(scrollBarRect.Location, scrollBarRect.Size);
 			scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
 
 			//******************************************************************
@@ -1231,7 +1150,7 @@ public class AxisScrollBar : IDisposable
 			foreach (object type in Enum.GetValues(typeof(ScrollBarButtonType)))
 			{
 				// Get button rectangle
-				RectangleF buttonRect = this.GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)type);
+				RectangleF buttonRect = GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)type);
 
 				// Check if position is inside the button
 				if (buttonRect.Contains(position))
@@ -1259,19 +1178,19 @@ public class AxisScrollBar : IDisposable
 	internal RectangleF GetScrollBarButtonRect(RectangleF scrollBarClientRect, ScrollBarButtonType buttonType)
 	{
 		// Initialize button rectangle
-		RectangleF buttonRect = new RectangleF(scrollBarClientRect.Location, scrollBarClientRect.Size);
+		RectangleF buttonRect = new(scrollBarClientRect.Location, scrollBarClientRect.Size);
 
 		// Check axis orientation
-		bool verticalAxis = (this.axis.AxisPosition == AxisPosition.Left ||
-			this.axis.AxisPosition == AxisPosition.Right) ? true : false;
+		bool verticalAxis = (axis.AxisPosition == AxisPosition.Left ||
+			axis.AxisPosition == AxisPosition.Right) ? true : false;
 
 		// Get relative size of 1 pixel
-		SizeF pixelRelativeSize = new SizeF(1, 1);
-		pixelRelativeSize = this.GetRelativeSize(pixelRelativeSize);
+		SizeF pixelRelativeSize = new(1, 1);
+		pixelRelativeSize = GetRelativeSize(pixelRelativeSize);
 
 		// Get button relative size
-		SizeF buttonSize = new SizeF(scrollBarClientRect.Width, scrollBarClientRect.Height);
-		buttonSize = this.GetAbsoluteSize(buttonSize);
+		SizeF buttonSize = new(scrollBarClientRect.Width, scrollBarClientRect.Height);
+		buttonSize = GetAbsoluteSize(buttonSize);
 		if (verticalAxis)
 		{
 			buttonSize.Height = buttonSize.Width;
@@ -1281,7 +1200,7 @@ public class AxisScrollBar : IDisposable
 			buttonSize.Width = buttonSize.Height;
 		}
 
-		buttonSize = this.GetRelativeSize(buttonSize);
+		buttonSize = GetRelativeSize(buttonSize);
 
 		// Set common position sizes
 		buttonRect.Width = buttonSize.Width;
@@ -1306,8 +1225,8 @@ public class AxisScrollBar : IDisposable
 					if (verticalAxis)
 					{
 						// Calculate tracker size
-						double trackingAreaSize = scrollBarClientRect.Height - this.GetButtonsNumberAll() * buttonSize.Height;
-						buttonRect.Height = (float)(this.GetDataViewPercentage() * (trackingAreaSize / 100f));
+						double trackingAreaSize = scrollBarClientRect.Height - GetButtonsNumberAll() * buttonSize.Height;
+						buttonRect.Height = (float)(GetDataViewPercentage() * (trackingAreaSize / 100f));
 
 						// Check if tracker size is too small
 						if (buttonRect.Height < pixelRelativeSize.Height * 6f)
@@ -1316,30 +1235,30 @@ public class AxisScrollBar : IDisposable
 						}
 
 						// Calculate tracker position
-						if (!this.axis.IsReversed)
+						if (!axis.IsReversed)
 						{
-							buttonRect.Y = scrollBarClientRect.Bottom - this.GetButtonsNumberBottom() * buttonSize.Height - buttonRect.Height;
-							buttonRect.Y -= (float)(this.GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
-							if (buttonRect.Y < scrollBarClientRect.Y + this.GetButtonsNumberTop() * buttonSize.Height + ((this.GetButtonsNumberTop() == 0) ? 0 : pixelRelativeSize.Height))
+							buttonRect.Y = scrollBarClientRect.Bottom - GetButtonsNumberBottom() * buttonSize.Height - buttonRect.Height;
+							buttonRect.Y -= (float)(GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
+							if (buttonRect.Y < scrollBarClientRect.Y + GetButtonsNumberTop() * buttonSize.Height + ((GetButtonsNumberTop() == 0) ? 0 : pixelRelativeSize.Height))
 							{
-								buttonRect.Y = scrollBarClientRect.Y + this.GetButtonsNumberTop() * buttonSize.Height + ((this.GetButtonsNumberTop() == 0) ? 0 : pixelRelativeSize.Height);
+								buttonRect.Y = scrollBarClientRect.Y + GetButtonsNumberTop() * buttonSize.Height + ((GetButtonsNumberTop() == 0) ? 0 : pixelRelativeSize.Height);
 							}
 						}
 						else
 						{
-							buttonRect.Y = scrollBarClientRect.Top + this.GetButtonsNumberTop() * buttonSize.Height;
-							buttonRect.Y += (float)(this.GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
-							if ((buttonRect.Y + buttonRect.Height) > scrollBarClientRect.Bottom - this.GetButtonsNumberBottom() * buttonSize.Height - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Height))
+							buttonRect.Y = scrollBarClientRect.Top + GetButtonsNumberTop() * buttonSize.Height;
+							buttonRect.Y += (float)(GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
+							if ((buttonRect.Y + buttonRect.Height) > scrollBarClientRect.Bottom - GetButtonsNumberBottom() * buttonSize.Height - ((GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Height))
 							{
-								buttonRect.Y = (scrollBarClientRect.Bottom - this.GetButtonsNumberBottom() * buttonSize.Height) - buttonRect.Height - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Height);
+								buttonRect.Y = (scrollBarClientRect.Bottom - GetButtonsNumberBottom() * buttonSize.Height) - buttonRect.Height - ((GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Height);
 							}
 						}
 					}
 					else
 					{
 						// Calculate tracker size
-						double trackingAreaSize = scrollBarClientRect.Width - this.GetButtonsNumberAll() * buttonSize.Width;
-						buttonRect.Width = (float)(this.GetDataViewPercentage() * (trackingAreaSize / 100f));
+						double trackingAreaSize = scrollBarClientRect.Width - GetButtonsNumberAll() * buttonSize.Width;
+						buttonRect.Width = (float)(GetDataViewPercentage() * (trackingAreaSize / 100f));
 
 						// Check if tracker size is too small
 						if (buttonRect.Width < pixelRelativeSize.Width * 6f)
@@ -1348,22 +1267,22 @@ public class AxisScrollBar : IDisposable
 						}
 
 						// Calculate tracker position
-						if (!this.axis.IsReversed)
+						if (!axis.IsReversed)
 						{
-							buttonRect.X = scrollBarClientRect.X + this.GetButtonsNumberTop() * buttonSize.Width;
-							buttonRect.X += (float)(this.GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
-							if ((buttonRect.X + buttonRect.Width) > scrollBarClientRect.Right - this.GetButtonsNumberBottom() * buttonSize.Width - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width))
+							buttonRect.X = scrollBarClientRect.X + GetButtonsNumberTop() * buttonSize.Width;
+							buttonRect.X += (float)(GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
+							if ((buttonRect.X + buttonRect.Width) > scrollBarClientRect.Right - GetButtonsNumberBottom() * buttonSize.Width - ((GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width))
 							{
-								buttonRect.X = (scrollBarClientRect.Right - buttonRect.Width) - this.GetButtonsNumberBottom() * buttonSize.Width - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width);
+								buttonRect.X = (scrollBarClientRect.Right - buttonRect.Width) - GetButtonsNumberBottom() * buttonSize.Width - ((GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width);
 							}
 						}
 						else
 						{
-							buttonRect.X = scrollBarClientRect.Right - this.GetButtonsNumberBottom() * buttonSize.Width - ((this.GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width) - buttonRect.Width;
-							buttonRect.X -= (float)(this.GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
-							if (buttonRect.X < scrollBarClientRect.X + this.GetButtonsNumberTop() * buttonSize.Width)
+							buttonRect.X = scrollBarClientRect.Right - GetButtonsNumberBottom() * buttonSize.Width - ((GetButtonsNumberBottom() == 0) ? 0 : pixelRelativeSize.Width) - buttonRect.Width;
+							buttonRect.X -= (float)(GetDataViewPositionPercentage() * (trackingAreaSize / 100f));
+							if (buttonRect.X < scrollBarClientRect.X + GetButtonsNumberTop() * buttonSize.Width)
 							{
-								buttonRect.X = scrollBarClientRect.X + this.GetButtonsNumberTop() * buttonSize.Width;
+								buttonRect.X = scrollBarClientRect.X + GetButtonsNumberTop() * buttonSize.Width;
 							}
 						}
 
@@ -1375,12 +1294,12 @@ public class AxisScrollBar : IDisposable
 						if (verticalAxis)
 						{
 							buttonRect.Y = buttonRect.Bottom + pixelRelativeSize.Height;
-							buttonRect.Height = (scrollBarClientRect.Bottom - this.GetButtonsNumberBottom() * buttonSize.Height - pixelRelativeSize.Height) - buttonRect.Y;
+							buttonRect.Height = (scrollBarClientRect.Bottom - GetButtonsNumberBottom() * buttonSize.Height - pixelRelativeSize.Height) - buttonRect.Y;
 						}
 						else
 						{
 							float x = scrollBarClientRect.X +
-								this.GetButtonsNumberTop() * buttonSize.Width +
+								GetButtonsNumberTop() * buttonSize.Width +
 								pixelRelativeSize.Width;
 
 							buttonRect.Width = buttonRect.X - x;
@@ -1394,7 +1313,7 @@ public class AxisScrollBar : IDisposable
 						if (verticalAxis)
 						{
 							float y = scrollBarClientRect.Y +
-								this.GetButtonsNumberTop() * buttonSize.Height +
+								GetButtonsNumberTop() * buttonSize.Height +
 								pixelRelativeSize.Height;
 
 							buttonRect.Height = buttonRect.Y - y;
@@ -1403,7 +1322,7 @@ public class AxisScrollBar : IDisposable
 						else
 						{
 							buttonRect.X = buttonRect.Right + pixelRelativeSize.Width;
-							buttonRect.Width = (scrollBarClientRect.Right - this.GetButtonsNumberBottom() * buttonSize.Width - pixelRelativeSize.Height) - buttonRect.X;
+							buttonRect.Width = (scrollBarClientRect.Right - GetButtonsNumberBottom() * buttonSize.Width - pixelRelativeSize.Height) - buttonRect.X;
 						}
 					}
 
@@ -1411,8 +1330,8 @@ public class AxisScrollBar : IDisposable
 				}
 
 			case (ScrollBarButtonType.SmallDecrement):
-				if (this._scrollBarButtonStyle == ScrollBarButtonStyles.All ||
-					this._scrollBarButtonStyle == ScrollBarButtonStyles.SmallScroll)
+				if (ButtonStyle == ScrollBarButtonStyles.All ||
+					ButtonStyle == ScrollBarButtonStyles.SmallScroll)
 				{
 					if (verticalAxis)
 					{
@@ -1420,8 +1339,8 @@ public class AxisScrollBar : IDisposable
 					}
 					else
 					{
-						buttonRect.X = scrollBarClientRect.X + (this.GetButtonsNumberTop() - 1f) * buttonSize.Width;
-						buttonRect.X += (this.GetButtonsNumberTop() == 1) ? 0 : pixelRelativeSize.Width;
+						buttonRect.X = scrollBarClientRect.X + (GetButtonsNumberTop() - 1f) * buttonSize.Width;
+						buttonRect.X += (GetButtonsNumberTop() == 1) ? 0 : pixelRelativeSize.Width;
 					}
 				}
 				else
@@ -1432,13 +1351,13 @@ public class AxisScrollBar : IDisposable
 				break;
 
 			case (ScrollBarButtonType.SmallIncrement):
-				if (this._scrollBarButtonStyle == ScrollBarButtonStyles.All ||
-					this._scrollBarButtonStyle == ScrollBarButtonStyles.SmallScroll)
+				if (ButtonStyle == ScrollBarButtonStyles.All ||
+					ButtonStyle == ScrollBarButtonStyles.SmallScroll)
 				{
 					if (verticalAxis)
 					{
-						buttonRect.Y = scrollBarClientRect.Y + (this.GetButtonsNumberTop() - 1f) * buttonSize.Height;
-						buttonRect.Y += (this.GetButtonsNumberTop() == 1) ? 0 : pixelRelativeSize.Height;
+						buttonRect.Y = scrollBarClientRect.Y + (GetButtonsNumberTop() - 1f) * buttonSize.Height;
+						buttonRect.Y += (GetButtonsNumberTop() == 1) ? 0 : pixelRelativeSize.Height;
 					}
 					else
 					{
@@ -1453,8 +1372,8 @@ public class AxisScrollBar : IDisposable
 				break;
 
 			case (ScrollBarButtonType.ZoomReset):
-				if (this._scrollBarButtonStyle == ScrollBarButtonStyles.All ||
-					this._scrollBarButtonStyle == ScrollBarButtonStyles.ResetZoom)
+				if (ButtonStyle == ScrollBarButtonStyles.All ||
+					ButtonStyle == ScrollBarButtonStyles.ResetZoom)
 				{
 					if (verticalAxis)
 					{
@@ -1483,7 +1402,7 @@ public class AxisScrollBar : IDisposable
 	internal RectangleF GetScrollBarRect()
 	{
 		// Get scroll bar relative size
-		float scrollBarSize = (float)this.GetScrollBarRelativeSize();
+		float scrollBarSize = (float)GetScrollBarRelativeSize();
 
 		// Get relative size of the axis line (Note: Code removed for now. -- AG)
 		//SizeF axisLineSize = new SizeF(axis.LineWidth, axis.LineWidth);
@@ -1492,12 +1411,12 @@ public class AxisScrollBar : IDisposable
 
 		// Check if scroll bar is positioned next to PlotArea or ChartArea
 		RectangleF areaPosition = axis.PlotAreaPosition.ToRectangleF();
-		if (!this.IsPositionedInside)
+		if (!IsPositionedInside)
 		{
 			areaPosition = axis.ChartArea.Position.ToRectangleF();
 
 			// Reduce rectangle size by scroll bar size
-			foreach (Axis a in this.ChartArea.Axes)
+			foreach (Axis a in ChartArea.Axes)
 			{
 				if (a.ScrollBar.IsVisible && !a.ScrollBar.IsPositionedInside)
 				{
@@ -1525,7 +1444,7 @@ public class AxisScrollBar : IDisposable
 
 		// Get bar position depending on the axis type
 		RectangleF barPosition = RectangleF.Empty;
-		if (this.axis.PlotAreaPosition != null)
+		if (axis.PlotAreaPosition != null)
 		{
 			switch (axis.AxisPosition)
 			{
@@ -1533,28 +1452,28 @@ public class AxisScrollBar : IDisposable
 					barPosition.Y = areaPosition.Y;
 					barPosition.Height = areaPosition.Height;
 					barPosition.X =
-						((this.IsPositionedInside) ? (float)(axis.GetAxisPosition(true)) : areaPosition.X) - scrollBarSize;// - axisLineSize.Width / 2f;
+						((IsPositionedInside) ? (float)(axis.GetAxisPosition(true)) : areaPosition.X) - scrollBarSize;// - axisLineSize.Width / 2f;
 					barPosition.Width = scrollBarSize;
 					break;
 				case AxisPosition.Right:
 					barPosition.Y = areaPosition.Y;
 					barPosition.Height = areaPosition.Height;
 					barPosition.X =
-						(this.IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Right;// + axisLineSize.Width / 2f;
+						(IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Right;// + axisLineSize.Width / 2f;
 					barPosition.Width = scrollBarSize;
 					break;
 				case AxisPosition.Bottom:
 					barPosition.X = areaPosition.X;
 					barPosition.Width = areaPosition.Width;
 					barPosition.Y =
-						(this.IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Bottom;// + axisLineSize.Height / 2f;
+						(IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Bottom;// + axisLineSize.Height / 2f;
 					barPosition.Height = scrollBarSize;
 					break;
 				case AxisPosition.Top:
 					barPosition.X = areaPosition.X;
 					barPosition.Width = areaPosition.Width;
 					barPosition.Y =
-						((this.IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Y) - scrollBarSize;// - axisLineSize.Height / 2f;
+						((IsPositionedInside) ? (float)axis.GetAxisPosition(true) : areaPosition.Y) - scrollBarSize;// - axisLineSize.Height / 2f;
 					barPosition.Height = scrollBarSize;
 					break;
 			}
@@ -1570,7 +1489,7 @@ public class AxisScrollBar : IDisposable
 	internal double GetScrollBarRelativeSize()
 	{
 		// Scroll bar is not shown in 3D
-		if (this.axis.ChartArea.Area3DStyle.Enable3D || this.axis.ChartArea.chartAreaIsCurcular)
+		if (axis.ChartArea.Area3DStyle.Enable3D || axis.ChartArea.chartAreaIsCurcular)
 		{
 			return 0.0;
 		}
@@ -1585,13 +1504,13 @@ public class AxisScrollBar : IDisposable
 
 
 		// Get scroll bar relative size depending on the axis location
-		if (this.axis.AxisPosition == AxisPosition.Left || this.axis.AxisPosition == AxisPosition.Right)
+		if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
 		{
-			return this._scrollBarSize * 100F / ((float)(this.axis.Common.Width - 1));
+			return Size * 100F / ((float)(axis.Common.Width - 1));
 		}
 		else
 		{
-			return this._scrollBarSize * 100F / ((float)(this.axis.Common.Height - 1));
+			return Size * 100F / ((float)(axis.Common.Height - 1));
 		}
 	}
 
@@ -1605,27 +1524,27 @@ public class AxisScrollBar : IDisposable
 		double viewPercentage = 100.0;
 
 		// Check if axis data scaleView properties are set
-		if (this.axis != null &&
-			!double.IsNaN(this.axis.ScaleView.Position) &&
-			!double.IsNaN(this.axis.ScaleView.Size))
+		if (axis != null &&
+			!double.IsNaN(axis.ScaleView.Position) &&
+			!double.IsNaN(axis.ScaleView.Size))
 		{
 			// Get data scaleView size 
 			double dataViewSize = ChartHelper.GetIntervalSize(
-			this.axis.ScaleView.Position,
-			this.axis.ScaleView.Size,
-			this.axis.ScaleView.SizeType);
+			axis.ScaleView.Position,
+			axis.ScaleView.Size,
+			axis.ScaleView.SizeType);
 
 			// Get axis scale size without margins
-			double minimum = this.axis.minimum + this.axis.marginView;
-			double maximum = this.axis.maximum - this.axis.marginView;
-			if (this.axis.ScaleView.Position < minimum)
+			double minimum = axis.minimum + axis.marginView;
+			double maximum = axis.maximum - axis.marginView;
+			if (axis.ScaleView.Position < minimum)
 			{
-				minimum = this.axis.ScaleView.Position;
+				minimum = axis.ScaleView.Position;
 			}
 
-			if ((this.axis.ScaleView.Position + dataViewSize) > maximum)
+			if ((axis.ScaleView.Position + dataViewSize) > maximum)
 			{
-				maximum = this.axis.ScaleView.Position + dataViewSize;
+				maximum = axis.ScaleView.Position + dataViewSize;
 			}
 
 			double axisScaleSize = Math.Abs(minimum - maximum);
@@ -1650,33 +1569,33 @@ public class AxisScrollBar : IDisposable
 		double viewPosition = 0.0;
 
 		// Check if axis data scaleView properties are set
-		if (this.axis != null &&
-			!double.IsNaN(this.axis.ScaleView.Position) &&
-			!double.IsNaN(this.axis.ScaleView.Size))
+		if (axis != null &&
+			!double.IsNaN(axis.ScaleView.Position) &&
+			!double.IsNaN(axis.ScaleView.Size))
 		{
 			// Get data scaleView size 
 			double dataViewSize = ChartHelper.GetIntervalSize(
-			this.axis.ScaleView.Position,
-			this.axis.ScaleView.Size,
-			this.axis.ScaleView.SizeType);
+			axis.ScaleView.Position,
+			axis.ScaleView.Size,
+			axis.ScaleView.SizeType);
 
 			// Get axis scale size without margins
-			double minimum = this.axis.minimum + this.axis.marginView;
-			double maximum = this.axis.maximum - this.axis.marginView;
-			if (this.axis.ScaleView.Position < minimum)
+			double minimum = axis.minimum + axis.marginView;
+			double maximum = axis.maximum - axis.marginView;
+			if (axis.ScaleView.Position < minimum)
 			{
-				minimum = this.axis.ScaleView.Position;
+				minimum = axis.ScaleView.Position;
 			}
 
-			if ((this.axis.ScaleView.Position + dataViewSize) > maximum)
+			if ((axis.ScaleView.Position + dataViewSize) > maximum)
 			{
-				maximum = this.axis.ScaleView.Position + dataViewSize;
+				maximum = axis.ScaleView.Position + dataViewSize;
 			}
 
 			double axisScaleSize = Math.Abs(minimum - maximum);
 
 			// Calculate data scaleView position in percentage
-			viewPosition = (this.axis.ScaleView.Position - (minimum)) / (axisScaleSize / 100.0);
+			viewPosition = (axis.ScaleView.Position - (minimum)) / (axisScaleSize / 100.0);
 		}
 
 		return viewPosition;
@@ -1689,12 +1608,12 @@ public class AxisScrollBar : IDisposable
 	private int GetButtonsNumberAll()
 	{
 		int buttonNumber = 0;
-		if ((this._scrollBarButtonStyle & ScrollBarButtonStyles.ResetZoom) == ScrollBarButtonStyles.ResetZoom)
+		if ((ButtonStyle & ScrollBarButtonStyles.ResetZoom) == ScrollBarButtonStyles.ResetZoom)
 		{
 			buttonNumber += 1;
 		}
 
-		if ((this._scrollBarButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
+		if ((ButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
 		{
 			buttonNumber += 2;
 		}
@@ -1709,12 +1628,12 @@ public class AxisScrollBar : IDisposable
 	private int GetButtonsNumberTop()
 	{
 		int buttonNumber = 0;
-		if ((this._scrollBarButtonStyle & ScrollBarButtonStyles.ResetZoom) == ScrollBarButtonStyles.ResetZoom)
+		if ((ButtonStyle & ScrollBarButtonStyles.ResetZoom) == ScrollBarButtonStyles.ResetZoom)
 		{
 			buttonNumber += 1;
 		}
 
-		if ((this._scrollBarButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
+		if ((ButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
 		{
 			buttonNumber += 1;
 		}
@@ -1729,7 +1648,7 @@ public class AxisScrollBar : IDisposable
 	private int GetButtonsNumberBottom()
 	{
 		int buttonNumber = 0;
-		if ((this._scrollBarButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
+		if ((ButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
 		{
 			buttonNumber += 1;
 		}
@@ -1751,8 +1670,8 @@ public class AxisScrollBar : IDisposable
 		SizeF absolute = SizeF.Empty;
 
 		// Convert relative coordinates to absolute coordinates
-		absolute.Width = relative.Width * (this.axis.Common.Width - 1) / 100F;
-		absolute.Height = relative.Height * (this.axis.Common.Height - 1) / 100F;
+		absolute.Width = relative.Width * (axis.Common.Width - 1) / 100F;
+		absolute.Height = relative.Height * (axis.Common.Height - 1) / 100F;
 
 		// Return Absolute coordinates
 		return absolute;
@@ -1768,8 +1687,8 @@ public class AxisScrollBar : IDisposable
 		SizeF relative = SizeF.Empty;
 
 		// Convert absolute coordinates to relative coordinates
-		relative.Width = size.Width * 100F / ((float)(this.axis.Common.Width - 1));
-		relative.Height = size.Height * 100F / ((float)(this.axis.Common.Height - 1));
+		relative.Width = size.Width * 100F / ((float)(axis.Common.Width - 1));
+		relative.Height = size.Height * 100F / ((float)(axis.Common.Height - 1));
 
 		// Return relative coordinates
 		return relative;
@@ -1788,11 +1707,8 @@ public class AxisScrollBar : IDisposable
 		if (disposing)
 		{
 			// Dispose managed resources
-			if (this._scrollTimer != null)
-			{
-				this._scrollTimer.Dispose();
-				this._scrollTimer = null;
-			}
+			_scrollTimer?.Dispose();
+			_scrollTimer = null;
 		}
 	}
 
@@ -1816,11 +1732,6 @@ public class ScrollBarEventArgs : EventArgs
 	#region Private fields
 
 	// Private fields for properties values storage
-	private Axis _axis = null;
-	private bool _isHandled = false;
-	private int _mousePositionX = 0;
-	private int _mousePositionY = 0;
-	private ScrollBarButtonType _buttonType = ScrollBarButtonType.ThumbTracker;
 
 	#endregion
 
@@ -1837,10 +1748,10 @@ public class ScrollBarEventArgs : EventArgs
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public ScrollBarEventArgs(Axis axis, int x, int y, ScrollBarButtonType buttonType)
 	{
-		this._axis = axis;
-		this._mousePositionX = x;
-		this._mousePositionY = y;
-		this._buttonType = buttonType;
+		Axis = axis;
+		MousePositionX = x;
+		MousePositionY = y;
+		ButtonType = buttonType;
 	}
 
 	#endregion
@@ -1853,13 +1764,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeAxis"),
 	]
-	public Axis Axis
-	{
-		get
-		{
-			return _axis;
-		}
-	}
+	public Axis Axis { get; } = null;
 
 	/// <summary>
 	/// ChartArea containing the scrollbar of the event.
@@ -1871,7 +1776,7 @@ public class ScrollBarEventArgs : EventArgs
 	{
 		get
 		{
-			return _axis.ChartArea;
+			return Axis.ChartArea;
 		}
 	}
 
@@ -1881,13 +1786,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeScrollBarEventArgs_ButtonType"),
 	]
-	public ScrollBarButtonType ButtonType
-	{
-		get
-		{
-			return _buttonType;
-		}
-	}
+	public ScrollBarButtonType ButtonType { get; } = ScrollBarButtonType.ThumbTracker;
 
 	/// <summary>
 	/// Indicates if the event is handled by the user and no further processing is required.
@@ -1895,17 +1794,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeScrollBarEventArgs_Handled"),
 	]
-	public bool IsHandled
-	{
-		get
-		{
-			return _isHandled;
-		}
-		set
-		{
-			_isHandled = value;
-		}
-	}
+	public bool IsHandled { get; set; } = false;
 
 	/// <summary>
 	/// X position of mouse cursor.
@@ -1913,13 +1802,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeScrollBarEventArgs_MousePositionX"),
 	]
-	public int MousePositionX
-	{
-		get
-		{
-			return _mousePositionX;
-		}
-	}
+	public int MousePositionX { get; } = 0;
 
 	/// <summary>
 	/// Y position of mouse cursor.
@@ -1927,13 +1810,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeScrollBarEventArgs_MousePositionY"),
 	]
-	public int MousePositionY
-	{
-		get
-		{
-			return _mousePositionY;
-		}
-	}
+	public int MousePositionY { get; } = 0;
 
 	#endregion
 }

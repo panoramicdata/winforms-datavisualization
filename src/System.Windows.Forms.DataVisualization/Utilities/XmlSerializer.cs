@@ -50,7 +50,7 @@ using System.Xml;
 
 namespace System.Windows.Forms.DataVisualization.Charting.Utilities;
 
-using Size = System.Drawing.Size;
+using Size = Size;
 
 #region Serialization enumerations
 
@@ -107,12 +107,11 @@ internal enum SerializationStatus
 /// Attribute which describes how to persist property during the serialization.
 /// </summary>
 [AttributeUsage(AttributeTargets.All)]
-internal sealed class SerializationVisibilityAttribute : System.Attribute
+internal sealed class SerializationVisibilityAttribute : Attribute
 {
 	#region Fields
 
 	// Visibility style
-	private SerializationVisibility _visibility = SerializationVisibility.Attribute;
 
 	#endregion
 
@@ -124,7 +123,7 @@ internal sealed class SerializationVisibilityAttribute : System.Attribute
 	/// <param name="visibility">Serialization visibility.</param>
 	internal SerializationVisibilityAttribute(SerializationVisibility visibility)
 	{
-		this._visibility = visibility;
+		Visibility = visibility;
 	}
 
 	#endregion
@@ -134,17 +133,12 @@ internal sealed class SerializationVisibilityAttribute : System.Attribute
 	/// <summary>
 	/// Serialization visibility property
 	/// </summary>
-	public SerializationVisibility Visibility
-	{
-		get
-		{
-			return _visibility;
-		}
-		//set
-		//{
-		//    _visibility = value;
-		//}
-	}
+	public SerializationVisibility Visibility { get;
+	//set
+	//{
+	//    _visibility = value;
+	//}
+	} = SerializationVisibility.Attribute;
 
 	#endregion
 }
@@ -159,37 +153,16 @@ internal abstract class SerializerBase
 	/// <summary>
 	/// Indicates that unknown properties and elements are ignored
 	/// </summary>
-	private bool _isUnknownAttributeIgnored = false;
-
-	/// <summary>
-	/// Indicates that serializer works in template creation mode
-	/// </summary>
-	private bool _isTemplateMode = false;
-
-	/// <summary>
-	/// Indicates that object properties are reset before loading
-	/// </summary>
-	private bool _isResetWhenLoading = true;
-
-	/// <summary>
-	/// Comma separated list of serializable (Save/Load/Reset) properties. "ClassName.PropertyName"
-	/// </summary>
-	private string _serializableContent = "";
-
-	/// <summary>
-	/// Comma separated list of NON serializable (Save/Load/Reset) properties. "ClassName.PropertyName"
-	/// </summary>
-	private string _nonSerializableContent = "";
 
 	/// <summary>
 	/// Font converters used while serializing/deserializing 
 	/// </summary>
-	internal static FontConverter fontConverter = new FontConverter();
+	internal static FontConverter fontConverter = new();
 
 	/// <summary>
 	/// Color converters used while serializing/deserializing 
 	/// </summary>
-	internal static ColorConverter colorConverter = new ColorConverter();
+	internal static ColorConverter colorConverter = new();
 
 	/// <summary>
 	/// Hash code provider.
@@ -199,7 +172,7 @@ internal abstract class SerializerBase
 	/// <summary>
 	/// Contains chart specific converters
 	/// </summary>
-	HybridDictionary _converterDict = new HybridDictionary();
+	readonly HybridDictionary _converterDict = [];
 
 
 	#endregion
@@ -210,86 +183,42 @@ internal abstract class SerializerBase
 	/// Indicates that unknown properties and elements will be 
 	/// ignored without throwing an exception.
 	/// </summary>
-	internal bool IsUnknownAttributeIgnored
-	{
-		get
-		{
-			return _isUnknownAttributeIgnored;
-		}
-		set
-		{
-			_isUnknownAttributeIgnored = value;
-		}
-	}
+	internal bool IsUnknownAttributeIgnored { get; set; } = false;
 
 	/// <summary>
 	/// Indicates that serializer works in template creation mode
 	/// </summary>
-	internal bool IsTemplateMode
-	{
-		get
-		{
-			return _isTemplateMode;
-		}
-		set
-		{
-			_isTemplateMode = value;
-		}
-	}
+	internal bool IsTemplateMode { get; set; } = false;
 
 	/// <summary>
 	/// Indicates that object properties are reset to default
 	/// values before loading.
 	/// </summary>
-	internal bool IsResetWhenLoading
-	{
-		get
-		{
-			return _isResetWhenLoading;
-		}
-		set
-		{
-			_isResetWhenLoading = value;
-		}
-	}
+	internal bool IsResetWhenLoading { get; set; } = true;
 
 	/// <summary>
 	/// Comma separated list of serializable (Save/Load/Reset) properties. 
 	/// "ClassName.PropertyName,[ClassName.PropertyName]".
 	/// </summary>
-	internal string SerializableContent
-	{
-		get
+	internal string SerializableContent { get; set
 		{
-			return _serializableContent;
-		}
-		set
-		{
-			_serializableContent = value;
+			field = value;
 
 			// Reset list
 			serializableContentList = null;
-		}
-	}
+		} } = "";
 
 	/// <summary>
 	/// Comma separated list of serializable (Save/Load/Reset) properties. 
 	/// "ClassName.PropertyName,[ClassName.PropertyName]".
 	/// </summary>
-	internal string NonSerializableContent
-	{
-		get
+	internal string NonSerializableContent { get; set
 		{
-			return _nonSerializableContent;
-		}
-		set
-		{
-			_nonSerializableContent = value;
+			field = value;
 
 			// Reset list
 			nonSerializableContentList = null;
-		}
-	}
+		} } = "";
 
 	#endregion
 
@@ -320,10 +249,9 @@ internal abstract class SerializerBase
 			return;
 		}
 
-		IList list = objectToReset as IList;
 
 		// Check if object is a list
-		if (list != null && IsSerializableContent(elementName, parent))
+		if (objectToReset is IList list && IsSerializableContent(elementName, parent))
 		{
 			// Reset list by clearing all the items
 			list.Clear();
@@ -388,7 +316,7 @@ internal abstract class SerializerBase
 						// Reset objects of the list
 						foreach (object listObject in ((IList)pi.GetValue(objectToReset, null)))
 						{
-							ResetObjectProperties(listObject, objectToReset, this.GetObjectName(listObject));
+							ResetObjectProperties(listObject, objectToReset, GetObjectName(listObject));
 						}
 					}
 				}
@@ -440,10 +368,7 @@ internal abstract class SerializerBase
 								{
 									// Check if property has "Reset" method
 									MethodInfo mi = objectToReset.GetType().GetMethod("Reset" + pi.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-									if (mi != null)
-									{
-										mi.Invoke(objectToReset, null);
-									}
+									mi?.Invoke(objectToReset, null);
 								}
 							}
 						}
@@ -491,12 +416,12 @@ internal abstract class SerializerBase
 	internal static string FontToString(Font font)
 	{
 		// Save basic properties persisted by font converter
-		string fontData = (string)SerializerBase.fontConverter.ConvertToInvariantString(font);
+		string fontData = (string)fontConverter.ConvertToInvariantString(font);
 
 		// Persist properties not serialiazed by the converter
 		if (font.GdiCharSet != 1)
 		{
-			fontData += ", GdiCharSet=" + font.GdiCharSet.ToString(System.Globalization.CultureInfo.InvariantCulture);
+			fontData += ", GdiCharSet=" + font.GdiCharSet.ToString(CultureInfo.InvariantCulture);
 		}
 
 		if (font.GdiVerticalFont)
@@ -529,7 +454,7 @@ internal abstract class SerializerBase
 				val = val.Substring(0, commaIndex);
 			}
 
-			gdiCharSet = (byte)Int32.Parse(val, System.Globalization.CultureInfo.InvariantCulture);
+			gdiCharSet = (byte)int.Parse(val, CultureInfo.InvariantCulture);
 
 			// Truncate standard data string
 			if (standardData.Length > charIndex)
@@ -551,12 +476,12 @@ internal abstract class SerializerBase
 		}
 
 		// Create Font object from standard parameters
-		Font font = (Font)SerializerBase.fontConverter.ConvertFromInvariantString(standardData);
+		Font font = (Font)fontConverter.ConvertFromInvariantString(standardData);
 
 		// check if non-standard parameters provided
 		if (gdiVerticalFont || gdiCharSet != 1)
 		{
-			Font newFont = new Font(
+			Font newFont = new(
 				font.Name,
 				font.SizeInPoints,
 				font.Style,
@@ -587,7 +512,7 @@ internal abstract class SerializerBase
 	/// </summary>
 	/// <param name="reader">Binary reader to get the data from.</param>
 	/// <returns>Property name or collection member type ID.</returns>
-	internal Int16 ReadHashID(BinaryReader reader)
+	internal short ReadHashID(BinaryReader reader)
 	{
 		// For later versions return ID without transformations
 		return reader.ReadInt16();
@@ -637,16 +562,16 @@ internal abstract class SerializerBase
 	/// </summary>
 	/// <param name="image">Image to convert.</param>
 	/// <returns>BASE64 encoded image data.</returns>
-	internal static string ImageToString(System.Drawing.Image image)
+	internal static string ImageToString(Image image)
 	{
 		// Save image into the stream using BASE64 encoding
-		MemoryStream imageStream = new MemoryStream();
+		MemoryStream imageStream = new();
 		image.Save(imageStream, ImageFormat.Png);
 		imageStream.Seek(0, SeekOrigin.Begin);
 
 		// Create XmlTextWriter and save image in BASE64
-		StringBuilder stringBuilder = new StringBuilder();
-		XmlTextWriter textWriter = new XmlTextWriter(new StringWriter(stringBuilder, CultureInfo.InvariantCulture));
+		StringBuilder stringBuilder = new();
+		XmlTextWriter textWriter = new(new StringWriter(stringBuilder, CultureInfo.InvariantCulture));
 		byte[] imageByteData = imageStream.ToArray();
 		textWriter.WriteBase64(imageByteData, 0, imageByteData.Length);
 
@@ -662,19 +587,19 @@ internal abstract class SerializerBase
 	/// </summary>
 	/// <param name="data">BASE64 encoded data.</param>
 	/// <returns>Image.</returns>
-	internal static System.Drawing.Image ImageFromString(string data)
+	internal static Image ImageFromString(string data)
 	{
 		// Create XML text reader
 		byte[] buffer = new byte[1000];
-		MemoryStream imageStream = new MemoryStream();
-		XmlTextReader textReader = new XmlTextReader(new StringReader("<base64>" + data + "</base64>"))
+		MemoryStream imageStream = new();
+		XmlTextReader textReader = new(new StringReader("<base64>" + data + "</base64>"))
 		{
 			DtdProcessing = DtdProcessing.Ignore
 		};
 
 		// Read tags and BASE64 encoded data
 		textReader.Read();
-		int bytesRead = 0;
+		int bytesRead;
 		while ((bytesRead = textReader.ReadBase64(buffer, 0, 1000)) > 0)
 		{
 			imageStream.Write(buffer, 0, bytesRead);
@@ -684,8 +609,8 @@ internal abstract class SerializerBase
 
 		// Create image from stream
 		imageStream.Seek(0, SeekOrigin.Begin);
-		System.Drawing.Image tempImage = System.Drawing.Image.FromStream(imageStream);
-		System.Drawing.Bitmap image = new Bitmap(tempImage);    // !!! .Net bug when image source stream is closed - can create brush using the image
+		Image tempImage = Image.FromStream(imageStream);
+		Bitmap image = new(tempImage);    // !!! .Net bug when image source stream is closed - can create brush using the image
 		image.SetResolution(tempImage.HorizontalResolution, tempImage.VerticalResolution); //The bitmap created using the constructor does not copy the resolution of the image
 
 		// Close image stream
@@ -725,9 +650,8 @@ internal abstract class SerializerBase
 		}
 
 		reusedObject = false;
-		PropertyInfo pi = list.GetType().GetProperty("Item", itemType, new Type[] { typeof(string) });
-		MethodInfo mi = list.GetType().GetMethod("IndexOf", new Type[] { typeof(String) });
-		ConstructorInfo ci = null;
+		PropertyInfo pi = list.GetType().GetProperty("Item", itemType, [typeof(string)]);
+		MethodInfo mi = list.GetType().GetMethod("IndexOf", [typeof(string)]);
 		if (pi != null)
 		{
 			// Try to get object by name using the indexer
@@ -739,7 +663,7 @@ internal abstract class SerializerBase
 					try
 					{
 						int index = -1;
-						object oindex = mi.Invoke(list, new object[] { itemName });
+						object oindex = mi.Invoke(list, [itemName]);
 						if (oindex is int)
 						{
 							index = (int)oindex;
@@ -773,10 +697,10 @@ internal abstract class SerializerBase
 
 				if (!itemChecked)
 				{
-					object objByName = null;
+					object objByName;
 					try
 					{
-						objByName = pi.GetValue(list, new object[] { itemName });
+						objByName = pi.GetValue(list, [itemName]);
 					}
 					catch (ArgumentException)
 					{
@@ -812,6 +736,7 @@ internal abstract class SerializerBase
 			}
 
 		}
+		ConstructorInfo ci;
 		// Get the constructor of the type returned by indexer
 		if (itemType != null)
 		{
@@ -870,7 +795,7 @@ internal abstract class SerializerBase
 		if (pi.PropertyType == typeof(string) ||
 			pi.PropertyType == typeof(Font) ||
 			pi.PropertyType == typeof(Color) ||
-			pi.PropertyType == typeof(System.Drawing.Image))
+			pi.PropertyType == typeof(Image))
 		{
 			return true;
 		}
@@ -915,20 +840,20 @@ internal abstract class SerializerBase
 	internal bool IsSerializableContent(string propertyName, object parent)
 	{
 		bool serializable = true;
-		if (_serializableContent.Length > 0 || _nonSerializableContent.Length > 0)
+		if (SerializableContent.Length > 0 || NonSerializableContent.Length > 0)
 		{
-			int serialzableClassFitType = 0;    // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
-			int serialzablePropertyFitType = 0; // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
 			string ownerClassName = GetObjectName(parent);
 
+			int serialzableClassFitType;
+			int serialzablePropertyFitType;
 			// Check if property in this class is part of the serializable content
 			serializable = IsPropertyInList(GetSerializableContentList(), ownerClassName, propertyName, out serialzableClassFitType, out serialzablePropertyFitType);
 
 			// Check if property in this class is part of the NON serializable content
 			if (serializable)
 			{
-				int nonSerialzableClassFitType = 0; // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
-				int nonSerialzablePropertyFitType = 0;  // 0 - undefined; 1 - '*'; 2 - 'Back*'; 3 - Exact
+				int nonSerialzableClassFitType;
+				int nonSerialzablePropertyFitType;
 				bool nonSerializable = IsPropertyInList(GetNonSerializableContentList(), ownerClassName, propertyName, out nonSerialzableClassFitType, out nonSerialzablePropertyFitType);
 
 				// If property was found in non serializable content list - check the type priority
@@ -969,7 +894,6 @@ internal abstract class SerializerBase
 			for (int itemIndex = 0; itemIndex < contentList.Count; itemIndex += 2)
 			{
 				// Initialize result values
-				classFitType = 0;
 				propertyFitType = 0;
 
 				// Check if object class and property name match the mask
@@ -1053,7 +977,7 @@ internal abstract class SerializerBase
 		TypeConverterAttribute typeConverterAttrib = (TypeConverterAttribute)pd.Attributes[typeof(TypeConverterAttribute)];
 		if (typeConverterAttrib != null && typeConverterAttrib.ConverterTypeName.Length > 0)
 		{
-			result = this.FindConverterByType(typeConverterAttrib);
+			result = FindConverterByType(typeConverterAttrib);
 			if (result != null)
 			{
 				return result;
@@ -1089,7 +1013,7 @@ internal abstract class SerializerBase
 			return (TypeConverter)_converterDict[attr.ConverterTypeName];
 		}
 
-		String typeStr = attr.ConverterTypeName;
+		string typeStr = attr.ConverterTypeName;
 
 		if (attr.ConverterTypeName.Contains(","))
 		{
@@ -1160,7 +1084,9 @@ internal abstract class SerializerBase
 		{ result = new AnnotationAxisValueConverter(); }
 
 		if (result != null)
+		{
 			_converterDict[attr.ConverterTypeName] = result;
+		}
 
 		return result;
 	}
@@ -1194,10 +1120,10 @@ internal abstract class SerializerBase
 	{
 		if (serializableContentList == null)
 		{
-			serializableContentList = new ArrayList();
+			serializableContentList = [];
 			FillContentList(
 				serializableContentList,
-				(this.SerializableContent.Length > 0) ? this.SerializableContent : "*.*");
+				(SerializableContent.Length > 0) ? SerializableContent : "*.*");
 		}
 
 		return serializableContentList;
@@ -1211,8 +1137,8 @@ internal abstract class SerializerBase
 	{
 		if (nonSerializableContentList == null)
 		{
-			nonSerializableContentList = new ArrayList();
-			FillContentList(nonSerializableContentList, this.NonSerializableContent);
+			nonSerializableContentList = [];
+			FillContentList(nonSerializableContentList, NonSerializableContent);
 		}
 
 		return nonSerializableContentList;
@@ -1231,8 +1157,8 @@ internal abstract class SerializerBase
 			foreach (string item in classPropertyPairs)
 			{
 				// Create two content items: one for the class and one for the property
-				ItemInfo classInfo = new ItemInfo();
-				ItemInfo propertyInfo = new ItemInfo();
+				ItemInfo classInfo = new();
+				ItemInfo propertyInfo = new();
 
 				// Find class and property name
 				int pointIndex = item.IndexOf('.');
@@ -1317,7 +1243,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="stream">The stream used to write the XML document.</param>
 
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Serialize(object objectToSerialize, Stream stream)
 	{
 		Serialize(objectToSerialize, (object)stream);
@@ -1328,7 +1254,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="xmlWriter">The XmlWriter used to write the XML document.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Serialize(object objectToSerialize, XmlWriter xmlWriter)
 	{
 		Serialize(objectToSerialize, (object)xmlWriter);
@@ -1339,7 +1265,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="textWriter">The TextWriter used to write the XML document.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Serialize(object objectToSerialize, TextWriter textWriter)
 	{
 		Serialize(objectToSerialize, (object)textWriter);
@@ -1350,7 +1276,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="fileName">The file name used to write the XML document.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Serialize(object objectToSerialize, string fileName)
 	{
 		Serialize(objectToSerialize, (object)fileName);
@@ -1378,23 +1304,17 @@ internal class XmlFormatSerializer : SerializerBase
 		string writerStr = writer as string;
 
 		// Check input parameters
-		if (objectToSerialize == null)
-		{
-			throw (new ArgumentNullException("objectToSerialize"));
-		}
+		ArgumentNullException.ThrowIfNull(objectToSerialize);
 
-		if (writer == null)
-		{
-			throw (new ArgumentNullException("writer"));
-		}
+		ArgumentNullException.ThrowIfNull(writer);
 
 		if (stream == null && textWriter == null && xmlWriter == null && writerStr == null)
 		{
-			throw (new ArgumentException(SR.ExceptionChartSerializerWriterObjectInvalid, "writer"));
+			throw (new ArgumentException(SR.ExceptionChartSerializerWriterObjectInvalid, nameof(writer)));
 		}
 
 		// Create XML document
-		XmlDocument xmlDocument = new XmlDocument();
+		XmlDocument xmlDocument = new();
 
 		// Create document fragment
 		XmlDocumentFragment docFragment = xmlDocument.CreateDocumentFragment();
@@ -1482,8 +1402,7 @@ internal class XmlFormatSerializer : SerializerBase
 
 		// Write template data into collection items
 		bool templateListItem = false;
-		IList parentList = parent as IList;
-		if (this.IsTemplateMode && parentList != null)
+		if (IsTemplateMode && parent is IList parentList)
 		{
 			// Create "_Template_" attribute
 			XmlAttribute attrib = xmlDocument.CreateAttribute("_Template_");
@@ -1538,7 +1457,7 @@ internal class XmlFormatSerializer : SerializerBase
 
 				// Serialize collection
 
-				if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !this.SerializeICollAsAtribute(pi, objectToSerialize))
+				if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !SerializeICollAsAtribute(pi, objectToSerialize))
 				{
 					// Check if SerializationVisibilityAttribute is set
 					bool serialize = true;
@@ -1644,7 +1563,7 @@ internal class XmlFormatSerializer : SerializerBase
 			if (entry.Key is int)
 			{
 				CommonCustomProperties propertyType = (CommonCustomProperties)((int)entry.Key);
-				String properyName = propertyType.ToString();
+				string properyName = propertyType.ToString();
 				if (IsSerializableContent(properyName, objectToSerialize))
 				{
 					XmlAttribute attrib = xmlDocument.CreateAttribute(properyName);
@@ -1658,7 +1577,7 @@ internal class XmlFormatSerializer : SerializerBase
 			}
 		}
 
-		if (hasCustomProperties && !String.IsNullOrEmpty(dataPoint.CustomProperties) && IsSerializableContent("CustomProperties", objectToSerialize))
+		if (hasCustomProperties && !string.IsNullOrEmpty(dataPoint.CustomProperties) && IsSerializableContent("CustomProperties", objectToSerialize))
 		{
 			XmlAttribute attrib = xmlDocument.CreateAttribute("CustomProperties");
 			attrib.Value = GetXmlValue(dataPoint.CustomProperties, dataPoint, "CustomProperties");
@@ -1677,8 +1596,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="xmlDocument">The XmlDocument the parent node belongs to.</param>
 	virtual protected void SerializeCollection(object objectToSerialize, string elementName, XmlNode xmlParentNode, XmlDocument xmlDocument)
 	{
-		ICollection collection = objectToSerialize as ICollection;
-		if (collection != null)
+		if (objectToSerialize is ICollection collection)
 		{
 			// Create object element inside the parents node
 			XmlNode xmlNode = xmlDocument.CreateElement(elementName);
@@ -1770,31 +1688,27 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <returns>Object value as strig.</returns>
 	protected string GetXmlValue(object obj, object parent, string elementName)
 	{
-		string objStr = obj as string;
-		if (objStr != null)
+		if (obj is string objStr)
 		{
 			return objStr;
 		}
 
-		Font font = obj as Font;
-		if (font != null)
+		if (obj is Font font)
 		{
-			return SerializerBase.FontToString(font);
+			return FontToString(font);
 		}
 
 		if (obj is Color)
 		{
-			return colorConverter.ConvertToString(null, System.Globalization.CultureInfo.InvariantCulture, obj);
+			return colorConverter.ConvertToString(null, CultureInfo.InvariantCulture, obj);
 		}
 
-		Color[] colors = obj as Color[];
-		if (colors != null)
+		if (obj is Color[] colors)
 		{
 			return ColorArrayConverter.ColorArrayToString(colors);
 		}
 
-		System.Drawing.Image image = obj as System.Drawing.Image;
-		if (image != null)
+		if (obj is Image image)
 		{
 			return ImageToString(image);
 		}
@@ -1803,10 +1717,10 @@ internal class XmlFormatSerializer : SerializerBase
 		PropertyDescriptor pd = TypeDescriptor.GetProperties(parent)[elementName];
 		if (pd != null)
 		{
-			TypeConverter converter = this.FindConverter(pd);
+			TypeConverter converter = FindConverter(pd);
 			if (converter != null && converter.CanConvertTo(typeof(string)))
 			{
-				return converter.ConvertToString(null, System.Globalization.CultureInfo.InvariantCulture, obj);
+				return converter.ConvertToString(null, CultureInfo.InvariantCulture, obj);
 			}
 		}
 
@@ -1868,7 +1782,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="stream">The stream used to read the XML document from.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Deserialize(object objectToDeserialize, Stream stream)
 	{
 		Deserialize(objectToDeserialize, (object)stream);
@@ -1879,7 +1793,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="xmlReader">The XmlReader used to read the XML document from.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Deserialize(object objectToDeserialize, XmlReader xmlReader)
 	{
 		Deserialize(objectToDeserialize, (object)xmlReader);
@@ -1890,7 +1804,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="textReader">The TextReader used to write the XML document from.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Deserialize(object objectToDeserialize, TextReader textReader)
 	{
 		Deserialize(objectToDeserialize, (object)textReader);
@@ -1901,7 +1815,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="fileName">The file name used to read the XML document from.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	internal void Deserialize(object objectToDeserialize, string fileName)
 	{
 		Deserialize(objectToDeserialize, (object)fileName);
@@ -1925,28 +1839,22 @@ internal class XmlFormatSerializer : SerializerBase
 		string readerStr = reader as string;
 
 		// Check input parameters
-		if (objectToDeserialize == null)
-		{
-			throw (new ArgumentNullException("objectToDeserialize"));
-		}
+		ArgumentNullException.ThrowIfNull(objectToDeserialize);
 
-		if (reader == null)
-		{
-			throw (new ArgumentNullException("reader"));
-		}
+		ArgumentNullException.ThrowIfNull(reader);
 
 		if (stream == null && textReader == null && xmlReader == null && readerStr == null)
 		{
-			throw (new ArgumentException(SR.ExceptionChartSerializerReaderObjectInvalid, "reader"));
+			throw (new ArgumentException(SR.ExceptionChartSerializerReaderObjectInvalid, nameof(reader)));
 		}
 
 		// Create XML document
-		XmlDocument xmlDocument = new XmlDocument();
+		XmlDocument xmlDocument = new();
 		XmlReader xmlBaseReader = null;
 		try
 		{
 			// process files without DTD
-			XmlReaderSettings settings = new XmlReaderSettings();
+			XmlReaderSettings settings = new();
 			// settings.ProhibitDtd is obsolete inn NetFx 4.0, the #ifdef stays for compilation under NetFx 3.5.
 #if OLD_DTD
                 settings.ProhibitDtd = true;
@@ -2036,7 +1944,7 @@ internal class XmlFormatSerializer : SerializerBase
 		// Read template data into the collection 
 		IList list = objectToDeserialize as IList;
 
-		if (this.IsTemplateMode &&
+		if (IsTemplateMode &&
 			list != null &&
 			xmlParentNode.FirstChild.Attributes["_Template_"] != null)
 		{
@@ -2172,15 +2080,15 @@ internal class XmlFormatSerializer : SerializerBase
 
 			else if (pi.PropertyType == typeof(Font))
 			{
-				objValue = SerializerBase.FontFromString(attrValue);
+				objValue = FontFromString(attrValue);
 			}
 
 			else if (pi.PropertyType == typeof(Color))
 			{
-				objValue = (Color)colorConverter.ConvertFromString(null, System.Globalization.CultureInfo.InvariantCulture, attrValue);
+				objValue = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, attrValue);
 			}
 
-			else if (pi.PropertyType == typeof(System.Drawing.Image))
+			else if (pi.PropertyType == typeof(Image))
 			{
 				objValue = ImageFromString(attrValue);
 			}
@@ -2191,10 +2099,10 @@ internal class XmlFormatSerializer : SerializerBase
 				PropertyDescriptor pd = TypeDescriptor.GetProperties(obj)[attrName];
 				if (pd != null)
 				{
-					TypeConverter converter = this.FindConverter(pd);
+					TypeConverter converter = FindConverter(pd);
 					if (converter != null && converter.CanConvertFrom(typeof(string)))
 					{
-						objValue = converter.ConvertFromString(null, System.Globalization.CultureInfo.InvariantCulture, attrValue);
+						objValue = converter.ConvertFromString(null, CultureInfo.InvariantCulture, attrValue);
 					}
 				}
 			}
@@ -2226,38 +2134,29 @@ internal class BinaryFormatSerializer : SerializerBase
 	internal override void Serialize(object objectToSerialize, object destination)
 	{
 		// Check input parameters
-		if (objectToSerialize == null)
-		{
-			throw (new ArgumentNullException("objectToSerialize"));
-		}
+		ArgumentNullException.ThrowIfNull(objectToSerialize);
 
-		if (destination == null)
-		{
-			throw (new ArgumentNullException("destination"));
-		}
+		ArgumentNullException.ThrowIfNull(destination);
 
-		string destinationStr = destination as string;
-		if (destinationStr != null)
+		if (destination is string destinationStr)
 		{
 			Serialize(objectToSerialize, destinationStr);
 			return;
 		}
 
-		Stream stream = destination as Stream;
-		if (stream != null)
+		if (destination is Stream stream)
 		{
 			Serialize(objectToSerialize, stream);
 			return;
 		}
 
-		BinaryWriter binaryWriter = destination as BinaryWriter;
-		if (binaryWriter != null)
+		if (destination is BinaryWriter binaryWriter)
 		{
 			Serialize(objectToSerialize, binaryWriter);
 			return;
 		}
 
-		throw (new ArgumentException(SR.ExceptionChartSerializerDestinationObjectInvalid, "destination"));
+		throw (new ArgumentException(SR.ExceptionChartSerializerDestinationObjectInvalid, nameof(destination)));
 	}
 
 	/// <summary>
@@ -2267,7 +2166,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	/// <param name="fileName">File name to serialize the data in.</param>
 	internal void Serialize(object objectToSerialize, string fileName)
 	{
-		FileStream stream = new FileStream(fileName, FileMode.Create);
+		FileStream stream = new(fileName, FileMode.Create);
 		Serialize(objectToSerialize, new BinaryWriter(stream));
 		stream.Close();
 	}
@@ -2294,18 +2193,12 @@ internal class BinaryFormatSerializer : SerializerBase
 	internal void Serialize(object objectToSerialize, BinaryWriter writer)
 	{
 		// Check input parameters
-		if (objectToSerialize == null)
-		{
-			throw (new ArgumentNullException("objectToSerialize"));
-		}
+		ArgumentNullException.ThrowIfNull(objectToSerialize);
 
-		if (writer == null)
-		{
-			throw (new ArgumentNullException("writer"));
-		}
+		ArgumentNullException.ThrowIfNull(writer);
 
 		// Write bnary format header into the stream, which consist of 15 characters
-		char[] header = new char[15] { 'D', 'C', 'B', 'F', '4', '0', '0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0' };
+		char[] header = ['D', 'C', 'B', 'F', '4', '0', '0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'];
 		writer.Write(header);
 
 
@@ -2363,13 +2256,13 @@ internal class BinaryFormatSerializer : SerializerBase
 		}
 
 		// Write object ID (hash of the name) into the writer
-		writer.Write(SerializerBase.GetStringHashCode(elementName));
+		writer.Write(GetStringHashCode(elementName));
 
 		// Remember position where object data is started
 		long elementStartPosition = writer.Seek(0, SeekOrigin.Current);
 
 		// Retrive properties list of the object
-		ArrayList propNamesList = new ArrayList();
+		ArrayList propNamesList = [];
 		PropertyInfo[] properties = objectToSerialize.GetType().GetProperties();
 		if (properties != null)
 		{
@@ -2382,7 +2275,7 @@ internal class BinaryFormatSerializer : SerializerBase
 					continue;
 				}
 				// Serialize collection
-				if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !this.SerializeICollAsAtribute(pi, objectToSerialize))
+				if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null && !SerializeICollAsAtribute(pi, objectToSerialize))
 				{
 					bool serialize = IsSerializableContent(pi.Name, objectToSerialize);
 
@@ -2484,7 +2377,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	{
 
 		// Write object ID (hash of the name) into the writer
-		writer.Write(SerializerBase.GetStringHashCode(elementName));
+		writer.Write(GetStringHashCode(elementName));
 		// Remember position where object data is started
 		long elementStartPosition = writer.Seek(0, SeekOrigin.Current);
 
@@ -2510,7 +2403,7 @@ internal class BinaryFormatSerializer : SerializerBase
 			if (entry.Key is int)
 			{
 				CommonCustomProperties propertyType = (CommonCustomProperties)((int)entry.Key);
-				String properyName = propertyType.ToString();
+				string properyName = propertyType.ToString();
 				if (IsSerializableContent(properyName, objectToSerialize))
 				{
 					SerializeProperty(entry.Value, dataPoint, properyName, writer);
@@ -2522,7 +2415,7 @@ internal class BinaryFormatSerializer : SerializerBase
 			}
 		}
 
-		if (hasCustomProperties && !String.IsNullOrEmpty(dataPoint.CustomProperties) && IsSerializableContent("CustomProperties", objectToSerialize))
+		if (hasCustomProperties && !string.IsNullOrEmpty(dataPoint.CustomProperties) && IsSerializableContent("CustomProperties", objectToSerialize))
 		{
 			SerializeProperty(dataPoint.CustomProperties, dataPoint, "CustomProperties", writer);
 		}
@@ -2552,11 +2445,10 @@ internal class BinaryFormatSerializer : SerializerBase
 	/// <param name="writer">Binary writer.</param>
 	virtual internal void SerializeCollection(object objectToSerialize, string elementName, BinaryWriter writer)
 	{
-		ICollection collection = objectToSerialize as ICollection;
-		if (collection != null)
+		if (objectToSerialize is ICollection collection)
 		{
 			// Write object ID (hash of the name) into the writer
-			writer.Write(SerializerBase.GetStringHashCode(elementName));
+			writer.Write(GetStringHashCode(elementName));
 
 			// Remember position where object data is started
 			long elementStartPosition = writer.Seek(0, SeekOrigin.Current);
@@ -2663,7 +2555,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	internal void WritePropertyValue(object obj, string elementName, BinaryWriter writer)
 	{
 		// Write property ID (hash of the name) into the writer
-		writer.Write(SerializerBase.GetStringHashCode(elementName));
+		writer.Write(GetStringHashCode(elementName));
 
 		if (obj is bool)
 		{
@@ -2707,7 +2599,7 @@ internal class BinaryFormatSerializer : SerializerBase
 		else if (obj is Font)
 		{
 			// Write as string
-			writer.Write(SerializerBase.FontToString((Font)obj));
+			writer.Write(FontToString((Font)obj));
 		}
 
 		else if (obj is Color)
@@ -2757,11 +2649,11 @@ internal class BinaryFormatSerializer : SerializerBase
 			}
 		}
 
-		else if (obj is System.Drawing.Image)
+		else if (obj is Image)
 		{
 			// Save image into the memory stream
-			MemoryStream imageStream = new MemoryStream();
-			((System.Drawing.Image)obj).Save(imageStream, ((System.Drawing.Image)obj).RawFormat);
+			MemoryStream imageStream = new();
+			((Image)obj).Save(imageStream, ((Image)obj).RawFormat);
 
 			// Write the size of the data
 			int imageSize = (int)imageStream.Seek(0, SeekOrigin.End);
@@ -2829,38 +2721,29 @@ internal class BinaryFormatSerializer : SerializerBase
 	internal override void Deserialize(object objectToDeserialize, object source)
 	{
 		// Check input parameters
-		if (objectToDeserialize == null)
-		{
-			throw (new ArgumentNullException("objectToDeserialize"));
-		}
+		ArgumentNullException.ThrowIfNull(objectToDeserialize);
 
-		if (source == null)
-		{
-			throw (new ArgumentNullException("source"));
-		}
+		ArgumentNullException.ThrowIfNull(source);
 
-		string sourceStr = source as string;
-		if (sourceStr != null)
+		if (source is string sourceStr)
 		{
 			Deserialize(objectToDeserialize, sourceStr);
 			return;
 		}
 
-		Stream stream = source as Stream;
-		if (stream != null)
+		if (source is Stream stream)
 		{
 			Deserialize(objectToDeserialize, stream);
 			return;
 		}
 
-		BinaryWriter binaryWriter = source as BinaryWriter;
-		if (binaryWriter != null)
+		if (source is BinaryWriter binaryWriter)
 		{
 			Deserialize(objectToDeserialize, binaryWriter);
 			return;
 		}
 
-		throw (new ArgumentException(SR.ExceptionChartSerializerSourceObjectInvalid, "source"));
+		throw (new ArgumentException(SR.ExceptionChartSerializerSourceObjectInvalid, nameof(source)));
 	}
 
 	/// <summary>
@@ -2870,7 +2753,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	/// <param name="fileName">File name to read the data from.</param>
 	public void Deserialize(object objectToDeserialize, string fileName)
 	{
-		FileStream stream = new FileStream(fileName, FileMode.Open);
+		FileStream stream = new(fileName, FileMode.Open);
 		Deserialize(objectToDeserialize, new BinaryReader(stream));
 		stream.Close();
 	}
@@ -2893,18 +2776,12 @@ internal class BinaryFormatSerializer : SerializerBase
 	public void Deserialize(object objectToDeserialize, BinaryReader reader)
 	{
 		// Check input parameters
-		if (objectToDeserialize == null)
-		{
-			throw (new ArgumentNullException("objectToDeserialize"));
-		}
+		ArgumentNullException.ThrowIfNull(objectToDeserialize);
 
-		if (reader == null)
-		{
-			throw (new ArgumentNullException("reader"));
-		}
+		ArgumentNullException.ThrowIfNull(reader);
 
 		// Binary deserializer do not support IsUnknownAttributeIgnored property
-		if (base.IsUnknownAttributeIgnored)
+		if (IsUnknownAttributeIgnored)
 		{
 			throw (new InvalidOperationException(SR.ExceptionChartSerializerBinaryIgnoreUnknownAttributesUnsupported));
 		}
@@ -2917,7 +2794,7 @@ internal class BinaryFormatSerializer : SerializerBase
 		}
 
 		// Get ID of the root object
-		this.ReadHashID(reader);
+		ReadHashID(reader);
 
 		// Reset properties of the root object
 		if (IsResetWhenLoading)
@@ -2953,20 +2830,19 @@ internal class BinaryFormatSerializer : SerializerBase
 		Type[] assemblyTypes = null;
 		int listItemIndex = 0;
 
-		IList list = objectToDeserialize as IList;
 
-		if (list != null)
+		if (objectToDeserialize is IList list)
 		{
+			PropertyInfo listItemPI = objectToDeserialize.GetType().GetProperty("Item", [typeof(int)]);
 			// Loop through all list items
-			Int16 typeHash = 0;
-			PropertyInfo listItemPI = objectToDeserialize.GetType().GetProperty("Item", new Type[] { typeof(int) });
-			while ((typeHash = this.ReadHashID(reader)) != 0)
+			short typeHash;
+			while ((typeHash = ReadHashID(reader)) != 0)
 			{
 				// Get collection item type from hashed type name
-				string typeName = String.Empty;
+				string typeName = string.Empty;
 				if (listItemPI != null)
 				{
-					if ((SerializerBase.GetStringHashCode(listItemPI.PropertyType.Name)) == typeHash)
+					if ((GetStringHashCode(listItemPI.PropertyType.Name)) == typeHash)
 					{
 						typeName = listItemPI.PropertyType.Name;
 					}
@@ -2976,16 +2852,13 @@ internal class BinaryFormatSerializer : SerializerBase
 						if (assembly != null)
 						{
 							// Find all classes derived from this type
-							if (assemblyTypes == null)
-							{
-								assemblyTypes = assembly.GetExportedTypes();
-							}
+							assemblyTypes ??= assembly.GetExportedTypes();
 
 							foreach (Type type in assemblyTypes)
 							{
 								if (type.IsSubclassOf(listItemPI.PropertyType))
 								{
-									if ((SerializerBase.GetStringHashCode(type.Name)) == typeHash)
+									if ((GetStringHashCode(type.Name)) == typeHash)
 									{
 										typeName = type.Name;
 										break;
@@ -3026,7 +2899,7 @@ internal class BinaryFormatSerializer : SerializerBase
 		}
 
 		// Get property information by reading the ID
-		PropertyInfo pi = null;
+		PropertyInfo pi;
 		while ((pi = ReadPropertyInfo(objectToDeserialize, parent, properties, reader)) != null)
 		{
 			// Read simple properties
@@ -3071,8 +2944,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	{
 		if (pi != null)
 		{
-			object objValue = null;
-
+			object objValue;
 
 			if (pi.PropertyType == typeof(bool))
 			{
@@ -3111,7 +2983,7 @@ internal class BinaryFormatSerializer : SerializerBase
 			else if (pi.PropertyType == typeof(Font))
 			{
 				// Read as string
-				objValue = SerializerBase.FontFromString(reader.ReadString());
+				objValue = FontFromString(reader.ReadString());
 			}
 
 			else if (pi.PropertyType == typeof(Color))
@@ -3170,19 +3042,19 @@ internal class BinaryFormatSerializer : SerializerBase
 				objValue = array;
 			}
 
-			else if (pi.PropertyType == typeof(System.Drawing.Image))
+			else if (pi.PropertyType == typeof(Image))
 			{
 				// Get image data size
 				int imageSize = reader.ReadInt32();
 
 				// Create image stream
-				MemoryStream imageStream = new MemoryStream(imageSize + 10);
+				MemoryStream imageStream = new(imageSize + 10);
 
 				// Copy image data into separate stream
 				imageStream.Write(reader.ReadBytes(imageSize), 0, imageSize);
 
 				// Create image object
-				objValue = new Bitmap(System.Drawing.Image.FromStream(imageStream));    // !!! .Net bug when image source stream is closed - can create brush using the image
+				objValue = new Bitmap(Image.FromStream(imageStream));    // !!! .Net bug when image source stream is closed - can create brush using the image
 
 				// Close image stream
 				imageStream.Close();
@@ -3218,7 +3090,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	private PropertyInfo ReadPropertyInfo(object objectToDeserialize, object parent, PropertyInfo[] properties, BinaryReader reader)
 	{
 		// Read property ID
-		short propertyID = this.ReadHashID(reader);
+		short propertyID = ReadHashID(reader);
 
 		// End objectTag reached
 		if (propertyID == 0)
@@ -3238,7 +3110,7 @@ internal class BinaryFormatSerializer : SerializerBase
 			// Check collection
 			if (pi.CanRead && pi.PropertyType.GetInterface("ICollection", true) != null)
 			{
-				if ((SerializerBase.GetStringHashCode(pi.Name)) == propertyID)
+				if ((GetStringHashCode(pi.Name)) == propertyID)
 				{
 					return pi;
 				}
@@ -3253,7 +3125,7 @@ internal class BinaryFormatSerializer : SerializerBase
 					continue;
 				}
 
-				if ((SerializerBase.GetStringHashCode(pi.Name)) == propertyID)
+				if ((GetStringHashCode(pi.Name)) == propertyID)
 				{
 					return pi;
 				}

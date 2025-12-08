@@ -63,10 +63,8 @@ public class TickMark : Grid
 	#region Private fields and Constructors
 
 	// Tick marks style
-	private TickMarkStyle _style = TickMarkStyle.OutsideArea;
 
 	// Tick marks size
-	private float _size = 1;
 
 	/// <summary>
 	/// Public default constructor
@@ -100,7 +98,7 @@ public class TickMark : Grid
 		float axisPosition; // Axis position. 
 
 		// Tick Marks are disabled
-		if (!this.enabled)
+		if (!enabled)
 		{
 			return;
 		}
@@ -112,33 +110,33 @@ public class TickMark : Grid
 		// type interval is calculated using CalcInterval function.
 		// ****************************************************************
 		double oldInterval = this.interval;
-		DateTimeIntervalType oldIntervalType = this.intervalType;
-		double oldIntervalOffset = this.intervalOffset;
-		DateTimeIntervalType oldIntervalOffsetType = this.intervalOffsetType;
-		if (!this.majorGridTick && (this.interval == 0 || double.IsNaN(this.interval)))
+		DateTimeIntervalType oldIntervalType = intervalType;
+		double oldIntervalOffset = intervalOffset;
+		DateTimeIntervalType oldIntervalOffsetType = intervalOffsetType;
+		if (!majorGridTick && (this.interval == 0 || double.IsNaN(this.interval)))
 		{
 			// Number type
-			if (this.Axis.majorGrid.GetIntervalType() == DateTimeIntervalType.Auto)
+			if (Axis.majorGrid.GetIntervalType() == DateTimeIntervalType.Auto)
 			{
-				this.interval = this.Axis.majorGrid.GetInterval() / Grid.NumberOfIntervals;
+				this.interval = Axis.majorGrid.GetInterval() / NumberOfIntervals;
 			}
 			// Date type
 			else
 			{
-				DateTimeIntervalType localIntervalType = this.Axis.majorGrid.GetIntervalType();
+				DateTimeIntervalType localIntervalType = Axis.majorGrid.GetIntervalType();
 				this.interval = Axis.CalcInterval(
-					this.Axis.ViewMinimum,
-					this.Axis.ViewMinimum + (this.Axis.ViewMaximum - this.Axis.ViewMinimum) / Grid.NumberOfDateTimeIntervals,
+					Axis.ViewMinimum,
+					Axis.ViewMinimum + (Axis.ViewMaximum - Axis.ViewMinimum) / NumberOfDateTimeIntervals,
 				true,
 				out localIntervalType,
 				ChartValueType.DateTime);
-				this.intervalType = localIntervalType;
-				this.intervalOffsetType = this.Axis.majorGrid.GetIntervalOffsetType();
-				this.intervalOffset = this.Axis.majorGrid.GetIntervalOffset();
+				intervalType = localIntervalType;
+				intervalOffsetType = Axis.majorGrid.GetIntervalOffsetType();
+				intervalOffset = Axis.majorGrid.GetIntervalOffset();
 			}
 		}
 
-		if (_style == TickMarkStyle.None)
+		if (TickMarkStyle == TickMarkStyle.None)
 		{
 			return;
 		}
@@ -181,7 +179,7 @@ public class TickMark : Grid
 			Axis.axisType == AxisName.Y ||
 			Axis.axisType == AxisName.Y2)
 		{
-			current = ChartHelper.AlignIntervalStart(current, this.GetInterval(), this.GetIntervalType(), axisSeries, this.majorGridTick);
+			current = ChartHelper.AlignIntervalStart(current, GetInterval(), GetIntervalType(), axisSeries, majorGridTick);
 		}
 
 		// The Current position is start position, not minimum
@@ -192,7 +190,7 @@ public class TickMark : Grid
 		}
 
 		// Too many tick marks
-		if ((Axis.ViewMaximum - Axis.ViewMinimum) / ChartHelper.GetIntervalSize(current, this.GetInterval(), this.GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true) > ChartHelper.MaxNumOfGridlines)
+		if ((Axis.ViewMaximum - Axis.ViewMinimum) / ChartHelper.GetIntervalSize(current, GetInterval(), GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true) > ChartHelper.MaxNumOfGridlines)
 		{
 			return;
 		}
@@ -207,11 +205,11 @@ public class TickMark : Grid
 		// Axis scroll bar will increase size of the Outside and Cross style tick marks
 		float scrollBarSize = 0;
 
-		if (this.Axis.ScrollBar.IsVisible &&
-			this.Axis.ScrollBar.IsPositionedInside &&
-			(this.Axis.IsAxisOnAreaEdge || !this.Axis.IsMarksNextToAxis))
+		if (Axis.ScrollBar.IsVisible &&
+			Axis.ScrollBar.IsPositionedInside &&
+			(Axis.IsAxisOnAreaEdge || !Axis.IsMarksNextToAxis))
 		{
-			scrollBarSize = (float)this.Axis.ScrollBar.GetScrollBarRelativeSize();
+			scrollBarSize = (float)Axis.ScrollBar.GetScrollBarRelativeSize();
 		}
 
 		// Left tickmarks
@@ -220,24 +218,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
+			{
 				axisPosition = (float)Axis.GetAxisPosition();
+			}
 			else
+			{
 				axisPosition = Axis.PlotAreaPosition.X;
+			}
 
-			if (_style == TickMarkStyle.InsideArea)
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
 			{
 				first.X = axisPosition;
-				second.X = axisPosition + _size;
+				second.X = axisPosition + Size;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
-				first.X = axisPosition - _size - scrollBarSize;
+				first.X = axisPosition - Size - scrollBarSize;
 				second.X = axisPosition;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.X = axisPosition - _size / 2 - scrollBarSize;
-				second.X = axisPosition + _size / 2;
+				first.X = axisPosition - Size / 2 - scrollBarSize;
+				second.X = axisPosition + Size / 2;
 			}
 		}
 
@@ -247,24 +249,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
-				axisPosition = (float)Axis.GetAxisPosition();
-			else
-				axisPosition = Axis.PlotAreaPosition.Right;
-
-			if (_style == TickMarkStyle.InsideArea)
 			{
-				first.X = axisPosition - _size;
+				axisPosition = (float)Axis.GetAxisPosition();
+			}
+			else
+			{
+				axisPosition = Axis.PlotAreaPosition.Right;
+			}
+
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
+			{
+				first.X = axisPosition - Size;
 				second.X = axisPosition;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
 				first.X = axisPosition;
-				second.X = axisPosition + _size + scrollBarSize;
+				second.X = axisPosition + Size + scrollBarSize;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.X = axisPosition - _size / 2;
-				second.X = axisPosition + _size / 2 + scrollBarSize;
+				first.X = axisPosition - Size / 2;
+				second.X = axisPosition + Size / 2 + scrollBarSize;
 			}
 		}
 
@@ -274,24 +280,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
+			{
 				axisPosition = (float)Axis.GetAxisPosition();
+			}
 			else
+			{
 				axisPosition = Axis.PlotAreaPosition.Y;
+			}
 
-			if (_style == TickMarkStyle.InsideArea)
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
 			{
 				first.Y = axisPosition;
-				second.Y = axisPosition + _size;
+				second.Y = axisPosition + Size;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
-				first.Y = axisPosition - _size - scrollBarSize;
+				first.Y = axisPosition - Size - scrollBarSize;
 				second.Y = axisPosition;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.Y = axisPosition - _size / 2 - scrollBarSize;
-				second.Y = axisPosition + _size / 2;
+				first.Y = axisPosition - Size / 2 - scrollBarSize;
+				second.Y = axisPosition + Size / 2;
 			}
 		}
 
@@ -301,24 +311,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
-				axisPosition = (float)Axis.GetAxisPosition();
-			else
-				axisPosition = Axis.PlotAreaPosition.Bottom;
-
-			if (_style == TickMarkStyle.InsideArea)
 			{
-				first.Y = axisPosition - _size;
+				axisPosition = (float)Axis.GetAxisPosition();
+			}
+			else
+			{
+				axisPosition = Axis.PlotAreaPosition.Bottom;
+			}
+
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
+			{
+				first.Y = axisPosition - Size;
 				second.Y = axisPosition;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
 				first.Y = axisPosition;
-				second.Y = axisPosition + _size + scrollBarSize;
+				second.Y = axisPosition + Size + scrollBarSize;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.Y = axisPosition - _size / 2;
-				second.Y = axisPosition + _size / 2 + scrollBarSize;
+				first.Y = axisPosition - Size / 2;
+				second.Y = axisPosition + Size / 2 + scrollBarSize;
 			}
 		}
 
@@ -327,18 +341,18 @@ public class TickMark : Grid
 		int counter = 0;
 		int logStep = 1;
 		double oldCurrent = current;
-		double interval = 0;
 		while (current <= Axis.ViewMaximum)
 		{
 			double logInterval = 0;
 
+			double interval;
 			// Take an interval between gridlines. Interval 
 			// depends on interval type.
-			if (this.majorGridTick || this.Axis.IsLogarithmic == false)
+			if (majorGridTick || Axis.IsLogarithmic == false)
 			{
 				// Take an interval between tickmarks. Interval 
 				// depends on interval type.
-				interval = ChartHelper.GetIntervalSize(current, this.GetInterval(), this.GetIntervalType(), axisSeries, this.GetIntervalOffset(), offsetType, true);
+				interval = ChartHelper.GetIntervalSize(current, GetInterval(), GetIntervalType(), axisSeries, GetIntervalOffset(), offsetType, true);
 
 			}
 			// Code for linear minor gridlines and tickmarks 
@@ -351,7 +365,7 @@ public class TickMark : Grid
 				// if logarithmic base is 2 and interval is between 4 and 8; current value 
 				// is 5.6; this method will return linearised value for 4. This code works 
 				// like Math.Floor for logarithmic scale.
-				double logMinimum = this.GetLogMinimum(current, axisSeries);
+				double logMinimum = GetLogMinimum(current, axisSeries);
 
 				if (oldCurrent != logMinimum)
 				{
@@ -369,7 +383,7 @@ public class TickMark : Grid
 				logStep++;
 
 				// Reset current position if major interval is passed.
-				if (this.GetLogMinimum(current + logInterval, axisSeries) != logMinimum)
+				if (GetLogMinimum(current + logInterval, axisSeries) != logMinimum)
 				{
 					current += logInterval;
 					continue;
@@ -397,11 +411,11 @@ public class TickMark : Grid
 			}
 
 			// Do not draw the very first tick mark for circular chart area
-			if (this.Axis != null && this.Axis.ChartArea != null)
+			if (Axis != null && Axis.ChartArea != null)
 			{
-				if (this.Axis.ChartArea.chartAreaIsCurcular &&
-					((this.Axis.IsReversed == false && current == Axis.ViewMinimum) ||
-					(this.Axis.IsReversed == true && current == Axis.ViewMaximum)))
+				if (Axis.ChartArea.chartAreaIsCurcular &&
+					((Axis.IsReversed == false && current == Axis.ViewMinimum) ||
+					(Axis.IsReversed == true && current == Axis.ViewMaximum)))
 				{
 					current += interval;
 
@@ -409,7 +423,7 @@ public class TickMark : Grid
 				}
 			}
 
-			if (!this.majorGridTick && this.Axis.IsLogarithmic)
+			if (!majorGridTick && Axis.IsLogarithmic)
 			{
 				current += logInterval;
 
@@ -451,30 +465,30 @@ public class TickMark : Grid
 
 				if (Axis.Common.ProcessModeRegions)
 				{
-					if (this.Axis.ChartArea.chartAreaIsCurcular)
+					if (Axis.ChartArea.chartAreaIsCurcular)
 					{
-						RectangleF rect = new RectangleF(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
-						using (GraphicsPath path = new GraphicsPath())
-						{
-							path.AddRectangle(graph.GetAbsoluteRectangle(rect));
-							path.Transform(graph.Transform);
-							this.Axis.Common.HotRegionsList.AddHotRegion(
-								path,
-								false,
-								ChartElementType.TickMarks,
-								this);
-						}
+						RectangleF rect = new(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
+						using GraphicsPath path = new();
+						path.AddRectangle(graph.GetAbsoluteRectangle(rect));
+						path.Transform(graph.Transform);
+						Axis.Common.HotRegionsList.AddHotRegion(
+							path,
+							false,
+							ChartElementType.TickMarks,
+							this);
 					}
-					else if (!this.Axis.ChartArea.Area3DStyle.Enable3D || this.Axis.ChartArea.chartAreaIsCurcular)
+					else if (!Axis.ChartArea.Area3DStyle.Enable3D || Axis.ChartArea.chartAreaIsCurcular)
 					{
-						RectangleF rect = new RectangleF(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
+						RectangleF rect = new(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
 
 						Axis.Common.HotRegionsList.AddHotRegion(rect, this, ChartElementType.TickMarks, true);
 					}
 					else
 					{
 						if (!Axis.Common.ProcessModePaint) //if ProcessModePaint is true it will be called later
+						{
 							Draw3DTickLine(graph, first, second, backElements);
+						}
 					}
 
 				}
@@ -482,7 +496,7 @@ public class TickMark : Grid
 				if (Axis.Common.ProcessModePaint)
 				{
 					// Draw grid line
-					if (!this.Axis.ChartArea.Area3DStyle.Enable3D || this.Axis.ChartArea.chartAreaIsCurcular)
+					if (!Axis.ChartArea.Area3DStyle.Enable3D || Axis.ChartArea.chartAreaIsCurcular)
 					{
 						graph.DrawLineRel(borderColor, borderWidth, borderDashStyle, first, second);
 					}
@@ -494,7 +508,7 @@ public class TickMark : Grid
 			}
 
 			// Move position
-			if (this.majorGridTick || this.Axis.IsLogarithmic == false)
+			if (majorGridTick || Axis.IsLogarithmic == false)
 			{
 				current += interval;
 			}
@@ -502,12 +516,12 @@ public class TickMark : Grid
 
 		// Used for auto interval for auto tick marks and 
 		// gridlines
-		if (!this.majorGridTick)
+		if (!majorGridTick)
 		{
 			this.interval = oldInterval;
-			this.intervalType = oldIntervalType;
-			this.intervalOffset = oldIntervalOffset;
-			this.intervalOffsetType = oldIntervalOffsetType;
+			intervalType = oldIntervalType;
+			intervalOffset = oldIntervalOffset;
+			intervalOffsetType = oldIntervalOffsetType;
 		}
 	}
 
@@ -545,9 +559,9 @@ public class TickMark : Grid
 		// Axis scroll bar will increase size of the Outside and Cross style tick marks
 		float scrollBarSize = 0;
 
-		if (this.Axis.ScrollBar.IsVisible && this.Axis.ScrollBar.IsPositionedInside && this.Axis.IsAxisOnAreaEdge)
+		if (Axis.ScrollBar.IsVisible && Axis.ScrollBar.IsPositionedInside && Axis.IsAxisOnAreaEdge)
 		{
-			scrollBarSize = (float)this.Axis.ScrollBar.GetScrollBarRelativeSize();
+			scrollBarSize = (float)Axis.ScrollBar.GetScrollBarRelativeSize();
 		}
 
 		// Left tickmarks
@@ -556,24 +570,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
+			{
 				axisPosition = (float)Axis.GetAxisPosition();
+			}
 			else
+			{
 				axisPosition = Axis.PlotAreaPosition.X;
+			}
 
-			if (_style == TickMarkStyle.InsideArea)
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
 			{
 				first.X = axisPosition;
-				second.X = axisPosition + _size;
+				second.X = axisPosition + Size;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
-				first.X = axisPosition - _size - scrollBarSize;
+				first.X = axisPosition - Size - scrollBarSize;
 				second.X = axisPosition;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.X = axisPosition - _size / 2 - scrollBarSize;
-				second.X = axisPosition + _size / 2;
+				first.X = axisPosition - Size / 2 - scrollBarSize;
+				second.X = axisPosition + Size / 2;
 			}
 		}
 
@@ -583,24 +601,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
-				axisPosition = (float)Axis.GetAxisPosition();
-			else
-				axisPosition = Axis.PlotAreaPosition.Right;
-
-			if (_style == TickMarkStyle.InsideArea)
 			{
-				first.X = axisPosition - _size;
+				axisPosition = (float)Axis.GetAxisPosition();
+			}
+			else
+			{
+				axisPosition = Axis.PlotAreaPosition.Right;
+			}
+
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
+			{
+				first.X = axisPosition - Size;
 				second.X = axisPosition;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
 				first.X = axisPosition;
-				second.X = axisPosition + _size + scrollBarSize;
+				second.X = axisPosition + Size + scrollBarSize;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.X = axisPosition - _size / 2;
-				second.X = axisPosition + _size / 2 + scrollBarSize;
+				first.X = axisPosition - Size / 2;
+				second.X = axisPosition + Size / 2 + scrollBarSize;
 			}
 		}
 
@@ -610,24 +632,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
+			{
 				axisPosition = (float)Axis.GetAxisPosition();
+			}
 			else
+			{
 				axisPosition = Axis.PlotAreaPosition.Y;
+			}
 
-			if (_style == TickMarkStyle.InsideArea)
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
 			{
 				first.Y = axisPosition;
-				second.Y = axisPosition + _size;
+				second.Y = axisPosition + Size;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
-				first.Y = axisPosition - _size - scrollBarSize;
+				first.Y = axisPosition - Size - scrollBarSize;
 				second.Y = axisPosition;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.Y = axisPosition - _size / 2 - scrollBarSize;
-				second.Y = axisPosition + _size / 2;
+				first.Y = axisPosition - Size / 2 - scrollBarSize;
+				second.Y = axisPosition + Size / 2;
 			}
 		}
 
@@ -637,24 +663,28 @@ public class TickMark : Grid
 			// The tick marks will follow axis or they will 
 			// be always on the border of the chart area.
 			if (Axis.GetIsMarksNextToAxis())
-				axisPosition = (float)Axis.GetAxisPosition();
-			else
-				axisPosition = Axis.PlotAreaPosition.Bottom;
-
-			if (_style == TickMarkStyle.InsideArea)
 			{
-				first.Y = axisPosition - _size;
+				axisPosition = (float)Axis.GetAxisPosition();
+			}
+			else
+			{
+				axisPosition = Axis.PlotAreaPosition.Bottom;
+			}
+
+			if (TickMarkStyle == TickMarkStyle.InsideArea)
+			{
+				first.Y = axisPosition - Size;
 				second.Y = axisPosition;
 			}
-			else if (_style == TickMarkStyle.OutsideArea)
+			else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
 				first.Y = axisPosition;
-				second.Y = axisPosition + _size + scrollBarSize;
+				second.Y = axisPosition + Size + scrollBarSize;
 			}
-			else if (_style == TickMarkStyle.AcrossAxis)
+			else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				first.Y = axisPosition - _size / 2;
-				second.Y = axisPosition + _size / 2 + scrollBarSize;
+				first.Y = axisPosition - Size / 2;
+				second.Y = axisPosition + Size / 2 + scrollBarSize;
 			}
 		}
 
@@ -696,9 +726,9 @@ public class TickMark : Grid
 
 					if (Axis.Common.ProcessModeRegions)
 					{
-						if (!this.Axis.ChartArea.Area3DStyle.Enable3D || this.Axis.ChartArea.chartAreaIsCurcular)
+						if (!Axis.ChartArea.Area3DStyle.Enable3D || Axis.ChartArea.chartAreaIsCurcular)
 						{
-							RectangleF rect = new RectangleF(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
+							RectangleF rect = new(first.X - 0.5f, first.Y - 0.5f, Math.Abs(second.X - first.X) + 1, Math.Abs(second.Y - first.Y) + 1);
 
 							Axis.Common.HotRegionsList.AddHotRegion(rect, this, ChartElementType.TickMarks, true);
 						}
@@ -711,7 +741,7 @@ public class TickMark : Grid
 					if (Axis.Common.ProcessModePaint)
 					{
 						// Draw grid line
-						if (!this.Axis.ChartArea.Area3DStyle.Enable3D || this.Axis.ChartArea.chartAreaIsCurcular)
+						if (!Axis.ChartArea.Area3DStyle.Enable3D || Axis.ChartArea.chartAreaIsCurcular)
 						{
 							graph.DrawLineRel(borderColor, borderWidth, borderDashStyle, first, second);
 						}
@@ -740,7 +770,7 @@ public class TickMark : Grid
 		)
 	{
 
-		ChartArea area = this.Axis.ChartArea;
+		ChartArea area = Axis.ChartArea;
 
 		//*****************************************************************
 		//** Set the tick marks line depth
@@ -755,10 +785,10 @@ public class TickMark : Grid
 		// Check if axis tick marks are drawn inside plotting area
 		bool tickMarksOnEdge = axisOnEdge;
 		if (tickMarksOnEdge &&
-				this.Axis.MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
-				this.Axis.MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea ||
-				this.Axis.MinorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
-				this.Axis.MinorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
+				Axis.MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
+				Axis.MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea ||
+				Axis.MinorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
+				Axis.MinorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
 		{
 			tickMarksOnEdge = false;
 		}
@@ -808,29 +838,29 @@ public class TickMark : Grid
 				// Always use plot area position to draw tick mark
 				float axisPosition = Axis.PlotAreaPosition.Y;
 
-				if (_style == TickMarkStyle.InsideArea)
+				if (TickMarkStyle == TickMarkStyle.InsideArea)
 				{
 					point1.Y = axisPosition;
-					point2.Y = axisPosition + _size;
+					point2.Y = axisPosition + Size;
 
 					point3 = new Point3D(point1.X, point1.Y, -area.areaSceneWallWidth.Width);
 					point4 = new Point3D(point1.X, point1.Y, 0f);
 				}
-				else if (_style == TickMarkStyle.OutsideArea)
+				else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 				{
 					point1.Y = axisPosition;
 					point2.Y = axisPosition;
 
 					point3 = new Point3D(point1.X, axisPosition, wallZPosition);
-					point4 = new Point3D(point1.X, point1.Y, -_size - area.areaSceneWallWidth.Width);
+					point4 = new Point3D(point1.X, point1.Y, -Size - area.areaSceneWallWidth.Width);
 				}
-				else if (_style == TickMarkStyle.AcrossAxis)
+				else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 				{
 					point1.Y = axisPosition;
-					point2.Y = axisPosition + _size / 2;
+					point2.Y = axisPosition + Size / 2;
 
 					point3 = new Point3D(point1.X, axisPosition, wallZPosition);
-					point4 = new Point3D(point1.X, point1.Y, -_size / 2 - area.areaSceneWallWidth.Width);
+					point4 = new Point3D(point1.X, point1.Y, -Size / 2 - area.areaSceneWallWidth.Width);
 				}
 
 				// Do not show "bent" tick marks on the top surface
@@ -849,29 +879,29 @@ public class TickMark : Grid
 				// Always use plot area position to draw tick mark
 				float axisPosition = Axis.PlotAreaPosition.X;
 
-				if (_style == TickMarkStyle.InsideArea)
+				if (TickMarkStyle == TickMarkStyle.InsideArea)
 				{
 					point1.X = axisPosition;
-					point2.X = axisPosition + _size;
+					point2.X = axisPosition + Size;
 
 					point3 = new Point3D(point1.X, point1.Y, -area.areaSceneWallWidth.Width);
 					point4 = new Point3D(point1.X, point1.Y, 0f);
 				}
-				else if (_style == TickMarkStyle.OutsideArea)
+				else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 				{
 					point1.X = axisPosition;
 					point2.X = axisPosition;
 
 					point3 = new Point3D(axisPosition, point1.Y, wallZPosition);
-					point4 = new Point3D(axisPosition, point1.Y, -_size - area.areaSceneWallWidth.Width);
+					point4 = new Point3D(axisPosition, point1.Y, -Size - area.areaSceneWallWidth.Width);
 				}
-				else if (_style == TickMarkStyle.AcrossAxis)
+				else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 				{
 					point1.X = axisPosition;
-					point2.X = axisPosition + _size / 2;
+					point2.X = axisPosition + Size / 2;
 
 					point3 = new Point3D(axisPosition, point1.Y, wallZPosition);
-					point4 = new Point3D(axisPosition, point1.Y, -_size / 2 - area.areaSceneWallWidth.Width);
+					point4 = new Point3D(axisPosition, point1.Y, -Size / 2 - area.areaSceneWallWidth.Width);
 				}
 
 				// Do not show "bent" tick marks on the left surface
@@ -890,30 +920,30 @@ public class TickMark : Grid
 				// Always use plot area position to draw tick mark
 				float axisPosition = Axis.PlotAreaPosition.Right;
 
-				if (_style == TickMarkStyle.InsideArea)
+				if (TickMarkStyle == TickMarkStyle.InsideArea)
 				{
-					point1.X = axisPosition - _size;
+					point1.X = axisPosition - Size;
 					point2.X = axisPosition;
 
 					point3 = new Point3D(point2.X, point2.Y, -area.areaSceneWallWidth.Width);
 					point4 = new Point3D(point2.X, point2.Y, 0f);
 				}
-				else if (_style == TickMarkStyle.OutsideArea)
+				else if (TickMarkStyle == TickMarkStyle.OutsideArea)
 				{
 					point1.X = axisPosition;
 					point2.X = axisPosition;
 
 					point3 = new Point3D(axisPosition, point1.Y, wallZPosition);
-					point4 = new Point3D(axisPosition, point1.Y, -_size - area.areaSceneWallWidth.Width);
+					point4 = new Point3D(axisPosition, point1.Y, -Size - area.areaSceneWallWidth.Width);
 
 				}
-				else if (_style == TickMarkStyle.AcrossAxis)
+				else if (TickMarkStyle == TickMarkStyle.AcrossAxis)
 				{
-					point1.X = axisPosition - _size / 2;
+					point1.X = axisPosition - Size / 2;
 					point2.X = axisPosition;
 
 					point3 = new Point3D(axisPosition, point1.Y, wallZPosition);
-					point4 = new Point3D(axisPosition, point1.Y, -_size / 2 - area.areaSceneWallWidth.Width);
+					point4 = new Point3D(axisPosition, point1.Y, -Size / 2 - area.areaSceneWallWidth.Width);
 				}
 
 				// Do not show "bent" tick marks on the right surface
@@ -969,18 +999,11 @@ public class TickMark : Grid
 	DefaultValue(TickMarkStyle.OutsideArea),
 	SRDescription("DescriptionAttributeTickMark_Style")
 	]
-	public TickMarkStyle TickMarkStyle
-	{
-		get
+	public TickMarkStyle TickMarkStyle { get; set
 		{
-			return _style;
-		}
-		set
-		{
-			_style = value;
-			this.Invalidate();
-		}
-	}
+			field = value;
+			Invalidate();
+		} } = TickMarkStyle.OutsideArea;
 
 	/// <summary>
 	/// Tick mark size.
@@ -991,18 +1014,11 @@ public class TickMark : Grid
 	DefaultValue(1.0F),
 	SRDescription("DescriptionAttributeTickMark_Size")
 	]
-	public float Size
-	{
-		get
+	public float Size { get; set
 		{
-			return _size;
-		}
-		set
-		{
-			_size = value;
-			this.Invalidate();
-		}
-	}
+			field = value;
+			Invalidate();
+		} } = 1;
 
 	#endregion
 }
@@ -1021,7 +1037,6 @@ public class Grid
 	#region Grid fields and Constructors
 
 	// Reference to the Axis object
-	private Axis _axis = null;
 
 	// Flags indicate that interval properties where changed
 	internal bool intervalOffsetChanged = false;
@@ -1073,8 +1088,8 @@ public class Grid
 	internal void Initialize(Axis axis, bool major)
 	{
 		// Minor elements are disabled by default
-		if (!this.enabledChanged &&
-			this._axis == null &&
+		if (!enabledChanged &&
+			Axis == null &&
 			!major)
 		{
 			enabled = false;
@@ -1083,60 +1098,60 @@ public class Grid
 		// If object was first created and populated with data and then added into the axis 
 		// we need to remember changed values.
 		// NOTE: Fixes issue #6237
-		if (this._axis == null)
+		if (Axis == null)
 		{
 			TickMark tickMark = this as TickMark;
 
-			if (this.interval != 0)
+			if (interval != 0)
 			{
 				if (tickMark != null)
 				{
 					if (major)
 					{
-						axis.tempMajorTickMarkInterval = this.interval;
+						axis.tempMajorTickMarkInterval = interval;
 					}
 					else
 					{
-						axis.tempMinorTickMarkInterval = this.interval;
+						axis.tempMinorTickMarkInterval = interval;
 					}
 				}
 				else
 				{
 					if (major)
 					{
-						axis.tempMajorGridInterval = this.interval;
+						axis.tempMajorGridInterval = interval;
 					}
 					else
 					{
-						axis.tempMinorGridInterval = this.interval;
+						axis.tempMinorGridInterval = interval;
 					}
 				}
 			}
 
-			if (this.intervalType != DateTimeIntervalType.Auto)
+			if (intervalType != DateTimeIntervalType.Auto)
 			{
 				if (tickMark != null)
 				{
 					if (major)
 					{
-						axis.tempTickMarkIntervalType = this.intervalType;
+						axis.tempTickMarkIntervalType = intervalType;
 					}
 				}
 				else
 				{
 					if (major)
 					{
-						axis.tempGridIntervalType = this.intervalType;
+						axis.tempGridIntervalType = intervalType;
 					}
 				}
 			}
 		}
 
 		// Set axis object reference
-		this._axis = axis;
+		Axis = axis;
 
 		// Set a flag if this object represent minor or major tick
-		this.majorGridTick = major;
+		majorGridTick = major;
 
 		//		internal double							interval = 0;
 		//		internal DateTimeIntervalType			intervalType = DateTimeIntervalType.Auto;
@@ -1152,17 +1167,14 @@ public class Grid
 	/// <returns>Axis object.</returns>
 	internal Axis GetAxis()
 	{
-		return _axis;
+		return Axis;
 	}
 	/// <summary>
 	/// Invalidate chart area the axis belong to.
 	/// </summary>
 	internal void Invalidate()
 	{
-		if (this._axis != null)
-		{
-			this._axis.Invalidate();
-		}
+		Axis?.Invalidate();
 	}
 
 	#endregion
@@ -1176,13 +1188,13 @@ public class Grid
 	internal void Paint(ChartGraphics graph)
 	{
 		// Grids are disabled
-		if (!this.enabled)
+		if (!enabled)
 		{
 			return;
 		}
 
 		// Check if custom grid lines should be drawn from custom labels
-		if (_axis.IsCustomGridLines())
+		if (Axis.IsCustomGridLines())
 		{
 			PaintCustom(graph);
 			return;
@@ -1193,12 +1205,12 @@ public class Grid
 
 		// Get first series attached to this axis
 		Series axisSeries = null;
-		if (_axis.axisType == AxisName.X || _axis.axisType == AxisName.X2)
+		if (Axis.axisType == AxisName.X || Axis.axisType == AxisName.X2)
 		{
-			List<string> seriesArray = _axis.ChartArea.GetXAxesSeries((_axis.axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, _axis.SubAxisName);
+			List<string> seriesArray = Axis.ChartArea.GetXAxesSeries((Axis.axisType == AxisName.X) ? AxisType.Primary : AxisType.Secondary, Axis.SubAxisName);
 			if (seriesArray.Count > 0)
 			{
-				axisSeries = _axis.Common.DataManager.Series[seriesArray[0]];
+				axisSeries = Axis.Common.DataManager.Series[seriesArray[0]];
 				if (axisSeries != null && !axisSeries.IsXValueIndexed)
 				{
 					axisSeries = null;
@@ -1212,35 +1224,35 @@ public class Grid
 		// or gridlines between major gridlines and tickmarks. For date 
 		// type interval is calculated using CalcInterval function.
 		// ****************************************************************
-		double oldInterval = this.interval;
-		DateTimeIntervalType oldIntervalType = this.intervalType;
-		double oldIntervalOffset = this.intervalOffset;
-		DateTimeIntervalType oldIntervalOffsetType = this.intervalOffsetType;
-		if (!this.majorGridTick && (this.interval == 0 || double.IsNaN(this.interval)))
+		double oldInterval = interval;
+		DateTimeIntervalType oldIntervalType = intervalType;
+		double oldIntervalOffset = intervalOffset;
+		DateTimeIntervalType oldIntervalOffsetType = intervalOffsetType;
+		if (!majorGridTick && (interval == 0 || double.IsNaN(interval)))
 		{
 			// Number type
-			if (this._axis.majorGrid.GetIntervalType() == DateTimeIntervalType.Auto)
+			if (Axis.majorGrid.GetIntervalType() == DateTimeIntervalType.Auto)
 			{
-				this.interval = this._axis.majorGrid.GetInterval() / Grid.NumberOfIntervals;
+				interval = Axis.majorGrid.GetInterval() / NumberOfIntervals;
 			}
 			// Date type
 			else
 			{
-				DateTimeIntervalType localIntervalType = this._axis.majorGrid.GetIntervalType();
-				this.interval = _axis.CalcInterval(
-					this._axis.minimum,
-					this._axis.minimum + (this._axis.maximum - this._axis.minimum) / Grid.NumberOfDateTimeIntervals,
+				DateTimeIntervalType localIntervalType = Axis.majorGrid.GetIntervalType();
+				interval = Axis.CalcInterval(
+					Axis.minimum,
+					Axis.minimum + (Axis.maximum - Axis.minimum) / NumberOfDateTimeIntervals,
 					true,
 					out localIntervalType,
 					ChartValueType.DateTime);
-				this.intervalType = localIntervalType;
-				this.intervalOffsetType = this._axis.majorGrid.GetIntervalOffsetType();
-				this.intervalOffset = this._axis.majorGrid.GetIntervalOffset();
+				intervalType = localIntervalType;
+				intervalOffsetType = Axis.majorGrid.GetIntervalOffsetType();
+				intervalOffset = Axis.majorGrid.GetIntervalOffset();
 			}
 		}
 
 		// Current position for grid lines is minimum
-		current = _axis.ViewMinimum;
+		current = Axis.ViewMinimum;
 
 
 		// ***********************************
@@ -1248,11 +1260,11 @@ public class Grid
 		// ***********************************
 
 		// Adjust start position depending on the interval type
-		if (!_axis.ChartArea.chartAreaIsCurcular ||
-			_axis.axisType == AxisName.Y ||
-			_axis.axisType == AxisName.Y2)
+		if (!Axis.ChartArea.chartAreaIsCurcular ||
+			Axis.axisType == AxisName.Y ||
+			Axis.axisType == AxisName.Y2)
 		{
-			current = ChartHelper.AlignIntervalStart(current, this.GetInterval(), this.GetIntervalType(), axisSeries, this.majorGridTick);
+			current = ChartHelper.AlignIntervalStart(current, GetInterval(), GetIntervalType(), axisSeries, majorGridTick);
 		}
 
 		// The Current position is start position, not minimum
@@ -1263,31 +1275,37 @@ public class Grid
 		}
 
 		// Too many gridlines
-		if ((_axis.ViewMaximum - _axis.ViewMinimum) / ChartHelper.GetIntervalSize(current, this.GetInterval(), this.GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true) > ChartHelper.MaxNumOfGridlines)
+		if ((Axis.ViewMaximum - Axis.ViewMinimum) / ChartHelper.GetIntervalSize(current, GetInterval(), GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true) > ChartHelper.MaxNumOfGridlines)
+		{
 			return;
+		}
 
 		// If Maximum, minimum and interval don’t have 
 		// proper value do not draw grid lines.
-		if (_axis.ViewMaximum <= _axis.ViewMinimum)
+		if (Axis.ViewMaximum <= Axis.ViewMinimum)
+		{
 			return;
+		}
 
-		if (this.GetInterval() <= 0)
+		if (GetInterval() <= 0)
+		{
 			return;
+		}
 
 		// Loop for drawing grid lines
 		int counter = 0;
 		int logStep = 1;
 		double oldCurrent = current;
-		decimal viewMaximum = (decimal)_axis.ViewMaximum;
+		decimal viewMaximum = (decimal)Axis.ViewMaximum;
 		while ((decimal)current <= viewMaximum)
 		{
 			// Take an interval between gridlines. Interval 
 			// depends on interval type.
-			if (this.majorGridTick || this._axis.IsLogarithmic == false)
+			if (majorGridTick || Axis.IsLogarithmic == false)
 			{
-				double autoInterval = this.GetInterval();
+				double autoInterval = GetInterval();
 
-				gridInterval = ChartHelper.GetIntervalSize(current, autoInterval, this.GetIntervalType(), axisSeries, this.GetIntervalOffset(), offsetType, true);
+				gridInterval = ChartHelper.GetIntervalSize(current, autoInterval, GetIntervalType(), axisSeries, GetIntervalOffset(), offsetType, true);
 
 				// Check interval size
 				if (gridInterval == 0)
@@ -1296,7 +1314,7 @@ public class Grid
 				}
 
 				// Draw between min & max values only
-				if ((decimal)current >= (decimal)_axis.ViewMinimum)
+				if ((decimal)current >= (decimal)Axis.ViewMinimum)
 				{
 					DrawGrid(graph, current);
 				}
@@ -1314,7 +1332,7 @@ public class Grid
 				// if logarithmic base is 2 and interval is between 4 and 8; current value 
 				// is 5.6; this method will return linearised value for 4. This code works 
 				// like Math.Floor for logarithmic scale.
-				double logMinimum = this.GetLogMinimum(current, axisSeries);
+				double logMinimum = GetLogMinimum(current, axisSeries);
 
 				if (oldCurrent != logMinimum)
 				{
@@ -1323,7 +1341,7 @@ public class Grid
 				}
 
 				// Find interval for logarithmic linearised scale
-				double logInterval = Math.Log(1 + this.interval * logStep, _axis.logarithmBase);
+				double logInterval = Math.Log(1 + interval * logStep, Axis.logarithmBase);
 
 				current = oldCurrent;
 
@@ -1333,7 +1351,7 @@ public class Grid
 				logStep++;
 
 				// Reset current position if major interval is passed.
-				if (this.GetLogMinimum(current, axisSeries) != logMinimum)
+				if (GetLogMinimum(current, axisSeries) != logMinimum)
 				{
 					continue;
 				}
@@ -1345,7 +1363,7 @@ public class Grid
 				}
 
 				// Draw between min & max values only
-				if ((decimal)current >= (decimal)_axis.ViewMinimum && (decimal)current <= (decimal)_axis.ViewMaximum)
+				if ((decimal)current >= (decimal)Axis.ViewMinimum && (decimal)current <= (decimal)Axis.ViewMaximum)
 				{
 					DrawGrid(graph, current);
 				}
@@ -1360,12 +1378,12 @@ public class Grid
 
 		// Used for auto interval for auto tick marks and 
 		// gridlines
-		if (!this.majorGridTick)
+		if (!majorGridTick)
 		{
-			this.interval = oldInterval;
-			this.intervalType = oldIntervalType;
-			this.intervalOffset = oldIntervalOffset;
-			this.intervalOffsetType = oldIntervalOffsetType;
+			interval = oldInterval;
+			intervalType = oldIntervalType;
+			intervalOffset = oldIntervalOffset;
+			intervalOffsetType = oldIntervalOffsetType;
 		}
 	}
 
@@ -1378,7 +1396,7 @@ public class Grid
 	/// <returns>Returns Minimum for the range which contains current value</returns>
 	private double GetLogMinimum(double current, Series axisSeries)
 	{
-		double viewMinimum = _axis.ViewMinimum;
+		double viewMinimum = Axis.ViewMinimum;
 		DateTimeIntervalType offsetType = (GetIntervalOffsetType() == DateTimeIntervalType.Auto) ? GetIntervalType() : GetIntervalOffsetType();
 		if (GetIntervalOffset() != 0 && axisSeries == null)
 		{
@@ -1397,88 +1415,88 @@ public class Grid
 	private void DrawGrid(ChartGraphics graph, double current)
 	{
 		// Common elements
-		CommonElements common = this._axis.Common;
+		CommonElements common = Axis.Common;
 
 		PointF first = PointF.Empty; // The First point of a grid line
 		PointF second = PointF.Empty; // The Second point of a grid line
 		RectangleF plotArea; // Plot area position
 
-		plotArea = _axis.PlotAreaPosition.ToRectangleF();
+		plotArea = Axis.PlotAreaPosition.ToRectangleF();
 
 		// Horizontal gridlines
-		if (_axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right)
+		if (Axis.AxisPosition == AxisPosition.Left || Axis.AxisPosition == AxisPosition.Right)
 		{
 			first.X = plotArea.X;
 			second.X = plotArea.Right;
-			first.Y = (float)_axis.GetLinearPosition(current);
+			first.Y = (float)Axis.GetLinearPosition(current);
 			second.Y = first.Y;
 		}
 
 		// Vertical gridlines
-		if (_axis.AxisPosition == AxisPosition.Top || _axis.AxisPosition == AxisPosition.Bottom)
+		if (Axis.AxisPosition == AxisPosition.Top || Axis.AxisPosition == AxisPosition.Bottom)
 		{
 			first.Y = plotArea.Y;
 			second.Y = plotArea.Bottom;
-			first.X = (float)_axis.GetLinearPosition(current);
+			first.X = (float)Axis.GetLinearPosition(current);
 			second.X = first.X;
 		}
 
 		if (common.ProcessModeRegions)
 		{
-			if (this._axis.ChartArea.Area3DStyle.Enable3D && !this._axis.ChartArea.chartAreaIsCurcular)
+			if (Axis.ChartArea.Area3DStyle.Enable3D && !Axis.ChartArea.chartAreaIsCurcular)
 			{
 				if (!common.ProcessModePaint) //if ProcessModePaint is true it will be called later
-					graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (_axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right), common, this);
-			}
-			else if (!this._axis.ChartArea.chartAreaIsCurcular)
-			{
-				using (GraphicsPath path = new GraphicsPath())
 				{
-					if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-					{
-						path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
-						path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
-						path.CloseAllFigures();
-					}
-					else
-					{
-						path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
-						path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
-						path.CloseAllFigures();
-
-					}
-
-					common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+					graph.Draw3DGridLine(Axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (Axis.AxisPosition == AxisPosition.Left || Axis.AxisPosition == AxisPosition.Right), common, this);
 				}
+			}
+			else if (!Axis.ChartArea.chartAreaIsCurcular)
+			{
+				using GraphicsPath path = new();
+				if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
+				{
+					path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
+					path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
+					path.CloseAllFigures();
+				}
+				else
+				{
+					path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
+					path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
+					path.CloseAllFigures();
+
+				}
+
+				common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
 			}
 		}
 
 		if (common.ProcessModePaint)
 		{
 			// Check if grid lines should be drawn for circular chart area
-			if (_axis.ChartArea.chartAreaIsCurcular)
+			if (Axis.ChartArea.chartAreaIsCurcular)
 			{
-				if (_axis.axisType == AxisName.Y)
+				if (Axis.axisType == AxisName.Y)
 				{
-					_axis.DrawCircularLine(this, graph, borderColor, borderWidth, borderDashStyle, first.Y);
+					Axis.DrawCircularLine(this, graph, borderColor, borderWidth, borderDashStyle, first.Y);
 				}
 
-				if (_axis.axisType == AxisName.X)
+				if (Axis.axisType == AxisName.X)
 				{
-					ICircularChartType chartType = this._axis.ChartArea.GetCircularChartType();
+					ICircularChartType chartType = Axis.ChartArea.GetCircularChartType();
 					if (chartType != null && chartType.RadialGridLinesSupported())
 					{
-						_axis.DrawRadialLine(this, graph, borderColor, borderWidth, borderDashStyle, current);
+						Axis.DrawRadialLine(this, graph, borderColor, borderWidth, borderDashStyle, current);
 					}
 				}
 			}
-			else if (!this._axis.ChartArea.Area3DStyle.Enable3D || this._axis.ChartArea.chartAreaIsCurcular)
+			else if (!Axis.ChartArea.Area3DStyle.Enable3D || Axis.ChartArea.chartAreaIsCurcular)
 			{
 				graph.DrawLineRel(borderColor, borderWidth, borderDashStyle, first, second);
 			}
 			else
 			{
-				graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (_axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right), _axis.Common, this);
+				graph.Draw3DGridLine(Axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (Axis.AxisPosition == AxisPosition.Left || Axis.AxisPosition == AxisPosition.Right), Axis.Common, this);
 			}
 		}
 	}
@@ -1490,79 +1508,77 @@ public class Grid
 	internal void PaintCustom(ChartGraphics graph)
 	{
 		// Common Elements
-		CommonElements common = this._axis.Common;
+		CommonElements common = Axis.Common;
 
 		PointF first = PointF.Empty; // The First point of a grid line
 		PointF second = PointF.Empty; // The Second point of a grid line
-		RectangleF plotArea = _axis.PlotAreaPosition.ToRectangleF(); // Plot area position
+		RectangleF plotArea = Axis.PlotAreaPosition.ToRectangleF(); // Plot area position
 
 
 		// Loop through all custom labels
-		foreach (CustomLabel label in _axis.CustomLabels)
+		foreach (CustomLabel label in Axis.CustomLabels)
 		{
 			if ((label.GridTicks & GridTickTypes.Gridline) == GridTickTypes.Gridline)
 			{
 				double position = (label.ToPosition + label.FromPosition) / 2.0;
-				if (position >= _axis.ViewMinimum && position <= _axis.ViewMaximum)
+				if (position >= Axis.ViewMinimum && position <= Axis.ViewMaximum)
 				{
 					// Horizontal gridlines
-					if (_axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right)
+					if (Axis.AxisPosition == AxisPosition.Left || Axis.AxisPosition == AxisPosition.Right)
 					{
 						first.X = plotArea.X;
 						second.X = plotArea.Right;
-						first.Y = (float)_axis.GetLinearPosition(position);
+						first.Y = (float)Axis.GetLinearPosition(position);
 						second.Y = first.Y;
 
 					}
 
 					// Vertical gridlines
-					if (_axis.AxisPosition == AxisPosition.Top || _axis.AxisPosition == AxisPosition.Bottom)
+					if (Axis.AxisPosition == AxisPosition.Top || Axis.AxisPosition == AxisPosition.Bottom)
 					{
 						first.Y = plotArea.Y;
 						second.Y = plotArea.Bottom;
-						first.X = (float)_axis.GetLinearPosition(position);
+						first.X = (float)Axis.GetLinearPosition(position);
 						second.X = first.X;
 					}
 
 					if (common.ProcessModeRegions)
 					{
-						if (!this._axis.ChartArea.Area3DStyle.Enable3D || this._axis.ChartArea.chartAreaIsCurcular)
+						if (!Axis.ChartArea.Area3DStyle.Enable3D || Axis.ChartArea.chartAreaIsCurcular)
 						{
-							using (GraphicsPath path = new GraphicsPath())
+							using GraphicsPath path = new();
+
+							if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
 							{
-
-								if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-								{
-									path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
-									path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
-									path.CloseAllFigures();
-								}
-								else
-								{
-									path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
-									path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
-									path.CloseAllFigures();
-
-								}
-
-								common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
+								path.AddLine(first.X, first.Y - 1, second.X, second.Y - 1);
+								path.AddLine(second.X, second.Y + 1, first.X, first.Y + 1);
+								path.CloseAllFigures();
 							}
+							else
+							{
+								path.AddLine(first.X - 1, first.Y, second.X - 1, second.Y);
+								path.AddLine(second.X + 1, second.Y, first.X + 1, first.Y);
+								path.CloseAllFigures();
+
+							}
+
+							common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
 						}
 						else
 						{
-							graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (_axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right), common, this);
+							graph.Draw3DGridLine(Axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (Axis.AxisPosition == AxisPosition.Left || Axis.AxisPosition == AxisPosition.Right), common, this);
 						}
 					}
 
 					if (common.ProcessModePaint)
 					{
-						if (!this._axis.ChartArea.Area3DStyle.Enable3D || this._axis.ChartArea.chartAreaIsCurcular)
+						if (!Axis.ChartArea.Area3DStyle.Enable3D || Axis.ChartArea.chartAreaIsCurcular)
 						{
 							graph.DrawLineRel(borderColor, borderWidth, borderDashStyle, first, second);
 						}
 						else
 						{
-							graph.Draw3DGridLine(this._axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (_axis.AxisPosition == AxisPosition.Left || _axis.AxisPosition == AxisPosition.Right), _axis.Common, this);
+							graph.Draw3DGridLine(Axis.ChartArea, borderColor, borderWidth, borderDashStyle, first, second, (Axis.AxisPosition == AxisPosition.Left || Axis.AxisPosition == AxisPosition.Right), Axis.Common, this);
 						}
 					}
 				}
@@ -1593,7 +1609,7 @@ public class Grid
 		{
 			intervalOffset = value;
 			intervalOffsetChanged = true;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1603,7 +1619,7 @@ public class Grid
 	/// <returns></returns>
 	internal bool ShouldSerializeIntervalOffset()
 	{
-		if (this.majorGridTick)
+		if (majorGridTick)
 		{
 			return !double.IsNaN(intervalOffset);
 		}
@@ -1618,10 +1634,10 @@ public class Grid
 	/// <returns></returns>
 	internal double GetIntervalOffset()
 	{
-		if (this.majorGridTick && double.IsNaN(intervalOffset) && this._axis != null)
+		if (majorGridTick && double.IsNaN(intervalOffset) && Axis != null)
 		{
 
-			return this._axis.IntervalOffset;
+			return Axis.IntervalOffset;
 		}
 
 		return intervalOffset;
@@ -1635,7 +1651,7 @@ public class Grid
 	SRCategory("CategoryAttributeData"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeIntervalOffsetType6"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public DateTimeIntervalType IntervalOffsetType
 	{
@@ -1647,7 +1663,7 @@ public class Grid
 		{
 			intervalOffsetType = value;
 			intervalOffsetTypeChanged = true;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1657,7 +1673,7 @@ public class Grid
 	/// <returns></returns>
 	internal bool ShouldSerializeIntervalOffsetType()
 	{
-		if (this.majorGridTick)
+		if (majorGridTick)
 		{
 			return intervalOffsetType != DateTimeIntervalType.NotSet;
 		}
@@ -1671,9 +1687,9 @@ public class Grid
 	/// <returns></returns>
 	internal DateTimeIntervalType GetIntervalOffsetType()
 	{
-		if (this.majorGridTick && intervalOffsetType == DateTimeIntervalType.NotSet && this._axis != null)
+		if (majorGridTick && intervalOffsetType == DateTimeIntervalType.NotSet && Axis != null)
 		{
-			return this._axis.IntervalOffsetType;
+			return Axis.IntervalOffsetType;
 		}
 
 		return intervalOffsetType;
@@ -1699,52 +1715,54 @@ public class Grid
 		{
 			// Validation
 			if (value < 0.0)
-				throw (new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, "value"));
+			{
+				throw (new ArgumentException(SR.ExceptionTickMarksIntervalIsNegative, nameof(value)));
+			}
 
 			interval = value;
 			intervalChanged = true;
 
 			// Enable minor elements
-			if (!this.majorGridTick && value != 0.0 && !Double.IsNaN(value))
+			if (!majorGridTick && value != 0.0 && !double.IsNaN(value))
 			{
 				// Prevent grids enabling during the serialization
-				if (this._axis != null)
+				if (Axis != null)
 				{
-					if (this._axis.Chart != null && this._axis.Chart.serializing != false)
+					if (Axis.Chart != null && Axis.Chart.serializing != false)
 					{
-						this.Enabled = true;
+						Enabled = true;
 					}
 				}
 			}
 
 			// Reset original property value fields
-			if (this._axis != null)
+			if (Axis != null)
 			{
 				if (this is TickMark)
 				{
-					if (this.majorGridTick)
+					if (majorGridTick)
 					{
-						this._axis.tempMajorTickMarkInterval = interval;
+						Axis.tempMajorTickMarkInterval = interval;
 					}
 					else
 					{
-						this._axis.tempMinorTickMarkInterval = interval;
+						Axis.tempMinorTickMarkInterval = interval;
 					}
 				}
 				else
 				{
-					if (this.majorGridTick)
+					if (majorGridTick)
 					{
-						this._axis.tempMajorGridInterval = interval;
+						Axis.tempMajorGridInterval = interval;
 					}
 					else
 					{
-						this._axis.tempMinorGridInterval = interval;
+						Axis.tempMinorGridInterval = interval;
 					}
 				}
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 
 	}
@@ -1755,7 +1773,7 @@ public class Grid
 	/// <returns></returns>
 	internal bool ShouldSerializeInterval()
 	{
-		if (this.majorGridTick)
+		if (majorGridTick)
 		{
 			return !double.IsNaN(interval);
 		}
@@ -1769,9 +1787,9 @@ public class Grid
 	/// <returns></returns>
 	internal double GetInterval()
 	{
-		if (this.majorGridTick && double.IsNaN(interval) && this._axis != null)
+		if (majorGridTick && double.IsNaN(interval) && Axis != null)
 		{
-			return this._axis.Interval;
+			return Axis.Interval;
 		}
 
 		return interval;
@@ -1784,7 +1802,7 @@ public class Grid
 	SRCategory("CategoryAttributeData"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeIntervalType3"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public DateTimeIntervalType IntervalType
 	{
@@ -1798,19 +1816,19 @@ public class Grid
 			intervalTypeChanged = true;
 
 			// Reset original property value fields
-			if (this._axis != null)
+			if (Axis != null)
 			{
 				if (this is TickMark)
 				{
-					this._axis.tempTickMarkIntervalType = intervalType;
+					Axis.tempTickMarkIntervalType = intervalType;
 				}
 				else
 				{
-					this._axis.tempGridIntervalType = intervalType;
+					Axis.tempGridIntervalType = intervalType;
 				}
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1820,7 +1838,7 @@ public class Grid
 	/// <returns></returns>
 	internal bool ShouldSerializeIntervalType()
 	{
-		if (this.majorGridTick)
+		if (majorGridTick)
 		{
 			return intervalType != DateTimeIntervalType.NotSet;
 		}
@@ -1835,10 +1853,10 @@ public class Grid
 	/// <returns></returns>
 	internal DateTimeIntervalType GetIntervalType()
 	{
-		if (this.majorGridTick && intervalType == DateTimeIntervalType.NotSet && this._axis != null)
+		if (majorGridTick && intervalType == DateTimeIntervalType.NotSet && Axis != null)
 		{
 			// Return default value during serialization
-			return this._axis.IntervalType;
+			return Axis.IntervalType;
 		}
 
 		return intervalType;
@@ -1864,7 +1882,7 @@ public class Grid
 		set
 		{
 			borderColor = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1886,7 +1904,7 @@ public class Grid
 		set
 		{
 			borderDashStyle = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1908,7 +1926,7 @@ public class Grid
 		set
 		{
 			borderWidth = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1941,7 +1959,7 @@ public class Grid
 		{
 			enabled = value;
 			enabledChanged = true;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1951,22 +1969,18 @@ public class Grid
 	/// <returns></returns>
 	internal bool ShouldSerializeEnabled()
 	{
-		if (this.majorGridTick)
+		if (majorGridTick)
 		{
-			return !this.Enabled;
+			return !Enabled;
 		}
 
-		return this.Enabled;
+		return Enabled;
 	}
 
 	/// <summary>
 	/// Gets or sets the reference to the Axis object
 	/// </summary>
-	internal Axis Axis
-	{
-		get { return _axis; }
-		set { _axis = value; }
-	}
+	internal Axis Axis { get; set; } = null;
 
 	#endregion
 }

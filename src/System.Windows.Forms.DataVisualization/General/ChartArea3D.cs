@@ -86,7 +86,7 @@ public class ChartArea3DStyle
 	/// </summary>
 	public ChartArea3DStyle(ChartArea chartArea)
 	{
-		this._chartArea = chartArea;
+		_chartArea = chartArea;
 	}
 
 	/// <summary>
@@ -95,7 +95,7 @@ public class ChartArea3DStyle
 	/// <param name="chartArea">Chart area object.</param>
 	internal void Initialize(ChartArea chartArea)
 	{
-		this._chartArea = chartArea;
+		_chartArea = chartArea;
 	}
 
 	#endregion
@@ -106,34 +106,26 @@ public class ChartArea3DStyle
 	private ChartArea _chartArea = null;
 
 	// Enables/disables 3D chart types in the area.
-	private bool _enable3D = false;
 
 	// Indicates that axes are set at the right angle independent of the rotation.
 	private bool _isRightAngleAxes = true;
 
 	// Indicates that series should be drawn as isClustered.
-	private bool _isClustered = false;
 
 	// 3D area lightStyle style.
-	private LightStyle _lightStyle = LightStyle.Simplistic;
 
 	// 3D area perspective which controls the scaleView of the chart depth.
 	private int _perspective = 0;
 
 	// Chart area rotation angle around the X axis.
-	private int _inclination = 30;
 
 	// Chart area rotation angle around the Y axis.
-	private int _rotation = 30;
 
 	// Chart area walls width.
-	private int _wallWidth = 7;
 
 	// Series points depth in percentages
-	private int _pointDepth = 100;
 
 	// Series points gap depth in percentages
-	private int _pointGapDepth = 100;
 
 	#endregion
 
@@ -147,39 +139,21 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeChartArea3DStyle_Enable3D"),
-	ParenthesizePropertyNameAttribute(true)
+	ParenthesizePropertyName(true)
 	]
 	public bool Enable3D
 	{
-		get
-		{
-			return this._enable3D;
-		}
+		get;
 		set
 		{
-			if (this._enable3D != value)
+			if (field != value)
 			{
-				this._enable3D = value;
+				field = value;
 
-				if (this._chartArea != null)
-				{
-#if SUBAXES
-					// If one of the axes has sub axis the scales has to be recalculated
-					foreach(Axis axis in this._chartArea.Axes)
-					{
-						if(axis.SubAxes.Count > 0)
-						{
-							this._chartArea.ResetAutoValues();
-							break;
-						}
-					}
-#endif // SUBAXES
-
-					this._chartArea.Invalidate();
-				}
+				_chartArea?.Invalidate();
 			}
 		}
-	}
+	} = false;
 
 
 	/// <summary>
@@ -190,7 +164,7 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeChartArea3DStyle_RightAngleAxes"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public bool IsRightAngleAxes
 	{
@@ -206,13 +180,10 @@ public class ChartArea3DStyle
 			if (_isRightAngleAxes)
 			{
 				// Disable perspective if right angle axis are used
-				this._perspective = 0;
+				_perspective = 0;
 			}
 
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			_chartArea?.Invalidate();
 		}
 	}
 
@@ -229,19 +200,13 @@ public class ChartArea3DStyle
 	]
 	public bool IsClustered
 	{
-		get
-		{
-			return _isClustered;
-		}
+		get;
 		set
 		{
-			_isClustered = value;
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			field = value;
+			_chartArea?.Invalidate();
 		}
-	}
+	} = false;
 
 	/// <summary>
 	/// Gets or sets the style of lighting for a 3D chart area.  
@@ -254,19 +219,13 @@ public class ChartArea3DStyle
 	]
 	public LightStyle LightStyle
 	{
-		get
-		{
-			return _lightStyle;
-		}
+		get;
 		set
 		{
-			_lightStyle = value;
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			field = value;
+			_chartArea?.Invalidate();
 		}
-	}
+	} = LightStyle.Simplistic;
 
 	/// <summary>
 	/// Gets or sets the percent of perspective for a 3D chart area.
@@ -276,7 +235,7 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(0),
 	SRDescription("DescriptionAttributeChartArea3DStyle_Perspective"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int Perspective
 	{
@@ -288,7 +247,7 @@ public class ChartArea3DStyle
 		{
 			if (value < 0 || value > 100)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPerspectiveInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPerspectiveInvalid));
 			}
 
 			_perspective = value;
@@ -297,13 +256,10 @@ public class ChartArea3DStyle
 			if (_perspective != 0)
 			{
 				// Disable right angle axes
-				this._isRightAngleAxes = false;
+				_isRightAngleAxes = false;
 			}
 
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			_chartArea?.Invalidate();
 		}
 	}
 
@@ -315,29 +271,23 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(30),
 	SRDescription("DescriptionAttributeChartArea3DStyle_Inclination"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int Inclination
 	{
-		get
-		{
-			return _inclination;
-		}
+		get;
 		set
 		{
 			if (value < -90 || value > 90)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DInclinationInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DInclinationInvalid));
 			}
 
-			_inclination = value;
+			field = value;
 
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			_chartArea?.Invalidate();
 		}
-	}
+	} = 30;
 
 	/// <summary>
 	/// Gets or sets the rotation angle for a 3D chart area.
@@ -347,29 +297,23 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(30),
 	SRDescription("DescriptionAttributeChartArea3DStyle_Rotation"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int Rotation
 	{
-		get
-		{
-			return _rotation;
-		}
+		get;
 		set
 		{
 			if (value < -180 || value > 180)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DRotationInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DRotationInvalid));
 			}
 
-			_rotation = value;
+			field = value;
 
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			_chartArea?.Invalidate();
 		}
-	}
+	} = 30;
 
 	/// <summary>
 	/// Gets or sets the width of the walls displayed in 3D chart areas.  
@@ -379,28 +323,22 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(7),
 	SRDescription("DescriptionAttributeChartArea3DStyle_WallWidth"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int WallWidth
 	{
-		get
-		{
-			return _wallWidth;
-		}
+		get;
 		set
 		{
 			if (value < 0 || value > 30)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DWallWidthInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DWallWidthInvalid));
 			}
 
-			_wallWidth = value;
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			field = value;
+			_chartArea?.Invalidate();
 		}
-	}
+	} = 7;
 
 	/// <summary>
 	/// Gets or sets the depth of data points displayed in 3D chart areas (0-1000%).  
@@ -410,28 +348,22 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(100),
 	SRDescription("DescriptionAttributeChartArea3DStyle_PointDepth"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int PointDepth
 	{
-		get
-		{
-			return _pointDepth;
-		}
+		get;
 		set
 		{
 			if (value < 0 || value > 1000)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPointsDepthInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsDepthInvalid));
 			}
 
-			_pointDepth = value;
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			field = value;
+			_chartArea?.Invalidate();
 		}
-	}
+	} = 100;
 
 	/// <summary>
 	/// Gets or sets the distance between series rows in 3D chart areas (0-1000%).
@@ -441,28 +373,22 @@ public class ChartArea3DStyle
 	Bindable(true),
 	DefaultValue(100),
 	SRDescription("DescriptionAttributeChartArea3DStyle_PointGapDepth"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int PointGapDepth
 	{
-		get
-		{
-			return _pointGapDepth;
-		}
+		get;
 		set
 		{
 			if (value < 0 || value > 1000)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DPointsGapInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartArea3DPointsGapInvalid));
 			}
 
-			_pointGapDepth = value;
-			if (this._chartArea != null)
-			{
-				this._chartArea.Invalidate();
-			}
+			field = value;
+			_chartArea?.Invalidate();
 		}
-	}
+	} = 100;
 
 	#endregion
 }
@@ -477,10 +403,10 @@ public partial class ChartArea
 	#region Fields
 
 	// Chart area 3D style attribuytes
-	private ChartArea3DStyle _area3DStyle = new ChartArea3DStyle();
+	private ChartArea3DStyle _area3DStyle = new();
 
 	// Coordinate convertion matrix
-	internal Matrix3D matrix3D = new Matrix3D();
+	internal Matrix3D matrix3D = new();
 
 	// Chart area scene wall width in relative coordinates
 	internal SizeF areaSceneWallWidth = SizeF.Empty;
@@ -498,11 +424,6 @@ public partial class ChartArea
 	private double _pointsGapDepth = 0;
 
 	/// <summary>
-	/// Indicates that series order should be reversed to simulate Y axis rotation.
-	/// </summary>
-	private bool _reverseSeriesOrder = false;
-
-	/// <summary>
 	/// Old X axis reversed flag
 	/// </summary>
 	internal bool oldReverseX = false;
@@ -516,11 +437,6 @@ public partial class ChartArea
 	/// Old Y axis rotation angle
 	/// </summary>
 	internal int oldYAngle = 30;
-
-	/// <summary>
-	/// List of all stack group names
-	/// </summary>
-	private ArrayList _stackGroupNames = null;
 
 	/// <summary>
 	/// This list contains an array of series names for each 3D cluster
@@ -560,18 +476,12 @@ public partial class ChartArea
 	/// <summary>
 	/// Indicates that series order should be reversed to simulate Y axis rotation.
 	/// </summary>
-	internal bool ReverseSeriesOrder
-	{
-		get { return _reverseSeriesOrder; }
-	}
+	internal bool ReverseSeriesOrder { get; private set; } = false;
 
 	/// <summary>
 	/// Gets the list of all stack group names
 	/// </summary>
-	internal ArrayList StackGroupNames
-	{
-		get { return _stackGroupNames; }
-	}
+	internal ArrayList StackGroupNames { get; private set; } = null;
 
 	#endregion
 
@@ -586,11 +496,11 @@ public partial class ChartArea
 		// Convert Z coordinates from 0-100% to axis values
 		foreach (Point3D pt in points)
 		{
-			pt.Z = (pt.Z / 100f) * this.areaSceneDepth;
+			pt.Z = (pt.Z / 100f) * areaSceneDepth;
 		}
 
 		// Transform points
-		this.matrix3D.TransformPoints(points);
+		matrix3D.TransformPoints(points);
 	}
 
 	#endregion
@@ -608,7 +518,7 @@ public partial class ChartArea
 		ChartArea chartArea = (ChartArea)this;
 
 		// Calculate relative size of the wall
-		areaSceneWallWidth = graph.GetRelativeSize(new SizeF(this.Area3DStyle.WallWidth, this.Area3DStyle.WallWidth));
+		areaSceneWallWidth = graph.GetRelativeSize(new SizeF(Area3DStyle.WallWidth, Area3DStyle.WallWidth));
 
 		//***********************************************************
 		//** Calculate the depth of the chart area scene
@@ -618,19 +528,19 @@ public partial class ChartArea
 		//***********************************************************
 		//** Initialize coordinate transformation matrix
 		//***********************************************************
-		this.matrix3D.Initialize(
+		matrix3D.Initialize(
 			position,
 			areaSceneDepth,
-			this.Area3DStyle.Inclination,
-			this.Area3DStyle.Rotation,
-			this.Area3DStyle.Perspective,
-			this.Area3DStyle.IsRightAngleAxes);
+			Area3DStyle.Inclination,
+			Area3DStyle.Rotation,
+			Area3DStyle.Perspective,
+			Area3DStyle.IsRightAngleAxes);
 
 		//***********************************************************
 		//** Initialize Lighting
 		//***********************************************************
-		this.matrix3D.InitLight(
-			this.Area3DStyle.LightStyle
+		matrix3D.InitLight(
+			Area3DStyle.LightStyle
 		);
 
 		//***********************************************************
@@ -640,7 +550,7 @@ public partial class ChartArea
 		position,
 		0,
 		areaSceneDepth,
-		this.matrix3D);
+		matrix3D);
 
 		//***********************************************************
 		//** Chech if area scene should be drawn
@@ -673,7 +583,7 @@ public partial class ChartArea
 
 		// Adjust for the left/right wall
 		position.Width += areaSceneWallWidth.Width;
-		if (this.Area3DStyle.Rotation > 0)
+		if (Area3DStyle.Rotation > 0)
 		{
 			position.X -= areaSceneWallWidth.Width;
 		}
@@ -683,7 +593,7 @@ public partial class ChartArea
 		//***********************************************************
 
 		// Draw back wall
-		RectangleF wallRect2D = new RectangleF(position.Location, position.Size);
+		RectangleF wallRect2D = new(position.Location, position.Size);
 		float wallDepth = areaSceneWallWidth.Width;
 		float wallZPosition = -wallDepth;
 
@@ -697,7 +607,7 @@ public partial class ChartArea
 			wallRect2D,
 			wallZPosition,
 			wallDepth,
-			this.matrix3D,
+			matrix3D,
 			chartArea.Area3DStyle.LightStyle,
 			sceneBackColor,
 			chartArea.BorderColor,
@@ -706,8 +616,10 @@ public partial class ChartArea
 			DrawingOperationTypes.DrawElement);
 
 		// Draw side wall on the left or right side
-		wallRect2D = new RectangleF(position.Location, position.Size);
-		wallRect2D.Width = areaSceneWallWidth.Width;
+		wallRect2D = new RectangleF(position.Location, position.Size)
+		{
+			Width = areaSceneWallWidth.Width
+		};
 		if (!IsSideSceneWallOnLeft())
 		{
 			// Wall is on the right side
@@ -718,7 +630,7 @@ public partial class ChartArea
 			wallRect2D,
 			0f,
 			areaSceneDepth,
-			this.matrix3D,
+			matrix3D,
 			chartArea.Area3DStyle.LightStyle,
 			sceneBackColor,
 			chartArea.BorderColor,
@@ -729,21 +641,22 @@ public partial class ChartArea
 		// Draw bottom wall
 		if (IsBottomSceneWallVisible())
 		{
-			wallRect2D = new RectangleF(position.Location, position.Size);
-			wallRect2D.Height = areaSceneWallWidth.Height;
-			wallRect2D.Y = position.Bottom - areaSceneWallWidth.Height;
+			wallRect2D = new RectangleF(position.Location, position.Size)
+			{
+				Height = areaSceneWallWidth.Height,
+				Y = position.Bottom - areaSceneWallWidth.Height
+			};
 			wallRect2D.Width -= areaSceneWallWidth.Width;
 			if (IsSideSceneWallOnLeft())
 			{
 				wallRect2D.X += areaSceneWallWidth.Width;
 			}
 
-			wallZPosition = 0;
 			graph.Fill3DRectangle(
 				wallRect2D,
 				0f,
 				areaSceneDepth,
-				this.matrix3D,
+				matrix3D,
 				chartArea.Area3DStyle.LightStyle,
 				sceneBackColor,
 				chartArea.BorderColor,
@@ -761,7 +674,7 @@ public partial class ChartArea
 	/// <returns>True if bottom wall is visible.</returns>
 	internal bool IsBottomSceneWallVisible()
 	{
-		return (this.Area3DStyle.Inclination >= 0);
+		return (Area3DStyle.Inclination >= 0);
 	}
 
 	/// <summary>
@@ -782,7 +695,7 @@ public partial class ChartArea
 	/// <returns>True if bottom wall is visible.</returns>
 	internal bool IsSideSceneWallOnLeft()
 	{
-		return (this.Area3DStyle.Rotation > 0);
+		return (Area3DStyle.Rotation > 0);
 	}
 
 	#endregion
@@ -798,7 +711,7 @@ public partial class ChartArea
 	{
 		float positionZ, depth;
 		GetSeriesZPositionAndDepth(series, out depth, out positionZ);
-		return ((positionZ + depth / 2f) / this.areaSceneDepth) * 100f;
+		return ((positionZ + depth / 2f) / areaSceneDepth) * 100f;
 	}
 
 	/// <summary>
@@ -810,7 +723,7 @@ public partial class ChartArea
 	{
 		float positionZ, depth;
 		GetSeriesZPositionAndDepth(series, out depth, out positionZ);
-		return (depth / this.areaSceneDepth) * 100f;
+		return (depth / areaSceneDepth) * 100f;
 	}
 
 	/// <summary>
@@ -825,20 +738,20 @@ public partial class ChartArea
 		//***********************************************************
 
 		// Check if any series attached to the area is indexed
-		bool indexedSeries = ChartHelper.IndexedSeries(this.Common, this._series.ToArray());
+		bool indexedSeries = ChartHelper.IndexedSeries(Common, Series.ToArray());
 
 		// Smallest interval series
 		Series smallestIntervalSeries = null;
-		if (this._series.Count > 0)
+		if (Series.Count > 0)
 		{
-			smallestIntervalSeries = this.Common.DataManager.Series[(string)this._series[0]];
+			smallestIntervalSeries = Common.DataManager.Series[(string)Series[0]];
 		}
 
 		// Get X axis
 		Axis xAxis = ((ChartArea)this).AxisX;
-		if (this._series.Count > 0)
+		if (Series.Count > 0)
 		{
-			Series firstSeries = this.Common.DataManager.Series[this._series[0]];
+			Series firstSeries = Common.DataManager.Series[Series[0]];
 			if (firstSeries != null && firstSeries.XAxisType == AxisType.Secondary)
 			{
 				xAxis = ((ChartArea)this).AxisX2;
@@ -850,7 +763,7 @@ public partial class ChartArea
 		if (!indexedSeries)
 		{
 			bool sameInterval;
-			clusteredInterval = this.GetPointsInterval(this._series, xAxis.IsLogarithmic, xAxis.logarithmBase, false, out sameInterval, out smallestIntervalSeries);
+			clusteredInterval = GetPointsInterval(Series, xAxis.IsLogarithmic, xAxis.logarithmBase, false, out sameInterval, out smallestIntervalSeries);
 		}
 
 		//***********************************************************
@@ -860,20 +773,20 @@ public partial class ChartArea
 		if (smallestIntervalSeries != null)
 		{
 			drawSideBySide = Common.ChartTypeRegistry.GetChartType(smallestIntervalSeries.ChartTypeName).SideBySideSeries;
-			foreach (string seriesName in this._series)
+			foreach (string seriesName in Series)
 			{
-				if (this.Common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
+				if (Common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 				{
-					string attribValue = this.Common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-					if (String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+					string attribValue = Common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
+					if (string.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						drawSideBySide = false;
 					}
-					else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+					else if (string.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						drawSideBySide = true;
 					}
-					else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+					else if (string.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						// Do nothing
 					}
@@ -902,15 +815,15 @@ public partial class ChartArea
 		if (smallestIntervalSeries != null)
 		{
 			// Check if series is side-by-side
-			if (this.Area3DStyle.IsClustered && drawSideBySide)
+			if (Area3DStyle.IsClustered && drawSideBySide)
 			{
 				// Count number of side-by-side series
 				seriesNumber = 0;
-				foreach (string seriesName in this._series)
+				foreach (string seriesName in Series)
 				{
 					// Get series object from name
-					Series curSeries = this.Common.DataManager.Series[seriesName];
-					if (String.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
+					Series curSeries = Common.DataManager.Series[seriesName];
+					if (string.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						++seriesNumber;
 					}
@@ -929,19 +842,18 @@ public partial class ChartArea
 		//** If isClustered mode enabled each stack group is drawn 
 		//** using it's own cluster.
 		//***********************************************************
-		if (smallestIntervalSeries != null && this.Area3DStyle.IsClustered)
+		if (smallestIntervalSeries != null && Area3DStyle.IsClustered)
 		{
 			// Check series support stack groups
 			if (Common.ChartTypeRegistry.GetChartType(smallestIntervalSeries.ChartTypeName).SupportStackedGroups)
 			{
 				// Calculate how many stack groups exsist
-				seriesNumber = 0;
-				ArrayList stackGroupNames = new ArrayList();
-				foreach (string seriesName in this._series)
+				ArrayList stackGroupNames = [];
+				foreach (string seriesName in Series)
 				{
 					// Get series object from name
-					Series curSeries = this.Common.DataManager.Series[seriesName];
-					if (String.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
+					Series curSeries = Common.DataManager.Series[seriesName];
+					if (string.Compare(curSeries.ChartTypeName, smallestIntervalSeries.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						string seriesStackGroupName = string.Empty;
 						if (curSeries.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
@@ -966,29 +878,26 @@ public partial class ChartArea
 		//***********************************************************
 		//** Check if series provide custom value for point\gap depth
 		//***********************************************************
-		_pointsDepth = clusteredInterval * pointWidthSize * this.Area3DStyle.PointDepth / 100.0;
+		_pointsDepth = clusteredInterval * pointWidthSize * Area3DStyle.PointDepth / 100.0;
 		_pointsDepth = categoricalAxis.GetPixelInterval(_pointsDepth);
 		if (smallestIntervalSeries != null)
 		{
 			_pointsDepth = smallestIntervalSeries.GetPointWidth(
-			this.Common.graph,
+			Common.graph,
 			categoricalAxis,
 			clusteredInterval,
 			0.8) / seriesNumber;
-			_pointsDepth *= this.Area3DStyle.PointDepth / 100.0;
+			_pointsDepth *= Area3DStyle.PointDepth / 100.0;
 		}
 
-		_pointsGapDepth = (_pointsDepth * 0.8) * this.Area3DStyle.PointGapDepth / 100.0;
+		_pointsGapDepth = (_pointsDepth * 0.8) * Area3DStyle.PointGapDepth / 100.0;
 
 		// Get point depth and gap from series
-		if (smallestIntervalSeries != null)
-		{
-			smallestIntervalSeries.GetPointDepthAndGap(
-			this.Common.graph,
+		smallestIntervalSeries?.GetPointDepthAndGap(
+			Common.graph,
 			categoricalAxis,
 				ref _pointsDepth,
 				ref _pointsGapDepth);
-		}
 
 
 		//***********************************************************
@@ -1006,8 +915,7 @@ public partial class ChartArea
 	internal void GetSeriesZPositionAndDepth(Series series, out float depth, out float positionZ)
 	{
 		// Check arguments
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		// Get series cluster index
 		int seriesIndex = GetSeriesClusterIndex(series);
@@ -1025,25 +933,25 @@ public partial class ChartArea
 	/// <returns>Number of clusters on the Z axis.</returns>
 	internal int GetNumberOfClusters()
 	{
-		if (this.seriesClusters == null)
+		if (seriesClusters == null)
 		{
 			// Lists that hold processed chart types and stacked groups
-			ArrayList processedChartTypes = new ArrayList();
-			ArrayList processedStackedGroups = new ArrayList();
+			ArrayList processedChartTypes = [];
+			ArrayList processedStackedGroups = [];
 
 			// Reset series cluster list
-			this.seriesClusters = new List<List<string>>();
+			seriesClusters = [];
 
 			// Iterate through all series that belong to this chart area
 			int clusterIndex = -1;
-			foreach (string seriesName in this._series)
+			foreach (string seriesName in Series)
 			{
 				// Get series object by name
-				Series curSeries = this.Common.DataManager.Series[seriesName];
+				Series curSeries = Common.DataManager.Series[seriesName];
 
 				// Check if stacked chart type is using multiple groups that 
 				// can be displayed in individual clusters
-				if (!this.Area3DStyle.IsClustered &&
+				if (!Area3DStyle.IsClustered &&
 					Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SupportStackedGroups)
 				{
 					// Get group name
@@ -1054,12 +962,12 @@ public partial class ChartArea
 					{
 						// Find in which cluster this stacked group is located
 						bool found = false;
-						for (int index = 0; !found && index < this.seriesClusters.Count; index++)
+						for (int index = 0; !found && index < seriesClusters.Count; index++)
 						{
-							foreach (string name in this.seriesClusters[index])
+							foreach (string name in seriesClusters[index])
 							{
 								// Get series object by name
-								Series ser = this.Common.DataManager.Series[name];
+								Series ser = Common.DataManager.Series[name];
 								if (stackGroupName == StackedColumnChart.GetSeriesStackGroupName(ser))
 								{
 									clusterIndex = index;
@@ -1071,7 +979,7 @@ public partial class ChartArea
 					else
 					{
 						// Increase cluster index
-						clusterIndex = this.seriesClusters.Count;
+						clusterIndex = seriesClusters.Count;
 
 						// Add processed group name
 						processedStackedGroups.Add(stackGroupName);
@@ -1081,21 +989,21 @@ public partial class ChartArea
 
 				// Chech if series is displayed in the same cluster than other series
 				else if (Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).Stacked ||
-					(this.Area3DStyle.IsClustered && Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SideBySideSeries))
+					(Area3DStyle.IsClustered && Common.ChartTypeRegistry.GetChartType(curSeries.ChartTypeName).SideBySideSeries))
 				{
 					// Check if this chart type is already in the list
-					if (processedChartTypes.Contains(curSeries.ChartTypeName.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
+					if (processedChartTypes.Contains(curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture)))
 					{
 						// Find in which cluster this chart type is located
 						bool found = false;
-						for (int index = 0; !found && index < this.seriesClusters.Count; index++)
+						for (int index = 0; !found && index < seriesClusters.Count; index++)
 						{
-							foreach (string name in this.seriesClusters[index])
+							foreach (string name in seriesClusters[index])
 							{
 								// Get series object by name
-								Series ser = this.Common.DataManager.Series[name];
-								if (ser.ChartTypeName.ToUpper(System.Globalization.CultureInfo.InvariantCulture) ==
-									curSeries.ChartTypeName.ToUpper(System.Globalization.CultureInfo.InvariantCulture))
+								Series ser = Common.DataManager.Series[name];
+								if (ser.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture) ==
+									curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture))
 								{
 									clusterIndex = index;
 									found = true;
@@ -1106,30 +1014,30 @@ public partial class ChartArea
 					else
 					{
 						// Increase cluster index
-						clusterIndex = this.seriesClusters.Count;
+						clusterIndex = seriesClusters.Count;
 
 						// Add new chart type into the collection
-						processedChartTypes.Add(curSeries.ChartTypeName.ToUpper(System.Globalization.CultureInfo.InvariantCulture));
+						processedChartTypes.Add(curSeries.ChartTypeName.ToUpper(Globalization.CultureInfo.InvariantCulture));
 					}
 				}
 				else
 				{
 					// Create New cluster
-					clusterIndex = this.seriesClusters.Count;
+					clusterIndex = seriesClusters.Count;
 				}
 
 				// Create an item in the cluster list that will hold all series names
-				if (this.seriesClusters.Count <= clusterIndex)
+				if (seriesClusters.Count <= clusterIndex)
 				{
-					this.seriesClusters.Add(new List<string>());
+					seriesClusters.Add([]);
 				}
 
 				// Add series name into the current cluster
-				this.seriesClusters[clusterIndex].Add(seriesName);
+				seriesClusters[clusterIndex].Add(seriesName);
 			}
 		}
 
-		return this.seriesClusters.Count;
+		return seriesClusters.Count;
 	}
 
 	/// <summary>
@@ -1140,15 +1048,15 @@ public partial class ChartArea
 	internal int GetSeriesClusterIndex(Series series)
 	{
 		// Fill list of clusters
-		if (this.seriesClusters == null)
+		if (seriesClusters == null)
 		{
-			this.GetNumberOfClusters();
+			GetNumberOfClusters();
 		}
 
 		// Iterate through all clusters
-		for (int clusterIndex = 0; clusterIndex < this.seriesClusters.Count; clusterIndex++)
+		for (int clusterIndex = 0; clusterIndex < seriesClusters.Count; clusterIndex++)
 		{
-			List<string> seriesNames = this.seriesClusters[clusterIndex];
+			List<string> seriesNames = seriesClusters[clusterIndex];
 
 			// Iterate through all series names
 			foreach (string seriesName in seriesNames)
@@ -1156,9 +1064,9 @@ public partial class ChartArea
 				if (seriesName == series.Name)
 				{
 					// Check if series are drawn in reversed order
-					if (this._reverseSeriesOrder)
+					if (ReverseSeriesOrder)
 					{
-						clusterIndex = (this.seriesClusters.Count - 1) - clusterIndex;
+						clusterIndex = (seriesClusters.Count - 1) - clusterIndex;
 					}
 
 					return clusterIndex;
@@ -1192,7 +1100,7 @@ public partial class ChartArea
 
 
 		// Reset current list of clusters
-		this.seriesClusters = null;
+		seriesClusters = null;
 
 
 		ElementPosition plottingAreaRect = area.InnerPlotPosition;
@@ -1223,7 +1131,7 @@ public partial class ChartArea
 		ChartArea area = (ChartArea)this;
 
 		// Calculate relative size of the wall
-		areaSceneWallWidth = graph.GetRelativeSize(new SizeF(this.Area3DStyle.WallWidth, this.Area3DStyle.WallWidth));
+		areaSceneWallWidth = graph.GetRelativeSize(new SizeF(Area3DStyle.WallWidth, Area3DStyle.WallWidth));
 
 		//***********************************************************
 		//** Calculate the depth of the chart area scene
@@ -1257,14 +1165,14 @@ public partial class ChartArea
 		//***********************************************************
 		//** Initialize coordinate transformation matrix
 		//***********************************************************
-		Matrix3D intervalMatrix3D = new Matrix3D();
+		Matrix3D intervalMatrix3D = new();
 		intervalMatrix3D.Initialize(
 			plottingRect,
 			areaSceneDepth,
-			this.Area3DStyle.Inclination,
+			Area3DStyle.Inclination,
 			yAngle,
-			this.Area3DStyle.Perspective,
-			this.Area3DStyle.IsRightAngleAxes);
+			Area3DStyle.Perspective,
+			Area3DStyle.IsRightAngleAxes);
 		bool notUsed;
 		float zPosition;
 		double size;
@@ -1361,25 +1269,37 @@ public partial class ChartArea
 			if (axis.AxisName == AxisName.X || axis.AxisName == AxisName.X2)
 			{
 				if (area.switchValueAxes)
+				{
 					axis.interval3DCorrection = size / plottingRect.Height;
+				}
 				else
+				{
 					axis.interval3DCorrection = size / plottingRect.Width;
+				}
 			}
 			else
 			{
 				if (area.switchValueAxes)
+				{
 					axis.interval3DCorrection = size / plottingRect.Width;
+				}
 				else
+				{
 					axis.interval3DCorrection = size / plottingRect.Height * plottingChartAreaCorrection;
+				}
 			}
 
 			// There is a limit for correction
 			if (axis.interval3DCorrection < 0.15)
+			{
 				axis.interval3DCorrection = 0.15;
+			}
 
 			// There is a limit for correction
 			if (axis.interval3DCorrection > 0.8)
+			{
 				axis.interval3DCorrection = 1.0;
+			}
 
 			axisIndx += 2;
 
@@ -1396,15 +1316,19 @@ public partial class ChartArea
 		int yAngle;
 
 		// Case from -90 to 90
-		yAngle = this.Area3DStyle.Rotation;
+		yAngle = Area3DStyle.Rotation;
 
 		// Case from 90 to 180
-		if (this._reverseSeriesOrder && this.Area3DStyle.Rotation >= 0)
-			yAngle = this.Area3DStyle.Rotation - 180;
+		if (ReverseSeriesOrder && Area3DStyle.Rotation >= 0)
+		{
+			yAngle = Area3DStyle.Rotation - 180;
+		}
 
 		// Case from -90 to -180
-		if (this._reverseSeriesOrder && this.Area3DStyle.Rotation <= 0)
-			yAngle = this.Area3DStyle.Rotation + 180;
+		if (ReverseSeriesOrder && Area3DStyle.Rotation <= 0)
+		{
+			yAngle = Area3DStyle.Rotation + 180;
+		}
 
 		return yAngle;
 	}
@@ -1419,7 +1343,7 @@ public partial class ChartArea
 	internal bool ShouldDrawOnSurface(SurfaceNames surfaceName, bool backLayer, bool onEdge)
 	{
 		// Check if surface element should be drawn on the Back or Front layer.
-		bool isVisible = ((this._visibleSurfaces & surfaceName) == surfaceName);
+		bool isVisible = ((_visibleSurfaces & surfaceName) == surfaceName);
 
 		// Elements on the edge are drawn on the back layer
 		if (onEdge)
@@ -1437,7 +1361,7 @@ public partial class ChartArea
 	/// <returns>True if series points should be drawn in reversed order.</returns>
 	internal bool DrawPointsInReverseOrder()
 	{
-		return (this.Area3DStyle.Rotation <= 0);
+		return (Area3DStyle.Rotation <= 0);
 	}
 
 	/// <summary>
@@ -1451,13 +1375,13 @@ public partial class ChartArea
 		COPCoordinates resultCoordinates = 0;
 
 		// Check only if perspective is set
-		if (this.Area3DStyle.Perspective != 0)
+		if (Area3DStyle.Perspective != 0)
 		{
 			if ((coord & COPCoordinates.X) == COPCoordinates.X)
 			{
 				// Only when Left & Right sides of plotting area are invisible
-				if ((this._visibleSurfaces & SurfaceNames.Left) == 0 &&
-					(this._visibleSurfaces & SurfaceNames.Right) == 0)
+				if ((_visibleSurfaces & SurfaceNames.Left) == 0 &&
+					(_visibleSurfaces & SurfaceNames.Right) == 0)
 				{
 					result = true;
 				}
@@ -1468,8 +1392,8 @@ public partial class ChartArea
 			if ((coord & COPCoordinates.Y) == COPCoordinates.Y)
 			{
 				// Only when Top & Bottom sides of plotting area are invisible
-				if ((this._visibleSurfaces & SurfaceNames.Top) == 0 &&
-					(this._visibleSurfaces & SurfaceNames.Bottom) == 0)
+				if ((_visibleSurfaces & SurfaceNames.Top) == 0 &&
+					(_visibleSurfaces & SurfaceNames.Bottom) == 0)
 				{
 					result = true;
 				}
@@ -1480,8 +1404,8 @@ public partial class ChartArea
 			if ((coord & COPCoordinates.Z) == COPCoordinates.Z)
 			{
 				// Only when Front & Back sides of plotting area are invisible
-				if ((this._visibleSurfaces & SurfaceNames.Front) == 0 &&
-					(this._visibleSurfaces & SurfaceNames.Back) == 0)
+				if ((_visibleSurfaces & SurfaceNames.Front) == 0 &&
+					(_visibleSurfaces & SurfaceNames.Back) == 0)
 				{
 					result = true;
 				}
@@ -1500,11 +1424,11 @@ public partial class ChartArea
 	internal bool DrawSeriesToCenter()
 	{
 		// Check only if perspective is set
-		if (this.Area3DStyle.Perspective != 0)
+		if (Area3DStyle.Perspective != 0)
 		{
 			// Only when Left & Right sides of plotting area are invisible
-			if ((this._visibleSurfaces & SurfaceNames.Front) == 0 &&
-				(this._visibleSurfaces & SurfaceNames.Back) == 0)
+			if ((_visibleSurfaces & SurfaceNames.Front) == 0 &&
+				(_visibleSurfaces & SurfaceNames.Back) == 0)
 			{
 				return true;
 			}
@@ -1527,7 +1451,7 @@ public partial class ChartArea
 		ChartArea area = (ChartArea)this;
 
 		// Get order of series drawing
-		List<Series> seriesDrawingOrder = GetSeriesDrawingOrder(_reverseSeriesOrder);
+		List<Series> seriesDrawingOrder = GetSeriesDrawingOrder(ReverseSeriesOrder);
 
 		// Loop through all series in the order of drawing
 		IChartType type;
@@ -1551,7 +1475,7 @@ public partial class ChartArea
 	internal List<string> GetClusterSeriesNames(string seriesName)
 	{
 		// Iterate through all clusters
-		foreach (List<string> seriesNames in this.seriesClusters)
+		foreach (List<string> seriesNames in seriesClusters)
 		{
 			if (seriesNames.Contains(seriesName))
 			{
@@ -1559,7 +1483,7 @@ public partial class ChartArea
 			}
 		}
 
-		return new List<string>();
+		return [];
 	}
 
 	/// <summary>
@@ -1570,10 +1494,10 @@ public partial class ChartArea
 	private List<Series> GetSeriesDrawingOrder(bool reverseSeriesOrder)
 	{
 		// Create list of series
-		List<Series> seriesList = new List<Series>();
+		List<Series> seriesList = [];
 
 		// Iterate through all clusters
-		foreach (List<string> seriesNames in this.seriesClusters)
+		foreach (List<string> seriesNames in seriesClusters)
 		{
 			// Make sure there is at least one series
 			if (seriesNames.Count > 0)
@@ -1594,11 +1518,11 @@ public partial class ChartArea
 
 		// Check if series should be drawn from sides into the center
 		if (DrawSeriesToCenter() &&
-			this.matrix3D.IsInitialized())
+			matrix3D.IsInitialized())
 		{
 			// Get Z coordinate of Center Of Projection
-			Point3D areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
-			areaProjectionCenter = this.GetCenterOfProjection(COPCoordinates.Z);
+			Point3D areaProjectionCenter = new(float.NaN, float.NaN, float.NaN);
+			areaProjectionCenter = GetCenterOfProjection(COPCoordinates.Z);
 			if (!float.IsNaN(areaProjectionCenter.Z))
 			{
 				// Loop through all series
@@ -1612,7 +1536,7 @@ public partial class ChartArea
 
 					// Get series Z position
 					float seriesDepth, seriesZPosition;
-					this.GetSeriesZPositionAndDepth((Series)seriesList[seriesIndex], out seriesDepth, out seriesZPosition);
+					GetSeriesZPositionAndDepth((Series)seriesList[seriesIndex], out seriesDepth, out seriesZPosition);
 
 					// Check if series passes the Z coordinate of Center of Projection
 					if (seriesZPosition >= areaProjectionCenter.Z)
@@ -1620,7 +1544,10 @@ public partial class ChartArea
 						// Reversed all series order staring from previous series
 						--seriesIndex;
 						if (seriesIndex < 0)
+						{
 							seriesIndex = 0;
+						}
+
 						seriesList.Reverse(seriesIndex, seriesList.Count - seriesIndex);
 						break;
 					}
@@ -1639,11 +1566,11 @@ public partial class ChartArea
 	/// <returns>Number of stack groups. One by default.</returns>
 	private int GetNumberOfStackGroups(IList<string> seriesNamesList)
 	{
-		this._stackGroupNames = new ArrayList();
+		StackGroupNames = [];
 		foreach (object seriesName in seriesNamesList)
 		{
 			// Get series object
-			Series ser = this.Common.DataManager.Series[(string)seriesName];
+			Series ser = Common.DataManager.Series[(string)seriesName];
 
 			// Get stack group name from the series
 			string stackGroupName = string.Empty;
@@ -1653,13 +1580,13 @@ public partial class ChartArea
 			}
 
 			// Add group name if it do not already exsist
-			if (!this._stackGroupNames.Contains(stackGroupName))
+			if (!StackGroupNames.Contains(stackGroupName))
 			{
-				this._stackGroupNames.Add(stackGroupName);
+				StackGroupNames.Add(stackGroupName);
 			}
 		}
 
-		return this._stackGroupNames.Count;
+		return StackGroupNames.Count;
 	}
 
 	/// <summary>
@@ -1671,7 +1598,7 @@ public partial class ChartArea
 	internal int GetSeriesStackGroupIndex(Series series, ref string stackGroupName)
 	{
 		stackGroupName = string.Empty;
-		if (this._stackGroupNames != null)
+		if (StackGroupNames != null)
 		{
 			// Get stack group name from the series
 			if (series.IsCustomPropertySet(CustomPropertyName.StackedGroupName))
@@ -1679,7 +1606,7 @@ public partial class ChartArea
 				stackGroupName = series[CustomPropertyName.StackedGroupName];
 			}
 
-			return this._stackGroupNames.IndexOf(stackGroupName);
+			return StackGroupNames.IndexOf(stackGroupName);
 		}
 
 		return 0;
@@ -1710,7 +1637,7 @@ public partial class ChartArea
 		ChartArea area = (ChartArea)this;
 
 		// Array of points in all series
-		ArrayList pointsList = new ArrayList();
+		ArrayList pointsList = [];
 
 		//************************************************************
 		//** Analyse input series
@@ -1728,10 +1655,10 @@ public partial class ChartArea
 		if (chartType.SupportStackedGroups)
 		{
 			// Fill the list of group names and get the number of unique groups
-			int numberOfGroups = this.GetNumberOfStackGroups(seriesNamesList);
+			int numberOfGroups = GetNumberOfStackGroups(seriesNamesList);
 
 			// If series are not isClustered set series number to the stacked group number
-			if (this.Area3DStyle.IsClustered &&
+			if (Area3DStyle.IsClustered &&
 				seriesNamesList.Count > 0)
 			{
 				numOfSeries = numberOfGroups;
@@ -1740,7 +1667,7 @@ public partial class ChartArea
 
 
 		// Check if chart series are indexed
-		bool indexedSeries = ChartHelper.IndexedSeries(this.Common, seriesNamesList.ToArray());
+		bool indexedSeries = ChartHelper.IndexedSeries(Common, seriesNamesList.ToArray());
 
 		//************************************************************
 		//** Loop through all series and fill array of points
@@ -1749,27 +1676,25 @@ public partial class ChartArea
 		foreach (object seriesName in seriesNamesList)
 		{
 			// Get series object
-			Series ser = this.Common.DataManager.Series[(string)seriesName];
+			Series ser = Common.DataManager.Series[(string)seriesName];
 
 
 			// Check if stacked groups present
 			if (chartType.SupportStackedGroups &&
-				this._stackGroupNames != null)
+				StackGroupNames != null)
 			{
 				// Get index of the series using stacked group
 				string groupName = string.Empty;
-				seriesIndx = this.GetSeriesStackGroupIndex(ser, ref groupName);
+				seriesIndx = GetSeriesStackGroupIndex(ser, ref groupName);
 
 				// Set current group name
-				StackedColumnChart stackedColumnChart = chartType as StackedColumnChart;
-				if (stackedColumnChart != null)
+				if (chartType is StackedColumnChart stackedColumnChart)
 				{
 					stackedColumnChart.currentStackGroup = groupName;
 				}
 				else
 				{
-					StackedBarChart stackedBarChart = chartType as StackedBarChart;
-					if (stackedBarChart != null)
+					if (chartType is StackedBarChart stackedBarChart)
 					{
 						stackedBarChart.currentStackGroup = groupName;
 					}
@@ -1797,7 +1722,7 @@ public partial class ChartArea
 
 			// Get series depth and Z position
 			float seriesDepth, seriesZPosition;
-			this.GetSeriesZPositionAndDepth(ser, out seriesDepth, out seriesZPosition);
+			GetSeriesZPositionAndDepth(ser, out seriesDepth, out seriesZPosition);
 
 			//************************************************************
 			//** Loop through all points in series
@@ -1834,19 +1759,21 @@ public partial class ChartArea
 				//************************************************************
 				//** Create and add new DataPoint3D object
 				//************************************************************
-				DataPoint3D pointEx = new DataPoint3D();
-				pointEx.indexedSeries = indexedSeries;
-				pointEx.dataPoint = point;
-				pointEx.index = index;
-				pointEx.xPosition = xPosition;
-				pointEx.xCenterVal = xCenterVal;
-				pointEx.width = ser.GetPointWidth(area.Common.graph, hAxis, interval, 0.8) / numOfSeries;
-				pointEx.depth = seriesDepth;
-				pointEx.zPosition = seriesZPosition;
+				DataPoint3D pointEx = new()
+				{
+					indexedSeries = indexedSeries,
+					dataPoint = point,
+					index = index,
+					xPosition = xPosition,
+					xCenterVal = xCenterVal,
+					width = ser.GetPointWidth(area.Common.graph, hAxis, interval, 0.8) / numOfSeries,
+					depth = seriesDepth,
+					zPosition = seriesZPosition
+				};
 
 				// Set Y value and height
 				double yValue = chartType.GetYValue(Common, area, ser, point, index - 1, mainYValueIndex);
-				if (point.IsEmpty && Double.IsNaN(yValue))
+				if (point.IsEmpty && double.IsNaN(yValue))
 				{
 					yValue = 0.0;
 				}
@@ -1868,10 +1795,7 @@ public partial class ChartArea
 		//************************************************************
 		//** Sort points in drawing order
 		//************************************************************
-		if (comparer == null)
-		{
-			comparer = new PointsDrawingOrderComparer((ChartArea)this, selection, coord);
-		}
+		comparer ??= new PointsDrawingOrderComparer((ChartArea)this, selection, coord);
 
 		pointsList.Sort(comparer);
 
@@ -1890,17 +1814,17 @@ public partial class ChartArea
 		/// <summary>
 		/// Chart area object reference.
 		/// </summary>
-		private ChartArea _area = null;
+		private readonly ChartArea _area = null;
 
 		/// <summary>
 		/// Area X position where visible sides are switched.
 		/// </summary>
-		private Point3D _areaProjectionCenter = new Point3D(float.NaN, float.NaN, float.NaN);
+		private readonly Point3D _areaProjectionCenter = new(float.NaN, float.NaN, float.NaN);
 
 		/// <summary>
 		/// Selection mode. Points order should be reversed.
 		/// </summary>
-		private bool _selection = false;
+		private readonly bool _selection = false;
 
 		/// <summary>
 		/// Public constructor.
@@ -1910,8 +1834,8 @@ public partial class ChartArea
 		/// <param name="coord">Which coordinate of COP (X, Y or Z) to test for surface overlapping</param>
 		public PointsDrawingOrderComparer(ChartArea area, bool selection, COPCoordinates coord)
 		{
-			this._area = area;
-			this._selection = selection;
+			_area = area;
+			_selection = selection;
 
 			// Get center of projection
 			if (area.DrawPointsToCenter(ref coord))
@@ -2034,9 +1958,11 @@ public partial class ChartArea
 	internal Point3D GetCenterOfProjection(COPCoordinates coord)
 	{
 		// Define 2 points in the opposite corners of the plotting area
-		Point3D[] points = new Point3D[2];
-		points[0] = new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Bottom, 0f);
-		points[1] = new Point3D(this.PlotAreaPosition.Right, this.PlotAreaPosition.Y, this.areaSceneDepth);
+		Point3D[] points =
+		[
+			new Point3D(PlotAreaPosition.X, PlotAreaPosition.Bottom, 0f),
+			new Point3D(PlotAreaPosition.Right, PlotAreaPosition.Y, areaSceneDepth),
+		];
 
 		// Check if surfaces (points 1 & 2) has same orientation
 		bool xSameOrientation, ySameOrientation, zSameOrientation;
@@ -2049,7 +1975,7 @@ public partial class ChartArea
 			out zSameOrientation);
 
 		// If orientation of all surfaces is the same - no futher processing is required (COP is outside of plotting area)
-		Point3D resultPoint = new Point3D(
+		Point3D resultPoint = new(
 			(xSameOrientation) ? float.NaN : 0f,
 			(ySameOrientation) ? float.NaN : 0f,
 			(zSameOrientation) ? float.NaN : 0f);
@@ -2061,16 +1987,16 @@ public partial class ChartArea
 		}
 
 		// Calculate the smallest interval (0.5 pixels) in relative coordinates
-		SizeF interval = new SizeF(0.5f, 0.5f);
-		interval.Width = interval.Width * 100F / ((float)(this.Common.Chart.Width - 1));
-		interval.Height = interval.Height * 100F / ((float)(this.Common.Chart.Height - 1));
+		SizeF interval = new(0.5f, 0.5f);
+		interval.Width = interval.Width * 100F / ((float)(Common.Chart.Width - 1));
+		interval.Height = interval.Height * 100F / ((float)(Common.Chart.Height - 1));
 
 		// Find middle point and check it's surface orientation
 		bool doneFlag = false;
 		while (!doneFlag)
 		{
 			// Find middle point
-			Point3D middlePoint = new Point3D(
+			Point3D middlePoint = new(
 				(points[0].X + points[1].X) / 2f,
 				(points[0].Y + points[1].Y) / 2f,
 				(points[0].Z + points[1].Z) / 2f);
@@ -2112,11 +2038,20 @@ public partial class ChartArea
 
 		// Calculate result point
 		if (!float.IsNaN(resultPoint.X))
+		{
 			resultPoint.X = (points[0].X + points[1].X) / 2f;
+		}
+
 		if (!float.IsNaN(resultPoint.Y))
+		{
 			resultPoint.Y = (points[0].Y + points[1].Y) / 2f;
+		}
+
 		if (!float.IsNaN(resultPoint.Z))
+		{
 			resultPoint.Z = (points[0].Z + points[1].Z) / 2f;
+		}
+
 		return resultPoint;
 	}
 
@@ -2149,17 +2084,17 @@ public partial class ChartArea
 		if ((coord & COPCoordinates.X) == COPCoordinates.X)
 		{
 			// Define Left surface coordinates, transform them and check visibility
-			pointsSurface[0] = new Point3D(point1.X, this.PlotAreaPosition.Y, 0f);
-			pointsSurface[1] = new Point3D(point1.X, this.PlotAreaPosition.Bottom, 0f);
-			pointsSurface[2] = new Point3D(point1.X, this.PlotAreaPosition.Bottom, this.areaSceneDepth);
-			this.matrix3D.TransformPoints(pointsSurface);
+			pointsSurface[0] = new Point3D(point1.X, PlotAreaPosition.Y, 0f);
+			pointsSurface[1] = new Point3D(point1.X, PlotAreaPosition.Bottom, 0f);
+			pointsSurface[2] = new Point3D(point1.X, PlotAreaPosition.Bottom, areaSceneDepth);
+			matrix3D.TransformPoints(pointsSurface);
 			surf1 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 			// Define Right surface coordinates, transform them and check visibility
-			pointsSurface[0] = new Point3D(point2.X, this.PlotAreaPosition.Y, 0f);
-			pointsSurface[1] = new Point3D(point2.X, this.PlotAreaPosition.Bottom, 0f);
-			pointsSurface[2] = new Point3D(point2.X, this.PlotAreaPosition.Bottom, this.areaSceneDepth);
-			this.matrix3D.TransformPoints(pointsSurface);
+			pointsSurface[0] = new Point3D(point2.X, PlotAreaPosition.Y, 0f);
+			pointsSurface[1] = new Point3D(point2.X, PlotAreaPosition.Bottom, 0f);
+			pointsSurface[2] = new Point3D(point2.X, PlotAreaPosition.Bottom, areaSceneDepth);
+			matrix3D.TransformPoints(pointsSurface);
 			surf2 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 			// Check if surfaces have same visibility
@@ -2170,17 +2105,17 @@ public partial class ChartArea
 		if ((coord & COPCoordinates.Y) == COPCoordinates.Y)
 		{
 			// Define Bottom surface coordinates, transform them and check visibility
-			pointsSurface[0] = new Point3D(this.PlotAreaPosition.X, point1.Y, this.areaSceneDepth);
-			pointsSurface[1] = new Point3D(this.PlotAreaPosition.X, point1.Y, 0f);
-			pointsSurface[2] = new Point3D(this.PlotAreaPosition.Right, point1.Y, 0f);
-			this.matrix3D.TransformPoints(pointsSurface);
+			pointsSurface[0] = new Point3D(PlotAreaPosition.X, point1.Y, areaSceneDepth);
+			pointsSurface[1] = new Point3D(PlotAreaPosition.X, point1.Y, 0f);
+			pointsSurface[2] = new Point3D(PlotAreaPosition.Right, point1.Y, 0f);
+			matrix3D.TransformPoints(pointsSurface);
 			surf1 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 			// Define Top surface coordinates, transform them and check visibility
-			pointsSurface[0] = new Point3D(this.PlotAreaPosition.X, point2.Y, this.areaSceneDepth);
-			pointsSurface[1] = new Point3D(this.PlotAreaPosition.X, point2.Y, 0f);
-			pointsSurface[2] = new Point3D(this.PlotAreaPosition.Right, point2.Y, 0f);
-			this.matrix3D.TransformPoints(pointsSurface);
+			pointsSurface[0] = new Point3D(PlotAreaPosition.X, point2.Y, areaSceneDepth);
+			pointsSurface[1] = new Point3D(PlotAreaPosition.X, point2.Y, 0f);
+			pointsSurface[2] = new Point3D(PlotAreaPosition.Right, point2.Y, 0f);
+			matrix3D.TransformPoints(pointsSurface);
 			surf2 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 			// Check if surfaces have same visibility
@@ -2191,17 +2126,17 @@ public partial class ChartArea
 		if ((coord & COPCoordinates.Z) == COPCoordinates.Z)
 		{
 			// Define Front surface coordinates, transform them and check visibility
-			pointsSurface[0] = new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Y, point1.Z);
-			pointsSurface[1] = new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Bottom, point1.Z);
-			pointsSurface[2] = new Point3D(this.PlotAreaPosition.Right, this.PlotAreaPosition.Bottom, point1.Z);
-			this.matrix3D.TransformPoints(pointsSurface);
+			pointsSurface[0] = new Point3D(PlotAreaPosition.X, PlotAreaPosition.Y, point1.Z);
+			pointsSurface[1] = new Point3D(PlotAreaPosition.X, PlotAreaPosition.Bottom, point1.Z);
+			pointsSurface[2] = new Point3D(PlotAreaPosition.Right, PlotAreaPosition.Bottom, point1.Z);
+			matrix3D.TransformPoints(pointsSurface);
 			surf1 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 			// Define Back surface coordinates, transform them and check visibility
-			pointsSurface[0] = new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Y, point2.Z);
-			pointsSurface[1] = new Point3D(this.PlotAreaPosition.X, this.PlotAreaPosition.Bottom, point2.Z);
-			pointsSurface[2] = new Point3D(this.PlotAreaPosition.Right, this.PlotAreaPosition.Bottom, point2.Z);
-			this.matrix3D.TransformPoints(pointsSurface);
+			pointsSurface[0] = new Point3D(PlotAreaPosition.X, PlotAreaPosition.Y, point2.Z);
+			pointsSurface[1] = new Point3D(PlotAreaPosition.X, PlotAreaPosition.Bottom, point2.Z);
+			pointsSurface[2] = new Point3D(PlotAreaPosition.Right, PlotAreaPosition.Bottom, point2.Z);
+			matrix3D.TransformPoints(pointsSurface);
 			surf2 = ChartGraphics.IsSurfaceVisible(pointsSurface[0], pointsSurface[1], pointsSurface[2]);
 
 			// Check if surfaces have same visibility

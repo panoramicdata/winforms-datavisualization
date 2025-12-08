@@ -50,10 +50,7 @@ internal class MarkerStyleEditor : UITypeEditor, IDisposable
 		if (e.Value is MarkerStyle)
 		{
 			// Create chart graphics object
-			if (_chartGraph == null)
-			{
-				_chartGraph = new ChartGraphics(null);
-			}
+			_chartGraph ??= new ChartGraphics(null);
 
 			_chartGraph.Graphics = e.Graphics;
 
@@ -87,17 +84,19 @@ internal class MarkerStyleEditor : UITypeEditor, IDisposable
 				}
 				else if (attrObject is LegendItem)
 				{
-					attributes = new DataPointCustomProperties();
-					attributes.MarkerColor = ((LegendItem)attrObject).markerColor;
-					attributes.MarkerBorderColor = ((LegendItem)attrObject).markerBorderColor;
-					attributes.MarkerSize = ((LegendItem)attrObject).markerSize;
+					attributes = new DataPointCustomProperties
+					{
+						MarkerColor = ((LegendItem)attrObject).markerColor,
+						MarkerBorderColor = ((LegendItem)attrObject).markerBorderColor,
+						MarkerSize = ((LegendItem)attrObject).markerSize
+					};
 				}
 			}
 
 			// Draw marker sample
 			if (attributes != null && (MarkerStyle)e.Value != MarkerStyle.None)
 			{
-				PointF point = new PointF(e.Bounds.X + ((float)e.Bounds.Width) / 2F - 0.5F, e.Bounds.Y + ((float)e.Bounds.Height) / 2F - 0.5F);
+				PointF point = new(e.Bounds.X + ((float)e.Bounds.Width) / 2F - 0.5F, e.Bounds.Y + ((float)e.Bounds.Height) / 2F - 0.5F);
 				Color color = (attributes.MarkerColor == Color.Empty) ? Color.Black : attributes.MarkerColor;
 				int size = attributes.MarkerSize;
 				if (size > (e.Bounds.Height - 4))

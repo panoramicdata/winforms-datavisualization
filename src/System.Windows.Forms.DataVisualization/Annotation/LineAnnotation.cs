@@ -44,7 +44,7 @@ public class LineAnnotation : Annotation
 	public LineAnnotation()
 			: base()
 	{
-		this.anchorAlignment = ContentAlignment.TopLeft;
+		anchorAlignment = ContentAlignment.TopLeft;
 	}
 
 	#endregion
@@ -234,7 +234,7 @@ public class LineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -260,7 +260,7 @@ public class LineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
 	override public ChartHatchStyle BackHatchStyle
@@ -282,7 +282,7 @@ public class LineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
 	override public GradientStyle BackGradientStyle
@@ -304,7 +304,7 @@ public class LineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -384,7 +384,7 @@ public class LineAnnotation : Annotation
 	[
 	SRCategory("CategoryAttributeAnchor"),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	DefaultValue(typeof(ContentAlignment), "TopLeft"),
 		SRDescription("DescriptionAttributeAnchorAlignment"),
 	]
@@ -418,9 +418,9 @@ public class LineAnnotation : Annotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -444,11 +444,11 @@ public class LineAnnotation : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -521,14 +521,14 @@ public class LineAnnotation : Annotation
 	override internal void Paint(Chart chart, ChartGraphics graphics)
 	{
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+		PointF anchorPoint;
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
-		PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+		PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 		// Create selection rectangle
-		RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+		RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 		// Adjust coordinates
 		AdjustLineCoordinates(ref firstPoint, ref secondPoint, ref selectionRect);
@@ -546,24 +546,24 @@ public class LineAnnotation : Annotation
 		bool capChanged = false;
 		LineCap oldStartCap = LineCap.Flat;
 		LineCap oldEndCap = LineCap.Flat;
-		if (this._startCap != LineAnchorCapStyle.None ||
-			this._endCap != LineAnchorCapStyle.None)
+		if (_startCap != LineAnchorCapStyle.None ||
+			_endCap != LineAnchorCapStyle.None)
 		{
 			capChanged = true;
 			oldStartCap = graphics.Pen.StartCap;
 			oldEndCap = graphics.Pen.EndCap;
 
 			// Apply anchor cap settings
-			if (this._startCap == LineAnchorCapStyle.Arrow)
+			if (_startCap == LineAnchorCapStyle.Arrow)
 			{
 				// Adjust arrow size for small line width
-				if (this.LineWidth < 4)
+				if (LineWidth < 4)
 				{
-					int adjustment = 3 - this.LineWidth;
+					int adjustment = 3 - LineWidth;
 					graphics.Pen.StartCap = LineCap.Custom;
 					graphics.Pen.CustomStartCap = new AdjustableArrowCap(
-					this.LineWidth + adjustment,
-					this.LineWidth + adjustment,
+					LineWidth + adjustment,
+					LineWidth + adjustment,
 					true);
 				}
 				else
@@ -571,29 +571,29 @@ public class LineAnnotation : Annotation
 					graphics.Pen.StartCap = LineCap.ArrowAnchor;
 				}
 			}
-			else if (this._startCap == LineAnchorCapStyle.Diamond)
+			else if (_startCap == LineAnchorCapStyle.Diamond)
 			{
 				graphics.Pen.StartCap = LineCap.DiamondAnchor;
 			}
-			else if (this._startCap == LineAnchorCapStyle.Round)
+			else if (_startCap == LineAnchorCapStyle.Round)
 			{
 				graphics.Pen.StartCap = LineCap.RoundAnchor;
 			}
-			else if (this._startCap == LineAnchorCapStyle.Square)
+			else if (_startCap == LineAnchorCapStyle.Square)
 			{
 				graphics.Pen.StartCap = LineCap.SquareAnchor;
 			}
 
-			if (this._endCap == LineAnchorCapStyle.Arrow)
+			if (_endCap == LineAnchorCapStyle.Arrow)
 			{
 				// Adjust arrow size for small line width
-				if (this.LineWidth < 4)
+				if (LineWidth < 4)
 				{
-					int adjustment = 3 - this.LineWidth;
+					int adjustment = 3 - LineWidth;
 					graphics.Pen.EndCap = LineCap.Custom;
 					graphics.Pen.CustomEndCap = new AdjustableArrowCap(
-					this.LineWidth + adjustment,
-					this.LineWidth + adjustment,
+					LineWidth + adjustment,
+					LineWidth + adjustment,
 					true);
 				}
 				else
@@ -601,72 +601,70 @@ public class LineAnnotation : Annotation
 					graphics.Pen.EndCap = LineCap.ArrowAnchor;
 				}
 			}
-			else if (this._endCap == LineAnchorCapStyle.Diamond)
+			else if (_endCap == LineAnchorCapStyle.Diamond)
 			{
 				graphics.Pen.EndCap = LineCap.DiamondAnchor;
 			}
-			else if (this._endCap == LineAnchorCapStyle.Round)
+			else if (_endCap == LineAnchorCapStyle.Round)
 			{
 				graphics.Pen.EndCap = LineCap.RoundAnchor;
 			}
-			else if (this._endCap == LineAnchorCapStyle.Square)
+			else if (_endCap == LineAnchorCapStyle.Square)
 			{
 				graphics.Pen.EndCap = LineCap.SquareAnchor;
 			}
 		}
 
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
 			// Draw line
 			graphics.DrawLineRel(
-				this.LineColor,
-				this.LineWidth,
-				this.LineDashStyle,
+				LineColor,
+				LineWidth,
+				LineDashStyle,
 				firstPoint,
 				secondPoint,
-				this.ShadowColor,
-				this.ShadowOffset);
+				ShadowColor,
+				ShadowOffset);
 		}
 
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Create line graphics path
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+			path.AddLine(
+				graphics.GetAbsolutePoint(firstPoint),
+				graphics.GetAbsolutePoint(secondPoint));
+			using (Pen pen = (Pen)graphics.Pen.Clone())
 			{
-				path.AddLine(
-					graphics.GetAbsolutePoint(firstPoint),
-					graphics.GetAbsolutePoint(secondPoint));
-				using (Pen pen = (Pen)graphics.Pen.Clone())
+				// Increase pen size by 2 pixels
+				pen.DashStyle = DashStyle.Solid;
+				pen.Width += 2;
+				try
 				{
-					// Increase pen size by 2 pixels
-					pen.DashStyle = DashStyle.Solid;
-					pen.Width += 2;
-					try
-					{
-						path.Widen(pen);
-					}
-					catch (OutOfMemoryException)
-					{
-						// GraphicsPath.Widen incorrectly throws OutOfMemoryException
-						// catching here and reacting by not widening
-					}
-					catch (ArgumentException)
-					{
-					}
+					path.Widen(pen);
 				}
-
-				// Add hot region
-				this.Common.HotRegionsList.AddHotRegion(
-					graphics,
-					path,
-					false,
-					ReplaceKeywords(this.ToolTip),
-					String.Empty,
-					String.Empty,
-					String.Empty,
-						this,
-						ChartElementType.Annotation);
+				catch (OutOfMemoryException)
+				{
+					// GraphicsPath.Widen incorrectly throws OutOfMemoryException
+					// catching here and reacting by not widening
+				}
+				catch (ArgumentException)
+				{
+				}
 			}
+
+			// Add hot region
+			Common.HotRegionsList.AddHotRegion(
+				graphics,
+				path,
+				false,
+				ReplaceKeywords(ToolTip),
+				string.Empty,
+				string.Empty,
+				string.Empty,
+					this,
+					ChartElementType.Annotation);
 		}
 
 
@@ -720,9 +718,9 @@ public class VerticalLineAnnotation : LineAnnotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -805,9 +803,9 @@ public class HorizontalLineAnnotation : LineAnnotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType

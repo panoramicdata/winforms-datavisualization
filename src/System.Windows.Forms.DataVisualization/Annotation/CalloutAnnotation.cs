@@ -107,9 +107,9 @@ public class CalloutAnnotation : TextAnnotation
 			: base()
 	{
 		// Changing default values of properties
-		this.anchorOffsetX = 3.0;
-		this.anchorOffsetY = 3.0;
-		this.anchorAlignment = ContentAlignment.BottomLeft;
+		anchorOffsetX = 3.0;
+		anchorOffsetY = 3.0;
+		anchorAlignment = ContentAlignment.BottomLeft;
 	}
 
 	#endregion
@@ -129,7 +129,7 @@ public class CalloutAnnotation : TextAnnotation
 	Bindable(true),
 	DefaultValue(CalloutStyle.Rectangle),
 	SRDescription("DescriptionAttributeCalloutAnnotation_CalloutStyle"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	virtual public CalloutStyle CalloutStyle
 	{
@@ -140,7 +140,7 @@ public class CalloutAnnotation : TextAnnotation
 		set
 		{
 			_calloutStyle = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 
 			// Reset content size to empty
 			contentSize = SizeF.Empty;
@@ -277,7 +277,7 @@ public class CalloutAnnotation : TextAnnotation
 	Browsable(true),
 	DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBackColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -309,7 +309,7 @@ public class CalloutAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
@@ -341,7 +341,7 @@ public class CalloutAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
@@ -375,7 +375,7 @@ public class CalloutAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
@@ -415,7 +415,7 @@ public class CalloutAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAnchor"),
 	DefaultValue(3.0),
 	SRDescription("DescriptionAttributeCalloutAnnotation_AnchorOffsetX"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	]
 	override public double AnchorOffsetX
 	{
@@ -448,7 +448,7 @@ public class CalloutAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAnchor"),
 	DefaultValue(3.0),
 	SRDescription("DescriptionAttributeCalloutAnnotation_AnchorOffsetY"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	]
 	override public double AnchorOffsetY
 	{
@@ -514,9 +514,9 @@ public class CalloutAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -540,11 +540,11 @@ public class CalloutAnnotation : TextAnnotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -571,13 +571,13 @@ public class CalloutAnnotation : TextAnnotation
 	internal override RectangleF GetTextSpacing(out bool annotationRelative)
 	{
 		RectangleF spacing = base.GetTextSpacing(out annotationRelative);
-		if (this._calloutStyle == CalloutStyle.Cloud ||
-			this._calloutStyle == CalloutStyle.Ellipse)
+		if (_calloutStyle == CalloutStyle.Cloud ||
+			_calloutStyle == CalloutStyle.Ellipse)
 		{
 			spacing = new RectangleF(4f, 4f, 4f, 4f);
 			annotationRelative = true;
 		}
-		else if (this._calloutStyle == CalloutStyle.RoundedRectangle)
+		else if (_calloutStyle == CalloutStyle.RoundedRectangle)
 		{
 			spacing = new RectangleF(1f, 1f, 1f, 1f);
 			annotationRelative = true;
@@ -602,17 +602,17 @@ public class CalloutAnnotation : TextAnnotation
 	override internal void Paint(Chart chart, ChartGraphics graphics)
 	{
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+		PointF anchorPoint;
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
-		PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+		PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 		// Create selection rectangle
-		RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+		RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 		// Adjust negative rectangle width and height
-		RectangleF rectanglePosition = new RectangleF(selectionRect.Location, selectionRect.Size);
+		RectangleF rectanglePosition = new(selectionRect.Location, selectionRect.Size);
 		if (rectanglePosition.Width < 0)
 		{
 			rectanglePosition.X = rectanglePosition.Right;
@@ -636,9 +636,9 @@ public class CalloutAnnotation : TextAnnotation
 
 		// Paint different style of callouts
 		GraphicsPath hotRegionPathAbs = null;
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
-			switch (this._calloutStyle)
+			switch (_calloutStyle)
 			{
 				case (CalloutStyle.SimpleLine):
 					hotRegionPathAbs = DrawRectangleLineCallout(
@@ -689,54 +689,51 @@ public class CalloutAnnotation : TextAnnotation
 			}
 		}
 
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			if (hotRegionPathAbs != null)
 			{
 				// If there is more then one graphical path split them and create 
 				// image maps for every graphical path separately.
-				GraphicsPathIterator iterator = new GraphicsPathIterator(hotRegionPathAbs);
+				GraphicsPathIterator iterator = new(hotRegionPathAbs);
 
 				// There is more then one path.
-				using (GraphicsPath subPath = new GraphicsPath())
+				using GraphicsPath subPath = new();
+				while (iterator.NextMarker(subPath) > 0)
 				{
-					while (iterator.NextMarker(subPath) > 0)
-					{
-						// Use callout defined hot region
-						this.Common.HotRegionsList.AddHotRegion(
-							graphics,
-							subPath,
-							false,
-							ReplaceKeywords(this.ToolTip),
-						String.Empty,
-						String.Empty,
-						String.Empty,
-							this,
-							ChartElementType.Annotation);
+					// Use callout defined hot region
+					Common.HotRegionsList.AddHotRegion(
+						graphics,
+						subPath,
+						false,
+						ReplaceKeywords(ToolTip),
+					string.Empty,
+					string.Empty,
+					string.Empty,
+						this,
+						ChartElementType.Annotation);
 
-						// Reset current path
-						subPath.Reset();
-					}
+					// Reset current path
+					subPath.Reset();
 				}
 			}
 			else
 			{
 				// Use rectangular hot region
-				this.Common.HotRegionsList.AddHotRegion(
+				Common.HotRegionsList.AddHotRegion(
 					rectanglePosition,
-					ReplaceKeywords(this.ToolTip),
-					String.Empty,
-					String.Empty,
-					String.Empty,
+					ReplaceKeywords(ToolTip),
+					string.Empty,
+					string.Empty,
+					string.Empty,
 					this,
 					ChartElementType.Annotation,
-					String.Empty);
+					string.Empty);
 			}
 		}
 
 		//Clean up
-		if (hotRegionPathAbs != null)
-			hotRegionPathAbs.Dispose();
+		hotRegionPathAbs?.Dispose();
 
 		// Paint selection handles
 		PaintSelectionHandles(graphics, selectionRect, null);
@@ -767,7 +764,7 @@ public class CalloutAnnotation : TextAnnotation
 		}
 
 		// Create ellipse path
-		GraphicsPath ellipsePath = new GraphicsPath();
+		GraphicsPath ellipsePath = new();
 		if (isEllipse)
 		{
 			// Add ellipse shape
@@ -778,7 +775,7 @@ public class CalloutAnnotation : TextAnnotation
 			// Add rounded rectangle shape
 			float radius = Math.Min(rectanglePositionAbs.Width, rectanglePositionAbs.Height);
 			radius /= 5f;
-			ellipsePath = this.CreateRoundedRectPath(rectanglePositionAbs, radius);
+			ellipsePath = CreateRoundedRectPath(rectanglePositionAbs, radius);
 		}
 
 		// Draw perspective polygons from anchoring point
@@ -825,20 +822,20 @@ public class CalloutAnnotation : TextAnnotation
 		// Draw ellipse
 		graphics.DrawPathAbs(
 			ellipsePath,
-			this.BackColor,
-			this.BackHatchStyle,
-			String.Empty,
+			BackColor,
+			BackHatchStyle,
+			string.Empty,
 			ChartImageWrapMode.Scaled,
 			Color.Empty,
 			ChartImageAlignmentStyle.Center,
-			this.BackGradientStyle,
-			this.BackSecondaryColor,
-			this.LineColor,
-			this.LineWidth,
-			this.LineDashStyle,
+			BackGradientStyle,
+			BackSecondaryColor,
+			LineColor,
+			LineWidth,
+			LineDashStyle,
 			PenAlignment.Center,
-			this.ShadowOffset,
-			this.ShadowColor);
+			ShadowOffset,
+			ShadowColor);
 
 		// Draw text 
 		DrawText(graphics, rectanglePosition, true, false);
@@ -867,7 +864,7 @@ public class CalloutAnnotation : TextAnnotation
 			SizeF pixelSize = graphics.GetRelativeSize(new SizeF(1f, 1f));
 
 			// Increase annotation position rectangle by 1 pixel
-			RectangleF inflatedPosition = new RectangleF(rectanglePosition.Location, rectanglePosition.Size);
+			RectangleF inflatedPosition = new(rectanglePosition.Location, rectanglePosition.Size);
 			inflatedPosition.Inflate(pixelSize);
 
 			// Check if point is inside annotation position
@@ -989,20 +986,20 @@ public class CalloutAnnotation : TextAnnotation
 				// Draw callout
 				graphics.DrawPathAbs(
 					hotRegion,
-					this.BackColor,
-					this.BackHatchStyle,
-					String.Empty,
+					BackColor,
+					BackHatchStyle,
+					string.Empty,
 					ChartImageWrapMode.Scaled,
 					Color.Empty,
 					ChartImageAlignmentStyle.Center,
-					this.BackGradientStyle,
-					this.BackSecondaryColor,
-					this.LineColor,
-					this.LineWidth,
-					this.LineDashStyle,
+					BackGradientStyle,
+					BackSecondaryColor,
+					LineColor,
+					LineWidth,
+					LineDashStyle,
 					PenAlignment.Center,
-					this.ShadowOffset,
-					this.ShadowColor);
+					ShadowOffset,
+					ShadowColor);
 
 			}
 		}
@@ -1012,19 +1009,19 @@ public class CalloutAnnotation : TextAnnotation
 		{
 			graphics.FillRectangleRel(
 				rectanglePosition,
-				this.BackColor,
-				this.BackHatchStyle,
-				String.Empty,
+				BackColor,
+				BackHatchStyle,
+				string.Empty,
 				ChartImageWrapMode.Scaled,
 				Color.Empty,
 				ChartImageAlignmentStyle.Center,
-				this.BackGradientStyle,
-				this.BackSecondaryColor,
-				this.LineColor,
-				this.LineWidth,
-				this.LineDashStyle,
-				this.ShadowColor,
-				this.ShadowOffset,
+				BackGradientStyle,
+				BackSecondaryColor,
+				LineColor,
+				LineWidth,
+				LineDashStyle,
+				ShadowColor,
+				ShadowOffset,
 				PenAlignment.Center);
 
 			// Get hot region
@@ -1078,7 +1075,7 @@ public class CalloutAnnotation : TextAnnotation
 				float dxAbs = anchorPointAbs.X - cloudCenterAbs.X;
 				float dyAbs = anchorPointAbs.Y - cloudCenterAbs.Y;
 
-				PointF point = PointF.Empty;
+				PointF point;
 				if (anchorPoint.Y < rectanglePosition.Y)
 				{
 					point = GetIntersectionY(cloudCenterAbs, anchorPointAbs, rectanglePositionAbs.Y);
@@ -1115,56 +1112,62 @@ public class CalloutAnnotation : TextAnnotation
 					}
 				}
 
-				SizeF size = new SizeF(Math.Abs(cloudCenterAbs.X - point.X), Math.Abs(cloudCenterAbs.Y - point.Y));
+				SizeF size = new(Math.Abs(cloudCenterAbs.X - point.X), Math.Abs(cloudCenterAbs.Y - point.Y));
 				if (dxAbs > 0)
+				{
 					dxAbs -= size.Width;
+				}
 				else
+				{
 					dxAbs += size.Width;
+				}
 
 				if (dyAbs > 0)
+				{
 					dyAbs -= size.Height;
+				}
 				else
+				{
 					dyAbs += size.Height;
+				}
 
 
 				// Draw 3 smaller ellipses from anchor point to the cloud
 				for (int index = 0; index < 3; index++)
 				{
-					using (GraphicsPath path = new GraphicsPath())
-					{
-						// Create ellipse path
-						path.AddEllipse(
-							ellipseLocation.X - ellipseSize.Width / 2f,
-							ellipseLocation.Y - ellipseSize.Height / 2f,
-							ellipseSize.Width,
-							ellipseSize.Height);
+					using GraphicsPath path = new();
+					// Create ellipse path
+					path.AddEllipse(
+						ellipseLocation.X - ellipseSize.Width / 2f,
+						ellipseLocation.Y - ellipseSize.Height / 2f,
+						ellipseSize.Width,
+						ellipseSize.Height);
 
-						// Draw ellipse
-						graphics.DrawPathAbs(
-							path,
-							this.BackColor,
-							this.BackHatchStyle,
-							String.Empty,
-							ChartImageWrapMode.Scaled,
-							Color.Empty,
-							ChartImageAlignmentStyle.Center,
-							this.BackGradientStyle,
-							this.BackSecondaryColor,
-							this.LineColor,
-							1, // this.LineWidth,	NOTE: Cloud supports only 1 pixel border
-							this.LineDashStyle,
-							PenAlignment.Center,
-							this.ShadowOffset,
-							this.ShadowColor);
+					// Draw ellipse
+					graphics.DrawPathAbs(
+						path,
+						BackColor,
+						BackHatchStyle,
+						string.Empty,
+						ChartImageWrapMode.Scaled,
+						Color.Empty,
+						ChartImageAlignmentStyle.Center,
+						BackGradientStyle,
+						BackSecondaryColor,
+						LineColor,
+						1, // this.LineWidth,	NOTE: Cloud supports only 1 pixel border
+						LineDashStyle,
+						PenAlignment.Center,
+						ShadowOffset,
+						ShadowColor);
 
-						// Adjust ellipse size
-						ellipseSize.Width *= 1.5f;
-						ellipseSize.Height *= 1.5f;
+					// Adjust ellipse size
+					ellipseSize.Width *= 1.5f;
+					ellipseSize.Height *= 1.5f;
 
-						// Adjust next ellipse position
-						ellipseLocation.X -= dxAbs / 3f + (index * (dxAbs / 10f));
-						ellipseLocation.Y -= dyAbs / 3f + (index * (dyAbs / 10f));
-					}
+					// Adjust next ellipse position
+					ellipseLocation.X -= dxAbs / 3f + (index * (dxAbs / 10f));
+					ellipseLocation.Y -= dyAbs / 3f + (index * (dyAbs / 10f));
 				}
 			}
 		}
@@ -1173,40 +1176,38 @@ public class CalloutAnnotation : TextAnnotation
 		GraphicsPath pathCloud = GetCloudPath(rectanglePositionAbs);
 		graphics.DrawPathAbs(
 			pathCloud,
-			this.BackColor,
-			this.BackHatchStyle,
-			String.Empty,
+			BackColor,
+			BackHatchStyle,
+			string.Empty,
 			ChartImageWrapMode.Scaled,
 			Color.Empty,
 			ChartImageAlignmentStyle.Center,
-			this.BackGradientStyle,
-			this.BackSecondaryColor,
-			this.LineColor,
+			BackGradientStyle,
+			BackSecondaryColor,
+			LineColor,
 			1, // this.LineWidth,	NOTE: Cloud supports only 1 pixel border
-			this.LineDashStyle,
+			LineDashStyle,
 			PenAlignment.Center,
-			this.ShadowOffset,
-			this.ShadowColor);
+			ShadowOffset,
+			ShadowColor);
 
 		// Draw cloud outline (Do not draw in SVG or Flash Animation)
 		{
-			using (GraphicsPath pathCloudOutline = GetCloudOutlinePath(rectanglePositionAbs))
-			{
-				graphics.DrawPathAbs(
-					pathCloudOutline,
-					this.BackColor,
-					this.BackHatchStyle,
-					String.Empty,
-					ChartImageWrapMode.Scaled,
-					Color.Empty,
-					ChartImageAlignmentStyle.Center,
-					this.BackGradientStyle,
-					this.BackSecondaryColor,
-					this.LineColor,
-					1, // this.LineWidth,	NOTE: Cloud supports only 1 pixel border
-					this.LineDashStyle,
-					PenAlignment.Center);
-			}
+			using GraphicsPath pathCloudOutline = GetCloudOutlinePath(rectanglePositionAbs);
+			graphics.DrawPathAbs(
+				pathCloudOutline,
+				BackColor,
+				BackHatchStyle,
+				string.Empty,
+				ChartImageWrapMode.Scaled,
+				Color.Empty,
+				ChartImageAlignmentStyle.Center,
+				BackGradientStyle,
+				BackSecondaryColor,
+				LineColor,
+				1, // this.LineWidth,	NOTE: Cloud supports only 1 pixel border
+				LineDashStyle,
+				PenAlignment.Center);
 		}
 
 		// Draw text 
@@ -1230,23 +1231,23 @@ public class CalloutAnnotation : TextAnnotation
 		// Draw rectangle
 		graphics.FillRectangleRel(
 			rectanglePosition,
-			this.BackColor,
-			this.BackHatchStyle,
-			String.Empty,
+			BackColor,
+			BackHatchStyle,
+			string.Empty,
 			ChartImageWrapMode.Scaled,
 			Color.Empty,
 			ChartImageAlignmentStyle.Center,
-			this.BackGradientStyle,
-			this.BackSecondaryColor,
-			this.LineColor,
-			this.LineWidth,
-			this.LineDashStyle,
-			this.ShadowColor,
+			BackGradientStyle,
+			BackSecondaryColor,
+			LineColor,
+			LineWidth,
+			LineDashStyle,
+			ShadowColor,
 			0,  // Shadow is never drawn
 			PenAlignment.Center);
 
 		// Create hot region path
-		GraphicsPath hotRegion = new GraphicsPath();
+		GraphicsPath hotRegion = new();
 		hotRegion.AddRectangle(graphics.GetAbsoluteRectangle(rectanglePosition));
 
 		// Draw text 
@@ -1259,7 +1260,7 @@ public class CalloutAnnotation : TextAnnotation
 			if (!rectanglePosition.Contains(anchorPoint.X, anchorPoint.Y))
 			{
 				Color[] perspectivePathColors = new Color[2];
-				Color color = (this.BackColor.IsEmpty) ? Color.White : this.BackColor;
+				Color color = (BackColor.IsEmpty) ? Color.White : BackColor;
 				perspectivePathColors[0] = graphics.GetBrightGradientColor(color, 0.6);
 				perspectivePathColors[1] = graphics.GetBrightGradientColor(color, 0.8);
 				GraphicsPath[] perspectivePaths = new GraphicsPath[2];
@@ -1274,49 +1275,61 @@ public class CalloutAnnotation : TextAnnotation
 						// Create paths of perspective
 						if (anchorPoint.Y < rectanglePosition.Y)
 						{
-							PointF[] points1 = new PointF[3];
-							points1[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-							points1[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-							points1[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+							PointF[] points1 =
+							[
+								new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+								new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+								new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+							];
 							perspectivePaths[0].AddLines(points1);
 							if (anchorPoint.X < rectanglePosition.X)
 							{
-								PointF[] points2 = new PointF[3];
-								points2[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-								points2[1] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-								points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+								PointF[] points2 =
+								[
+									new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+									new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+									new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+								];
 								perspectivePaths[1].AddLines(points2);
 							}
 							else if (anchorPoint.X > rectanglePosition.Right)
 							{
-								PointF[] points2 = new PointF[3];
-								points2[0] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-								points2[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-								points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+								PointF[] points2 =
+								[
+									new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+									new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+									new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+								];
 								perspectivePaths[1].AddLines(points2);
 							}
 						}
 						else if (anchorPoint.Y > rectanglePosition.Bottom)
 						{
-							PointF[] points1 = new PointF[3];
-							points1[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-							points1[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-							points1[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+							PointF[] points1 =
+							[
+								new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+								new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+								new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+							];
 							perspectivePaths[0].AddLines(points1);
 							if (anchorPoint.X < rectanglePosition.X)
 							{
-								PointF[] points2 = new PointF[3];
-								points2[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-								points2[1] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-								points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+								PointF[] points2 =
+								[
+									new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+									new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+									new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+								];
 								perspectivePaths[1].AddLines(points2);
 							}
 							else if (anchorPoint.X > rectanglePosition.Right)
 							{
-								PointF[] points2 = new PointF[3];
-								points2[0] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-								points2[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-								points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+								PointF[] points2 =
+								[
+									new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+									new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+									new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+								];
 								perspectivePaths[1].AddLines(points2);
 							}
 						}
@@ -1324,18 +1337,22 @@ public class CalloutAnnotation : TextAnnotation
 						{
 							if (anchorPoint.X < rectanglePosition.X)
 							{
-								PointF[] points2 = new PointF[3];
-								points2[0] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom);
-								points2[1] = new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y);
-								points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+								PointF[] points2 =
+								[
+									new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Bottom),
+									new PointF(rectanglePositionAbs.X, rectanglePositionAbs.Y),
+									new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+								];
 								perspectivePaths[1].AddLines(points2);
 							}
 							else if (anchorPoint.X > rectanglePosition.Right)
 							{
-								PointF[] points2 = new PointF[3];
-								points2[0] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom);
-								points2[1] = new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y);
-								points2[2] = new PointF(anchorPointAbs.X, anchorPointAbs.Y);
+								PointF[] points2 =
+								[
+									new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Bottom),
+									new PointF(rectanglePositionAbs.Right, rectanglePositionAbs.Y),
+									new PointF(anchorPointAbs.X, anchorPointAbs.Y),
+								];
 								perspectivePaths[1].AddLines(points2);
 							}
 						}
@@ -1350,16 +1367,16 @@ public class CalloutAnnotation : TextAnnotation
 								graphics.DrawPathAbs(
 									path,
 									perspectivePathColors[index],
-									this.BackHatchStyle,
-									String.Empty,
+									BackHatchStyle,
+									string.Empty,
 									ChartImageWrapMode.Scaled,
 									Color.Empty,
 									ChartImageAlignmentStyle.Center,
-									this.BackGradientStyle,
-									this.BackSecondaryColor,
-									this.LineColor,
-									this.LineWidth,
-									this.LineDashStyle,
+									BackGradientStyle,
+									BackSecondaryColor,
+									LineColor,
+									LineWidth,
+									LineDashStyle,
 									PenAlignment.Center);
 
 								// Add area to hot region path
@@ -1397,19 +1414,19 @@ public class CalloutAnnotation : TextAnnotation
 			// Draw rectangle
 			graphics.FillRectangleRel(
 				rectanglePosition,
-				this.BackColor,
-				this.BackHatchStyle,
-				String.Empty,
+				BackColor,
+				BackHatchStyle,
+				string.Empty,
 				ChartImageWrapMode.Scaled,
 				Color.Empty,
 				ChartImageAlignmentStyle.Center,
-				this.BackGradientStyle,
-				this.BackSecondaryColor,
-				this.LineColor,
-				this.LineWidth,
-				this.LineDashStyle,
-				this.ShadowColor,
-				this.ShadowOffset,
+				BackGradientStyle,
+				BackSecondaryColor,
+				LineColor,
+				LineWidth,
+				LineDashStyle,
+				ShadowColor,
+				ShadowOffset,
 				PenAlignment.Center);
 
 			// Draw text 
@@ -1424,12 +1441,12 @@ public class CalloutAnnotation : TextAnnotation
 		}
 
 		// Create hot region path
-		GraphicsPath hotRegion = new GraphicsPath();
+		GraphicsPath hotRegion = new();
 		hotRegion.AddRectangle(graphics.GetAbsoluteRectangle(rectanglePosition));
 
 		// Define position of text underlying line
-		PointF textLinePoint1 = new PointF(rectanglePosition.X, rectanglePosition.Bottom);
-		PointF textLinePoint2 = new PointF(rectanglePosition.Right, rectanglePosition.Bottom);
+		PointF textLinePoint1 = new(rectanglePosition.X, rectanglePosition.Bottom);
+		PointF textLinePoint2 = new(rectanglePosition.Right, rectanglePosition.Bottom);
 
 		// Draw line to the anchor point
 		if (!float.IsNaN(anchorPoint.X) && !float.IsNaN(anchorPoint.Y))
@@ -1467,23 +1484,23 @@ public class CalloutAnnotation : TextAnnotation
 				// Set line caps
 				bool capChanged = false;
 				LineCap oldStartCap = LineCap.Flat;
-				if (this.CalloutAnchorCap != LineAnchorCapStyle.None)
+				if (CalloutAnchorCap != LineAnchorCapStyle.None)
 				{
 					// Save old pen
 					capChanged = true;
 					oldStartCap = graphics.Pen.StartCap;
 
 					// Apply anchor cap settings
-					if (this.CalloutAnchorCap == LineAnchorCapStyle.Arrow)
+					if (CalloutAnchorCap == LineAnchorCapStyle.Arrow)
 					{
 						// Adjust arrow size for small line width
-						if (this.LineWidth < 4)
+						if (LineWidth < 4)
 						{
-							int adjustment = 3 - this.LineWidth;
+							int adjustment = 3 - LineWidth;
 							graphics.Pen.StartCap = LineCap.Custom;
 							graphics.Pen.CustomStartCap = new AdjustableArrowCap(
-							this.LineWidth + adjustment,
-							this.LineWidth + adjustment,
+							LineWidth + adjustment,
+							LineWidth + adjustment,
 							true);
 						}
 						else
@@ -1491,15 +1508,15 @@ public class CalloutAnnotation : TextAnnotation
 							graphics.Pen.StartCap = LineCap.ArrowAnchor;
 						}
 					}
-					else if (this.CalloutAnchorCap == LineAnchorCapStyle.Diamond)
+					else if (CalloutAnchorCap == LineAnchorCapStyle.Diamond)
 					{
 						graphics.Pen.StartCap = LineCap.DiamondAnchor;
 					}
-					else if (this.CalloutAnchorCap == LineAnchorCapStyle.Round)
+					else if (CalloutAnchorCap == LineAnchorCapStyle.Round)
 					{
 						graphics.Pen.StartCap = LineCap.RoundAnchor;
 					}
-					else if (this.CalloutAnchorCap == LineAnchorCapStyle.Square)
+					else if (CalloutAnchorCap == LineAnchorCapStyle.Square)
 					{
 						graphics.Pen.StartCap = LineCap.SquareAnchor;
 					}
@@ -1507,22 +1524,22 @@ public class CalloutAnnotation : TextAnnotation
 
 				// Draw callout line
 				graphics.DrawLineAbs(
-					this.LineColor,
-					this.LineWidth,
-					this.LineDashStyle,
+					LineColor,
+					LineWidth,
+					LineDashStyle,
 					graphics.GetAbsolutePoint(anchorPoint),
 					graphics.GetAbsolutePoint(lineSecondPoint),
-					this.ShadowColor,
-					this.ShadowOffset);
+					ShadowColor,
+					ShadowOffset);
 
 				// Create hot region path
-				using (GraphicsPath linePath = new GraphicsPath())
+				using (GraphicsPath linePath = new())
 				{
 					linePath.AddLine(
 						graphics.GetAbsolutePoint(anchorPoint),
 						graphics.GetAbsolutePoint(lineSecondPoint));
 
-					linePath.Widen(new Pen(Color.Black, this.LineWidth + 2));
+					linePath.Widen(new Pen(Color.Black, LineWidth + 2));
 					hotRegion.SetMarkers();
 					hotRegion.AddPath(linePath, false);
 				}
@@ -1561,25 +1578,23 @@ public class CalloutAnnotation : TextAnnotation
 			if (!drawRectangle)
 			{
 				graphics.DrawLineAbs(
-					this.LineColor,
-					this.LineWidth,
-					this.LineDashStyle,
+					LineColor,
+					LineWidth,
+					LineDashStyle,
 					graphics.GetAbsolutePoint(textLinePoint1),
 					graphics.GetAbsolutePoint(textLinePoint2),
-					this.ShadowColor,
-					this.ShadowOffset);
+					ShadowColor,
+					ShadowOffset);
 
 				// Create hot region path
-				using (GraphicsPath linePath = new GraphicsPath())
-				{
-					linePath.AddLine(
-						graphics.GetAbsolutePoint(textLinePoint1),
-						graphics.GetAbsolutePoint(textLinePoint2));
+				using GraphicsPath linePath = new();
+				linePath.AddLine(
+					graphics.GetAbsolutePoint(textLinePoint1),
+					graphics.GetAbsolutePoint(textLinePoint2));
 
-					linePath.Widen(new Pen(Color.Black, this.LineWidth + 2));
-					hotRegion.SetMarkers();
-					hotRegion.AddPath(linePath, false);
-				}
+				linePath.Widen(new Pen(Color.Black, LineWidth + 2));
+				hotRegion.SetMarkers();
+				hotRegion.AddPath(linePath, false);
 
 			}
 		}
@@ -1618,7 +1633,7 @@ public class CalloutAnnotation : TextAnnotation
 
 		// Translate and sacle original path to fit specified position
 		GraphicsPath resultPath = (GraphicsPath)_cloudOutlinePath.Clone();
-		Matrix matrix = new Matrix();
+		Matrix matrix = new();
 		matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 		resultPath.Transform(matrix);
 		matrix = new Matrix();
@@ -1729,7 +1744,7 @@ public class CalloutAnnotation : TextAnnotation
 
 		// Translate and sacle original path to fit specified position
 		GraphicsPath resultPath = (GraphicsPath)_cloudPath.Clone();
-		Matrix matrix = new Matrix();
+		Matrix matrix = new();
 		matrix.Translate(-_cloudBounds.X, -_cloudBounds.Y);
 		resultPath.Transform(matrix);
 		matrix = new Matrix();
@@ -1750,12 +1765,14 @@ public class CalloutAnnotation : TextAnnotation
 	/// <returns>Intersection point coordinates.</returns>
 	internal static PointF GetIntersectionY(PointF firstPoint, PointF secondPoint, float pointY)
 	{
-		PointF intersectionPoint = new PointF();
-		intersectionPoint.Y = pointY;
-		intersectionPoint.X = (pointY - firstPoint.Y) *
-			(secondPoint.X - firstPoint.X) /
-			(secondPoint.Y - firstPoint.Y) +
-			firstPoint.X;
+		PointF intersectionPoint = new()
+		{
+			Y = pointY,
+			X = (pointY - firstPoint.Y) *
+				(secondPoint.X - firstPoint.X) /
+				(secondPoint.Y - firstPoint.Y) +
+				firstPoint.X
+		};
 		return intersectionPoint;
 	}
 
@@ -1769,12 +1786,14 @@ public class CalloutAnnotation : TextAnnotation
 	/// <returns>Intersection point coordinates.</returns>
 	internal static PointF GetIntersectionX(PointF firstPoint, PointF secondPoint, float pointX)
 	{
-		PointF intersectionPoint = new PointF();
-		intersectionPoint.X = pointX;
-		intersectionPoint.Y = (pointX - firstPoint.X) *
-			(secondPoint.Y - firstPoint.Y) /
-			(secondPoint.X - firstPoint.X) +
-			firstPoint.Y;
+		PointF intersectionPoint = new()
+		{
+			X = pointX,
+			Y = (pointX - firstPoint.X) *
+				(secondPoint.Y - firstPoint.Y) /
+				(secondPoint.X - firstPoint.X) +
+				firstPoint.Y
+		};
 		return intersectionPoint;
 	}
 
@@ -1822,7 +1841,7 @@ public class CalloutAnnotation : TextAnnotation
 	private GraphicsPath CreateRoundedRectPath(RectangleF rect, float cornerRadius)
 	{
 		// Create rounded rectangle path
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 		int segments = 10;
 		PathAddLineAsSegments(path, rect.X + cornerRadius, rect.Y, rect.Right - cornerRadius, rect.Y, segments);
 

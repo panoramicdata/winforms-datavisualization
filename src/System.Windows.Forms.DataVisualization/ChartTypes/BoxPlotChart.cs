@@ -177,9 +177,9 @@ internal class BoxPlotChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -223,7 +223,7 @@ internal class BoxPlotChart : IChartType
 		}
 
 		// All data series from chart area which have Box Plot chart type
-		List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
+		List<string> typeSeries = area.GetSeriesFromChartType(Name);
 
 		// Zero X values mode.
 		bool indexedSeries = ChartHelper.IndexedSeries(area.Common, typeSeries.ToArray());
@@ -235,7 +235,7 @@ internal class BoxPlotChart : IChartType
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with box plot chart type
-			if (String.Compare(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) != 0
+			if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
@@ -253,15 +253,15 @@ internal class BoxPlotChart : IChartType
 			if (ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 			{
 				string attribValue = ser[CustomPropertyName.DrawSideBySide];
-				if (String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					currentShowSideBySide = false;
 				}
-				else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					currentShowSideBySide = true;
 				}
-				else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 				}
 				else
@@ -294,9 +294,9 @@ internal class BoxPlotChart : IChartType
 			foreach (DataPoint point in ser.Points)
 			{
 				// Check required Y values number
-				if (point.YValues.Length < this.YValuesPerPoint)
+				if (point.YValues.Length < YValuesPerPoint)
 				{
-					throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+					throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(Name, YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
 				}
 
 				// Reset pre-calculated point position
@@ -441,11 +441,11 @@ internal class BoxPlotChart : IChartType
 							showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
 						}
 
-						if (String.Compare(showAverageValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+						if (string.Compare(showAverageValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
 						}
-						else if (String.Compare(showAverageValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+						else if (string.Compare(showAverageValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							showAverage = false;
 						}
@@ -500,11 +500,11 @@ internal class BoxPlotChart : IChartType
 							showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
 						}
 
-						if (String.Compare(showMedianValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+						if (string.Compare(showMedianValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
 						}
-						else if (String.Compare(showMedianValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+						else if (string.Compare(showMedianValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							showMedian = false;
 						}
@@ -733,7 +733,7 @@ internal class BoxPlotChart : IChartType
 		bool draw3D)
 	{
 		markerStyle = markerStyle.ToUpper(CultureInfo.InvariantCulture);
-		if (markerStyle.Length > 0 && String.Compare(markerStyle, "None", StringComparison.OrdinalIgnoreCase) != 0)
+		if (markerStyle.Length > 0 && string.Compare(markerStyle, "None", StringComparison.OrdinalIgnoreCase) != 0)
 		{
 			// Make sure Y value is in range
 			if (yPosition > vAxis.ViewMaximum || yPosition < vAxis.ViewMinimum)
@@ -746,8 +746,7 @@ internal class BoxPlotChart : IChartType
 			// 3D Transform coordinates
 			if (draw3D)
 			{
-				Point3D[] points = new Point3D[1];
-				points[0] = new Point3D(xPosition, yPosition, zPosition);
+				Point3D[] points = [new Point3D(xPosition, yPosition, zPosition)];
 				area.matrix3D.TransformPoints(points);
 				xPosition = points[0].X;
 				yPosition = points[0].Y;
@@ -761,7 +760,7 @@ internal class BoxPlotChart : IChartType
 			}
 
 			// Draw horizontal line marker
-			if (String.Compare(markerStyle, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(markerStyle, "Line", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				graph.DrawLineRel(
 					lineColor,
@@ -829,7 +828,7 @@ internal class BoxPlotChart : IChartType
 		int markerSize,
 		string markerImage)
 	{
-		SizeF size = new SizeF(markerSize, markerSize);
+		SizeF size = new(markerSize, markerSize);
 		if (graph != null && graph.Graphics != null)
 		{
 			// Marker size is in pixels and we do the mapping for higher DPIs
@@ -838,7 +837,9 @@ internal class BoxPlotChart : IChartType
 		}
 
 		if (markerImage.Length > 0)
+		{
 			common.ImageLoader.GetAdjustedImageSize(markerImage, graph.Graphics, ref size);
+		}
 
 		return size;
 	}
@@ -866,120 +867,116 @@ internal class BoxPlotChart : IChartType
 		if (ser.IsValueShownAsLabel || point.IsValueShownAsLabel || point.Label.Length > 0)
 		{
 			// Label text format
-			using (StringFormat format = new StringFormat())
+			using StringFormat format = new();
+			format.Alignment = StringAlignment.Near;
+			format.LineAlignment = StringAlignment.Center;
+			if (point.LabelAngle == 0)
 			{
-				format.Alignment = StringAlignment.Near;
-				format.LineAlignment = StringAlignment.Center;
-				if (point.LabelAngle == 0)
+				format.Alignment = StringAlignment.Center;
+				format.LineAlignment = StringAlignment.Far;
+			}
+
+			// Get label text
+			string text;
+			if (point.Label.Length == 0)
+			{
+				text = ValueConverter.FormatValue(
+					ser.Chart,
+					point,
+						point.Tag,
+					point.YValues[0],
+					point.LabelFormat,
+					ser.YValueType,
+					ChartElementType.DataPoint);
+			}
+			else
+			{
+				text = point.ReplaceKeywords(point.Label);
+			}
+
+			// Adjust label positio to the marker size
+			SizeF markerSizes = new(0f, 0f);
+			if (point.MarkerStyle != MarkerStyle.None)
+			{
+				markerSizes = graph.GetRelativeSize(new SizeF(point.MarkerSize, point.MarkerSize));
+				position.Y -= markerSizes.Height / 2f;
+			}
+
+			// Get text angle
+			int textAngle = point.LabelAngle;
+
+			// Check if text contains white space only
+			if (text.Trim().Length != 0)
+			{
+				SizeF sizeFont = SizeF.Empty;
+
+
+				// Check if Smart Labels are enabled
+				if (ser.SmartLabelStyle.Enabled)
 				{
-					format.Alignment = StringAlignment.Center;
-					format.LineAlignment = StringAlignment.Far;
+					// Get text size
+					sizeFont = graph.GetRelativeSize(
+						graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+
+					// Adjust label position using SmartLabelStyle algorithm
+					position = area.smartLabels.AdjustSmartLabelPosition(
+						common,
+						graph,
+						area,
+						ser.SmartLabelStyle,
+						position,
+						sizeFont,
+						format,
+						position,
+						markerSizes,
+						LabelAlignmentStyles.Top);
+
+					// Smart labels always use 0 degrees text angle
+					textAngle = 0;
 				}
 
-				// Get label text
-				string text;
-				if (point.Label.Length == 0)
+
+
+				// Draw label
+				if (!position.IsEmpty)
 				{
-					text = ValueConverter.FormatValue(
-						ser.Chart,
-						point,
-							point.Tag,
-						point.YValues[0],
-						point.LabelFormat,
-						ser.YValueType,
-						ChartElementType.DataPoint);
-				}
-				else
-				{
-					text = point.ReplaceKeywords(point.Label);
-				}
-
-				// Adjust label positio to the marker size
-				SizeF markerSizes = new SizeF(0f, 0f);
-				if (point.MarkerStyle != MarkerStyle.None)
-				{
-					markerSizes = graph.GetRelativeSize(new SizeF(point.MarkerSize, point.MarkerSize));
-					position.Y -= markerSizes.Height / 2f;
-				}
-
-				// Get text angle
-				int textAngle = point.LabelAngle;
-
-				// Check if text contains white space only
-				if (text.Trim().Length != 0)
-				{
-					SizeF sizeFont = SizeF.Empty;
-
-
-					// Check if Smart Labels are enabled
-					if (ser.SmartLabelStyle.Enabled)
+					// Get text size
+					if (sizeFont.IsEmpty)
 					{
-						// Get text size
 						sizeFont = graph.GetRelativeSize(
 							graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
-
-						// Adjust label position using SmartLabelStyle algorithm
-						position = area.smartLabels.AdjustSmartLabelPosition(
-							common,
-							graph,
-							area,
-							ser.SmartLabelStyle,
-							position,
-							sizeFont,
-							format,
-							position,
-							markerSizes,
-							LabelAlignmentStyles.Top);
-
-						// Smart labels always use 0 degrees text angle
-						textAngle = 0;
 					}
 
+					// Get label background position
+					RectangleF labelBackPosition = RectangleF.Empty;
+					SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+					sizeLabel.Height += sizeFont.Height / 8;
+					sizeLabel.Width += sizeLabel.Width / text.Length;
+					labelBackPosition = PointChart.GetLabelPosition(
+						graph,
+						position,
+						sizeLabel,
+						format,
+						true);
 
-
-					// Draw label
-					if (!position.IsEmpty)
-					{
-						// Get text size
-						if (sizeFont.IsEmpty)
-						{
-							sizeFont = graph.GetRelativeSize(
-								graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
-						}
-
-						// Get label background position
-						RectangleF labelBackPosition = RectangleF.Empty;
-						SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-						sizeLabel.Height += sizeFont.Height / 8;
-						sizeLabel.Width += sizeLabel.Width / text.Length;
-						labelBackPosition = PointChart.GetLabelPosition(
-							graph,
-							position,
-							sizeLabel,
-							format,
-							true);
-
-						// Draw label text
-						using (Brush brush = new SolidBrush(point.LabelForeColor))
-						{
-							graph.DrawPointLabelStringRel(
-								common,
-								text,
-								point.Font,
-								brush,
-								position,
-								format,
-								textAngle,
-								labelBackPosition,
-								point.LabelBackColor,
-								point.LabelBorderColor,
-								point.LabelBorderWidth,
-								point.LabelBorderDashStyle,
-								ser,
-								point,
-								pointIndex - 1);
-						}
-					}
+					// Draw label text
+					using Brush brush = new SolidBrush(point.LabelForeColor);
+					graph.DrawPointLabelStringRel(
+						common,
+						text,
+						point.Font,
+						brush,
+						position,
+						format,
+						textAngle,
+						labelBackPosition,
+						point.LabelBackColor,
+						point.LabelBorderColor,
+						point.LabelBorderWidth,
+						point.LabelBorderDashStyle,
+						ser,
+						point,
+						pointIndex - 1);
 				}
 			}
 		}
@@ -1006,7 +1003,7 @@ internal class BoxPlotChart : IChartType
 		Series seriesToDraw)
 	{
 		// All data series from chart area which have Error Bar chart type
-		List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
+		List<string> typeSeries = area.GetSeriesFromChartType(Name);
 
 		// Zero X values mode.
 		bool indexedSeries = ChartHelper.IndexedSeries(common, typeSeries.ToArray());
@@ -1018,7 +1015,7 @@ internal class BoxPlotChart : IChartType
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with stock chart type
-			if (String.Compare(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) != 0
+			if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
@@ -1035,15 +1032,15 @@ internal class BoxPlotChart : IChartType
 			if (ser.IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 			{
 				string attribValue = ser[CustomPropertyName.DrawSideBySide];
-				if (String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					currentShowSideBySide = false;
 				}
-				else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					currentShowSideBySide = true;
 				}
-				else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 				}
 				else
@@ -1088,9 +1085,9 @@ internal class BoxPlotChart : IChartType
 			foreach (DataPoint point in ser.Points)
 			{
 				// Check required Y values number
-				if (point.YValues.Length < this.YValuesPerPoint)
+				if (point.YValues.Length < YValuesPerPoint)
 				{
-					throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+					throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(Name, YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
 				}
 
 				// Reset pre-calculated point position
@@ -1159,13 +1156,15 @@ internal class BoxPlotChart : IChartType
 				point.positionRel = new PointF((float)xPosition, (float)Math.Min(high, low));
 
 				// 3D Transform coordinates
-				Point3D[] points = new Point3D[6];
-				points[0] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
-				points[1] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-				points[2] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[2]), seriesZPosition + seriesDepth / 2f);
-				points[3] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[3]), seriesZPosition + seriesDepth / 2f);
-				points[4] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[4]), seriesZPosition + seriesDepth / 2f);
-				points[5] = new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[5]), seriesZPosition + seriesDepth / 2f);
+				Point3D[] points =
+				[
+					new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+					new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+					new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[2]), seriesZPosition + seriesDepth / 2f),
+					new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[3]), seriesZPosition + seriesDepth / 2f),
+					new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[4]), seriesZPosition + seriesDepth / 2f),
+					new Point3D(xPosition, (float)vAxis.GetPosition(point.YValues[5]), seriesZPosition + seriesDepth / 2f),
+				];
 				area.matrix3D.TransformPoints(points);
 
 				if (common.ProcessModePaint)
@@ -1241,11 +1240,11 @@ internal class BoxPlotChart : IChartType
 							showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
 						}
 
-						if (String.Compare(showAverageValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+						if (string.Compare(showAverageValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
 						}
-						else if (String.Compare(showAverageValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+						else if (string.Compare(showAverageValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							showAverage = false;
 						}
@@ -1292,11 +1291,11 @@ internal class BoxPlotChart : IChartType
 							showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
 						}
 
-						if (String.Compare(showMedianValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+						if (string.Compare(showMedianValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
 						}
-						else if (String.Compare(showMedianValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+						else if (string.Compare(showMedianValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							showMedian = false;
 						}
@@ -1434,9 +1433,11 @@ internal class BoxPlotChart : IChartType
 
 
 					// 3D Transform coordinates
-					Point3D[] points = new Point3D[2];
-					points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-					points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+					Point3D[] points =
+					[
+						new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+						new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+					];
 					area.matrix3D.TransformPoints(points);
 					xPosition = points[0].X;
 					high = points[0].Y;
@@ -1546,7 +1547,7 @@ internal class BoxPlotChart : IChartType
 	internal static void CalculateBoxPlotFromLinkedSeries(Series boxPlotSeries)
 	{
 		// Check input parameters
-		if (String.Compare(boxPlotSeries.ChartTypeName, ChartTypeNames.BoxPlot, StringComparison.OrdinalIgnoreCase) != 0)
+		if (string.Compare(boxPlotSeries.ChartTypeName, ChartTypeNames.BoxPlot, StringComparison.OrdinalIgnoreCase) != 0)
 		{
 			return;
 		}
@@ -1575,7 +1576,7 @@ internal class BoxPlotChart : IChartType
 			{
 				// Get series and value name
 				string linkedSeriesName = point[CustomPropertyName.BoxPlotSeries];
-				String valueName = "Y";
+				string valueName = "Y";
 				int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.OrdinalIgnoreCase);
 				if (valueTypeIndex >= 0)
 				{
@@ -1633,7 +1634,7 @@ internal class BoxPlotChart : IChartType
 		averageValue /= valueCount;
 
 		// Fill array of Y values
-		List<double> yValues = new List<double>(valueCount);
+		List<double> yValues = new(valueCount);
 		foreach (DataPoint point in linkedSeries.Points)
 		{
 			if (!point.IsEmpty)
@@ -1643,14 +1644,14 @@ internal class BoxPlotChart : IChartType
 		}
 
 		// Get required percentiles
-		double[] requiredPercentile = new Double[] { 10.0, 90.0, 25.0, 75.0, 50.0 };
-		string boxPercentile = (boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile)) ? boxPoint[CustomPropertyName.BoxPlotPercentile] : String.Empty;
+		double[] requiredPercentile = [10.0, 90.0, 25.0, 75.0, 50.0];
+		string boxPercentile = (boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile)) ? boxPoint[CustomPropertyName.BoxPlotPercentile] : string.Empty;
 		if (boxPercentile.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotPercentile))
 		{
 			boxPercentile = boxPoint.series[CustomPropertyName.BoxPlotPercentile];
 		}
 
-		string boxWhiskerPercentile = (boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile)) ? boxPoint[CustomPropertyName.BoxPlotWhiskerPercentile] : String.Empty;
+		string boxWhiskerPercentile = (boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile)) ? boxPoint[CustomPropertyName.BoxPlotWhiskerPercentile] : string.Empty;
 		if (boxWhiskerPercentile.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile))
 		{
 			boxWhiskerPercentile = boxPoint.series[CustomPropertyName.BoxPlotWhiskerPercentile];
@@ -1706,7 +1707,7 @@ internal class BoxPlotChart : IChartType
 
 		// Check if unusual values should be added
 		bool addUnusualValues = false;
-		string showUnusualValues = (boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues)) ? boxPoint[CustomPropertyName.BoxPlotShowUnusualValues] : String.Empty;
+		string showUnusualValues = (boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues)) ? boxPoint[CustomPropertyName.BoxPlotShowUnusualValues] : string.Empty;
 		if (showUnusualValues.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotShowUnusualValues))
 		{
 			showUnusualValues = boxPoint.series[CustomPropertyName.BoxPlotShowUnusualValues];
@@ -1714,11 +1715,11 @@ internal class BoxPlotChart : IChartType
 
 		if (showUnusualValues.Length > 0)
 		{
-			if (String.Compare(showUnusualValues, "True", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(showUnusualValues, "True", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				addUnusualValues = true;
 			}
-			else if (String.Compare(showUnusualValues, "False", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(showUnusualValues, "False", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				addUnusualValues = false;
 			}
@@ -1743,7 +1744,7 @@ internal class BoxPlotChart : IChartType
 	static private void BoxPlotAddUnusual(ref DataPoint boxPoint, List<double> yValues)
 	{
 		// Get unusual values
-		ArrayList unusualValuesList = new ArrayList();
+		ArrayList unusualValuesList = [];
 		foreach (double yValue in yValues)
 		{
 			if (yValue < boxPoint.YValues[0] || yValue > boxPoint.YValues[1])

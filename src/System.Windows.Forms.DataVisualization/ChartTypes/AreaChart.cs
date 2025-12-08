@@ -31,7 +31,7 @@ internal class SplineAreaChart : AreaChart
 	public SplineAreaChart()
 	{
 		// Set default line tension
-		base.lineTension = 0.5f;
+		lineTension = 0.5f;
 	}
 
 	#endregion
@@ -48,9 +48,9 @@ internal class SplineAreaChart : AreaChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 	#endregion
 
@@ -120,10 +120,10 @@ internal class AreaChart : SplineChart
 	/// </summary>
 	public AreaChart()
 	{
-		this.drawOutsideLines = true;
+		drawOutsideLines = true;
 
 		// Set default line tension
-		base.lineTension = 0f;
+		lineTension = 0f;
 
 		// Reset axis position
 		axisPos = PointF.Empty;
@@ -174,9 +174,9 @@ internal class AreaChart : SplineChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -242,18 +242,18 @@ internal class AreaChart : SplineChart
 		}
 
 		// Check if its a beginning of a new series
-		if (this.Series != null)
+		if (Series != null)
 		{
-			if (this.Series.Name != series.Name)
+			if (Series.Name != series.Name)
 			{
 				// Fill gradient from the previous series
 				FillLastSeriesGradient(graph);
-				this.Series = series;
+				Series = series;
 			}
 		}
 		else
 		{
-			this.Series = series;
+			Series = series;
 		}
 
 		// Calculate points position
@@ -265,8 +265,8 @@ internal class AreaChart : SplineChart
 		point2.Y = (float)Math.Round(point2.Y);
 		if (axisPos == PointF.Empty)
 		{
-			axisPos.X = (float)VAxis.GetPosition(this.VAxis.Crossing);
-			axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
+			axisPos.X = (float)VAxis.GetPosition(VAxis.Crossing);
+			axisPos.Y = (float)VAxis.GetPosition(VAxis.Crossing);
 			axisPos = graph.GetAbsolutePoint(axisPos);
 			axisPos.X = (float)Math.Round(axisPos.X);
 			axisPos.Y = (float)Math.Round(axisPos.Y);
@@ -286,8 +286,8 @@ internal class AreaChart : SplineChart
 		}
 		else if (point.BackGradientStyle != GradientStyle.None)
 		{
-			this.gradientFill = true;
-			this.Series = point.series;
+			gradientFill = true;
+			Series = point.series;
 		}
 		else if (point.BackImage.Length > 0 && point.BackImageWrapMode != ChartImageWrapMode.Unscaled && point.BackImageWrapMode != ChartImageWrapMode.Scaled)
 		{
@@ -299,16 +299,16 @@ internal class AreaChart : SplineChart
 		}
 
 		// Calculate data point area segment path
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 
 		path.AddLine(point1.X, axisPos.Y, point1.X, point1.Y);
-		if (this.lineTension == 0)
+		if (lineTension == 0)
 		{
 			path.AddLine(points[pointIndex - 1], points[pointIndex]);
 		}
 		else
 		{
-			path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
+			path.AddCurve(points, pointIndex - 1, 1, lineTension);
 		}
 
 		path.AddLine(point2.X, point2.Y, point2.X, axisPos.Y);
@@ -318,48 +318,44 @@ internal class AreaChart : SplineChart
 		{
 			if (pointColor != Color.Empty && pointColor != Color.Transparent)
 			{
-				Region shadowRegion = new Region(path);
-				using (Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(pointColor.A / 2, series.ShadowColor)))
+				Region shadowRegion = new(path);
+				using Brush shadowBrush = new SolidBrush((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb(pointColor.A / 2, series.ShadowColor));
+				// Set offset transformation
+				GraphicsState graphicsState = graph.Save();
+				Region clipRegion = null;
+				Region clipRegionOld = null;
+				if (!graph.IsClipEmpty && !graph.Clip.IsInfinite(graph.Graphics))
 				{
-					// Set offset transformation
-					GraphicsState graphicsState = graph.Save();
-					Region clipRegion = null;
-					Region clipRegionOld = null;
-					if (!graph.IsClipEmpty && !graph.Clip.IsInfinite(graph.Graphics))
+					clipRegionOld = graph.Clip.Clone();
+					clipRegion = graph.Clip;
+					clipRegion.Translate(series.ShadowOffset, series.ShadowOffset);
+					graph.Clip = clipRegion;
+				}
+
+				graph.TranslateTransform(series.ShadowOffset, series.ShadowOffset);
+
+				// Draw top and bottom lines
+				if (graph.SmoothingMode != SmoothingMode.None)
+				{
+					using Pen areaLinePen = new(shadowBrush, 1);
+					if (lineTension == 0)
 					{
-						clipRegionOld = graph.Clip.Clone();
-						clipRegion = graph.Clip;
-						clipRegion.Translate(series.ShadowOffset, series.ShadowOffset);
-						graph.Clip = clipRegion;
+						graph.DrawLine(areaLinePen, points[pointIndex - 1], points[pointIndex]);
 					}
-
-					graph.TranslateTransform(series.ShadowOffset, series.ShadowOffset);
-
-					// Draw top and bottom lines
-					if (graph.SmoothingMode != SmoothingMode.None)
+					else
 					{
-						using (Pen areaLinePen = new Pen(shadowBrush, 1))
-						{
-							if (this.lineTension == 0)
-							{
-								graph.DrawLine(areaLinePen, points[pointIndex - 1], points[pointIndex]);
-							}
-							else
-							{
-								graph.DrawCurve(areaLinePen, points, pointIndex - 1, 1, this.lineTension);
-							}
-						}
+						graph.DrawCurve(areaLinePen, points, pointIndex - 1, 1, lineTension);
 					}
+				}
 
-					// Fill shadow region
-					graph.FillRegion(shadowBrush, shadowRegion);
+				// Fill shadow region
+				graph.FillRegion(shadowBrush, shadowRegion);
 
-					// Restore transformation matrix
-					graph.Restore(graphicsState);
-					if (clipRegion != null && clipRegionOld != null)
-					{
-						graph.Clip = clipRegionOld;
-					}
+				// Restore transformation matrix
+				graph.Restore(graphicsState);
+				if (clipRegion != null && clipRegionOld != null)
+				{
+					graph.Clip = clipRegionOld;
 				}
 			}
 		}
@@ -385,9 +381,9 @@ internal class AreaChart : SplineChart
 				// Start Svg Selection mode
 				graph.StartHotRegion(point);
 
-				using (Pen areaLinePen = new Pen(areaBrush, 1))
+				using (Pen areaLinePen = new(areaBrush, 1))
 				{
-					if (this.lineTension == 0)
+					if (lineTension == 0)
 					{
 						// Draw horizontal and vertical lines without anti-aliasing
 						if (!(points[pointIndex - 1].X == points[pointIndex].X ||
@@ -398,7 +394,7 @@ internal class AreaChart : SplineChart
 					}
 					else
 					{
-						graph.DrawCurve(areaLinePen, points, pointIndex - 1, 1, this.lineTension);
+						graph.DrawCurve(areaLinePen, points, pointIndex - 1, 1, lineTension);
 					}
 				}
 
@@ -408,8 +404,7 @@ internal class AreaChart : SplineChart
 
 		}
 
-		if (areaBrush != null)
-			areaBrush.Dispose();
+		areaBrush?.Dispose();
 
 		// Add first line
 		if (areaPath == null)
@@ -419,32 +414,34 @@ internal class AreaChart : SplineChart
 		}
 
 		// Add line to the gradient path
-		if (this.lineTension == 0)
+		if (lineTension == 0)
 		{
 			areaPath.AddLine(points[pointIndex - 1], points[pointIndex]);
 		}
 		else
 		{
-			areaPath.AddCurve(points, pointIndex - 1, 1, this.lineTension);
+			areaPath.AddCurve(points, pointIndex - 1, 1, lineTension);
 		}
 
 		// Draw area border line
 		if (pointBorderWidth > 0 && pointBorderColor != Color.Empty)
 		{
-			Pen pen = new Pen((pointBorderColor != Color.Empty) ? pointBorderColor : pointColor, pointBorderWidth);
-			pen.DashStyle = graph.GetPenStyle(pointBorderDashStyle);
+			Pen pen = new((pointBorderColor != Color.Empty) ? pointBorderColor : pointColor, pointBorderWidth)
+			{
+				DashStyle = graph.GetPenStyle(pointBorderDashStyle),
 
-			// Set Rounded Cap
-			pen.StartCap = LineCap.Round;
-			pen.EndCap = LineCap.Round;
+				// Set Rounded Cap
+				StartCap = LineCap.Round,
+				EndCap = LineCap.Round
+			};
 
-			if (this.lineTension == 0)
+			if (lineTension == 0)
 			{
 				graph.DrawLine(pen, points[pointIndex - 1], points[pointIndex]);
 			}
 			else
 			{
-				graph.DrawCurve(pen, points, pointIndex - 1, 1, this.lineTension);
+				graph.DrawCurve(pen, points, pointIndex - 1, 1, lineTension);
 			}
 		}
 
@@ -459,25 +456,26 @@ internal class AreaChart : SplineChart
 			//**************************************************************
 
 			// Create grapics path object dor the curve
-			GraphicsPath mapAreaPath = new GraphicsPath();
+			GraphicsPath mapAreaPath = new();
 			mapAreaPath.AddLine(point1.X, axisPos.Y, point1.X, point1.Y);
-			if (this.lineTension == 0)
+			if (lineTension == 0)
 			{
 				mapAreaPath.AddLine(points[pointIndex - 1], points[pointIndex]);
 			}
 			else
 			{
-				mapAreaPath.AddCurve(points, pointIndex - 1, 1, this.lineTension);
+				mapAreaPath.AddCurve(points, pointIndex - 1, 1, lineTension);
 				mapAreaPath.Flatten();
 			}
 
 			mapAreaPath.AddLine(point2.X, point2.Y, point2.X, axisPos.Y);
 			mapAreaPath.AddLine(point2.X, axisPos.Y, point1.X, axisPos.Y);
 
-			// Allocate array of floats
-			PointF pointNew = PointF.Empty;
 			float[] coord = new float[mapAreaPath.PointCount * 2];
 			PointF[] areaPoints = mapAreaPath.PathPoints;
+
+			// Allocate array of floats
+			PointF pointNew;
 			for (int i = 0; i < mapAreaPath.PointCount; i++)
 			{
 				pointNew = graph.GetRelativePoint(areaPoints[i]);
@@ -508,13 +506,13 @@ internal class AreaChart : SplineChart
 					mapAreaPath.Dispose();
 					// Reset path
 					mapAreaPath = new GraphicsPath();
-					if (this.lineTension == 0)
+					if (lineTension == 0)
 					{
 						mapAreaPath.AddLine(points[pointIndex - 1], points[pointIndex]);
 					}
 					else
 					{
-						mapAreaPath.AddCurve(points, pointIndex - 1, 1, this.lineTension);
+						mapAreaPath.AddCurve(points, pointIndex - 1, 1, lineTension);
 						mapAreaPath.Flatten();
 					}
 
@@ -531,7 +529,6 @@ internal class AreaChart : SplineChart
 				}
 
 				// Allocate array of floats
-				pointNew = PointF.Empty;
 				coord = new float[mapAreaPath.PointCount * 2];
 				PointF[] mapAreaPathPoints = mapAreaPath.PathPoints;
 				for (int i = 0; i < mapAreaPathPoints.Length; i++)
@@ -566,10 +563,7 @@ internal class AreaChart : SplineChart
 	private void FillLastSeriesGradient(ChartGraphics graph)
 	{
 		// Add last line in the path
-		if (areaPath != null)
-		{
-			areaPath.AddLine(areaPath.GetLastPoint().X, areaPath.GetLastPoint().Y, areaPath.GetLastPoint().X, axisPos.Y);
-		}
+		areaPath?.AddLine(areaPath.GetLastPoint().X, areaPath.GetLastPoint().Y, areaPath.GetLastPoint().X, axisPos.Y);
 
 		// Fill whole area with gradient
 		if (gradientFill && areaPath != null)
@@ -578,7 +572,7 @@ internal class AreaChart : SplineChart
 			graph.SetClip(Area.PlotAreaPosition.ToRectangleF());
 
 			// Create brush
-			using (Brush areaGradientBrush = graph.GetGradientBrush(areaPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle))
+			using (Brush areaGradientBrush = graph.GetGradientBrush(areaPath.GetBounds(), Series.Color, Series.BackSecondaryColor, Series.BackGradientStyle))
 			{
 				// Fill area with gradient
 				graph.FillPath(areaGradientBrush, areaPath);
@@ -589,11 +583,8 @@ internal class AreaChart : SplineChart
 			graph.ResetClip();
 		}
 
-		if (areaPath != null)
-		{
-			areaPath.Dispose();
-			areaPath = null;
-		}
+		areaPath?.Dispose();
+		areaPath = null;
 	}
 
 	/// <summary>
@@ -672,20 +663,13 @@ internal class AreaChart : SplineChart
 		DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 			points,
 			secondPoint.index - 1,
-			(this.multiSeries) ? secondPoint : null,
+			(multiSeries) ? secondPoint : null,
 			ref pointArrayIndex);
-
-
-		//****************************************************************
-		//** Switch first and second points.
-		//****************************************************************
-		bool reversed = false;
 		if (firstPoint.index > secondPoint.index)
 		{
 			DataPoint3D tempPoint = firstPoint;
 			firstPoint = secondPoint;
 			secondPoint = tempPoint;
-			reversed = true;
 		}
 
 
@@ -698,18 +682,18 @@ internal class AreaChart : SplineChart
 			pointArrayIndex = pointIndex;
 			if (pointIndex != (centerPointIndex + 1))
 			{
-				firstPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+				firstPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
 			}
 			else
 			{
 				if (!area.ReverseSeriesOrder)
 				{
-					secondPoint = ChartGraphics.FindPointByIndex(points, firstPoint.index + 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+					secondPoint = ChartGraphics.FindPointByIndex(points, firstPoint.index + 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
 				}
 				else
 				{
 					firstPoint = secondPoint;
-					secondPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (this.multiSeries) ? secondPoint : null, ref pointArrayIndex);
+					secondPoint = ChartGraphics.FindPointByIndex(points, secondPoint.index - 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
 				}
 			}
 		}
@@ -722,9 +706,12 @@ internal class AreaChart : SplineChart
 
 
 		//****************************************************************
+		//** Switch first and second points.
+		//****************************************************************
+		//****************************************************************
 		//** Check if reversed drawing order required
 		//****************************************************************
-		reversed = false;
+		bool reversed = false;
 		int indexOffset = 1;
 		while ((pointIndex + indexOffset) < points.Count)
 		{
@@ -752,22 +739,18 @@ internal class AreaChart : SplineChart
 			GraphicsPath splineSurfacePath = graph.GetSplineFlattenPath(
 				area, positionZ,
 				firstPoint, secondPoint, points, tension, true, false, 0);
-
-			// Reversed array of points if needed
-			PointF[] splinePoints = null;
 			reversed = (pointIndex < pointArrayIndex);
 			if (reversed)
 			{
 				splineSurfacePath.Reverse();
 			}
 
-			splinePoints = splineSurfacePath.PathPoints;
+			// Reversed array of points if needed
+			PointF[] splinePoints = splineSurfacePath.PathPoints;
 
 			// Loop through all segment lines the spline consist off
-			DataPoint3D dp1 = new DataPoint3D();
-			DataPoint3D dp2 = new DataPoint3D();
-			//LineSegmentType	surfaceSegmentType = (!reversed) ? LineSegmentType.First : LineSegmentType.Last;
-			LineSegmentType surfaceSegmentType = LineSegmentType.Middle;
+			DataPoint3D dp1 = new();
+			DataPoint3D dp2 = new();
 			for (int pIndex = 1; pIndex < splinePoints.Length; pIndex++)
 			{
 				// Calculate surface coordinates
@@ -796,21 +779,30 @@ internal class AreaChart : SplineChart
 					dp1.yPosition = splinePoints[pIndex].Y;
 				}
 
+				//LineSegmentType	surfaceSegmentType = (!reversed) ? LineSegmentType.First : LineSegmentType.Last;
 				// Get sefment type
-				surfaceSegmentType = LineSegmentType.Middle;
+				LineSegmentType surfaceSegmentType = LineSegmentType.Middle;
 				if (pIndex == 1)
 				{
 					if (!reversed)
+					{
 						surfaceSegmentType = LineSegmentType.First;
+					}
 					else
+					{
 						surfaceSegmentType = LineSegmentType.Last;
+					}
 				}
 				else if (pIndex == splinePoints.Length - 1)
 				{
 					if (!reversed)
+					{
 						surfaceSegmentType = LineSegmentType.Last;
+					}
 					else
+					{
 						surfaceSegmentType = LineSegmentType.First;
+					}
 				}
 
 				// Draw each segment of the spline area
@@ -943,7 +935,7 @@ internal class AreaChart : SplineChart
 		//****************************************************************
 		//** Get axis position
 		//****************************************************************
-		float axisPosition = (float)Math.Round(VAxis.GetPosition(this.VAxis.Crossing), 3);
+		float axisPosition = (float)Math.Round(VAxis.GetPosition(VAxis.Crossing), 3);
 
 
 		//****************************************************************
@@ -955,7 +947,7 @@ internal class AreaChart : SplineChart
 		float maxX = (float)Math.Max(firstPoint.xPosition, secondPoint.xPosition);
 		float maxY = (float)Math.Max(firstPoint.yPosition, secondPoint.yPosition);
 		maxY = (float)Math.Max(maxY, axisPosition);
-		RectangleF position = new RectangleF(minX, minY, maxX - minX, maxY - minY);
+		RectangleF position = new(minX, minY, maxX - minX, maxY - minY);
 		SurfaceNames visibleSurfaces = graph.GetVisibleSurfaces(position, positionZ, depth, matrix);
 
 		// Check if area point is drawn upside down.
@@ -1160,20 +1152,20 @@ internal class AreaChart : SplineChart
 		for (int elemLayer = 1; elemLayer <= 2; elemLayer++)
 		{
 			// Loop through all surfaces
-			SurfaceNames[] surfacesOrder = new SurfaceNames[] { SurfaceNames.Back, SurfaceNames.Bottom, SurfaceNames.Top, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front };
+			SurfaceNames[] surfacesOrder = [SurfaceNames.Back, SurfaceNames.Bottom, SurfaceNames.Top, SurfaceNames.Left, SurfaceNames.Right, SurfaceNames.Front];
 			LineSegmentType lineSegmentType = LineSegmentType.Middle;
 			foreach (SurfaceNames currentSurface in surfacesOrder)
 			{
 				// Check if surface should be drawn
 				if (ChartGraphics.ShouldDrawLineChartSurface(area, area.ReverseSeriesOrder, currentSurface, visibleSurfaces, color,
-				points, firstPoint, secondPoint, this.multiSeries, ref lineSegmentType) != elemLayer)
+				points, firstPoint, secondPoint, multiSeries, ref lineSegmentType) != elemLayer)
 				{
 					continue;
 				}
 
 				// To solvce segments overlapping issues with semi-transparent colors ->
 				// Draw invisible surfaces in the first loop, visible in second
-				if (this.allPointsLoopsNumber == 2 && (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
+				if (allPointsLoopsNumber == 2 && (operationType & DrawingOperationTypes.DrawElement) == DrawingOperationTypes.DrawElement)
 				{
 					if (pointLoopIndex == 0)
 					{
@@ -1222,7 +1214,7 @@ internal class AreaChart : SplineChart
 				}
 
 				// Check if marker lines should be drawn
-				bool forceThinLines = this.showPointLines;
+				bool forceThinLines = showPointLines;
 				if (surfaceSegmentType == LineSegmentType.Middle)
 				{
 					forceThinLines = false;
@@ -1250,23 +1242,27 @@ internal class AreaChart : SplineChart
 								topColor, topBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 								firstPoint, secondPoint, points, pointIndex,
 								0f, operationType, surfaceSegmentType,
-									forceThinLines, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+									forceThinLines, false, area.ReverseSeriesOrder, multiSeries, 0, true);
 
 							break;
 						}
 					case (SurfaceNames.Bottom):
 						{
 							// Calculate coordinates
-							DataPoint3D dp1 = new DataPoint3D();
-							dp1.index = firstPoint.index;
-							dp1.dataPoint = firstPoint.dataPoint;
-							dp1.xPosition = firstPoint.xPosition;
-							dp1.yPosition = thirdPoint.Y;
-							DataPoint3D dp2 = new DataPoint3D();
-							dp2.index = secondPoint.index;
-							dp2.dataPoint = secondPoint.dataPoint;
-							dp2.xPosition = secondPoint.xPosition;
-							dp2.yPosition = fourthPoint.Y;
+							DataPoint3D dp1 = new()
+							{
+								index = firstPoint.index,
+								dataPoint = firstPoint.dataPoint,
+								xPosition = firstPoint.xPosition,
+								yPosition = thirdPoint.Y
+							};
+							DataPoint3D dp2 = new()
+							{
+								index = secondPoint.index,
+								dataPoint = secondPoint.dataPoint,
+								xPosition = secondPoint.xPosition,
+								yPosition = fourthPoint.Y
+							};
 
 							// Darken colors
 							Color bottomColor = (bottomDarkening == 0f) ? surfaceColor : ChartGraphics.GetGradientColor(surfaceColor, Color.Black, topDarkening);
@@ -1277,7 +1273,7 @@ internal class AreaChart : SplineChart
 								bottomColor, bottomBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 								dp1, dp2, points, pointIndex,
 								0f, operationType, surfaceSegmentType,
-									forceThinLines, false, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+									forceThinLines, false, area.ReverseSeriesOrder, multiSeries, 0, true);
 
 							break;
 						}
@@ -1291,15 +1287,19 @@ internal class AreaChart : SplineChart
 
 								// Calculate coordinates
 								DataPoint3D leftMostPoint = (firstPoint.xPosition <= secondPoint.xPosition) ? firstPoint : secondPoint;
-								DataPoint3D dp1 = new DataPoint3D();
-								dp1.index = leftMostPoint.index;
-								dp1.dataPoint = leftMostPoint.dataPoint;
-								dp1.xPosition = leftMostPoint.xPosition;
-								dp1.yPosition = (firstPoint.xPosition <= secondPoint.xPosition) ? thirdPoint.Y : fourthPoint.Y;
-								DataPoint3D dp2 = new DataPoint3D();
-								dp2.index = leftMostPoint.index;
-								dp2.dataPoint = leftMostPoint.dataPoint;
-								dp2.xPosition = leftMostPoint.xPosition;
+								DataPoint3D dp1 = new()
+								{
+									index = leftMostPoint.index,
+									dataPoint = leftMostPoint.dataPoint,
+									xPosition = leftMostPoint.xPosition,
+									yPosition = (firstPoint.xPosition <= secondPoint.xPosition) ? thirdPoint.Y : fourthPoint.Y
+								};
+								DataPoint3D dp2 = new()
+								{
+									index = leftMostPoint.index,
+									dataPoint = leftMostPoint.dataPoint,
+									xPosition = leftMostPoint.xPosition
+								};
 								;
 								dp2.yPosition = leftMostPoint.yPosition;
 
@@ -1307,7 +1307,7 @@ internal class AreaChart : SplineChart
 								surfacePath = graph.Draw3DSurface(area, matrix, lightStyle, currentSurface, positionZ, depth,
 									surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 									dp1, dp2, points, pointIndex,
-										0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+										0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, multiSeries, 0, true);
 
 							}
 
@@ -1322,22 +1322,26 @@ internal class AreaChart : SplineChart
 							{
 								// Calculate coordinates
 								DataPoint3D rightMostPoint = (secondPoint.xPosition >= firstPoint.xPosition) ? secondPoint : firstPoint;
-								DataPoint3D dp1 = new DataPoint3D();
-								dp1.index = rightMostPoint.index;
-								dp1.dataPoint = rightMostPoint.dataPoint;
-								dp1.xPosition = rightMostPoint.xPosition;
-								dp1.yPosition = (secondPoint.xPosition >= firstPoint.xPosition) ? fourthPoint.Y : thirdPoint.Y;
-								DataPoint3D dp2 = new DataPoint3D();
-								dp2.index = rightMostPoint.index;
-								dp2.dataPoint = rightMostPoint.dataPoint;
-								dp2.xPosition = rightMostPoint.xPosition;
-								dp2.yPosition = rightMostPoint.yPosition;
+								DataPoint3D dp1 = new()
+								{
+									index = rightMostPoint.index,
+									dataPoint = rightMostPoint.dataPoint,
+									xPosition = rightMostPoint.xPosition,
+									yPosition = (secondPoint.xPosition >= firstPoint.xPosition) ? fourthPoint.Y : thirdPoint.Y
+								};
+								DataPoint3D dp2 = new()
+								{
+									index = rightMostPoint.index,
+									dataPoint = rightMostPoint.dataPoint,
+									xPosition = rightMostPoint.xPosition,
+									yPosition = rightMostPoint.yPosition
+								};
 
 								// Draw surface
 								surfacePath = graph.Draw3DSurface(area, matrix, lightStyle, currentSurface, positionZ, depth,
 									surfaceColor, surfaceBorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 									dp1, dp2, points, pointIndex,
-										0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
+										0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, multiSeries, 0, true);
 
 							}
 
@@ -1346,27 +1350,37 @@ internal class AreaChart : SplineChart
 					case (SurfaceNames.Back):
 						{
 							// Calculate coordinates
-							DataPoint3D dp1 = new DataPoint3D();
-							dp1.index = firstPoint.index;
-							dp1.dataPoint = firstPoint.dataPoint;
-							dp1.xPosition = firstPoint.xPosition;
-							dp1.yPosition = thirdPoint.Y;
-							DataPoint3D dp2 = new DataPoint3D();
-							dp2.index = secondPoint.index;
-							dp2.dataPoint = secondPoint.dataPoint;
-							dp2.xPosition = secondPoint.xPosition;
-							dp2.yPosition = fourthPoint.Y;
+							DataPoint3D dp1 = new()
+							{
+								index = firstPoint.index,
+								dataPoint = firstPoint.dataPoint,
+								xPosition = firstPoint.xPosition,
+								yPosition = thirdPoint.Y
+							};
+							DataPoint3D dp2 = new()
+							{
+								index = secondPoint.index,
+								dataPoint = secondPoint.dataPoint,
+								xPosition = secondPoint.xPosition,
+								yPosition = fourthPoint.Y
+							};
 
 							// Border line is required on the data point boundary
 							SurfaceNames thinBorderSides = 0;
 							if (forceThinLines)
 							{
 								if (surfaceSegmentType == LineSegmentType.Single)
+								{
 									thinBorderSides = SurfaceNames.Left | SurfaceNames.Right;
+								}
 								else if (surfaceSegmentType == LineSegmentType.First)
+								{
 									thinBorderSides = SurfaceNames.Left;
+								}
 								else if (surfaceSegmentType == LineSegmentType.Last)
+								{
 									thinBorderSides = SurfaceNames.Right;
+								}
 							}
 
 
@@ -1380,17 +1394,21 @@ internal class AreaChart : SplineChart
 					case (SurfaceNames.Front):
 						{
 							// Calculate coordinates
-							DataPoint3D dp1 = new DataPoint3D();
-							dp1.index = firstPoint.index;
-							dp1.dataPoint = firstPoint.dataPoint;
-							dp1.xPosition = firstPoint.xPosition;
-							dp1.yPosition = thirdPoint.Y;
+							DataPoint3D dp1 = new()
+							{
+								index = firstPoint.index,
+								dataPoint = firstPoint.dataPoint,
+								xPosition = firstPoint.xPosition,
+								yPosition = thirdPoint.Y
+							};
 
-							DataPoint3D dp2 = new DataPoint3D();
-							dp2.index = secondPoint.index;
-							dp2.dataPoint = secondPoint.dataPoint;
-							dp2.xPosition = secondPoint.xPosition;
-							dp2.yPosition = fourthPoint.Y;
+							DataPoint3D dp2 = new()
+							{
+								index = secondPoint.index,
+								dataPoint = secondPoint.dataPoint,
+								xPosition = secondPoint.xPosition,
+								yPosition = fourthPoint.Y
+							};
 
 							// Change segment type for the reversed series order
 							if (area.ReverseSeriesOrder)
@@ -1420,11 +1438,17 @@ internal class AreaChart : SplineChart
 							if (forceThinLines)
 							{
 								if (surfaceSegmentType == LineSegmentType.Single)
+								{
 									thinBorderSides = SurfaceNames.Left | SurfaceNames.Right;
+								}
 								else if (surfaceSegmentType == LineSegmentType.First)
+								{
 									thinBorderSides = SurfaceNames.Left;
+								}
 								else if (surfaceSegmentType == LineSegmentType.Last)
+								{
 									thinBorderSides = SurfaceNames.Right;
+								}
 							}
 
 							// Draw surface
@@ -1533,12 +1557,14 @@ internal class AreaChart : SplineChart
 	/// <returns>Intersection point coordinates.</returns>
 	internal DataPoint3D GetAxisIntersection(DataPoint3D firstPoint, DataPoint3D secondPoint, float axisPosition)
 	{
-		DataPoint3D intersectionPoint = new DataPoint3D();
-		intersectionPoint.yPosition = axisPosition;
-		intersectionPoint.xPosition = (axisPosition - firstPoint.yPosition) *
-			(secondPoint.xPosition - firstPoint.xPosition) /
-			(secondPoint.yPosition - firstPoint.yPosition) +
-			firstPoint.xPosition;
+		DataPoint3D intersectionPoint = new()
+		{
+			yPosition = axisPosition,
+			xPosition = (axisPosition - firstPoint.yPosition) *
+				(secondPoint.xPosition - firstPoint.xPosition) /
+				(secondPoint.yPosition - firstPoint.yPosition) +
+				firstPoint.xPosition
+		};
 		return intersectionPoint;
 	}
 
@@ -1611,11 +1637,8 @@ internal class AreaChart : SplineChart
 	{
 		if (disposing)
 		{   // Managed resources
-			if (this.areaPath != null)
-			{
-				this.areaPath.Dispose();
-				this.areaPath = null;
-			}
+			areaPath?.Dispose();
+			areaPath = null;
 		}
 
 		base.Dispose(disposing);

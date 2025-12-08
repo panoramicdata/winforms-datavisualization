@@ -212,7 +212,7 @@ internal class FrameTitle5Border : FrameThin5Border
 	public FrameTitle5Border()
 	{
 		sizeLeftTop = new SizeF(sizeLeftTop.Width, defaultRadiusSize * 2f);
-		this.drawScrews = true;
+		drawScrews = true;
 	}
 
 	/// <summary>
@@ -305,8 +305,8 @@ internal class FrameTitle7Border : FrameTitle1Border
 	/// </summary>
 	public FrameTitle7Border()
 	{
-		this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
-		float[] corners = { 15f, 1f, 1f, 1f, 1f, 15f, 15f, 15f };
+		sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
+		float[] corners = [15f, 1f, 1f, 1f, 1f, 15f, 15f, 15f];
 		innerCorners = corners;
 	}
 
@@ -321,10 +321,10 @@ internal class FrameTitle7Border : FrameTitle1Border
 		set
 		{
 			base.Resolution = value;
-			this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
+			sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
 			float largeRadius = 15f * resolution / 96.0f;
 			float smallRadius = 1 * resolution / 96.0f;
-			float[] corners = { largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius, largeRadius, largeRadius };
+			float[] corners = [largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius, largeRadius, largeRadius];
 			innerCorners = corners;
 		}
 	}
@@ -344,9 +344,9 @@ internal class FrameTitle8Border : FrameTitle1Border
 	/// </summary>
 	public FrameTitle8Border()
 	{
-		this.sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
-		this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
-		float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+		sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
+		sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
+		float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
 		innerCorners = corners;
 	}
 
@@ -362,10 +362,10 @@ internal class FrameTitle8Border : FrameTitle1Border
 		{
 			base.Resolution = value;
 
-			this.sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
-			this.sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
+			sizeLeftTop = new SizeF(0, sizeLeftTop.Height);
+			sizeRightBottom = new SizeF(0, sizeRightBottom.Height);
 			float radius = 1 * resolution / 96.0f;
-			float[] corners = { radius, radius, radius, radius, radius, radius, radius, radius };
+			float[] corners = [radius, radius, radius, radius, radius, radius, radius, radius];
 			innerCorners = corners;
 		}
 	}
@@ -385,7 +385,7 @@ internal class FrameThin2Border : FrameThin1Border
 	/// </summary>
 	public FrameThin2Border()
 	{
-		float[] corners = { 15f, 15f, 15f, 1f, 1f, 1f, 1f, 15f };
+		float[] corners = [15f, 15f, 15f, 1f, 1f, 1f, 1f, 15f];
 		cornerRadius = corners;
 		innerCorners = corners;
 	}
@@ -404,7 +404,7 @@ internal class FrameThin2Border : FrameThin1Border
 
 			float largeRadius = 15f * resolution / 96.0f;
 			float smallRadius = 1 * resolution / 96.0f;
-			float[] corners = { largeRadius, largeRadius, largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius };
+			float[] corners = [largeRadius, largeRadius, largeRadius, smallRadius, smallRadius, smallRadius, smallRadius, largeRadius];
 			cornerRadius = corners;
 			innerCorners = corners;
 		}
@@ -425,7 +425,7 @@ internal class FrameThin3Border : FrameThin1Border
 	/// </summary>
 	public FrameThin3Border()
 	{
-		float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+		float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
 		cornerRadius = corners;
 		innerCorners = corners;
 	}
@@ -442,7 +442,7 @@ internal class FrameThin3Border : FrameThin1Border
 		{
 			base.Resolution = value;
 			float radius = resolution / 96.0f;
-			float[] corners = { radius, radius, radius, radius, radius, radius, radius, radius };
+			float[] corners = [radius, radius, radius, radius, radius, radius, radius, radius];
 			cornerRadius = corners;
 			innerCorners = corners;
 		}
@@ -463,7 +463,7 @@ internal class FrameThin4Border : FrameThin1Border
 	/// </summary>
 	public FrameThin4Border()
 	{
-		float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+		float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
 		cornerRadius = corners;
 	}
 
@@ -479,7 +479,7 @@ internal class FrameThin4Border : FrameThin1Border
 		{
 			base.Resolution = value;
 			float radius = 1f * resolution / 96.0f;
-			cornerRadius = new float[] { radius, radius, radius, radius, radius, radius, radius, radius };
+			cornerRadius = [radius, radius, radius, radius, radius, radius, radius, radius];
 		}
 	}
 
@@ -521,7 +521,7 @@ internal class FrameThin6Border : FrameThin1Border
 	/// </summary>
 	public FrameThin6Border()
 	{
-		float[] corners = { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
+		float[] corners = [1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f];
 		innerCorners = corners;
 	}
 
@@ -537,7 +537,7 @@ internal class FrameThin6Border : FrameThin1Border
 		{
 			base.Resolution = value;
 			float radius = resolution / 96.0f;
-			float[] corners = { radius, radius, radius, radius, radius, radius, radius, radius };
+			float[] corners = [radius, radius, radius, radius, radius, radius, radius, radius];
 			innerCorners = corners;
 		}
 	}
@@ -555,7 +555,7 @@ internal class FrameThin1Border : RaisedBorder
 	/// <summary>
 	/// Inner corners radius array
 	/// </summary>
-	internal float[] innerCorners = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
+	internal float[] innerCorners = [15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f];
 
 	/// <summary>
 	/// Default constructor
@@ -578,7 +578,7 @@ internal class FrameThin1Border : RaisedBorder
 		{
 			base.Resolution = value;
 			float radius = 15.0f * resolution / 96.0f;
-			innerCorners = new float[] { radius, radius, radius, radius, radius, radius, radius, radius };
+			innerCorners = [radius, radius, radius, radius, radius, radius, radius, radius];
 			sizeLeftTop = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
 			sizeRightBottom = new SizeF(defaultRadiusSize * .8f, defaultRadiusSize * .8f);
 
@@ -622,8 +622,8 @@ internal class FrameThin1Border : RaisedBorder
 		sunken = false;
 		outsideShadowRate = .9f;
 		drawOutsideTopLeftShadow = false;
-		bool oldScrewsFlag = this.drawScrews;
-		this.drawScrews = false;
+		bool oldScrewsFlag = drawScrews;
+		drawScrews = false;
 		base.DrawBorder(
 			graph,
 			borderSkin,
@@ -640,7 +640,7 @@ internal class FrameThin1Border : RaisedBorder
 			borderSkin.BorderWidth,
 			borderSkin.BorderDashStyle);
 
-		this.drawScrews = oldScrewsFlag;
+		drawScrews = oldScrewsFlag;
 		rect.X += sizeLeftTop.Width;
 		rect.Y += sizeLeftTop.Height;
 		rect.Width -= sizeRightBottom.Width + sizeLeftTop.Width;
@@ -738,7 +738,7 @@ internal class SunkenBorder : IBorderType
 	/// <summary>
 	/// Array of corner radius
 	/// </summary>
-	internal float[] cornerRadius = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
+	internal float[] cornerRadius = [15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f];
 
 	/// <summary>
 	/// Border top/left size 
@@ -780,7 +780,7 @@ internal class SunkenBorder : IBorderType
 			defaultRadiusSize = 15 * resolution / 96;
 			//X = defaultRadiusSize;
 			//Y = defaultRadiusSize;
-			cornerRadius = new float[] { defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize };
+			cornerRadius = [defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize, defaultRadiusSize];
 		}
 	}
 
@@ -801,8 +801,8 @@ internal class SunkenBorder : IBorderType
 	/// <param name="areasRect">Position to adjust.</param>
 	public virtual void AdjustAreasPosition(ChartGraphics graph, ref RectangleF areasRect)
 	{
-		SizeF relSizeLeftTop = new SizeF(sizeLeftTop);
-		SizeF relSizeRightBottom = new SizeF(sizeRightBottom);
+		SizeF relSizeLeftTop = new(sizeLeftTop);
+		SizeF relSizeRightBottom = new(sizeRightBottom);
 		relSizeLeftTop.Width += defaultRadiusSize * 0.7f;
 		relSizeLeftTop.Height += defaultRadiusSize * 0.85f;
 		relSizeRightBottom.Width += defaultRadiusSize * 0.7f;
@@ -811,14 +811,24 @@ internal class SunkenBorder : IBorderType
 		relSizeRightBottom = graph.GetRelativeSize(relSizeRightBottom);
 
 		if (relSizeLeftTop.Width > 30f)
+		{
 			relSizeLeftTop.Width = 0;
-		if (relSizeLeftTop.Height > 30f)
-			relSizeLeftTop.Height = 0;
-		if (relSizeRightBottom.Width > 30f)
-			relSizeRightBottom.Width = 0;
-		if (relSizeRightBottom.Height > 30f)
-			relSizeRightBottom.Height = 0;
+		}
 
+		if (relSizeLeftTop.Height > 30f)
+		{
+			relSizeLeftTop.Height = 0;
+		}
+
+		if (relSizeRightBottom.Width > 30f)
+		{
+			relSizeRightBottom.Width = 0;
+		}
+
+		if (relSizeRightBottom.Height > 30f)
+		{
+			relSizeRightBottom.Height = 0;
+		}
 
 		areasRect.X += relSizeLeftTop.Width;
 		areasRect.Width -= (float)Math.Min(areasRect.Width, relSizeLeftTop.Width + relSizeRightBottom.Width);
@@ -828,18 +838,25 @@ internal class SunkenBorder : IBorderType
 		if (areasRect.Right > 100f)
 		{
 			if (areasRect.Width > 100f - areasRect.Right)
+			{
 				areasRect.Width -= 100f - areasRect.Right;
+			}
 			else
+			{
 				areasRect.X -= 100f - areasRect.Right;
+			}
 		}
 
 		if (areasRect.Bottom > 100f)
 		{
 			if (areasRect.Height > 100f - areasRect.Bottom)
+			{
 				areasRect.Height -= 100f - areasRect.Bottom;
+			}
 			else
+			{
 				areasRect.Y -= 100f - areasRect.Bottom;
-
+			}
 		}
 	}
 
@@ -877,7 +894,6 @@ internal class SunkenBorder : IBorderType
 		ChartDashStyle borderDashStyle)
 	{
 		RectangleF absolute = graph.Round(rect);
-		RectangleF shadowRect = absolute;
 
 		// Calculate shadow colors (0.2 - 0.6)
 		float colorDarkeningIndex = 0.3f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
@@ -909,6 +925,7 @@ internal class SunkenBorder : IBorderType
 			graph.FillRectangle(brush, rect);
 		}
 
+		RectangleF shadowRect;
 		if (drawOutsideTopLeftShadow)
 		{
 			// Top/Left outside shadow
@@ -949,8 +966,7 @@ internal class SunkenBorder : IBorderType
 			PenAlignment.Inset);
 
 		// Dispose Graphic path
-		if (path != null)
-			path.Dispose();
+		path?.Dispose();
 
 		// Draw screws imitation in the corners of the farame
 		if (drawScrews)
@@ -980,7 +996,7 @@ internal class SunkenBorder : IBorderType
 		}
 
 		// Bottom/Right inner shadow
-		Region innerShadowRegion = null;
+		Region innerShadowRegion;
 		if (drawBottomShadow)
 		{
 			shadowRect = absolute;
@@ -1051,7 +1067,7 @@ internal class SunkenBorder : IBorderType
 	private void DrawScrew(ChartGraphics graph, RectangleF rect)
 	{
 		// Draw screw
-		Pen screwPen = new Pen(Color.FromArgb(128, 255, 255, 255), 1);
+		Pen screwPen = new(Color.FromArgb(128, 255, 255, 255), 1);
 		graph.DrawEllipse(screwPen, rect.X, rect.Y, rect.Width, rect.Height);
 		graph.DrawLine(screwPen, rect.X + 2 * resolution / 96.0f, rect.Y + rect.Height - 2 * resolution / 96.0f, rect.Right - 2 * resolution / 96.0f, rect.Y + 2 * resolution / 96.0f);
 		screwPen = new Pen(Color.FromArgb(128, Color.Black), 1);

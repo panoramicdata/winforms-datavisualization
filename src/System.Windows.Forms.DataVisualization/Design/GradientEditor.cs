@@ -48,10 +48,7 @@ internal class GradientEditor : UITypeEditor, IDisposable
 		if (e.Value is GradientStyle)
 		{
 			// Create chart graphics object
-			if (_chartGraph == null)
-			{
-				_chartGraph = new ChartGraphics(null);
-			}
+			_chartGraph ??= new ChartGraphics(null);
 
 			_chartGraph.Graphics = e.Graphics;
 

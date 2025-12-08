@@ -16,8 +16,6 @@ public abstract class ChartElement : IChartElement, IDisposable
 	#region Member variables
 
 	private IChartElement _parent = null;
-	private CommonElements _common = null;
-	private object _tag = null;
 
 	#endregion
 
@@ -27,7 +25,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// Gets or sets an object associated with this chart element.
 	/// </summary>
 	/// <value>
-	/// An <see cref="Object"/> associated with this chart element.
+	/// An <see cref="object"/> associated with this chart element.
 	/// </value>
 	/// <remarks>
 	/// This property may be used to store additional data with this chart element.
@@ -35,14 +33,10 @@ public abstract class ChartElement : IChartElement, IDisposable
 	[
 	Browsable(false),
 	DefaultValue(null),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	Utilities.SerializationVisibilityAttribute(Utilities.SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)
 	]
-	public object Tag
-	{
-		get { return _tag; }
-		set { _tag = value; }
-	}
+	public object Tag { get; set; } = null;
 
 	/// <summary>
 	/// Gets or sets the parent chart element or collection.
@@ -58,22 +52,16 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// Gets a shortcut to Common intance providing access to the various chart related services.
 	/// </summary>
 	/// <value>The Common instance.</value>
-	internal CommonElements Common
-	{
-		get
+	internal CommonElements Common { get
 		{
-			if (_common == null && _parent != null)
+			if (field == null && _parent != null)
 			{
-				_common = _parent.Common;
+				field = _parent.Common;
 			}
 
-			return _common;
+			return field;
 		}
-		set
-		{
-			_common = value;
-		}
-	}
+		set; } = null;
 
 	/// <summary>
 	/// Gets the chart.
@@ -84,9 +72,13 @@ public abstract class ChartElement : IChartElement, IDisposable
 		get
 		{
 			if (Common != null)
+			{
 				return Common.Chart;
+			}
 			else
+			{
 				return null;
+			}
 		}
 	}
 
@@ -119,8 +111,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// </summary>
 	internal virtual void Invalidate()
 	{
-		if (_parent != null)
-			_parent.Invalidate();
+		_parent?.Invalidate();
 	}
 
 	#endregion
@@ -131,17 +122,17 @@ public abstract class ChartElement : IChartElement, IDisposable
 	IChartElement IChartElement.Parent
 	{
 		get { return _parent; }
-		set { this.Parent = value; }
+		set { Parent = value; }
 	}
 
 	void IChartElement.Invalidate()
 	{
-		this.Invalidate();
+		Invalidate();
 	}
 
 	CommonElements IChartElement.Common
 	{
-		get { return this.Common; }
+		get { return Common; }
 	}
 
 	#endregion
@@ -162,7 +153,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	public void Dispose()
 	{
-		this.Dispose(true);
+		Dispose(true);
 		GC.SuppressFinalize(this);
 	}
 
@@ -191,7 +182,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	public override string ToString()
 	{
-		return this.ToStringInternal();
+		return ToStringInternal();
 	}
 
 	/// <summary>
@@ -219,7 +210,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	public override bool Equals(object obj)
 	{
-		return this.EqualsInternal(obj);
+		return EqualsInternal(obj);
 	}
 
 	/// <summary>
@@ -245,7 +236,7 @@ public abstract class ChartNamedElement : ChartElement
 {
 	#region Member variables
 
-	private string _name = String.Empty;
+	private string _name = string.Empty;
 
 	#endregion
 
@@ -268,10 +259,12 @@ public abstract class ChartNamedElement : ChartElement
 					INameController nameController = Parent as INameController;
 
 					if (!nameController.IsUniqueName(value))
+					{
 						throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(value, nameController.GetType().Name));
+					}
 
 					// Fire the name change events in case when the old name is not empty
-					NameReferenceChangedEventArgs args = new NameReferenceChangedEventArgs(this, _name, value);
+					NameReferenceChangedEventArgs args = new(this, _name, value);
 					nameController.OnNameReferenceChanging(args);
 					_name = value;
 					nameController.OnNameReferenceChanged(args);
@@ -346,39 +339,26 @@ internal class NameReferenceChangedEventArgs : EventArgs
 {
 	#region MemberValiables
 
-	ChartNamedElement _oldElement;
-	string _oldName;
-	string _newName;
-
 	#endregion
 
 	#region Properties
-	public ChartNamedElement OldElement
-	{
-		get { return _oldElement; }
-	}
-	public string OldName
-	{
-		get { return _oldName; }
-	}
-	public string NewName
-	{
-		get { return _newName; }
-	}
+	public ChartNamedElement OldElement { get; }
+	public string OldName { get; }
+	public string NewName { get; }
 	#endregion
 
 	#region Constructor
 	public NameReferenceChangedEventArgs(ChartNamedElement oldElement, ChartNamedElement newElement)
 	{
-		_oldElement = oldElement;
-		_oldName = oldElement != null ? oldElement.Name : string.Empty;
-		_newName = newElement != null ? newElement.Name : string.Empty;
+		OldElement = oldElement;
+		OldName = oldElement != null ? oldElement.Name : string.Empty;
+		NewName = newElement != null ? newElement.Name : string.Empty;
 	}
 	public NameReferenceChangedEventArgs(ChartNamedElement oldElement, string oldName, string newName)
 	{
-		_oldElement = oldElement;
-		_oldName = oldName;
-		_newName = newName;
+		OldElement = oldElement;
+		OldName = oldName;
+		NewName = newName;
 	}
 	#endregion
 }

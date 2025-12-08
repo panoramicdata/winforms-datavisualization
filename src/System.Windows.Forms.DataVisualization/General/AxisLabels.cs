@@ -28,7 +28,6 @@ public partial class Axis
 	#region Fields
 
 	// Custom Labels collection
-	private CustomLabelsCollection _customLabels = null;
 
 	#endregion
 
@@ -40,7 +39,7 @@ public partial class Axis
 	[
 	SRCategory("CategoryAttributeLabels"),
 	Bindable(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeLabelStyle"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -55,7 +54,7 @@ public partial class Axis
 		{
 			labelStyle = value;
 			labelStyle.Axis = (Axis)this;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -69,13 +68,7 @@ public partial class Axis
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
 		]
-	public CustomLabelsCollection CustomLabels
-	{
-		get
-		{
-			return _customLabels;
-		}
-	}
+	public CustomLabelsCollection CustomLabels { get; private set; } = null;
 
 	#endregion
 
@@ -87,10 +80,10 @@ public partial class Axis
 	/// <returns>Indicates that custom grid lines should be painted.</returns>
 	internal bool IsCustomGridLines()
 	{
-		if (this.CustomLabels.Count > 0)
+		if (CustomLabels.Count > 0)
 		{
 			// Check if at least one custom label has a flag set
-			foreach (CustomLabel label in this.CustomLabels)
+			foreach (CustomLabel label in CustomLabels)
 			{
 				if ((label.GridTicks & GridTickTypes.Gridline) == GridTickTypes.Gridline)
 				{
@@ -108,10 +101,10 @@ public partial class Axis
 	/// <returns>Indicates that custom tick marks should be painted.</returns>
 	internal bool IsCustomTickMarks()
 	{
-		if (this.CustomLabels.Count > 0)
+		if (CustomLabels.Count > 0)
 		{
 			// Check if at least one custom label has a flag set
-			foreach (CustomLabel label in this.CustomLabels)
+			foreach (CustomLabel label in CustomLabels)
 			{
 				if ((label.GridTicks & GridTickTypes.TickMark) == GridTickTypes.TickMark)
 				{
@@ -129,7 +122,7 @@ public partial class Axis
 	/// <value>The type of the axis.</value>
 	internal AxisType GetAxisType()
 	{
-		if (this.axisType == AxisName.X || this.axisType == AxisName.Y)
+		if (axisType == AxisName.X || axisType == AxisName.Y)
 		{
 			return AxisType.Primary;
 		}
@@ -145,22 +138,22 @@ public partial class Axis
 	/// <returns></returns>
 	internal ArrayList GetAxisSeries()
 	{
-		ArrayList dataSeries = new ArrayList();
+		ArrayList dataSeries = [];
 
 		// check for attached series.
-		foreach (string seriesName in this.ChartArea.Series)
+		foreach (string seriesName in ChartArea.Series)
 		{
-			Series series = this.Common.DataManager.Series[seriesName];
-			if (this.axisType == AxisName.X || this.axisType == AxisName.X2)
+			Series series = Common.DataManager.Series[seriesName];
+			if (axisType == AxisName.X || axisType == AxisName.X2)
 			{
-				if (series.XAxisType == this.GetAxisType())
+				if (series.XAxisType == GetAxisType())
 				{
 					dataSeries.Add(series);
 				}
 			}
 			else
 			{
-				if (series.YAxisType == this.GetAxisType())
+				if (series.YAxisType == GetAxisType())
 				{
 					dataSeries.Add(series);
 				}
@@ -177,9 +170,9 @@ public partial class Axis
 	internal Axis GetOtherTypeAxis()
 	{
 		return ChartArea.GetAxis(
-				this.axisType,
-				this.GetAxisType() == AxisType.Primary ? AxisType.Secondary : AxisType.Primary,
-				String.Empty
+				axisType,
+				GetAxisType() == AxisType.Primary ? AxisType.Secondary : AxisType.Primary,
+				string.Empty
 			);
 	}
 
@@ -190,7 +183,7 @@ public partial class Axis
 	/// </summary>
 	internal void PostFillLabels()
 	{
-		foreach (CustomLabel label in this.CustomLabels)
+		foreach (CustomLabel label in CustomLabels)
 		{
 			if (label.customLabel)
 			{
@@ -200,26 +193,26 @@ public partial class Axis
 
 		// Labels are disabled for this axis
 		if (
-			!this.LabelStyle.Enabled ||
-			!this.enabled ||
-			!String.IsNullOrEmpty(((Axis)this).SubAxisName) ||
-			this.axisType == AxisName.Y ||
-			this.axisType == AxisName.Y2
+			!LabelStyle.Enabled ||
+			!enabled ||
+			!string.IsNullOrEmpty(((Axis)this).SubAxisName) ||
+			axisType == AxisName.Y ||
+			axisType == AxisName.Y2
 			)
 		{
 			return;
 		}
 
 		// check if no series attached.
-		if (this.GetAxisSeries().Count > 0)
+		if (GetAxisSeries().Count > 0)
 		{
 			return;
 		}
 
-		this.CustomLabels.Clear();
-		foreach (CustomLabel label in this.GetOtherTypeAxis().CustomLabels)
+		CustomLabels.Clear();
+		foreach (CustomLabel label in GetOtherTypeAxis().CustomLabels)
 		{
-			this.CustomLabels.Add(label.Clone());
+			CustomLabels.Add(label.Clone());
 		}
 	}
 
@@ -239,17 +232,17 @@ public partial class Axis
 #endif // SUBAXES
 
 		// Labels are disabled for this axis
-		if (!this.LabelStyle.Enabled || !this.enabled)
+		if (!LabelStyle.Enabled || !enabled)
 		{
 			return;
 		}
 
 		// For circular chart area fill only Y axis labels
-		if (this.ChartArea != null && this.ChartArea.chartAreaIsCurcular)
+		if (ChartArea != null && ChartArea.chartAreaIsCurcular)
 		{
-			if (this.axisType != AxisName.Y)
+			if (axisType != AxisName.Y)
 			{
-				ICircularChartType type = this.ChartArea.GetCircularChartType();
+				ICircularChartType type = ChartArea.GetCircularChartType();
 				if (type == null || !type.XAxisLabelsSupported())
 				{
 					return;
@@ -264,7 +257,7 @@ public partial class Axis
 			if (lab.customLabel)
 			{
 				if (lab.RowIndex == 0 ||
-					this.ChartArea.chartAreaIsCurcular)
+					ChartArea.chartAreaIsCurcular)
 				{
 					customLabelsFlag = true;
 				}
@@ -319,16 +312,18 @@ public partial class Axis
 		//Let's convert the ArrayList of the series names into to string[]
 		string[] dataSeriesNames = new string[dataSeries.Count];
 		for (int i = 0; i < dataSeries.Count; i++)
+		{
 			dataSeriesNames[i] = (string)dataSeries[i];
+		}
 
 		// Check if series X values all set to zeros
-		bool seriesXValuesZeros = ChartHelper.SeriesXValuesZeros(this.Common, dataSeriesNames);
+		bool seriesXValuesZeros = ChartHelper.SeriesXValuesZeros(Common, dataSeriesNames);
 
 		// Check if series is indexed (All X values zeros or IsXValueIndexed flag set)
 		bool indexedSeries = true;
 		if (!seriesXValuesZeros)
 		{
-			indexedSeries = ChartHelper.IndexedSeries(this.Common, dataSeriesNames);
+			indexedSeries = ChartHelper.IndexedSeries(Common, dataSeriesNames);
 		}
 
 		// Show End Labels
@@ -355,7 +350,7 @@ public partial class Axis
 		}
 
 		// X values from data points are not 0.
-		if (fromSeries && !ChartHelper.SeriesXValuesZeros(this.Common, dataSeries.ToArray()))
+		if (fromSeries && !ChartHelper.SeriesXValuesZeros(Common, dataSeries.ToArray()))
 		{
 			fromSeries = false;
 		}
@@ -392,8 +387,8 @@ public partial class Axis
 		// ***********************************
 		// Pre calculate some values
 		// ***********************************
-		double viewMaximum = this.ViewMaximum;
-		double viewMinimum = this.ViewMinimum;
+		double viewMaximum = ViewMaximum;
+		double viewMinimum = ViewMinimum;
 
 		// ***********************************
 		// Labels are filled from data series.
@@ -408,11 +403,11 @@ public partial class Axis
 			{
 				// min position
 				CustomLabels.Add(-0.5, 0.5, ValueConverter.FormatValue(
-					this.Common.Chart,
+					Common.Chart,
 					this,
 						null,
 					0.0,
-					this.LabelStyle.Format,
+					LabelStyle.Format,
 					valueType,
 					ChartElementType.AxisLabels),
 					false);
@@ -423,11 +418,11 @@ public partial class Axis
 			{
 				CustomLabels.Add(((double)point) + 0.5, ((double)point) + 1.5,
 					ValueConverter.FormatValue(
-						this.Common.Chart,
+						Common.Chart,
 						this,
 							null,
 						point + 1,
-						this.LabelStyle.Format,
+						LabelStyle.Format,
 						valueType,
 						ChartElementType.AxisLabels),
 						false);
@@ -439,11 +434,11 @@ public partial class Axis
 				// max position
 				CustomLabels.Add(((double)numOfPoints) + 0.5, ((double)numOfPoints) + 1.5,
 					ValueConverter.FormatValue(
-						this.Common.Chart,
+						Common.Chart,
 						this,
 							null,
 							numOfPoints + 1,
-						this.LabelStyle.Format,
+						LabelStyle.Format,
 						valueType,
 						ChartElementType.AxisLabels),
 						false);
@@ -454,9 +449,13 @@ public partial class Axis
 			{
 				// End labels enabled
 				if (endLabels == 1)
+				{
 					pointIndx = 1;
+				}
 				else
+				{
 					pointIndx = 0;
+				}
 
 				// Set labels from data points labels
 				foreach (DataPoint dataPoint in Common.DataManager.Series[seriesIndx].Points)
@@ -486,7 +485,9 @@ public partial class Axis
 		else
 		{
 			if (viewMinimum == viewMaximum)
+			{
 				return;
+			}
 
 			double labValue; // Value, which will be converted to text and used for, labels.
 			double beginPosition; // Begin position for a label
@@ -518,9 +519,9 @@ public partial class Axis
 			start = viewMinimum;
 
 			// Adjust start position depending on the interval type
-			if (!this.ChartArea.chartAreaIsCurcular ||
-				this.axisType == AxisName.Y ||
-				this.axisType == AxisName.Y2)
+			if (!ChartArea.chartAreaIsCurcular ||
+				axisType == AxisName.Y ||
+				axisType == AxisName.Y2)
 			{
 				start = ChartHelper.AlignIntervalStart(start, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries);
 			}
@@ -546,7 +547,9 @@ public partial class Axis
 
 				// Too many labels
 				if ((viewMaximum - start) / ChartHelper.GetIntervalSize(start, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, 0, DateTimeIntervalType.Number, true) > ChartHelper.MaxNumOfGridlines)
+				{
 					return;
+				}
 
 				int counter = 0;
 				double endLabelMaxPosition = viewMaximum - ChartHelper.GetIntervalSize(viewMaximum, labelStyle.GetInterval(), labelStyle.GetIntervalType(), axisSeries, labelStyle.GetIntervalOffset(), offsetType, true) / 2f;
@@ -557,9 +560,9 @@ public partial class Axis
 					labValue = position;
 
 					// For IsLogarithmic axes
-					if (this.IsLogarithmic)
+					if (IsLogarithmic)
 					{
-						labValue = Math.Pow(this.logarithmBase, labValue);
+						labValue = Math.Pow(logarithmBase, labValue);
 					}
 
 					// Check if we do not exceed max number of elements
@@ -606,19 +609,19 @@ public partial class Axis
 					if (pointLabel.Length == 0)
 					{
 						// Do not draw last label for indexed series
-						if (position <= this.maximum)
+						if (position <= maximum)
 						{
 							// Add a label to the collection
-							if (position != this.maximum || !Common.DataManager.Series[dataSeries[0]].IsXValueIndexed)
+							if (position != maximum || !Common.DataManager.Series[dataSeries[0]].IsXValueIndexed)
 							{
 								CustomLabels.Add(beginPosition,
 									endPosition,
 									ValueConverter.FormatValue(
-										this.Common.Chart,
+										Common.Chart,
 										this,
 											null,
 										labValue,
-										this.LabelStyle.Format,
+										LabelStyle.Format,
 										valueType,
 										ChartElementType.AxisLabels),
 									false);
@@ -645,7 +648,9 @@ public partial class Axis
 
 				// Show First label if Start Label position is used
 				if (start != viewMinimum)
+				{
 					endLabels = 1;
+				}
 
 				// Set labels
 				int labelCounter = 0;
@@ -684,8 +689,10 @@ public partial class Axis
 					}
 
 					// For IsLogarithmic axes
-					if (this.IsLogarithmic)
-						labValue = Math.Pow(this.logarithmBase, labValue);
+					if (IsLogarithmic)
+					{
+						labValue = Math.Pow(logarithmBase, labValue);
+					}
 
 					beginPosition = (double)((decimal)position + (decimal)labelStyle.GetInterval() * 0.5m);
 					endPosition = (double)((decimal)position + (decimal)labelStyle.GetInterval() * 1.5m);
@@ -711,17 +718,17 @@ public partial class Axis
 					if (pointLabel.Length == 0)
 					{
 						// Do not draw last label for indexed series
-						if (!(Common.DataManager.Series[dataSeries[0]].IsXValueIndexed && position > this.maximum))
+						if (!(Common.DataManager.Series[dataSeries[0]].IsXValueIndexed && position > maximum))
 						{
 							// Add a label to the collection
 							CustomLabels.Add(beginPosition,
 								endPosition,
 								ValueConverter.FormatValue(
-									this.Common.Chart,
+									Common.Chart,
 									this,
 										null,
 									labValue,
-									this.LabelStyle.Format,
+									LabelStyle.Format,
 									valueType,
 									ChartElementType.AxisLabels),
 								false);
@@ -774,7 +781,7 @@ public partial class Axis
 			Series ser = Common.DataManager.Series[seriesName];
 
 			// Check if series has axis labels set
-			if ((axisType == AxisName.X || axisType == AxisName.X2) && (margin != 0 || maxPointCount == 1 || !this._autoMinimum) && !ser.IsXValueIndexed)
+			if ((axisType == AxisName.X || axisType == AxisName.X2) && (margin != 0 || maxPointCount == 1 || !AutoMinimum) && !ser.IsXValueIndexed)
 			{
 				if (ser.Points[0].AxisLabel.Length > 0 && ser.Points[ser.Points.Count - 1].AxisLabel.Length > 0)
 				{
@@ -786,7 +793,7 @@ public partial class Axis
 			if (!ser.noLabelsInPoints || (nonZeroXValues && indexedSeries))
 			{
 				string result = GetPointLabel(ser, valuePosition, nonZeroXValues, indexedSeries);
-				if (!String.IsNullOrEmpty(result))
+				if (!string.IsNullOrEmpty(result))
 				{
 					return result;
 				}
@@ -794,14 +801,14 @@ public partial class Axis
 
 			// VSTS 140676: Serach for IndexedSeriesLabelsSourceAttr attribute 
 			// to find if we have indexed series as source of formula generated nonindexed series.
-			String labelSeriesName = ser[DataFormula.IndexedSeriesLabelsSourceAttr];
-			if (!String.IsNullOrEmpty(labelSeriesName))
+			string labelSeriesName = ser[DataFormula.IndexedSeriesLabelsSourceAttr];
+			if (!string.IsNullOrEmpty(labelSeriesName))
 			{
 				Series labelsSeries = Common.DataManager.Series[labelSeriesName];
 				if (labelsSeries != null)
 				{
 					string result = GetPointLabel(labelsSeries, valuePosition, nonZeroXValues, true);
-					if (!String.IsNullOrEmpty(result))
+					if (!string.IsNullOrEmpty(result))
 					{
 						return result;
 					}
@@ -868,11 +875,11 @@ public partial class Axis
 					if (point.AxisLabel.Length == 0 && nonZeroXValues)
 					{
 						return ValueConverter.FormatValue(
-							this.Common.Chart,
+							Common.Chart,
 							this,
 								null,
 							point.XValue,
-							this.LabelStyle.Format,
+							LabelStyle.Format,
 							series.XValueType,
 							ChartElementType.AxisLabels);
 					}

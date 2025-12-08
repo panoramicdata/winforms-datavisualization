@@ -22,7 +22,7 @@ internal static class FormulaHelper
 	/// </summary>
 	/// <param name="formula">The formula.</param>
 	/// <returns>FomulaInfo instance</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"), Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
 	internal static FormulaInfo GetFormulaInfo(FinancialFormula formula)
 	{
 		switch (formula)
@@ -102,7 +102,7 @@ internal static class FormulaHelper
 				return new AccumulationDistributionFormulaInfo();
 
 			default:
-				Debug.Fail(String.Format(CultureInfo.InvariantCulture, "{0} case is not defined", formula));
+				Debug.Fail(string.Format(CultureInfo.InvariantCulture, "{0} case is not defined", formula));
 				return null;
 		}
 	}
@@ -187,7 +187,7 @@ internal static class FormulaHelper
 	/// <param name="chartType">Type of the chart.</param>
 	/// <param name="formulaField">The formula field to be mapped.</param>
 	/// <returns>The series field</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
 	internal static DataField? MapFormulaDataField(SeriesChartType chartType, DataField formulaField)
 	{
 		switch (formulaField)
@@ -289,9 +289,6 @@ internal static class FormulaHelper
 internal abstract class FormulaInfo
 {
 	#region Fields
-	DataField[] _inputFields;
-	DataField[] _outputFields;
-	object[] _parameters;
 	#endregion
 
 	#region Properties
@@ -299,28 +296,19 @@ internal abstract class FormulaInfo
 	/// Gets the input data fields of the formula.
 	/// </summary>
 	/// <value>The input fields.</value>
-	public DataField[] InputFields
-	{
-		get { return _inputFields; }
-	}
+	public DataField[] InputFields { get; }
 
 	/// <summary>
 	/// Gets the output data fields of the formula.
 	/// </summary>
 	/// <value>The output fields.</value>
-	public DataField[] OutputFields
-	{
-		get { return _outputFields; }
-	}
+	public DataField[] OutputFields { get; }
 
 	/// <summary>
 	/// Gets the parameters of the formula.
 	/// </summary>
 	/// <value>The parameters.</value>
-	public object[] Parameters
-	{
-		get { return _parameters; }
-	}
+	public object[] Parameters { get; }
 	#endregion
 
 	#region Constructors
@@ -332,9 +320,9 @@ internal abstract class FormulaInfo
 	/// <param name="defaultParams">The default formula params.</param>
 	public FormulaInfo(DataField[] inputFields, DataField[] outputFields, params object[] defaultParams)
 	{
-		_inputFields = inputFields;
-		_outputFields = outputFields;
-		_parameters = defaultParams;
+		InputFields = inputFields;
+		OutputFields = outputFields;
+		Parameters = defaultParams;
 	}
 	#endregion
 
@@ -345,12 +333,15 @@ internal abstract class FormulaInfo
 	/// <returns>Csv string with parameters</returns>
 	internal virtual string SaveParametersToString()
 	{
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < _parameters.Length; i++)
+		StringBuilder sb = new();
+		for (int i = 0; i < Parameters.Length; i++)
 		{
 			if (i > 0)
+			{
 				sb.Append(',');
-			sb.AppendFormat(CultureInfo.InvariantCulture, "{0}", _parameters[i]);
+			}
+
+			sb.AppendFormat(CultureInfo.InvariantCulture, "{0}", Parameters[i]);
 		}
 
 		return sb.ToString();
@@ -362,17 +353,19 @@ internal abstract class FormulaInfo
 	/// <param name="parameters">Csv string with parameters.</param>
 	internal virtual void LoadParametersFromString(string parameters)
 	{
-		if (String.IsNullOrEmpty(parameters))
+		if (string.IsNullOrEmpty(parameters))
+		{
 			return;
+		}
 
 		string[] paramStringList = parameters.Split(',');
 		int paramStringIndex = 0;
-		for (int i = 0; i < _parameters.Length && paramStringIndex < paramStringList.Length; i++)
+		for (int i = 0; i < Parameters.Length && paramStringIndex < paramStringList.Length; i++)
 		{
 			string newParamValue = paramStringList[paramStringIndex++];
-			if (!String.IsNullOrEmpty(newParamValue))
+			if (!string.IsNullOrEmpty(newParamValue))
 			{
-				_parameters[i] = ParseParameter(i, newParamValue);
+				Parameters[i] = ParseParameter(i, newParamValue);
 			}
 		}
 	}
@@ -385,7 +378,7 @@ internal abstract class FormulaInfo
 	/// <returns>Parameter value.</returns>
 	internal virtual object ParseParameter(int index, string newParamValue)
 	{
-		object param = _parameters[index];
+		object param = Parameters[index];
 		if (param is int)
 		{
 			return Convert.ToInt32(newParamValue, CultureInfo.InvariantCulture);
@@ -408,15 +401,17 @@ internal abstract class FormulaInfo
 	/// <param name="parameters">The parameters.</param>
 	internal virtual void CheckParameterString(string parameters)
 	{
-		if (String.IsNullOrEmpty(parameters))
+		if (string.IsNullOrEmpty(parameters))
+		{
 			return;
+		}
 
 		string[] paramStringList = parameters.Split(',');
 		int paramStringIndex = 0;
-		for (int i = 0; i < _parameters.Length && paramStringIndex < paramStringList.Length; i++)
+		for (int i = 0; i < Parameters.Length && paramStringIndex < paramStringList.Length; i++)
 		{
 			string newParamValue = paramStringList[paramStringIndex++];
-			if (!String.IsNullOrEmpty(newParamValue))
+			if (!string.IsNullOrEmpty(newParamValue))
 			{
 				try
 				{
@@ -452,8 +447,8 @@ internal class MovingAverageFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public MovingAverageFormulaInfo(int period, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			period, startFromFirst)
 	{
 	}
@@ -479,8 +474,8 @@ internal class ExponentialMovingAverageFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public ExponentialMovingAverageFormulaInfo(int period, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			period, startFromFirst)
 	{
 	}
@@ -506,8 +501,8 @@ internal class WeightedMovingAverageFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public WeightedMovingAverageFormulaInfo(int period, bool startFromFirst)
 	   : base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			period, startFromFirst)
 	{
 	}
@@ -533,8 +528,8 @@ internal class TriangularMovingAverageFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public TriangularMovingAverageFormulaInfo(int period, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			period, startFromFirst)
 	{
 	}
@@ -559,8 +554,8 @@ internal class TripleExponentialMovingAverageFormulaInfo : FormulaInfo
 	/// <param name="period">The period.</param>
 	public TripleExponentialMovingAverageFormulaInfo(int period)
 		: base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			period)
 	{
 	}
@@ -587,8 +582,8 @@ internal class BollingerBandsFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public BollingerBandsFormulaInfo(int period, double deviation, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.Y },                        //Input fields
-			new DataField[] { DataField.Top, DataField.Bottom },    //Output fields
+			[DataField.Y],                        //Input fields
+			[DataField.Top, DataField.Bottom],    //Output fields
 			period, deviation, startFromFirst)
 	{
 	}
@@ -605,8 +600,8 @@ internal class TypicalPriceFormulaInfo : FormulaInfo
 	/// </summary>
 	public TypicalPriceFormulaInfo()
 		: base(
-			new DataField[] { DataField.Close, DataField.High, DataField.Low }, //Input fields
-			new DataField[] { DataField.Y })                                    //Output fields
+			[DataField.Close, DataField.High, DataField.Low], //Input fields
+			[DataField.Y])                                    //Output fields
 	{
 	}
 }
@@ -622,8 +617,8 @@ internal class WeightedCloseFormulaInfo : FormulaInfo
 	/// </summary>
 	public WeightedCloseFormulaInfo()
 		: base(
-			new DataField[] { DataField.Close, DataField.High, DataField.Low }, //Input fields
-			new DataField[] { DataField.Y })                                    //Output fields
+			[DataField.Close, DataField.High, DataField.Low], //Input fields
+			[DataField.Y])                                    //Output fields
 	{
 	}
 }
@@ -639,8 +634,8 @@ internal class MedianPriceFormulaInfo : FormulaInfo
 	/// </summary>
 	public MedianPriceFormulaInfo()
 		: base(
-			new DataField[] { DataField.High, DataField.Low }, //Input fields
-			new DataField[] { DataField.Y })                    //Output fields
+			[DataField.High, DataField.Low], //Input fields
+			[DataField.Y])                    //Output fields
 	{
 	}
 }
@@ -667,8 +662,8 @@ internal class EnvelopesFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public EnvelopesFormulaInfo(int period, double shiftPercentage, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.Y },                        //Input fields
-			new DataField[] { DataField.Top, DataField.Bottom },    //Output fields
+			[DataField.Y],                        //Input fields
+			[DataField.Top, DataField.Bottom],    //Output fields
 			period, shiftPercentage, startFromFirst)
 	{
 	}
@@ -695,8 +690,8 @@ internal class StandardDeviationFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public StandardDeviationFormulaInfo(int period, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			period, startFromFirst)
 	{
 	}
@@ -723,8 +718,8 @@ internal class ChaikinOscillatorFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public ChaikinOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close, DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			shortPeriod, longPeriod, startFromFirst)
 	{
 	}
@@ -750,8 +745,8 @@ internal class DetrendedPriceOscillatorFormulaInfo : FormulaInfo
 	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
 	public DetrendedPriceOscillatorFormulaInfo(int period, bool startFromFirst)
 		: base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			period, startFromFirst)
 	{
 	}
@@ -778,8 +773,8 @@ internal class VolatilityChaikinsFormulaInfo : FormulaInfo
 	/// <param name="signalPeriod">The signal period.</param>
 	public VolatilityChaikinsFormulaInfo(int period, int signalPeriod)
 		: base(
-			new DataField[] { DataField.High, DataField.Low }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.High, DataField.Low], //Input fields
+			[DataField.Y], //Output fields
 			period, signalPeriod)
 	{
 	}
@@ -806,8 +801,8 @@ internal class VolumeOscillatorFormulaInfo : FormulaInfo
 	/// <param name="percentage">if set to <c>true</c> [percentage].</param>
 	public VolumeOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool percentage)
 		: base(
-			new DataField[] { DataField.Y }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Y], //Input fields
+			[DataField.Y], //Output fields
 			shortPeriod, longPeriod, percentage)
 	{
 	}
@@ -833,8 +828,8 @@ internal class StochasticIndicatorFormulaInfo : FormulaInfo
 	/// <param name="periodK">The period K.</param>
 	public StochasticIndicatorFormulaInfo(int periodD, int periodK)
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-			new DataField[] { DataField.Y, DataField.Y }, //Output fields
+			[DataField.High, DataField.Low, DataField.Close], //Input fields
+			[DataField.Y, DataField.Y], //Output fields
 			periodD, periodK)
 	{
 	}
@@ -859,8 +854,8 @@ internal class WilliamsRFormulaInfo : FormulaInfo
 	/// <param name="period">The period.</param>
 	public WilliamsRFormulaInfo(int period)
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.High, DataField.Low, DataField.Close], //Input fields
+			[DataField.Y], //Output fields
 			period)
 	{
 	}
@@ -885,8 +880,8 @@ internal class AverageTrueRangeFormulaInfo : FormulaInfo
 	/// <param name="period">The period.</param>
 	public AverageTrueRangeFormulaInfo(int period)
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.High, DataField.Low, DataField.Close], //Input fields
+			[DataField.Y], //Output fields
 			period)
 	{
 	}
@@ -903,8 +898,8 @@ internal class EaseOfMovementFormulaInfo : FormulaInfo
 	/// </summary>
 	public EaseOfMovementFormulaInfo()
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }) //Output fields
+			[DataField.High, DataField.Low, DataField.Close], //Input fields
+			[DataField.Y]) //Output fields
 	{
 	}
 }
@@ -929,8 +924,8 @@ internal class MassIndexFormulaInfo : FormulaInfo
 	/// <param name="averagePeriod">The average period.</param>
 	public MassIndexFormulaInfo(int period, int averagePeriod)
 		: base(
-			new DataField[] { DataField.High, DataField.Low }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.High, DataField.Low], //Input fields
+			[DataField.Y], //Output fields
 			period, averagePeriod)
 	{
 	}
@@ -947,8 +942,8 @@ internal class PerformanceFormulaInfo : FormulaInfo
 	/// </summary>
 	public PerformanceFormulaInfo()
 		: base(
-			new DataField[] { DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }) //Output fields
+			[DataField.Close], //Input fields
+			[DataField.Y]) //Output fields
 	{
 	}
 }
@@ -972,8 +967,8 @@ internal class RateOfChangeFormulaInfo : FormulaInfo
 	/// <param name="period">The period.</param>
 	public RateOfChangeFormulaInfo(int period)
 		: base(
-			new DataField[] { DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Close], //Input fields
+			[DataField.Y], //Output fields
 			period)
 	{
 	}
@@ -998,8 +993,8 @@ internal class RelativeStrengthIndexFormulaInfo : FormulaInfo
 	/// <param name="period">The period.</param>
 	public RelativeStrengthIndexFormulaInfo(int period)
 		: base(
-			new DataField[] { DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Close], //Input fields
+			[DataField.Y], //Output fields
 			period)
 	{
 	}
@@ -1025,8 +1020,8 @@ internal class MovingAverageConvergenceDivergenceFormulaInfo : FormulaInfo
 	/// <param name="longPeriod">The long period.</param>
 	public MovingAverageConvergenceDivergenceFormulaInfo(int shortPeriod, int longPeriod)
 		: base(
-			new DataField[] { DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.Close], //Input fields
+			[DataField.Y], //Output fields
 			shortPeriod, longPeriod)
 	{
 	}
@@ -1051,8 +1046,8 @@ internal class CommodityChannelIndexFormulaInfo : FormulaInfo
 	/// <param name="period">The period.</param>
 	public CommodityChannelIndexFormulaInfo(int period)
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close }, //Input fields
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.High, DataField.Low, DataField.Close], //Input fields
+			[DataField.Y], //Output fields
 			period)
 	{
 	}
@@ -1084,8 +1079,8 @@ internal class ForecastingFormulaInfo : FormulaInfo
 	/// <param name="returnForecastingError">if set to <c>true</c> [return forecasting error].</param>
 	public ForecastingFormulaInfo(TimeSeriesAndForecasting.RegressionType regressionType, int polynomialDegree, int forecastingPeriod, bool returnApproximationError, bool returnForecastingError)
 		: base(
-			new DataField[] { DataField.Close }, //Input fields
-			new DataField[] { DataField.Close, DataField.High, DataField.Low }, //Output fields
+			[DataField.Close], //Input fields
+			[DataField.Close, DataField.High, DataField.Low], //Output fields
 			regressionType, polynomialDegree, forecastingPeriod, returnApproximationError, returnForecastingError)
 	{
 	}
@@ -1106,8 +1101,10 @@ internal class ForecastingFormulaInfo : FormulaInfo
 	/// <param name="parameters">The parameters.</param>
 	internal override void CheckParameterString(string parameters)
 	{
-		if (String.IsNullOrEmpty(parameters))
+		if (string.IsNullOrEmpty(parameters))
+		{
 			return;
+		}
 
 		string[] paramStringList = parameters.Split(',');
 		int paramStringIndex = 1;
@@ -1115,7 +1112,7 @@ internal class ForecastingFormulaInfo : FormulaInfo
 		for (int i = 2; i < Parameters.Length && paramStringIndex < paramStringList.Length; i++)
 		{
 			string newParamValue = paramStringList[paramStringIndex++];
-			if (!String.IsNullOrEmpty(newParamValue))
+			if (!string.IsNullOrEmpty(newParamValue))
 			{
 				try
 				{
@@ -1135,10 +1132,14 @@ internal class ForecastingFormulaInfo : FormulaInfo
 	/// <returns>Csv string with parameters</returns>
 	internal override string SaveParametersToString()
 	{
-		if (String.IsNullOrEmpty(_parameters))
+		if (string.IsNullOrEmpty(_parameters))
+		{
 			return _parameters;
+		}
 		else
+		{
 			return "2,0,true,true";
+		}
 	}
 }
 
@@ -1161,8 +1162,8 @@ internal class MoneyFlowFormulaInfo : FormulaInfo
 	/// <param name="period">The period.</param>
 	public MoneyFlowFormulaInfo(int period)
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close, DataField.Y }, //Input fields: High,Low,Close,Volume
-			new DataField[] { DataField.Y }, //Output fields
+			[DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields: High,Low,Close,Volume
+			[DataField.Y], //Output fields
 			period)
 	{
 	}
@@ -1179,8 +1180,8 @@ internal class PriceVolumeTrendFormulaInfo : FormulaInfo
 	/// </summary>
 	public PriceVolumeTrendFormulaInfo()
 		: base(
-			new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-			new DataField[] { DataField.Y }) //Output fields
+			[DataField.Close, DataField.Y], //Input=Close,Volume
+			[DataField.Y]) //Output fields
 	{
 	}
 }
@@ -1196,8 +1197,8 @@ internal class OnBalanceVolumeFormulaInfo : FormulaInfo
 	/// </summary>
 	public OnBalanceVolumeFormulaInfo()
 		: base(
-			new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-			new DataField[] { DataField.Y }) //Output fields
+			[DataField.Close, DataField.Y], //Input=Close,Volume
+			[DataField.Y]) //Output fields
 	{
 	}
 }
@@ -1221,8 +1222,8 @@ internal class NegativeVolumeIndexFormulaInfo : FormulaInfo
 	/// <param name="startValue">The start value.</param>
 	public NegativeVolumeIndexFormulaInfo(double startValue)
 		: base(
-			new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-			new DataField[] { DataField.Y },
+			[DataField.Close, DataField.Y], //Input=Close,Volume
+			[DataField.Y],
 			startValue) //Output fields
 	{
 	}
@@ -1247,8 +1248,8 @@ internal class PositiveVolumeIndexFormulaInfo : FormulaInfo
 	/// <param name="startValue">The start value.</param>
 	public PositiveVolumeIndexFormulaInfo(double startValue)
 		: base(
-			new DataField[] { DataField.Close, DataField.Y }, //Input=Close,Volume
-			new DataField[] { DataField.Y },
+			[DataField.Close, DataField.Y], //Input=Close,Volume
+			[DataField.Y],
 			startValue) //Output fields
 	{
 	}
@@ -1265,8 +1266,8 @@ internal class AccumulationDistributionFormulaInfo : FormulaInfo
 	/// </summary>
 	public AccumulationDistributionFormulaInfo() //Note about parameters: Start value is mandatory so we don't provide the default
 		: base(
-			new DataField[] { DataField.High, DataField.Low, DataField.Close, DataField.Y }, //Input=High, Low, Close, Volume
-			new DataField[] { DataField.Y }) //Output fields
+			[DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input=High, Low, Close, Volume
+			[DataField.Y]) //Output fields
 	{
 	}
 }
@@ -1308,9 +1309,6 @@ internal enum DataField
 internal class SeriesFieldInfo
 {
 	#region Fields
-	private Series _series;
-	private string _seriesName;
-	private DataField _dataField;
 	#endregion
 
 	#region Properties
@@ -1318,26 +1316,20 @@ internal class SeriesFieldInfo
 	/// Gets the series.
 	/// </summary>
 	/// <value>The series.</value>
-	public Series Series
-	{
-		get { return _series; }
-	}
+	public Series Series { get; }
 	/// <summary>
 	/// Gets the name of the series.
 	/// </summary>
 	/// <value>The name of the series.</value>
 	public string SeriesName
 	{
-		get { return _series != null ? _series.Name : _seriesName; }
+		get { return Series != null ? Series.Name : field; }
 	}
 	/// <summary>
 	/// Gets the data field.
 	/// </summary>
 	/// <value>The data field.</value>
-	public DataField DataField
-	{
-		get { return _dataField; }
-	}
+	public DataField DataField { get; }
 	#endregion
 
 	#region Constructors
@@ -1348,8 +1340,8 @@ internal class SeriesFieldInfo
 	/// <param name="dataField">The data field.</param>
 	public SeriesFieldInfo(Series series, DataField dataField)
 	{
-		_series = series;
-		_dataField = dataField;
+		Series = series;
+		DataField = dataField;
 	}
 	/// <summary>
 	/// Initializes a new instance of the <see cref="SeriesFieldInfo"/> class.
@@ -1358,8 +1350,8 @@ internal class SeriesFieldInfo
 	/// <param name="dataField">The data field.</param>
 	public SeriesFieldInfo(string seriesName, DataField dataField)
 	{
-		_seriesName = seriesName;
-		_dataField = dataField;
+		SeriesName = seriesName;
+		DataField = dataField;
 	}
 	#endregion
 }
@@ -1379,13 +1371,15 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 	/// </returns>
 	public override string ToString()
 	{
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < this.Count; i++)
+		StringBuilder sb = new();
+		for (int i = 0; i < Count; i++)
 		{
 			SeriesFieldInfo info = this[i];
 
 			if (i > 0)
+			{
 				sb.Append(',');
+			}
 
 			SeriesChartType seriesChartType = info.Series != null ?
 													info.Series.ChartType :
@@ -1395,9 +1389,13 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 
 			int dataFieldIndex = dataFields.IndexOf(info.DataField);
 			if (dataFieldIndex == 0)
+			{
 				sb.AppendFormat(CultureInfo.InvariantCulture, "{0}:Y", info.SeriesName); //The string field descriptor is 1 based ;-(
+			}
 			else
+			{
 				sb.AppendFormat(CultureInfo.InvariantCulture, "{0}:Y{1}", info.SeriesName, dataFieldIndex + 1); //The string field descriptor is 1 based ;-(
+			}
 		}
 
 		return sb.ToString();
@@ -1413,20 +1411,22 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 	/// <returns></returns>
 	public static SeriesFieldList FromString(Chart chart, string seriesFields, IList<DataField> formulaFields)
 	{
-		SeriesFieldList result = new SeriesFieldList();
-		if (String.IsNullOrEmpty(seriesFields))
+		SeriesFieldList result = [];
+		if (string.IsNullOrEmpty(seriesFields))
 		{
 			return result;
 		}
 
-		List<DataField> unmappedFormulaFields = new List<DataField>(formulaFields);
+		List<DataField> unmappedFormulaFields = new(formulaFields);
 
 		//Loop through the series/field pairs
 		foreach (string seriesField in seriesFields.Split(','))
 		{
 			//Stop processing if all the formula fields are mapped
 			if (unmappedFormulaFields.Count == 0)
+			{
 				break;
+			}
 
 			//Split a pair into a series + field
 			string[] seriesFieldParts = seriesField.Split(':');
@@ -1475,7 +1475,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 	/// <param name="unmappedFormulaFields">The unmapped formula fields.</param>
 	private static void AddSeriesFieldInfo(SeriesFieldList result, Series series, IList<DataField> unmappedFormulaFields)
 	{
-		List<DataField> seriesFields = new List<DataField>(FormulaHelper.GetDataFields(series.ChartType));
+		List<DataField> seriesFields = new(FormulaHelper.GetDataFields(series.ChartType));
 
 		for (int i = 0; i < unmappedFormulaFields.Count && seriesFields.Count > 0;)
 		{
@@ -1488,10 +1488,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 				seriesField = formulaField;
 			}
 			// Case 2. Try to map the formula field to the series field
-			if (seriesField == null)
-			{
-				seriesField = FormulaHelper.MapFormulaDataField(series.ChartType, formulaField);
-			}
+			seriesField ??= FormulaHelper.MapFormulaDataField(series.ChartType, formulaField);
 
 			// If the seriesField is found - add it to the results
 			if (seriesField != null)
@@ -1526,8 +1523,9 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 		}
 		else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
 		{
-			int id = 0;
+			int id;
 			if (int.TryParse(seriesFieldId.Substring(1), out id))
+			{
 				if (id - 1 < seriesFields.Count)
 				{
 					seriesField = seriesFields[id - 1];
@@ -1536,6 +1534,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 				{
 					throw (new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId));
 				}
+			}
 		}
 		else
 		{
@@ -1547,9 +1546,13 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 		{
 			result.Add(new SeriesFieldInfo(series, (DataField)seriesField));
 			if (unmappedFormulaFields.Contains((DataField)seriesField))
+			{
 				unmappedFormulaFields.Remove((DataField)seriesField);
+			}
 			else
+			{
 				unmappedFormulaFields.RemoveAt(0);
+			}
 		}
 		else
 		{
@@ -1567,7 +1570,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 	private static void AddSeriesFieldInfo(SeriesFieldList result, string seriesName, IList<DataField> unmappedFormulaFields)
 	{
 		SeriesChartType chartType = FormulaHelper.GetDefaultChartType(unmappedFormulaFields[0]);
-		List<DataField> seriesFields = new List<DataField>(FormulaHelper.GetDataFields(chartType));
+		List<DataField> seriesFields = new(FormulaHelper.GetDataFields(chartType));
 
 		for (int i = 0; i < unmappedFormulaFields.Count && seriesFields.Count > 0;)
 		{
@@ -1616,8 +1619,9 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 		}
 		else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
 		{
-			int seriesFieldIndex = 0;
+			int seriesFieldIndex;
 			if (int.TryParse(seriesFieldId.Substring(1), out seriesFieldIndex))
+			{
 				if (seriesFieldIndex < seriesFields.Count)
 				{
 					seriesField = seriesFields[seriesFieldIndex - 1];
@@ -1626,6 +1630,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 				{
 					throw (new ArgumentException(SR.ExceptionFormulaYIndexInvalid, seriesFieldId));
 				}
+			}
 		}
 		else
 		{

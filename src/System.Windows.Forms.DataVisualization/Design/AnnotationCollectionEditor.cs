@@ -37,7 +37,7 @@ internal class AnnotationCollectionEditor : ChartCollectionEditor
 	/// <returns>An array of data types that this collection can contain.</returns>
 	protected override Type[] CreateNewItemTypes()
 	{
-		return new Type[] {
+		return [
 				typeof(LineAnnotation),
 				typeof(VerticalLineAnnotation),
 				typeof(HorizontalLineAnnotation),
@@ -51,7 +51,7 @@ internal class AnnotationCollectionEditor : ChartCollectionEditor
 				typeof(PolygonAnnotation),
 				typeof(ImageAnnotation),
 				typeof(AnnotationGroup)
-			};
+			];
 	}
 
 	/// <summary>
@@ -88,7 +88,7 @@ internal class AnnotationCollectionEditor : ChartCollectionEditor
 		// Find unique name
 		string result = string.Empty;
 		string prefix = type.Name;
-		for (int i = 1; i < System.Int32.MaxValue; i++)
+		for (int i = 1; i < int.MaxValue; i++)
 		{
 			result = prefix + i.ToString(CultureInfo.InvariantCulture);
 
@@ -109,7 +109,7 @@ internal class AnnotationCollectionEditor : ChartCollectionEditor
 /// <summary>
 /// UI type editor for the annotation anchor point
 /// </summary>
-internal class AnchorPointUITypeEditor : System.Drawing.Design.UITypeEditor
+internal class AnchorPointUITypeEditor : UITypeEditor
 {
 	#region Editor methods and properties
 
@@ -129,7 +129,7 @@ internal class AnchorPointUITypeEditor : System.Drawing.Design.UITypeEditor
 				context.Instance is Annotation)
 			{
 				// Create control for editing
-				AnchorPointNameTreeView control = new AnchorPointNameTreeView(
+				AnchorPointNameTreeView control = new(
 					edSvc,
 					(Annotation)context.Instance,
 					value as DataPoint);
@@ -175,9 +175,9 @@ internal class AnchorPointNameTreeView : TreeView
 	#region Control fields
 
 	// Annotation object to edit
-	private Annotation _annotation = null;
-	private DataPoint _dataPoint = null;
-	IWindowsFormsEditorService _edSvc = null;
+	private readonly Annotation _annotation = null;
+	private readonly DataPoint _dataPoint = null;
+	readonly IWindowsFormsEditorService _edSvc = null;
 
 	#endregion
 
@@ -195,15 +195,15 @@ internal class AnchorPointNameTreeView : TreeView
 		DataPoint dataPoint)
 	{
 		// Set editable value
-		this._annotation = annotation;
-		this._dataPoint = dataPoint;
-		this._edSvc = edSvc;
+		_annotation = annotation;
+		_dataPoint = dataPoint;
+		_edSvc = edSvc;
 
 		// Set control border style
-		this.BorderStyle = BorderStyle.None;
+		BorderStyle = BorderStyle.None;
 
 		// Fill tree with data point names
-		this.FillTree();
+		FillTree();
 	}
 
 	#endregion
@@ -216,22 +216,22 @@ internal class AnchorPointNameTreeView : TreeView
 	private void FillTree()
 	{
 		bool nodeSelected = false;
-		this.BeginUpdate();
+		BeginUpdate();
 
 		// Add "None" option
-		TreeNode noPoint = this.Nodes.Add("NotSet");
+		TreeNode noPoint = Nodes.Add("NotSet");
 
 		// Get chart object
-		if (this._annotation != null &&
+		if (_annotation != null &&
 			_annotation.AnnotationGroup == null &&
-			this._annotation.Chart != null)
+			_annotation.Chart != null)
 		{
-			Chart chart = this._annotation.Chart;
+			Chart chart = _annotation.Chart;
 
 			// Loop through all series
 			foreach (Series series in chart.Series)
 			{
-				TreeNode seriesNode = this.Nodes.Add(series.Name);
+				TreeNode seriesNode = Nodes.Add(series.Name);
 				seriesNode.Tag = series;
 
 				// Indicate that there are no points in series
@@ -244,7 +244,7 @@ internal class AnchorPointNameTreeView : TreeView
 				int index = 1;
 				foreach (DataPoint point in series.Points)
 				{
-					TreeNode dataPointNode = seriesNode.Nodes.Add("DataPoint" + index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+					TreeNode dataPointNode = seriesNode.Nodes.Add("DataPoint" + index.ToString(CultureInfo.InvariantCulture));
 					dataPointNode.Tag = point;
 					++index;
 
@@ -252,7 +252,7 @@ internal class AnchorPointNameTreeView : TreeView
 					if (point == _dataPoint)
 					{
 						seriesNode.Expand();
-						this.SelectedNode = dataPointNode;
+						SelectedNode = dataPointNode;
 						nodeSelected = true;
 					}
 				}
@@ -262,10 +262,10 @@ internal class AnchorPointNameTreeView : TreeView
 		// Select default node
 		if (!nodeSelected)
 		{
-			this.SelectedNode = noPoint;
+			SelectedNode = noPoint;
 		}
 
-		this.EndUpdate();
+		EndUpdate();
 	}
 
 	/// <summary>
@@ -274,11 +274,11 @@ internal class AnchorPointNameTreeView : TreeView
 	/// <returns>New enum value.</returns>
 	public DataPoint GetNewValue()
 	{
-		if (this.SelectedNode != null &&
-			this.SelectedNode.Tag != null &&
-			this.SelectedNode.Tag is DataPoint)
+		if (SelectedNode != null &&
+			SelectedNode.Tag != null &&
+			SelectedNode.Tag is DataPoint)
 		{
-			return (DataPoint)this.SelectedNode.Tag;
+			return (DataPoint)SelectedNode.Tag;
 		}
 
 		return null;
@@ -290,16 +290,16 @@ internal class AnchorPointNameTreeView : TreeView
 	protected override void OnDoubleClick(EventArgs e)
 	{
 		base.OnDoubleClick(e);
-		if (this._edSvc != null)
+		if (_edSvc != null)
 		{
 			if (GetNewValue() != null)
 			{
-				this._edSvc.CloseDropDown();
+				_edSvc.CloseDropDown();
 			}
-			else if (this.SelectedNode != null &&
-				this.SelectedNode.Text == "NotSet")
+			else if (SelectedNode != null &&
+				SelectedNode.Text == "NotSet")
 			{
-				this._edSvc.CloseDropDown();
+				_edSvc.CloseDropDown();
 			}
 		}
 	}
@@ -309,7 +309,7 @@ internal class AnchorPointNameTreeView : TreeView
 /// <summary>
 /// UI type editor for the annotation axes.
 /// </summary>
-internal class AnnotationAxisUITypeEditor : System.Drawing.Design.UITypeEditor
+internal class AnnotationAxisUITypeEditor : UITypeEditor
 {
 	#region Editor methods and properties
 
@@ -337,7 +337,7 @@ internal class AnnotationAxisUITypeEditor : System.Drawing.Design.UITypeEditor
 				}
 
 				// Create control for editing
-				AnnotationAxisNameTreeView control = new AnnotationAxisNameTreeView(
+				AnnotationAxisNameTreeView control = new(
 					edSvc,
 					(Annotation)context.Instance,
 					value as Axis,
@@ -384,10 +384,10 @@ internal class AnnotationAxisNameTreeView : TreeView
 	#region Control fields
 
 	// Annotation object to edit
-	private Annotation _annotation = null;
-	private Axis _axis = null;
-	IWindowsFormsEditorService _edSvc = null;
-	private bool _showXAxes = true;
+	private readonly Annotation _annotation = null;
+	private readonly Axis _axis = null;
+	readonly IWindowsFormsEditorService _edSvc = null;
+	private readonly bool _showXAxes = true;
 
 	#endregion
 
@@ -407,16 +407,16 @@ internal class AnnotationAxisNameTreeView : TreeView
 		bool showXAxes)
 	{
 		// Set editable value
-		this._annotation = annotation;
-		this._axis = axis;
-		this._edSvc = edSvc;
-		this._showXAxes = showXAxes;
+		_annotation = annotation;
+		_axis = axis;
+		_edSvc = edSvc;
+		_showXAxes = showXAxes;
 
 		// Set control border style
-		this.BorderStyle = BorderStyle.None;
+		BorderStyle = BorderStyle.None;
 
 		// Fill tree with data point names
-		this.FillTree();
+		FillTree();
 	}
 
 	#endregion
@@ -429,22 +429,22 @@ internal class AnnotationAxisNameTreeView : TreeView
 	private void FillTree()
 	{
 		bool nodeSelected = false;
-		this.BeginUpdate();
+		BeginUpdate();
 
 		// Add "None" option
-		TreeNode noPoint = this.Nodes.Add("NotSet");
+		TreeNode noPoint = Nodes.Add("NotSet");
 
 		// Get chart object
-		if (this._annotation != null &&
+		if (_annotation != null &&
 			_annotation.AnnotationGroup == null &&
-			this._annotation.Chart != null)
+			_annotation.Chart != null)
 		{
-			Chart chart = this._annotation.Chart;
+			Chart chart = _annotation.Chart;
 
 			// Loop through all chart areas
 			foreach (ChartArea chartArea in chart.ChartAreas)
 			{
-				TreeNode areaNode = this.Nodes.Add(chartArea.Name);
+				TreeNode areaNode = Nodes.Add(chartArea.Name);
 				areaNode.Tag = chartArea;
 
 				// Loop through all axes
@@ -475,7 +475,7 @@ internal class AnnotationAxisNameTreeView : TreeView
 					if (_axis == curAxis)
 					{
 						areaNode.Expand();
-						this.SelectedNode = axisNode;
+						SelectedNode = axisNode;
 						nodeSelected = true;
 					}
 				}
@@ -485,10 +485,10 @@ internal class AnnotationAxisNameTreeView : TreeView
 		// Select default node
 		if (!nodeSelected)
 		{
-			this.SelectedNode = noPoint;
+			SelectedNode = noPoint;
 		}
 
-		this.EndUpdate();
+		EndUpdate();
 	}
 
 	/// <summary>
@@ -497,11 +497,11 @@ internal class AnnotationAxisNameTreeView : TreeView
 	/// <returns>New enum value.</returns>
 	public Axis GetNewValue()
 	{
-		if (this.SelectedNode != null &&
-			this.SelectedNode.Tag != null &&
-			this.SelectedNode.Tag is Axis)
+		if (SelectedNode != null &&
+			SelectedNode.Tag != null &&
+			SelectedNode.Tag is Axis)
 		{
-			return (Axis)this.SelectedNode.Tag;
+			return (Axis)SelectedNode.Tag;
 		}
 
 		return null;
@@ -513,16 +513,16 @@ internal class AnnotationAxisNameTreeView : TreeView
 	protected override void OnDoubleClick(EventArgs e)
 	{
 		base.OnDoubleClick(e);
-		if (this._edSvc != null)
+		if (_edSvc != null)
 		{
 			if (GetNewValue() != null)
 			{
-				this._edSvc.CloseDropDown();
+				_edSvc.CloseDropDown();
 			}
-			else if (this.SelectedNode != null &&
-				this.SelectedNode.Text == "NotSet")
+			else if (SelectedNode != null &&
+				SelectedNode.Text == "NotSet")
 			{
-				this._edSvc.CloseDropDown();
+				_edSvc.CloseDropDown();
 			}
 		}
 	}

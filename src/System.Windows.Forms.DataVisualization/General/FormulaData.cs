@@ -236,19 +236,13 @@ public class DataFormula
 	//***********************************************************
 	//** Private data members, which store properties values
 	//***********************************************************
-	private bool _isEmptyPointIgnored = true;
 
-	private string[] _extraParameters;
+	private readonly string[] _extraParameters;
 
 	/// <summary>
 	/// All X values are zero.
 	/// </summary>
 	private bool _zeroXValues = false;
-
-	/// <summary>
-	/// Utility class for Statistical formulas
-	/// </summary>
-	private StatisticFormula _statistics;
 
 	/// <summary>
 	/// Reference to the Common elements
@@ -265,10 +259,10 @@ public class DataFormula
 	/// </summary>
 	public DataFormula()
 	{
-		_statistics = new StatisticFormula(this);
+		Statistics = new StatisticFormula(this);
 
 		_extraParameters = new string[1];
-		_extraParameters[0] = false.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		_extraParameters[0] = false.ToString(Globalization.CultureInfo.InvariantCulture);
 	}
 
 	/// <summary>
@@ -337,11 +331,10 @@ public class DataFormula
 			inNoEmptyValues = inValues;
 		}
 
-		// Call a formula from formula modules
-		string moduleName = null;
 		for (int module = 0; module < Common.FormulaRegistry.Count; module++)
 		{
-			moduleName = Common.FormulaRegistry.GetModuleName(module);
+			// Call a formula from formula modules
+			string moduleName = Common.FormulaRegistry.GetModuleName(module);
 			Common.FormulaRegistry.GetFormulaModule(moduleName).Formula(formulaName, inNoEmptyValues, out outValues, parameterList, _extraParameters, out outLabels);
 
 			// Commented out as InsertEmptyDataPoints is currently commented out (see next block).
@@ -364,7 +357,9 @@ public class DataFormula
 		}
 
 		if (outValues == null)
+		{
 			throw new ArgumentException(SR.ExceptionFormulaNotFound(formulaName));
+		}
 
 		// Insert empty data points
 
@@ -390,7 +385,7 @@ public class DataFormula
 				{
 					// get the last xValue: the formula processing is 
 					double topXValue = series.Points[series.Points.Count - 1].XValue;
-					this.Common.Chart.DataManipulator.InsertEmptyPoints(1, IntervalType.Number, 0, IntervalType.Number, 1, topXValue, series);
+					Common.Chart.DataManipulator.InsertEmptyPoints(1, IntervalType.Number, 0, IntervalType.Number, 1, topXValue, series);
 					foreach (DataPoint point in series.Points)
 					{
 						point.XValue = 0;
@@ -420,14 +415,14 @@ public class DataFormula
 			if (_zeroXValues)
 			{   //If we have the empty XValues then the source series should have all the AxisLabels
 				// -- set the indexed series labels source 
-				outputSeries[DataFormula.IndexedSeriesLabelsSourceAttr] = inputSeries.Name;
+				outputSeries[IndexedSeriesLabelsSourceAttr] = inputSeries.Name;
 			}
 			else
 			{   //If the source series has XValues - loop through the input series points looking for the points with AxisLabels set
 				int outIndex = 0;
 				foreach (DataPoint inputPoint in inputSeries.Points)
 				{
-					if (!String.IsNullOrEmpty(inputPoint.AxisLabel))
+					if (!string.IsNullOrEmpty(inputPoint.AxisLabel))
 					{
 						//If the Axis label is set we need to find the corresponding point by the X value
 						//Most probably the points are in the same order so lets first try the corresponding point in the output series
@@ -519,10 +514,14 @@ public class DataFormula
 					}
 
 					// Set empty data points or Y values
-					if (Double.IsNaN(outputValues[seriesIndex + 1][pointIndex]))
+					if (double.IsNaN(outputValues[seriesIndex + 1][pointIndex]))
+					{
 						series.Points[pointIndex].IsEmpty = true;
+					}
 					else
+					{
 						series.Points[pointIndex].YValues[valueIndex[seriesIndex] - 1] = outputValues[seriesIndex + 1][pointIndex];
+					}
 				}
 				// Use existing series and set Y values.
 				else
@@ -533,8 +532,10 @@ public class DataFormula
 					}
 
 					// Set empty data points or Y values
-					if (Double.IsNaN(outputValues[seriesIndex + 1][pointIndex]))
+					if (double.IsNaN(outputValues[seriesIndex + 1][pointIndex]))
+					{
 						series.Points[pointIndex].IsEmpty = true;
+					}
 					else
 					{
 						series.Points[pointIndex].YValues[valueIndex[seriesIndex] - 1] = outputValues[seriesIndex + 1][pointIndex];
@@ -606,9 +607,9 @@ public class DataFormula
 						// Try to convert the rest of the string to integer
 						try
 						{
-							valueIndex = Int32.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+							valueIndex = int.Parse(parts[1], Globalization.CultureInfo.InvariantCulture);
 						}
-						catch (System.Exception)
+						catch (Exception)
 						{
 							throw (new ArgumentException(SR.ExceptionFormulaDataFormatInvalid(str)));
 						}
@@ -628,7 +629,7 @@ public class DataFormula
 			{
 				seiesArray[index] = Common.DataManager.Series[parts[0].Trim()];
 			}
-			catch (System.Exception)
+			catch (Exception)
 			{
 				// Series doesn't exist.
 				if (!inputSeries)
@@ -638,7 +639,9 @@ public class DataFormula
 					seiesArray[index] = Common.DataManager.Series[parts[0]];
 				}
 				else
+				{
 					throw (new ArgumentException(SR.ExceptionFormulaDataSeriesNameNotFoundInCollection(str)));
+				}
 			}
 
 			index++;
@@ -727,9 +730,13 @@ public class DataFormula
 		{
 			// Set X value
 			if (_zeroXValues)
+			{
 				output[0][indexPoint] = (double)indexPoint + 1.0;
+			}
 			else
+			{
 				output[0][indexPoint] = point.XValue;
+			}
 
 			// Increase data point index.
 			indexPoint++;
@@ -750,15 +757,17 @@ public class DataFormula
 			{
 				// Set Y values
 				if (point.IsEmpty)
+				{
 					// IsEmpty data point
 					output[indexSeries][indexPoint] = double.NaN;
+				}
 				else
 				{
 					try
 					{
 						output[indexSeries][indexPoint] = point.YValues[valueIndex[indexSeries - 1] - 1];
 					}
-					catch (System.Exception)
+					catch (Exception)
 					{
 						throw new ArgumentException(SR.ExceptionFormulaYIndexInvalid);
 					}
@@ -779,10 +788,9 @@ public class DataFormula
 	/// <param name="outputSeries">Comma separated list of output data series names and optional X and Y values names.</param>
 	public void CopySeriesValues(string inputSeries, string outputSeries)
 	{
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
-		if (outputSeries == null)
-			throw new ArgumentNullException("outputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
+
+		ArgumentNullException.ThrowIfNull(outputSeries);
 
 		Series[] inSeries;
 		Series[] outSeries;
@@ -806,9 +814,7 @@ public class DataFormula
 		// create data points which are copy of Input series data points
 		for (int indexSeries = 0; indexSeries < inSeries.Length; indexSeries++)
 		{
-			Series[] series = new Series[2];
-			series[0] = inSeries[indexSeries];
-			series[1] = outSeries[indexSeries];
+			Series[] series = [inSeries[indexSeries], outSeries[indexSeries]];
 			if (series[1].Points.Count == 0)
 			{
 				foreach (DataPoint point in series[0].Points)
@@ -823,9 +829,7 @@ public class DataFormula
 		// Check alignment of X values.
 		for (int indexSeries = 0; indexSeries < inSeries.Length; indexSeries++)
 		{
-			Series[] series = new Series[2];
-			series[0] = inSeries[indexSeries];
-			series[1] = outSeries[indexSeries];
+			Series[] series = [inSeries[indexSeries], outSeries[indexSeries]];
 			CheckXValuesAlignment(series);
 		}
 
@@ -882,10 +886,10 @@ public class DataFormula
 	{
 		// Allocate memory
 		output = new double[input.Length][];
-		int seriesIndex = 0;
 
 		int numberOfRows = 0;
 
+		int seriesIndex;
 		// Set Nan for all data points with same index in input array
 		// Data point loop
 		for (int pointIndex = 0; pointIndex < input[0].Length; pointIndex++)
@@ -896,9 +900,14 @@ public class DataFormula
 			for (seriesIndex = 0; seriesIndex < input.Length; seriesIndex++)
 			{
 				if (seriesIndex >= input[seriesIndex].Length)
+				{
 					continue;
-				if (Double.IsNaN(input[seriesIndex][pointIndex]))
+				}
+
+				if (double.IsNaN(input[seriesIndex][pointIndex]))
+				{
 					isEmpty = true;
+				}
 			}
 
 			if (!isEmpty)
@@ -912,7 +921,7 @@ public class DataFormula
 				// Set all points with same index to be empty
 				for (seriesIndex = 1; seriesIndex < input.Length; seriesIndex++)
 				{
-					input[seriesIndex][pointIndex] = Double.NaN;
+					input[seriesIndex][pointIndex] = double.NaN;
 				}
 			}
 		}
@@ -925,7 +934,10 @@ public class DataFormula
 			for (int pointIndex = 0; pointIndex < input[0].Length; pointIndex++)
 			{
 				if (pointIndex >= input[seriesIndex].Length)
+				{
 					continue;
+				}
+
 				if (!double.IsNaN(input[1][pointIndex]))
 				{
 					output[seriesIndex][outPointIndex] = input[seriesIndex][pointIndex];
@@ -1059,7 +1071,7 @@ public class DataFormula
 		// Split string by comma
 		parameterList = parameters.Split(',');
 
-		for (Int32 i = 0; i < parameterList.Length; i++)
+		for (int i = 0; i < parameterList.Length; i++)
 		{
 			parameterList[i] = parameterList[i].Trim();
 		}
@@ -1108,8 +1120,9 @@ public class DataFormula
 				{
 					// Check X values.
 					if (series[seriesIndex].Points[pointIndex].XValue != series[seriesIndex + 1].Points[pointIndex].XValue)
+					{
 						throw new ArgumentException(SR.ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues(series[seriesIndex].Name, series[seriesIndex + 1].Name));
-
+					}
 				}
 			}
 		}
@@ -1156,10 +1169,10 @@ public class DataFormula
 	[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
 	public void FinancialFormula(FinancialFormula formulaName, string parameters, Series inputSeries, Series outputSeries)
 	{
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
-		if (outputSeries == null)
-			throw new ArgumentNullException("outputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
+
+		ArgumentNullException.ThrowIfNull(outputSeries);
+
 		FinancialFormula(formulaName, parameters, inputSeries.Name, outputSeries.Name);
 	}
 
@@ -1200,10 +1213,9 @@ public class DataFormula
 	/// <param name="outputSeries">Comma separated list of output series names and optional X and Y values names.</param>
 	public void FinancialFormula(FinancialFormula formulaName, string parameters, string inputSeries, string outputSeries)
 	{
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
-		if (outputSeries == null)
-			throw new ArgumentNullException("outputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
+
+		ArgumentNullException.ThrowIfNull(outputSeries);
 
 		// Get formula info
 		FormulaInfo formulaInfo = FormulaHelper.GetFormulaInfo(formulaName);
@@ -1219,13 +1231,18 @@ public class DataFormula
 		}
 
 		// Fix the InputSeries and Outputseries for cases when the series field names are not provided
-		SeriesFieldList inputFields = SeriesFieldList.FromString(this.Common.Chart, inputSeries, formulaInfo.InputFields);
-		SeriesFieldList outputFields = SeriesFieldList.FromString(this.Common.Chart, outputSeries, formulaInfo.OutputFields);
+		SeriesFieldList inputFields = SeriesFieldList.FromString(Common.Chart, inputSeries, formulaInfo.InputFields);
+		SeriesFieldList outputFields = SeriesFieldList.FromString(Common.Chart, outputSeries, formulaInfo.OutputFields);
 
 		if (inputFields != null)
+		{
 			inputSeries = inputFields.ToString();
+		}
+
 		if (outputFields != null)
+		{
 			outputSeries = outputFields.ToString();
+		}
 
 		Formula(formulaName.ToString(), parameters, inputSeries, outputSeries);
 	}
@@ -1238,17 +1255,7 @@ public class DataFormula
 	/// empty points are ignored while performing calculations; 
 	/// otherwise, empty points are treated as zeros. 
 	/// </summary>
-	public bool IsEmptyPointIgnored
-	{
-		get
-		{
-			return _isEmptyPointIgnored;
-		}
-		set
-		{
-			_isEmptyPointIgnored = value;
-		}
-	}
+	public bool IsEmptyPointIgnored { get; set; } = true;
 
 
 
@@ -1265,22 +1272,20 @@ public class DataFormula
 		set
 		{
 			if (value)
-				_extraParameters[0] = true.ToString(System.Globalization.CultureInfo.InvariantCulture);
+			{
+				_extraParameters[0] = true.ToString(Globalization.CultureInfo.InvariantCulture);
+			}
 			else
-				_extraParameters[0] = false.ToString(System.Globalization.CultureInfo.InvariantCulture);
+			{
+				_extraParameters[0] = false.ToString(Globalization.CultureInfo.InvariantCulture);
+			}
 		}
 	}
 
 	/// <summary>
 	/// Returns a reference to the statistical utility class.
 	/// </summary>
-	public StatisticFormula Statistics
-	{
-		get
-		{
-			return _statistics;
-		}
-	}
+	public StatisticFormula Statistics { get; }
 
 
 	#endregion

@@ -47,9 +47,9 @@ internal class StepLineChart : LineChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -83,7 +83,7 @@ internal class StepLineChart : LineChart
 
 		// Darw two lines
 		PointF point1 = points[pointIndex - 1];
-		PointF point2 = new PointF(points[pointIndex].X, points[pointIndex - 1].Y);
+		PointF point2 = new(points[pointIndex].X, points[pointIndex - 1].Y);
 		PointF point3 = points[pointIndex];
 		graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle, graph.GetRelativePoint(point1), graph.GetRelativePoint(point2), series.ShadowColor, series.ShadowOffset);
 		graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle, graph.GetRelativePoint(point2), graph.GetRelativePoint(point3), series.ShadowColor, series.ShadowOffset);
@@ -92,7 +92,7 @@ internal class StepLineChart : LineChart
 		{
 			// Create grapics path object for the line
 			// Split line into 2 segments.
-			GraphicsPath path = new GraphicsPath();
+			GraphicsPath path = new();
 			try
 			{
 				path.AddLine(point2, point3);
@@ -110,10 +110,11 @@ internal class StepLineChart : LineChart
 			{
 			}
 
-			// Allocate array of floats
-			PointF pointNew = PointF.Empty;
 			float[] coord = new float[path.PointCount * 2];
 			PointF[] pathPoints = path.PathPoints;
+
+			// Allocate array of floats
+			PointF pointNew;
 			for (int i = 0; i < path.PointCount; i++)
 			{
 				pointNew = graph.GetRelativePoint(pathPoints[i]);
@@ -229,7 +230,7 @@ internal class StepLineChart : LineChart
 		DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 			points,
 			secondPoint.index - 1,
-			(this.multiSeries) ? secondPoint : null,
+			(multiSeries) ? secondPoint : null,
 			ref pointArrayIndex);
 
 		// Fint point with line properties
@@ -259,9 +260,11 @@ internal class StepLineChart : LineChart
 		//************************************************************
 		//** Create "middle" point
 		//************************************************************
-		DataPoint3D middlePoint = new DataPoint3D();
-		middlePoint.xPosition = secondPoint.xPosition;
-		middlePoint.yPosition = firstPoint.yPosition;
+		DataPoint3D middlePoint = new()
+		{
+			xPosition = secondPoint.xPosition,
+			yPosition = firstPoint.yPosition
+		};
 
 		// Check if reversed drawing order required
 		bool originalDrawOrder = true;
@@ -294,9 +297,9 @@ internal class StepLineChart : LineChart
 				pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 				firstPoint, middlePoint,
 				points, pointIndex, 0f, operationType, LineSegmentType.First,
-				(this.showPointLines) ? true : false, false,
+				(showPointLines) ? true : false, false,
 					area.ReverseSeriesOrder,
-				this.multiSeries, 0, true);
+				multiSeries, 0, true);
 
 			// No second draw of the prev. front line required
 			graph.frontLinePen = null;
@@ -308,9 +311,9 @@ internal class StepLineChart : LineChart
 				pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 				middlePoint, secondPoint,
 				points, pointIndex, 0f, operationType, LineSegmentType.Last,
-				(this.showPointLines) ? true : false, false,
+				(showPointLines) ? true : false, false,
 					area.ReverseSeriesOrder,
-				this.multiSeries, 0, true);
+				multiSeries, 0, true);
 
 			// No second draw of the prev. front line required
 			graph.frontLinePen = null;
@@ -324,9 +327,9 @@ internal class StepLineChart : LineChart
 				pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 				middlePoint, secondPoint,
 				points, pointIndex, 0f, operationType, LineSegmentType.Last,
-				(this.showPointLines) ? true : false, false,
+				(showPointLines) ? true : false, false,
 					area.ReverseSeriesOrder,
-				this.multiSeries, 0, true);
+				multiSeries, 0, true);
 
 			// No second draw of the prev. front line required
 			graph.frontLinePen = null;
@@ -338,9 +341,9 @@ internal class StepLineChart : LineChart
 				pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 				firstPoint, middlePoint,
 				points, pointIndex, 0f, operationType, LineSegmentType.First,
-				(this.showPointLines) ? true : false, false,
+				(showPointLines) ? true : false, false,
 					area.ReverseSeriesOrder,
-				this.multiSeries, 0, true);
+				multiSeries, 0, true);
 
 			// No second draw of the prev. front line required
 			graph.frontLinePen = null;

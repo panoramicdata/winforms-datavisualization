@@ -83,7 +83,9 @@ internal class GeneralFormulas : PriceIndicators
 	{
 		// There is no enough series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 1);
@@ -106,9 +108,13 @@ internal class GeneralFormulas : PriceIndicators
 			outputValues[0][index] = inputValues[0][index];
 
 			if (index > 0)
+			{
 				outputValues[1][index] = inputValues[1][index] / total * 100 + outputValues[1][index - 1];
+			}
 			else
+			{
 				outputValues[1][index] = inputValues[1][index] / total * 100;
+			}
 		}
 	}
 
@@ -141,7 +147,7 @@ internal class GeneralFormulas : PriceIndicators
 		// Not used for these formulas.
 		outLabels = null;
 
-		name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+		name = formulaName.ToUpper(Globalization.CultureInfo.InvariantCulture);
 
 		try
 		{

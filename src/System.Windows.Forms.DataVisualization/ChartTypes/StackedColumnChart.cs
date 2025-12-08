@@ -87,7 +87,7 @@ internal class HundredPercentStackedColumnChart : StackedColumnChart
 	{
 		// Reset pre-calculated totals
 
-		this._stackedGroupsTotalPerPoint = null;
+		_stackedGroupsTotalPerPoint = null;
 
 		base.Paint(graph, common, area, seriesToDraw);
 	}
@@ -108,22 +108,17 @@ internal class HundredPercentStackedColumnChart : StackedColumnChart
 	/// <returns>Y value of the point.</returns>
 	override public double GetYValue(CommonElements common, ChartArea area, Series series, DataPoint point, int pointIndex, int yValueIndex)
 	{
-		// Array of Y totals for individual series index in the current stacked group
-		double[] currentGroupTotalPerPoint = null;
-
-
-
-		string currentStackedGroupName = HundredPercentStackedColumnChart.GetSeriesStackGroupName(series);
-		if (this._stackedGroupsTotalPerPoint == null)
+		string currentStackedGroupName = GetSeriesStackGroupName(series);
+		if (_stackedGroupsTotalPerPoint == null)
 		{
 			// Create new hashtable
-			this._stackedGroupsTotalPerPoint = new Hashtable();
+			_stackedGroupsTotalPerPoint = [];
 
 			// Iterate through all stacked groups
-			foreach (string groupName in this.stackGroupNames)
+			foreach (string groupName in stackGroupNames)
 			{
 				// Get series that belong to the same group
-				Series[] seriesArray = HundredPercentStackedColumnChart.GetSeriesByStackedGroupName(
+				Series[] seriesArray = GetSeriesByStackedGroupName(
 						common, groupName, series.ChartTypeName, series.ChartArea);
 
 				// Check if series are aligned
@@ -143,12 +138,13 @@ internal class HundredPercentStackedColumnChart : StackedColumnChart
 				}
 
 				// Add totals array into the hashtable
-				this._stackedGroupsTotalPerPoint.Add(groupName, totals);
+				_stackedGroupsTotalPerPoint.Add(groupName, totals);
 			}
 		}
 
+		// Array of Y totals for individual series index in the current stacked group
 		// Find array of total Y values based on the current stacked group name
-		currentGroupTotalPerPoint = (double[])this._stackedGroupsTotalPerPoint[currentStackedGroupName];
+		double[] currentGroupTotalPerPoint = (double[])_stackedGroupsTotalPerPoint[currentStackedGroupName];
 
 
 		// IsEmpty point
@@ -204,13 +200,13 @@ internal class HundredPercentStackedColumnChart : StackedColumnChart
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Check series of the current chart type & area
-			if (String.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
-					String.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
+			if (string.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
+					string.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
 				ser.IsVisible())
 			{
 
 				// Series must belong to the same stacked group
-				if (currentStackedGroupName != HundredPercentStackedColumnChart.GetSeriesStackGroupName(ser))
+				if (currentStackedGroupName != GetSeriesStackGroupName(ser))
 				{
 					continue;
 				}
@@ -250,7 +246,7 @@ internal class HundredPercentStackedColumnChart : StackedColumnChart
 				}
 
 				// Exit loop when current series was found
-				if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+				if (string.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
 				{
 					break;
 				}
@@ -329,9 +325,9 @@ internal class StackedColumnChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	/// <summary>
@@ -523,7 +519,7 @@ internal class StackedColumnChart : IChartType
 		{
 			// Process non empty series of the area with stacked column chart type
 			Series ser = common.DataManager.Series[seriesIndex];
-			if (String.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
+			if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
@@ -553,14 +549,14 @@ internal class StackedColumnChart : IChartType
 			{
 				// Process non empty series of the area with stacked column chart type
 				Series ser = common.DataManager.Series[seriesIndex];
-				if (String.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
+				if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 					|| ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
 
 				// Set new group name
-				string stackGroupName = StackedColumnChart.GetSeriesStackGroupName(ser);
+				string stackGroupName = GetSeriesStackGroupName(ser);
 				stackGroupName = "_X_" + ser.XAxisType.ToString() + ser.XSubAxisName + "_Y_" + ser.YAxisType.ToString() + ser.YSubAxisName + "__";
 				ser[CustomPropertyName.StackedGroupName] = stackGroupName;
 			}
@@ -571,23 +567,23 @@ internal class StackedColumnChart : IChartType
 		//************************************************************
 
 		// Loop through all series and get unique stack group names.
-		this.stackGroupNames = new ArrayList();
+		stackGroupNames = [];
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with stacked column chart type
-			if (String.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
+			if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
 			}
 
 			// Get stack group name from the series
-			string stackGroupName = StackedColumnChart.GetSeriesStackGroupName(ser);
+			string stackGroupName = GetSeriesStackGroupName(ser);
 
 			// Add group name if it do not already exsist
-			if (!this.stackGroupNames.Contains(stackGroupName))
+			if (!stackGroupNames.Contains(stackGroupName))
 			{
-				this.stackGroupNames.Add(stackGroupName);
+				stackGroupNames.Add(stackGroupName);
 			}
 		}
 
@@ -630,10 +626,10 @@ internal class StackedColumnChart : IChartType
 			//************************************************************
 			//** Loop through all stack groups
 			//************************************************************
-			for (int groupIndex = 0; groupIndex < this.stackGroupNames.Count; groupIndex++)
+			for (int groupIndex = 0; groupIndex < stackGroupNames.Count; groupIndex++)
 			{
 				// Rememmber current stack group name
-				this.currentStackGroup = (string)this.stackGroupNames[groupIndex];
+				currentStackGroup = (string)stackGroupNames[groupIndex];
 
 				int seriesIndx = 0;     // Data series index
 				double PreviousPosY = 0;    // Previous positive Y value
@@ -645,7 +641,7 @@ internal class StackedColumnChart : IChartType
 				foreach (Series ser in common.DataManager.Series)
 				{
 					// Process non empty series of the area with stacked column chart type
-					if (String.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
+					if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 						|| ser.ChartArea != area.Name || !ser.IsVisible())
 					{
 						continue;
@@ -659,8 +655,8 @@ internal class StackedColumnChart : IChartType
 
 
 					// Check if series belongs to the current group name
-					string seriesStackGroupName = StackedColumnChart.GetSeriesStackGroupName(ser);
-					if (seriesStackGroupName != this.currentStackGroup)
+					string seriesStackGroupName = GetSeriesStackGroupName(ser);
+					if (seriesStackGroupName != currentStackGroup)
 					{
 						continue;
 					}
@@ -712,7 +708,7 @@ internal class StackedColumnChart : IChartType
 
 
 					// Adjust width by number of stacked groups
-					width = width / (double)this.stackGroupNames.Count;
+					width = width / (double)stackGroupNames.Count;
 
 
 					// Call Back Paint event
@@ -800,9 +796,9 @@ internal class StackedColumnChart : IChartType
 					double xPosition = hAxis.GetPosition(xValue);
 
 					// Adjust X position of each stack group
-					if (this.stackGroupNames.Count > 1)
+					if (stackGroupNames.Count > 1)
 					{
-						xPosition = xPosition - width * ((double)this.stackGroupNames.Count) / 2.0 + width / 2.0 + groupIndex * width;
+						xPosition = xPosition - width * ((double)stackGroupNames.Count) / 2.0 + width / 2.0 + groupIndex * width;
 					}
 
 
@@ -976,14 +972,14 @@ internal class StackedColumnChart : IChartType
 			{
 				// Process non empty series of the area with stacked column chart type
 				Series ser = common.DataManager.Series[seriesIndex];
-				if (String.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
+				if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 					|| ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
 				}
 
 				// Set new group name
-				string stackGroupName = StackedColumnChart.GetSeriesStackGroupName(ser);
+				string stackGroupName = GetSeriesStackGroupName(ser);
 				int index = stackGroupName.IndexOf("__", StringComparison.Ordinal);
 				if (index >= 0)
 				{
@@ -1019,10 +1015,10 @@ internal class StackedColumnChart : IChartType
 	static internal Series[] GetSeriesByStackedGroupName(CommonElements common, string groupName, string chartTypeName, string chartAreaName)
 	{
 		// Get a list of series with specified group name
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
 		foreach (Series series in common.DataManager.Series)
 		{
-			if (String.Compare(series.ChartTypeName, chartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
+			if (string.Compare(series.ChartTypeName, chartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
 				chartAreaName == series.ChartArea &&
 				series.IsVisible())
 			{
@@ -1101,58 +1097,111 @@ internal class StackedColumnChart : IChartType
 		RectangleF rectangle)
 	{
 		// Label text format
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.Alignment = StringAlignment.Center;
+		format.LineAlignment = StringAlignment.Center;
+
+		// Disable the clip region
+		Region oldClipRegion = graph.Clip;
+		graph.Clip = new Region();
+
+		if (point.IsValueShownAsLabel || point.Label.Length > 0)
 		{
-			format.Alignment = StringAlignment.Center;
-			format.LineAlignment = StringAlignment.Center;
-
-			// Disable the clip region
-			Region oldClipRegion = graph.Clip;
-			graph.Clip = new Region();
-
-			if (point.IsValueShownAsLabel || point.Label.Length > 0)
+			// Get label text
+			string text;
+			if (point.Label.Length == 0)
 			{
-				// Get label text
-				string text;
-				if (point.Label.Length == 0)
+				// Round Y values for 100% stacked area
+				double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
+				if (hundredPercentStacked && point.LabelFormat.Length == 0)
 				{
-					// Round Y values for 100% stacked area
-					double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
-					if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
+					pointLabelValue = Math.Round(pointLabelValue, 2);
+				}
+
+				text = ValueConverter.FormatValue(
+					series.Chart,
+					point,
+					point.Tag,
+					pointLabelValue,
+					point.LabelFormat,
+					series.YValueType,
+					ChartElementType.DataPoint);
+			}
+			else
+			{
+				text = point.ReplaceKeywords(point.Label);
+			}
+
+			// Calculate label position
+			PointF labelPosition = PointF.Empty;
+			labelPosition.X = rectangle.X + rectangle.Width / 2f;
+			labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
+
+			// Get text angle
+			int textAngle = point.LabelAngle;
+
+			// Check if text contains white space only
+			if (text.Trim().Length != 0)
+			{
+				SizeF sizeFont = SizeF.Empty;
+
+
+				// Check if Smart Labels are enabled
+				if (series.SmartLabelStyle.Enabled)
+				{
+					sizeFont = graph.GetRelativeSize(
+						graph.MeasureString(
+						text,
+						point.Font,
+						new SizeF(1000f, 1000f),
+						StringFormat.GenericTypographic));
+					// Force some SmartLabelStyle settings for column chart
+					bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
+					LabelAlignmentStyles oldMovingDirection = series.SmartLabelStyle.MovingDirection;
+					series.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
+
+					// Change default moving direction
+					if (series.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
 					{
-						pointLabelValue = Math.Round(pointLabelValue, 2);
+						series.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Top;
 					}
 
-					text = ValueConverter.FormatValue(
-						series.Chart,
-						point,
-						point.Tag,
-						pointLabelValue,
-						point.LabelFormat,
-						series.YValueType,
-						ChartElementType.DataPoint);
+					// Adjust label position using SmartLabelStyle algorithm
+					labelPosition = area.smartLabels.AdjustSmartLabelPosition(
+						common,
+						graph,
+						area,
+						series.SmartLabelStyle,
+						labelPosition,
+						sizeFont,
+						format,
+						labelPosition,
+						new SizeF(0f, 0f),
+						LabelAlignmentStyles.Center);
+
+					// Restore forced values
+					series.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
+					series.SmartLabelStyle.MovingDirection = oldMovingDirection;
+
+					// Smart labels always use 0 degrees text angle
+					textAngle = 0;
 				}
-				else
+
+
+
+				// Draw label
+				if (!labelPosition.IsEmpty)
 				{
-					text = point.ReplaceKeywords(point.Label);
-				}
+					// Fix the .Net issue that text looks shifted to the left.
+					PointF absPosition = graph.GetAbsolutePoint(labelPosition);
+					if (graph.TextRenderingHint != TextRenderingHint.AntiAlias)
+					{
+						absPosition.X = (float)Math.Ceiling(absPosition.X) + 1f;
+						labelPosition = graph.GetRelativePoint(absPosition);
+					}
 
-				// Calculate label position
-				PointF labelPosition = PointF.Empty;
-				labelPosition.X = rectangle.X + rectangle.Width / 2f;
-				labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
-
-				// Get text angle
-				int textAngle = point.LabelAngle;
-
-				// Check if text contains white space only
-				if (text.Trim().Length != 0)
-				{
-					SizeF sizeFont = SizeF.Empty;
-
-
-					// Check if Smart Labels are enabled
-					if (series.SmartLabelStyle.Enabled)
+					// Measure string
+					if (sizeFont.IsEmpty)
 					{
 						sizeFont = graph.GetRelativeSize(
 							graph.MeasureString(
@@ -1160,101 +1209,44 @@ internal class StackedColumnChart : IChartType
 							point.Font,
 							new SizeF(1000f, 1000f),
 							StringFormat.GenericTypographic));
-						// Force some SmartLabelStyle settings for column chart
-						bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
-						LabelAlignmentStyles oldMovingDirection = series.SmartLabelStyle.MovingDirection;
-						series.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
-
-						// Change default moving direction
-						if (series.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
-						{
-							series.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Top;
-						}
-
-						// Adjust label position using SmartLabelStyle algorithm
-						labelPosition = area.smartLabels.AdjustSmartLabelPosition(
-							common,
-							graph,
-							area,
-							series.SmartLabelStyle,
-							labelPosition,
-							sizeFont,
-							format,
-							labelPosition,
-							new SizeF(0f, 0f),
-							LabelAlignmentStyles.Center);
-
-						// Restore forced values
-						series.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
-						series.SmartLabelStyle.MovingDirection = oldMovingDirection;
-
-						// Smart labels always use 0 degrees text angle
-						textAngle = 0;
 					}
 
+					// Get label background position
+					RectangleF labelBackPosition = RectangleF.Empty;
+					SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+					sizeLabel.Height += sizeFont.Height / 8;
+					sizeLabel.Width += sizeLabel.Width / text.Length;
+					labelBackPosition = new RectangleF(
+						labelPosition.X - sizeLabel.Width / 2,
+						labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+						sizeLabel.Width,
+						sizeLabel.Height);
 
+					// Draw label text
+					using Brush brush = new SolidBrush(point.LabelForeColor);
 
-					// Draw label
-					if (!labelPosition.IsEmpty)
-					{
-						// Fix the .Net issue that text looks shifted to the left.
-						PointF absPosition = graph.GetAbsolutePoint(labelPosition);
-						if (graph.TextRenderingHint != TextRenderingHint.AntiAlias)
-						{
-							absPosition.X = (float)Math.Ceiling(absPosition.X) + 1f;
-							labelPosition = graph.GetRelativePoint(absPosition);
-						}
-
-						// Measure string
-						if (sizeFont.IsEmpty)
-						{
-							sizeFont = graph.GetRelativeSize(
-								graph.MeasureString(
-								text,
-								point.Font,
-								new SizeF(1000f, 1000f),
-								StringFormat.GenericTypographic));
-						}
-
-						// Get label background position
-						RectangleF labelBackPosition = RectangleF.Empty;
-						SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-						sizeLabel.Height += sizeFont.Height / 8;
-						sizeLabel.Width += sizeLabel.Width / text.Length;
-						labelBackPosition = new RectangleF(
-							labelPosition.X - sizeLabel.Width / 2,
-							labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-							sizeLabel.Width,
-							sizeLabel.Height);
-
-						// Draw label text
-						using (Brush brush = new SolidBrush(point.LabelForeColor))
-						{
-
-							graph.DrawPointLabelStringRel(
-								common,
-								text,
-								point.Font,
-								brush,
-								labelPosition,
-								format,
-								textAngle,
-								labelBackPosition,
-								point.LabelBackColor,
-								point.LabelBorderColor,
-								point.LabelBorderWidth,
-								point.LabelBorderDashStyle,
-								series,
-								point,
-								pointIndex);
-						}
-					}
+					graph.DrawPointLabelStringRel(
+						common,
+						text,
+						point.Font,
+						brush,
+						labelPosition,
+						format,
+						textAngle,
+						labelBackPosition,
+						point.LabelBackColor,
+						point.LabelBorderColor,
+						point.LabelBorderWidth,
+						point.LabelBorderDashStyle,
+						series,
+						point,
+						pointIndex);
 				}
 			}
-
-			// Restore old clip region
-			graph.Clip = oldClipRegion;
 		}
+
+		// Restore old clip region
+		graph.Clip = oldClipRegion;
 	}
 
 	#endregion
@@ -1311,15 +1303,15 @@ internal class StackedColumnChart : IChartType
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Check series of the current chart type & area
-			if (String.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
-					String.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
+			if (string.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
+					string.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
 				ser.IsVisible())
 			{
 
 				// Check if series belongs to the current group name
-				string seriesStackGroupName = StackedColumnChart.GetSeriesStackGroupName(ser);
-				if (this.stackGroupNameUsed &&
-					seriesStackGroupName != this.currentStackGroup)
+				string seriesStackGroupName = GetSeriesStackGroupName(ser);
+				if (stackGroupNameUsed &&
+					seriesStackGroupName != currentStackGroup)
 				{
 					continue;
 				}
@@ -1345,7 +1337,7 @@ internal class StackedColumnChart : IChartType
 				}
 
 				// Exit loop when current series was found
-				if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+				if (string.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
 				{
 					break;
 				}
@@ -1394,12 +1386,10 @@ internal class StackedColumnChart : IChartType
 			return;
 		}
 
+
 		// Get list of series to draw
-		List<string> typeSeries = null;
-
-
 		// Get all series names that belong the same cluster
-		typeSeries = area.GetClusterSeriesNames(seriesToDraw.Name);
+		List<string> typeSeries = area.GetClusterSeriesNames(seriesToDraw.Name);
 
 
 		//************************************************************
@@ -1421,7 +1411,7 @@ internal class StackedColumnChart : IChartType
 
 
 			// Set current stack group name
-			this.currentStackGroup = StackedColumnChart.GetSeriesStackGroupName(ser);
+			currentStackGroup = GetSeriesStackGroupName(ser);
 
 
 			// Reset pre-calculated point position
@@ -1497,7 +1487,7 @@ internal class StackedColumnChart : IChartType
 				area.Area3DStyle.IsClustered)
 			{
 				// Get series group name
-				string groupName = StackedColumnChart.GetSeriesStackGroupName(ser);
+				string groupName = GetSeriesStackGroupName(ser);
 
 				// Iterate through all series in the group
 				bool firstSeries = true;
@@ -1505,7 +1495,7 @@ internal class StackedColumnChart : IChartType
 				foreach (string seriesName in typeSeries)
 				{
 					Series currentSeries = common.DataManager.Series[seriesName];
-					if (StackedColumnChart.GetSeriesStackGroupName(currentSeries) == groupName)
+					if (GetSeriesStackGroupName(currentSeries) == groupName)
 					{
 						// check if first seris
 						if (firstSeries)
@@ -1671,7 +1661,7 @@ internal class StackedColumnChart : IChartType
 			graph.StartHotRegion(point);
 
 			// Draw the Column rectangle
-			using (GraphicsPath rectPath = graph.Fill3DRectangle(
+			using GraphicsPath rectPath = graph.Fill3DRectangle(
 				rectSize,
 				pointEx.zPosition,
 				pointEx.depth,
@@ -1685,27 +1675,25 @@ internal class StackedColumnChart : IChartType
 				point.BorderDashStyle,
 				barDrawingStyle,
 				true,
-				drawingOperationType))
+				drawingOperationType);
+			// End Svg Selection mode
+			graph.EndHotRegion();
+
+			// Reset Clip Region
+			if (clipRegionSet)
 			{
-				// End Svg Selection mode
-				graph.EndHotRegion();
+				graph.ResetClip();
+			}
 
-				// Reset Clip Region
-				if (clipRegionSet)
-				{
-					graph.ResetClip();
-				}
+			if (common.ProcessModeRegions && !labels)
+			{
+				common.HotRegionsList.AddHotRegion(rectPath, false, graph, point, ser.Name, pointEx.index - 1);
+			}
 
-				if (common.ProcessModeRegions && !labels)
-				{
-					common.HotRegionsList.AddHotRegion(rectPath, false, graph, point, ser.Name, pointEx.index - 1);
-				}
-
-				// Check if labels should be drawn
-				if (point.IsValueShownAsLabel || point.Label.Length > 0)
-				{
-					drawLabels = true;
-				}
+			// Check if labels should be drawn
+			if (point.IsValueShownAsLabel || point.Label.Length > 0)
+			{
+				drawLabels = true;
 			}
 		}
 
@@ -1824,62 +1812,106 @@ internal class StackedColumnChart : IChartType
 		DataPoint point = pointEx.dataPoint;
 
 		// Label text format
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.Alignment = StringAlignment.Center;
+		format.LineAlignment = StringAlignment.Center;
+
+		// Disable the clip region
+		Region oldClipRegion = graph.Clip;
+		graph.Clip = new Region();
+
+		if (point.IsValueShownAsLabel || point.Label.Length > 0)
 		{
-			format.Alignment = StringAlignment.Center;
-			format.LineAlignment = StringAlignment.Center;
-
-			// Disable the clip region
-			Region oldClipRegion = graph.Clip;
-			graph.Clip = new Region();
-
-			if (point.IsValueShownAsLabel || point.Label.Length > 0)
+			// Get label text
+			string text;
+			if (point.Label.Length == 0)
 			{
-				// Get label text
-				string text;
-				if (point.Label.Length == 0)
+				// Round Y values for 100% stacked area
+				double pointLabelValue = GetYValue(common, area, series, point, pointIndex, -2);
+				if (hundredPercentStacked && point.LabelFormat.Length == 0)
 				{
-					// Round Y values for 100% stacked area
-					double pointLabelValue = GetYValue(common, area, series, point, pointIndex, -2);
-					if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
-					{
-						pointLabelValue = Math.Round(pointLabelValue, 2);
-					}
-
-					text = ValueConverter.FormatValue(
-						series.Chart,
-						point,
-						point.Tag,
-						pointLabelValue,
-						point.LabelFormat,
-						series.YValueType,
-						ChartElementType.DataPoint);
-				}
-				else
-				{
-					text = point.ReplaceKeywords(point.Label);
+					pointLabelValue = Math.Round(pointLabelValue, 2);
 				}
 
-				// Calculate label position
-				PointF labelPosition = PointF.Empty;
-				labelPosition.X = rectangle.X + rectangle.Width / 2f;
-				labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
+				text = ValueConverter.FormatValue(
+					series.Chart,
+					point,
+					point.Tag,
+					pointLabelValue,
+					point.LabelFormat,
+					series.YValueType,
+					ChartElementType.DataPoint);
+			}
+			else
+			{
+				text = point.ReplaceKeywords(point.Label);
+			}
 
-				// Transform coordinates
-				Point3D[] marker3DPosition = new Point3D[1];
-				marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth));
-				area.matrix3D.TransformPoints(marker3DPosition);
+			// Calculate label position
+			PointF labelPosition = PointF.Empty;
+			labelPosition.X = rectangle.X + rectangle.Width / 2f;
+			labelPosition.Y = rectangle.Y + rectangle.Height / 2f;
 
-				labelPosition.X = marker3DPosition[0].X;
-				labelPosition.Y = marker3DPosition[0].Y;
+			// Transform coordinates
+			Point3D[] marker3DPosition = [new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth))];
+			area.matrix3D.TransformPoints(marker3DPosition);
 
-				int textAngle = point.LabelAngle;
+			labelPosition.X = marker3DPosition[0].X;
+			labelPosition.Y = marker3DPosition[0].Y;
 
-				SizeF sizeFont = SizeF.Empty;
+			int textAngle = point.LabelAngle;
+
+			SizeF sizeFont = SizeF.Empty;
 
 
-				// Check if Smart Labels are enabled
-				if (series.SmartLabelStyle.Enabled)
+			// Check if Smart Labels are enabled
+			if (series.SmartLabelStyle.Enabled)
+			{
+				sizeFont = graph.GetRelativeSize(
+					graph.MeasureString(
+					text,
+					point.Font,
+					new SizeF(1000f, 1000f),
+					StringFormat.GenericTypographic));
+
+				// Force some SmartLabelStyle settings for column chart
+				bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
+				LabelAlignmentStyles oldMovingDirection = series.SmartLabelStyle.MovingDirection;
+				series.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
+
+				// Change default moving direction
+				if (series.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
+				{
+					series.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Top;
+				}
+
+				// Adjust label position using SmartLabelStyle algorithm
+				labelPosition = area.smartLabels.AdjustSmartLabelPosition(
+					common,
+					graph,
+					area,
+					series.SmartLabelStyle,
+					labelPosition,
+					sizeFont,
+					format,
+					labelPosition,
+					new SizeF(0f, 0f),
+					LabelAlignmentStyles.Center);
+
+				// Restore forced values
+				series.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
+				series.SmartLabelStyle.MovingDirection = oldMovingDirection;
+
+				// Smart labels always use 0 degrees text angle
+				textAngle = 0;
+			}
+
+
+
+			if (!labelPosition.IsEmpty)
+			{
+				// Measure string
+				if (sizeFont.IsEmpty)
 				{
 					sizeFont = graph.GetRelativeSize(
 						graph.MeasureString(
@@ -1887,91 +1919,42 @@ internal class StackedColumnChart : IChartType
 						point.Font,
 						new SizeF(1000f, 1000f),
 						StringFormat.GenericTypographic));
-
-					// Force some SmartLabelStyle settings for column chart
-					bool oldMarkerOverlapping = series.SmartLabelStyle.IsMarkerOverlappingAllowed;
-					LabelAlignmentStyles oldMovingDirection = series.SmartLabelStyle.MovingDirection;
-					series.SmartLabelStyle.IsMarkerOverlappingAllowed = true;
-
-					// Change default moving direction
-					if (series.SmartLabelStyle.MovingDirection == (LabelAlignmentStyles.Top | LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Right | LabelAlignmentStyles.Left | LabelAlignmentStyles.TopLeft | LabelAlignmentStyles.TopRight | LabelAlignmentStyles.BottomLeft | LabelAlignmentStyles.BottomRight))
-					{
-						series.SmartLabelStyle.MovingDirection = LabelAlignmentStyles.Bottom | LabelAlignmentStyles.Top;
-					}
-
-					// Adjust label position using SmartLabelStyle algorithm
-					labelPosition = area.smartLabels.AdjustSmartLabelPosition(
-						common,
-						graph,
-						area,
-						series.SmartLabelStyle,
-						labelPosition,
-						sizeFont,
-						format,
-						labelPosition,
-						new SizeF(0f, 0f),
-						LabelAlignmentStyles.Center);
-
-					// Restore forced values
-					series.SmartLabelStyle.IsMarkerOverlappingAllowed = oldMarkerOverlapping;
-					series.SmartLabelStyle.MovingDirection = oldMovingDirection;
-
-					// Smart labels always use 0 degrees text angle
-					textAngle = 0;
 				}
 
+				// Get label background position
+				RectangleF labelBackPosition = RectangleF.Empty;
+				SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+				sizeLabel.Height += sizeFont.Height / 8;
+				sizeLabel.Width += sizeLabel.Width / text.Length;
+				labelBackPosition = new RectangleF(
+					labelPosition.X - sizeLabel.Width / 2,
+					labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+					sizeLabel.Width,
+					sizeLabel.Height);
 
-
-				if (!labelPosition.IsEmpty)
-				{
-					// Measure string
-					if (sizeFont.IsEmpty)
-					{
-						sizeFont = graph.GetRelativeSize(
-							graph.MeasureString(
-							text,
-							point.Font,
-							new SizeF(1000f, 1000f),
-							StringFormat.GenericTypographic));
-					}
-
-					// Get label background position
-					RectangleF labelBackPosition = RectangleF.Empty;
-					SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-					sizeLabel.Height += sizeFont.Height / 8;
-					sizeLabel.Width += sizeLabel.Width / text.Length;
-					labelBackPosition = new RectangleF(
-						labelPosition.X - sizeLabel.Width / 2,
-						labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-						sizeLabel.Width,
-						sizeLabel.Height);
-
-					// Draw label text
-					using (Brush brush = new SolidBrush(point.LabelForeColor))
-					{
-						graph.DrawPointLabelStringRel(
-							common,
-							text,
-							point.Font,
-							brush,
-							labelPosition,
-							format,
-							textAngle,
-							labelBackPosition,
-							point.LabelBackColor,
-							point.LabelBorderColor,
-							point.LabelBorderWidth,
-							point.LabelBorderDashStyle,
-							series,
-							point,
-							pointIndex);
-					}
-				}
+				// Draw label text
+				using Brush brush = new SolidBrush(point.LabelForeColor);
+				graph.DrawPointLabelStringRel(
+					common,
+					text,
+					point.Font,
+					brush,
+					labelPosition,
+					format,
+					textAngle,
+					labelBackPosition,
+					point.LabelBackColor,
+					point.LabelBorderColor,
+					point.LabelBorderWidth,
+					point.LabelBorderDashStyle,
+					series,
+					point,
+					pointIndex);
 			}
-
-			// Restore old clip region
-			graph.Clip = oldClipRegion;
 		}
+
+		// Restore old clip region
+		graph.Clip = oldClipRegion;
 	}
 	#endregion
 

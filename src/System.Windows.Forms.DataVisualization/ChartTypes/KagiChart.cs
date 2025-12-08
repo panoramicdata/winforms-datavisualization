@@ -69,7 +69,7 @@ internal class KagiChart : StepLineChart
 	internal static void PrepareData(Series series)
 	{
 		// Check series chart type
-		if (String.Compare(series.ChartTypeName, ChartTypeNames.Kagi, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
+		if (string.Compare(series.ChartTypeName, ChartTypeNames.Kagi, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
 		{
 			return;
 		}
@@ -98,9 +98,11 @@ internal class KagiChart : StepLineChart
 			return; // the temp series has already been added
 		}
 
-		Series seriesOriginalData = new Series(tempSeriesName, series.YValuesPerPoint);
-		seriesOriginalData.Enabled = false;
-		seriesOriginalData.IsVisibleInLegend = false;
+		Series seriesOriginalData = new(tempSeriesName, series.YValuesPerPoint)
+		{
+			Enabled = false,
+			IsVisibleInLegend = false
+		};
 		chart.Series.Add(seriesOriginalData);
 		foreach (DataPoint dp in series.Points)
 		{
@@ -161,7 +163,7 @@ internal class KagiChart : StepLineChart
 					series["OldAutomaticXAxisInterval"] = "true";
 
 					// Calculate and set axis date-time interval
-					DateTimeIntervalType intervalType = DateTimeIntervalType.Auto;
+					DateTimeIntervalType intervalType;
 					xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out intervalType, series.XValueType);
 					xAxis.intervalType = intervalType;
 				}
@@ -324,7 +326,7 @@ internal class KagiChart : StepLineChart
 		}
 
 		// Calculate reversal amount
-		double reversalAmountPercentage = 0.0;
+		double reversalAmountPercentage;
 		double reversalAmount = GetReversalAmount(series, out reversalAmountPercentage);
 
 		// Fill points
@@ -442,14 +444,14 @@ internal class KagiChart : StepLineChart
 		if (currentKagiDirection == 0)
 		{
 			// Get up price color
-			this.kagiUpColor = ChartGraphics.GetGradientColor(series.Color, Color.Black, 0.5);
+			kagiUpColor = ChartGraphics.GetGradientColor(series.Color, Color.Black, 0.5);
 			string priceUpColorString = series[CustomPropertyName.PriceUpColor];
-			ColorConverter colorConverter = new ColorConverter();
+			ColorConverter colorConverter = new();
 			if (priceUpColorString != null)
 			{
 				try
 				{
-					this.kagiUpColor = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, priceUpColorString);
+					kagiUpColor = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, priceUpColorString);
 				}
 				catch
 				{
@@ -463,11 +465,11 @@ internal class KagiChart : StepLineChart
 		}
 
 		// Set up movement colors and width
-		Color lineColor = (currentKagiDirection == 1) ? this.kagiUpColor : point.Color;
+		Color lineColor = (currentKagiDirection == 1) ? kagiUpColor : point.Color;
 
 		// Prepare coordinate to draw 2 or 3 segments of the step line
 		PointF point1 = points[pointIndex - 1];
-		PointF point2 = new PointF(points[pointIndex].X, points[pointIndex - 1].Y);
+		PointF point2 = new(points[pointIndex].X, points[pointIndex - 1].Y);
 		PointF point3 = points[pointIndex];
 		PointF point4 = PointF.Empty;
 
@@ -544,7 +546,7 @@ internal class KagiChart : StepLineChart
 			currentKagiDirection = (currentKagiDirection == 1) ? -1 : 1;
 
 			// Set color
-			lineColor = (currentKagiDirection == 1) ? this.kagiUpColor : point.Color;
+			lineColor = (currentKagiDirection == 1) ? kagiUpColor : point.Color;
 
 			// Draw second part of vertical segment
 			graph.DrawLineRel(lineColor, point.BorderWidth, point.BorderDashStyle,
@@ -555,42 +557,40 @@ internal class KagiChart : StepLineChart
 		if (common.ProcessModeRegions)
 		{
 			// Create grapics path object dor the curve
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+			try
 			{
-				try
-				{
-					path.AddLine(point1, point2);
-					path.AddLine(point2, point3);
-					path.Widen(new Pen(point.Color, point.BorderWidth + 2));
-				}
-				catch (OutOfMemoryException)
-				{
-					// GraphicsPath.Widen incorrectly throws OutOfMemoryException
-					// catching here and reacting by not widening
-				}
-				catch (ArgumentException)
-				{
-				}
-
-				// Allocate array of floats
-				PointF pointNew = PointF.Empty;
-				float[] coord = new float[path.PointCount * 2];
-				PointF[] pathPoints = path.PathPoints;
-				for (int i = 0; i < path.PointCount; i++)
-				{
-					pointNew = graph.GetRelativePoint(pathPoints[i]);
-					coord[2 * i] = pointNew.X;
-					coord[2 * i + 1] = pointNew.Y;
-				}
-
-				common.HotRegionsList.AddHotRegion(
-					path,
-					false,
-					coord,
-					point,
-					series.Name,
-					pointIndex);
+				path.AddLine(point1, point2);
+				path.AddLine(point2, point3);
+				path.Widen(new Pen(point.Color, point.BorderWidth + 2));
 			}
+			catch (OutOfMemoryException)
+			{
+				// GraphicsPath.Widen incorrectly throws OutOfMemoryException
+				// catching here and reacting by not widening
+			}
+			catch (ArgumentException)
+			{
+			}
+
+			// Allocate array of floats
+			PointF pointNew = PointF.Empty;
+			float[] coord = new float[path.PointCount * 2];
+			PointF[] pathPoints = path.PathPoints;
+			for (int i = 0; i < path.PointCount; i++)
+			{
+				pointNew = graph.GetRelativePoint(pathPoints[i]);
+				coord[2 * i] = pointNew.X;
+				coord[2 * i + 1] = pointNew.Y;
+			}
+
+			common.HotRegionsList.AddHotRegion(
+				path,
+				false,
+				coord,
+				point,
+				series.Name,
+				pointIndex);
 		}
 
 	}
@@ -609,7 +609,7 @@ internal class KagiChart : StepLineChart
 		foreach (DataPoint point in series.Points)
 		{
 			// Change Y value if line is out of plot area
-			double yValue = GetYValue(Common, Area, series, point, index, this.YValueIndex);
+			double yValue = GetYValue(Common, Area, series, point, index, YValueIndex);
 
 			// Recalculates y position
 			double yPosition = VAxis.GetPosition(yValue);
@@ -695,7 +695,7 @@ internal class KagiChart : StepLineChart
 		DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 			points,
 			secondPoint.index - 1,
-			(this.multiSeries) ? secondPoint : null,
+			(multiSeries) ? secondPoint : null,
 			ref pointArrayIndex);
 
 		// Fint point with line properties
@@ -726,14 +726,14 @@ internal class KagiChart : StepLineChart
 		if (currentKagiDirection == 0)
 		{
 			// Get up price color
-			this.kagiUpColor = secondPoint.dataPoint.series.Color;
+			kagiUpColor = secondPoint.dataPoint.series.Color;
 			string priceUpColorString = secondPoint.dataPoint.series[CustomPropertyName.PriceUpColor];
-			ColorConverter colorConverter = new ColorConverter();
+			ColorConverter colorConverter = new();
 			if (priceUpColorString != null)
 			{
 				try
 				{
-					this.kagiUpColor = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, priceUpColorString);
+					kagiUpColor = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, priceUpColorString);
 				}
 				catch
 				{
@@ -747,14 +747,16 @@ internal class KagiChart : StepLineChart
 		}
 
 		// Set up movement colors and width
-		Color lineColor = (currentKagiDirection == 1) ? this.kagiUpColor : color;
+		Color lineColor = (currentKagiDirection == 1) ? kagiUpColor : color;
 
 		//************************************************************
 		//** Create "middle" point
 		//************************************************************
-		DataPoint3D middlePoint = new DataPoint3D();
-		middlePoint.xPosition = secondPoint.xPosition;
-		middlePoint.yPosition = firstPoint.yPosition;
+		DataPoint3D middlePoint = new()
+		{
+			xPosition = secondPoint.xPosition,
+			yPosition = firstPoint.yPosition
+		};
 
 		// Check if reversed drawing order required
 		bool originalDrawOrder = true;
@@ -792,7 +794,7 @@ internal class KagiChart : StepLineChart
 				DataPoint3D prevPoint = ChartGraphics.FindPointByIndex(
 					points,
 					secondPoint.index - 2,
-					(this.multiSeries) ? secondPoint : null,
+					(multiSeries) ? secondPoint : null,
 					ref pointArrayIndex);
 
 				bool twoVertSegments = false;
@@ -811,10 +813,12 @@ internal class KagiChart : StepLineChart
 
 				if (twoVertSegments)
 				{
-					vertSplitPoint = new DataPoint3D();
-					vertSplitPoint.xPosition = secondPoint.xPosition;
-					vertSplitPoint.yPosition = prevPoint.yPosition;
-					vertSplitPoint.dataPoint = secondPoint.dataPoint;
+					vertSplitPoint = new DataPoint3D
+					{
+						xPosition = secondPoint.xPosition,
+						yPosition = prevPoint.yPosition,
+						dataPoint = secondPoint.dataPoint
+					};
 				}
 			}
 		}
@@ -851,15 +855,15 @@ internal class KagiChart : StepLineChart
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 					point1, point2,
 					points, pointIndex, 0f, operationType, lineSegmentType,
-					(this.showPointLines) ? true : false, false,
+					(showPointLines) ? true : false, false,
 						area.ReverseSeriesOrder,
-					this.multiSeries, 0, true);
+					multiSeries, 0, true);
 			}
 			else
 			{
 				if (!originalDrawOrder)
 				{
-					lineColor = (currentKagiDirection == -1) ? this.kagiUpColor : color;
+					lineColor = (currentKagiDirection == -1) ? kagiUpColor : color;
 				}
 
 				// Draw verticla line as two segments
@@ -869,9 +873,9 @@ internal class KagiChart : StepLineChart
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 					point1, vertSplitPoint,
 					points, pointIndex, 0f, operationType, LineSegmentType.Middle,
-					(this.showPointLines) ? true : false, false,
+					(showPointLines) ? true : false, false,
 						area.ReverseSeriesOrder,
-					this.multiSeries, 0, true);
+					multiSeries, 0, true);
 
 				// No second draw of the prev. front line required
 				graph.frontLinePen = null;
@@ -882,11 +886,11 @@ internal class KagiChart : StepLineChart
 				// Set color
 				if (originalDrawOrder)
 				{
-					lineColor = (currentKagiDirection == 1) ? this.kagiUpColor : color;
+					lineColor = (currentKagiDirection == 1) ? kagiUpColor : color;
 				}
 				else
 				{
-					lineColor = (currentKagiDirection == -1) ? this.kagiUpColor : color;
+					lineColor = (currentKagiDirection == -1) ? kagiUpColor : color;
 				}
 
 				resultPathLine[2] = new GraphicsPath();
@@ -895,13 +899,13 @@ internal class KagiChart : StepLineChart
 					pointAttr.dataPoint.BorderColor, pointAttr.dataPoint.BorderWidth, dashStyle,
 					vertSplitPoint, point2,
 					points, pointIndex, 0f, operationType, lineSegmentType,
-					(this.showPointLines) ? true : false, false,
+					(showPointLines) ? true : false, false,
 						area.ReverseSeriesOrder,
-					this.multiSeries, 0, true);
+					multiSeries, 0, true);
 
 				if (!originalDrawOrder)
 				{
-					lineColor = (currentKagiDirection == 1) ? this.kagiUpColor : color;
+					lineColor = (currentKagiDirection == 1) ? kagiUpColor : color;
 				}
 
 			}
@@ -913,11 +917,19 @@ internal class KagiChart : StepLineChart
 		if (resultPath != null)
 		{
 			if (resultPathLine[0] != null)
+			{
 				resultPath.AddPath(resultPathLine[0], true);
+			}
+
 			if (resultPathLine[1] != null)
+			{
 				resultPath.AddPath(resultPathLine[1], true);
+			}
+
 			if (resultPathLine[2] != null)
+			{
 				resultPath.AddPath(resultPathLine[2], true);
+			}
 		}
 
 		return resultPath;
@@ -937,9 +949,9 @@ internal class KagiChart : StepLineChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 	#endregion
 
@@ -955,7 +967,7 @@ internal class KagiChart : StepLineChart
 	public override void Paint(ChartGraphics graph, CommonElements common, ChartArea area, Series seriesToDraw)
 	{
 		// Reset current direction
-		this.currentKagiDirection = 0;
+		currentKagiDirection = 0;
 
 		// Call base class methods
 		base.Paint(graph, common, area, seriesToDraw);

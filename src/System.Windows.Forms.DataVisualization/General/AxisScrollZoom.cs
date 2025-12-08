@@ -86,31 +86,22 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private double _position = double.NaN;
 
 		// Axis data scaleView size
-		private double _size = double.NaN;
 
 		// Axis data scaleView size units type
-		private DateTimeIntervalType _sizeType = DateTimeIntervalType.Auto;
 
 		// Axis data scaleView minimum scaleView/scrolling size
-		private double _minSize = double.NaN;
 
 		// Axis data scaleView minimum scaleView/scrolling size units type
-		private DateTimeIntervalType _minSizeType = DateTimeIntervalType.Auto;
 
 		// Axis data scaleView zooming UI interface enabled flag
-		private bool _zoomable = true;
 
 		// Axis data scaleView scroll line size
-		private double _smallScrollSize = double.NaN;
 
 		// Axis data scaleView scroll line size units type
-		private DateTimeIntervalType _smallScrollSizeType = DateTimeIntervalType.Auto;
 
 		// Axis data scaleView scroll line minimum size
-		private double _smallScrollMinSize = 1.0;
 
 		// Axis data scaleView scroll line minimum size units type
-		private DateTimeIntervalType _smallScrollMinSizeType = DateTimeIntervalType.Auto;
 
 		// Axis data scaleView scroll line minimum size
 		private double _currentSmallScrollSize = double.NaN;
@@ -133,7 +124,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		public AxisScaleView()
 		{
-			this.axis = null;
+			axis = null;
 		}
 
 		/// <summary>
@@ -155,19 +146,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAxisView"),
 		Bindable(true),
-		DefaultValue(Double.NaN),
+		DefaultValue(double.NaN),
 		SRDescription("DescriptionAttributeAxisDataView_Position"),
 		TypeConverter(typeof(DoubleDateNanValueConverter)),
-		ParenthesizePropertyNameAttribute(true)
+		ParenthesizePropertyName(true)
 		]
 		public double Position
 		{
 			get
 			{
 				// Axis scaleView is not supported in circular chrt areas
-				if (this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
+				if (axis != null && axis.ChartArea != null && axis.ChartArea.chartAreaIsCurcular)
 				{
-					return Double.NaN;
+					return double.NaN;
 				}
 
 				return _position;
@@ -175,7 +166,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			set
 			{
 				// Axis scaleView is not supported in circular chrt areas
-				if (this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
+				if (axis != null && axis.ChartArea != null && axis.ChartArea.chartAreaIsCurcular)
 				{
 					return;
 				}
@@ -186,13 +177,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					_position = value;
 
 					// Align scaleView in connected areas
-					if (this.axis != null && this.axis.ChartArea != null && this.axis.Common != null && this.axis.Common.ChartPicture != null)
+					if (axis != null && axis.ChartArea != null && axis.Common != null && axis.Common.ChartPicture != null)
 					{
-						if (!this.axis.ChartArea.alignmentInProcess)
+						if (!axis.ChartArea.alignmentInProcess)
 						{
-							AreaAlignmentOrientations orientation = (this.axis.axisType == AxisName.X || this.axis.axisType == AxisName.X2) ?
+							AreaAlignmentOrientations orientation = (axis.axisType == AxisName.X || axis.axisType == AxisName.X2) ?
 								AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-							this.axis.Common.ChartPicture.AlignChartAreasAxesView(this.axis.ChartArea, orientation);
+							axis.Common.ChartPicture.AlignChartAreasAxesView(axis.ChartArea, orientation);
 						}
 					}
 
@@ -211,49 +202,47 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAxisView"),
 		Bindable(true),
-		DefaultValue(Double.NaN),
+		DefaultValue(double.NaN),
 		SRDescription("DescriptionAttributeAxisDataView_Size"),
 		TypeConverter(typeof(DoubleNanValueConverter)),
-		ParenthesizePropertyNameAttribute(true)
+		ParenthesizePropertyName(true)
 		]
-		public double Size
-		{
-			get
+		public double Size { get
 			{
 				// Axis scaleView is not supported in circular chrt areas
-				if (this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
+				if (axis != null && axis.ChartArea != null && axis.ChartArea.chartAreaIsCurcular)
 				{
-					return Double.NaN;
+					return double.NaN;
 				}
 
-				return _size;
+				return field;
 			}
 			set
 			{
 				// Axis scaleView is not supported in circular chrt areas
-				if (this.axis != null && this.axis.ChartArea != null && this.axis.ChartArea.chartAreaIsCurcular)
+				if (axis != null && axis.ChartArea != null && axis.ChartArea.chartAreaIsCurcular)
 				{
 					return;
 				}
 
-				if (_size != value)
+				if (field != value)
 				{
 					// Set size value
-					_size = value;
+					field = value;
 
 
 					// Align scaleView in connected areas
-					if (this.axis != null && this.axis.ChartArea != null && this.axis.Common != null && this.axis.Common.ChartPicture != null)
+					if (axis != null && axis.ChartArea != null && axis.Common != null && axis.Common.ChartPicture != null)
 					{
-						if (!this.axis.ChartArea.alignmentInProcess)
+						if (!axis.ChartArea.alignmentInProcess)
 						{
-							AreaAlignmentOrientations orientation = (this.axis.axisType == AxisName.X || this.axis.axisType == AxisName.X2) ?
+							AreaAlignmentOrientations orientation = (axis.axisType == AxisName.X || axis.axisType == AxisName.X2) ?
 								AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-							this.axis.Common.ChartPicture.AlignChartAreasAxesView(this.axis.ChartArea, orientation);
+							axis.Common.ChartPicture.AlignChartAreasAxesView(axis.ChartArea, orientation);
 						}
 					}
 					// Reset current scrolling line size
-					this._currentSmallScrollSize = double.NaN;
+					_currentSmallScrollSize = double.NaN;
 
 					// Validate chart
 					if (!_ignoreValidation && axis != null)
@@ -261,8 +250,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						axis.Invalidate();
 					}
 				}
-			}
-		}
+			} } = double.NaN;
 
 		/// <summary>
 		/// Gets or sets the unit of measurement of the Size property.
@@ -272,29 +260,23 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		Bindable(true),
 		DefaultValue(DateTimeIntervalType.Auto),
 		SRDescription("DescriptionAttributeAxisDataView_SizeType"),
-		ParenthesizePropertyNameAttribute(true)
+		ParenthesizePropertyName(true)
 		]
-		public DateTimeIntervalType SizeType
-		{
-			get
+		public DateTimeIntervalType SizeType { get; set
 			{
-				return _sizeType;
-			}
-			set
-			{
-				if (_sizeType != value)
+				if (field != value)
 				{
 					// Set size type
-					_sizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+					field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
 
 					// Align scaleView in connected areas
-					if (this.axis != null && this.axis.ChartArea != null && this.axis.Common != null && this.axis.Common.ChartPicture != null)
+					if (axis != null && axis.ChartArea != null && axis.Common != null && axis.Common.ChartPicture != null)
 					{
-						if (!this.axis.ChartArea.alignmentInProcess)
+						if (!axis.ChartArea.alignmentInProcess)
 						{
-							AreaAlignmentOrientations orientation = (this.axis.axisType == AxisName.X || this.axis.axisType == AxisName.X2) ?
+							AreaAlignmentOrientations orientation = (axis.axisType == AxisName.X || axis.axisType == AxisName.X2) ?
 								AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-							this.axis.Common.ChartPicture.AlignChartAreasAxesView(this.axis.ChartArea, orientation);
+							axis.Common.ChartPicture.AlignChartAreasAxesView(axis.ChartArea, orientation);
 						}
 					}
 
@@ -304,8 +286,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						axis.Invalidate();
 					}
 				}
-			}
-		}
+			} } = DateTimeIntervalType.Auto;
 
 		/// <summary>
 		/// Indicates if axis is zoomed-in.
@@ -323,9 +304,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			get
 			{
 				return (
-					!double.IsNaN(this.Size) &&
-					this.Size != 0.0 &&
-					!double.IsNaN(this.Position));
+					!double.IsNaN(Size) &&
+					Size != 0.0 &&
+					!double.IsNaN(Position));
 			}
 		}
 
@@ -335,21 +316,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAxisView"),
 		Bindable(true),
-		DefaultValue(Double.NaN),
+		DefaultValue(double.NaN),
 		SRDescription("DescriptionAttributeAxisDataView_MinSize"),
 		TypeConverter(typeof(DoubleNanValueConverter))
 		]
-		public double MinSize
-		{
-			get
-			{
-				return _minSize;
-			}
-			set
-			{
-				_minSize = value;
-			}
-		}
+		public double MinSize { get; set; } = double.NaN;
 
 		/// <summary>
 		/// Gets or sets the unit of measurement of the MinSize property.
@@ -360,17 +331,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(DateTimeIntervalType.Auto),
 		SRDescription("DescriptionAttributeAxisDataView_MinSizeType"),
 		]
-		public DateTimeIntervalType MinSizeType
-		{
-			get
+		public DateTimeIntervalType MinSizeType { get; set
 			{
-				return _minSizeType;
-			}
-			set
-			{
-				_minSizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-			}
-		}
+				field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+			} } = DateTimeIntervalType.Auto;
 
 		/// <summary>
 		/// Gets or sets a flag which indicates whether the zooming user interface is enabled.
@@ -383,17 +347,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 			Justification = "'Zoomable' is a commonly used term and generally well understood"),
 		]
-		public bool Zoomable
-		{
-			get
-			{
-				return _zoomable;
-			}
-			set
-			{
-				_zoomable = value;
-			}
-		}
+		public bool Zoomable { get; set; } = true;
 
 		/// <summary>
 		/// Gets or sets the small scrolling size.
@@ -401,22 +355,16 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAxisView"),
 		Bindable(true),
-		DefaultValue(Double.NaN),
+		DefaultValue(double.NaN),
 		SRDescription("DescriptionAttributeAxisDataView_SmallScrollSize"),
 		TypeConverter(typeof(AxisMinMaxAutoValueConverter))
 		]
-		public double SmallScrollSize
-		{
-			get
+		public double SmallScrollSize { get; set
 			{
-				return _smallScrollSize;
-			}
-			set
-			{
-				if (_smallScrollSize != value)
+				if (field != value)
 				{
 					// Set size value
-					_smallScrollSize = value;
+					field = value;
 
 					// Validate chart
 					if (!_ignoreValidation && axis != null)
@@ -424,8 +372,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						axis.Invalidate();
 					}
 				}
-			}
-		}
+			} } = double.NaN;
 
 		/// <summary>
 		/// Gets or sets the unit of measurement for the SmallScrollMinSize property
@@ -436,18 +383,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(DateTimeIntervalType.Auto),
 		SRDescription("DescriptionAttributeAxisDataView_SmallScrollSizeType"),
 		]
-		public DateTimeIntervalType SmallScrollSizeType
-		{
-			get
+		public DateTimeIntervalType SmallScrollSizeType { get; set
 			{
-				return _smallScrollSizeType;
-			}
-			set
-			{
-				if (_smallScrollSizeType != value)
+				if (field != value)
 				{
 					// Set size type
-					_smallScrollSizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+					field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
 
 					// Validate chart
 					if (!_ignoreValidation && axis != null)
@@ -455,8 +396,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						axis.Invalidate();
 					}
 				}
-			}
-		}
+			} } = DateTimeIntervalType.Auto;
 
 		/// <summary>
 		/// Gets or sets the minimum small scrolling size. 
@@ -468,18 +408,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(1.0),
 		SRDescription("DescriptionAttributeAxisDataView_SmallScrollMinSize")
 		]
-		public double SmallScrollMinSize
-		{
-			get
+		public double SmallScrollMinSize { get; set
 			{
-				return _smallScrollMinSize;
-			}
-			set
-			{
-				if (_smallScrollMinSize != value)
+				if (field != value)
 				{
 					// Set size value
-					_smallScrollMinSize = value;
+					field = value;
 
 					_currentSmallScrollSize = double.NaN;
 
@@ -489,8 +423,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						axis.Invalidate();
 					}
 				}
-			}
-		}
+			} } = 1.0;
 
 		/// <summary>
 		/// Gets or sets the unit of measurement for the SmallScrollMinSize property.
@@ -501,18 +434,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		DefaultValue(DateTimeIntervalType.Auto),
 		SRDescription("DescriptionAttributeAxisDataView_SmallScrollMinSizeType"),
 		]
-		public DateTimeIntervalType SmallScrollMinSizeType
-		{
-			get
+		public DateTimeIntervalType SmallScrollMinSizeType { get; set
 			{
-				return _smallScrollMinSizeType;
-			}
-			set
-			{
-				if (_smallScrollMinSizeType != value)
+				if (field != value)
 				{
 					// Set size type
-					_smallScrollMinSizeType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+					field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
 
 					_currentSmallScrollSize = double.NaN;
 
@@ -522,8 +449,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						axis.Invalidate();
 					}
 				}
-			}
-		}
+			} } = DateTimeIntervalType.Auto;
 
 		#endregion
 
@@ -534,30 +460,30 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <returns>The minimum axis value for the data view.</returns>
 		[Browsable(false)]
-		[Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)]
+		[SerializationVisibility(SerializationVisibility.Hidden)]
 		public double ViewMinimum
 		{
 			get
 			{
 				// If zooming is enabled
-				if (!Double.IsNaN(this.Size))
+				if (!double.IsNaN(Size))
 				{
 					// If size set only use axis minimum for scaleView position
-					if (Double.IsNaN(this.Position))
+					if (double.IsNaN(Position))
 					{
-						this.Position = this.axis.Minimum;
+						Position = axis.Minimum;
 					}
 					// Check if scaleView position and size are set
 					else
 					{
 						// Calculate and add axis side margin
-						if (this.Position <= axis.minimum)
+						if (Position <= axis.minimum)
 						{
-							return this.Position;
+							return Position;
 						}
 						else // Add a margin only if scaleView is inside data point scaleView 
 						{
-							return this.Position - axis.marginView;
+							return Position - axis.marginView;
 						}
 					}
 				}
@@ -572,34 +498,34 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <returns>The maximum axis value for the data view.</returns>
 		[Browsable(false)]
-		[Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)]
+		[SerializationVisibility(SerializationVisibility.Hidden)]
 		public double ViewMaximum
 		{
 			get
 			{
 				// If zooming is enabled
-				if (!Double.IsNaN(this.Size))
+				if (!double.IsNaN(Size))
 				{
 					// If size set only use axis minimum for scaleView position
-					if (Double.IsNaN(this.Position))
+					if (double.IsNaN(Position))
 					{
-						this.Position = this.axis.Minimum;
+						Position = axis.Minimum;
 					}
 
 					// Check if scaleView position and size are set
 					else
 					{
 						// Get axis interval
-						double viewSize = ChartHelper.GetIntervalSize(this.Position, this.Size, this.SizeType);
+						double viewSize = ChartHelper.GetIntervalSize(Position, Size, SizeType);
 
 						// Calculate and add axis side margin
-						if (this.Position + viewSize >= axis.maximum)
+						if (Position + viewSize >= axis.maximum)
 						{
-							return this.Position + viewSize;
+							return Position + viewSize;
 						}
 						else // Add a margin only if scaleView is inside data point scaleView 
 						{
-							return this.Position + viewSize + axis.marginView;
+							return Position + viewSize + axis.marginView;
 						}
 					}
 				}
@@ -619,7 +545,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="scrollType">Direction and size to scroll.</param>
 		public void Scroll(ScrollType scrollType)
 		{
-			this.Scroll(scrollType, false);
+			Scroll(scrollType, false);
 		}
 
 		/// <summary>
@@ -630,20 +556,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void Scroll(ScrollType scrollType, bool fireChangeEvents)
 		{
 			// Adjust current position depending on the scroll type
-			double newPosition = this._position;
+			double newPosition = _position;
 			switch (scrollType)
 			{
 				case (ScrollType.SmallIncrement):
-					newPosition += ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.GetScrollingLineSize(), this.GetScrollingLineSizeType());
+					newPosition += ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(_position, GetScrollingLineSize(), GetScrollingLineSizeType());
 					break;
 				case (ScrollType.SmallDecrement):
-					newPosition -= ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.GetScrollingLineSize(), this.GetScrollingLineSizeType());
+					newPosition -= ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(_position, GetScrollingLineSize(), GetScrollingLineSizeType());
 					break;
 				case (ScrollType.LargeIncrement):
-					newPosition += ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.Size, this.SizeType);
+					newPosition += ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(_position, Size, SizeType);
 					break;
 				case (ScrollType.LargeDecrement):
-					newPosition -= ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(this._position, this.Size, this.SizeType);
+					newPosition -= ((axis.IsReversed) ? -1 : 1) * ChartHelper.GetIntervalSize(_position, Size, SizeType);
 					break;
 				case (ScrollType.First):
 					if (!axis.IsReversed)
@@ -658,7 +584,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					break;
 				case (ScrollType.Last):
 					{
-						double viewSize = ChartHelper.GetIntervalSize(newPosition, this.Size, this.SizeType);
+						double viewSize = ChartHelper.GetIntervalSize(newPosition, Size, SizeType);
 						if (!axis.IsReversed)
 						{
 							newPosition = (axis.maximum - axis.marginView - viewSize);
@@ -673,7 +599,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Scroll to the new position
-			this.Scroll(newPosition, fireChangeEvents);
+			Scroll(newPosition, fireChangeEvents);
 		}
 
 		/// <summary>
@@ -682,7 +608,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="newPosition">New position.</param>
 		public void Scroll(double newPosition)
 		{
-			this.Scroll(newPosition, false);
+			Scroll(newPosition, false);
 		}
 
 		/// <summary>
@@ -691,7 +617,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="newPosition">New position.</param>
 		public void Scroll(DateTime newPosition)
 		{
-			this.Scroll(newPosition.ToOADate(), false);
+			Scroll(newPosition.ToOADate(), false);
 		}
 
 		/// <summary>
@@ -702,7 +628,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal void Scroll(double newPosition, bool fireChangeEvents)
 		{
 			// Get current scaleView size
-			double viewSize = ChartHelper.GetIntervalSize(newPosition, this.Size, this.SizeType);
+			double viewSize = ChartHelper.GetIntervalSize(newPosition, Size, SizeType);
 
 			// Validate new scaleView position
 			if (newPosition < (axis.minimum + axis.marginView))
@@ -715,7 +641,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Fire scaleView position changing events
-			ViewEventArgs arguments = new ViewEventArgs(this.axis, newPosition, this.Size, this.SizeType);
+			ViewEventArgs arguments = new(axis, newPosition, Size, SizeType);
 			if (fireChangeEvents && GetChartObject() != null)
 			{
 				GetChartObject().OnAxisViewChanging(arguments);
@@ -723,13 +649,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Check if data scaleView position and size is different from current
-			if (newPosition == this.Position)
+			if (newPosition == Position)
 			{
 				return;
 			}
 
 			// Change scaleView position
-			this.Position = newPosition;
+			Position = newPosition;
 
 			// Fire scaleView position changed events
 			if (fireChangeEvents && GetChartObject() != null)
@@ -751,7 +677,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="saveState">Indicates whether the current size/position needs to be saved.</param>
 		public void Zoom(double viewPosition, double viewSize, DateTimeIntervalType viewSizeType, bool saveState)
 		{
-			this.Zoom(viewPosition, viewSize, viewSizeType, false, saveState);
+			Zoom(viewPosition, viewSize, viewSizeType, false, saveState);
 		}
 
 		/// <summary>
@@ -761,7 +687,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="viewEnd">New end position for the axis scale view.</param>
 		public void Zoom(double viewStart, double viewEnd)
 		{
-			this.Zoom(viewStart, viewEnd - viewStart, DateTimeIntervalType.Number, false, false);
+			Zoom(viewStart, viewEnd - viewStart, DateTimeIntervalType.Number, false, false);
 		}
 
 		/// <summary>
@@ -772,7 +698,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="viewSizeType">New unit of measurement of the size.</param>
 		public void Zoom(double viewPosition, double viewSize, DateTimeIntervalType viewSizeType)
 		{
-			this.Zoom(viewPosition, viewSize, viewSizeType, false, false);
+			Zoom(viewPosition, viewSize, viewSizeType, false, false);
 		}
 
 		/// <summary>
@@ -781,7 +707,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="numberOfViews">Number of zoom operations to reset. Zero for all.</param>
 		public void ZoomReset(int numberOfViews)
 		{
-			this.LoadDataViewState(numberOfViews, false);
+			LoadDataViewState(numberOfViews, false);
 		}
 
 		/// <summary>
@@ -789,7 +715,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		public void ZoomReset()
 		{
-			this.LoadDataViewState(1, false);
+			LoadDataViewState(1, false);
 		}
 
 		/// <summary>
@@ -799,7 +725,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="fireChangeEvents">Fire scaleView position events from this method.</param>
 		internal void ZoomReset(int numberOfViews, bool fireChangeEvents)
 		{
-			this.LoadDataViewState(numberOfViews, fireChangeEvents);
+			LoadDataViewState(numberOfViews, fireChangeEvents);
 		}
 
 		/// <summary>
@@ -822,7 +748,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			ValidateViewPositionSize(ref viewPosition, ref viewSize, ref viewSizeType);
 
 			// Fire scaleView position/size changing events
-			ViewEventArgs arguments = new ViewEventArgs(this.axis, viewPosition, viewSize, viewSizeType);
+			ViewEventArgs arguments = new(axis, viewPosition, viewSize, viewSizeType);
 			if (fireChangeEvents && GetChartObject() != null)
 			{
 				GetChartObject().OnAxisViewChanging(arguments);
@@ -832,9 +758,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Check if data scaleView position and size is different from current
-			if (viewPosition == this.Position &&
-				viewSize == this.Size &&
-				viewSizeType == this.SizeType)
+			if (viewPosition == Position &&
+				viewSize == Size &&
+				viewSizeType == SizeType)
 			{
 				return false;
 			}
@@ -846,14 +772,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			}
 
 			// Change scaleView position/size
-			this._ignoreValidation = true;
-			this.Position = viewPosition;
-			this.Size = viewSize;
-			this.SizeType = viewSizeType;
-			this._ignoreValidation = false;
+			_ignoreValidation = true;
+			Position = viewPosition;
+			Size = viewSize;
+			SizeType = viewSizeType;
+			_ignoreValidation = false;
 
 			// Reset current scrolling line size
-			this._currentSmallScrollSize = double.NaN;
+			_currentSmallScrollSize = double.NaN;
 
 			// Invalidate chart
 			axis.Invalidate();
@@ -882,7 +808,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Check parameters
 			if (numberOfViews < 0)
 			{
-				throw (new ArgumentOutOfRangeException("numberOfViews", SR.ExceptionScrollBarZoomResetsNumberInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(numberOfViews), SR.ExceptionScrollBarZoomResetsNumberInvalid));
 			}
 			// Check if storage was created
 			if (dataViewStates != null && dataViewStates.Count >= 3)
@@ -900,8 +826,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 
 				// Fire scaleView position/size changing events
-				ViewEventArgs arguments = new ViewEventArgs(
-					this.axis,
+				ViewEventArgs arguments = new(
+					axis,
 					(double)dataViewStates[dataStartIndex],
 					(double)dataViewStates[dataStartIndex + 1],
 					(DateTimeIntervalType)dataViewStates[dataStartIndex + 2]);
@@ -911,9 +837,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Restore data
-				this.Position = arguments.NewPosition;
-				this.Size = arguments.NewSize;
-				this.SizeType = arguments.NewSizeType;
+				Position = arguments.NewPosition;
+				Size = arguments.NewSize;
+				SizeType = arguments.NewSizeType;
 
 				// Fire scaleView position/size changed events
 				if (fireChangeEvents && GetChartObject() != null)
@@ -937,10 +863,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					dataViewStates.Clear();
 				}
 
-				if (Double.IsNaN(this.Position) || Double.IsNaN(this.Size))
+				if (double.IsNaN(Position) || double.IsNaN(Size))
 				{
-					this.Position = Double.NaN;
-					this.Size = Double.NaN;
+					Position = double.NaN;
+					Size = double.NaN;
 				}
 
 			}
@@ -949,8 +875,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			else
 			{
 				// Fire scaleView position/size changing events
-				ViewEventArgs arguments = new ViewEventArgs(
-					this.axis,
+				ViewEventArgs arguments = new(
+					axis,
 					double.NaN,
 					double.NaN,
 					DateTimeIntervalType.Auto);
@@ -961,9 +887,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 				// Restore data
-				this.Position = arguments.NewPosition;
-				this.Size = arguments.NewSize;
-				this.SizeType = arguments.NewSizeType;
+				Position = arguments.NewPosition;
+				Size = arguments.NewSize;
+				SizeType = arguments.NewSizeType;
 
 				// Fire scaleView position/size changed events
 				if (fireChangeEvents && GetChartObject() != null)
@@ -982,15 +908,12 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		private void SaveDataViewState()
 		{
 			// Create storage array
-			if (dataViewStates == null)
-			{
-				dataViewStates = new ArrayList();
-			}
+			dataViewStates ??= [];
 
 			// Save data scaleView state
-			dataViewStates.Add(this.Position);
-			dataViewStates.Add(this.Size);
-			dataViewStates.Add(this.SizeType);
+			dataViewStates.Add(Position);
+			dataViewStates.Add(Size);
+			dataViewStates.Add(SizeType);
 		}
 
 		#endregion
@@ -1011,35 +934,35 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				//**************************************************************************
 				//** Calculate line size depending on the current scaleView size
 				//**************************************************************************
-				if (this.SizeType == DateTimeIntervalType.Auto || this.SizeType == DateTimeIntervalType.Number)
+				if (SizeType == DateTimeIntervalType.Auto || SizeType == DateTimeIntervalType.Number)
 				{
 					// Set line size type
 					_currentSmallScrollSizeType = DateTimeIntervalType.Number;
 
 					// Devide scaleView by 20 to find the scrolling line size
-					double newSize = this.Size / 20.0;
+					double newSize = Size / 20.0;
 
 					// Make sure that current line size is even with minimum value
-					if (!double.IsNaN(this.SmallScrollMinSize) && this.SmallScrollMinSize != 0.0)
+					if (!double.IsNaN(SmallScrollMinSize) && SmallScrollMinSize != 0.0)
 					{
-						double rounder = (Math.Round(newSize / this.SmallScrollMinSize));
+						double rounder = (Math.Round(newSize / SmallScrollMinSize));
 						if (rounder < 0)
 						{
 							rounder = 1;
 						}
 
-						newSize = rounder * this.SmallScrollMinSize;
+						newSize = rounder * SmallScrollMinSize;
 					}
 
 					// Set new current line size
-					this._currentSmallScrollSize = newSize;
+					_currentSmallScrollSize = newSize;
 				}
 				else
 				{
 					// Calculate line size for date/time
-					double viewEndPosition = this.Position + ChartHelper.GetIntervalSize(this.Position, this.Size, this.SizeType);
+					double viewEndPosition = Position + ChartHelper.GetIntervalSize(Position, Size, SizeType);
 					_currentSmallScrollSize = axis.CalcInterval(
-						this.Position,
+						Position,
 						viewEndPosition,
 						true,
 						out _currentSmallScrollSizeType,
@@ -1049,10 +972,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				//**************************************************************************
 				//** Make sure calculated scroll line size is not smaller than the minimum 
 				//**************************************************************************
-				if (!double.IsNaN(this.SmallScrollMinSize) && this.SmallScrollMinSize != 0.0)
+				if (!double.IsNaN(SmallScrollMinSize) && SmallScrollMinSize != 0.0)
 				{
-					double newLineSize = ChartHelper.GetIntervalSize(this.Position, _currentSmallScrollSize, _currentSmallScrollSizeType);
-					double minLineSize = ChartHelper.GetIntervalSize(this.Position, this.SmallScrollMinSize, this.SmallScrollMinSizeType);
+					double newLineSize = ChartHelper.GetIntervalSize(Position, _currentSmallScrollSize, _currentSmallScrollSizeType);
+					double minLineSize = ChartHelper.GetIntervalSize(Position, SmallScrollMinSize, SmallScrollMinSizeType);
 					if (newLineSize < minLineSize)
 					{
 						_currentSmallScrollSize = SmallScrollMinSize;
@@ -1069,9 +992,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal double GetScrollingLineSize()
 		{
 			// Scroll line size/type is specificly set by user
-			if (!double.IsNaN(this.SmallScrollSize))
+			if (!double.IsNaN(SmallScrollSize))
 			{
-				return this.SmallScrollSize;
+				return SmallScrollSize;
 			}
 
 			// Calcualte scroll line size depending on the current scaleView size
@@ -1088,9 +1011,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		internal DateTimeIntervalType GetScrollingLineSizeType()
 		{
 			// Scroll line size/type is specificly set by user
-			if (!double.IsNaN(this.SmallScrollSize))
+			if (!double.IsNaN(SmallScrollSize))
 			{
-				return this.SmallScrollSizeType;
+				return SmallScrollSizeType;
 			}
 
 			// Calcualte scroll line size depending on the current scaleView size
@@ -1137,14 +1060,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			//** set by the user
 			//****************************************************************
 			double newViewSize = ChartHelper.GetIntervalSize(viewPosition, viewSize, viewSizeType);
-			double minViewSize = ChartHelper.GetIntervalSize(viewPosition, 1, this.MinSizeType);
-			if (!double.IsNaN(this.MinSize))
+			double minViewSize = ChartHelper.GetIntervalSize(viewPosition, 1, MinSizeType);
+			if (!double.IsNaN(MinSize))
 			{
-				minViewSize = ChartHelper.GetIntervalSize(viewPosition, this.MinSize, this.MinSizeType);
+				minViewSize = ChartHelper.GetIntervalSize(viewPosition, MinSize, MinSizeType);
 				if (newViewSize < minViewSize)
 				{
-					viewSize = (double.IsNaN(this.MinSize)) ? 1 : this.MinSize;
-					viewSizeType = this.MinSizeType;
+					viewSize = (double.IsNaN(MinSize)) ? 1 : MinSize;
+					viewSizeType = MinSizeType;
 					newViewSize = ChartHelper.GetIntervalSize(viewPosition, viewSize, viewSizeType);
 				}
 			}
@@ -1245,9 +1168,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Chart object reference.</returns>
 		internal Chart GetChartObject()
 		{
-			if (this.axis != null && this.axis.Common != null)
+			if (axis != null && axis.Common != null)
 			{
-				return this.axis.Common.Chart;
+				return axis.Common.Chart;
 			}
 
 			return null;
@@ -1264,9 +1187,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Private fields
 
 		// Private fields for properties values storage
-		private Axis _axis = null;
-		private double _newPosition = double.NaN;
-		private double _newSize = double.NaN;
 		private DateTimeIntervalType _newSizeType = DateTimeIntervalType.Auto;
 
 		#endregion
@@ -1280,8 +1200,8 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="newPosition">New scale view start position.</param>
 		public ViewEventArgs(Axis axis, double newPosition)
 		{
-			this._axis = axis;
-			this._newPosition = newPosition;
+			Axis = axis;
+			NewPosition = newPosition;
 		}
 
 		/// <summary>
@@ -1293,10 +1213,10 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="newSizeType">New unit of measurement of the size.</param>
 		public ViewEventArgs(Axis axis, double newPosition, double newSize, DateTimeIntervalType newSizeType)
 		{
-			this._axis = axis;
-			this._newPosition = newPosition;
-			this._newSize = newSize;
-			this._newSizeType = newSizeType;
+			Axis = axis;
+			NewPosition = newPosition;
+			NewSize = newSize;
+			_newSizeType = newSizeType;
 		}
 
 		#endregion
@@ -1309,13 +1229,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRDescription("DescriptionAttributeAxis"),
 		]
-		public Axis Axis
-		{
-			get
-			{
-				return _axis;
-			}
-		}
+		public Axis Axis { get; } = null;
 
 		/// <summary>
 		/// ChartArea of the event.
@@ -1327,7 +1241,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		{
 			get
 			{
-				return _axis.ChartArea;
+				return Axis.ChartArea;
 			}
 		}
 
@@ -1337,17 +1251,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRDescription("DescriptionAttributeViewEventArgs_NewPosition"),
 		]
-		public double NewPosition
-		{
-			get
-			{
-				return _newPosition;
-			}
-			set
-			{
-				_newPosition = value;
-			}
-		}
+		public double NewPosition { get; set; } = double.NaN;
 
 		/// <summary>
 		/// New scale view size.
@@ -1355,17 +1259,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRDescription("DescriptionAttributeViewEventArgs_NewSize"),
 		]
-		public double NewSize
-		{
-			get
-			{
-				return _newSize;
-			}
-			set
-			{
-				_newSize = value;
-			}
-		}
+		public double NewSize { get; set; } = double.NaN;
 
 		/// <summary>
 		/// New unit of measurement of the scale view.
@@ -1426,8 +1320,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			ArrayList values = new ArrayList();
-			values.Add(Double.NaN);
+			ArrayList values = [double.NaN];
 
 			return new StandardValuesCollection(values);
 		}
@@ -1445,7 +1338,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			double doubleValue = (double)value;
 			if (destinationType == typeof(string))
 			{
-				if (Double.IsNaN(doubleValue))
+				if (double.IsNaN(doubleValue))
 				{
 					return Constants.NotSetValue;
 				}
@@ -1461,12 +1354,11 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			// If converting from string value
-			string crossingValue = value as string;
-			if (crossingValue != null)
+			if (value is string crossingValue)
 			{
-				if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
 				{
-					return Double.NaN;
+					return double.NaN;
 				}
 			}
 
@@ -1512,8 +1404,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="context">Descriptor context.</param>
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			ArrayList values = new ArrayList();
-			values.Add(Double.NaN);
+			ArrayList values = [double.NaN];
 
 			return new StandardValuesCollection(values);
 		}
@@ -1531,7 +1422,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 			// Check for NaN
 			if (destinationType == typeof(string))
 			{
-				if (Double.IsNaN((double)value))
+				if (double.IsNaN((double)value))
 				{
 					return Constants.NotSetValue;
 				}
@@ -1558,7 +1449,9 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						axis.InternalIntervalType);
 
 					if (strValue != null)
+					{
 						return strValue;
+					}
 				}
 
 			}
@@ -1580,7 +1473,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					axisValuesType == ChartValueType.Date ||
 					axisValuesType == ChartValueType.DateTimeOffset)
 				{
-					strValue = DateTime.FromOADate(dtValue).ToString("g", System.Globalization.CultureInfo.CurrentCulture);
+					strValue = DateTime.FromOADate(dtValue).ToString("g", CultureInfo.CurrentCulture);
 				}
 			}
 			else
@@ -1594,13 +1487,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					}
 					else
 					{
-						strValue = DateTime.FromOADate(dtValue).ToString("g", System.Globalization.CultureInfo.CurrentCulture);
+						strValue = DateTime.FromOADate(dtValue).ToString("g", CultureInfo.CurrentCulture);
 					}
 				}
 			}
 
 			if (axisValuesType == ChartValueType.DateTimeOffset && strValue != null)
+			{
 				strValue += " +0";
+			}
 
 			return strValue;
 		}
@@ -1614,16 +1509,15 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <returns>Converted object.</returns>
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
-			object result = null;
 			bool convertFromDate = false;
 
 			// If converting from string value
 			string crossingValue = value as string;
 			if (crossingValue != null)
 			{
-				if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
 				{
-					return Double.NaN;
+					return double.NaN;
 				}
 			}
 
@@ -1664,6 +1558,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 			}
 
+			object result;
 			// Try to convert from double string
 			try
 			{

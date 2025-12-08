@@ -55,9 +55,13 @@ internal class DesignerMessageBoxDialog : IDesignerMessageBoxDialog
 	internal static MessageBoxOptions GetMessageBoxOptions()
 	{
 		if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
+		{
 			return MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign;
+		}
 		else
+		{
 			return (MessageBoxOptions)0; // Unfortunately, the MessageBoxOptions enum doesn't have a predefined ".None" value.;                        
+		}
 	}
 }
 

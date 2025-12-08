@@ -74,38 +74,16 @@ public class StripLine : ChartElement
 	#region Fields
 
 	// Private data members, which store properties values
-	private double _intervalOffset = 0;
-	private double _interval = 0;
-	private DateTimeIntervalType _intervalType = DateTimeIntervalType.Auto;
 	internal DateTimeIntervalType intervalOffsetType = DateTimeIntervalType.Auto;
 	internal bool interlaced = false;
-	private double _stripWidth = 0;
-	private DateTimeIntervalType _stripWidthType = DateTimeIntervalType.Auto;
-	private Color _backColor = Color.Empty;
-	private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
-	private string _backImage = "";
-	private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
-	private Color _backImageTransparentColor = Color.Empty;
-	private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
-	private GradientStyle _backGradientStyle = GradientStyle.None;
-	private Color _backSecondaryColor = Color.Empty;
-	private Color _borderColor = Color.Empty;
-	private int _borderWidth = 1;
-	private ChartDashStyle _borderDashStyle = ChartDashStyle.Solid;
 
 	// Strip/Line title properties
-	private string _text = "";
-	private Color _foreColor = Color.Black;
-	private FontCache _fontCache = new FontCache();
+	private FontCache _fontCache = new();
 	private Font _font = null;
-	private StringAlignment _textAlignment = StringAlignment.Far;
-	private StringAlignment _textLineAlignment = StringAlignment.Near;
 
 	// Chart image map properties 
-	private string _toolTip = "";
 
 	// Default text orientation
-	private TextOrientation _textOrientation = TextOrientation.Auto;
 
 	#endregion
 
@@ -119,9 +97,13 @@ public class StripLine : ChartElement
 		get
 		{
 			if (Parent != null)
+			{
 				return Parent.Parent as Axis;
+			}
 			else
+			{
 				return null;
+			}
 		}
 	}
 	#endregion
@@ -150,7 +132,7 @@ public class StripLine : ChartElement
 	{
 		get
 		{
-			TextOrientation currentTextOrientation = this.GetTextOrientation();
+			TextOrientation currentTextOrientation = GetTextOrientation();
 			return currentTextOrientation == TextOrientation.Rotated90 || currentTextOrientation == TextOrientation.Rotated270;
 		}
 	}
@@ -162,9 +144,9 @@ public class StripLine : ChartElement
 	/// <returns>Current text orientation.</returns>
 	private TextOrientation GetTextOrientation()
 	{
-		if (this.TextOrientation == TextOrientation.Auto && this.Axis != null)
+		if (TextOrientation == TextOrientation.Auto && Axis != null)
 		{
-			if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
+			if (Axis.AxisPosition == AxisPosition.Bottom || Axis.AxisPosition == AxisPosition.Top)
 			{
 				return TextOrientation.Rotated270;
 			}
@@ -172,7 +154,7 @@ public class StripLine : ChartElement
 			return TextOrientation.Horizontal;
 		}
 
-		return this.TextOrientation;
+		return TextOrientation;
 	}
 
 	/// <summary>
@@ -187,17 +169,17 @@ public class StripLine : ChartElement
 		bool drawLinesOnly)
 	{
 		// Strip lines are not supported in circular chart area
-		if (this.Axis.ChartArea.chartAreaIsCurcular)
+		if (Axis.ChartArea.chartAreaIsCurcular)
 		{
 			return;
 		}
 
 		// Get plot area position
-		RectangleF plotAreaPosition = this.Axis.ChartArea.PlotAreaPosition.ToRectangleF();
+		RectangleF plotAreaPosition = Axis.ChartArea.PlotAreaPosition.ToRectangleF();
 
 		// Detect if strip/line is horizontal or vertical
 		bool horizontal = true;
-		if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
+		if (Axis.AxisPosition == AxisPosition.Bottom || Axis.AxisPosition == AxisPosition.Top)
 		{
 			horizontal = false;
 		}
@@ -220,37 +202,39 @@ public class StripLine : ChartElement
 		// Get starting position from axis
 		// NOTE: Starting position was changed from "this.Axis.minimum" to 
 		// fix the minimum scaleView location to fix issue #5962 -- AG
-		double currentPosition = this.Axis.ViewMinimum;
+		double currentPosition = Axis.ViewMinimum;
 
 		// Adjust start position depending on the interval type
 		if (!Axis.ChartArea.chartAreaIsCurcular ||
 			Axis.axisType == AxisName.Y ||
 			Axis.axisType == AxisName.Y2)
 		{
-			double intervalToUse = this.Interval;
+			double intervalToUse = Interval;
 
 			// NOTE: fix for issue #5962
 			// Always use original grid interval for isInterlaced strip lines.
-			if (this.interlaced)
+			if (interlaced)
 			{
 				// Automaticly generated isInterlaced strips have interval twice as big as major grids
 				intervalToUse /= 2.0;
 			}
 
-			currentPosition = ChartHelper.AlignIntervalStart(currentPosition, intervalToUse, this.IntervalType, axisSeries);
+			currentPosition = ChartHelper.AlignIntervalStart(currentPosition, intervalToUse, IntervalType, axisSeries);
 		}
 
 		// Too many tick marks
-		if (this.Interval != 0)
+		if (Interval != 0)
 		{
-			if ((Axis.ViewMaximum - Axis.ViewMinimum) / ChartHelper.GetIntervalSize(currentPosition, this._interval, this._intervalType, axisSeries, 0, DateTimeIntervalType.Number, false) > ChartHelper.MaxNumOfGridlines)
+			if ((Axis.ViewMaximum - Axis.ViewMinimum) / ChartHelper.GetIntervalSize(currentPosition, Interval, IntervalType, axisSeries, 0, DateTimeIntervalType.Number, false) > ChartHelper.MaxNumOfGridlines)
+			{
 				return;
+			}
 		}
 
 		DateTimeIntervalType offsetType = (IntervalOffsetType == DateTimeIntervalType.Auto) ? IntervalType : IntervalOffsetType;
-		if (this.Interval == 0)
+		if (Interval == 0)
 		{
-			currentPosition = this.IntervalOffset;
+			currentPosition = IntervalOffset;
 		}
 		/******************************************************************
 		 * Removed by AG. Causing issues with interalced strip lines.
@@ -270,14 +254,14 @@ public class StripLine : ChartElement
 		*/
 		else
 		{
-			if (this.IntervalOffset > 0)
+			if (IntervalOffset > 0)
 			{
-				currentPosition += ChartHelper.GetIntervalSize(currentPosition, this.IntervalOffset,
+				currentPosition += ChartHelper.GetIntervalSize(currentPosition, IntervalOffset,
 				offsetType, axisSeries, 0, DateTimeIntervalType.Number, false);
 			}
-			else if (this.IntervalOffset < 0)
+			else if (IntervalOffset < 0)
 			{
-				currentPosition -= ChartHelper.GetIntervalSize(currentPosition, -this.IntervalOffset,
+				currentPosition -= ChartHelper.GetIntervalSize(currentPosition, -IntervalOffset,
 				offsetType, axisSeries, 0, DateTimeIntervalType.Number, false);
 			}
 		}
@@ -293,15 +277,15 @@ public class StripLine : ChartElement
 			}
 
 			// Draw strip
-			if (this.StripWidth > 0 && !drawLinesOnly)
+			if (StripWidth > 0 && !drawLinesOnly)
 			{
-				double stripRightPosition = currentPosition + ChartHelper.GetIntervalSize(currentPosition, this.StripWidth, this.StripWidthType, axisSeries, this.IntervalOffset, offsetType, false);
-				if (stripRightPosition > this.Axis.ViewMinimum && currentPosition < this.Axis.ViewMaximum)
+				double stripRightPosition = currentPosition + ChartHelper.GetIntervalSize(currentPosition, StripWidth, StripWidthType, axisSeries, IntervalOffset, offsetType, false);
+				if (stripRightPosition > Axis.ViewMinimum && currentPosition < Axis.ViewMaximum)
 				{
 					// Calculate strip rectangle
 					RectangleF rect = RectangleF.Empty;
-					double pos1 = (float)this.Axis.GetLinearPosition(currentPosition);
-					double pos2 = (float)this.Axis.GetLinearPosition(stripRightPosition);
+					double pos1 = (float)Axis.GetLinearPosition(currentPosition);
+					double pos2 = (float)Axis.GetLinearPosition(stripRightPosition);
 					if (horizontal)
 					{
 						rect.X = plotAreaPosition.X;
@@ -327,15 +311,15 @@ public class StripLine : ChartElement
 					{
 
 						// Start Svg Selection mode
-						graph.StartHotRegion("", this._toolTip);
-						if (!this.Axis.ChartArea.Area3DStyle.Enable3D)
+						graph.StartHotRegion("", ToolTip);
+						if (!Axis.ChartArea.Area3DStyle.Enable3D)
 						{
 							// Draw strip
 							graph.FillRectangleRel(rect,
-								this.BackColor, this.BackHatchStyle, this.BackImage,
-								this.BackImageWrapMode, this.BackImageTransparentColor, this.BackImageAlignment,
-								this.BackGradientStyle, this.BackSecondaryColor, this.BorderColor,
-								this.BorderWidth, this.BorderDashStyle, Color.Empty,
+								BackColor, BackHatchStyle, BackImage,
+								BackImageWrapMode, BackImageTransparentColor, BackImageAlignment,
+								BackGradientStyle, BackSecondaryColor, BorderColor,
+								BorderWidth, BorderDashStyle, Color.Empty,
 								0, PenAlignment.Inset);
 						}
 						else
@@ -351,9 +335,9 @@ public class StripLine : ChartElement
 
 						if (common.ProcessModeRegions)
 						{
-							if (!this.Axis.ChartArea.Area3DStyle.Enable3D)
+							if (!Axis.ChartArea.Area3DStyle.Enable3D)
 							{
-								common.HotRegionsList.AddHotRegion(rect, this.ToolTip, string.Empty, string.Empty, string.Empty, this, ChartElementType.StripLines, null);
+								common.HotRegionsList.AddHotRegion(rect, ToolTip, string.Empty, string.Empty, string.Empty, this, ChartElementType.StripLines, null);
 							}
 						}
 					}
@@ -361,9 +345,9 @@ public class StripLine : ChartElement
 				}
 			}
 			// Draw line
-			else if (this.StripWidth == 0 && drawLinesOnly)
+			else if (StripWidth == 0 && drawLinesOnly)
 			{
-				if (currentPosition > this.Axis.ViewMinimum && currentPosition < this.Axis.ViewMaximum)
+				if (currentPosition > Axis.ViewMinimum && currentPosition < Axis.ViewMaximum)
 				{
 					// Calculate line position
 					PointF point1 = PointF.Empty;
@@ -371,29 +355,29 @@ public class StripLine : ChartElement
 					if (horizontal)
 					{
 						point1.X = plotAreaPosition.X;
-						point1.Y = (float)this.Axis.GetLinearPosition(currentPosition);
+						point1.Y = (float)Axis.GetLinearPosition(currentPosition);
 						point2.X = plotAreaPosition.Right;
 						point2.Y = point1.Y;
 					}
 					else
 					{
-						point1.X = (float)this.Axis.GetLinearPosition(currentPosition);
+						point1.X = (float)Axis.GetLinearPosition(currentPosition);
 						point1.Y = plotAreaPosition.Y;
 						point2.X = point1.X;
 						point2.Y = plotAreaPosition.Bottom;
 					}
 
 					// Start Svg Selection mode
-					graph.StartHotRegion("", this._toolTip);
+					graph.StartHotRegion("", ToolTip);
 
 					// Draw Line
-					if (!this.Axis.ChartArea.Area3DStyle.Enable3D)
+					if (!Axis.ChartArea.Area3DStyle.Enable3D)
 					{
-						graph.DrawLineRel(this.BorderColor, this.BorderWidth, this.BorderDashStyle, point1, point2);
+						graph.DrawLineRel(BorderColor, BorderWidth, BorderDashStyle, point1, point2);
 					}
 					else
 					{
-						graph.Draw3DGridLine(this.Axis.ChartArea, _borderColor, _borderWidth, _borderDashStyle, point1, point2, horizontal, Axis.Common, this);
+						graph.Draw3DGridLine(Axis.ChartArea, BorderColor, BorderWidth, BorderDashStyle, point1, point2, horizontal, Axis.Common, this);
 					}
 
 					// End Svg Selection mode
@@ -404,7 +388,7 @@ public class StripLine : ChartElement
 
 					if (common.ProcessModeRegions)
 					{
-						SizeF relBorderWidth = new SizeF(this.BorderWidth + 1, this.BorderWidth + 1);
+						SizeF relBorderWidth = new(BorderWidth + 1, BorderWidth + 1);
 						relBorderWidth = graph.GetRelativeSize(relBorderWidth);
 						RectangleF lineRect = RectangleF.Empty;
 						if (horizontal)
@@ -422,18 +406,18 @@ public class StripLine : ChartElement
 							lineRect.Height = point2.Y - point1.Y;
 						}
 
-						common.HotRegionsList.AddHotRegion(lineRect, this.ToolTip, null, null, null, this, ChartElementType.StripLines, null);
+						common.HotRegionsList.AddHotRegion(lineRect, ToolTip, null, null, null, this, ChartElementType.StripLines, null);
 					}
 				}
 			}
 
 			// Go to the next line/strip
-			if (this.Interval > 0)
+			if (Interval > 0)
 			{
-				currentPosition += ChartHelper.GetIntervalSize(currentPosition, this.Interval, this.IntervalType, axisSeries, this.IntervalOffset, offsetType, false);
+				currentPosition += ChartHelper.GetIntervalSize(currentPosition, Interval, IntervalType, axisSeries, IntervalOffset, offsetType, false);
 			}
 
-		} while (this.Interval > 0 && currentPosition <= this.Axis.ViewMaximum);
+		} while (Interval > 0 && currentPosition <= Axis.ViewMaximum);
 	}
 
 	/// <summary>
@@ -444,31 +428,30 @@ public class StripLine : ChartElement
 	/// <param name="horizontal">Indicates that strip is horizontal</param>
 	private void Draw3DStrip(ChartGraphics graph, RectangleF rect, bool horizontal)
 	{
-		ChartArea area = this.Axis.ChartArea;
-		GraphicsPath path = null;
+		ChartArea area = Axis.ChartArea;
 		DrawingOperationTypes operationType = DrawingOperationTypes.DrawElement;
 
-		if (this.Axis.Common.ProcessModeRegions)
+		if (Axis.Common.ProcessModeRegions)
 		{
 			operationType |= DrawingOperationTypes.CalcElementPath;
 		}
 
 		// Draw strip on the back/front wall
-		path = graph.Fill3DRectangle(
+		GraphicsPath path = graph.Fill3DRectangle(
 			rect,
 				area.IsMainSceneWallOnFront() ? area.areaSceneDepth : 0f,
 				0,
 				area.matrix3D,
 				area.Area3DStyle.LightStyle,
-			this.BackColor,
-				this.BorderColor,
-			this.BorderWidth,
-				this.BorderDashStyle,
+			BackColor,
+				BorderColor,
+			BorderWidth,
+				BorderDashStyle,
 			operationType);
 
-		if (this.Axis.Common.ProcessModeRegions)
+		if (Axis.Common.ProcessModeRegions)
 		{
-			this.Axis.Common.HotRegionsList.AddHotRegion(graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines);
+			Axis.Common.HotRegionsList.AddHotRegion(graph, path, false, ToolTip, null, null, null, this, ChartElementType.StripLines);
 		}
 
 		if (horizontal)
@@ -487,10 +470,10 @@ public class StripLine : ChartElement
 					area.areaSceneDepth,
 					area.matrix3D,
 					area.Area3DStyle.LightStyle,
-				this.BackColor,
-					this.BorderColor,
-				this.BorderWidth,
-					this.BorderDashStyle,
+				BackColor,
+					BorderColor,
+				BorderWidth,
+					BorderDashStyle,
 				operationType);
 
 		}
@@ -506,22 +489,19 @@ public class StripLine : ChartElement
 					area.areaSceneDepth,
 					area.matrix3D,
 					area.Area3DStyle.LightStyle,
-				this.BackColor,
-					this.BorderColor,
-				this.BorderWidth,
-					this.BorderDashStyle,
+				BackColor,
+					BorderColor,
+				BorderWidth,
+					BorderDashStyle,
 				operationType);
 		}
 
-		if (this.Axis.Common.ProcessModeRegions)
+		if (Axis.Common.ProcessModeRegions)
 		{
-			this.Axis.Common.HotRegionsList.AddHotRegion(graph, path, false, this.ToolTip, null, null, null, this, ChartElementType.StripLines);
+			Axis.Common.HotRegionsList.AddHotRegion(graph, path, false, ToolTip, null, null, null, this, ChartElementType.StripLines);
 		}
 
-		if (path != null)
-		{
-			path.Dispose();
-		}
+		path?.Dispose();
 	}
 
 	/// <summary>
@@ -532,7 +512,7 @@ public class StripLine : ChartElement
 	/// <param name="point2">Second line point.</param>
 	private void PaintTitle(ChartGraphics graph, PointF point1, PointF point2)
 	{
-		if (this.Text.Length > 0)
+		if (Text.Length > 0)
 		{
 			// Define a rectangle to draw the title
 			RectangleF rect = RectangleF.Empty;
@@ -553,175 +533,170 @@ public class StripLine : ChartElement
 	/// <param name="rect">Rectangle to draw in.</param>
 	private void PaintTitle(ChartGraphics graph, RectangleF rect)
 	{
-		if (this.Text.Length > 0)
+		if (Text.Length > 0)
 		{
 			// Get title text
-			string titleText = this.Text;
+			string titleText = Text;
 
 			// Prepare string format
-			using (StringFormat format = new StringFormat())
+			using StringFormat format = new();
+			format.Alignment = TextAlignment;
+
+			if (graph.IsRightToLeft)
 			{
-				format.Alignment = this.TextAlignment;
-
-				if (graph.IsRightToLeft)
+				if (format.Alignment == StringAlignment.Far)
 				{
-					if (format.Alignment == StringAlignment.Far)
-					{
-						format.Alignment = StringAlignment.Near;
-					}
-					else if (format.Alignment == StringAlignment.Near)
-					{
-						format.Alignment = StringAlignment.Far;
-					}
+					format.Alignment = StringAlignment.Near;
 				}
-
-				format.LineAlignment = this.TextLineAlignment;
-
-				// Adjust default title angle for horizontal lines
-				int angle = 0;
-				switch (this.TextOrientation)
+				else if (format.Alignment == StringAlignment.Near)
 				{
-					case (TextOrientation.Rotated90):
-						angle = 90;
-						break;
-					case (TextOrientation.Rotated270):
+					format.Alignment = StringAlignment.Far;
+				}
+			}
+
+			format.LineAlignment = TextLineAlignment;
+
+			// Adjust default title angle for horizontal lines
+			int angle = 0;
+			switch (TextOrientation)
+			{
+				case (TextOrientation.Rotated90):
+					angle = 90;
+					break;
+				case (TextOrientation.Rotated270):
+					angle = 270;
+					break;
+				case (TextOrientation.Auto):
+					if (Axis.AxisPosition == AxisPosition.Bottom || Axis.AxisPosition == AxisPosition.Top)
+					{
 						angle = 270;
-						break;
-					case (TextOrientation.Auto):
-						if (this.Axis.AxisPosition == AxisPosition.Bottom || this.Axis.AxisPosition == AxisPosition.Top)
-						{
-							angle = 270;
-						}
+					}
 
-						break;
-				}
+					break;
+			}
 
-				// Set vertical text for horizontal lines
-				if (angle == 90)
-				{
-					format.FormatFlags = StringFormatFlags.DirectionVertical;
-					angle = 0;
-				}
-				else if (angle == 270)
-				{
-					format.FormatFlags = StringFormatFlags.DirectionVertical;
-					angle = 180;
-				}
+			// Set vertical text for horizontal lines
+			if (angle == 90)
+			{
+				format.FormatFlags = StringFormatFlags.DirectionVertical;
+				angle = 0;
+			}
+			else if (angle == 270)
+			{
+				format.FormatFlags = StringFormatFlags.DirectionVertical;
+				angle = 180;
+			}
 
-				// Measure string size
-				SizeF size = graph.MeasureStringRel(titleText.Replace("\\n", "\n"), this.Font, new SizeF(100, 100), format, this.GetTextOrientation());
+			// Measure string size
+			SizeF size = graph.MeasureStringRel(titleText.Replace("\\n", "\n"), Font, new SizeF(100, 100), format, GetTextOrientation());
+
+			// Adjust text size
+			float zPositon = 0f;
+			if (Axis.ChartArea.Area3DStyle.Enable3D)
+			{
+				// Get projection coordinates
+				Point3D[] textSizeProjection = new Point3D[3];
+				zPositon = Axis.ChartArea.IsMainSceneWallOnFront() ? Axis.ChartArea.areaSceneDepth : 0f;
+				textSizeProjection[0] = new Point3D(0f, 0f, zPositon);
+				textSizeProjection[1] = new Point3D(size.Width, 0f, zPositon);
+				textSizeProjection[2] = new Point3D(0f, size.Height, zPositon);
+
+				// Transform coordinates of text size
+				Axis.ChartArea.matrix3D.TransformPoints(textSizeProjection);
 
 				// Adjust text size
-				float zPositon = 0f;
-				if (this.Axis.ChartArea.Area3DStyle.Enable3D)
+				int index = Axis.ChartArea.IsMainSceneWallOnFront() ? 0 : 1;
+				size.Width *= size.Width / (textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X);
+				size.Height *= size.Height / (textSizeProjection[2].Y - textSizeProjection[0].Y);
+			}
+
+
+			// Get relative size of the border width
+			SizeF sizeBorder = graph.GetRelativeSize(new SizeF(BorderWidth, BorderWidth));
+
+			// Find the center of rotation
+			PointF rotationCenter = PointF.Empty;
+			if (format.Alignment == StringAlignment.Near)
+			{ // Near
+				rotationCenter.X = rect.X + size.Width / 2 + sizeBorder.Width;
+			}
+			else if (format.Alignment == StringAlignment.Far)
+			{ // Far
+				rotationCenter.X = rect.Right - size.Width / 2 - sizeBorder.Width;
+			}
+			else
+			{ // Center
+				rotationCenter.X = (rect.Left + rect.Right) / 2;
+			}
+
+			if (format.LineAlignment == StringAlignment.Near)
+			{ // Near
+				rotationCenter.Y = rect.Top + size.Height / 2 + sizeBorder.Height;
+			}
+			else if (format.LineAlignment == StringAlignment.Far)
+			{ // Far
+				rotationCenter.Y = rect.Bottom - size.Height / 2 - sizeBorder.Height;
+			}
+			else
+			{ // Center
+				rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
+			}
+
+			// Reset string alignment to center point
+			format.Alignment = StringAlignment.Center;
+			format.LineAlignment = StringAlignment.Center;
+
+			if (Axis.ChartArea.Area3DStyle.Enable3D)
+			{
+				// Get projection coordinates
+				Point3D[] rotationCenterProjection = new Point3D[2];
+				rotationCenterProjection[0] = new Point3D(rotationCenter.X, rotationCenter.Y, zPositon);
+				if (format.FormatFlags == StringFormatFlags.DirectionVertical)
 				{
-					// Get projection coordinates
-					Point3D[] textSizeProjection = new Point3D[3];
-					zPositon = this.Axis.ChartArea.IsMainSceneWallOnFront() ? this.Axis.ChartArea.areaSceneDepth : 0f;
-					textSizeProjection[0] = new Point3D(0f, 0f, zPositon);
-					textSizeProjection[1] = new Point3D(size.Width, 0f, zPositon);
-					textSizeProjection[2] = new Point3D(0f, size.Height, zPositon);
-
-					// Transform coordinates of text size
-					this.Axis.ChartArea.matrix3D.TransformPoints(textSizeProjection);
-
-					// Adjust text size
-					int index = this.Axis.ChartArea.IsMainSceneWallOnFront() ? 0 : 1;
-					size.Width *= size.Width / (textSizeProjection[index].X - textSizeProjection[(index == 0) ? 1 : 0].X);
-					size.Height *= size.Height / (textSizeProjection[2].Y - textSizeProjection[0].Y);
-				}
-
-
-				// Get relative size of the border width
-				SizeF sizeBorder = graph.GetRelativeSize(new SizeF(this.BorderWidth, this.BorderWidth));
-
-				// Find the center of rotation
-				PointF rotationCenter = PointF.Empty;
-				if (format.Alignment == StringAlignment.Near)
-				{ // Near
-					rotationCenter.X = rect.X + size.Width / 2 + sizeBorder.Width;
-				}
-				else if (format.Alignment == StringAlignment.Far)
-				{ // Far
-					rotationCenter.X = rect.Right - size.Width / 2 - sizeBorder.Width;
+					rotationCenterProjection[1] = new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPositon);
 				}
 				else
-				{ // Center
-					rotationCenter.X = (rect.Left + rect.Right) / 2;
-				}
-
-				if (format.LineAlignment == StringAlignment.Near)
-				{ // Near
-					rotationCenter.Y = rect.Top + size.Height / 2 + sizeBorder.Height;
-				}
-				else if (format.LineAlignment == StringAlignment.Far)
-				{ // Far
-					rotationCenter.Y = rect.Bottom - size.Height / 2 - sizeBorder.Height;
-				}
-				else
-				{ // Center
-					rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
-				}
-
-				// Reset string alignment to center point
-				format.Alignment = StringAlignment.Center;
-				format.LineAlignment = StringAlignment.Center;
-
-				if (this.Axis.ChartArea.Area3DStyle.Enable3D)
 				{
-					// Get projection coordinates
-					Point3D[] rotationCenterProjection = new Point3D[2];
-					rotationCenterProjection[0] = new Point3D(rotationCenter.X, rotationCenter.Y, zPositon);
+					rotationCenterProjection[1] = new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPositon);
+				}
+
+				// Transform coordinates of text rotation point
+				Axis.ChartArea.matrix3D.TransformPoints(rotationCenterProjection);
+
+				// Adjust rotation point
+				rotationCenter = rotationCenterProjection[0].PointF;
+
+				// Adjust angle of the text
+				if (angle == 0 || angle == 180 || angle == 90 || angle == 270)
+				{
 					if (format.FormatFlags == StringFormatFlags.DirectionVertical)
 					{
-						rotationCenterProjection[1] = new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPositon);
-					}
-					else
-					{
-						rotationCenterProjection[1] = new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPositon);
+						angle += 90;
 					}
 
-					// Transform coordinates of text rotation point
-					this.Axis.ChartArea.matrix3D.TransformPoints(rotationCenterProjection);
+					// Convert coordinates to absolute
+					rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
+					rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
 
-					// Adjust rotation point
-					rotationCenter = rotationCenterProjection[0].PointF;
-
-					// Adjust angle of the text
-					if (angle == 0 || angle == 180 || angle == 90 || angle == 270)
-					{
-						if (format.FormatFlags == StringFormatFlags.DirectionVertical)
-						{
-							angle += 90;
-						}
-
-						// Convert coordinates to absolute
-						rotationCenterProjection[0].PointF = graph.GetAbsolutePoint(rotationCenterProjection[0].PointF);
-						rotationCenterProjection[1].PointF = graph.GetAbsolutePoint(rotationCenterProjection[1].PointF);
-
-						// Calcuate axis angle
-						float angleXAxis = (float)Math.Atan(
-							(rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
-							(rotationCenterProjection[1].X - rotationCenterProjection[0].X));
-						angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
-						angle += (int)angleXAxis;
-					}
+					// Calcuate axis angle
+					float angleXAxis = (float)Math.Atan(
+						(rotationCenterProjection[1].Y - rotationCenterProjection[0].Y) /
+						(rotationCenterProjection[1].X - rotationCenterProjection[0].X));
+					angleXAxis = (float)Math.Round(angleXAxis * 180f / (float)Math.PI);
+					angle += (int)angleXAxis;
 				}
-
-				// Draw string
-				using (Brush brush = new SolidBrush(this.ForeColor))
-				{
-					graph.DrawStringRel(
-						titleText.Replace("\\n", "\n"),
-						this.Font,
-						brush,
-						rotationCenter,
-						format,
-						angle,
-						this.GetTextOrientation());
-				}
-
 			}
+
+			// Draw string
+			using Brush brush = new SolidBrush(ForeColor);
+			graph.DrawStringRel(
+				titleText.Replace("\\n", "\n"),
+				Font,
+				brush,
+				rotationCenter,
+				format,
+				angle,
+				GetTextOrientation());
 		}
 	}
 
@@ -737,20 +712,17 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(TextOrientation.Auto),
 	SRDescription("DescriptionAttribute_TextOrientation"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public TextOrientation TextOrientation
 	{
-		get
-		{
-			return this._textOrientation;
-		}
+		get;
 		set
 		{
-			this._textOrientation = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = TextOrientation.Auto;
 
 	/// <summary>
 	/// Gets or sets the strip or line starting position offset.
@@ -764,16 +736,13 @@ public class StripLine : ChartElement
 	]
 	public double IntervalOffset
 	{
-		get
-		{
-			return _intervalOffset;
-		}
+		get;
 		set
 		{
-			_intervalOffset = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 0;
 
 	/// <summary>
 	/// Gets or sets the unit of measurement of the strip or line offset.
@@ -783,7 +752,7 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(DateTimeIntervalType.Auto),
 	SRDescription("DescriptionAttributeStripLine_IntervalOffsetType"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public DateTimeIntervalType IntervalOffsetType
 	{
@@ -794,7 +763,7 @@ public class StripLine : ChartElement
 		set
 		{
 			intervalOffsetType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -805,21 +774,18 @@ public class StripLine : ChartElement
 	SRCategory("CategoryAttributeData"),
 	Bindable(true),
 	DefaultValue(0.0),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	SRDescription("DescriptionAttributeStripLine_Interval")
 	]
 	public double Interval
 	{
-		get
-		{
-			return _interval;
-		}
+		get;
 		set
 		{
-			_interval = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 0;
 
 	/// <summary>
 	/// Gets or sets the unit of measurement of the strip or line step.
@@ -829,20 +795,17 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(DateTimeIntervalType.Auto),
 	SRDescription("DescriptionAttributeStripLine_IntervalType"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public DateTimeIntervalType IntervalType
 	{
-		get
-		{
-			return _intervalType;
-		}
+		get;
 		set
 		{
-			_intervalType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-			this.Invalidate();
+			field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+			Invalidate();
 		}
-	}
+	} = DateTimeIntervalType.Auto;
 
 	/// <summary>
 	/// Gets or sets the strip width.
@@ -855,21 +818,18 @@ public class StripLine : ChartElement
 	]
 	public double StripWidth
 	{
-		get
-		{
-			return _stripWidth;
-		}
+		get;
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, nameof(value)));
 			}
 
-			_stripWidth = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 0;
 
 	/// <summary>
 	/// Gets or sets the unit of measurement of the strip width.
@@ -879,20 +839,17 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(DateTimeIntervalType.Auto),
 	SRDescription("DescriptionAttributeStripLine_StripWidthType"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public DateTimeIntervalType StripWidthType
 	{
-		get
-		{
-			return _stripWidthType;
-		}
+		get;
 		set
 		{
-			_stripWidthType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-			this.Invalidate();
+			field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+			Invalidate();
 		}
-	}
+	} = DateTimeIntervalType.Auto;
 
 	/// <summary>
 	/// Gets or sets the background color.
@@ -907,16 +864,13 @@ public class StripLine : ChartElement
 		]
 	public Color BackColor
 	{
-		get
-		{
-			return _backColor;
-		}
+		get;
 		set
 		{
-			_backColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the border color.
@@ -931,16 +885,13 @@ public class StripLine : ChartElement
 		]
 	public Color BorderColor
 	{
-		get
-		{
-			return _borderColor;
-		}
+		get;
 		set
 		{
-			_borderColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the border style.
@@ -953,16 +904,13 @@ public class StripLine : ChartElement
 	]
 	public ChartDashStyle BorderDashStyle
 	{
-		get
-		{
-			return _borderDashStyle;
-		}
+		get;
 		set
 		{
-			_borderDashStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = ChartDashStyle.Solid;
 
 	/// <summary>
 	/// Gets or sets the border width.
@@ -975,16 +923,13 @@ public class StripLine : ChartElement
 	]
 	public int BorderWidth
 	{
-		get
-		{
-			return _borderWidth;
-		}
+		get;
 		set
 		{
-			_borderWidth = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 1;
 
 	/// <summary>
 	/// Gets or sets the background image.
@@ -995,20 +940,17 @@ public class StripLine : ChartElement
 	DefaultValue(""),
 		SRDescription("DescriptionAttributeBackImage"),
 		Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-		NotifyParentPropertyAttribute(true)
+		NotifyParentProperty(true)
 	]
 	public string BackImage
 	{
-		get
-		{
-			return _backImage;
-		}
+		get;
 		set
 		{
-			_backImage = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = "";
 
 	/// <summary>
 	/// Gets or sets the background image drawing mode.
@@ -1017,21 +959,18 @@ public class StripLine : ChartElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageWrapMode.Tile),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageWrapMode")
 	]
 	public ChartImageWrapMode BackImageWrapMode
 	{
-		get
-		{
-			return _backImageWrapMode;
-		}
+		get;
 		set
 		{
-			_backImageWrapMode = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = ChartImageWrapMode.Tile;
 
 	/// <summary>
 	/// Gets or sets a color which will be replaced with a transparent color while drawing the background image.
@@ -1040,23 +979,20 @@ public class StripLine : ChartElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageTransparentColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
 	public Color BackImageTransparentColor
 	{
-		get
-		{
-			return _backImageTransparentColor;
-		}
+		get;
 		set
 		{
-			_backImageTransparentColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the background image alignment used by unscale drawing mode.
@@ -1065,21 +1001,18 @@ public class StripLine : ChartElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageAlignmentStyle.TopLeft),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackImageAlign")
 	]
 	public ChartImageAlignmentStyle BackImageAlignment
 	{
-		get
-		{
-			return _backImageAlignment;
-		}
+		get;
 		set
 		{
-			_backImageAlignment = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = ChartImageAlignmentStyle.TopLeft;
 
 	/// <summary>
 	/// Gets or sets the background gradient style.
@@ -1102,16 +1035,13 @@ public class StripLine : ChartElement
 		]
 	public GradientStyle BackGradientStyle
 	{
-		get
-		{
-			return _backGradientStyle;
-		}
+		get;
 		set
 		{
-			_backGradientStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = GradientStyle.None;
 
 	/// <summary>
 	/// Gets or sets the secondary background color.
@@ -1137,16 +1067,13 @@ public class StripLine : ChartElement
 		]
 	public Color BackSecondaryColor
 	{
-		get
-		{
-			return _backSecondaryColor;
-		}
+		get;
 		set
 		{
-			_backSecondaryColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the background hatch style.
@@ -1169,16 +1096,13 @@ public class StripLine : ChartElement
 		]
 	public ChartHatchStyle BackHatchStyle
 	{
-		get
-		{
-			return _backHatchStyle;
-		}
+		get;
 		set
 		{
-			_backHatchStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = ChartHatchStyle.None;
 
 	/// <summary>
 	/// Gets or sets the name of the strip line.
@@ -1190,7 +1114,7 @@ public class StripLine : ChartElement
 	DefaultValue("StripLine"),
 	SRDescription("DescriptionAttributeStripLine_Name"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public string Name
 	{
@@ -1208,20 +1132,17 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeStripLine_Title"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public string Text
 	{
-		get
-		{
-			return _text;
-		}
+		get;
 		set
 		{
-			_text = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = "";
 
 	/// <summary>
 	/// Gets or sets the fore color of the strip line.
@@ -1231,22 +1152,19 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(typeof(Color), "Black"),
 	SRDescription("DescriptionAttributeStripLine_TitleColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
 	public Color ForeColor
 	{
-		get
-		{
-			return _foreColor;
-		}
+		get;
 		set
 		{
-			_foreColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the text alignment of the strip line.
@@ -1256,20 +1174,17 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(typeof(StringAlignment), "Far"),
 	SRDescription("DescriptionAttributeStripLine_TitleAlignment"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public StringAlignment TextAlignment
 	{
-		get
-		{
-			return _textAlignment;
-		}
+		get;
 		set
 		{
-			_textAlignment = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = StringAlignment.Far;
 
 	/// <summary>
 	/// Gets or sets the text line alignment of the strip line.
@@ -1279,20 +1194,17 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(typeof(StringAlignment), "Near"),
 	SRDescription("DescriptionAttributeStripLine_TitleLineAlignment"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public StringAlignment TextLineAlignment
 	{
-		get
-		{
-			return _textLineAlignment;
-		}
+		get;
 		set
 		{
-			_textLineAlignment = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = StringAlignment.Near;
 
 	/// <summary>
 	/// Gets or sets the title font.
@@ -1302,7 +1214,7 @@ public class StripLine : ChartElement
 	Bindable(true),
 	DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
 		SRDescription("DescriptionAttributeTitleFont"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public Font Font
 	{
@@ -1313,7 +1225,7 @@ public class StripLine : ChartElement
 		set
 		{
 			_font = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1332,14 +1244,11 @@ public class StripLine : ChartElement
 	{
 		set
 		{
-			this.Invalidate();
-			_toolTip = value;
+			Invalidate();
+			field = value;
 		}
-		get
-		{
-			return _toolTip;
-		}
-	}
+		get;
+	} = "";
 
 	#endregion
 
@@ -1351,10 +1260,7 @@ public class StripLine : ChartElement
 	/// </summary>
 	private new void Invalidate()
 	{
-		if (this.Axis != null)
-		{
-			Axis.Invalidate();
-		}
+		Axis?.Invalidate();
 	}
 
 	#endregion
@@ -1369,11 +1275,8 @@ public class StripLine : ChartElement
 	{
 		if (disposing)
 		{
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			_fontCache?.Dispose();
+			_fontCache = null;
 		}
 
 		base.Dispose(disposing);

@@ -147,7 +147,7 @@ public class RectangleAnnotation : TextAnnotation
 	Browsable(true),
 	DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBackColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -179,7 +179,7 @@ public class RectangleAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
@@ -211,7 +211,7 @@ public class RectangleAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
@@ -245,7 +245,7 @@ public class RectangleAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
@@ -280,9 +280,9 @@ public class RectangleAnnotation : TextAnnotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -306,11 +306,11 @@ public class RectangleAnnotation : TextAnnotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -339,17 +339,17 @@ public class RectangleAnnotation : TextAnnotation
 	override internal void Paint(Chart chart, ChartGraphics graphics)
 	{
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+		PointF anchorPoint;
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
-		PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+		PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 		// Create selection rectangle
-		RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+		RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 		// Get text position
-		RectangleF rectanglePosition = new RectangleF(selectionRect.Location, selectionRect.Size);
+		RectangleF rectanglePosition = new(selectionRect.Location, selectionRect.Size);
 		if (rectanglePosition.Width < 0)
 		{
 			rectanglePosition.X = rectanglePosition.Right;
@@ -371,27 +371,27 @@ public class RectangleAnnotation : TextAnnotation
 			return;
 		}
 
-		if (this.isRectVisible &&
-			this.Common.ProcessModePaint)
+		if (isRectVisible &&
+			Common.ProcessModePaint)
 		{
 			// Draw rectangle
 			graphics.FillRectangleRel(
 				rectanglePosition,
-				this.BackColor,
-				this.BackHatchStyle,
-				String.Empty,
+				BackColor,
+				BackHatchStyle,
+				string.Empty,
 				ChartImageWrapMode.Scaled,
 				Color.Empty,
 				ChartImageAlignmentStyle.Center,
-				this.BackGradientStyle,
-				this.BackSecondaryColor,
-				this.LineColor,
-				this.LineWidth,
-				this.LineDashStyle,
-				this.ShadowColor,
-				this.ShadowOffset,
+				BackGradientStyle,
+				BackSecondaryColor,
+				LineColor,
+				LineWidth,
+				LineDashStyle,
+				ShadowColor,
+				ShadowOffset,
 				PenAlignment.Center,
-				this.isEllipse,
+				isEllipse,
 				1,
 				false);
 		}
@@ -422,7 +422,7 @@ public class EllipseAnnotation : RectangleAnnotation
 	public EllipseAnnotation()
 			: base()
 	{
-		this.isEllipse = true;
+		isEllipse = true;
 	}
 
 	#endregion
@@ -443,9 +443,9 @@ public class EllipseAnnotation : RectangleAnnotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -486,13 +486,15 @@ public class Border3DAnnotation : RectangleAnnotation
 	public Border3DAnnotation()
 			: base()
 	{
-		this.isRectVisible = false;
-		this._borderSkin = new BorderSkin(this);
-		this._borderSkin.PageColor = Color.Transparent;
-		this._borderSkin.SkinStyle = BorderSkinStyle.Raised;
+		isRectVisible = false;
+		_borderSkin = new BorderSkin(this)
+		{
+			PageColor = Color.Transparent,
+			SkinStyle = BorderSkinStyle.Raised
+		};
 
 		// Change default appearance styles
-		this.lineColor = Color.Empty;
+		lineColor = Color.Empty;
 	}
 
 	#endregion
@@ -513,9 +515,9 @@ public class Border3DAnnotation : RectangleAnnotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -537,8 +539,8 @@ public class Border3DAnnotation : RectangleAnnotation
 	Bindable(true),
 	DefaultValue(null),
 	SRDescription("DescriptionAttributeBorderSkin"),
-	NotifyParentPropertyAttribute(true),
-	TypeConverterAttribute(typeof(LegendConverter)),
+	NotifyParentProperty(true),
+	TypeConverter(typeof(LegendConverter)),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content)
 	]
 	public BorderSkin BorderSkin
@@ -550,7 +552,7 @@ public class Border3DAnnotation : RectangleAnnotation
 		set
 		{
 			_borderSkin = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -570,17 +572,17 @@ public class Border3DAnnotation : RectangleAnnotation
 	override internal void Paint(Chart chart, ChartGraphics graphics)
 	{
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+		PointF anchorPoint;
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
-		PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+		PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 		// Create selection rectangle
-		RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+		RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 		// Get text position
-		RectangleF rectanglePosition = new RectangleF(selectionRect.Location, selectionRect.Size);
+		RectangleF rectanglePosition = new(selectionRect.Location, selectionRect.Size);
 		if (rectanglePosition.Width < 0)
 		{
 			rectanglePosition.X = rectanglePosition.Right;
@@ -602,7 +604,7 @@ public class Border3DAnnotation : RectangleAnnotation
 			return;
 		}
 
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
 			// Do not draw border if size is less that 10 pixels
 			RectangleF absRectanglePosition = graphics.GetAbsoluteRectangle(rectanglePosition);
@@ -613,17 +615,17 @@ public class Border3DAnnotation : RectangleAnnotation
 				graphics.Draw3DBorderRel(
 					_borderSkin,
 					rectanglePosition,
-					this.BackColor,
-					this.BackHatchStyle,
-					String.Empty,
+					BackColor,
+					BackHatchStyle,
+					string.Empty,
 					ChartImageWrapMode.Scaled,
 					Color.Empty,
 					ChartImageAlignmentStyle.Center,
-					this.BackGradientStyle,
-					this.BackSecondaryColor,
-					this.LineColor,
-					this.LineWidth,
-					this.LineDashStyle);
+					BackGradientStyle,
+					BackSecondaryColor,
+					LineColor,
+					LineWidth,
+					LineDashStyle);
 			}
 		}
 
@@ -639,24 +641,24 @@ public class Border3DAnnotation : RectangleAnnotation
 	internal override RectangleF GetTextSpacing(out bool annotationRelative)
 	{
 		annotationRelative = false;
-		RectangleF rect = new RectangleF(3f, 3f, 3f, 3f);
+		RectangleF rect = new(3f, 3f, 3f, 3f);
 		if (GetGraphics() != null)
 		{
 			rect = GetGraphics().GetRelativeRectangle(rect);
 		}
 
 		if (_borderSkin.SkinStyle != BorderSkinStyle.None &&
-			this.GetGraphics() != null &&
-			this.Chart != null &&
-			this.Chart.chartPicture != null &&
-			this.Common != null)
+			GetGraphics() != null &&
+			Chart != null &&
+			Chart.chartPicture != null &&
+			Common != null)
 		{
-			IBorderType border3D = this.Common.BorderTypeRegistry.GetBorderType(_borderSkin.SkinStyle.ToString());
+			IBorderType border3D = Common.BorderTypeRegistry.GetBorderType(_borderSkin.SkinStyle.ToString());
 			if (border3D != null)
 			{
 				// Adjust are position to the border size
-				RectangleF rectangle = new RectangleF(0f, 0f, 100f, 100f);
-				border3D.AdjustAreasPosition(this.GetGraphics(), ref rectangle);
+				RectangleF rectangle = new(0f, 0f, 100f, 100f);
+				border3D.AdjustAreasPosition(GetGraphics(), ref rectangle);
 				rect = new RectangleF(
 					rectangle.X + 1,
 					rectangle.Y + 1,

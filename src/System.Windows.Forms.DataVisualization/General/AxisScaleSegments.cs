@@ -25,37 +25,27 @@ internal class AxisScaleSegment
 	internal Axis axis = null;
 
 	// Axis segment position in percent of the axis size
-	private double _position = 0.0;
 
 	// Axis segment size in percent of the axis size
-	private double _size = 0.0;
 
 	// Axis segment spacing in percent of the axis size
-	private double _spacing = 0.0;
 
 	// Axis segment scale minimum value
-	private double _scaleMinimum = 0.0;
 
 	// Axis segment scale maximum value
-	private double _scaleMaximum = 0.0;
 
 	// Axis segment interval offset.
-	private double _intervalOffset = 0;
 
 	// Axis segment interval.
-	private double _interval = 0;
 
 	// Axis segment interval units type.
-	private DateTimeIntervalType _intervalType = DateTimeIntervalType.Auto;
 
 	// Axis segment interval offset units type.
-	private DateTimeIntervalType _intervalOffsetType = DateTimeIntervalType.Auto;
 
 	// Object associated with the segment
-	private object _tag = null;
 
 	// Stack used to save/load axis settings
-	private Stack _oldAxisSettings = new Stack();
+	private readonly Stack _oldAxisSettings = new();
 
 	#endregion // Fields
 
@@ -82,20 +72,17 @@ internal class AxisScaleSegment
 	]
 	public double Position
 	{
-		get
-		{
-			return this._position;
-		}
+		get;
 		set
 		{
 			if (value < 0.0 || value > 100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsPositionInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsPositionInvalid));
 			}
 
-			this._position = value;
+			field = value;
 		}
-	}
+	} = 0.0;
 
 	/// <summary>
 	/// Axis segment size in axis size percentage.
@@ -107,20 +94,17 @@ internal class AxisScaleSegment
 	]
 	public double Size
 	{
-		get
-		{
-			return this._size;
-		}
+		get;
 		set
 		{
 			if (value < 0.0 || value > 100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSizeInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSizeInvalid));
 			}
 
-			this._size = value;
+			field = value;
 		}
-	}
+	} = 0.0;
 
 	/// <summary>
 	/// Axis segment spacing in axis size percentage.
@@ -132,20 +116,17 @@ internal class AxisScaleSegment
 	]
 	public double Spacing
 	{
-		get
-		{
-			return this._spacing;
-		}
+		get;
 		set
 		{
 			if (value < 0.0 || value > 100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSpacingInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleSegmentsSpacingInvalid));
 			}
 
-			this._spacing = value;
+			field = value;
 		}
-	}
+	} = 0.0;
 
 	/// <summary>
 	/// Axis segment scale maximum value.
@@ -155,17 +136,7 @@ internal class AxisScaleSegment
 	DefaultValue(0.0),
 	SRDescription("DescriptionAttributeAxisScaleSegment_ScaleMaximum"),
 	]
-	public double ScaleMaximum
-	{
-		get
-		{
-			return this._scaleMaximum;
-		}
-		set
-		{
-			this._scaleMaximum = value;
-		}
-	}
+	public double ScaleMaximum { get; set; } = 0.0;
 
 	/// <summary>
 	/// Axis segment scale minimum value.
@@ -175,17 +146,7 @@ internal class AxisScaleSegment
 	DefaultValue(0.0),
 	SRDescription("DescriptionAttributeAxisScaleSegment_ScaleMinimum"),
 	]
-	public double ScaleMinimum
-	{
-		get
-		{
-			return this._scaleMinimum;
-		}
-		set
-		{
-			this._scaleMinimum = value;
-		}
-	}
+	public double ScaleMinimum { get; set; } = 0.0;
 
 
 	/// <summary>
@@ -197,25 +158,18 @@ internal class AxisScaleSegment
 	SRDescription("DescriptionAttributeAxisScaleSegment_Interval"),
 	TypeConverter(typeof(AxisIntervalValueConverter)),
 	]
-	public double Interval
-	{
-		get
-		{
-			return this._interval;
-		}
-		set
+	public double Interval { get; set
 		{
 			// Axis interval properties must be set
 			if (double.IsNaN(value))
 			{
-				this._interval = 0;
+				field = 0;
 			}
 			else
 			{
-				this._interval = value;
+				field = value;
 			}
-		}
-	}
+		} } = 0;
 
 	/// <summary>
 	/// Axis segment interval offset.
@@ -226,13 +180,7 @@ internal class AxisScaleSegment
 	SRDescription("DescriptionAttributeAxisScaleSegment_IntervalOffset"),
 	TypeConverter(typeof(AxisIntervalValueConverter))
 	]
-	public double IntervalOffset
-	{
-		get
-		{
-			return _intervalOffset;
-		}
-	}
+	public double IntervalOffset { get; } = 0;
 
 	/// <summary>
 	/// Axis segment interval type.
@@ -242,25 +190,18 @@ internal class AxisScaleSegment
 	DefaultValue(DateTimeIntervalType.Auto),
 	SRDescription("DescriptionAttributeAxisScaleSegment_IntervalType"),
 	]
-	public DateTimeIntervalType IntervalType
-	{
-		get
-		{
-			return this._intervalType;
-		}
-		set
+	public DateTimeIntervalType IntervalType { get; set
 		{
 			// Axis interval properties must be set
 			if (value == DateTimeIntervalType.NotSet)
 			{
-				this._intervalType = DateTimeIntervalType.Auto;
+				field = DateTimeIntervalType.Auto;
 			}
 			else
 			{
-				_intervalType = value;
+				field = value;
 			}
-		}
-	}
+		} } = DateTimeIntervalType.Auto;
 
 	/// <summary>
 	/// Axis segment interval offset type.
@@ -270,13 +211,7 @@ internal class AxisScaleSegment
 	DefaultValue(DateTimeIntervalType.Auto),
 	SRDescription("DescriptionAttributeAxisScaleSegment_IntervalOffsetType"),
 	]
-	public DateTimeIntervalType IntervalOffsetType
-	{
-		get
-		{
-			return this._intervalOffsetType;
-		}
-	}
+	public DateTimeIntervalType IntervalOffsetType { get; } = DateTimeIntervalType.Auto;
 
 	/// <summary>
 	/// Object associated with axis scale segment.
@@ -289,17 +224,7 @@ internal class AxisScaleSegment
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
 	SerializationVisibility(SerializationVisibility.Hidden),
 	]
-	public object Tag
-	{
-		get
-		{
-			return this._tag;
-		}
-		set
-		{
-			this._tag = value;
-		}
-	}
+	public object Tag { get; set; } = null;
 
 	#endregion // Properties
 
@@ -313,151 +238,136 @@ internal class AxisScaleSegment
 	internal void PaintBreakLine(ChartGraphics graph, AxisScaleSegment nextSegment)
 	{
 		// Get break line position 
-		RectangleF breakPosition = this.GetBreakLinePosition(graph, nextSegment);
+		RectangleF breakPosition = GetBreakLinePosition(graph, nextSegment);
 
 		// Get top line graphics path
-		GraphicsPath breakLinePathTop = this.GetBreakLinePath(breakPosition, true);
+		GraphicsPath breakLinePathTop = GetBreakLinePath(breakPosition, true);
 		GraphicsPath breakLinePathBottom = null;
 
 		// Clear break line space using chart color behind the area
 		if (breakPosition.Width > 0f && breakPosition.Height > 0f)
 		{
 			// Get bottom line graphics path
-			breakLinePathBottom = this.GetBreakLinePath(breakPosition, false);
+			breakLinePathBottom = GetBreakLinePath(breakPosition, false);
 
 			// Clear plotting area background
-			using (GraphicsPath fillPath = new GraphicsPath())
+			using GraphicsPath fillPath = new();
+			// Create fill path out of top and bottom break lines
+			fillPath.AddPath(breakLinePathTop, true);
+			fillPath.Reverse();
+			fillPath.AddPath(breakLinePathBottom, true);
+			fillPath.CloseAllFigures();
+
+			// Use chart back color to fill the area
+			using Brush fillBrush = GetChartFillBrush(graph);
+			graph.FillPath(fillBrush, fillPath);
+
+			// Check if shadow exsits in chart area
+			if (axis.ChartArea.ShadowOffset != 0 && !axis.ChartArea.ShadowColor.IsEmpty)
 			{
-				// Create fill path out of top and bottom break lines
-				fillPath.AddPath(breakLinePathTop, true);
-				fillPath.Reverse();
-				fillPath.AddPath(breakLinePathBottom, true);
-				fillPath.CloseAllFigures();
-
-				// Use chart back color to fill the area
-				using (Brush fillBrush = this.GetChartFillBrush(graph))
+				// Clear shadow
+				RectangleF shadowPartRect = breakPosition;
+				if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
 				{
-					graph.FillPath(fillBrush, fillPath);
+					shadowPartRect.Y += axis.ChartArea.ShadowOffset;
+					shadowPartRect.Height -= axis.ChartArea.ShadowOffset;
+					shadowPartRect.X = shadowPartRect.Right - 1;
+					shadowPartRect.Width = axis.ChartArea.ShadowOffset + 2;
+				}
+				else
+				{
+					shadowPartRect.X += axis.ChartArea.ShadowOffset;
+					shadowPartRect.Width -= axis.ChartArea.ShadowOffset;
+					shadowPartRect.Y = shadowPartRect.Bottom - 1;
+					shadowPartRect.Height = axis.ChartArea.ShadowOffset + 2;
+				}
 
-					// Check if shadow exsits in chart area
-					if (this.axis.ChartArea.ShadowOffset != 0 && !this.axis.ChartArea.ShadowColor.IsEmpty)
+				graph.FillRectangle(fillBrush, shadowPartRect);
+
+				// Draw new shadow
+				using GraphicsPath shadowPath = new();
+				shadowPath.AddPath(breakLinePathTop, false);
+
+				// Define maximum size
+				float size = axis.ChartArea.ShadowOffset;
+				if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
+				{
+					size = Math.Min(size, breakPosition.Height);
+				}
+				else
+				{
+					size = Math.Min(size, breakPosition.Width);
+				}
+
+				// Define step to increase transperancy
+				int transparencyStep = (int)(axis.ChartArea.ShadowColor.A / size);
+
+				// Set clip region to achieve spacing of the shadow
+				// Start with the plotting rectangle position
+				RectangleF clipRegion = graph.GetAbsoluteRectangle(axis.PlotAreaPosition.ToRectangleF());
+				if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
+				{
+					clipRegion.X += axis.ChartArea.ShadowOffset;
+					clipRegion.Width += axis.ChartArea.ShadowOffset;
+				}
+				else
+				{
+					clipRegion.Y += axis.ChartArea.ShadowOffset;
+					clipRegion.Height += axis.ChartArea.ShadowOffset;
+				}
+
+				graph.SetClip(graph.GetRelativeRectangle(clipRegion));
+
+				// Draw several lines to form shadow
+				for (int index = 0; index < size; index++)
+				{
+					using (Matrix newMatrix = new())
 					{
-						// Clear shadow
-						RectangleF shadowPartRect = breakPosition;
-						if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+						// Shift top break line by 1 pixel
+						if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
 						{
-							shadowPartRect.Y += this.axis.ChartArea.ShadowOffset;
-							shadowPartRect.Height -= this.axis.ChartArea.ShadowOffset;
-							shadowPartRect.X = shadowPartRect.Right - 1;
-							shadowPartRect.Width = this.axis.ChartArea.ShadowOffset + 2;
+							newMatrix.Translate(0f, 1f);
 						}
 						else
 						{
-							shadowPartRect.X += this.axis.ChartArea.ShadowOffset;
-							shadowPartRect.Width -= this.axis.ChartArea.ShadowOffset;
-							shadowPartRect.Y = shadowPartRect.Bottom - 1;
-							shadowPartRect.Height = this.axis.ChartArea.ShadowOffset + 2;
+							newMatrix.Translate(1f, 0f);
 						}
 
-						graph.FillRectangle(fillBrush, shadowPartRect);
-
-						// Draw new shadow
-						using (GraphicsPath shadowPath = new GraphicsPath())
-						{
-							shadowPath.AddPath(breakLinePathTop, false);
-
-							// Define maximum size
-							float size = this.axis.ChartArea.ShadowOffset;
-							if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
-							{
-								size = Math.Min(size, breakPosition.Height);
-							}
-							else
-							{
-								size = Math.Min(size, breakPosition.Width);
-							}
-
-							// Define step to increase transperancy
-							int transparencyStep = (int)(this.axis.ChartArea.ShadowColor.A / size);
-
-							// Set clip region to achieve spacing of the shadow
-							// Start with the plotting rectangle position
-							RectangleF clipRegion = graph.GetAbsoluteRectangle(this.axis.PlotAreaPosition.ToRectangleF());
-							if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
-							{
-								clipRegion.X += this.axis.ChartArea.ShadowOffset;
-								clipRegion.Width += this.axis.ChartArea.ShadowOffset;
-							}
-							else
-							{
-								clipRegion.Y += this.axis.ChartArea.ShadowOffset;
-								clipRegion.Height += this.axis.ChartArea.ShadowOffset;
-							}
-
-							graph.SetClip(graph.GetRelativeRectangle(clipRegion));
-
-							// Draw several lines to form shadow
-							for (int index = 0; index < size; index++)
-							{
-								using (Matrix newMatrix = new Matrix())
-								{
-									// Shift top break line by 1 pixel
-									if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
-									{
-										newMatrix.Translate(0f, 1f);
-									}
-									else
-									{
-										newMatrix.Translate(1f, 0f);
-									}
-
-									shadowPath.Transform(newMatrix);
-								}
-
-								// Get line color
-								Color color = Color.FromArgb(
-									this.axis.ChartArea.ShadowColor.A - transparencyStep * index,
-									this.axis.ChartArea.ShadowColor);
-
-								using (Pen shadowPen = new Pen(color, 1))
-								{
-									// Draw shadow
-									graph.DrawPath(shadowPen, shadowPath);
-								}
-							}
-
-							graph.ResetClip();
-						}
+						shadowPath.Transform(newMatrix);
 					}
+
+					// Get line color
+					Color color = Color.FromArgb(
+						axis.ChartArea.ShadowColor.A - transparencyStep * index,
+						axis.ChartArea.ShadowColor);
+
+					using Pen shadowPen = new(color, 1);
+					// Draw shadow
+					graph.DrawPath(shadowPen, shadowPath);
 				}
+
+				graph.ResetClip();
 			}
 		}
 
 		// Draw Separator Line(s)
-		if (this.axis.ScaleBreakStyle.BreakLineStyle != BreakLineStyle.None)
+		if (axis.ScaleBreakStyle.BreakLineStyle != BreakLineStyle.None)
 		{
-			using (Pen pen = new Pen(this.axis.ScaleBreakStyle.LineColor, this.axis.ScaleBreakStyle.LineWidth))
-			{
-				// Set line style
-				pen.DashStyle = graph.GetPenStyle(this.axis.ScaleBreakStyle.LineDashStyle);
+			using Pen pen = new(axis.ScaleBreakStyle.LineColor, axis.ScaleBreakStyle.LineWidth);
+			// Set line style
+			pen.DashStyle = graph.GetPenStyle(axis.ScaleBreakStyle.LineDashStyle);
 
-				// Draw break lines
-				graph.DrawPath(pen, breakLinePathTop);
-				if (breakPosition.Width > 0f && breakPosition.Height > 0f)
-				{
-					graph.DrawPath(pen, breakLinePathBottom);
-				}
+			// Draw break lines
+			graph.DrawPath(pen, breakLinePathTop);
+			if (breakPosition.Width > 0f && breakPosition.Height > 0f)
+			{
+				graph.DrawPath(pen, breakLinePathBottom);
 			}
 		}
 
 		// Dispose break line paths
 		breakLinePathTop.Dispose();
-		breakLinePathTop = null;
-		if (breakLinePathBottom != null)
-		{
-			breakLinePathBottom.Dispose();
-			breakLinePathBottom = null;
-		}
+		breakLinePathBottom?.Dispose();
 
 	}
 
@@ -468,9 +378,8 @@ internal class AxisScaleSegment
 	/// <returns>Fill brush.</returns>
 	private Brush GetChartFillBrush(ChartGraphics graph)
 	{
-		Chart chart = this.axis.ChartArea.Common.Chart;
-		Brush brush = null;
-
+		Chart chart = axis.ChartArea.Common.Chart;
+		Brush brush;
 		if (chart.BackGradientStyle == GradientStyle.None)
 		{
 			brush = new SolidBrush(chart.BackColor);
@@ -504,13 +413,13 @@ internal class AxisScaleSegment
 	/// <returns>Graphics path with break line path.</returns>
 	private GraphicsPath GetBreakLinePath(RectangleF breakLinePosition, bool top)
 	{
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 
-		if (this.axis.ScaleBreakStyle.BreakLineStyle == BreakLineStyle.Wave)
+		if (axis.ScaleBreakStyle.BreakLineStyle == BreakLineStyle.Wave)
 		{
-			PointF[] points = null;
-			int pointNumber = 0;
-			if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+			PointF[] points;
+			int pointNumber;
+			if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
 			{
 				float startX = breakLinePosition.X;
 				float endX = breakLinePosition.Right;
@@ -559,11 +468,11 @@ internal class AxisScaleSegment
 
 			path.AddCurve(points, 0, pointNumber, 0.8f);
 		}
-		else if (this.axis.ScaleBreakStyle.BreakLineStyle == BreakLineStyle.Ragged)
+		else if (axis.ScaleBreakStyle.BreakLineStyle == BreakLineStyle.Ragged)
 		{
-			PointF[] points = null;
-			Random rand = new Random(435657);
-			if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+			Random rand = new(435657);
+			PointF[] points;
+			if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
 			{
 				float startX = breakLinePosition.X;
 				float endX = breakLinePosition.Right;
@@ -616,7 +525,7 @@ internal class AxisScaleSegment
 		}
 		else
 		{
-			if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+			if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
 			{
 				if (top)
 				{
@@ -653,12 +562,12 @@ internal class AxisScaleSegment
 	internal RectangleF GetBreakLinePosition(ChartGraphics graph, AxisScaleSegment nextSegment)
 	{
 		// Start with the plotting rectangle position
-		RectangleF breakPosition = this.axis.PlotAreaPosition.ToRectangleF();
+		RectangleF breakPosition = axis.PlotAreaPosition.ToRectangleF();
 
 		// Find maximum scale value of the current segment and minimuj of the next
-		double from = this.axis.GetLinearPosition(nextSegment.ScaleMinimum);
-		double to = this.axis.GetLinearPosition(this.ScaleMaximum);
-		if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+		double from = axis.GetLinearPosition(nextSegment.ScaleMinimum);
+		double to = axis.GetLinearPosition(ScaleMaximum);
+		if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
 		{
 			breakPosition.Y = (float)Math.Min(from, to);
 			breakPosition.Height = (float)Math.Max(from, to);
@@ -674,17 +583,17 @@ internal class AxisScaleSegment
 		breakPosition = Rectangle.Round(graph.GetAbsoluteRectangle(breakPosition));
 
 		// Add border width
-		if (this.axis.AxisPosition == AxisPosition.Right || this.axis.AxisPosition == AxisPosition.Left)
+		if (axis.AxisPosition == AxisPosition.Right || axis.AxisPosition == AxisPosition.Left)
 		{
 			breakPosition.Height = (float)Math.Abs(breakPosition.Y - breakPosition.Height);
-			breakPosition.X -= this.axis.ChartArea.BorderWidth;
-			breakPosition.Width += 2 * this.axis.ChartArea.BorderWidth;
+			breakPosition.X -= axis.ChartArea.BorderWidth;
+			breakPosition.Width += 2 * axis.ChartArea.BorderWidth;
 		}
 		else
 		{
 			breakPosition.Width = (float)Math.Abs(breakPosition.X - breakPosition.Width);
-			breakPosition.Y -= this.axis.ChartArea.BorderWidth;
-			breakPosition.Height += 2 * this.axis.ChartArea.BorderWidth;
+			breakPosition.Y -= axis.ChartArea.BorderWidth;
+			breakPosition.Height += 2 * axis.ChartArea.BorderWidth;
 		}
 
 		return breakPosition;
@@ -703,8 +612,8 @@ internal class AxisScaleSegment
 	/// <param name="scaleSize">Returns scale size.</param>
 	internal void GetScalePositionAndSize(double plotAreaSize, out double scalePosition, out double scaleSize)
 	{
-		scaleSize = (this.Size - this.Spacing) * (plotAreaSize / 100.0);
-		scalePosition = this.Position * (plotAreaSize / 100.0);
+		scaleSize = (Size - Spacing) * (plotAreaSize / 100.0);
+		scalePosition = Position * (plotAreaSize / 100.0);
 	}
 
 	/// <summary>
@@ -715,43 +624,43 @@ internal class AxisScaleSegment
 		// Save current axis settings
 		if (_oldAxisSettings.Count == 0)
 		{
-			_oldAxisSettings.Push(this.axis.maximum);
-			_oldAxisSettings.Push(this.axis.minimum);
+			_oldAxisSettings.Push(axis.maximum);
+			_oldAxisSettings.Push(axis.minimum);
 
-			_oldAxisSettings.Push(this.axis.majorGrid.interval);
-			_oldAxisSettings.Push(this.axis.majorGrid.intervalType);
-			_oldAxisSettings.Push(this.axis.majorGrid.intervalOffset);
-			_oldAxisSettings.Push(this.axis.majorGrid.intervalOffsetType);
+			_oldAxisSettings.Push(axis.majorGrid.interval);
+			_oldAxisSettings.Push(axis.majorGrid.intervalType);
+			_oldAxisSettings.Push(axis.majorGrid.intervalOffset);
+			_oldAxisSettings.Push(axis.majorGrid.intervalOffsetType);
 
-			_oldAxisSettings.Push(this.axis.majorTickMark.interval);
-			_oldAxisSettings.Push(this.axis.majorTickMark.intervalType);
-			_oldAxisSettings.Push(this.axis.majorTickMark.intervalOffset);
-			_oldAxisSettings.Push(this.axis.majorTickMark.intervalOffsetType);
+			_oldAxisSettings.Push(axis.majorTickMark.interval);
+			_oldAxisSettings.Push(axis.majorTickMark.intervalType);
+			_oldAxisSettings.Push(axis.majorTickMark.intervalOffset);
+			_oldAxisSettings.Push(axis.majorTickMark.intervalOffsetType);
 
-			_oldAxisSettings.Push(this.axis.LabelStyle.interval);
-			_oldAxisSettings.Push(this.axis.LabelStyle.intervalType);
-			_oldAxisSettings.Push(this.axis.LabelStyle.intervalOffset);
-			_oldAxisSettings.Push(this.axis.LabelStyle.intervalOffsetType);
+			_oldAxisSettings.Push(axis.LabelStyle.interval);
+			_oldAxisSettings.Push(axis.LabelStyle.intervalType);
+			_oldAxisSettings.Push(axis.LabelStyle.intervalOffset);
+			_oldAxisSettings.Push(axis.LabelStyle.intervalOffsetType);
 		}
 
 		// Copy settings from the segment into the axis
-		this.axis.maximum = this.ScaleMaximum;
-		this.axis.minimum = this.ScaleMinimum;
+		axis.maximum = ScaleMaximum;
+		axis.minimum = ScaleMinimum;
 
-		this.axis.majorGrid.interval = this.Interval;
-		this.axis.majorGrid.intervalType = this.IntervalType;
-		this.axis.majorGrid.intervalOffset = this.IntervalOffset;
-		this.axis.majorGrid.intervalOffsetType = this.IntervalOffsetType;
+		axis.majorGrid.interval = Interval;
+		axis.majorGrid.intervalType = IntervalType;
+		axis.majorGrid.intervalOffset = IntervalOffset;
+		axis.majorGrid.intervalOffsetType = IntervalOffsetType;
 
-		this.axis.majorTickMark.interval = this.Interval;
-		this.axis.majorTickMark.intervalType = this.IntervalType;
-		this.axis.majorTickMark.intervalOffset = this.IntervalOffset;
-		this.axis.majorTickMark.intervalOffsetType = this.IntervalOffsetType;
+		axis.majorTickMark.interval = Interval;
+		axis.majorTickMark.intervalType = IntervalType;
+		axis.majorTickMark.intervalOffset = IntervalOffset;
+		axis.majorTickMark.intervalOffsetType = IntervalOffsetType;
 
-		this.axis.LabelStyle.interval = this.Interval;
-		this.axis.LabelStyle.intervalType = this.IntervalType;
-		this.axis.LabelStyle.intervalOffset = this.IntervalOffset;
-		this.axis.LabelStyle.intervalOffsetType = this.IntervalOffsetType;
+		axis.LabelStyle.interval = Interval;
+		axis.LabelStyle.intervalType = IntervalType;
+		axis.LabelStyle.intervalOffset = IntervalOffset;
+		axis.LabelStyle.intervalOffsetType = IntervalOffsetType;
 	}
 
 	/// <summary>
@@ -761,23 +670,23 @@ internal class AxisScaleSegment
 	{
 		if (_oldAxisSettings.Count > 0)
 		{
-			this.axis.LabelStyle.intervalOffsetType = (DateTimeIntervalType)_oldAxisSettings.Pop();
-			this.axis.LabelStyle.intervalOffset = (double)_oldAxisSettings.Pop();
-			this.axis.LabelStyle.intervalType = (DateTimeIntervalType)_oldAxisSettings.Pop();
-			this.axis.LabelStyle.interval = (double)_oldAxisSettings.Pop();
+			axis.LabelStyle.intervalOffsetType = (DateTimeIntervalType)_oldAxisSettings.Pop();
+			axis.LabelStyle.intervalOffset = (double)_oldAxisSettings.Pop();
+			axis.LabelStyle.intervalType = (DateTimeIntervalType)_oldAxisSettings.Pop();
+			axis.LabelStyle.interval = (double)_oldAxisSettings.Pop();
 
-			this.axis.majorTickMark.intervalOffsetType = (DateTimeIntervalType)_oldAxisSettings.Pop();
-			this.axis.majorTickMark.intervalOffset = (double)_oldAxisSettings.Pop();
-			this.axis.majorTickMark.intervalType = (DateTimeIntervalType)_oldAxisSettings.Pop();
-			this.axis.majorTickMark.interval = (double)_oldAxisSettings.Pop();
+			axis.majorTickMark.intervalOffsetType = (DateTimeIntervalType)_oldAxisSettings.Pop();
+			axis.majorTickMark.intervalOffset = (double)_oldAxisSettings.Pop();
+			axis.majorTickMark.intervalType = (DateTimeIntervalType)_oldAxisSettings.Pop();
+			axis.majorTickMark.interval = (double)_oldAxisSettings.Pop();
 
-			this.axis.majorGrid.intervalOffsetType = (DateTimeIntervalType)_oldAxisSettings.Pop();
-			this.axis.majorGrid.intervalOffset = (double)_oldAxisSettings.Pop();
-			this.axis.majorGrid.intervalType = (DateTimeIntervalType)_oldAxisSettings.Pop();
-			this.axis.majorGrid.interval = (double)_oldAxisSettings.Pop();
+			axis.majorGrid.intervalOffsetType = (DateTimeIntervalType)_oldAxisSettings.Pop();
+			axis.majorGrid.intervalOffset = (double)_oldAxisSettings.Pop();
+			axis.majorGrid.intervalType = (DateTimeIntervalType)_oldAxisSettings.Pop();
+			axis.majorGrid.interval = (double)_oldAxisSettings.Pop();
 
-			this.axis.minimum = (double)_oldAxisSettings.Pop();
-			this.axis.maximum = (double)_oldAxisSettings.Pop();
+			axis.minimum = (double)_oldAxisSettings.Pop();
+			axis.maximum = (double)_oldAxisSettings.Pop();
 		}
 	}
 
@@ -796,7 +705,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	#region Fields
 
 	// Axis this segment collection belongs to.
-	private Axis _axis = null;
+	private readonly Axis _axis = null;
 
 	// Segment which is always used to convert scale values.
 	// This value is set tmporarly when only one segment has 
@@ -832,7 +741,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// </param>
 	internal AxisScaleSegmentCollection(Axis axis)
 	{
-		this._axis = axis;
+		_axis = axis;
 	}
 
 	#endregion // Construction and Initialization
@@ -852,7 +761,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	{
 		get
 		{
-			return (AxisScaleSegment)this.List[(int)index];
+			return (AxisScaleSegment)List[(int)index];
 		}
 	}
 
@@ -871,7 +780,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// </returns>
 	public int Add(AxisScaleSegment segment)
 	{
-		return this.List.Add(segment);
+		return List.Add(segment);
 	}
 
 
@@ -889,7 +798,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// </remarks>
 	protected override void OnInsertComplete(int index, object value)
 	{
-		((AxisScaleSegment)value).axis = this._axis;
+		((AxisScaleSegment)value).axis = _axis;
 	}
 
 	/// <summary>
@@ -903,7 +812,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// </remarks>
 	protected override void OnSetComplete(int index, object oldValue, object newValue)
 	{
-		((AxisScaleSegment)newValue).axis = this._axis;
+		((AxisScaleSegment)newValue).axis = _axis;
 	}
 
 	#endregion
@@ -917,7 +826,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// <param name="segment"></param>
 	internal void EnforceSegment(AxisScaleSegment segment)
 	{
-		this._enforcedSegment = segment;
+		_enforcedSegment = segment;
 	}
 
 	/// <summary>
@@ -928,7 +837,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	public AxisScaleSegment FindScaleSegmentForAxisValue(double axisValue)
 	{
 		// Check if no segments defined
-		if (this.List.Count == 0)
+		if (List.Count == 0)
 		{
 			return null;
 		}
@@ -940,7 +849,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 		}
 
 		// Iterate through all segments
-		for (int index = 0; index < this.Count; index++)
+		for (int index = 0; index < Count; index++)
 		{
 			if (axisValue < this[index].ScaleMinimum)
 			{
@@ -966,7 +875,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 			{
 				return this[index];
 			}
-			else if (index == this.Count - 1)
+			else if (index == Count - 1)
 			{
 				return this[index];
 			}

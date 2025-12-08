@@ -47,11 +47,11 @@ public class StatisticFormula
 	#region Fields
 
 	// Name used for temporary data series
-	private string _tempOutputSeriesName = "Statistical Analyses Formula Temporary Output Series 2552003";
+	private readonly string _tempOutputSeriesName = "Statistical Analyses Formula Temporary Output Series 2552003";
 
 	// Reference to the class which describes calculation settings and 
 	// provides access to chart common elements.
-	private DataFormula _formulaData = null;
+	private readonly DataFormula _formulaData = null;
 
 	#endregion // Fields
 
@@ -63,7 +63,7 @@ public class StatisticFormula
 	/// <param name="formulaData">Formula Data</param>
 	internal StatisticFormula(DataFormula formulaData)
 	{
-		this._formulaData = formulaData;
+		_formulaData = formulaData;
 	}
 
 	#endregion // Constructor
@@ -89,25 +89,24 @@ public class StatisticFormula
 		string secondInputSeriesName)
 	{
 		// Check arguments
-		if (firstInputSeriesName == null)
-			throw new ArgumentNullException("firstInputSeriesName");
-		if (secondInputSeriesName == null)
-			throw new ArgumentNullException("secondInputSeriesName");
+		ArgumentNullException.ThrowIfNull(firstInputSeriesName);
+
+		ArgumentNullException.ThrowIfNull(secondInputSeriesName);
 
 		// Create output class
-		ZTestResult zTestResult = new ZTestResult();
+		ZTestResult zTestResult = new();
 
 		// Make string with parameters
-		string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + varianceFirstGroup.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + varianceSecondGroup.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = hypothesizedMeanDifference.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + varianceFirstGroup.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + varianceSecondGroup.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + probability.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
 		// Set input series string
-		string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string inputSeriesParameter = firstInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Execute formula
 		try
@@ -153,17 +152,16 @@ public class StatisticFormula
 		string secondInputSeriesName)
 	{
 		// Check arguments
-		if (firstInputSeriesName == null)
-			throw new ArgumentNullException("firstInputSeriesName");
-		if (secondInputSeriesName == null)
-			throw new ArgumentNullException("secondInputSeriesName");
+		ArgumentNullException.ThrowIfNull(firstInputSeriesName);
+
+		ArgumentNullException.ThrowIfNull(secondInputSeriesName);
 
 		// Create output class
-		TTestResult tTestResult = new TTestResult();
+		TTestResult tTestResult = new();
 
 		// Make string with parameters
-		string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = hypothesizedMeanDifference.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + probability.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -171,7 +169,7 @@ public class StatisticFormula
 		// Set input series string
 		try
 		{
-			string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+			string inputSeriesParameter = firstInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture);
 
 			// Execute formula
 			_formulaData.Formula("TTestUnequalVariances", parameter, inputSeriesParameter, _tempOutputSeriesName);
@@ -216,23 +214,22 @@ public class StatisticFormula
 		string secondInputSeriesName)
 	{
 		// Check arguments
-		if (firstInputSeriesName == null)
-			throw new ArgumentNullException("firstInputSeriesName");
-		if (secondInputSeriesName == null)
-			throw new ArgumentNullException("secondInputSeriesName");
+		ArgumentNullException.ThrowIfNull(firstInputSeriesName);
+
+		ArgumentNullException.ThrowIfNull(secondInputSeriesName);
 
 		// Create output class
-		TTestResult tTestResult = new TTestResult();
+		TTestResult tTestResult = new();
 
 		// Make string with parameters
-		string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = hypothesizedMeanDifference.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + probability.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
 		// Set input series string
-		string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string inputSeriesParameter = firstInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Execute formula
 		try
@@ -279,23 +276,22 @@ public class StatisticFormula
 		string secondInputSeriesName)
 	{
 		// Check arguments
-		if (firstInputSeriesName == null)
-			throw new ArgumentNullException("firstInputSeriesName");
-		if (secondInputSeriesName == null)
-			throw new ArgumentNullException("secondInputSeriesName");
+		ArgumentNullException.ThrowIfNull(firstInputSeriesName);
+
+		ArgumentNullException.ThrowIfNull(secondInputSeriesName);
 
 		// Create output class
-		TTestResult tTestResult = new TTestResult();
+		TTestResult tTestResult = new();
 
 		// Make string with parameters
-		string parameter = hypothesizedMeanDifference.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = hypothesizedMeanDifference.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + probability.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
 		// Set input series string
-		string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string inputSeriesParameter = firstInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Execute formula
 		try
@@ -356,19 +352,18 @@ public class StatisticFormula
 	string secondInputSeriesName)
 	{
 		// Check arguments
-		if (firstInputSeriesName == null)
-			throw new ArgumentNullException("firstInputSeriesName");
-		if (secondInputSeriesName == null)
-			throw new ArgumentNullException("secondInputSeriesName");
+		ArgumentNullException.ThrowIfNull(firstInputSeriesName);
+
+		ArgumentNullException.ThrowIfNull(secondInputSeriesName);
 
 		// Create output class
-		FTestResult fTestResult = new FTestResult();
+		FTestResult fTestResult = new();
 
 		// Make string with parameters
-		string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = probability.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Set input series string
-		string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string inputSeriesParameter = firstInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -418,14 +413,13 @@ public class StatisticFormula
 		string inputSeriesNames)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		// Create output class
-		AnovaResult anovaResult = new AnovaResult();
+		AnovaResult anovaResult = new();
 
 		// Make string with parameters
-		string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = probability.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -473,7 +467,7 @@ public class StatisticFormula
 	public double NormalDistribution(double zValue)
 	{
 		// Make string with parameters
-		string parameter = zValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = zValue.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -509,7 +503,7 @@ public class StatisticFormula
 	{
 
 		// Make string with parameters
-		string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = probability.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -549,9 +543,9 @@ public class StatisticFormula
 	{
 
 		// Make string with parameters
-		string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + firstDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + secondDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = value.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + firstDegreeOfFreedom.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + secondDegreeOfFreedom.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -591,9 +585,9 @@ public class StatisticFormula
 	{
 
 		// Make string with parameters
-		string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + firstDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + secondDegreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = probability.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + firstDegreeOfFreedom.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + secondDegreeOfFreedom.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -633,8 +627,8 @@ public class StatisticFormula
 	{
 
 		// Make string with parameters
-		string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + degreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = value.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + degreeOfFreedom.ToString(Globalization.CultureInfo.InvariantCulture);
 		if (oneTail)
 		{
 			parameter += ",1";
@@ -682,8 +676,8 @@ public class StatisticFormula
 	{
 
 		// Make string with parameters
-		string parameter = probability.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + degreeOfFreedom.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = probability.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + degreeOfFreedom.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -725,16 +719,15 @@ public class StatisticFormula
 		string secondInputSeriesName)
 	{
 		// Check arguments
-		if (firstInputSeriesName == null)
-			throw new ArgumentNullException("firstInputSeriesName");
-		if (secondInputSeriesName == null)
-			throw new ArgumentNullException("secondInputSeriesName");
+		ArgumentNullException.ThrowIfNull(firstInputSeriesName);
+
+		ArgumentNullException.ThrowIfNull(secondInputSeriesName);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
 		// Set input series string
-		string inputSeriesParameter = firstInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string inputSeriesParameter = firstInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture) + "," + secondInputSeriesName.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Execute formula
 		double result = double.NaN;
@@ -769,10 +762,9 @@ public class StatisticFormula
 		string secondInputSeriesName)
 	{
 		// Check arguments
-		if (firstInputSeriesName == null)
-			throw new ArgumentNullException("firstInputSeriesName");
-		if (secondInputSeriesName == null)
-			throw new ArgumentNullException("secondInputSeriesName");
+		ArgumentNullException.ThrowIfNull(firstInputSeriesName);
+
+		ArgumentNullException.ThrowIfNull(secondInputSeriesName);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -811,8 +803,7 @@ public class StatisticFormula
 		string inputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -851,8 +842,7 @@ public class StatisticFormula
 		string inputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -893,8 +883,7 @@ public class StatisticFormula
 		bool sampleVariance)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
@@ -903,7 +892,7 @@ public class StatisticFormula
 		string inputSeriesParameter = inputSeriesName;
 
 		// Formula parameter
-		string parameter = sampleVariance.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = sampleVariance.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Execute formula
 		double result = double.NaN;
@@ -941,14 +930,16 @@ public class StatisticFormula
 	{
 		// Fix for the VSTS 230829: The BetaFunction for the m=0,n=0 is double.NaN
 		if (m == 0 && n == 0)
+		{
 			return double.NaN;
+		}
 
 		// Create temporary output series.
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
 		// Formula parameter
-		string parameter = m.ToString(System.Globalization.CultureInfo.InvariantCulture);
-		parameter += "," + n.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = m.ToString(Globalization.CultureInfo.InvariantCulture);
+		parameter += "," + n.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Execute formula
 		double result = double.NaN;
@@ -984,7 +975,7 @@ public class StatisticFormula
 		_formulaData.Common.DataManager.Series.Add(new Series(_tempOutputSeriesName));
 
 		// Formula parameter
-		string parameter = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		string parameter = value.ToString(Globalization.CultureInfo.InvariantCulture);
 
 		// Execute formula
 		double result = double.NaN;

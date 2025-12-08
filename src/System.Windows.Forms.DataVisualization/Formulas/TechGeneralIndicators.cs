@@ -61,32 +61,44 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		// Period for standard deviation ( used for moving average )
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Starting average from the first data point or after period.
 		bool startFromFirst = bool.Parse(extraParameterList[0]);
 
 		// There is no enough series
 		if (length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		if (inputValues[0].Length != inputValues[1].Length)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsSameXYNumber);
+		}
 
 		// Not enough values for moving average in Standard deviation.
 		if (inputValues[0].Length < period)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsNotEnoughPoints);
+		}
 
 		outputValues = new double[2][];
 
@@ -97,9 +109,13 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		for (int index = 0; index < outputValues[1].Length; index++)
 		{
 			if (startFromFirst)
+			{
 				outputValues[0][index] = inputValues[0][index];
+			}
 			else
+			{
 				outputValues[0][index] = inputValues[0][index + period - 1];
+			}
 		}
 	}
 
@@ -127,7 +143,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 4)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresThreeArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 3);
@@ -141,7 +159,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// The distance from today's high to today's low
 		double distanceOne;
@@ -204,7 +224,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 4)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresThreeArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 3);
@@ -259,7 +281,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 2);
@@ -273,7 +297,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Average Period
 		int averagePeriod;
@@ -284,7 +310,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodAverageParameterIsNegative);
+		}
 
 		double[] highLow = new double[inputValues[0].Length];
 		double[] average;
@@ -308,13 +336,12 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 
 		// Mass Index
 		int outIndex = 0;
-		double sum = 0;
 		for (int index = 2 * averagePeriod - 3 + period; index < inputValues[0].Length; index++)
 		{
 			// Set X values
 			outputValues[0][outIndex] = inputValues[0][index];
 
-			sum = 0;
+			double sum = 0;
 			for (int indexSum = index - period + 1; indexSum <= index; indexSum++)
 			{
 				sum += average[indexSum - averagePeriod + 1] / secondAverage[indexSum - 2 * averagePeriod + 2];
@@ -349,7 +376,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 1);
@@ -398,7 +427,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 1);
@@ -412,7 +443,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		outputValues = new double[2][];
 
@@ -454,7 +487,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 1);
@@ -468,7 +503,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		double[] upward = new double[inputValues[0].Length - 1];
 		double[] downward = new double[inputValues[0].Length - 1];
@@ -538,7 +575,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 1);
@@ -552,7 +591,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		double[] exp1; // Exponential Moving average of input values
 		double[] exp2; // Exponential Moving average of exp1
@@ -616,7 +657,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 2)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresOneArray);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 1);
@@ -630,7 +673,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (shortPeriod <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodShortParameterIsNegative);
+		}
 
 		// Int64 Period
 		int longPeriod;
@@ -641,10 +686,14 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (longPeriod <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodLongParameterIsNegative);
+		}
 
 		if (longPeriod <= shortPeriod)
+		{
 			throw new InvalidOperationException(SR.ExceptionIndicatorsLongPeriodLessThenShortPeriod);
+		}
 
 		double[] longAverage; // Int64 Average
 		double[] shortAverage; // Short Average
@@ -706,7 +755,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 4)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresThreeArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 3);
@@ -720,7 +771,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Typical Price
 		double[] typicalPrice = new double[inputValues[0].Length];
@@ -744,11 +797,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 
 		// Mean Deviation
 		double[] meanDeviation = new double[movingAverage.Length];
-
-		double sum = 0;
 		for (int index = 0; index < movingAverage.Length; index++)
 		{
-			sum = 0;
+			double sum = 0;
 			for (int indexSum = index; indexSum < index + period; indexSum++)
 			{
 				sum += Math.Abs(movingAverage[index] - typicalPrice[indexSum]);
@@ -800,7 +851,7 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 		string name;
 		outputValues = null;
 
-		name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+		name = formulaName.ToUpper(CultureInfo.InvariantCulture);
 
 		// Not used for these formulas.
 		outLabels = null;

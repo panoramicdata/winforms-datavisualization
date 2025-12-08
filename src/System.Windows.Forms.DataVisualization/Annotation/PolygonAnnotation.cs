@@ -30,7 +30,7 @@ public class PolylineAnnotation : Annotation
 	#region Fields
 
 	// Path with polygon points.
-	private GraphicsPath _defaultGraphicsPath = new GraphicsPath();
+	private GraphicsPath _defaultGraphicsPath = new();
 	private GraphicsPath _graphicsPath;
 
 	// Indicates that path was changed
@@ -227,7 +227,7 @@ public class PolylineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -250,7 +250,7 @@ public class PolylineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
 	override public ChartHatchStyle BackHatchStyle
@@ -272,7 +272,7 @@ public class PolylineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
 	override public GradientStyle BackGradientStyle
@@ -294,7 +294,7 @@ public class PolylineAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -328,9 +328,9 @@ public class PolylineAnnotation : Annotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -354,11 +354,11 @@ public class PolylineAnnotation : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -417,8 +417,8 @@ public class PolylineAnnotation : Annotation
 	DefaultValue(null),
 	SRDescription("DescriptionAttributePath"),
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	virtual public GraphicsPath GraphicsPath
 	{
@@ -429,7 +429,7 @@ public class PolylineAnnotation : Annotation
 		set
 		{
 			_graphicsPath = value;
-			this.pathChanged = true;
+			pathChanged = true;
 		}
 	}
 
@@ -450,7 +450,7 @@ public class PolylineAnnotation : Annotation
 	[
 	SRCategory("CategoryAttributePosition"),
 	SRDescription("DescriptionAttributePathPoints"),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 		Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor)),
 		DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	]
@@ -458,7 +458,7 @@ public class PolylineAnnotation : Annotation
 	{
 		get
 		{
-			if (this.pathChanged ||
+			if (pathChanged ||
 				_graphicsPath.PointCount != _pathPoints.Count)
 			{
 				// Recreate collection from graphics path
@@ -506,18 +506,21 @@ public class PolylineAnnotation : Annotation
 			return;
 		}
 
+
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+
+		PointF anchorPoint;
+
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
-		PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+		PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 		// Create selection rectangle
-		RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+		RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 		// Get position
-		RectangleF rectanglePosition = new RectangleF(selectionRect.Location, selectionRect.Size);
+		RectangleF rectanglePosition = new(selectionRect.Location, selectionRect.Size);
 		if (rectanglePosition.Width < 0)
 		{
 			rectanglePosition.X = rectanglePosition.Right;
@@ -555,193 +558,188 @@ public class PolylineAnnotation : Annotation
 			pathPoints[pointIndex].Y = rectanglePositionAbs.Y + pathPoints[pointIndex].Y * groupScaleY;
 		}
 
-		using (GraphicsPath pathAbs = new GraphicsPath(pathPoints, pathTypes))
+		using GraphicsPath pathAbs = new(pathPoints, pathTypes);
+
+		// Set line caps
+		bool capChanged = false;
+		LineCap oldStartCap = LineCap.Flat;
+		LineCap oldEndCap = LineCap.Flat;
+		if (!isPolygon)
 		{
-
-			// Set line caps
-			bool capChanged = false;
-			LineCap oldStartCap = LineCap.Flat;
-			LineCap oldEndCap = LineCap.Flat;
-			if (!this.isPolygon)
+			if (_startCap != LineAnchorCapStyle.None ||
+				_endCap != LineAnchorCapStyle.None)
 			{
-				if (this._startCap != LineAnchorCapStyle.None ||
-					this._endCap != LineAnchorCapStyle.None)
+				capChanged = true;
+				oldStartCap = graphics.Pen.StartCap;
+				oldEndCap = graphics.Pen.EndCap;
+
+				// Apply anchor cap settings
+				if (_startCap == LineAnchorCapStyle.Arrow)
 				{
-					capChanged = true;
-					oldStartCap = graphics.Pen.StartCap;
-					oldEndCap = graphics.Pen.EndCap;
+					// Adjust arrow size for small line width
+					if (LineWidth < 4)
+					{
+						int adjustment = 3 - LineWidth;
+						graphics.Pen.StartCap = LineCap.Custom;
+						graphics.Pen.CustomStartCap = new AdjustableArrowCap(
+							LineWidth + adjustment,
+							LineWidth + adjustment,
+							true);
+					}
+					else
+					{
+						graphics.Pen.StartCap = LineCap.ArrowAnchor;
+					}
+				}
+				else if (_startCap == LineAnchorCapStyle.Diamond)
+				{
+					graphics.Pen.StartCap = LineCap.DiamondAnchor;
+				}
+				else if (_startCap == LineAnchorCapStyle.Round)
+				{
+					graphics.Pen.StartCap = LineCap.RoundAnchor;
+				}
+				else if (_startCap == LineAnchorCapStyle.Square)
+				{
+					graphics.Pen.StartCap = LineCap.SquareAnchor;
+				}
 
-					// Apply anchor cap settings
-					if (this._startCap == LineAnchorCapStyle.Arrow)
+				if (_endCap == LineAnchorCapStyle.Arrow)
+				{
+					// Adjust arrow size for small line width
+					if (LineWidth < 4)
 					{
-						// Adjust arrow size for small line width
-						if (this.LineWidth < 4)
-						{
-							int adjustment = 3 - this.LineWidth;
-							graphics.Pen.StartCap = LineCap.Custom;
-							graphics.Pen.CustomStartCap = new AdjustableArrowCap(
-								this.LineWidth + adjustment,
-								this.LineWidth + adjustment,
-								true);
-						}
-						else
-						{
-							graphics.Pen.StartCap = LineCap.ArrowAnchor;
-						}
+						int adjustment = 3 - LineWidth;
+						graphics.Pen.EndCap = LineCap.Custom;
+						graphics.Pen.CustomEndCap = new AdjustableArrowCap(
+							LineWidth + adjustment,
+							LineWidth + adjustment,
+							true);
 					}
-					else if (this._startCap == LineAnchorCapStyle.Diamond)
+					else
 					{
-						graphics.Pen.StartCap = LineCap.DiamondAnchor;
+						graphics.Pen.EndCap = LineCap.ArrowAnchor;
 					}
-					else if (this._startCap == LineAnchorCapStyle.Round)
-					{
-						graphics.Pen.StartCap = LineCap.RoundAnchor;
-					}
-					else if (this._startCap == LineAnchorCapStyle.Square)
-					{
-						graphics.Pen.StartCap = LineCap.SquareAnchor;
-					}
-
-					if (this._endCap == LineAnchorCapStyle.Arrow)
-					{
-						// Adjust arrow size for small line width
-						if (this.LineWidth < 4)
-						{
-							int adjustment = 3 - this.LineWidth;
-							graphics.Pen.EndCap = LineCap.Custom;
-							graphics.Pen.CustomEndCap = new AdjustableArrowCap(
-								this.LineWidth + adjustment,
-								this.LineWidth + adjustment,
-								true);
-						}
-						else
-						{
-							graphics.Pen.EndCap = LineCap.ArrowAnchor;
-						}
-					}
-					else if (this._endCap == LineAnchorCapStyle.Diamond)
-					{
-						graphics.Pen.EndCap = LineCap.DiamondAnchor;
-					}
-					else if (this._endCap == LineAnchorCapStyle.Round)
-					{
-						graphics.Pen.EndCap = LineCap.RoundAnchor;
-					}
-					else if (this._endCap == LineAnchorCapStyle.Square)
-					{
-						graphics.Pen.EndCap = LineCap.SquareAnchor;
-					}
+				}
+				else if (_endCap == LineAnchorCapStyle.Diamond)
+				{
+					graphics.Pen.EndCap = LineCap.DiamondAnchor;
+				}
+				else if (_endCap == LineAnchorCapStyle.Round)
+				{
+					graphics.Pen.EndCap = LineCap.RoundAnchor;
+				}
+				else if (_endCap == LineAnchorCapStyle.Square)
+				{
+					graphics.Pen.EndCap = LineCap.SquareAnchor;
 				}
 			}
-
-			// Painting mode
-			if (this.Common.ProcessModePaint)
-			{
-				if (this.isPolygon)
-				{
-					// Draw polygon
-					pathAbs.CloseAllFigures();
-					graphics.DrawPathAbs(
-						pathAbs,
-						this.BackColor,
-						this.BackHatchStyle,
-						String.Empty,
-						ChartImageWrapMode.Scaled,
-						Color.Empty,
-						ChartImageAlignmentStyle.Center,
-						this.BackGradientStyle,
-						this.BackSecondaryColor,
-						this.LineColor,
-						this.LineWidth,
-						this.LineDashStyle,
-						PenAlignment.Center,
-						this.ShadowOffset,
-						this.ShadowColor);
-				}
-				else
-				{
-					// Draw polyline
-					graphics.DrawPathAbs(
-						pathAbs,
-						Color.Transparent,
-						ChartHatchStyle.None,
-						String.Empty,
-						ChartImageWrapMode.Scaled,
-						Color.Empty,
-						ChartImageAlignmentStyle.Center,
-						GradientStyle.None,
-						Color.Empty,
-						this.LineColor,
-						this.LineWidth,
-						this.LineDashStyle,
-						PenAlignment.Center,
-						this.ShadowOffset,
-						this.ShadowColor);
-				}
-			}
-
-			if (this.Common.ProcessModeRegions)
-			{
-				// Create line graphics path
-				GraphicsPath selectionPath = null;
-				GraphicsPath newPath = null;
-
-				if (this.isPolygon)
-				{
-					selectionPath = pathAbs;
-				}
-				else
-				{
-					newPath = new GraphicsPath();
-					selectionPath = newPath;
-					selectionPath.AddPath(pathAbs, false);
-					using (Pen pen = (Pen)graphics.Pen.Clone())
-					{
-						// Increase pen size by 2 pixels
-						pen.DashStyle = DashStyle.Solid;
-						pen.Width += 2;
-						try
-						{
-							selectionPath.Widen(pen);
-						}
-						catch (OutOfMemoryException)
-						{
-							// GraphicsPath.Widen incorrectly throws OutOfMemoryException
-							// catching here and reacting by not widening
-						}
-						catch (ArgumentException)
-						{
-						}
-					}
-				}
-
-				// Add hot region
-				this.Common.HotRegionsList.AddHotRegion(
-					graphics,
-					selectionPath,
-					false,
-					ReplaceKeywords(this.ToolTip),
-				String.Empty,
-				String.Empty,
-				String.Empty,
-					this,
-					ChartElementType.Annotation);
-
-				//Clean up
-				if (newPath != null)
-					newPath.Dispose();
-			}
-
-			// Restore line caps
-			if (capChanged)
-			{
-				graphics.Pen.StartCap = oldStartCap;
-				graphics.Pen.EndCap = oldEndCap;
-			}
-
-			// Paint selection handles
-			PaintSelectionHandles(graphics, rectanglePosition, pathAbs);
 		}
+
+		// Painting mode
+		if (Common.ProcessModePaint)
+		{
+			if (isPolygon)
+			{
+				// Draw polygon
+				pathAbs.CloseAllFigures();
+				graphics.DrawPathAbs(
+					pathAbs,
+					BackColor,
+					BackHatchStyle,
+					string.Empty,
+					ChartImageWrapMode.Scaled,
+					Color.Empty,
+					ChartImageAlignmentStyle.Center,
+					BackGradientStyle,
+					BackSecondaryColor,
+					LineColor,
+					LineWidth,
+					LineDashStyle,
+					PenAlignment.Center,
+					ShadowOffset,
+					ShadowColor);
+			}
+			else
+			{
+				// Draw polyline
+				graphics.DrawPathAbs(
+					pathAbs,
+					Color.Transparent,
+					ChartHatchStyle.None,
+					string.Empty,
+					ChartImageWrapMode.Scaled,
+					Color.Empty,
+					ChartImageAlignmentStyle.Center,
+					GradientStyle.None,
+					Color.Empty,
+					LineColor,
+					LineWidth,
+					LineDashStyle,
+					PenAlignment.Center,
+					ShadowOffset,
+					ShadowColor);
+			}
+		}
+
+		if (Common.ProcessModeRegions)
+		{
+			// Create line graphics path
+			GraphicsPath selectionPath = null;
+			GraphicsPath newPath = null;
+
+			if (isPolygon)
+			{
+				selectionPath = pathAbs;
+			}
+			else
+			{
+				newPath = new GraphicsPath();
+				selectionPath = newPath;
+				selectionPath.AddPath(pathAbs, false);
+				using Pen pen = (Pen)graphics.Pen.Clone();
+				// Increase pen size by 2 pixels
+				pen.DashStyle = DashStyle.Solid;
+				pen.Width += 2;
+				try
+				{
+					selectionPath.Widen(pen);
+				}
+				catch (OutOfMemoryException)
+				{
+					// GraphicsPath.Widen incorrectly throws OutOfMemoryException
+					// catching here and reacting by not widening
+				}
+				catch (ArgumentException)
+				{
+				}
+			}
+
+			// Add hot region
+			Common.HotRegionsList.AddHotRegion(
+				graphics,
+				selectionPath,
+				false,
+				ReplaceKeywords(ToolTip),
+			string.Empty,
+			string.Empty,
+			string.Empty,
+				this,
+				ChartElementType.Annotation);
+
+			//Clean up
+			newPath?.Dispose();
+		}
+
+		// Restore line caps
+		if (capChanged)
+		{
+			graphics.Pen.StartCap = oldStartCap;
+			graphics.Pen.EndCap = oldEndCap;
+		}
+
+		// Paint selection handles
+		PaintSelectionHandles(graphics, rectanglePosition, pathAbs);
 	}
 
 	#endregion // Painting
@@ -756,9 +754,9 @@ public class PolylineAnnotation : Annotation
 		if (_graphicsPath.PointCount > 0)
 		{
 			// Get current annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
+			PointF firstPoint;
+			PointF anchorPoint;
+			SizeF size;
 			GetRelativePosition(out firstPoint, out size, out anchorPoint);
 
 			// Get path boundary and convert it to relative coordinates
@@ -771,7 +769,7 @@ public class PolylineAnnotation : Annotation
 			pathBoundary.Height *= size.Height / 100f;
 
 			// Scale all current points
-			using (Matrix matrix = new Matrix())
+			using (Matrix matrix = new())
 			{
 				matrix.Scale(size.Width / pathBoundary.Width, size.Height / pathBoundary.Height);
 				matrix.Translate(-pathBoundary.X, -pathBoundary.Y);
@@ -779,7 +777,7 @@ public class PolylineAnnotation : Annotation
 			}
 
 			// Set new position for annotation
-			this.SetPositionRelative(pathBoundary, anchorPoint);
+			SetPositionRelative(pathBoundary, anchorPoint);
 		}
 	}
 	/// <summary>
@@ -798,25 +796,28 @@ public class PolylineAnnotation : Annotation
 			return;
 		}
 
+
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+
+		PointF anchorPoint;
+
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
 
 		// Remember path before moving operation
 		if (userInput == true && startMovePathRel == null)
 		{
-			this.startMovePathRel = (GraphicsPath)_graphicsPath.Clone();
-			this.startMovePositionRel = new RectangleF(firstPoint, size);
-			this.startMoveAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
+			startMovePathRel = (GraphicsPath)_graphicsPath.Clone();
+			startMovePositionRel = new RectangleF(firstPoint, size);
+			startMoveAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
 
 		}
 
 		// Convert moving distance to coordinates relative to the anotation
 		if (pixelCoord)
 		{
-			movingDistance = this.GetGraphics().GetRelativeSize(movingDistance);
+			movingDistance = GetGraphics().GetRelativeSize(movingDistance);
 		}
 
 		movingDistance.Width /= startMovePositionRel.Width / 100.0f;
@@ -843,7 +844,7 @@ public class PolylineAnnotation : Annotation
 
 
 			// Adjust annotation position to the boundary of the path
-			if (userInput && this.AllowResizing)
+			if (userInput && AllowResizing)
 			{
 				// Get path bounds in relative coordinates
 				_defaultGraphicsPath.Dispose();
@@ -859,7 +860,7 @@ public class PolylineAnnotation : Annotation
 				pathBounds.Height *= startMovePositionRel.Height / 100f;
 
 				// Set new annotation position
-				this.SetPositionRelative(pathBounds, anchorPoint);
+				SetPositionRelative(pathBounds, anchorPoint);
 
 				// Adjust path point position
 				for (int pointIndex = 0; pointIndex < pathPoints.Length; pointIndex++)
@@ -875,16 +876,16 @@ public class PolylineAnnotation : Annotation
 
 
 			// Position changed
-			this.positionChanged = true;
+			positionChanged = true;
 
 			// Recreate path with new points
 			_defaultGraphicsPath.Dispose();
 			_defaultGraphicsPath = new GraphicsPath(pathPoints, pathTypes);
 			_graphicsPath = _defaultGraphicsPath;
-			this.pathChanged = true;
+			pathChanged = true;
 
 			// Invalidate annotation
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -910,19 +911,16 @@ public class PolylineAnnotation : Annotation
 		base.EndPlacement();
 
 		// Position was changed
-		if (this.Chart != null)
-		{
-			this.Chart.OnAnnotationPositionChanged(this);
-		}
+		Chart?.OnAnnotationPositionChanged(this);
 
 		// Reset last placement position
-		this.lastPlacementPosition = PointF.Empty;
+		lastPlacementPosition = PointF.Empty;
 
 		// Resize annotation to the boundary of the polygon
 		ResizeToPathBoundary();
 
 		// Position changed
-		this.positionChanged = true;
+		positionChanged = true;
 	}
 
 	/// <summary>
@@ -933,7 +931,7 @@ public class PolylineAnnotation : Annotation
 	internal override void PlacementMouseDown(PointF point, MouseButtons buttons)
 	{
 		// Call base class method if path editing is not allowed 
-		if (!this.AllowPathEditing)
+		if (!AllowPathEditing)
 		{
 			base.PlacementMouseDown(point, buttons);
 			return;
@@ -942,40 +940,40 @@ public class PolylineAnnotation : Annotation
 		if (buttons == MouseButtons.Right)
 		{
 			// Stop pacement
-			this.EndPlacement();
+			EndPlacement();
 		}
 
 		if (buttons == MouseButtons.Left &&
 			IsValidPlacementPosition(point.X, point.Y))
 		{
 			// Convert coordinate to relative
-			PointF newPoint = this.GetGraphics().GetRelativePoint(point);
+			PointF newPoint = GetGraphics().GetRelativePoint(point);
 
-			if (this.lastPlacementPosition.IsEmpty)
+			if (lastPlacementPosition.IsEmpty)
 			{
 				// Set annotation coordinates to full chart
-				this.X = 0f;
-				this.Y = 0f;
-				this.Width = 100f;
-				this.Height = 100f;
+				X = 0f;
+				Y = 0f;
+				Width = 100f;
+				Height = 100f;
 
 				// Remeber position where mouse was clicked
-				this.lastPlacementPosition = newPoint;
+				lastPlacementPosition = newPoint;
 			}
 			else
 			{
-				if (this.lastPlacementPosition.X == newPoint.X &&
-					this.lastPlacementPosition.Y == newPoint.Y)
+				if (lastPlacementPosition.X == newPoint.X &&
+					lastPlacementPosition.Y == newPoint.Y)
 				{
 					// Stop pacement
-					this.EndPlacement();
+					EndPlacement();
 				}
 			}
 
 			// Add a line from prev. position to current into the path
-			using (GraphicsPath tmpPath = new GraphicsPath())
+			using (GraphicsPath tmpPath = new())
 			{
-				PointF firstPoint = this.lastPlacementPosition;
+				PointF firstPoint = lastPlacementPosition;
 				if (_graphicsPath.PointCount > 1)
 				{
 					firstPoint = _graphicsPath.GetLastPoint();
@@ -986,7 +984,7 @@ public class PolylineAnnotation : Annotation
 			}
 
 			// Remember last position
-			this.lastPlacementPosition = newPoint;
+			lastPlacementPosition = newPoint;
 
 			// Invalidate and update the chart
 			if (Chart != null)
@@ -1006,7 +1004,7 @@ public class PolylineAnnotation : Annotation
 	internal override bool PlacementMouseUp(PointF point, MouseButtons buttons)
 	{
 		// Call base class method if path editing is not allowed 
-		if (!this.AllowPathEditing)
+		if (!AllowPathEditing)
 		{
 			return base.PlacementMouseUp(point, buttons);
 		}
@@ -1015,7 +1013,7 @@ public class PolylineAnnotation : Annotation
 			isFreeDrawPlacement)
 		{
 			// Stop pacement
-			this.EndPlacement();
+			EndPlacement();
 
 		}
 
@@ -1029,33 +1027,31 @@ public class PolylineAnnotation : Annotation
 	internal override void PlacementMouseMove(PointF point)
 	{
 		// Call base class method if path editing is not allowed 
-		if (!this.AllowPathEditing)
+		if (!AllowPathEditing)
 		{
 			base.PlacementMouseMove(point);
 			return;
 		}
 
 		// Check if annotation was moved
-		if (this.GetGraphics() != null &&
+		if (GetGraphics() != null &&
 			_graphicsPath.PointCount > 0 &&
-			!this.lastPlacementPosition.IsEmpty)
+			!lastPlacementPosition.IsEmpty)
 		{
 			// Convert coordinate to relative
-			PointF newPoint = this.GetGraphics().GetRelativePoint(point);
-			if (this.isFreeDrawPlacement)
+			PointF newPoint = GetGraphics().GetRelativePoint(point);
+			if (isFreeDrawPlacement)
 			{
 				// Add new point
-				using (GraphicsPath tmpPath = new GraphicsPath())
+				using GraphicsPath tmpPath = new();
+				PointF firstPoint = lastPlacementPosition;
+				if (_graphicsPath.PointCount > 1)
 				{
-					PointF firstPoint = this.lastPlacementPosition;
-					if (_graphicsPath.PointCount > 1)
-					{
-						firstPoint = _graphicsPath.GetLastPoint();
-					}
-
-					tmpPath.AddLine(firstPoint, newPoint);
-					_graphicsPath.AddPath(tmpPath, true);
+					firstPoint = _graphicsPath.GetLastPoint();
 				}
+
+				tmpPath.AddLine(firstPoint, newPoint);
+				_graphicsPath.AddPath(tmpPath, true);
 			}
 			else
 			{
@@ -1071,13 +1067,13 @@ public class PolylineAnnotation : Annotation
 			}
 
 			// Position changed
-			this.positionChanged = true;
+			positionChanged = true;
 
 			// Invalidate and update the chart
-			if (this.Chart != null)
+			if (Chart != null)
 			{
 				Invalidate();
-				this.Chart.UpdateAnnotations();
+				Chart.UpdateAnnotations();
 			}
 		}
 	}
@@ -1096,17 +1092,11 @@ public class PolylineAnnotation : Annotation
 	{
 		if (disposing)
 		{
-			if (_defaultGraphicsPath != null)
-			{
-				_defaultGraphicsPath.Dispose();
-				_defaultGraphicsPath = null;
-			}
+			_defaultGraphicsPath?.Dispose();
+			_defaultGraphicsPath = null;
 
-			if (_pathPoints != null)
-			{
-				_pathPoints.Dispose();
-				_pathPoints = null;
-			}
+			_pathPoints?.Dispose();
+			_pathPoints = null;
 
 		}
 
@@ -1132,7 +1122,7 @@ public class PolygonAnnotation : PolylineAnnotation
 	public PolygonAnnotation()
 			: base()
 	{
-		this.isPolygon = true;
+		isPolygon = true;
 	}
 
 	#endregion
@@ -1207,7 +1197,7 @@ public class PolygonAnnotation : PolylineAnnotation
 	Browsable(true),
 	DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBackColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -1239,7 +1229,7 @@ public class PolygonAnnotation : PolylineAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
@@ -1271,7 +1261,7 @@ public class PolygonAnnotation : PolylineAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
@@ -1305,7 +1295,7 @@ public class PolygonAnnotation : PolylineAnnotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
@@ -1340,9 +1330,9 @@ public class PolygonAnnotation : PolylineAnnotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -1366,11 +1356,11 @@ public class PolygonAnnotation : PolylineAnnotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -1427,36 +1417,33 @@ public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPa
 	/// </summary>
 	public override void Invalidate()
 	{
-		if (this.annotation != null)
+		if (annotation != null)
 		{
 			//Dispose previously instantiated graphics path
-			if (this._graphicsPath != null)
-			{
-				this._graphicsPath.Dispose();
-				this._graphicsPath = null;
-			}
+			_graphicsPath?.Dispose();
+			_graphicsPath = null;
 
 			// Recreate polyline annotation path
-			if (this.Count > 0)
+			if (Count > 0)
 			{
-				PointF[] points = new PointF[this.Count];
-				byte[] types = new byte[this.Count];
-				for (int index = 0; index < this.Count; index++)
+				PointF[] points = new PointF[Count];
+				byte[] types = new byte[Count];
+				for (int index = 0; index < Count; index++)
 				{
 					points[index] = new PointF(this[index].X, this[index].Y);
 					types[index] = this[index].PointType;
 				}
 
-				this._graphicsPath = new GraphicsPath(points, types);
+				_graphicsPath = new GraphicsPath(points, types);
 			}
 			else
 			{
-				this._graphicsPath = new GraphicsPath();
+				_graphicsPath = new GraphicsPath();
 			}
 
 			// Invalidate annotation
-			this.annotation.GraphicsPath = this._graphicsPath;
-			this.annotation.Invalidate();
+			annotation.GraphicsPath = _graphicsPath;
+			annotation.Invalidate();
 		}
 
 		base.Invalidate();
@@ -1474,11 +1461,8 @@ public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPa
 		if (disposing)
 		{
 			// Free up managed resources
-			if (this._graphicsPath != null)
-			{
-				this._graphicsPath.Dispose();
-				this._graphicsPath = null;
-			}
+			_graphicsPath?.Dispose();
+			_graphicsPath = null;
 		}
 
 		base.Dispose(disposing);
@@ -1502,13 +1486,10 @@ public class AnnotationPathPoint : ChartElement
 	#region Fields
 
 	// Point X value
-	private float _x = 0f;
 
 	// Point Y value
-	private float _y = 0f;
 
 	// Point type
-	private byte _pointType = 1;
 
 	#endregion // Fields
 
@@ -1530,8 +1511,8 @@ public class AnnotationPathPoint : ChartElement
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public AnnotationPathPoint(float x, float y)
 	{
-		this._x = x;
-		this._y = y;
+		X = x;
+		Y = y;
 	}
 
 	/// <summary>
@@ -1544,9 +1525,9 @@ public class AnnotationPathPoint : ChartElement
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public AnnotationPathPoint(float x, float y, byte type)
 	{
-		this._x = x;
-		this._y = y;
-		this._pointType = type;
+		X = x;
+		Y = y;
+		PointType = type;
 	}
 
 	#endregion // Constructors
@@ -1566,17 +1547,7 @@ public class AnnotationPathPoint : ChartElement
 	SRDescription("DescriptionAttributeAnnotationPathPoint_X"),
 	]
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")]
-	public float X
-	{
-		get
-		{
-			return _x;
-		}
-		set
-		{
-			_x = value;
-		}
-	}
+	public float X { get; set; } = 0f;
 
 	/// <summary>
 	/// Gets or sets an annotation path point's Y coordinate.
@@ -1591,17 +1562,7 @@ public class AnnotationPathPoint : ChartElement
 	SRDescription("DescriptionAttributeAnnotationPathPoint_Y"),
 	]
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")]
-	public float Y
-	{
-		get
-		{
-			return _y;
-		}
-		set
-		{
-			_y = value;
-		}
-	}
+	public float Y { get; set; } = 0f;
 
 	/// <summary>
 	/// Gets or sets an annotation path point's type.
@@ -1616,20 +1577,10 @@ public class AnnotationPathPoint : ChartElement
 	SRCategory("CategoryAttributePosition"),
 	DefaultValue(typeof(byte), "1"),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	SRDescription("DescriptionAttributeAnnotationPathPoint_Name"),
 	]
-	public byte PointType
-	{
-		get
-		{
-			return _pointType;
-		}
-		set
-		{
-			_pointType = value;
-		}
-	}
+	public byte PointType { get; set; } = 1;
 
 	/// <summary>
 	/// Gets or sets an annotation path point's name.
@@ -1641,10 +1592,10 @@ public class AnnotationPathPoint : ChartElement
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue("PathPoint"),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	SRDescription("DescriptionAttributeAnnotationPathPoint_Name"),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	public string Name
 	{

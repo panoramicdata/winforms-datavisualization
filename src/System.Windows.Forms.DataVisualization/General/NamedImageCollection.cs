@@ -51,7 +51,6 @@ public class NamedImage : ChartNamedElement
 	#region Fields
 
 	private string _name = string.Empty;
-	private System.Drawing.Image _image = null;
 
 	#endregion
 
@@ -69,10 +68,10 @@ public class NamedImage : ChartNamedElement
 	/// </summary>
 	/// <param name="name">Image name.</param>
 	/// <param name="image">Image object.</param>
-	public NamedImage(string name, System.Drawing.Image image)
+	public NamedImage(string name, Drawing.Image image)
 	{
-		this._name = name;
-		this._image = image;
+		_name = name;
+		Image = image;
 	}
 
 	#endregion
@@ -105,17 +104,7 @@ public class NamedImage : ChartNamedElement
 	Bindable(false),
 	SRDescription("DescriptionAttributeNamedImage_Image"),
 	]
-	public System.Drawing.Image Image
-	{
-		get
-		{
-			return _image;
-		}
-		set
-		{
-			_image = value;
-		}
-	}
+	public Drawing.Image Image { get; set; } = null;
 
 	#endregion
 
@@ -130,11 +119,8 @@ public class NamedImage : ChartNamedElement
 		if (disposing)
 		{
 			// Dispose managed resources
-			if (_image != null)
-			{
-				_image.Dispose();
-				_image = null;
-			}
+			Image?.Dispose();
+			Image = null;
 		}
 
 		base.Dispose(disposing);

@@ -72,9 +72,9 @@ internal class ColumnChart : PointChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	/// <summary>
@@ -208,7 +208,7 @@ internal class ColumnChart : PointChart
 		Series seriesToDraw
 		)
 	{
-		this.Common = common;
+		Common = common;
 		// Draw columns
 		ProcessChartType(false, false, graph, common, area, seriesToDraw);
 
@@ -248,21 +248,21 @@ internal class ColumnChart : PointChart
 		List<string> typeSeries = area.GetSeriesFromChartType(Name);
 
 		// Check if series should be drawn side by side
-		bool currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
+		bool currentDrawSeriesSideBySide = drawSeriesSideBySide;
 		foreach (string seriesName in typeSeries)
 		{
 			if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 			{
 				string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-				if (String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					currentDrawSeriesSideBySide = false;
 				}
-				else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					currentDrawSeriesSideBySide = true;
 				}
-				else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					// Do nothing
 				}
@@ -281,7 +281,7 @@ internal class ColumnChart : PointChart
 		}
 
 		// Check if column chart series are indexed
-		bool indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(Name).ToArray());
+		bool indexedSeries = ChartHelper.IndexedSeries(Common, area.GetSeriesFromChartType(Name).ToArray());
 
 		//************************************************************
 		//** Loop through all series
@@ -290,7 +290,7 @@ internal class ColumnChart : PointChart
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with Column chart type
-			if (String.Compare(ser.ChartTypeName, Name, true, System.Globalization.CultureInfo.CurrentCulture) != 0
+			if (string.Compare(ser.ChartTypeName, Name, true, CultureInfo.CurrentCulture) != 0
 				|| ser.ChartArea != area.Name || ser.Points.Count == 0 || !ser.IsVisible())
 			{
 				continue;
@@ -510,7 +510,7 @@ internal class ColumnChart : PointChart
 							graph.ResetClip();
 						}
 					}
-					else if (this.useTwoValues)
+					else if (useTwoValues)
 					{
 						// Draw labels and markers
 						DrawLabel(
@@ -547,7 +547,7 @@ internal class ColumnChart : PointChart
 			}
 
 			// Draw labels and markers using the base class algorithm
-			if (labels && !this.useTwoValues)
+			if (labels && !useTwoValues)
 			{
 				base.ProcessChartType(false, graph, common, area, seriesToDraw);
 			}
@@ -599,9 +599,13 @@ internal class ColumnChart : PointChart
 	override protected LabelAlignmentStyles GetAutoLabelPosition(Series series, int pointIndex)
 	{
 		if (series.Points[pointIndex].YValues[0] >= 0)
+		{
 			return LabelAlignmentStyles.Top;
+		}
 		else
+		{
 			return LabelAlignmentStyles.Bottom;
+		}
 	}
 
 	/// <summary>
@@ -638,11 +642,12 @@ internal class ColumnChart : PointChart
 		// Get pixel size
 		SizeF pixelRelSize = graph.GetRelativeSize(new SizeF(1.1f, 1.1f));
 
+		bool currentDrawSeriesSideBySide = drawSeriesSideBySide;
+
 		// Get list of series to draw
-		List<string> typeSeries = null;
-		bool currentDrawSeriesSideBySide = this.drawSeriesSideBySide;
-		if ((area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
-			this.Stacked)
+		List<string> typeSeries;
+		if ((area.Area3DStyle.IsClustered && SideBySideSeries) ||
+			Stacked)
 		{
 			// Draw all series of the same chart type
 			typeSeries = area.GetSeriesFromChartType(Name);
@@ -653,15 +658,15 @@ internal class ColumnChart : PointChart
 				if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
 				{
 					string attribValue = common.DataManager.Series[seriesName][CustomPropertyName.DrawSideBySide];
-					if (String.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
+					if (string.Compare(attribValue, "False", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						currentDrawSeriesSideBySide = false;
 					}
-					else if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+					else if (string.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						currentDrawSeriesSideBySide = true;
 					}
-					else if (String.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+					else if (string.Compare(attribValue, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						// Do nothing
 					}
@@ -675,14 +680,13 @@ internal class ColumnChart : PointChart
 		else
 		{
 			// Draw just one chart series
-			typeSeries = new List<string>();
-			typeSeries.Add(seriesToDraw.Name);
+			typeSeries = [seriesToDraw.Name];
 		}
 
 		//************************************************************
 		//** Get order of data points drawing
 		//************************************************************
-		ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, coordinates, null, this.YValueIndex, currentDrawSeriesSideBySide);
+		ArrayList dataPointDrawingOrder = area.GetDataPointDrawingOrder(typeSeries, this, selection, coordinates, null, YValueIndex, currentDrawSeriesSideBySide);
 
 		//************************************************************
 		//** Loop through all data poins
@@ -722,7 +726,7 @@ internal class ColumnChart : PointChart
 			double height = vAxis.GetLinearPosition(yValue);
 
 			// Set start position for a column
-			double columnStartPosition = 0;
+			double columnStartPosition;
 			if (useTwoValues)
 			{
 				// Point Y value (first) is used to determine the column starting position
@@ -798,12 +802,6 @@ internal class ColumnChart : PointChart
 				continue;
 			}
 
-			//************************************************************
-			//** Painting mode
-			//************************************************************
-			// Path projection of 3D rect.
-			GraphicsPath rectPath = null;
-
 			// Check if column is completly out of the data scaleView
 			double xValue = (pointEx.indexedSeries) ? pointEx.index : point.XValue;
 			xValue = hAxis.GetLogValue(xValue);
@@ -850,21 +848,25 @@ internal class ColumnChart : PointChart
 				// Start Svg Selection mode
 				graph.StartHotRegion(point);
 
-				rectPath = graph.Fill3DRectangle(
-					rectSize,
-					pointEx.zPosition,
-					pointEx.depth,
-					area.matrix3D,
-					area.Area3DStyle.LightStyle,
-					point.Color,
-					topDarkening,
-					bottomDarkening,
-					point.BorderColor,
-					point.BorderWidth,
-					point.BorderDashStyle,
-					barDrawingStyle,
-					true,
-					drawingOperationType);
+				//************************************************************
+				//** Painting mode
+				//************************************************************
+				// Path projection of 3D rect.
+				GraphicsPath rectPath = graph.Fill3DRectangle(
+		rectSize,
+		pointEx.zPosition,
+		pointEx.depth,
+		area.matrix3D,
+		area.Area3DStyle.LightStyle,
+		point.Color,
+		topDarkening,
+		bottomDarkening,
+		point.BorderColor,
+		point.BorderWidth,
+		point.BorderDashStyle,
+		barDrawingStyle,
+		true,
+		drawingOperationType);
 
 				// End Svg Selection mode
 				graph.EndHotRegion();
@@ -885,10 +887,7 @@ internal class ColumnChart : PointChart
 						);
 				}
 
-				if (rectPath != null)
-				{
-					rectPath.Dispose();
-				}
+				rectPath?.Dispose();
 			}
 
 			// Reset Clip Region
@@ -898,7 +897,7 @@ internal class ColumnChart : PointChart
 			}
 
 			// Draw Labels & markers for each data point
-			this.ProcessSinglePoint3D(
+			ProcessSinglePoint3D(
 				pointEx,
 				selection,
 				graph,
@@ -910,7 +909,7 @@ internal class ColumnChart : PointChart
 		}
 
 		// Finish processing 3D labels
-		this.DrawAccumulated3DLabels(graph, common, area);
+		DrawAccumulated3DLabels(graph, common, area);
 	}
 
 	#endregion
@@ -960,7 +959,7 @@ internal class ColumnChart : PointChart
 		)
 	{
 		// Draw Labels & markers for each data point
-		base.ProcessSinglePoint3D(
+		ProcessSinglePoint3D(
 			pointEx,
 			graph,
 			common,
@@ -987,13 +986,13 @@ internal class RangeColumnChart : ColumnChart
 	public RangeColumnChart()
 	{
 		// Set the flag to use two Y values, while drawing the columns
-		this.useTwoValues = true;
+		useTwoValues = true;
 
 		// Coordinates of COP used when sorting 3D points order
-		this.coordinates = COPCoordinates.X | COPCoordinates.Y;
+		coordinates = COPCoordinates.X | COPCoordinates.Y;
 
 		// Index of the main Y value
-		this.YValueIndex = 1;
+		YValueIndex = 1;
 	}
 
 	#endregion
@@ -1153,10 +1152,7 @@ internal class RangeColumnChart : ColumnChart
 				// Insert circle area
 				if (pointMarkerStyle == MarkerStyle.Circle)
 				{
-					float[] circCoord = new float[3];
-					circCoord[0] = markerPosition.X;
-					circCoord[1] = markerPosition.Y;
-					circCoord[2] = relativeMarkerSize.Width / 2f;
+					float[] circCoord = [markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f];
 
 					common.HotRegionsList.AddHotRegion(
 						insertIndex,
@@ -1186,89 +1182,87 @@ internal class RangeColumnChart : ColumnChart
 		//************************************************************
 
 		// Label text format
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.Alignment = StringAlignment.Center;
+		format.LineAlignment = StringAlignment.Center;
+
+		// Disable the clip region
+		Region oldClipRegion = graph.Clip;
+		graph.Clip = new Region();
+
+		if (point.IsValueShownAsLabel || point.Label.Length > 0)
 		{
-			format.Alignment = StringAlignment.Center;
-			format.LineAlignment = StringAlignment.Center;
-
-			// Disable the clip region
-			Region oldClipRegion = graph.Clip;
-			graph.Clip = new Region();
-
-			if (point.IsValueShownAsLabel || point.Label.Length > 0)
+			// Get label text
+			string text;
+			if (point.Label.Length == 0)
 			{
-				// Get label text
-				string text;
-				if (point.Label.Length == 0)
-				{
-					// Round Y values for 100% stacked area
-					double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
+				// Round Y values for 100% stacked area
+				double pointLabelValue = GetYValue(common, area, series, point, pointIndex, 0);
 
-					text = ValueConverter.FormatValue(
-						series.Chart,
-						point,
-						point.Tag,
-						pointLabelValue,
-						point.LabelFormat,
-						series.YValueType,
-						ChartElementType.DataPoint);
-				}
-				else
-				{
-					text = point.ReplaceKeywords(point.Label);
-				}
-
-				// Calculate label position
-				PointF labelPosition = PointF.Empty;
-				labelPosition.X = intersection.X + intersection.Width / 2f;
-				labelPosition.Y = intersection.Y + intersection.Height / 2f;
-
-				// Start Svg Selection mode
-				graph.StartHotRegion(point, true);
-
-				// Get string size
-				SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
-
-				// Get label background position
-				RectangleF labelBackPosition = RectangleF.Empty;
-				SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-				sizeLabel.Width += sizeLabel.Width / text.Length;
-				sizeLabel.Height += sizeFont.Height / 8;
-				labelBackPosition = GetLabelPosition(
-					graph,
-					labelPosition,
-					sizeLabel,
-					format,
-					true);
-
-				// Draw label text
-				using (Brush brush = new SolidBrush(point.LabelForeColor))
-				{
-					graph.DrawPointLabelStringRel(
-						common,
-						text,
-						point.Font,
-						brush,
-						labelPosition,
-						format,
-						point.LabelAngle,
-						labelBackPosition,
-						point.LabelBackColor,
-						point.LabelBorderColor,
-						point.LabelBorderWidth,
-						point.LabelBorderDashStyle,
-						series,
-						point,
-						pointIndex - 1);
-				}
-
-				// End Svg Selection mode
-				graph.EndHotRegion();
+				text = ValueConverter.FormatValue(
+					series.Chart,
+					point,
+					point.Tag,
+					pointLabelValue,
+					point.LabelFormat,
+					series.YValueType,
+					ChartElementType.DataPoint);
+			}
+			else
+			{
+				text = point.ReplaceKeywords(point.Label);
 			}
 
-			// Restore old clip region
-			graph.Clip = oldClipRegion;
+			// Calculate label position
+			PointF labelPosition = PointF.Empty;
+			labelPosition.X = intersection.X + intersection.Width / 2f;
+			labelPosition.Y = intersection.Y + intersection.Height / 2f;
+
+			// Start Svg Selection mode
+			graph.StartHotRegion(point, true);
+
+			// Get string size
+			SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+
+			// Get label background position
+			RectangleF labelBackPosition = RectangleF.Empty;
+			SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+			sizeLabel.Width += sizeLabel.Width / text.Length;
+			sizeLabel.Height += sizeFont.Height / 8;
+			labelBackPosition = GetLabelPosition(
+				graph,
+				labelPosition,
+				sizeLabel,
+				format,
+				true);
+
+			// Draw label text
+			using (Brush brush = new SolidBrush(point.LabelForeColor))
+			{
+				graph.DrawPointLabelStringRel(
+					common,
+					text,
+					point.Font,
+					brush,
+					labelPosition,
+					format,
+					point.LabelAngle,
+					labelBackPosition,
+					point.LabelBackColor,
+					point.LabelBorderColor,
+					point.LabelBorderWidth,
+					point.LabelBorderDashStyle,
+					series,
+					point,
+					pointIndex - 1);
+			}
+
+			// End Svg Selection mode
+			graph.EndHotRegion();
 		}
+
+		// Restore old clip region
+		graph.Clip = oldClipRegion;
 	}
 
 	/// <summary>
@@ -1294,103 +1288,100 @@ internal class RangeColumnChart : ColumnChart
 		DataPoint point = pointEx.dataPoint;
 
 		// Check required Y values number
-		if (point.YValues.Length < this.YValuesPerPoint)
+		if (point.YValues.Length < YValuesPerPoint)
 		{
-			throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(this.Name, this.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
+			throw (new InvalidOperationException(SR.ExceptionChartTypeRequiresYValues(Name, YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
 		}
 
 		// Label text format
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.Alignment = StringAlignment.Center;
+		format.LineAlignment = StringAlignment.Center;
+
+		// Disable the clip region
+		Region oldClipRegion = graph.Clip;
+		graph.Clip = new Region();
+
+		if (point.IsValueShownAsLabel || point.Label.Length > 0)
 		{
-			format.Alignment = StringAlignment.Center;
-			format.LineAlignment = StringAlignment.Center;
-
-			// Disable the clip region
-			Region oldClipRegion = graph.Clip;
-			graph.Clip = new Region();
-
-			if (point.IsValueShownAsLabel || point.Label.Length > 0)
+			// Get label text
+			string text;
+			if (point.Label.Length == 0)
 			{
-				// Get label text
-				string text;
-				if (point.Label.Length == 0)
-				{
-					// Get Y value
-					double pointLabelValue = GetYValue(common, area, pointEx.dataPoint.series, point, pointEx.index - 1, 0);
-					text = ValueConverter.FormatValue(
-						pointEx.dataPoint.series.Chart,
-						point,
-						point.Tag,
-						pointLabelValue,
-						point.LabelFormat,
-						pointEx.dataPoint.series.YValueType,
-						ChartElementType.DataPoint);
-				}
-				else
-				{
-					text = point.ReplaceKeywords(point.Label);
+				// Get Y value
+				double pointLabelValue = GetYValue(common, area, pointEx.dataPoint.series, point, pointEx.index - 1, 0);
+				text = ValueConverter.FormatValue(
+					pointEx.dataPoint.series.Chart,
+					point,
+					point.Tag,
+					pointLabelValue,
+					point.LabelFormat,
+					pointEx.dataPoint.series.YValueType,
+					ChartElementType.DataPoint);
+			}
+			else
+			{
+				text = point.ReplaceKeywords(point.Label);
 
-				}
-
-				// Calculate label position
-				PointF labelPosition = PointF.Empty;
-				labelPosition.X = columnPosition.X + columnPosition.Width / 2f;
-				labelPosition.Y = columnPosition.Y + columnPosition.Height / 2f;
-
-				// Transform coordinates
-				Point3D[] marker3DPosition = new Point3D[1];
-				marker3DPosition[0] = new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth));
-				area.matrix3D.TransformPoints(marker3DPosition);
-
-				labelPosition.X = marker3DPosition[0].X;
-				labelPosition.Y = marker3DPosition[0].Y;
-
-				// Start Svg Selection mode
-				graph.StartHotRegion(point, true);
-
-				// Get string size
-				SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
-
-				// Get label background position
-				RectangleF labelBackPosition = RectangleF.Empty;
-				SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-				sizeLabel.Width += sizeLabel.Width / text.Length;
-				sizeLabel.Height += sizeFont.Height / 8;
-				labelBackPosition = GetLabelPosition(
-					graph,
-					labelPosition,
-					sizeLabel,
-					format,
-					true);
-
-				// Draw label text
-				using (Brush brush = new SolidBrush(point.LabelForeColor))
-				{
-					graph.DrawPointLabelStringRel(
-						common,
-						text,
-						point.Font,
-						brush,
-						labelPosition,
-						format,
-						point.LabelAngle,
-						labelBackPosition,
-						point.LabelBackColor,
-						point.LabelBorderColor,
-						point.LabelBorderWidth,
-						point.LabelBorderDashStyle,
-						point.series,
-						point,
-						pointIndex);
-				}
-
-				// End Svg Selection mode
-				graph.EndHotRegion();
 			}
 
-			// Restore old clip region
-			graph.Clip = oldClipRegion;
+			// Calculate label position
+			PointF labelPosition = PointF.Empty;
+			labelPosition.X = columnPosition.X + columnPosition.Width / 2f;
+			labelPosition.Y = columnPosition.Y + columnPosition.Height / 2f;
+
+			// Transform coordinates
+			Point3D[] marker3DPosition = [new Point3D(labelPosition.X, labelPosition.Y, (float)(pointEx.zPosition + pointEx.depth))];
+			area.matrix3D.TransformPoints(marker3DPosition);
+
+			labelPosition.X = marker3DPosition[0].X;
+			labelPosition.Y = marker3DPosition[0].Y;
+
+			// Start Svg Selection mode
+			graph.StartHotRegion(point, true);
+
+			// Get string size
+			SizeF sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+
+			// Get label background position
+			RectangleF labelBackPosition = RectangleF.Empty;
+			SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+			sizeLabel.Width += sizeLabel.Width / text.Length;
+			sizeLabel.Height += sizeFont.Height / 8;
+			labelBackPosition = GetLabelPosition(
+				graph,
+				labelPosition,
+				sizeLabel,
+				format,
+				true);
+
+			// Draw label text
+			using (Brush brush = new SolidBrush(point.LabelForeColor))
+			{
+				graph.DrawPointLabelStringRel(
+					common,
+					text,
+					point.Font,
+					brush,
+					labelPosition,
+					format,
+					point.LabelAngle,
+					labelBackPosition,
+					point.LabelBackColor,
+					point.LabelBorderColor,
+					point.LabelBorderWidth,
+					point.LabelBorderDashStyle,
+					point.series,
+					point,
+					pointIndex);
+			}
+
+			// End Svg Selection mode
+			graph.EndHotRegion();
 		}
+
+		// Restore old clip region
+		graph.Clip = oldClipRegion;
 	}
 
 	#endregion

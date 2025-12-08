@@ -31,7 +31,7 @@ internal class EmbossBorder : IBorderType
 	/// <summary>
 	/// Array of corner radius
 	/// </summary>
-	internal float[] cornerRadius = { 15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f };
+	internal float[] cornerRadius = [15f, 15f, 15f, 15f, 15f, 15f, 15f, 15f];
 
 
 	/// <summary>
@@ -54,7 +54,7 @@ internal class EmbossBorder : IBorderType
 			resolution = value;
 			float radius = 15f * value / 96.0f;
 			defaultRadiusSize = radius;
-			cornerRadius = new float[] { radius, radius, radius, radius, radius, radius, radius, radius };
+			cornerRadius = [radius, radius, radius, radius, radius, radius, radius, radius];
 		}
 
 	}
@@ -76,7 +76,7 @@ internal class EmbossBorder : IBorderType
 	/// <param name="areasRect">Position to adjust.</param>
 	public virtual void AdjustAreasPosition(ChartGraphics graph, ref RectangleF areasRect)
 	{
-		SizeF borderSize = new SizeF(defaultRadiusSize / 2f, defaultRadiusSize / 2f);
+		SizeF borderSize = new(defaultRadiusSize / 2f, defaultRadiusSize / 2f);
 		borderSize = graph.GetRelativeSize(borderSize);
 
 		// Do not do anything if rectangle is too small
@@ -137,7 +137,6 @@ internal class EmbossBorder : IBorderType
 		ChartDashStyle borderDashStyle)
 	{
 		RectangleF absolute = graph.Round(rect);
-		RectangleF shadowRect = absolute;
 
 		// Calculate shadow colors (0.2 - 0.6)
 		float colorDarkeningIndex = 0.2f + (0.4f * (borderSkin.PageColor.R + borderSkin.PageColor.G + borderSkin.PageColor.B) / 765f);
@@ -170,7 +169,7 @@ internal class EmbossBorder : IBorderType
 		}
 
 		// Top/Left shadow
-		shadowRect = absolute;
+		RectangleF shadowRect = absolute;
 		shadowRect.Width -= radius * .3f;
 		shadowRect.Height -= radius * .3f;
 		graph.DrawRoundedRectShadowAbs(shadowRect, cornerRadius, radius + 1 * resolution / 96.0f, shadowLightColor, borderSkin.PageColor, 1.4f);
@@ -206,11 +205,10 @@ internal class EmbossBorder : IBorderType
 			PenAlignment.Inset);
 
 		// Dispose Graphic path
-		if (path != null)
-			path.Dispose();
+		path?.Dispose();
 
 		// Bottom/Right inner shadow
-		Region innerShadowRegion = new Region(
+		Region innerShadowRegion = new(
 			graph.CreateRoundedRectPath(
 			new RectangleF(
 			shadowRect.X - radius,

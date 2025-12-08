@@ -88,8 +88,8 @@ public class SeriesCollection : ChartNamedElementCollection<Series>
 	/// <returns>New series</returns>
 	public Series Add(string name)
 	{
-		Series series = new Series(name);
-		this.Add(series);
+		Series series = new(name);
+		Add(series);
 		return series;
 	}
 
@@ -101,12 +101,12 @@ public class SeriesCollection : ChartNamedElementCollection<Series>
 	{
 		if (item != null && Chart != null)
 		{
-			if (String.IsNullOrEmpty(item.ChartArea) && Chart.ChartAreas != null)
+			if (string.IsNullOrEmpty(item.ChartArea) && Chart.ChartAreas != null)
 			{
 				item.ChartArea = Chart.ChartAreas.DefaultNameReference;
 			}
 
-			if (String.IsNullOrEmpty(item.Legend) && Chart.Legends != null)
+			if (string.IsNullOrEmpty(item.Legend) && Chart.Legends != null)
 			{
 				item.Legend = Chart.Legends.DefaultNameReference;
 			}
@@ -119,24 +119,32 @@ public class SeriesCollection : ChartNamedElementCollection<Series>
 	/// Updates the Series' references to ChartAreas.
 	/// </summary>
 	/// <param name="sender">The sender.</param>
-	/// <param name="e">The <see cref="Charting.NameReferenceChangedEventArgs"/> instance containing the event data.</param>
+	/// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
 	internal void ChartAreaNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
 	{
 		foreach (Series series in this)
+		{
 			if (series.ChartArea == e.OldName)
+			{
 				series.ChartArea = e.NewName;
+			}
+		}
 	}
 
 	/// <summary>
 	/// Updates the Series' references to Legends.
 	/// </summary>
 	/// <param name="sender">The sender.</param>
-	/// <param name="e">The <see cref="Charting.NameReferenceChangedEventArgs"/> instance containing the event data.</param>
+	/// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
 	internal void LegendNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
 	{
 		foreach (Series series in this)
+		{
 			if (series.Legend == e.OldName)
+			{
 				series.Legend = e.NewName;
+			}
+		}
 	}
 	#endregion
 
@@ -156,34 +164,20 @@ public class Series : DataPointCustomProperties
 	// Private data members, which store properties values
 	private ChartValueType _xValueType = ChartValueType.Auto;
 	private ChartValueType _yValueType = ChartValueType.Auto;
-	private bool _isXValueIndexed = false;
 	private int _yValuesPerPoint = 1;
-	private int _markersStep = 1;
-	private ChartColorPalette _colorPalette = ChartColorPalette.None;
-	private AxisType _xAxisType = AxisType.Primary;
-	private AxisType _yAxisType = AxisType.Primary;
 #if SUBAXES
 		private string						_ySubAxisName = string.Empty;
 		private string						_xSubAxisName = string.Empty;
 #endif // SUBAXES
 	private DataPointCustomProperties _emptyPointCustomProperties = null;
-	private DataPointCollection _points;
-	private int _shadowOffset = 0;
-	private Color _shadowColor = Color.FromArgb(128, 0, 0, 0);
-	private string _chartType = ChartTypeNames.Column;
-	private string _chartArea = String.Empty;
 
 	// Series enabled flag
-	private bool _enabled = true;
 
 	// Legend name used by this series
-	private string _legend = String.Empty;
 
 	// Member of the chart data source used to data bind to the X value of the series.
-	private string _dataSourceXMember = String.Empty;
 
 	// Members of the chart data source used to data bind to the Y values of the series.
-	private string _dataSourceYMembers = String.Empty;
 
 	// Automatic values type flags
 	internal bool autoXValueType = false;
@@ -312,11 +306,6 @@ public class Series : DataPointCustomProperties
 	internal ChartHatchStyle backHatchStyle = ChartHatchStyle.None;
 
 	/// <summary>
-	/// Font cache for the fonts used in the Series and DataPoint
-	/// </summary>
-	private FontCache _fontCache = new FontCache();
-
-	/// <summary>
 	/// Data point font
 	/// </summary>
 	internal Font font = null;
@@ -416,7 +405,7 @@ public class Series : DataPointCustomProperties
 	/// <returns>A DataPointCustomProperties initialized to defaults</returns>
 	private static DataPointCustomProperties InitializeDefaultCustomProperties()
 	{
-		DataPointCustomProperties customProperties = new DataPointCustomProperties(null, false);
+		DataPointCustomProperties customProperties = new(null, false);
 		customProperties.SetDefault(true);
 		customProperties.pointCustomProperties = true;
 
@@ -457,12 +446,12 @@ public class Series : DataPointCustomProperties
 	{
 		if (name == null)
 		{
-			throw (new ArgumentNullException("name", SR.ExceptionDataSeriesNameIsEmpty));
+			throw (new ArgumentNullException(nameof(name), SR.ExceptionDataSeriesNameIsEmpty));
 		}
 
 		if (YValuesPerPoint < 1)
 		{
-			throw (new ArgumentOutOfRangeException("yValues", SR.ExceptionDataSeriesYValuesPerPointIsZero));
+			throw (new ArgumentOutOfRangeException(nameof(yValues), SR.ExceptionDataSeriesYValuesPerPointIsZero));
 		}
 
 		InitProperties(name, yValues);
@@ -473,13 +462,15 @@ public class Series : DataPointCustomProperties
 	/// </summary>
 	private void InitProperties(string name, int YValuesPerPoint)
 	{
-		this.font = _fontCache.DefaultFont;
-		this.series = this;
-		this._emptyPointCustomProperties = new DataPointCustomProperties(this, false);
-		this._emptyPointCustomProperties.series = this;
+		font = FontCache.DefaultFont;
+		series = this;
+		_emptyPointCustomProperties = new DataPointCustomProperties(this, false)
+		{
+			series = this
+		};
 
 		// Initialize properties
-		_points = new DataPointCollection(this);
+		Points = new DataPointCollection(this);
 
 		fakeDataPoints = new DataPointCollection(this);
 
@@ -521,12 +512,12 @@ public class Series : DataPointCustomProperties
 	/// <returns>Series caption string.</returns>
 	internal string GetCaption()
 	{
-		if (this.IsCustomPropertySet("SeriesCaption"))
+		if (IsCustomPropertySet("SeriesCaption"))
 		{
 			return this["SeriesCaption"];
 		}
 
-		return this.Name;
+		return Name;
 	}
 
 	/// <summary>
@@ -625,7 +616,6 @@ public class Series : DataPointCustomProperties
 		double defaultWidth)
 	{
 		double pointPercentageWidth = defaultWidth;
-		double pointWidth = 0.0;
 
 		// Check if series provide custom value for point width in percentage of interval
 		string strWidth = this[CustomPropertyName.PointWidth];
@@ -635,7 +625,7 @@ public class Series : DataPointCustomProperties
 		}
 
 		// Get column width in relative and pixel coordinates
-		pointWidth = axis.GetPixelInterval(interval * pointPercentageWidth);
+		double pointWidth = axis.GetPixelInterval(interval * pointPercentageWidth);
 		SizeF pointSize = graph.GetAbsoluteSize(new SizeF((float)pointWidth, (float)pointWidth));
 		double pixelPointWidth = pointSize.Width;
 		if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
@@ -649,7 +639,7 @@ public class Series : DataPointCustomProperties
 		string attribValue = this[CustomPropertyName.MinPixelPointWidth];
 		if (attribValue != null)
 		{
-			double minPixelPointWidth = 0.0;
+			double minPixelPointWidth;
 			try
 			{
 				minPixelPointWidth = CommonElements.ParseDouble(attribValue);
@@ -680,7 +670,7 @@ public class Series : DataPointCustomProperties
 		attribValue = this[CustomPropertyName.MaxPixelPointWidth];
 		if (attribValue != null)
 		{
-			double maxPixelPointWidth = 0.0;
+			double maxPixelPointWidth;
 			try
 			{
 				maxPixelPointWidth = CommonElements.ParseDouble(attribValue);
@@ -707,7 +697,6 @@ public class Series : DataPointCustomProperties
 		if (attribValue != null)
 		{
 			usePixelWidth = true;
-			pixelPointWidth = 0.0;
 			try
 			{
 				pixelPointWidth = CommonElements.ParseDouble(attribValue);
@@ -750,11 +739,20 @@ public class Series : DataPointCustomProperties
 	static internal string GetChartTypeName(SeriesChartType type)
 	{
 		if (type == SeriesChartType.StackedArea100)
+		{
 			return ChartTypeNames.OneHundredPercentStackedArea;
+		}
+
 		if (type == SeriesChartType.StackedBar100)
+		{
 			return ChartTypeNames.OneHundredPercentStackedBar;
+		}
+
 		if (type == SeriesChartType.StackedColumn100)
+		{
 			return ChartTypeNames.OneHundredPercentStackedColumn;
+		}
+
 		return Enum.GetName(typeof(SeriesChartType), type);
 	}
 
@@ -764,10 +762,10 @@ public class Series : DataPointCustomProperties
 	/// <returns>True if date-time.</returns>
 	internal bool IsYValueDateTime()
 	{
-		if (this.YValueType == ChartValueType.Date ||
-			this.YValueType == ChartValueType.DateTime ||
-			this.YValueType == ChartValueType.Time ||
-				this.YValueType == ChartValueType.DateTimeOffset)
+		if (YValueType == ChartValueType.Date ||
+			YValueType == ChartValueType.DateTime ||
+			YValueType == ChartValueType.Time ||
+				YValueType == ChartValueType.DateTimeOffset)
 		{
 			return true;
 		}
@@ -781,10 +779,10 @@ public class Series : DataPointCustomProperties
 	/// <returns>True if date-time.</returns>
 	internal bool IsXValueDateTime()
 	{
-		if (this.XValueType == ChartValueType.Date ||
-			this.XValueType == ChartValueType.DateTime ||
-			this.XValueType == ChartValueType.Time ||
-				this.XValueType == ChartValueType.DateTimeOffset)
+		if (XValueType == ChartValueType.Date ||
+			XValueType == ChartValueType.DateTime ||
+			XValueType == ChartValueType.Time ||
+				XValueType == ChartValueType.DateTimeOffset)
 		{
 			return true;
 		}
@@ -799,7 +797,7 @@ public class Series : DataPointCustomProperties
 	internal bool IsVisible()
 	{
 		// Check if enabled flag is set and the ChartArea is defined
-		if (this.Enabled && !String.IsNullOrEmpty(this.ChartArea))
+		if (Enabled && !string.IsNullOrEmpty(ChartArea))
 		{
 			return true;
 		}
@@ -815,13 +813,13 @@ public class Series : DataPointCustomProperties
 	{
 
 		// Check if fast mode chart type is used in the series
-		if (this.ChartType == SeriesChartType.FastLine)
+		if (ChartType == SeriesChartType.FastLine)
 		{
 			return true;
 		}
 
 		// Check if fast mode chart type is used in the series
-		if (this.ChartType == SeriesChartType.FastPoint)
+		if (ChartType == SeriesChartType.FastPoint)
 		{
 			return true;
 		}
@@ -836,21 +834,21 @@ public class Series : DataPointCustomProperties
 	internal void CheckSupportedTypes(Type type)
 	{
 		// Check parameters type
-		if (type == typeof(Double) ||
+		if (type == typeof(double) ||
 			type == typeof(DateTime) ||
-			type == typeof(String) ||
-			type == typeof(Int32) ||
-			type == typeof(UInt32) ||
-			type == typeof(Decimal) ||
-			type == typeof(Single) ||
-			type == typeof(Int16) ||
-			type == typeof(UInt16) ||
-			type == typeof(Int64) ||
-			type == typeof(UInt64) ||
-			type == typeof(Byte) ||
-			type == typeof(SByte) ||
-			type == typeof(System.DBNull) ||
-			type == typeof(Boolean))
+			type == typeof(string) ||
+			type == typeof(int) ||
+			type == typeof(uint) ||
+			type == typeof(decimal) ||
+			type == typeof(float) ||
+			type == typeof(short) ||
+			type == typeof(ushort) ||
+			type == typeof(long) ||
+			type == typeof(ulong) ||
+			type == typeof(byte) ||
+			type == typeof(sbyte) ||
+			type == typeof(DBNull) ||
+			type == typeof(bool))
 		{
 			return;
 		}
@@ -866,10 +864,10 @@ public class Series : DataPointCustomProperties
 	internal void ApplyPaletteColors()
 	{
 		// Use Series or Data Manager palette
-		DataManager dataManager = this.Common.DataManager;
+		DataManager dataManager = Common.DataManager;
 
-		ChartColorPalette currentPalette = (this.Palette == ChartColorPalette.None) ?
-											dataManager.Palette : this.Palette;
+		ChartColorPalette currentPalette = (Palette == ChartColorPalette.None) ?
+											dataManager.Palette : Palette;
 
 		// if it is still none - check if custom colors pallete is empty.
 		if (
@@ -884,7 +882,7 @@ public class Series : DataPointCustomProperties
 		int colorIndex = 0;
 		Color[] paletteColors = (currentPalette == ChartColorPalette.None) ?
 		dataManager.PaletteCustomColors : ChartPaletteColors.GetPaletteColors(currentPalette);
-		foreach (DataPoint dataPoint in _points)
+		foreach (DataPoint dataPoint in Points)
 		{
 			// Change color of the series data points only if no color is set
 			if ((!dataPoint.IsCustomPropertySet(CommonCustomProperties.Color) || dataPoint.tempColorIsSet) && !dataPoint.IsEmpty)
@@ -907,8 +905,8 @@ public class Series : DataPointCustomProperties
 	/// <returns>Dummy data for chart in design-time.</returns>
 	internal IEnumerable GetDummyData(ChartValueType type)
 	{
-		string[] stringValues = { "abc1", "abc2", "abc3", "abc4", "abc5", "abc6" };
-		DateTime[] dateValues = { DateTime.Now.Date, DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(2), DateTime.Now.Date.AddDays(3), DateTime.Now.Date.AddDays(4), DateTime.Now.Date.AddDays(4) };
+		string[] stringValues = ["abc1", "abc2", "abc3", "abc4", "abc5", "abc6"];
+		DateTime[] dateValues = [DateTime.Now.Date, DateTime.Now.Date.AddDays(1), DateTime.Now.Date.AddDays(2), DateTime.Now.Date.AddDays(3), DateTime.Now.Date.AddDays(4), DateTime.Now.Date.AddDays(4)];
 
 		// Fill array of random data
 		if (_dummyDoubleValues == null)
@@ -919,10 +917,12 @@ public class Series : DataPointCustomProperties
 			//					this.Color.B + this.Color.G + this.Color.R));
 			//#else
 			int seed = 0;
-			for (int index = 0; index < this.Name.Length; index++)
-				seed += (int)this.Name[index];
+			for (int index = 0; index < Name.Length; index++)
+			{
+				seed += (int)Name[index];
+			}
 
-			Random random2 = new Random(seed);
+			Random random2 = new(seed);
 
 			//#endif
 			_dummyDoubleValues = new double[6];
@@ -939,7 +939,7 @@ public class Series : DataPointCustomProperties
 		}
 		else if (type == ChartValueType.Time)
 		{
-			dateValues = new DateTime[] { DateTime.Now, DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3), DateTime.Now.AddMinutes(4), DateTime.Now.AddMinutes(4) };
+			dateValues = [DateTime.Now, DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3), DateTime.Now.AddMinutes(4), DateTime.Now.AddMinutes(4)];
 			return dateValues;
 		}
 		else if (type == ChartValueType.String)
@@ -956,7 +956,7 @@ public class Series : DataPointCustomProperties
 	/// <returns>Y values total.</returns>
 	internal double GetTotalYValue()
 	{
-		return this.GetTotalYValue(0);
+		return GetTotalYValue(0);
 	}
 
 	/// <summary>
@@ -976,7 +976,7 @@ public class Series : DataPointCustomProperties
 
 			// Calculate total
 			_totalYvalue = 0;
-			foreach (DataPoint point in this.Points)
+			foreach (DataPoint point in Points)
 			{
 				_totalYvalue += point.YValues[yValueIndex];
 			}
@@ -985,14 +985,14 @@ public class Series : DataPointCustomProperties
 		}
 
 		// Check if series has enough Y values
-		if (yValueIndex >= this.YValuesPerPoint)
+		if (yValueIndex >= YValuesPerPoint)
 		{
-			throw (new InvalidOperationException(SR.ExceptionDataSeriesYValueIndexNotExists(yValueIndex.ToString(CultureInfo.InvariantCulture), this.Name)));
+			throw (new InvalidOperationException(SR.ExceptionDataSeriesYValueIndexNotExists(yValueIndex.ToString(CultureInfo.InvariantCulture), Name)));
 		}
 
 		// Calculate total
 		double yValue = 0;
-		foreach (DataPoint point in this.Points)
+		foreach (DataPoint point in Points)
 		{
 			yValue += point.YValues[yValueIndex];
 		}
@@ -1009,93 +1009,95 @@ public class Series : DataPointCustomProperties
 	{
 		// Nothing to process
 		if (strOriginal == null || strOriginal.Length == 0)
+		{
 			return strOriginal;
+		}
 
 		// Replace all "\n" strings with '\n' character
 		string result = strOriginal.Replace("\\n", "\n");
 
 		// #SERIESNAME - series name
-		result = result.Replace(KeywordName.SeriesName, this.Name);
-		result = result.Replace(KeywordName.Ser, this.Name);            // #SER Depricated Keyword
+		result = result.Replace(KeywordName.SeriesName, Name);
+		result = result.Replace(KeywordName.Ser, Name);            // #SER Depricated Keyword
 
 		// #CUSTOMPROPERTY - one of the custom attributes by name
 		result = DataPoint.ReplaceCustomPropertyKeyword(result, this);
 
 		// #TOTAL - total of Y values
 		result = ReplaceOneKeyword(
-			this.Chart,
+			Chart,
 			this,
-				this.Tag,
+				Tag,
 			ChartElementType.Nothing,
 			result,
 			KeywordName.Total,
 			SeriesValuesFormulaType.Total,
-			this.YValueType,
+			YValueType,
 			"");
 
 		// #AVG - total of Y values
 		result = ReplaceOneKeyword(
-			this.Chart,
+			Chart,
 			this,
-				this.Tag,
+				Tag,
 			ChartElementType.Nothing,
 			result,
 			KeywordName.Avg,
 			SeriesValuesFormulaType.Average,
-			this.YValueType,
+			YValueType,
 			"");
 
 		// #MAX - total of Y values
 		result = ReplaceOneKeyword(
-			this.Chart,
+			Chart,
 			this,
-				this.Tag,
+				Tag,
 			ChartElementType.Nothing,
 			result,
 			KeywordName.Max,
 			SeriesValuesFormulaType.Maximum,
-			this.YValueType,
+			YValueType,
 			"");
 
 		// #MIN - total of Y values
 		result = ReplaceOneKeyword(
-			this.Chart,
+			Chart,
 			this,
-				this.Tag,
+				Tag,
 			ChartElementType.Nothing,
 			result,
 			KeywordName.Min,
 			SeriesValuesFormulaType.Minimum,
-			this.YValueType,
+			YValueType,
 			"");
 
 		// #FIRST - total of Y values
 		result = ReplaceOneKeyword(
-			this.Chart,
+			Chart,
 			this,
-				this.Tag,
+				Tag,
 			ChartElementType.Nothing,
 			result,
 			KeywordName.First,
 			SeriesValuesFormulaType.First,
-			this.YValueType,
+			YValueType,
 			"");
 
 		// #LAST - total of Y values
 		result = ReplaceOneKeyword(
-			this.Chart,
+			Chart,
 			this,
-				this.Tag,
+				Tag,
 			ChartElementType.Nothing,
 			result,
 			KeywordName.Last,
 			SeriesValuesFormulaType.Last,
-			this.YValueType,
+			YValueType,
 			"");
 
 
 		// #LEGENDTEXT - series name
-		result = result.Replace(KeywordName.LegendText, this.LegendText);
+		result = result.Replace(KeywordName.LegendText, LegendText);
 
 		return result;
 	}
@@ -1126,7 +1128,7 @@ public class Series : DataPointCustomProperties
 		string defaultFormat)
 	{
 		string result = strOriginal;
-		int keyIndex = -1;
+		int keyIndex;
 		while ((keyIndex = result.IndexOf(keyword, StringComparison.Ordinal)) != -1)
 		{
 			int keyEndIndex = keyIndex + keyword.Length;
@@ -1159,43 +1161,43 @@ public class Series : DataPointCustomProperties
 			result = result.Remove(keyIndex, keyEndIndex - keyIndex);
 
 			// Calculate value
-			double totalValue = this.GetTotalYValue(yValueIndex);
+			double totalValue = GetTotalYValue(yValueIndex);
 			double keywordValue = 0.0;
 			switch (formulaType)
 			{
 				case (SeriesValuesFormulaType.Average):
 					{
-						if (this.Points.Count > 0)
+						if (Points.Count > 0)
 						{
-							keywordValue = totalValue / this.Points.Count;
+							keywordValue = totalValue / Points.Count;
 						}
 
 						break;
 					}
 				case (SeriesValuesFormulaType.First):
 					{
-						if (this.Points.Count > 0)
+						if (Points.Count > 0)
 						{
-							keywordValue = this.Points[0].YValues[yValueIndex];
+							keywordValue = Points[0].YValues[yValueIndex];
 						}
 
 						break;
 					}
 				case (SeriesValuesFormulaType.Last):
 					{
-						if (this.Points.Count > 0)
+						if (Points.Count > 0)
 						{
-							keywordValue = this.Points[this.Points.Count - 1].YValues[yValueIndex];
+							keywordValue = Points[Points.Count - 1].YValues[yValueIndex];
 						}
 
 						break;
 					}
 				case (SeriesValuesFormulaType.Maximum):
 					{
-						if (this.Points.Count > 0)
+						if (Points.Count > 0)
 						{
 							keywordValue = double.MinValue;
-							foreach (DataPoint point in this.Points)
+							foreach (DataPoint point in Points)
 							{
 								keywordValue = Math.Max(keywordValue, point.YValues[yValueIndex]);
 							}
@@ -1205,10 +1207,10 @@ public class Series : DataPointCustomProperties
 					}
 				case (SeriesValuesFormulaType.Minimum):
 					{
-						if (this.Points.Count > 0)
+						if (Points.Count > 0)
 						{
 							keywordValue = double.MaxValue;
-							foreach (DataPoint point in this.Points)
+							foreach (DataPoint point in Points)
 							{
 								keywordValue = Math.Min(keywordValue, point.YValues[yValueIndex]);
 							}
@@ -1249,7 +1251,7 @@ public class Series : DataPointCustomProperties
 
 	{
 		string result = strOriginal;
-		int keyIndex = -1;
+		int keyIndex;
 		while ((keyIndex = result.IndexOf(keyword, StringComparison.Ordinal)) != -1)
 		{
 			// Get optional format
@@ -1291,15 +1293,14 @@ public class Series : DataPointCustomProperties
 	public void Sort(PointSortOrder pointSortOrder, string sortBy)
 	{
 		// Check arguments
-		if (sortBy == null)
-			throw new ArgumentNullException("sortBy");
+		ArgumentNullException.ThrowIfNull(sortBy);
 
 		// Sort items using data points comparer class
-		DataPointComparer comparer = new DataPointComparer(this, pointSortOrder, sortBy);
-		this.Points.ItemList.Sort(comparer);
+		DataPointComparer comparer = new(this, pointSortOrder, sortBy);
+		Points.ItemList.Sort(comparer);
 
 		// Invalidate chart area only
-		this.Invalidate(true, false);
+		Invalidate(true, false);
 	}
 
 	/// <summary>
@@ -1318,14 +1319,13 @@ public class Series : DataPointCustomProperties
 	public void Sort(IComparer<DataPoint> comparer)
 	{
 		// Check arguments
-		if (comparer == null)
-			throw new ArgumentNullException("comparer");
+		ArgumentNullException.ThrowIfNull(comparer);
 
 		// Sort points
-		this.Points.ItemList.Sort(comparer);
+		Points.ItemList.Sort(comparer);
 
 		// Invalidate chart area only
-		this.Invalidate(true, false);
+		Invalidate(true, false);
 
 	}
 
@@ -1344,8 +1344,8 @@ public class Series : DataPointCustomProperties
 		{
 			if (dp.IsCustomPropertySet("OriginalPointIndex"))
 			{
-				int index = -1;
-				if (Int32.TryParse(dp["OriginalPointIndex"], NumberStyles.Integer, CultureInfo.InvariantCulture, out index))
+				int index;
+				if (int.TryParse(dp["OriginalPointIndex"], NumberStyles.Integer, CultureInfo.InvariantCulture, out index))
 				{
 					if (index > -1 && index < toSeries.Points.Count)
 					{
@@ -1398,7 +1398,7 @@ public class Series : DataPointCustomProperties
 
 
 		// Reset original value type which was temp. set to String
-		if (_isXValueIndexed)
+		if (IsXValueIndexed)
 		{
 			_xValueType = indexedXValueType;
 		}
@@ -1430,13 +1430,13 @@ public class Series : DataPointCustomProperties
 	internal void ResetAutoValues(bool reset)
 	{
 		// If temporary data attribute is set - remove all data points
-		if (this.IsCustomPropertySet("TempDesignData"))
+		if (IsCustomPropertySet("TempDesignData"))
 		{
-			this.DeleteCustomProperty("TempDesignData");
+			DeleteCustomProperty("TempDesignData");
 
 			// save the fake DataPoints for selector service
 			bool savePoints = true;
-			if (this.Chart != null && !this.Chart.IsDesignMode())
+			if (Chart != null && !Chart.IsDesignMode())
 			{
 				savePoints = false;
 			}
@@ -1444,31 +1444,31 @@ public class Series : DataPointCustomProperties
 			if (savePoints)
 			{
 				fakeDataPoints.Clear();
-				foreach (DataPoint p in this.Points)
+				foreach (DataPoint p in Points)
 				{
 					fakeDataPoints.Add(p);
 				}
 			}
 
-			this.Points.Clear();
+			Points.Clear();
 		}
 
 		// Reset series color
-		if (this.tempColorIsSet)
+		if (tempColorIsSet)
 		{
-			this.tempColorIsSet = false;
-			this.Color = Color.Empty;
+			tempColorIsSet = false;
+			Color = Color.Empty;
 		}
 
 		// Reset series marker
-		if (this.tempMarkerStyleIsSet)
+		if (tempMarkerStyleIsSet)
 		{
-			this.tempMarkerStyleIsSet = false;
-			this.MarkerStyle = MarkerStyle.None;
+			tempMarkerStyleIsSet = false;
+			MarkerStyle = MarkerStyle.None;
 		}
 
 		// Reset points color
-		foreach (DataPoint dataPoint in _points)
+		foreach (DataPoint dataPoint in Points)
 		{
 			if (dataPoint.tempColorIsSet)
 			{
@@ -1479,7 +1479,7 @@ public class Series : DataPointCustomProperties
 		// Reset value type to Auto (if not Serializing data)
 		if (reset)
 		{
-			if (this.Chart == null || this.Chart.serializing == false)
+			if (Chart == null || Chart.serializing == false)
 			{
 				if (autoXValueType)
 				{
@@ -1506,36 +1506,36 @@ public class Series : DataPointCustomProperties
 	/// <param name="applyPaletteColors">If true each data point will be assigned a color from the palette (if it's set)</param>
 	internal void PrepareData(bool applyPaletteColors)
 	{
-		if (!this.IsVisible())
+		if (!IsVisible())
 		{
 			return;
 		}
 
 		// Series chart area name can be empty or a valid area name
-		Chart.ChartAreas.VerifyNameReference(this.ChartArea);
+		Chart.ChartAreas.VerifyNameReference(ChartArea);
 
 		// Check if sereis data points have required number of Y values
-		if (this.Points.Count > 0 && this.Points[0].YValues.Length < this.YValuesPerPoint)
+		if (Points.Count > 0 && Points[0].YValues.Length < YValuesPerPoint)
 		{
 			// Resize data points Y value(s) arrays
-			foreach (DataPoint dp in this.Points)
+			foreach (DataPoint dp in Points)
 			{
-				dp.ResizeYValueArray(this.YValuesPerPoint);
+				dp.ResizeYValueArray(YValuesPerPoint);
 			}
 		}
 
 		// Get series data source
 		bool fillTempData = false;
-		if (this.Points.Count == 0)
+		if (Points.Count == 0)
 		{
 			// If there is no points defined in design-time
 			if (Chart.IsDesignMode())
 			{
 				fillTempData = true;
 			}
-			else if (this.IsCustomPropertySet("UseDummyData"))
+			else if (IsCustomPropertySet("UseDummyData"))
 			{
-				if (String.Compare(this["UseDummyData"], "True", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(this["UseDummyData"], "True", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					fillTempData = true;
 				}
@@ -1545,43 +1545,43 @@ public class Series : DataPointCustomProperties
 		// Create dummy data only if there was no points
 		if (fillTempData)
 		{
-			if (this.IsXValueDateTime() || _xValueType == ChartValueType.String)
+			if (IsXValueDateTime() || _xValueType == ChartValueType.String)
 			{
-				this.Points.DataBindXY(GetDummyData(_xValueType), GetDummyData(_yValueType));
+				Points.DataBindXY(GetDummyData(_xValueType), GetDummyData(_yValueType));
 			}
 			else
 			{
-				double[] xValues = new double[] { 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 };
-				if (this.ChartType == SeriesChartType.Polar)
+				double[] xValues = [2.0, 3.0, 4.0, 5.0, 6.0, 7.0];
+				if (ChartType == SeriesChartType.Polar)
 				{
-					xValues = new double[] { 0.0, 45.0, 115.0, 145.0, 180.0, 220.0 };
+					xValues = [0.0, 45.0, 115.0, 145.0, 180.0, 220.0];
 				}
 
-				this.Points.DataBindXY(xValues, GetDummyData(_yValueType));
+				Points.DataBindXY(xValues, GetDummyData(_yValueType));
 			}
 
 			// If point has more than one Y value - copy the data from first value
-			if (this.YValuesPerPoint > 1)
+			if (YValuesPerPoint > 1)
 			{
-				foreach (DataPoint point in this.Points)
+				foreach (DataPoint point in Points)
 				{
-					for (int valueIndex = 1; valueIndex < this.YValuesPerPoint; valueIndex++)
+					for (int valueIndex = 1; valueIndex < YValuesPerPoint; valueIndex++)
 					{
 						point.YValues[valueIndex] = point.YValues[0];
 					}
 
-					if (this.YValuesPerPoint >= 2)
+					if (YValuesPerPoint >= 2)
 					{
 						point.YValues[1] = point.YValues[0] / 2 - 1;
 					}
 
-					if (this.YValuesPerPoint >= 4)
+					if (YValuesPerPoint >= 4)
 					{
 						point.YValues[2] = point.YValues[1] + (point.YValues[0] - point.YValues[1]) / 3;
 						point.YValues[3] = point.YValues[2] + (point.YValues[0] - point.YValues[1]) / 3;
 					}
 
-					if (this.YValuesPerPoint >= 6)
+					if (YValuesPerPoint >= 6)
 					{
 						point.YValues[4] = point.YValues[2] + (point.YValues[3] - point.YValues[2]) / 2;
 						point.YValues[5] = point.YValues[2] + (point.YValues[3] - point.YValues[2]) / 3;
@@ -1614,12 +1614,12 @@ public class Series : DataPointCustomProperties
 		_totalYvalue = double.NaN;
 
 		// Supress zero and negative values with logarithmic axis exceptions
-		if (this.Chart != null && this.Chart.chartPicture.SuppressExceptions)
+		if (Chart != null && Chart.chartPicture.SuppressExceptions)
 		{
 			// Get series axis
-			Axis axisY = this.Chart.ChartAreas[this.ChartArea].GetAxis(AxisName.Y, this.YAxisType, this.YSubAxisName);
+			Axis axisY = Chart.ChartAreas[ChartArea].GetAxis(AxisName.Y, YAxisType, YSubAxisName);
 
-			foreach (DataPoint point in this.Points)
+			foreach (DataPoint point in Points)
 			{
 				for (int yValueIndex = 0; yValueIndex < point.YValues.Length; yValueIndex++)
 				{
@@ -1669,7 +1669,7 @@ public class Series : DataPointCustomProperties
 		// Apply palette colors to the data points
 		if (applyPaletteColors)
 		{
-			this.ApplyPaletteColors();
+			ApplyPaletteColors();
 		}
 	}
 
@@ -1710,29 +1710,26 @@ public class Series : DataPointCustomProperties
 	]
 	public string XValueMember
 	{
-		get
-		{
-			return _dataSourceXMember;
-		}
+		get;
 		set
 		{
 			if (value == "(none)")
 			{
-				_dataSourceXMember = String.Empty;
+				field = string.Empty;
 			}
 			else
 			{
-				_dataSourceXMember = value;
+				field = value;
 			}
 
 			// Reset data bound flag
-			if (this.Common != null && this.Common.ChartPicture != null)
+			if (Common != null && Common.ChartPicture != null)
 			{
-				this.Common.ChartPicture.boundToDataSource = false;
+				Common.ChartPicture._boundToDataSource = false;
 			}
 
 		}
-	}
+	} = string.Empty;
 
 	/// <summary>
 	/// Members of the chart data source used to data bind to the Y values of the series.
@@ -1748,29 +1745,26 @@ public class Series : DataPointCustomProperties
 		]
 	public string YValueMembers
 	{
-		get
-		{
-			return _dataSourceYMembers;
-		}
+		get;
 		set
 		{
 			if (value == "(none)")
 			{
-				_dataSourceYMembers = String.Empty;
+				field = string.Empty;
 			}
 			else
 			{
-				_dataSourceYMembers = value;
+				field = value;
 			}
 
 			// Reset data bound flag
-			if (this.Common != null && this.Common.ChartPicture != null)
+			if (Common != null && Common.ChartPicture != null)
 			{
-				this.Common.ChartPicture.boundToDataSource = false;
+				Common.ChartPicture._boundToDataSource = false;
 			}
 
 		}
-	}
+	} = string.Empty;
 
 
 	/// <summary>
@@ -1785,24 +1779,21 @@ public class Series : DataPointCustomProperties
 	]
 	public string Legend
 	{
-		get
-		{
-			return _legend;
-		}
+		get;
 		set
 		{
-			if (value != _legend)
+			if (value != field)
 			{
 				if (Chart != null && Chart.Legends != null)
 				{
 					Chart.Legends.VerifyNameReference(value);
 				}
 
-				_legend = value;
-				this.Invalidate(false, true);
+				field = value;
+				Invalidate(false, true);
 			}
 		}
-	}
+	} = string.Empty;
 
 	/// <summary>
 	/// The value type of the X axis.
@@ -1822,8 +1813,8 @@ public class Series : DataPointCustomProperties
 		set
 		{
 			_xValueType = value;
-			this.autoXValueType = false;
-			this.Invalidate(true, false);
+			autoXValueType = false;
+			Invalidate(true, false);
 		}
 	}
 
@@ -1838,16 +1829,13 @@ public class Series : DataPointCustomProperties
 	]
 	public bool IsXValueIndexed
 	{
-		get
-		{
-			return _isXValueIndexed;
-		}
+		get;
 		set
 		{
-			_isXValueIndexed = value;
-			this.Invalidate(true, false);
+			field = value;
+			Invalidate(true, false);
 		}
-	}
+	} = false;
 
 	/// <summary>
 	/// The value type of the Y axis.
@@ -1868,8 +1856,8 @@ public class Series : DataPointCustomProperties
 		set
 		{
 			_yValueType = value;
-			this.autoYValueType = false;
-			this.Invalidate(true, false);
+			autoYValueType = false;
+			Invalidate(true, false);
 		}
 	}
 
@@ -1888,20 +1876,20 @@ public class Series : DataPointCustomProperties
 		get
 		{
 			// If number of Y value(s) is not set - get one from the chart type
-			if (this._checkPointsNumber && this.ChartTypeName.Length > 0 && this.Common != null)
+			if (_checkPointsNumber && ChartTypeName.Length > 0 && Common != null)
 			{
 				_checkPointsNumber = false;
-				ChartTypeRegistry chartTypeRegistry = this.Common.ChartTypeRegistry;
-				IChartType chartType = chartTypeRegistry.GetChartType(this.ChartTypeName);
+				ChartTypeRegistry chartTypeRegistry = Common.ChartTypeRegistry;
+				IChartType chartType = chartTypeRegistry.GetChartType(ChartTypeName);
 				if (chartType.YValuesPerPoint > _yValuesPerPoint)
 				{
 					_yValuesPerPoint = chartType.YValuesPerPoint;
 
 					// Resize Y value(s) array of data points
-					if (_points.Count > 0)
+					if (Points.Count > 0)
 					{
 						// Resize data points Y value(s) arrays
-						foreach (DataPoint dp in _points)
+						foreach (DataPoint dp in Points)
 						{
 							dp.ResizeYValueArray(_yValuesPerPoint);
 						}
@@ -1916,23 +1904,23 @@ public class Series : DataPointCustomProperties
 			// Check if argument is in range
 			if (value < 1 || value > 32)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionDataSeriesYValueNumberInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionDataSeriesYValueNumberInvalid));
 			}
 
 			_checkPointsNumber = true;
 
 			// Resize Y value(s) array of data points
-			if (_points.Count > 0)
+			if (Points.Count > 0)
 			{
 				// Resize data points Y value(s) arrays
-				foreach (DataPoint dp in _points)
+				foreach (DataPoint dp in Points)
 				{
 					dp.ResizeYValueArray(value);
 				}
 			}
 
 			_yValuesPerPoint = value;
-			this.Invalidate(true, false);
+			Invalidate(true, false);
 		}
 	}
 
@@ -1946,13 +1934,7 @@ public class Series : DataPointCustomProperties
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		Editor(typeof(DataPointCollectionEditor), typeof(UITypeEditor))
 		]
-	public DataPointCollection Points
-	{
-		get
-		{
-			return _points;
-		}
-	}
+	public DataPointCollection Points { get; private set; }
 
 	/// <summary>
 	/// Default properties of an empty data point.
@@ -1981,7 +1963,7 @@ public class Series : DataPointCustomProperties
 			_emptyPointCustomProperties.SetDefault(false);
 			_emptyPointCustomProperties.pointCustomProperties = true;
 			_emptyPointCustomProperties.Parent = this;
-			this.Invalidate(true, false);
+			Invalidate(true, false);
 		}
 	}
 
@@ -1995,18 +1977,11 @@ public class Series : DataPointCustomProperties
 	DefaultValue(ChartColorPalette.None),
 		Editor(typeof(ColorPaletteEditor), typeof(UITypeEditor))
 		]
-	public ChartColorPalette Palette
-	{
-		get
+	public ChartColorPalette Palette { get; set
 		{
-			return _colorPalette;
-		}
-		set
-		{
-			_colorPalette = value;
-			this.Invalidate(true, true);
-		}
-	}
+			field = value;
+			Invalidate(true, true);
+		} } = ChartColorPalette.None;
 
 	/// <summary>
 	/// Specify how often to display data point markers.
@@ -2017,23 +1992,16 @@ public class Series : DataPointCustomProperties
 	SRDescription("DescriptionAttributeSeries_MarkerStep"),
 	DefaultValue(1)
 	]
-	public int MarkerStep
-	{
-		get
-		{
-			return _markersStep;
-		}
-		set
+	public int MarkerStep { get; set
 		{
 			if (value <= 0)
 			{
-				throw (new ArgumentException(SR.ExceptionMarkerStepNegativeValue, "value"));
+				throw (new ArgumentException(SR.ExceptionMarkerStepNegativeValue, nameof(value)));
 			}
 
-			_markersStep = value;
-			this.Invalidate(true, false);
-		}
-	}
+			field = value;
+			Invalidate(true, false);
+		} } = 1;
 
 	/// <summary>
 	/// Shadow offset of series.
@@ -2045,18 +2013,11 @@ public class Series : DataPointCustomProperties
 		SRDescription("DescriptionAttributeShadowOffset"),
 	DefaultValue(0)
 	]
-	public int ShadowOffset
-	{
-		get
+	public int ShadowOffset { get; set
 		{
-			return _shadowOffset;
-		}
-		set
-		{
-			_shadowOffset = value;
-			this.Invalidate(true, true);
-		}
-	}
+			field = value;
+			Invalidate(true, true);
+		} } = 0;
 
 	/// <summary>
 	/// Shadow color of series.
@@ -2067,18 +2028,11 @@ public class Series : DataPointCustomProperties
 	DefaultValue(typeof(Color), "128,0,0,0"),
 		SRDescription("DescriptionAttributeShadowColor"),
 	]
-	public Color ShadowColor
-	{
-		get
+	public Color ShadowColor { get; set
 		{
-			return _shadowColor;
-		}
-		set
-		{
-			_shadowColor = value;
-			this.Invalidate(true, true);
-		}
-	}
+			field = value;
+			Invalidate(true, true);
+		} } = Color.FromArgb(128, 0, 0, 0);
 
 
 #if SUBAXES
@@ -2137,7 +2091,7 @@ public class Series : DataPointCustomProperties
 	Bindable(true),
 	SRDescription("DescriptionAttributeSeries_YSubAxisName"),
 	DefaultValue(""),
-		System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")
+		SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")
 	]
 	internal string YSubAxisName
 	{
@@ -2158,7 +2112,7 @@ public class Series : DataPointCustomProperties
 	Bindable(true),
 	SRDescription("DescriptionAttributeSeries_XSubAxisName"),
 	DefaultValue(""),
-		System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")
+		SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")
 	]
 	internal string XSubAxisName
 	{
@@ -2181,18 +2135,11 @@ public class Series : DataPointCustomProperties
 	SRDescription("DescriptionAttributeSeries_XAxisType"),
 	DefaultValue(AxisType.Primary)
 	]
-	public AxisType XAxisType
-	{
-		get
+	public AxisType XAxisType { get; set
 		{
-			return _xAxisType;
-		}
-		set
-		{
-			_xAxisType = value;
-			this.Invalidate(true, false);
-		}
-	}
+			field = value;
+			Invalidate(true, false);
+		} } = AxisType.Primary;
 
 	/// <summary>
 	/// Axis type of vertical axes.
@@ -2203,18 +2150,11 @@ public class Series : DataPointCustomProperties
 	SRDescription("DescriptionAttributeSeries_YAxisType"),
 	DefaultValue(AxisType.Primary)
 	]
-	public AxisType YAxisType
-	{
-		get
+	public AxisType YAxisType { get; set
 		{
-			return _yAxisType;
-		}
-		set
-		{
-			_yAxisType = value;
-			this.Invalidate(true, false);
-		}
-	}
+			field = value;
+			Invalidate(true, false);
+		} } = AxisType.Primary;
 
 	/// <summary>
 	/// Gets or sets a flag which indicates whether the series is enabled.
@@ -2224,21 +2164,14 @@ public class Series : DataPointCustomProperties
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeSeries_Enabled"),
-	NotifyParentPropertyAttribute(true),
-	ParenthesizePropertyNameAttribute(true),
+	NotifyParentProperty(true),
+	ParenthesizePropertyName(true),
 	]
-	public bool Enabled
-	{
-		get
+	public bool Enabled { get; set
 		{
-			return _enabled;
-		}
-		set
-		{
-			_enabled = value;
-			this.Invalidate(true, true);
-		}
-	}
+			field = value;
+			Invalidate(true, true);
+		} } = true;
 
 	/// <summary>
 	/// Chart type used to draw the series.
@@ -2256,15 +2189,15 @@ public class Series : DataPointCustomProperties
 		get
 		{
 			SeriesChartType type = SeriesChartType.Column;
-			if (String.Compare(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedArea, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(ChartTypeName, ChartTypeNames.OneHundredPercentStackedArea, StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				type = SeriesChartType.StackedArea100;
 			}
-			else if (String.Compare(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedBar, StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(ChartTypeName, ChartTypeNames.OneHundredPercentStackedBar, StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				type = SeriesChartType.StackedBar100;
 			}
-			else if (String.Compare(this.ChartTypeName, ChartTypeNames.OneHundredPercentStackedColumn, StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(ChartTypeName, ChartTypeNames.OneHundredPercentStackedColumn, StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				type = SeriesChartType.StackedColumn100;
 			}
@@ -2272,7 +2205,7 @@ public class Series : DataPointCustomProperties
 			{
 				try
 				{
-					type = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), this.ChartTypeName, true);
+					type = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), ChartTypeName, true);
 				}
 				catch (ArgumentException)
 				{
@@ -2283,7 +2216,7 @@ public class Series : DataPointCustomProperties
 		}
 		set
 		{
-			this.ChartTypeName = Series.GetChartTypeName(value);
+			ChartTypeName = GetChartTypeName(value);
 		}
 	}
 
@@ -2292,7 +2225,7 @@ public class Series : DataPointCustomProperties
 	/// </summary>
 	[
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	SRCategory("CategoryAttributeChart"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeSeries_Type"),
@@ -2300,18 +2233,12 @@ public class Series : DataPointCustomProperties
 		TypeConverter(typeof(ChartTypeConverter)),
 		Editor(typeof(ChartTypeEditor), typeof(UITypeEditor)),
 		RefreshProperties(RefreshProperties.All),
-		SerializationVisibilityAttribute(SerializationVisibility.Hidden),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden)
+		SerializationVisibility(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)
 	]
-	public string ChartTypeName
-	{
-		get
+	public string ChartTypeName { get; set
 		{
-			return _chartType;
-		}
-		set
-		{
-			if (_chartType != value && value.Length > 0)
+			if (field != value && value.Length > 0)
 			{
 				if (Common != null)
 				{
@@ -2325,10 +2252,10 @@ public class Series : DataPointCustomProperties
 							_yValuesPerPoint = type.YValuesPerPoint;
 
 							// Resize Y value(s) array of data points
-							if (_points.Count > 0)
+							if (Points.Count > 0)
 							{
 								// Resize data points Y value(s) arrays
-								foreach (DataPoint dp in _points)
+								foreach (DataPoint dp in Points)
 								{
 									dp.ResizeYValueArray(_yValuesPerPoint);
 								}
@@ -2344,11 +2271,10 @@ public class Series : DataPointCustomProperties
 				}
 			}
 
-			_chartType = value;
+			field = value;
 
-			this.Invalidate(false, true);
-		}
-	}
+			Invalidate(false, true);
+		} } = ChartTypeNames.Column;
 
 
 	/// <summary>
@@ -2361,26 +2287,19 @@ public class Series : DataPointCustomProperties
 		DefaultValue(""),
 		TypeConverter(typeof(SeriesAreaNameConverter))
 	]
-	public string ChartArea
-	{
-		get
+	public string ChartArea { get; set
 		{
-			return _chartArea;
-		}
-		set
-		{
-			if (value != _chartArea)
+			if (value != field)
 			{
 				if (Chart != null && Chart.ChartAreas != null)
 				{
 					Chart.ChartAreas.VerifyNameReference(value);
 				}
 
-				_chartArea = value;
-				this.Invalidate(false, true);
+				field = value;
+				Invalidate(false, true);
 			}
-		}
-	}
+		} } = string.Empty;
 	/*
 		/// <summary>
 		/// If set to true, each data point of the series will use a random color from the palette.
@@ -2423,7 +2342,7 @@ public class Series : DataPointCustomProperties
 		set
 		{
 			base.AxisLabel = value;
-			this.Invalidate(true, false);
+			Invalidate(true, false);
 		}
 	}
 
@@ -2447,7 +2366,7 @@ public class Series : DataPointCustomProperties
 		{
 			value.chartElement = this;
 			_smartLabelStyle = value;
-			this.Invalidate(false, false);
+			Invalidate(false, false);
 		}
 	}
 
@@ -2456,10 +2375,7 @@ public class Series : DataPointCustomProperties
 	/// Series font cache is reused by points.
 	/// </summary>
 	/// <value>The font cache.</value>
-	internal FontCache FontCache
-	{
-		get { return _fontCache; }
-	}
+	internal FontCache FontCache { get; private set; } = new();
 
 
 	#endregion
@@ -2478,14 +2394,14 @@ public class Series : DataPointCustomProperties
 		{
 			if (!invalidateAreaOnly)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 			else
 			{
 				// Invalidate one chart area (area with this name may not exist)
 				try
 				{
-					Chart.ChartAreas[this.ChartArea].Invalidate();
+					Chart.ChartAreas[ChartArea].Invalidate();
 				}
 				catch (ArgumentException)
 				{
@@ -2493,9 +2409,9 @@ public class Series : DataPointCustomProperties
 				}
 
 				// Invalidate legend
-				if (invalidateLegend && Chart.Legends.IndexOf(this.Legend) >= 0)
+				if (invalidateLegend && Chart.Legends.IndexOf(Legend) >= 0)
 				{
-					Chart.Legends[this.Legend].Invalidate(true);
+					Chart.Legends[Legend].Invalidate(true);
 				}
 			}
 		}
@@ -2534,29 +2450,17 @@ public class Series : DataPointCustomProperties
 	{
 		if (disposing)
 		{
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			FontCache?.Dispose();
+			FontCache = null;
 
-			if (this._emptyPointCustomProperties != null)
-			{
-				this._emptyPointCustomProperties.Dispose();
-				this._emptyPointCustomProperties = null;
-			}
+			_emptyPointCustomProperties?.Dispose();
+			_emptyPointCustomProperties = null;
 
-			if (this._points != null)
-			{
-				this._points.Dispose();
-				this._points = null;
-			}
+			Points?.Dispose();
+			Points = null;
 
-			if (this.fakeDataPoints != null)
-			{
-				this.fakeDataPoints.Dispose();
-				this.fakeDataPoints = null;
-			}
+			fakeDataPoints?.Dispose();
+			fakeDataPoints = null;
 		}
 
 		base.Dispose(disposing);

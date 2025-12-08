@@ -28,13 +28,11 @@ public class ImageAnnotation : Annotation
 	#region Fields
 
 	// Annotation image name
-	private string _imageName = String.Empty;
+	private string _imageName = string.Empty;
 
 	// Image wrapping mode
-	private ChartImageWrapMode _imageWrapMode = ChartImageWrapMode.Scaled;
 
 	// Image transparent color
-	private Color _imageTransparentColor = Color.Empty;
 
 	#endregion
 
@@ -81,7 +79,7 @@ public class ImageAnnotation : Annotation
 		set
 		{
 			_imageName = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -100,16 +98,13 @@ public class ImageAnnotation : Annotation
 	]
 	public ChartImageWrapMode ImageWrapMode
 	{
-		get
-		{
-			return _imageWrapMode;
-		}
+		get;
 		set
 		{
-			_imageWrapMode = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = ChartImageWrapMode.Scaled;
 
 	/// <summary>
 	/// Gets or sets a color which will be replaced with a transparent color while drawing the image.
@@ -127,16 +122,13 @@ public class ImageAnnotation : Annotation
 		]
 	public Color ImageTransparentColor
 	{
-		get
-		{
-			return _imageTransparentColor;
-		}
+		get;
 		set
 		{
-			_imageTransparentColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets an annotation's content alignment.
@@ -207,9 +199,9 @@ public class ImageAnnotation : Annotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -233,11 +225,11 @@ public class ImageAnnotation : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -308,7 +300,7 @@ public class ImageAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -331,7 +323,7 @@ public class ImageAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
 	override public ChartHatchStyle BackHatchStyle
@@ -353,7 +345,7 @@ public class ImageAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
 	override public GradientStyle BackGradientStyle
@@ -375,7 +367,7 @@ public class ImageAnnotation : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	Browsable(false),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -476,17 +468,17 @@ public class ImageAnnotation : Annotation
 	override internal void Paint(Chart chart, ChartGraphics graphics)
 	{
 		// Get annotation position in relative coordinates
-		PointF firstPoint = PointF.Empty;
-		PointF anchorPoint = PointF.Empty;
-		SizeF size = SizeF.Empty;
+		PointF firstPoint;
+		PointF anchorPoint;
+		SizeF size;
 		GetRelativePosition(out firstPoint, out size, out anchorPoint);
-		PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+		PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 		// Create selection rectangle
-		RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+		RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 		// Get position
-		RectangleF rectanglePosition = new RectangleF(selectionRect.Location, selectionRect.Size);
+		RectangleF rectanglePosition = new(selectionRect.Location, selectionRect.Size);
 		if (rectanglePosition.Width < 0)
 		{
 			rectanglePosition.X = rectanglePosition.Right;
@@ -508,45 +500,41 @@ public class ImageAnnotation : Annotation
 			return;
 		}
 
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
 			// Draw "empty" image at design time
-			if (this._imageName.Length == 0 && this.Chart.IsDesignMode())
+			if (_imageName.Length == 0 && Chart.IsDesignMode())
 			{
 				graphics.FillRectangleRel(
 					rectanglePosition,
-					this.BackColor,
-					this.BackHatchStyle,
-					this._imageName,
-					this._imageWrapMode,
-					this._imageTransparentColor,
-					GetImageAlignment(this.Alignment),
-					this.BackGradientStyle,
-					this.BackSecondaryColor,
-					this.LineColor,
-					this.LineWidth,
-					this.LineDashStyle,
-					this.ShadowColor,
-					this.ShadowOffset,
+					BackColor,
+					BackHatchStyle,
+					_imageName,
+					ImageWrapMode,
+					ImageTransparentColor,
+					GetImageAlignment(Alignment),
+					BackGradientStyle,
+					BackSecondaryColor,
+					LineColor,
+					LineWidth,
+					LineDashStyle,
+					ShadowColor,
+					ShadowOffset,
 					PenAlignment.Center);
 
 				// Draw text
-				using (Brush textBrush = new SolidBrush(this.ForeColor))
-				{
-					using (StringFormat format = new StringFormat(StringFormat.GenericTypographic))
-					{
-						format.Alignment = StringAlignment.Center;
-						format.LineAlignment = StringAlignment.Center;
-						format.FormatFlags = StringFormatFlags.LineLimit;
-						format.Trimming = StringTrimming.EllipsisCharacter;
-						graphics.DrawStringRel(
-							"(no image)",
-							this.Font,
-							textBrush,
-							rectanglePosition,
-							format);
-					}
-				}
+				using Brush textBrush = new SolidBrush(ForeColor);
+				using StringFormat format = new(StringFormat.GenericTypographic);
+				format.Alignment = StringAlignment.Center;
+				format.LineAlignment = StringAlignment.Center;
+				format.FormatFlags = StringFormatFlags.LineLimit;
+				format.Trimming = StringTrimming.EllipsisCharacter;
+				graphics.DrawStringRel(
+					"(no image)",
+					Font,
+					textBrush,
+					rectanglePosition,
+					format);
 			}
 			else
 			{
@@ -554,34 +542,34 @@ public class ImageAnnotation : Annotation
 				graphics.FillRectangleRel(
 					rectanglePosition,
 					Color.Transparent,
-					this.BackHatchStyle,
-					this._imageName,
-					this._imageWrapMode,
-					this._imageTransparentColor,
-					GetImageAlignment(this.Alignment),
-					this.BackGradientStyle,
+					BackHatchStyle,
+					_imageName,
+					ImageWrapMode,
+					ImageTransparentColor,
+					GetImageAlignment(Alignment),
+					BackGradientStyle,
 					Color.Transparent,
 					Color.Transparent,
 					0,
-					this.LineDashStyle,
-					this.ShadowColor,
-					this.ShadowOffset,
+					LineDashStyle,
+					ShadowColor,
+					ShadowOffset,
 					PenAlignment.Center);
 			}
 		}
 
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Add hot region
-			this.Common.HotRegionsList.AddHotRegion(
+			Common.HotRegionsList.AddHotRegion(
 				rectanglePosition,
-				ReplaceKeywords(this.ToolTip),
-				String.Empty,
-				String.Empty,
-				String.Empty,
+				ReplaceKeywords(ToolTip),
+				string.Empty,
+				string.Empty,
+				string.Empty,
 				this,
 				ChartElementType.Annotation,
-				String.Empty);
+				string.Empty);
 		}
 
 		// Paint selection handles
@@ -642,24 +630,24 @@ public class ImageAnnotation : Annotation
 	override internal RectangleF GetContentPosition()
 	{
 		// Check image size
-		if (this.Image.Length > 0)
+		if (Image.Length > 0)
 		{
 			// Try loading image and getting its size
 			try
 			{
-				if (this.Chart != null)
+				if (Chart != null)
 				{
-					ImageLoader imageLoader = this.Common.ImageLoader;
+					ImageLoader imageLoader = Common.ImageLoader;
 
 					if (imageLoader != null)
 					{
-						ChartGraphics chartGraphics = this.GetGraphics();
+						ChartGraphics chartGraphics = GetGraphics();
 
 						if (chartGraphics != null)
 						{
-							SizeF absSize = new SizeF();
+							SizeF absSize = new();
 
-							if (imageLoader.GetAdjustedImageSize(this.Image, chartGraphics.Graphics, ref absSize))
+							if (imageLoader.GetAdjustedImageSize(Image, chartGraphics.Graphics, ref absSize))
 							{
 								SizeF imageSize = chartGraphics.GetRelativeSize(absSize);
 								return new RectangleF(float.NaN, float.NaN, imageSize.Width, imageSize.Height);

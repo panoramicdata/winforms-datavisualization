@@ -47,10 +47,7 @@ internal class HatchStyleEditor : UITypeEditor, IDisposable
 		if (e.Value is ChartHatchStyle)
 		{
 			// Create chart graphics object
-			if (_chartGraph == null)
-			{
-				_chartGraph = new ChartGraphics(null);
-			}
+			_chartGraph ??= new ChartGraphics(null);
 
 			_chartGraph.Graphics = e.Graphics;
 

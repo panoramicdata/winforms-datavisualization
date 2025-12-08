@@ -69,12 +69,11 @@ internal class AxesArrayEditor : ArrayEditor
 	/// </summary>
 	/// <param name="controls"></param>
 	/// <returns></returns>
-	private PropertyGrid GetPropertyGrid(System.Windows.Forms.Control.ControlCollection controls)
+	private PropertyGrid GetPropertyGrid(Control.ControlCollection controls)
 	{
-		foreach (System.Windows.Forms.Control control in controls)
+		foreach (Control control in controls)
 		{
-			PropertyGrid grid = control as PropertyGrid;
-			if (grid != null)
+			if (control is PropertyGrid grid)
 			{
 				return grid;
 			}
@@ -97,11 +96,11 @@ internal class AxesArrayEditor : ArrayEditor
 	/// </summary>
 	/// <param name="buttons"></param>
 	/// <param name="controls"></param>
-	private void CollectButtons(ArrayList buttons, System.Windows.Forms.Control.ControlCollection controls)
+	private void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
 	{
-		foreach (System.Windows.Forms.Control control in controls)
+		foreach (Control control in controls)
 		{
-			if (control is System.Windows.Forms.Button)
+			if (control is Button)
 			{
 				buttons.Add(control);
 			}
@@ -120,7 +119,7 @@ internal class AxesArrayEditor : ArrayEditor
 	{
 		// Init topic name
 		_helpTopic = "";
-		PropertyGrid grid = this.GetPropertyGrid(_form.Controls);
+		PropertyGrid grid = GetPropertyGrid(_form.Controls);
 		;
 
 		// Check currently selected grid item
@@ -159,9 +158,9 @@ internal class AxesArrayEditor : ArrayEditor
 		}
 
 		// Changed Apr 29, DT, for VS2005 compatibility
-		ArrayList buttons = new ArrayList();
-		this.CollectButtons(buttons, _form.Controls);
-		foreach (System.Windows.Forms.Button button in buttons)
+		ArrayList buttons = [];
+		CollectButtons(buttons, _form.Controls);
+		foreach (Button button in buttons)
 		{
 			if (button.Name.StartsWith("add", StringComparison.OrdinalIgnoreCase) ||
 				button.Name.StartsWith("remove", StringComparison.OrdinalIgnoreCase) ||
@@ -184,15 +183,18 @@ internal class AxesArrayEditor : ArrayEditor
 	/// Handles the EnabledChanged event of the Button control.
 	/// </summary>
 	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+	/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
 	private void Button_EnabledChanged(object sender, EventArgs e)
 	{
 		if (_button_EnabledChanging)
+		{
 			return;
+		}
+
 		_button_EnabledChanging = true;
 		try
 		{
-			((System.Windows.Forms.Button)sender).Enabled = false;
+			((Button)sender).Enabled = false;
 		}
 		finally
 		{
@@ -238,7 +240,7 @@ internal class DataPointCustomPropertiesConverter : TypeConverter
 			(context.Instance as ChartElement).Chart.IsDesignMode())
 		{
 			// Create new descriptors collection
-			PropertyDescriptorCollection newPropDescriptors = new PropertyDescriptorCollection(null);
+			PropertyDescriptorCollection newPropDescriptors = new(null);
 
 			// Loop through all original property descriptors
 			foreach (PropertyDescriptor propertyDescriptor in propDescriptors)
@@ -246,7 +248,7 @@ internal class DataPointCustomPropertiesConverter : TypeConverter
 				// Change name of "CustomAttributesEx" property to "CustomProperties"
 				if (propertyDescriptor.Name == "CustomAttributesEx")
 				{
-					DynamicPropertyDescriptor dynPropDesc = new DynamicPropertyDescriptor(
+					DynamicPropertyDescriptor dynPropDesc = new(
 						propertyDescriptor,
 						"CustomProperties");
 					newPropDescriptors.Add(dynPropDesc);
@@ -327,23 +329,22 @@ internal class DataPointConverter : DataPointCustomPropertiesConverter
 	/// <returns>Converted object.</returns>
 	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 	{
-		DataPoint dataPoint = value as DataPoint;
-		if (destinationType == typeof(InstanceDescriptor) && dataPoint != null)
+		if (destinationType == typeof(InstanceDescriptor) && value is DataPoint dataPoint)
 		{
 			if (dataPoint.YValues.Length > 1)
 			{
-				ConstructorInfo ci = typeof(DataPoint).GetConstructor(new Type[] { typeof(double), typeof(string) });
+				ConstructorInfo ci = typeof(DataPoint).GetConstructor([typeof(double), typeof(string)]);
 				string yValues = "";
 				foreach (double y in dataPoint.YValues)
 				{
-					yValues += y.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",";
+					yValues += y.ToString(CultureInfo.InvariantCulture) + ",";
 				}
 
 				return new InstanceDescriptor(ci, new object[] { dataPoint.XValue, yValues.TrimEnd(',') }, false);
 			}
 			else
 			{
-				ConstructorInfo ci = typeof(DataPoint).GetConstructor(new Type[] { typeof(double), typeof(double) });
+				ConstructorInfo ci = typeof(DataPoint).GetConstructor([typeof(double), typeof(double)]);
 				return new InstanceDescriptor(ci, new object[] { dataPoint.XValue, dataPoint.YValues[0] }, false);
 			}
 		}

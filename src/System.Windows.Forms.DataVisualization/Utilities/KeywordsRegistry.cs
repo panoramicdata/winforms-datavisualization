@@ -84,7 +84,7 @@ internal class KeywordsRegistry : IServiceProvider
 	#region Fields
 
 	// List of registered keywords
-	internal ArrayList registeredKeywords = new ArrayList();
+	internal ArrayList registeredKeywords = [];
 
 	#endregion
 
@@ -104,7 +104,7 @@ internal class KeywordsRegistry : IServiceProvider
 	/// </summary>
 	/// <param name="serviceType">Service type to get.</param>
 	/// <returns>Custom properties registry service.</returns>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	object IServiceProvider.GetService(Type serviceType)
 	{
 		if (serviceType == typeof(KeywordsRegistry))
@@ -127,7 +127,7 @@ internal class KeywordsRegistry : IServiceProvider
 		string seriesPointSupportedProperties = "Text,Label,LabelMapAreaAttributes,ToolTip,Url,LabelToolTip,MapAreaAttributes,AxisLabel,LegendToolTip,LegendMapAreaAttributes,LegendUrl,LegendText";
 
 		// #INDEX keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameIndexDataPoint,
 			KeywordName.Index,
 			string.Empty,
@@ -138,7 +138,7 @@ internal class KeywordsRegistry : IServiceProvider
 			false);
 
 		// #VALX keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameXValue,
 			KeywordName.ValX,
 			string.Empty,
@@ -149,7 +149,7 @@ internal class KeywordsRegistry : IServiceProvider
 			false);
 
 		// #VALY keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameYValue,
 			KeywordName.Val,
 			string.Empty,
@@ -160,7 +160,7 @@ internal class KeywordsRegistry : IServiceProvider
 			true);
 
 		// #TOTAL keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameTotalYValues,
 			KeywordName.Total,
 			string.Empty,
@@ -171,7 +171,7 @@ internal class KeywordsRegistry : IServiceProvider
 			false);
 
 		// #PERCENT keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameYValuePercentTotal,
 			KeywordName.Percent,
 			string.Empty,
@@ -182,7 +182,7 @@ internal class KeywordsRegistry : IServiceProvider
 			true);
 
 		// #INDEX keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameIndexTheDataPoint,
 			KeywordName.Index,
 			string.Empty,
@@ -193,7 +193,7 @@ internal class KeywordsRegistry : IServiceProvider
 			false);
 
 		// #LABEL keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameLabelDataPoint,
 			KeywordName.Label,
 			string.Empty,
@@ -204,7 +204,7 @@ internal class KeywordsRegistry : IServiceProvider
 			false);
 
 		// #AXISLABEL keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameAxisLabelDataPoint,
 			KeywordName.AxisLabel,
 			string.Empty,
@@ -215,7 +215,7 @@ internal class KeywordsRegistry : IServiceProvider
 			false);
 
 		// #LEGENDTEXT keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameLegendText,
 			KeywordName.LegendText,
 			string.Empty,
@@ -226,7 +226,7 @@ internal class KeywordsRegistry : IServiceProvider
 			false);
 
 		// #SERIESNAME keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameSeriesName,
 			KeywordName.SeriesName,
 			KeywordName.Ser,
@@ -239,7 +239,7 @@ internal class KeywordsRegistry : IServiceProvider
 		// *************** NEW KEYWORDS in version 5.5 ***************
 
 		// #AVG keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameAverageYValues,
 			KeywordName.Avg,
 			string.Empty,
@@ -250,7 +250,7 @@ internal class KeywordsRegistry : IServiceProvider
 			true);
 
 		// #MAX keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameMaximumYValues,
 			KeywordName.Max,
 			string.Empty,
@@ -261,7 +261,7 @@ internal class KeywordsRegistry : IServiceProvider
 			true);
 
 		// #MIN keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameMinimumYValues,
 			KeywordName.Min,
 			string.Empty,
@@ -272,7 +272,7 @@ internal class KeywordsRegistry : IServiceProvider
 			true);
 
 		// #LAST keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameLastPointYValue,
 			KeywordName.Last,
 			string.Empty,
@@ -283,7 +283,7 @@ internal class KeywordsRegistry : IServiceProvider
 			true);
 
 		// #FIRST keyword
-		this.Register(
+		Register(
 				SR.DescriptionKeyWordNameFirstPointYValue,
 			KeywordName.First,
 			string.Empty,
@@ -320,7 +320,7 @@ internal class KeywordsRegistry : IServiceProvider
 		bool supportsValueIndex)
 	{
 		// Create new keyword information object
-		KeywordInfo keywordInfo = new KeywordInfo(
+		KeywordInfo keywordInfo = new(
 			name,
 			keyword,
 			keywordAliases,
@@ -350,33 +350,33 @@ internal class KeywordInfo
 	/// <summary>
 	/// Keyword full name.
 	/// </summary>
-	public string Name = String.Empty;
+	public string Name = string.Empty;
 
 	/// <summary>
 	/// String that represent this keyword in the property (keyword).
 	/// </summary>
-	public string Keyword = String.Empty;
+	public string Keyword = string.Empty;
 
 	/// <summary>
 	/// Comma separated strings that may alternatively represent this 
 	/// keyword in the property.
 	/// </summary>
-	public string KeywordAliases = String.Empty;
+	public string KeywordAliases = string.Empty;
 
 	/// <summary>
 	/// Keyword description.
 	/// </summary>
-	public string Description = String.Empty;
+	public string Description = string.Empty;
 
 	/// <summary>
 	/// Comma separated names of classes this keyword applies to.
 	/// </summary>
-	public string AppliesToTypes = String.Empty;
+	public string AppliesToTypes = string.Empty;
 
 	/// <summary>
 	/// Comma separated names of properties this keyword applies to.
 	/// </summary>
-	public string AppliesToProperties = String.Empty;
+	public string AppliesToProperties = string.Empty;
 
 	/// <summary>
 	/// True if keyword value can be formatted.
@@ -413,14 +413,14 @@ internal class KeywordInfo
 		bool supportsFormatting,
 		bool supportsValueIndex)
 	{
-		this.Name = name;
-		this.Keyword = keyword;
-		this.KeywordAliases = keywordAliases;
-		this.Description = description;
-		this.AppliesToTypes = appliesToTypes;
-		this.AppliesToProperties = appliesToProperties;
-		this.SupportsFormatting = supportsFormatting;
-		this.SupportsValueIndex = supportsValueIndex;
+		Name = name;
+		Keyword = keyword;
+		KeywordAliases = keywordAliases;
+		Description = description;
+		AppliesToTypes = appliesToTypes;
+		AppliesToProperties = appliesToProperties;
+		SupportsFormatting = supportsFormatting;
+		SupportsValueIndex = supportsValueIndex;
 	}
 
 	#endregion // Constructor
@@ -433,7 +433,7 @@ internal class KeywordInfo
 	/// <returns>Returns keyword name.</returns>
 	public override string ToString()
 	{
-		return this.Name;
+		return Name;
 	}
 	/// <summary>
 	/// Gets an array of keywords names including the aliases.
@@ -447,17 +447,17 @@ internal class KeywordInfo
 		// short form. For example, KeywordName.Ser and "#SERIES".
 
 		// Fill array of possible names for that keyword
-		if (this.KeywordAliases.Length > 0)
+		if (KeywordAliases.Length > 0)
 		{
-			string[] keywordAliases = this.KeywordAliases.Split(',');
+			string[] keywordAliases = KeywordAliases.Split(',');
 			string[] keywordNames = new string[keywordAliases.Length + 1];
-			keywordNames[0] = this.Keyword;
+			keywordNames[0] = Keyword;
 			keywordAliases.CopyTo(keywordNames, 1);
 			return keywordNames;
 		}
 		else
 		{
-			return new string[] { this.Keyword };
+			return [Keyword];
 		}
 	}
 

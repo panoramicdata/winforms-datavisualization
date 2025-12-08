@@ -81,7 +81,7 @@ internal class ThreeLineBreakChart : IChartType
 	internal static void PrepareData(Series series)
 	{
 		// Check series chart type
-		if (String.Compare(series.ChartTypeName, ChartTypeNames.ThreeLineBreak, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
+		if (string.Compare(series.ChartTypeName, ChartTypeNames.ThreeLineBreak, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
 		{
 			return;
 		}
@@ -104,9 +104,11 @@ internal class ThreeLineBreakChart : IChartType
 		}
 
 		// Create a temp series which will hold original series data points
-		Series seriesOriginalData = new Series("THREELINEBREAK_ORIGINAL_DATA_" + series.Name, series.YValuesPerPoint);
-		seriesOriginalData.Enabled = false;
-		seriesOriginalData.IsVisibleInLegend = false;
+		Series seriesOriginalData = new("THREELINEBREAK_ORIGINAL_DATA_" + series.Name, series.YValuesPerPoint)
+		{
+			Enabled = false,
+			IsVisibleInLegend = false
+		};
 		chart.Series.Add(seriesOriginalData);
 		foreach (DataPoint dp in series.Points)
 		{
@@ -169,7 +171,7 @@ internal class ThreeLineBreakChart : IChartType
 					series["OldAutomaticXAxisInterval"] = "true";
 
 					// Calculate and set axis date-time interval
-					DateTimeIntervalType intervalType = DateTimeIntervalType.Auto;
+					DateTimeIntervalType intervalType;
 					xAxis.interval = xAxis.CalcInterval(minX, maxX, true, out intervalType, series.XValueType);
 					xAxis.intervalType = intervalType;
 				}
@@ -299,7 +301,7 @@ internal class ThreeLineBreakChart : IChartType
 		}
 
 		// Create an array to store the history of high/low values of drawn lines
-		ArrayList highLowHistory = new ArrayList();
+		ArrayList highLowHistory = [];
 
 		// Fill points
 		double prevLow = double.NaN;
@@ -330,16 +332,13 @@ internal class ThreeLineBreakChart : IChartType
 			// Get up price color
 			Color priceUpColor = Color.Transparent;
 			string priceUpColorString = dataPoint[CustomPropertyName.PriceUpColor];
-			if (priceUpColorString == null)
-			{
-				priceUpColorString = series[CustomPropertyName.PriceUpColor];
-			}
+			priceUpColorString ??= series[CustomPropertyName.PriceUpColor];
 
 			if (priceUpColorString != null)
 			{
 				try
 				{
-					ColorConverter colorConverter = new ColorConverter();
+					ColorConverter colorConverter = new();
 					priceUpColor = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, priceUpColorString);
 				}
 				catch
@@ -619,9 +618,9 @@ internal class ThreeLineBreakChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 	#endregion
 

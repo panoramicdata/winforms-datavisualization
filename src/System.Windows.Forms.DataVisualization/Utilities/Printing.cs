@@ -25,7 +25,7 @@ public class PrintingManager : IDisposable
 	#region Private fields
 
 	// Reference to the service container
-	private IServiceContainer _serviceContainer;
+	private readonly IServiceContainer _serviceContainer;
 
 	// Reference to the chart image object
 	private ChartImage _chartImage;
@@ -83,7 +83,7 @@ public class PrintingManager : IDisposable
 	SRDescription("DescriptionAttributePrintingManager_PrintDocument"),
 	Browsable(false),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-		Utilities.SerializationVisibilityAttribute(Utilities.SerializationVisibility.Hidden)
+		Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)
 	]
 	public PrintDocument PrintDocument
 	{
@@ -99,7 +99,7 @@ public class PrintingManager : IDisposable
 				_printDocument = new PrintDocument();
 
 				// Hook up to the PrintPage event of the document
-				this.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+				PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
 			}
 
 			return _printDocument;
@@ -139,13 +139,13 @@ public class PrintingManager : IDisposable
 			graphics.TranslateTransform(position.X, position.Y);
 
 			// Set printing indicator
-			_chartImage.isPrinting = true;
+			_chartImage._isPrinting = true;
 
 			// Draw chart
 			_chartImage.Paint(graphics, false);
 
 			// Clear printing indicator
-			_chartImage.isPrinting = false;
+			_chartImage._isPrinting = false;
 
 			// Restore graphics state.
 			graphics.Restore(transState);
@@ -162,10 +162,11 @@ public class PrintingManager : IDisposable
 	public void PageSetup()
 	{
 		// Create print preview dialog
-		PageSetupDialog pageSetupDialog = new PageSetupDialog();
-
-		// Initialize printing document
-		pageSetupDialog.Document = this.PrintDocument;
+		PageSetupDialog pageSetupDialog = new()
+		{
+			// Initialize printing document
+			Document = PrintDocument
+		};
 
 		// Show page setup dialog
 		pageSetupDialog.ShowDialog();
@@ -178,10 +179,11 @@ public class PrintingManager : IDisposable
 	public void PrintPreview()
 	{
 		// Create print preview dialog
-		PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
-
-		// Initialize printing document
-		printPreviewDialog.Document = this.PrintDocument;
+		PrintPreviewDialog printPreviewDialog = new()
+		{
+			// Initialize printing document
+			Document = PrintDocument
+		};
 
 		// Show print preview
 		printPreviewDialog.ShowDialog();
@@ -197,9 +199,11 @@ public class PrintingManager : IDisposable
 		if (showPrintDialog)
 		{
 			// Create and show Print dialog
-			PrintDialog printDialog = new PrintDialog();
-			printDialog.UseEXDialog = true;
-			printDialog.Document = this.PrintDocument;
+			PrintDialog printDialog = new()
+			{
+				UseEXDialog = true,
+				Document = PrintDocument
+			};
 			DialogResult dialogResult = printDialog.ShowDialog();
 
 			// Do not proceed with printing if OK button was not pressed
@@ -210,7 +214,7 @@ public class PrintingManager : IDisposable
 		}
 
 		// Print chart
-		this.PrintDocument.Print();
+		PrintDocument.Print();
 	}
 
 	/// <summary>
@@ -244,7 +248,7 @@ public class PrintingManager : IDisposable
 					marginPixel.Height = (int)(marginPixel.Height * (ev.Graphics.DpiY / 100.0f));
 				}
 				// Calculate chart position rectangle
-				Rectangle chartPosition = new Rectangle(marginPixel.X, marginPixel.Y, _chartImage.Width, _chartImage.Height);
+				Rectangle chartPosition = new(marginPixel.X, marginPixel.Y, _chartImage.Width, _chartImage.Height);
 
 				// Make sure chart corretly fits the margin area
 				float chartWidthScale = ((float)marginPixel.Width) / ((float)chartPosition.Width);
@@ -257,7 +261,7 @@ public class PrintingManager : IDisposable
 				chartPosition.Y += (marginPixel.Height - chartPosition.Height) / 2;
 
 				// Draw chart on the printer graphisc
-				this.PrintPaint(ev.Graphics, chartPosition);
+				PrintPaint(ev.Graphics, chartPosition);
 			}
 			finally
 			{
@@ -280,11 +284,8 @@ public class PrintingManager : IDisposable
 		if (disposing)
 		{
 			//Free managed resources
-			if (_printDocument != null)
-			{
-				_printDocument.Dispose();
-				_printDocument = null;
-			}
+			_printDocument?.Dispose();
+			_printDocument = null;
 		}
 	}
 
@@ -293,7 +294,7 @@ public class PrintingManager : IDisposable
 	/// </summary>
 	public void Dispose()
 	{
-		this.Dispose(true);
+		Dispose(true);
 		GC.SuppressFinalize(this);
 	}
 

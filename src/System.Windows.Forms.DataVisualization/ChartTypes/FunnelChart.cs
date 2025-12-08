@@ -164,7 +164,7 @@ internal class FunnelChart : IChartType
 	internal CommonElements Common { get; set; }
 
 	// Spacing between each side of the funnel and chart area.
-	internal RectangleF plotAreaSpacing = new RectangleF(3f, 3f, 3f, 3f);
+	internal RectangleF plotAreaSpacing = new(3f, 3f, 3f, 3f);
 
 	// Current chart type series
 	private Series _chartTypeSeries = null;
@@ -188,7 +188,7 @@ internal class FunnelChart : IChartType
 	private FunnelStyle _funnelStyle = FunnelStyle.YIsHeight;
 
 	// Define the shape of the funnel neck
-	private SizeF _funnelNeckSize = new SizeF(50f, 30f);
+	private SizeF _funnelNeckSize = new(50f, 30f);
 
 	// Gap between funnel segments
 	internal float funnelSegmentGap = 0f;
@@ -362,9 +362,9 @@ internal class FunnelChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -385,38 +385,38 @@ internal class FunnelChart : IChartType
 		Series seriesToDraw)
 	{
 		// Reset fields
-		this._chartTypeSeries = null;
-		this._funnelMinPointHeight = 0f;
+		_chartTypeSeries = null;
+		_funnelMinPointHeight = 0f;
 
 		// Save reference to the input parameters 
-		this.Graph = graph;
-		this.Common = common;
-		this.Area = area;
+		Graph = graph;
+		Common = common;
+		Area = area;
 
 		// Funnel chart like a Pie chart shows each data point as part of the whole (100%).
 		// Calculate the sum of all Y and X values, which will be used to calculate point percentage.
 		GetDataPointValuesStatistic();
 
 		// Check if there are non-zero points 
-		if (this.yValueTotal == 0.0 || this.pointNumber == 0)
+		if (yValueTotal == 0.0 || pointNumber == 0)
 		{
 			return;
 		}
 
 		// When Y value is funnel width at least 2 points required
-		this._funnelStyle = GetFunnelStyle(this.GetDataSeries());
-		if (this._funnelStyle == FunnelStyle.YIsWidth &&
-			this.pointNumber == 1)
+		_funnelStyle = GetFunnelStyle(GetDataSeries());
+		if (_funnelStyle == FunnelStyle.YIsWidth &&
+			pointNumber == 1)
 		{
 			// At least 2 points required
 			return;
 		}
 
 		// Get minimum point height
-		GetFunnelMinPointHeight(this.GetDataSeries());
+		GetFunnelMinPointHeight(GetDataSeries());
 
 		// Fill list of data point labels information
-		this.labelInfoList = CreateLabelsInfoList();
+		labelInfoList = CreateLabelsInfoList();
 
 		// Calculate the spacing required for the labels.
 		GetPlotAreaSpacing();
@@ -434,27 +434,27 @@ internal class FunnelChart : IChartType
 	private void ProcessChartType()
 	{
 		// Reversed drawing order in 3D with positive rotation angle
-		if (this.Area.Area3DStyle.Enable3D &&
-			((this._rotation3D > 0 && !this.isPyramid) || (this._rotation3D < 0 && this.isPyramid)))
+		if (Area.Area3DStyle.Enable3D &&
+			((_rotation3D > 0 && !isPyramid) || (_rotation3D < 0 && isPyramid)))
 		{
-			this.segmentList.Reverse();
+			segmentList.Reverse();
 		}
 
 		// Check if series shadow should be drawn separatly
 		bool drawShadowSeparatly = true;
-		bool drawSegmentShadow = (this.Area.Area3DStyle.Enable3D) ? false : true;
+		bool drawSegmentShadow = (Area.Area3DStyle.Enable3D) ? false : true;
 
 		// Process all funnel segments shadows
-		Series series = this.GetDataSeries();
+		Series series = GetDataSeries();
 		if (drawSegmentShadow &&
 			drawShadowSeparatly &&
 			series != null &&
 			series.ShadowOffset != 0)
 		{
-			foreach (FunnelSegmentInfo segmentInfo in this.segmentList)
+			foreach (FunnelSegmentInfo segmentInfo in segmentList)
 			{
 				// Draw funnel segment
-				this.DrawFunnelCircularSegment(
+				DrawFunnelCircularSegment(
 					segmentInfo.Point,
 					segmentInfo.PointIndex,
 					segmentInfo.StartWidth,
@@ -471,10 +471,10 @@ internal class FunnelChart : IChartType
 		}
 
 		// Process all funnel segments
-		foreach (FunnelSegmentInfo segmentInfo in this.segmentList)
+		foreach (FunnelSegmentInfo segmentInfo in segmentList)
 		{
 			// Draw funnel segment
-			this.DrawFunnelCircularSegment(
+			DrawFunnelCircularSegment(
 				segmentInfo.Point,
 				segmentInfo.PointIndex,
 				segmentInfo.StartWidth,
@@ -505,32 +505,32 @@ internal class FunnelChart : IChartType
 		out float startWidth,
 		out float endWidth)
 	{
-		PointF pointPositionAbs = PointF.Empty;
 
 		// Get plotting area position in pixels
-		RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
+		RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(PlotAreaPosition);
 
 		// Calculate total height of plotting area minus reserved space for the gaps
 		float plotAreaHeightAbs = plotAreaPositionAbs.Height -
-			this.funnelSegmentGap * (this.pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2));
+			funnelSegmentGap * (pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2));
 		if (plotAreaHeightAbs < 0f)
 		{
 			plotAreaHeightAbs = 0f;
 		}
 
-		if (this._funnelStyle == FunnelStyle.YIsWidth)
+		PointF pointPositionAbs;
+		if (_funnelStyle == FunnelStyle.YIsWidth)
 		{
 			// Check if X values are provided
-			if (this._xValueTotal == 0.0)
+			if (_xValueTotal == 0.0)
 			{
 				// Calculate segment height in pixels by deviding 
 				// plotting area height by number of points.
-				height = plotAreaHeightAbs / (this.pointNumber - 1);
+				height = plotAreaHeightAbs / (pointNumber - 1);
 			}
 			else
 			{
 				// Calculate segment height as a part of total Y values in series
-				height = (float)(plotAreaHeightAbs * (GetXValue(series.Points[pointIndex]) / this._xValueTotal));
+				height = (float)(plotAreaHeightAbs * (GetXValue(series.Points[pointIndex]) / _xValueTotal));
 			}
 
 			// Check for minimum segment height
@@ -538,18 +538,18 @@ internal class FunnelChart : IChartType
 
 			// Calculate start and end width of the segment based on Y value
 			// of previous and current data point.
-			startWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex - 1], pointIndex - 1) / this._yValueMax));
-			endWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex], pointIndex) / this._yValueMax));
+			startWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex - 1], pointIndex - 1) / _yValueMax));
+			endWidth = (float)(plotAreaPositionAbs.Width * (GetYValue(series.Points[pointIndex], pointIndex) / _yValueMax));
 
 			// Set point position for annotation anchoring
 			pointPositionAbs = new PointF(
 				plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f,
 				location + height);
 		}
-		else if (this._funnelStyle == FunnelStyle.YIsHeight)
+		else if (_funnelStyle == FunnelStyle.YIsHeight)
 		{
 			// Calculate segment height as a part of total Y values in series
-			height = (float)(plotAreaHeightAbs * (GetYValue(series.Points[pointIndex], pointIndex) / this.yValueTotal));
+			height = (float)(plotAreaHeightAbs * (GetYValue(series.Points[pointIndex], pointIndex) / yValueTotal));
 
 			// Check for minimum segment height
 			height = CheckMinHeight(height);
@@ -560,8 +560,8 @@ internal class FunnelChart : IChartType
 				plotAreaPositionAbs.X, location,
 				plotAreaPositionAbs.Right, location,
 				plotAreaPositionAbs.X, plotAreaPositionAbs.Y,
-				plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - this._funnelNeckSize.Width / 2f,
-				plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height);
+				plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - _funnelNeckSize.Width / 2f,
+				plotAreaPositionAbs.Bottom - _funnelNeckSize.Height);
 
 			// Get intersection point of the horizontal line at the end of the segment
 			// with the left pre-defined wall of the funnel.
@@ -569,8 +569,8 @@ internal class FunnelChart : IChartType
 				plotAreaPositionAbs.X, location + height,
 				plotAreaPositionAbs.Right, location + height,
 				plotAreaPositionAbs.X, plotAreaPositionAbs.Y,
-				plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - this._funnelNeckSize.Width / 2f,
-				plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height);
+				plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f - _funnelNeckSize.Width / 2f,
+				plotAreaPositionAbs.Bottom - _funnelNeckSize.Height);
 
 			// Get segment start and end width
 			startWidth = (float)(plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f -
@@ -585,7 +585,7 @@ internal class FunnelChart : IChartType
 		}
 		else
 		{
-			throw (new InvalidOperationException(SR.ExceptionFunnelStyleUnknown(this._funnelStyle.ToString())));
+			throw (new InvalidOperationException(SR.ExceptionFunnelStyleUnknown(_funnelStyle.ToString())));
 		}
 
 		// Set pre-calculated point position
@@ -601,7 +601,7 @@ internal class FunnelChart : IChartType
 	/// <returns>True if first point in the series should be drawn.</returns>
 	protected virtual bool ShouldDrawFirstPoint()
 	{
-		return (this._funnelStyle == FunnelStyle.YIsHeight || this.isPyramid);
+		return (_funnelStyle == FunnelStyle.YIsHeight || isPyramid);
 	}
 
 	/// <summary>
@@ -640,34 +640,34 @@ internal class FunnelChart : IChartType
 		Color darkColor = ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.3);
 
 		// Segment width can't be smaller than funnel neck width
-		if (this._funnelStyle == FunnelStyle.YIsHeight && !this.isPyramid)
+		if (_funnelStyle == FunnelStyle.YIsHeight && !isPyramid)
 		{
-			if (startWidth < this._funnelNeckSize.Width)
+			if (startWidth < _funnelNeckSize.Width)
 			{
-				startWidth = this._funnelNeckSize.Width;
+				startWidth = _funnelNeckSize.Width;
 			}
 
-			if (endWidth < this._funnelNeckSize.Width)
+			if (endWidth < _funnelNeckSize.Width)
 			{
-				endWidth = this._funnelNeckSize.Width;
+				endWidth = _funnelNeckSize.Width;
 			}
 		}
 
 		// Get 3D rotation angle
-		float topRotationHeight = (float)((startWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI));
-		float bottomRotationHeight = (float)((endWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI));
+		float topRotationHeight = (float)((startWidth / 2f) * Math.Sin(_rotation3D / 180F * Math.PI));
+		float bottomRotationHeight = (float)((endWidth / 2f) * Math.Sin(_rotation3D / 180F * Math.PI));
 
 		// Get plotting area position in pixels
-		RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
+		RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(PlotAreaPosition);
 
 		// Get the horizontal center point in pixels
 		float xCenterPointAbs = plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f;
 
 		// Start Svg Selection mode
-		this.Graph.StartHotRegion(point);
+		Graph.StartHotRegion(point);
 
 		// Create segment path
-		GraphicsPath segmentPath = new GraphicsPath();
+		GraphicsPath segmentPath = new();
 
 		// Draw left part of the pyramid segment
 		// Add top line
@@ -696,10 +696,10 @@ internal class FunnelChart : IChartType
 			xCenterPointAbs - endWidth / 2f, location + height,
 			xCenterPointAbs - startWidth / 2f, location);
 
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
 			// Fill graphics path
-			this.Graph.DrawPathAbs(
+			Graph.DrawPathAbs(
 				segmentPath,
 				(drawSegment) ? lightColor : Color.Transparent,
 				point.BackHatchStyle,
@@ -717,13 +717,13 @@ internal class FunnelChart : IChartType
 				point.series.ShadowColor);
 		}
 
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Add hot region
-			this.Common.HotRegionsList.AddHotRegion(
+			Common.HotRegionsList.AddHotRegion(
 				segmentPath,
 				false,
-				this.Graph,
+				Graph,
 				point,
 				point.series.Name,
 				pointIndex);
@@ -761,10 +761,10 @@ internal class FunnelChart : IChartType
 			xCenterPointAbs + endWidth / 2f, location + height,
 			xCenterPointAbs + startWidth / 2f, location);
 
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
 			// Fill graphics path
-			this.Graph.DrawPathAbs(
+			Graph.DrawPathAbs(
 				segmentPath,
 				(drawSegment) ? darkColor : Color.Transparent,
 				point.BackHatchStyle,
@@ -782,13 +782,13 @@ internal class FunnelChart : IChartType
 				point.series.ShadowColor);
 		}
 
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Add hot region
-			this.Common.HotRegionsList.AddHotRegion(
+			Common.HotRegionsList.AddHotRegion(
 				segmentPath,
 				false,
-				this.Graph,
+				Graph,
 				point,
 				point.series.Name,
 				pointIndex);
@@ -798,23 +798,25 @@ internal class FunnelChart : IChartType
 
 
 		// Add top 3D surface
-		if (this._rotation3D > 0f && startWidth > 0f && nothingOnTop)
+		if (_rotation3D > 0f && startWidth > 0f && nothingOnTop)
 		{
-			if (this.Area.Area3DStyle.Enable3D)
+			if (Area.Area3DStyle.Enable3D)
 			{
-				PointF[] sidePoints = new PointF[4];
-				sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
-				sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
-				sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
-				sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
-				GraphicsPath topCurve = new GraphicsPath();
+				PointF[] sidePoints =
+				[
+					new PointF(xCenterPointAbs + startWidth / 2f, location),
+					new PointF(xCenterPointAbs, location + topRotationHeight),
+					new PointF(xCenterPointAbs - startWidth / 2f, location),
+					new PointF(xCenterPointAbs, location - topRotationHeight),
+				];
+				GraphicsPath topCurve = new();
 				topCurve.AddLines(sidePoints);
 				topCurve.CloseAllFigures();
 
-				if (this.Common.ProcessModePaint)
+				if (Common.ProcessModePaint)
 				{
 					// Fill graphics path
-					this.Graph.DrawPathAbs(
+					Graph.DrawPathAbs(
 						topCurve,
 						(drawSegment) ? ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.4) : Color.Transparent,
 						point.BackHatchStyle,
@@ -832,13 +834,13 @@ internal class FunnelChart : IChartType
 						point.series.ShadowColor);
 				}
 
-				if (this.Common.ProcessModeRegions)
+				if (Common.ProcessModeRegions)
 				{
 					// Add hot region
-					this.Common.HotRegionsList.AddHotRegion(
+					Common.HotRegionsList.AddHotRegion(
 						topCurve,
 						false,
-						this.Graph,
+						Graph,
 						point,
 						point.series.Name,
 						pointIndex);
@@ -849,23 +851,25 @@ internal class FunnelChart : IChartType
 		}
 
 		// Add bottom 3D surface
-		if (this._rotation3D < 0f && startWidth > 0f && nothingOnBottom)
+		if (_rotation3D < 0f && startWidth > 0f && nothingOnBottom)
 		{
-			if (this.Area.Area3DStyle.Enable3D)
+			if (Area.Area3DStyle.Enable3D)
 			{
-				PointF[] sidePoints = new PointF[4];
-				sidePoints[0] = new PointF(xCenterPointAbs + endWidth / 2f, location + height);
-				sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
-				sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
-				sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
-				GraphicsPath topCurve = new GraphicsPath();
+				PointF[] sidePoints =
+				[
+					new PointF(xCenterPointAbs + endWidth / 2f, location + height),
+					new PointF(xCenterPointAbs, location + height + bottomRotationHeight),
+					new PointF(xCenterPointAbs - endWidth / 2f, location + height),
+					new PointF(xCenterPointAbs, location + height - bottomRotationHeight),
+				];
+				GraphicsPath topCurve = new();
 				topCurve.AddLines(sidePoints);
 				topCurve.CloseAllFigures();
 
-				if (this.Common.ProcessModePaint)
+				if (Common.ProcessModePaint)
 				{
 					// Fill graphics path
-					this.Graph.DrawPathAbs(
+					Graph.DrawPathAbs(
 						topCurve,
 						(drawSegment) ? ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.4) : Color.Transparent,
 						point.BackHatchStyle,
@@ -883,13 +887,13 @@ internal class FunnelChart : IChartType
 						point.series.ShadowColor);
 				}
 
-				if (this.Common.ProcessModeRegions)
+				if (Common.ProcessModeRegions)
 				{
 					// Add hot region
-					this.Common.HotRegionsList.AddHotRegion(
+					Common.HotRegionsList.AddHotRegion(
 						topCurve,
 						false,
-						this.Graph,
+						Graph,
 						point,
 						point.series.Name,
 						pointIndex);
@@ -901,7 +905,7 @@ internal class FunnelChart : IChartType
 		}
 
 		// End Svg Selection mode
-		this.Graph.EndHotRegion();
+		Graph.EndHotRegion();
 	}
 
 	/// <summary>
@@ -929,11 +933,9 @@ internal class FunnelChart : IChartType
 		bool drawSegment,
 		bool drawSegmentShadow)
 	{
-		PointF leftSideLinePoint = PointF.Empty;
-		PointF rightSideLinePoint = PointF.Empty;
 
 		// Check if square 3D segment should be drawn
-		if (this.Area.Area3DStyle.Enable3D && !round3DShape)
+		if (Area.Area3DStyle.Enable3D && !round3DShape)
 		{
 			DrawFunnel3DSquareSegment(
 				point,
@@ -958,47 +960,51 @@ internal class FunnelChart : IChartType
 		// Segment width can't be smaller than funnel neck width
 		float originalStartWidth = startWidth;
 		float originalEndWidth = endWidth;
-		if (this._funnelStyle == FunnelStyle.YIsHeight && !this.isPyramid)
+		if (_funnelStyle == FunnelStyle.YIsHeight && !isPyramid)
 		{
-			if (startWidth < this._funnelNeckSize.Width)
+			if (startWidth < _funnelNeckSize.Width)
 			{
-				startWidth = this._funnelNeckSize.Width;
+				startWidth = _funnelNeckSize.Width;
 			}
 
-			if (endWidth < this._funnelNeckSize.Width)
+			if (endWidth < _funnelNeckSize.Width)
 			{
-				endWidth = this._funnelNeckSize.Width;
+				endWidth = _funnelNeckSize.Width;
 			}
 		}
 
 		// Get 3D rotation angle
 		float tension = 0.8f;
-		float topRotationHeight = (float)((startWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI));
-		float bottomRotationHeight = (float)((endWidth / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI));
+		float topRotationHeight = (float)((startWidth / 2f) * Math.Sin(_rotation3D / 180F * Math.PI));
+		float bottomRotationHeight = (float)((endWidth / 2f) * Math.Sin(_rotation3D / 180F * Math.PI));
 
 		// Get plotting area position in pixels
-		RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
+		RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(PlotAreaPosition);
 
 		// Get the horizontal center point in pixels
 		float xCenterPointAbs = plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f;
 
 		// Start Svg Selection mode
-		this.Graph.StartHotRegion(point);
+		Graph.StartHotRegion(point);
 
 		// Create segment path
-		GraphicsPath segmentPath = new GraphicsPath();
+		GraphicsPath segmentPath = new();
 
+		PointF leftSideLinePoint;
+		PointF rightSideLinePoint;
 		// Add top line
 		if (startWidth > 0f)
 		{
-			if (this.Area.Area3DStyle.Enable3D)
+			if (Area.Area3DStyle.Enable3D)
 			{
-				PointF[] sidePoints = new PointF[4];
-				sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
-				sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
-				sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
-				sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
-				GraphicsPath topCurve = new GraphicsPath();
+				PointF[] sidePoints =
+				[
+					new PointF(xCenterPointAbs + startWidth / 2f, location),
+					new PointF(xCenterPointAbs, location + topRotationHeight),
+					new PointF(xCenterPointAbs - startWidth / 2f, location),
+					new PointF(xCenterPointAbs, location - topRotationHeight),
+				];
+				GraphicsPath topCurve = new();
 				topCurve.AddClosedCurve(sidePoints, tension);
 				topCurve.Flatten();
 				topCurve.Reverse();
@@ -1021,21 +1027,21 @@ internal class FunnelChart : IChartType
 		}
 
 		// Add right line
-		if (this._funnelStyle == FunnelStyle.YIsHeight &&
-			!this.isPyramid &&
-			startWidth > this._funnelNeckSize.Width &&
-			endWidth <= this._funnelNeckSize.Width)
+		if (_funnelStyle == FunnelStyle.YIsHeight &&
+			!isPyramid &&
+			startWidth > _funnelNeckSize.Width &&
+			endWidth <= _funnelNeckSize.Width)
 		{
 			// Get intersection point of the vertical line at the neck border
 			// with the left pre-defined wall of the funnel.
 			PointF intersection = ChartGraphics.GetLinesIntersection(
-				xCenterPointAbs + this._funnelNeckSize.Width / 2f, plotAreaPositionAbs.Top,
-				xCenterPointAbs + this._funnelNeckSize.Width / 2f, plotAreaPositionAbs.Bottom,
+				xCenterPointAbs + _funnelNeckSize.Width / 2f, plotAreaPositionAbs.Top,
+				xCenterPointAbs + _funnelNeckSize.Width / 2f, plotAreaPositionAbs.Bottom,
 				xCenterPointAbs + originalStartWidth / 2f, location,
 				xCenterPointAbs + originalEndWidth / 2f, location + height);
 
 			// Adjust intersection point with top of the neck
-			intersection.Y = plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height;
+			intersection.Y = plotAreaPositionAbs.Bottom - _funnelNeckSize.Height;
 
 			// Add two segment line
 			segmentPath.AddLine(
@@ -1056,34 +1062,34 @@ internal class FunnelChart : IChartType
 		// Add bottom line
 		if (endWidth > 0f)
 		{
-			if (this.Area.Area3DStyle.Enable3D)
+			if (Area.Area3DStyle.Enable3D)
 			{
-				PointF[] sidePoints = new PointF[4];
-				sidePoints[0] = new PointF(xCenterPointAbs + endWidth / 2f, location + height);
-				sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
-				sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
-				sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
-				GraphicsPath topCurve = new GraphicsPath();
+				PointF[] sidePoints =
+				[
+					new PointF(xCenterPointAbs + endWidth / 2f, location + height),
+					new PointF(xCenterPointAbs, location + height + bottomRotationHeight),
+					new PointF(xCenterPointAbs - endWidth / 2f, location + height),
+					new PointF(xCenterPointAbs, location + height - bottomRotationHeight),
+				];
+				GraphicsPath topCurve = new();
 				topCurve.AddClosedCurve(sidePoints, tension);
 				topCurve.Flatten();
 				topCurve.Reverse();
 
-				using (GraphicsPath tmp = new GraphicsPath())
-				{
-					Graph.AddEllipseSegment(
-						tmp,
-						topCurve,
-						null,
-						true,
-						0f,
-						out leftSideLinePoint,
-						out rightSideLinePoint);
+				using GraphicsPath tmp = new();
+				Graph.AddEllipseSegment(
+					tmp,
+					topCurve,
+					null,
+					true,
+					0f,
+					out leftSideLinePoint,
+					out rightSideLinePoint);
 
-					tmp.Reverse();
-					if (tmp.PointCount > 0)
-					{
-						segmentPath.AddPath(tmp, false);
-					}
+				tmp.Reverse();
+				if (tmp.PointCount > 0)
+				{
+					segmentPath.AddPath(tmp, false);
 				}
 			}
 			else
@@ -1095,21 +1101,21 @@ internal class FunnelChart : IChartType
 		}
 
 		// Add left line
-		if (this._funnelStyle == FunnelStyle.YIsHeight &&
-			!this.isPyramid &&
-			startWidth > this._funnelNeckSize.Width &&
-			endWidth <= this._funnelNeckSize.Width)
+		if (_funnelStyle == FunnelStyle.YIsHeight &&
+			!isPyramid &&
+			startWidth > _funnelNeckSize.Width &&
+			endWidth <= _funnelNeckSize.Width)
 		{
 			// Get intersection point of the horizontal line at the start of the segment
 			// with the left pre-defined wall of the funnel.
 			PointF intersection = ChartGraphics.GetLinesIntersection(
-				xCenterPointAbs - this._funnelNeckSize.Width / 2f, plotAreaPositionAbs.Top,
-				xCenterPointAbs - this._funnelNeckSize.Width / 2f, plotAreaPositionAbs.Bottom,
+				xCenterPointAbs - _funnelNeckSize.Width / 2f, plotAreaPositionAbs.Top,
+				xCenterPointAbs - _funnelNeckSize.Width / 2f, plotAreaPositionAbs.Bottom,
 				xCenterPointAbs - originalStartWidth / 2f, location,
 				xCenterPointAbs - originalEndWidth / 2f, location + height);
 
 			// Adjust intersection point with top of the neck
-			intersection.Y = plotAreaPositionAbs.Bottom - this._funnelNeckSize.Height;
+			intersection.Y = plotAreaPositionAbs.Bottom - _funnelNeckSize.Height;
 
 			// Add two segment line
 			segmentPath.AddLine(
@@ -1126,10 +1132,10 @@ internal class FunnelChart : IChartType
 				xCenterPointAbs - startWidth / 2f, location);
 		}
 
-		if (this.Common.ProcessModePaint)
+		if (Common.ProcessModePaint)
 		{
 			// Draw lightStyle source blink effect in 3D
-			if (this.Area.Area3DStyle.Enable3D &&
+			if (Area.Area3DStyle.Enable3D &&
 				Graph.ActiveRenderingType == RenderingType.Gdi)
 			{
 				// Get lighter and darker back colors
@@ -1148,54 +1154,56 @@ internal class FunnelChart : IChartType
 					boundsRect.Height = 1f;
 				}
 
-				using (LinearGradientBrush brush = new LinearGradientBrush(
+				using LinearGradientBrush brush = new(
 						   boundsRect,
 						   lightColor,
 						   darkColor,
-						   0f))
+						   0f);
+				// Set linear gradient brush interpolation colors
+				ColorBlend colorBlend = new(5);
+				colorBlend.Colors[0] = darkColor;
+				colorBlend.Colors[1] = darkColor;
+				colorBlend.Colors[2] = lightColor;
+				colorBlend.Colors[3] = darkColor;
+				colorBlend.Colors[4] = darkColor;
+
+				colorBlend.Positions[0] = 0.0f;
+				colorBlend.Positions[1] = 0.0f;
+				colorBlend.Positions[2] = 0.5f;
+				colorBlend.Positions[3] = 1.0f;
+				colorBlend.Positions[4] = 1.0f;
+
+				brush.InterpolationColors = colorBlend;
+
+				// Fill path
+				Graph.Graphics.FillPath(brush, segmentPath);
+
+				// Draw path border
+				Pen pen = new(point.BorderColor, point.BorderWidth)
 				{
-					// Set linear gradient brush interpolation colors
-					ColorBlend colorBlend = new ColorBlend(5);
-					colorBlend.Colors[0] = darkColor;
-					colorBlend.Colors[1] = darkColor;
-					colorBlend.Colors[2] = lightColor;
-					colorBlend.Colors[3] = darkColor;
-					colorBlend.Colors[4] = darkColor;
-
-					colorBlend.Positions[0] = 0.0f;
-					colorBlend.Positions[1] = 0.0f;
-					colorBlend.Positions[2] = 0.5f;
-					colorBlend.Positions[3] = 1.0f;
-					colorBlend.Positions[4] = 1.0f;
-
-					brush.InterpolationColors = colorBlend;
-
-					// Fill path
-					this.Graph.Graphics.FillPath(brush, segmentPath);
-
-					// Draw path border
-					Pen pen = new Pen(point.BorderColor, point.BorderWidth);
-					pen.DashStyle = this.Graph.GetPenStyle(point.BorderDashStyle);
-					if (point.BorderWidth == 0 ||
-						point.BorderDashStyle == ChartDashStyle.NotSet ||
-						point.BorderColor == Color.Empty)
+					DashStyle = Graph.GetPenStyle(point.BorderDashStyle)
+				};
+				if (point.BorderWidth == 0 ||
+					point.BorderDashStyle == ChartDashStyle.NotSet ||
+					point.BorderColor == Color.Empty)
+				{
+					// Draw line of the darker color inside the cylinder
+					pen = new Pen(ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.3), 1)
 					{
-						// Draw line of the darker color inside the cylinder
-						pen = new Pen(ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.3), 1);
-						pen.Alignment = PenAlignment.Inset;
-					}
-
-					pen.StartCap = LineCap.Round;
-					pen.EndCap = LineCap.Round;
-					pen.LineJoin = LineJoin.Bevel;
-					this.Graph.DrawPath(pen, segmentPath);
-					pen.Dispose();
+						Alignment = PenAlignment.Inset
+					};
 				}
+
+				pen.StartCap = LineCap.Round;
+				pen.EndCap = LineCap.Round;
+				pen.LineJoin = LineJoin.Bevel;
+				Graph.DrawPath(pen, segmentPath);
+				pen.Dispose();
 			}
 			else
 			{
 				// Fill graphics path
-				this.Graph.DrawPathAbs(
+				Graph.DrawPathAbs(
 					segmentPath,
 					(drawSegment) ? point.Color : Color.Transparent,
 					point.BackHatchStyle,
@@ -1214,13 +1222,13 @@ internal class FunnelChart : IChartType
 			}
 		}
 
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Add hot region
-			this.Common.HotRegionsList.AddHotRegion(
+			Common.HotRegionsList.AddHotRegion(
 				segmentPath,
 				false,
-				this.Graph,
+				Graph,
 				point,
 				point.series.Name,
 				pointIndex);
@@ -1230,22 +1238,24 @@ internal class FunnelChart : IChartType
 
 
 		// Add top 3D surface
-		if (this._rotation3D > 0f && startWidth > 0f && nothingOnTop)
+		if (_rotation3D > 0f && startWidth > 0f && nothingOnTop)
 		{
-			if (this.Area.Area3DStyle.Enable3D)
+			if (Area.Area3DStyle.Enable3D)
 			{
-				PointF[] sidePoints = new PointF[4];
-				sidePoints[0] = new PointF(xCenterPointAbs + startWidth / 2f, location);
-				sidePoints[1] = new PointF(xCenterPointAbs, location + topRotationHeight);
-				sidePoints[2] = new PointF(xCenterPointAbs - startWidth / 2f, location);
-				sidePoints[3] = new PointF(xCenterPointAbs, location - topRotationHeight);
-				GraphicsPath topCurve = new GraphicsPath();
+				PointF[] sidePoints =
+				[
+					new PointF(xCenterPointAbs + startWidth / 2f, location),
+					new PointF(xCenterPointAbs, location + topRotationHeight),
+					new PointF(xCenterPointAbs - startWidth / 2f, location),
+					new PointF(xCenterPointAbs, location - topRotationHeight),
+				];
+				GraphicsPath topCurve = new();
 				topCurve.AddClosedCurve(sidePoints, tension);
 
-				if (this.Common.ProcessModePaint)
+				if (Common.ProcessModePaint)
 				{
 					// Fill graphics path
-					this.Graph.DrawPathAbs(
+					Graph.DrawPathAbs(
 						topCurve,
 						(drawSegment) ? ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.4) : Color.Transparent,
 						point.BackHatchStyle,
@@ -1263,13 +1273,13 @@ internal class FunnelChart : IChartType
 						point.series.ShadowColor);
 				}
 
-				if (this.Common.ProcessModeRegions)
+				if (Common.ProcessModeRegions)
 				{
 					// Add hot region
-					this.Common.HotRegionsList.AddHotRegion(
+					Common.HotRegionsList.AddHotRegion(
 						topCurve,
 						false,
-						this.Graph,
+						Graph,
 						point,
 						point.series.Name,
 						pointIndex);
@@ -1280,22 +1290,24 @@ internal class FunnelChart : IChartType
 		}
 
 		// Add bottom 3D surface
-		if (this._rotation3D < 0f && startWidth > 0f && nothingOnBottom)
+		if (_rotation3D < 0f && startWidth > 0f && nothingOnBottom)
 		{
-			if (this.Area.Area3DStyle.Enable3D)
+			if (Area.Area3DStyle.Enable3D)
 			{
-				PointF[] sidePoints = new PointF[4];
-				sidePoints[0] = new PointF(xCenterPointAbs + endWidth / 2f, location + height);
-				sidePoints[1] = new PointF(xCenterPointAbs, location + height + bottomRotationHeight);
-				sidePoints[2] = new PointF(xCenterPointAbs - endWidth / 2f, location + height);
-				sidePoints[3] = new PointF(xCenterPointAbs, location + height - bottomRotationHeight);
-				GraphicsPath topCurve = new GraphicsPath();
+				PointF[] sidePoints =
+				[
+					new PointF(xCenterPointAbs + endWidth / 2f, location + height),
+					new PointF(xCenterPointAbs, location + height + bottomRotationHeight),
+					new PointF(xCenterPointAbs - endWidth / 2f, location + height),
+					new PointF(xCenterPointAbs, location + height - bottomRotationHeight),
+				];
+				GraphicsPath topCurve = new();
 				topCurve.AddClosedCurve(sidePoints, tension);
 
-				if (this.Common.ProcessModePaint)
+				if (Common.ProcessModePaint)
 				{
 					// Fill graphics path
-					this.Graph.DrawPathAbs(
+					Graph.DrawPathAbs(
 						topCurve,
 						(drawSegment) ? ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.4) : Color.Transparent,
 						point.BackHatchStyle,
@@ -1313,13 +1325,13 @@ internal class FunnelChart : IChartType
 						point.series.ShadowColor);
 				}
 
-				if (this.Common.ProcessModeRegions)
+				if (Common.ProcessModeRegions)
 				{
 					// Add hot region
-					this.Common.HotRegionsList.AddHotRegion(
+					Common.HotRegionsList.AddHotRegion(
 						topCurve,
 						false,
-						this.Graph,
+						Graph,
 						point,
 						point.series.Name,
 						pointIndex);
@@ -1331,7 +1343,7 @@ internal class FunnelChart : IChartType
 		}
 
 		// End Svg Selection mode
-		this.Graph.EndHotRegion();
+		Graph.EndHotRegion();
 	}
 
 
@@ -1342,7 +1354,7 @@ internal class FunnelChart : IChartType
 	private ArrayList GetFunnelSegmentPositions()
 	{
 		// Create new list
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
 
 		// Funnel chart process only first series in the chart area
 		// and cannot be combined with any other chart types.
@@ -1350,23 +1362,23 @@ internal class FunnelChart : IChartType
 		if (series != null)
 		{
 			// Get funnel drawing style 
-			this._funnelStyle = GetFunnelStyle(series);
+			_funnelStyle = GetFunnelStyle(series);
 
 			// Check if round or square base is used in 3D chart
-			this.round3DShape = (GetFunnel3DDrawingStyle(series) == Funnel3DDrawingStyle.CircularBase);
+			round3DShape = (GetFunnel3DDrawingStyle(series) == Funnel3DDrawingStyle.CircularBase);
 
 			// Get funnel points gap
-			this.funnelSegmentGap = GetFunnelPointGap(series);
+			funnelSegmentGap = GetFunnelPointGap(series);
 
 			// Get funnel neck size
-			this._funnelNeckSize = GetFunnelNeckSize(series);
+			_funnelNeckSize = GetFunnelNeckSize(series);
 
 			// Loop through all ponts in the data series
-			float currentLocation = this.Graph.GetAbsolutePoint(this.PlotAreaPosition.Location).Y;
-			if (this.isPyramid)
+			float currentLocation = Graph.GetAbsolutePoint(PlotAreaPosition.Location).Y;
+			if (isPyramid)
 			{
 				// Pyramid is drawn in reversed order. 
-				currentLocation = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition).Bottom;
+				currentLocation = Graph.GetAbsoluteRectangle(PlotAreaPosition).Bottom;
 			}
 
 			for (int pointIndex = 0; pointIndex >= 0 && pointIndex < series.Points.Count; pointIndex += 1)
@@ -1377,9 +1389,9 @@ internal class FunnelChart : IChartType
 				if (pointIndex > 0 || ShouldDrawFirstPoint())
 				{
 					// Get height and width of each data point segment
-					float startWidth = 0f;
-					float endWidth = 0f;
-					float height = 0f;
+					float startWidth;
+					float endWidth;
+					float height;
 					GetPointWidthAndHeight(
 						series,
 						pointIndex,
@@ -1391,7 +1403,7 @@ internal class FunnelChart : IChartType
 					// Check visibility of previous and next points
 					bool nothingOnTop = false;
 					bool nothingOnBottom = false;
-					if (this.funnelSegmentGap > 0)
+					if (funnelSegmentGap > 0)
 					{
 						nothingOnTop = true;
 						nothingOnBottom = true;
@@ -1403,7 +1415,7 @@ internal class FunnelChart : IChartType
 							if (pointIndex == 0 ||
 								series.Points[pointIndex - 1].Color.A != 255)
 							{
-								if (this.isPyramid)
+								if (isPyramid)
 								{
 									nothingOnBottom = true;
 								}
@@ -1418,7 +1430,7 @@ internal class FunnelChart : IChartType
 							if (pointIndex == 1 ||
 								series.Points[pointIndex - 1].Color.A != 255)
 							{
-								if (this.isPyramid)
+								if (isPyramid)
 								{
 									nothingOnBottom = true;
 								}
@@ -1431,7 +1443,7 @@ internal class FunnelChart : IChartType
 
 						if (pointIndex == series.Points.Count - 1)
 						{
-							if (this.isPyramid)
+							if (isPyramid)
 							{
 								nothingOnTop = true;
 							}
@@ -1442,7 +1454,7 @@ internal class FunnelChart : IChartType
 						}
 						else if (series.Points[pointIndex + 1].Color.A != 255)
 						{
-							if (this.isPyramid)
+							if (isPyramid)
 							{
 								nothingOnTop = true;
 							}
@@ -1454,25 +1466,27 @@ internal class FunnelChart : IChartType
 					}
 
 					// Add segment information
-					FunnelSegmentInfo info = new FunnelSegmentInfo();
-					info.Point = point;
-					info.PointIndex = pointIndex;
-					info.StartWidth = startWidth;
-					info.EndWidth = endWidth;
-					info.Location = (this.isPyramid) ? currentLocation - height : currentLocation;
-					info.Height = height;
-					info.NothingOnTop = nothingOnTop;
-					info.NothingOnBottom = nothingOnBottom;
+					FunnelSegmentInfo info = new()
+					{
+						Point = point,
+						PointIndex = pointIndex,
+						StartWidth = startWidth,
+						EndWidth = endWidth,
+						Location = (isPyramid) ? currentLocation - height : currentLocation,
+						Height = height,
+						NothingOnTop = nothingOnTop,
+						NothingOnBottom = nothingOnBottom
+					};
 					list.Add(info);
 
 					// Increase current Y location 
-					if (this.isPyramid)
+					if (isPyramid)
 					{
-						currentLocation -= height + this.funnelSegmentGap;
+						currentLocation -= height + funnelSegmentGap;
 					}
 					else
 					{
-						currentLocation += height + this.funnelSegmentGap;
+						currentLocation += height + funnelSegmentGap;
 					}
 				}
 			}
@@ -1491,7 +1505,7 @@ internal class FunnelChart : IChartType
 	private void DrawLabels()
 	{
 		// Loop through all labels
-		foreach (FunnelPointLabelInfo labelInfo in this.labelInfoList)
+		foreach (FunnelPointLabelInfo labelInfo in labelInfoList)
 		{
 			if (!labelInfo.Position.IsEmpty &&
 				!float.IsNaN(labelInfo.Position.X) &&
@@ -1500,10 +1514,10 @@ internal class FunnelChart : IChartType
 				!float.IsNaN(labelInfo.Position.Height))
 			{
 				// Start Svg Selection mode
-				this.Graph.StartHotRegion(labelInfo.Point);
+				Graph.StartHotRegion(labelInfo.Point);
 
 				// Get size of a single character used for spacing
-				SizeF spacing = this.Graph.MeasureString(
+				SizeF spacing = Graph.MeasureString(
 					"W",
 					labelInfo.Point.Font,
 					new SizeF(1000f, 1000F),
@@ -1537,7 +1551,7 @@ internal class FunnelChart : IChartType
 					Color lineColor = GetCalloutLineColor(labelInfo.Point);
 
 					// Draw callout line
-					this.Graph.DrawLineAbs(
+					Graph.DrawLineAbs(
 						lineColor,
 						1,
 						ChartDashStyle.Solid,
@@ -1549,40 +1563,38 @@ internal class FunnelChart : IChartType
 				// Get label background position
 				RectangleF labelBackPosition = labelInfo.Position;
 				labelBackPosition.Inflate(spacing.Width / 2f, spacing.Height / 8f);
-				labelBackPosition = this.Graph.GetRelativeRectangle(labelBackPosition);
+				labelBackPosition = Graph.GetRelativeRectangle(labelBackPosition);
 
 				// Center label in the middle of the background rectangle
-				using (StringFormat format = new StringFormat())
+				using StringFormat format = new();
+				format.Alignment = StringAlignment.Center;
+				format.LineAlignment = StringAlignment.Center;
+
+				// Draw label text
+				using (Brush brush = new SolidBrush(labelInfo.Point.LabelForeColor))
 				{
-					format.Alignment = StringAlignment.Center;
-					format.LineAlignment = StringAlignment.Center;
 
-					// Draw label text
-					using (Brush brush = new SolidBrush(labelInfo.Point.LabelForeColor))
-					{
+					Graph.DrawPointLabelStringRel(
+						Common,
+						labelInfo.Text,
+						labelInfo.Point.Font,
+						brush,
+						labelBackPosition,
+						format,
+						labelInfo.Point.LabelAngle,
+						labelBackPosition,
 
-						this.Graph.DrawPointLabelStringRel(
-							this.Common,
-							labelInfo.Text,
-							labelInfo.Point.Font,
-							brush,
-							labelBackPosition,
-							format,
-							labelInfo.Point.LabelAngle,
-							labelBackPosition,
-
-							labelInfo.Point.LabelBackColor,
-							labelInfo.Point.LabelBorderColor,
-							labelInfo.Point.LabelBorderWidth,
-							labelInfo.Point.LabelBorderDashStyle,
-							labelInfo.Point.series,
-							labelInfo.Point,
-							labelInfo.PointIndex);
-					}
-
-					// End Svg Selection mode
-					this.Graph.EndHotRegion();
+						labelInfo.Point.LabelBackColor,
+						labelInfo.Point.LabelBorderColor,
+						labelInfo.Point.LabelBorderWidth,
+						labelInfo.Point.LabelBorderDashStyle,
+						labelInfo.Point.series,
+						labelInfo.Point,
+						labelInfo.PointIndex);
 				}
+
+				// End Svg Selection mode
+				Graph.EndHotRegion();
 			}
 		}
 	}
@@ -1593,10 +1605,10 @@ internal class FunnelChart : IChartType
 	/// <returns>Array list of labels information.</returns>
 	private ArrayList CreateLabelsInfoList()
 	{
-		ArrayList list = new ArrayList();
+		ArrayList list = [];
 
 		// Get area position in pixels
-		RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.Area.Position.ToRectangleF());
+		RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(Area.Position.ToRectangleF());
 
 		// Get funnel chart type series
 		Series series = GetDataSeries();
@@ -1617,9 +1629,11 @@ internal class FunnelChart : IChartType
 					if (pointShowLabelAsValue || pointLabel.Length > 0)
 					{
 						// Create new point label information class
-						FunnelPointLabelInfo labelInfo = new FunnelPointLabelInfo();
-						labelInfo.Point = point;
-						labelInfo.PointIndex = pointIndex;
+						FunnelPointLabelInfo labelInfo = new()
+						{
+							Point = point,
+							PointIndex = pointIndex
+						};
 
 						// Get point label text
 						if (pointLabel.Length == 0)
@@ -1654,7 +1668,7 @@ internal class FunnelChart : IChartType
 						}
 
 						// Measure string size
-						labelInfo.Size = this.Graph.MeasureString(
+						labelInfo.Size = Graph.MeasureString(
 							labelInfo.Text,
 							point.Font,
 							plotAreaPositionAbs.Size,
@@ -1684,15 +1698,15 @@ internal class FunnelChart : IChartType
 	{
 		// Convert plotting area position to pixels.
 		// Make rectangle 4 pixels smaller on each side.
-		RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(PlotAreaPosition);
+		RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(PlotAreaPosition);
 		plotAreaPositionAbs.Inflate(-4f, -4f);
 
 		// Get position of each label
 		GetLabelsPosition();
 
 		// Get spacing required to draw labels
-		RectangleF requiredSpacing = this.Graph.GetAbsoluteRectangle(new RectangleF(1f, 1f, 1f, 1f));
-		foreach (FunnelPointLabelInfo labelInfo in this.labelInfoList)
+		RectangleF requiredSpacing = Graph.GetAbsoluteRectangle(new RectangleF(1f, 1f, 1f, 1f));
+		foreach (FunnelPointLabelInfo labelInfo in labelInfoList)
 		{
 			// Add additional horizontal spacing for outside labels
 			RectangleF position = labelInfo.Position;
@@ -1738,7 +1752,7 @@ internal class FunnelChart : IChartType
 		}
 
 		// Convert spacing rectangle to relative coordinates
-		requiredSpacing = this.Graph.GetRelativeRectangle(requiredSpacing);
+		requiredSpacing = Graph.GetRelativeRectangle(requiredSpacing);
 
 		// Check if non-default spacing was used
 		if (requiredSpacing.X > 1f ||
@@ -1746,13 +1760,13 @@ internal class FunnelChart : IChartType
 			requiredSpacing.Width > 1f ||
 			requiredSpacing.Height > 1f)
 		{
-			this.plotAreaSpacing = requiredSpacing;
+			plotAreaSpacing = requiredSpacing;
 
 			// Get NEW plotting area position
-			this.PlotAreaPosition = GetPlotAreaPosition();
+			PlotAreaPosition = GetPlotAreaPosition();
 
 			// Get NEW list of segments
-			this.segmentList = GetFunnelSegmentPositions();
+			segmentList = GetFunnelSegmentPositions();
 
 			// Get NEW position of each label
 			GetLabelsPosition();
@@ -1770,27 +1784,27 @@ internal class FunnelChart : IChartType
 	private void GetLabelsPosition()
 	{
 		// Convert plotting area position to pixels
-		RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(PlotAreaPosition);
+		RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(PlotAreaPosition);
 		float plotAreaCenterXAbs = plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f;
 
 		// Define label spacing
-		SizeF labelSpacing = new SizeF(3f, 3f);
+		SizeF labelSpacing = new(3f, 3f);
 
 		//Loop through all labels
-		foreach (FunnelPointLabelInfo labelInfo in this.labelInfoList)
+		foreach (FunnelPointLabelInfo labelInfo in labelInfoList)
 		{
 			// Get assosiated funnel segment information
 			bool lastLabel = false;
 			int pointIndex = labelInfo.PointIndex + ((ShouldDrawFirstPoint()) ? 0 : 1);
-			if (pointIndex > this.segmentList.Count && !ShouldDrawFirstPoint())
+			if (pointIndex > segmentList.Count && !ShouldDrawFirstPoint())
 			{
 				// Use last point index if first point is not drawn
-				pointIndex = this.segmentList.Count;
+				pointIndex = segmentList.Count;
 				lastLabel = true;
 			}
 
 			FunnelSegmentInfo segmentInfo = null;
-			foreach (FunnelSegmentInfo info in this.segmentList)
+			foreach (FunnelSegmentInfo info in segmentList)
 			{
 				if (info.PointIndex == pointIndex)
 				{
@@ -1813,26 +1827,26 @@ internal class FunnelChart : IChartType
 					labelInfo.Style == FunnelLabelStyle.OutsideInColumn)
 				{
 					// Define position
-					if (this._funnelStyle == FunnelStyle.YIsHeight)
+					if (_funnelStyle == FunnelStyle.YIsHeight)
 					{
 						// Get segment top and bottom diameter
 						float topDiameter = segmentInfo.StartWidth;
 						float bottomDiameter = segmentInfo.EndWidth;
-						if (!this.isPyramid)
+						if (!isPyramid)
 						{
-							if (topDiameter < this._funnelNeckSize.Width)
+							if (topDiameter < _funnelNeckSize.Width)
 							{
-								topDiameter = this._funnelNeckSize.Width;
+								topDiameter = _funnelNeckSize.Width;
 							}
 
-							if (bottomDiameter < this._funnelNeckSize.Width)
+							if (bottomDiameter < _funnelNeckSize.Width)
 							{
-								bottomDiameter = this._funnelNeckSize.Width;
+								bottomDiameter = _funnelNeckSize.Width;
 							}
 
 							// Adjust label position because segment is bent to make a neck
-							if (segmentInfo.StartWidth >= this._funnelNeckSize.Width &&
-								segmentInfo.EndWidth < this._funnelNeckSize.Width)
+							if (segmentInfo.StartWidth >= _funnelNeckSize.Width &&
+								segmentInfo.EndWidth < _funnelNeckSize.Width)
 							{
 								bottomDiameter = segmentInfo.EndWidth;
 							}
@@ -1851,10 +1865,10 @@ internal class FunnelChart : IChartType
 									4f * labelSpacing.Width;
 
 								// Set callout line coordinates
-								if (!this.isPyramid)
+								if (!isPyramid)
 								{
 									labelInfo.CalloutPoint1.X = plotAreaCenterXAbs +
-										Math.Max(this._funnelNeckSize.Width / 2f, (topDiameter + bottomDiameter) / 4f);
+										Math.Max(_funnelNeckSize.Width / 2f, (topDiameter + bottomDiameter) / 4f);
 								}
 								else
 								{
@@ -1871,10 +1885,10 @@ internal class FunnelChart : IChartType
 									4f * labelSpacing.Width;
 
 								// Set callout line coordinates
-								if (!this.isPyramid)
+								if (!isPyramid)
 								{
 									labelInfo.CalloutPoint1.X = plotAreaCenterXAbs -
-										Math.Max(this._funnelNeckSize.Width / 2f, (topDiameter + bottomDiameter) / 4f);
+										Math.Max(_funnelNeckSize.Width / 2f, (topDiameter + bottomDiameter) / 4f);
 								}
 								else
 								{
@@ -1994,7 +2008,7 @@ internal class FunnelChart : IChartType
 				{
 					// Define position
 					labelInfo.Position.X = plotAreaCenterXAbs - labelInfo.Size.Width / 2f;
-					if (this._funnelStyle == FunnelStyle.YIsHeight)
+					if (_funnelStyle == FunnelStyle.YIsHeight)
 					{
 						labelInfo.Position.Y = (segmentInfo.Location + segmentInfo.Height / 2f) -
 							labelInfo.Size.Height / 2f;
@@ -2027,9 +2041,9 @@ internal class FunnelChart : IChartType
 					}
 
 					// Adjust label Y position in 3D
-					if (this.Area.Area3DStyle.Enable3D)
+					if (Area.Area3DStyle.Enable3D)
 					{
-						labelInfo.Position.Y += (float)(((segmentInfo.EndWidth + segmentInfo.StartWidth) / 4f) * Math.Sin(this._rotation3D / 180F * Math.PI));
+						labelInfo.Position.Y += (float)(((segmentInfo.EndWidth + segmentInfo.StartWidth) / 4f) * Math.Sin(_rotation3D / 180F * Math.PI));
 					}
 				}
 
@@ -2039,7 +2053,7 @@ internal class FunnelChart : IChartType
 				int interation = 0;
 				while (IsLabelsOverlap(labelInfo) && interation < 1000)
 				{
-					float shiftSize = (this.isPyramid) ? -3f : 3f;
+					float shiftSize = (isPyramid) ? -3f : 3f;
 
 					// Move label down
 					labelInfo.Position.Y += shiftSize;
@@ -2078,7 +2092,7 @@ internal class FunnelChart : IChartType
 		}
 
 		//Loop through all labels
-		foreach (FunnelPointLabelInfo labelInfo in this.labelInfoList)
+		foreach (FunnelPointLabelInfo labelInfo in labelInfoList)
 		{
 			// Stop searching
 			if (labelInfo.PointIndex == testLabelInfo.PointIndex)
@@ -2107,7 +2121,7 @@ internal class FunnelChart : IChartType
 		FunnelLabelStyle labelStyle = FunnelLabelStyle.OutsideInColumn;
 
 		// Get string value of the custom attribute
-		string attrValue = properties[this.funnelLabelStyleAttributeName];
+		string attrValue = properties[funnelLabelStyleAttributeName];
 		if (attrValue != null && attrValue.Length > 0)
 		{
 			// Convert string to the labels style
@@ -2117,7 +2131,7 @@ internal class FunnelChart : IChartType
 			}
 			catch
 			{
-				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(labelStyle.ToString(), this.funnelLabelStyleAttributeName)));
+				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(labelStyle.ToString(), funnelLabelStyleAttributeName)));
 			}
 		}
 
@@ -2134,13 +2148,13 @@ internal class FunnelChart : IChartType
 	private void GetPlotAreaSpacing()
 	{
 		// Provide small spacing on the sides of chart area
-		this.plotAreaSpacing = new RectangleF(1f, 1f, 1f, 1f);
+		plotAreaSpacing = new RectangleF(1f, 1f, 1f, 1f);
 
 		// Get plotting area position
-		this.PlotAreaPosition = GetPlotAreaPosition();
+		PlotAreaPosition = GetPlotAreaPosition();
 
 		// Get list of segments
-		this.segmentList = GetFunnelSegmentPositions();
+		segmentList = GetFunnelSegmentPositions();
 
 		// If plotting area position is automatic
 		if (Area.InnerPlotPosition.Auto)
@@ -2192,10 +2206,10 @@ internal class FunnelChart : IChartType
 		plotAreaPosition.Height -= plotAreaSpacing.Y + plotAreaSpacing.Height;
 
 		// Apply vertical spacing on top and bottom to fit the 3D surfaces
-		if (this.Area.Area3DStyle.Enable3D)
+		if (Area.Area3DStyle.Enable3D)
 		{
 			// Convert position to pixels
-			RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(plotAreaPosition);
+			RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(plotAreaPosition);
 
 			// Funnel chart process only first series in the chart area
 			// and cannot be combined with any other chart types.
@@ -2203,15 +2217,15 @@ internal class FunnelChart : IChartType
 			if (series != null)
 			{
 				// Get 3D funnel rotation angle (from 10 to -10)
-				this._rotation3D = GetFunnelRotation(series);
+				_rotation3D = GetFunnelRotation(series);
 			}
 
 			// Get top and bottom spacing
-			float topSpacing = (float)Math.Abs((plotAreaPositionAbs.Width / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI));
-			float bottomSpacing = (float)Math.Abs((plotAreaPositionAbs.Width / 2f) * Math.Sin(this._rotation3D / 180F * Math.PI));
+			float topSpacing = (float)Math.Abs((plotAreaPositionAbs.Width / 2f) * Math.Sin(_rotation3D / 180F * Math.PI));
+			float bottomSpacing = (float)Math.Abs((plotAreaPositionAbs.Width / 2f) * Math.Sin(_rotation3D / 180F * Math.PI));
 
 			// Adjust position
-			if (this.isPyramid)
+			if (isPyramid)
 			{
 				// Only bottom spacing for the pyramid
 				plotAreaPositionAbs.Height -= bottomSpacing;
@@ -2224,7 +2238,7 @@ internal class FunnelChart : IChartType
 			}
 
 			// Convert position back to relative coordinates
-			plotAreaPosition = this.Graph.GetRelativeRectangle(plotAreaPositionAbs);
+			plotAreaPosition = Graph.GetRelativeRectangle(plotAreaPositionAbs);
 		}
 
 		return plotAreaPosition;
@@ -2242,8 +2256,8 @@ internal class FunnelChart : IChartType
 	protected float CheckMinHeight(float height)
 	{
 		// When point gap is used do not allow to have the segment heigth to be zero.
-		float minSize = Math.Min(2f, this.funnelSegmentGap / 2f);
-		if (this.funnelSegmentGap > 0 &&
+		float minSize = Math.Min(2f, funnelSegmentGap / 2f);
+		if (funnelSegmentGap > 0 &&
 			height < minSize)
 		{
 			return minSize;
@@ -2259,10 +2273,10 @@ internal class FunnelChart : IChartType
 	private void GetFunnelMinPointHeight(DataPointCustomProperties properties)
 	{
 		// Set default minimum point size
-		this._funnelMinPointHeight = 0f;
+		_funnelMinPointHeight = 0f;
 
 		// Get string value of the custom attribute
-		string attrValue = properties[this.funnelPointMinHeight];
+		string attrValue = properties[funnelPointMinHeight];
 		if (attrValue != null && attrValue.Length > 0)
 		{
 			// Convert string to the point gap size
@@ -2271,16 +2285,16 @@ internal class FunnelChart : IChartType
 			bool parseSucceed = float.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out pointHeight);
 			if (parseSucceed)
 			{
-				this._funnelMinPointHeight = pointHeight;
+				_funnelMinPointHeight = pointHeight;
 			}
 
-			if (!parseSucceed || this._funnelMinPointHeight < 0f || this._funnelMinPointHeight > 100f)
+			if (!parseSucceed || _funnelMinPointHeight < 0f || _funnelMinPointHeight > 100f)
 			{
 				throw (new InvalidOperationException(SR.ExceptionFunnelMinimumPointHeightAttributeInvalid));
 			}
 
 			// Check if specified value is too big
-			this._funnelMinPointHeight = (float)(this.yValueTotal * this._funnelMinPointHeight / 100f);
+			_funnelMinPointHeight = (float)(yValueTotal * _funnelMinPointHeight / 100f);
 
 			// Get data statistic again using Min value
 			GetDataPointValuesStatistic();
@@ -2299,7 +2313,7 @@ internal class FunnelChart : IChartType
 		int angle = 5;
 
 		// Get string value of the custom attribute
-		string attrValue = properties[this.funnelRotationAngleAttributeName];
+		string attrValue = properties[funnelRotationAngleAttributeName];
 		if (attrValue != null && attrValue.Length > 0)
 		{
 			// Convert string to the point gap size
@@ -2336,7 +2350,7 @@ internal class FunnelChart : IChartType
 		{
 			// Convert string to Color
 			bool failed = false;
-			ColorConverter colorConverter = new ColorConverter();
+			ColorConverter colorConverter = new();
 			try
 			{
 				color = (Color)colorConverter.ConvertFromInvariantString(attrValue);
@@ -2375,7 +2389,7 @@ internal class FunnelChart : IChartType
 	private SizeF GetFunnelNeckSize(DataPointCustomProperties properties)
 	{
 		// Set default gap size
-		SizeF neckSize = new SizeF(5f, 5f);
+		SizeF neckSize = new(5f, 5f);
 
 		// Get string value of the custom attribute
 		string attrValue = properties[CustomPropertyName.FunnelNeckWidth];
@@ -2417,18 +2431,18 @@ internal class FunnelChart : IChartType
 		}
 
 		// Make sure the neck size do not exceed the plotting area size
-		if (neckSize.Height > this.PlotAreaPosition.Height / 2f)
+		if (neckSize.Height > PlotAreaPosition.Height / 2f)
 		{
-			neckSize.Height = this.PlotAreaPosition.Height / 2f;
+			neckSize.Height = PlotAreaPosition.Height / 2f;
 		}
 
-		if (neckSize.Width > this.PlotAreaPosition.Width / 2f)
+		if (neckSize.Width > PlotAreaPosition.Width / 2f)
 		{
-			neckSize.Width = this.PlotAreaPosition.Width / 2f;
+			neckSize.Width = PlotAreaPosition.Width / 2f;
 		}
 
 		// Convert from relative coordinates to pixels
-		return this.Graph.GetAbsoluteSize(neckSize);
+		return Graph.GetAbsoluteSize(neckSize);
 	}
 
 	/// <summary>
@@ -2441,7 +2455,7 @@ internal class FunnelChart : IChartType
 		float gapSize = 0f;
 
 		// Get string value of the custom attribute
-		string attrValue = properties[this.funnelPointGapAttributeName];
+		string attrValue = properties[funnelPointGapAttributeName];
 		if (attrValue != null && attrValue.Length > 0)
 		{
 			// Convert string to the point gap size
@@ -2454,11 +2468,11 @@ internal class FunnelChart : IChartType
 			}
 			else
 			{
-				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelPointGapAttributeName)));
+				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, funnelPointGapAttributeName)));
 			}
 
 			// Make sure the total gap size for all points do not exceed the total height of the plotting area
-			float maxGapSize = this.PlotAreaPosition.Height / (this.pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2));
+			float maxGapSize = PlotAreaPosition.Height / (pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2));
 			if (gapSize > maxGapSize)
 			{
 				gapSize = maxGapSize;
@@ -2470,7 +2484,7 @@ internal class FunnelChart : IChartType
 			}
 
 			// Convert from relative coordinates to pixels
-			gapSize = this.Graph.GetAbsoluteSize(new SizeF(gapSize, gapSize)).Height;
+			gapSize = Graph.GetAbsoluteSize(new SizeF(gapSize, gapSize)).Height;
 		}
 
 		return gapSize;
@@ -2486,7 +2500,7 @@ internal class FunnelChart : IChartType
 		FunnelStyle drawingStyle = FunnelStyle.YIsHeight;
 
 		// Get string value of the custom attribute
-		if (!this.isPyramid)
+		if (!isPyramid)
 		{
 			string attrValue = properties[CustomPropertyName.FunnelStyle];
 			if (attrValue != null && attrValue.Length > 0)
@@ -2516,7 +2530,7 @@ internal class FunnelChart : IChartType
 		FunnelLabelPlacement placement = FunnelLabelPlacement.Right;
 
 		// Get string value of the custom attribute
-		string attrValue = properties[this.funnelOutsideLabelPlacementAttributeName];
+		string attrValue = properties[funnelOutsideLabelPlacementAttributeName];
 		if (attrValue != null && attrValue.Length > 0)
 		{
 			// Convert string to the labels placement
@@ -2526,7 +2540,7 @@ internal class FunnelChart : IChartType
 			}
 			catch
 			{
-				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelOutsideLabelPlacementAttributeName)));
+				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, funnelOutsideLabelPlacementAttributeName)));
 			}
 		}
 
@@ -2543,7 +2557,7 @@ internal class FunnelChart : IChartType
 		FunnelLabelVerticalAlignment alignment = FunnelLabelVerticalAlignment.Center;
 
 		// Get string value of the custom attribute
-		string attrValue = properties[this.funnelInsideLabelAlignmentAttributeName];
+		string attrValue = properties[funnelInsideLabelAlignmentAttributeName];
 		if (attrValue != null && attrValue.Length > 0)
 		{
 			// Convert string to the labels style
@@ -2553,7 +2567,7 @@ internal class FunnelChart : IChartType
 			}
 			catch
 			{
-				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelInsideLabelAlignmentAttributeName)));
+				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, funnelInsideLabelAlignmentAttributeName)));
 			}
 		}
 
@@ -2567,7 +2581,7 @@ internal class FunnelChart : IChartType
 	private Funnel3DDrawingStyle GetFunnel3DDrawingStyle(DataPointCustomProperties properties)
 	{
 		// Set default funnel drawing style
-		Funnel3DDrawingStyle drawingStyle = (this.isPyramid) ?
+		Funnel3DDrawingStyle drawingStyle = (isPyramid) ?
 			Funnel3DDrawingStyle.SquareBase : Funnel3DDrawingStyle.CircularBase;
 
 		// Get string value of the custom attribute
@@ -2602,14 +2616,14 @@ internal class FunnelChart : IChartType
 		if (series != null)
 		{
 			// Reset values
-			this.yValueTotal = 0.0;
-			this._xValueTotal = 0.0;
-			this._yValueMax = 0.0;
-			this.pointNumber = 0;
+			yValueTotal = 0.0;
+			_xValueTotal = 0.0;
+			_yValueMax = 0.0;
+			pointNumber = 0;
 
 			// Get value type
-			this._valuePercentages = null;
-			PyramidValueType valueType = this.GetPyramidValueType(series);
+			_valuePercentages = null;
+			PyramidValueType valueType = GetPyramidValueType(series);
 			if (valueType == PyramidValueType.Surface)
 			{
 				// Calculate the total surface area
@@ -2644,7 +2658,7 @@ internal class FunnelChart : IChartType
 					percentages[loop] = Math.Sqrt((2 * sumArea) / baseRatio);
 				}
 
-				this._valuePercentages = percentages;
+				_valuePercentages = percentages;
 			}
 
 			// Loop through all ponts in the data series
@@ -2654,15 +2668,15 @@ internal class FunnelChart : IChartType
 				if (!point.IsEmpty)
 				{
 					// Get Y value
-					double yValue = GetYValue(point, this.pointNumber);
+					double yValue = GetYValue(point, pointNumber);
 
 					// Get data point Y and X values statistics
-					this.yValueTotal += yValue;
-					this._yValueMax = Math.Max(this._yValueMax, yValue);
-					this._xValueTotal += GetXValue(point);
+					yValueTotal += yValue;
+					_yValueMax = Math.Max(_yValueMax, yValue);
+					_xValueTotal += GetXValue(point);
 				}
 
-				++this.pointNumber;
+				++pointNumber;
 			}
 
 		}
@@ -2676,7 +2690,7 @@ internal class FunnelChart : IChartType
 	private Series GetDataSeries()
 	{
 		// Check if funnel series was already found
-		if (this._chartTypeSeries == null)
+		if (_chartTypeSeries == null)
 		{
 			// Loop through all series
 			Series funnelSeries = null;
@@ -2684,17 +2698,14 @@ internal class FunnelChart : IChartType
 			{
 				// Check if series is visible and belong to the current chart area
 				if (series.IsVisible() &&
-					series.ChartArea == this.Area.Name)
+					series.ChartArea == Area.Name)
 				{
 					// Check series chart type is Funnel
-					if (String.Compare(series.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0)
+					if (string.Compare(series.ChartTypeName, Name, true, CultureInfo.CurrentCulture) == 0)
 					{
-						if (funnelSeries == null)
-						{
-							funnelSeries = series;
-						}
+						funnelSeries ??= series;
 					}
-					else if (!this.Common.ChartPicture.SuppressExceptions)
+					else if (!Common.ChartPicture.SuppressExceptions)
 					{
 						// Funnel chart can not be combined with other chart type
 						throw (new InvalidOperationException(SR.ExceptionFunnelCanNotCombine));
@@ -2703,10 +2714,10 @@ internal class FunnelChart : IChartType
 			}
 
 			// Remember the chart type series
-			this._chartTypeSeries = funnelSeries;
+			_chartTypeSeries = funnelSeries;
 		}
 
-		return this._chartTypeSeries;
+		return _chartTypeSeries;
 	}
 
 	/// <summary>
@@ -2720,7 +2731,7 @@ internal class FunnelChart : IChartType
 		PyramidValueType valueType = PyramidValueType.Linear;
 
 		// Get string value of the custom attribute
-		if (this.isPyramid)
+		if (isPyramid)
 		{
 			string attrValue = properties[CustomPropertyName.PyramidValueType];
 			if (attrValue != null && attrValue.Length > 0)
@@ -2759,22 +2770,22 @@ internal class FunnelChart : IChartType
 			yValue = point.YValues[0];
 
 			// Adjust point value
-			if (this._valuePercentages != null &&
-				this._valuePercentages.Length > pointIndex)
+			if (_valuePercentages != null &&
+				_valuePercentages.Length > pointIndex)
 			{
-				yValue = yValue / 100.0 * this._valuePercentages[pointIndex];
+				yValue = yValue / 100.0 * _valuePercentages[pointIndex];
 			}
 
-			if (this.Area.AxisY.IsLogarithmic)
+			if (Area.AxisY.IsLogarithmic)
 			{
-				yValue = Math.Abs(Math.Log(yValue, this.Area.AxisY.LogarithmBase));
+				yValue = Math.Abs(Math.Log(yValue, Area.AxisY.LogarithmBase));
 			}
 			else
 			{
 				yValue = Math.Abs(yValue);
-				if (yValue < this._funnelMinPointHeight)
+				if (yValue < _funnelMinPointHeight)
 				{
-					yValue = this._funnelMinPointHeight;
+					yValue = _funnelMinPointHeight;
 				}
 			}
 		}
@@ -2789,9 +2800,9 @@ internal class FunnelChart : IChartType
 	/// <returns>X value of the point.</returns>
 	virtual public double GetXValue(DataPoint point)
 	{
-		if (this.Area.AxisX.IsLogarithmic)
+		if (Area.AxisX.IsLogarithmic)
 		{
-			return Math.Abs(Math.Log(point.XValue, this.Area.AxisX.LogarithmBase));
+			return Math.Abs(Math.Log(point.XValue, Area.AxisX.LogarithmBase));
 		}
 
 		return Math.Abs(point.XValue);
@@ -2871,19 +2882,19 @@ internal class PyramidChart : FunnelChart
 	public PyramidChart()
 	{
 		// Renering of the pyramid chart type
-		base.isPyramid = true;
+		isPyramid = true;
 
 		// Pyramid chart type uses square base by default
-		base.round3DShape = false;
+		round3DShape = false;
 
 		// Pyramid properties names
-		base.funnelLabelStyleAttributeName = CustomPropertyName.PyramidLabelStyle;
-		base.funnelPointGapAttributeName = CustomPropertyName.PyramidPointGap;
-		base.funnelRotationAngleAttributeName = CustomPropertyName.Pyramid3DRotationAngle;
-		base.funnelPointMinHeight = CustomPropertyName.PyramidMinPointHeight;
-		base.funnel3DDrawingStyleAttributeName = CustomPropertyName.Pyramid3DDrawingStyle;
-		base.funnelInsideLabelAlignmentAttributeName = CustomPropertyName.PyramidInsideLabelAlignment;
-		base.funnelOutsideLabelPlacementAttributeName = CustomPropertyName.PyramidOutsideLabelPlacement;
+		funnelLabelStyleAttributeName = CustomPropertyName.PyramidLabelStyle;
+		funnelPointGapAttributeName = CustomPropertyName.PyramidPointGap;
+		funnelRotationAngleAttributeName = CustomPropertyName.Pyramid3DRotationAngle;
+		funnelPointMinHeight = CustomPropertyName.PyramidMinPointHeight;
+		funnel3DDrawingStyleAttributeName = CustomPropertyName.Pyramid3DDrawingStyle;
+		funnelInsideLabelAlignmentAttributeName = CustomPropertyName.PyramidInsideLabelAlignment;
+		funnelOutsideLabelPlacementAttributeName = CustomPropertyName.PyramidOutsideLabelPlacement;
 	}
 
 	#endregion
@@ -2916,21 +2927,20 @@ internal class PyramidChart : FunnelChart
 		out float startWidth,
 		out float endWidth)
 	{
-		PointF pointPositionAbs = PointF.Empty;
 
 		// Get plotting area position in pixels
-		RectangleF plotAreaPositionAbs = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition);
+		RectangleF plotAreaPositionAbs = Graph.GetAbsoluteRectangle(PlotAreaPosition);
 
 		// Calculate total height of plotting area minus reserved space for the gaps
 		float plotAreaHeightAbs = plotAreaPositionAbs.Height -
-			this.funnelSegmentGap * (this.pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2));
+			funnelSegmentGap * (pointNumber - ((ShouldDrawFirstPoint()) ? 1 : 2));
 		if (plotAreaHeightAbs < 0f)
 		{
 			plotAreaHeightAbs = 0f;
 		}
 
 		// Calculate segment height as a part of total Y values in series
-		height = (float)(plotAreaHeightAbs * (GetYValue(series.Points[pointIndex], pointIndex) / this.yValueTotal));
+		height = (float)(plotAreaHeightAbs * (GetYValue(series.Points[pointIndex], pointIndex) / yValueTotal));
 
 		// Check for minimum segment height
 		height = CheckMinHeight(height);
@@ -2966,7 +2976,7 @@ internal class PyramidChart : FunnelChart
 			endIntersection.X) * 2f;
 
 		// Set point position for annotation anchoring
-		pointPositionAbs = new PointF(
+		PointF pointPositionAbs = new PointF(
 			plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f,
 			location - height / 2f);
 

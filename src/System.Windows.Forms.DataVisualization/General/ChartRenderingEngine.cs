@@ -56,10 +56,9 @@ public partial class ChartGraphics
 	#region Fields
 
 	// Current rendering type
-	private RenderingType _activeRenderingType = RenderingType.Gdi;
 
 	// GDI+ rendering engine
-	private GdiGraphics _gdiGraphics = new GdiGraphics();
+	private readonly GdiGraphics _gdiGraphics = new();
 
 	// Document title used for SVG rendering
 	//private string documentTitle = string.Empty;
@@ -117,7 +116,7 @@ public partial class ChartGraphics
 	/// <param name="srcUnit">Member of the GraphicsUnit enumeration that specifies the units of measure used to determine the source rectangle.</param>
 	/// <param name="imageAttr">ImageAttributes object that specifies recoloring and gamma information for the image object.</param>
 	internal void DrawImage(
-			System.Drawing.Image image,
+			Image image,
 		Rectangle destRect,
 		int srcX,
 		int srcY,
@@ -177,8 +176,7 @@ public partial class ChartGraphics
 		float tension
 		)
 	{
-		ChartGraphics chartGraphics = this as ChartGraphics;
-		if (chartGraphics == null || !chartGraphics.IsMetafile)
+		if (this is not ChartGraphics chartGraphics || !chartGraphics.IsMetafile)
 		{
 			RenderingObject.DrawCurve(pen, points, offset, numberOfSegments, tension);
 		}
@@ -283,14 +281,18 @@ public partial class ChartGraphics
 		StringFormat format
 		)
 	{
-		using (StringFormat fmt = (StringFormat)format.Clone())
+		using StringFormat fmt = (StringFormat)format.Clone();
+		if (IsRightToLeft)
 		{
-			if (IsRightToLeft)
-				fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-			if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
-				fmt.FormatFlags |= StringFormatFlags.NoClip;
-			RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
+			fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
 		}
+
+		if (!IsTextClipped && (fmt.FormatFlags & StringFormatFlags.NoClip) != StringFormatFlags.NoClip)
+		{
+			fmt.FormatFlags |= StringFormatFlags.NoClip;
+		}
+
+		RenderingObject.DrawString(s, font, brush, layoutRectangle, fmt);
 	}
 
 	/// <summary>
@@ -311,23 +313,23 @@ public partial class ChartGraphics
 	{
 		if (IsRightToLeft)
 		{
-			using (StringFormat fmt = (StringFormat)format.Clone())
+			using StringFormat fmt = (StringFormat)format.Clone();
+			fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+			if (fmt.Alignment == StringAlignment.Far)
 			{
-				fmt.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-				if (fmt.Alignment == StringAlignment.Far)
-				{
-					fmt.Alignment = StringAlignment.Near;
-				}
-				else if (fmt.Alignment == StringAlignment.Near)
-				{
-					fmt.Alignment = StringAlignment.Far;
-				}
-
-				RenderingObject.DrawString(s, font, brush, point, fmt);
+				fmt.Alignment = StringAlignment.Near;
 			}
+			else if (fmt.Alignment == StringAlignment.Near)
+			{
+				fmt.Alignment = StringAlignment.Far;
+			}
+
+			RenderingObject.DrawString(s, font, brush, point, fmt);
 		}
 		else
+		{
 			RenderingObject.DrawString(s, font, brush, point, format);
+		}
 	}
 
 	/// <summary>
@@ -342,7 +344,7 @@ public partial class ChartGraphics
 	/// <param name="srcUnit">Member of the GraphicsUnit enumeration that specifies the units of measure used to determine the source rectangle.</param>
 	/// <param name="imageAttrs">ImageAttributes object that specifies recoloring and gamma information for the image object.</param>
 	internal void DrawImage(
-			System.Drawing.Image image,
+			Image image,
 		Rectangle destRect,
 		float srcX,
 		float srcY,
@@ -715,13 +717,7 @@ public partial class ChartGraphics
 	/// <summary>
 	/// Gets the active rendering type.
 	/// </summary>
-	internal RenderingType ActiveRenderingType
-	{
-		get
-		{
-			return _activeRenderingType;
-		}
-	}
+	internal RenderingType ActiveRenderingType { get; } = RenderingType.Gdi;
 
 	/// <summary>
 	/// Gets or sets the rendering mode for text associated with this Graphics object.

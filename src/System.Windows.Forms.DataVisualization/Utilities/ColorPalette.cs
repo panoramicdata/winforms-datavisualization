@@ -115,8 +115,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		#region Fields
 
 		// Fields which store the palette color values
-		private static Color[] _colorsGrayScale = InitializeGrayScaleColors();
-		private static Color[] _colorsDefault = {
+		private static readonly Color[] _colorsGrayScale = InitializeGrayScaleColors();
+		private static readonly Color[] _colorsDefault = [
 			Color.Green,
 			Color.Blue,
 			Color.Purple,
@@ -133,9 +133,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			Color.Silver,
 			Color.Tomato,
 			Color.Moccasin
-			};
+			];
 
-		private static Color[] _colorsPastel = {
+		private static readonly Color[] _colorsPastel = [
 													Color.SkyBlue,
 													Color.LimeGreen,
 													Color.MediumOrchid,
@@ -152,9 +152,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 													Color.CadetBlue,
 													Color.PeachPuff,
 													Color.LightSalmon
-												};
+												];
 
-		private static Color[] _colorsEarth = {
+		private static readonly Color[] _colorsEarth = [
 												   Color.FromArgb(255, 128, 0),
 												   Color.DarkGoldenrod,
 												   Color.FromArgb(192, 64, 0),
@@ -171,9 +171,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												   Color.Firebrick,
 												   Color.SaddleBrown,
 												   Color.FromArgb(192, 0, 0)
-											   };
+											   ];
 
-		private static Color[] _colorsSemiTransparent = {
+		private static readonly Color[] _colorsSemiTransparent = [
 													Color.FromArgb(150, 255, 0, 0),
 													Color.FromArgb(150, 0, 255, 0),
 													Color.FromArgb(150, 0, 0, 255),
@@ -190,9 +190,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 													Color.FromArgb(80, 170, 120, 20),
 													Color.FromArgb(150, 100, 120, 50),
 													Color.FromArgb(150, 40, 90, 150)
-											  };
+											  ];
 
-		private static Color[] _colorsLight = {
+		private static readonly Color[] _colorsLight = [
 												   Color.Lavender,
 												   Color.LavenderBlush,
 												   Color.PeachPuff,
@@ -203,9 +203,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												   Color.WhiteSmoke,
 												   Color.AntiqueWhite,
 												   Color.LightCyan
-											   };
+											   ];
 
-		private static Color[] _colorsExcel = {
+		private static readonly Color[] _colorsExcel = [
 			Color.FromArgb(153,153,255),
 			Color.FromArgb(153,51,102),
 			Color.FromArgb(255,255,204),
@@ -221,9 +221,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			Color.FromArgb(128,0,128),
 			Color.FromArgb(128,0,0),
 			Color.FromArgb(0,128,128),
-			Color.FromArgb(0,0,255)};
+			Color.FromArgb(0,0,255)];
 
-		private static Color[] _colorsBerry = {
+		private static readonly Color[] _colorsBerry = [
 												  Color.BlueViolet,
 												  Color.MediumOrchid,
 												  Color.RoyalBlue,
@@ -235,9 +235,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												  Color.FromArgb(192, 0, 192),
 												  Color.MediumBlue,
 												  Color.Purple
-											  };
+											  ];
 
-		private static Color[] _colorsChocolate = {
+		private static readonly Color[] _colorsChocolate = [
 												  Color.Sienna,
 												  Color.Chocolate,
 												  Color.DarkRed,
@@ -248,9 +248,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												  Color.FromArgb(192, 64, 0),
 												  Color.Firebrick,
 												  Color.FromArgb(182, 92, 58)
-											  };
+											  ];
 
-		private static Color[] _colorsFire = {
+		private static readonly Color[] _colorsFire = [
 													  Color.Gold,
 													  Color.Red,
 													  Color.DeepPink,
@@ -261,9 +261,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 													  Color.OrangeRed,
 													  Color.MediumVioletRed,
 													  Color.FromArgb(221, 226, 33)
-												  };
+												  ];
 
-		private static Color[] _colorsSeaGreen = {
+		private static readonly Color[] _colorsSeaGreen = [
 												 Color.SeaGreen,
 												 Color.MediumAquamarine,
 												 Color.SteelBlue,
@@ -274,9 +274,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												 Color.LightSteelBlue,
 												 Color.DarkSeaGreen,
 												 Color.SkyBlue
-											 };
+											 ];
 
-		private static Color[] _colorsBrightPastel = {
+		private static readonly Color[] _colorsBrightPastel = [
 												   Color.FromArgb(65, 140, 240),
 												   Color.FromArgb(252, 180, 65),
 												   Color.FromArgb(224, 64, 10),
@@ -292,7 +292,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 												   Color.FromArgb(241, 185, 168),
 												   Color.FromArgb(224, 131, 10),
 												   Color.FromArgb(120, 147, 190)
-											   };
+											   ];
 
 		#endregion
 

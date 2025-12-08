@@ -54,7 +54,7 @@ internal class CircularChartAreaAxis
 	/// </summary>
 	internal CircularChartAreaAxis(float axisPosition)
 	{
-		this.AxisPosition = axisPosition;
+		AxisPosition = axisPosition;
 	}
 
 	#endregion

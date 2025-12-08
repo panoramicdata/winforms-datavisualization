@@ -22,7 +22,7 @@ using System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
-using Size = System.Drawing.Size;
+using Size = Size;
 
 #region Enumerations
 
@@ -122,10 +122,9 @@ public partial class ChartGraphics : ChartElement
 	#region Fields
 
 	// Common Elements
-	private CommonElements _common;
+	private readonly CommonElements _common;
 
 	// Reusable objects
-	private Pen _pen;
 	private SolidBrush _solidBrush;
 	private Matrix _myMatrix;
 
@@ -137,7 +136,6 @@ public partial class ChartGraphics : ChartElement
 	internal bool softShadows = true;
 
 	// Anti aliasing flags
-	private AntiAliasingStyles _antiAliasing = AntiAliasingStyles.All;
 
 	// True if rendering into the metafile
 	internal bool IsMetafile = false;
@@ -193,46 +191,46 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Set a line color
-		if (_pen.Color != color)
+		if (Pen.Color != color)
 		{
-			_pen.Color = color;
+			Pen.Color = color;
 		}
 
 		// Set a line width
-		if (_pen.Width != width)
+		if (Pen.Width != width)
 		{
-			_pen.Width = width;
+			Pen.Width = width;
 		}
 
 		// Set a line style
-		if (_pen.DashStyle != GetPenStyle(style))
+		if (Pen.DashStyle != GetPenStyle(style))
 		{
-			_pen.DashStyle = GetPenStyle(style);
+			Pen.DashStyle = GetPenStyle(style);
 		}
 
 		// Remember SmoothingMode and turn off anti aliasing for 
 		// vertical or horizontal lines usinig 1 pixel dashed pen.
 		// This prevents anialiasing from completly smoothing the 
 		// dashed line.
-		SmoothingMode oldSmoothingMode = this.SmoothingMode;
+		SmoothingMode oldSmoothingMode = SmoothingMode;
 		if (width <= 1 && style != ChartDashStyle.Solid)
 		{
 			if (firstPoint.X == secondPoint.X ||
 				firstPoint.Y == secondPoint.Y)
 			{
-				this.SmoothingMode = SmoothingMode.Default;
+				SmoothingMode = SmoothingMode.Default;
 			}
 		}
 
 		// Draw a line
-		this.DrawLine(_pen,
+		DrawLine(Pen,
 		(float)Math.Round(firstPoint.X),
 		(float)Math.Round(firstPoint.Y),
 		(float)Math.Round(secondPoint.X),
 		(float)Math.Round(secondPoint.Y));
 
 		// Return old smoothing mode
-		this.SmoothingMode = oldSmoothingMode;
+		SmoothingMode = oldSmoothingMode;
 	}
 
 	/// <summary>
@@ -293,13 +291,17 @@ public partial class ChartGraphics : ChartElement
 			// Make shadow semi transparent 
 			// if alpha value not used
 			if (shadowColor.A != 255)
+			{
 				shColor = shadowColor;
+			}
 			else
+			{
 				shColor = Color.FromArgb(color.A / 2, shadowColor);
+			}
 
 			// Set shadow line position
-			PointF firstShadow = new PointF(firstPoint.X + shadowOffset, firstPoint.Y + shadowOffset);
-			PointF secondShadow = new PointF(secondPoint.X + shadowOffset, secondPoint.Y + shadowOffset);
+			PointF firstShadow = new(firstPoint.X + shadowOffset, firstPoint.Y + shadowOffset);
+			PointF secondShadow = new(secondPoint.X + shadowOffset, secondPoint.Y + shadowOffset);
 
 			// Draw Shadow of Line
 			DrawLineAbs(shColor, width, style, firstShadow, secondShadow);
@@ -351,10 +353,10 @@ public partial class ChartGraphics : ChartElement
 		)
 	{
 		// Load a image
-		System.Drawing.Image image = _common.ImageLoader.LoadImage(name);
+		Image image = _common.ImageLoader.LoadImage(name);
 
 		// Create a brush
-		ImageAttributes attrib = new ImageAttributes();
+		ImageAttributes attrib = new();
 		attrib.SetWrapMode((mode == ChartImageWrapMode.Unscaled) ? WrapMode.Clamp : ((WrapMode)mode));
 		if (backImageTransparentColor != Color.Empty)
 		{
@@ -368,15 +370,13 @@ public partial class ChartGraphics : ChartElement
 			backColor != Color.Transparent)
 		{
 			TextureBrush backFilledBrush = null;
-			Bitmap bitmap = new Bitmap(image.Width, image.Height);
+			Bitmap bitmap = new(image.Width, image.Height);
 			using (Graphics graphics = Graphics.FromImage(bitmap))
 			{
-				using (SolidBrush backBrush = new SolidBrush(backColor))
-				{
-					graphics.FillRectangle(backBrush, 0, 0, image.Width, image.Height);
-					graphics.DrawImageUnscaled(image, 0, 0);
-					backFilledBrush = new TextureBrush(bitmap, new RectangleF(0, 0, image.Width, image.Height), attrib);
-				}
+				using SolidBrush backBrush = new(backColor);
+				graphics.FillRectangle(backBrush, 0, 0, image.Width, image.Height);
+				graphics.DrawImageUnscaled(image, 0, 0);
+				backFilledBrush = new TextureBrush(bitmap, new RectangleF(0, 0, image.Width, image.Height), attrib);
 			}
 
 			return backFilledBrush;
@@ -385,11 +385,13 @@ public partial class ChartGraphics : ChartElement
 
 		TextureBrush textureBrush;
 
-		if (ImageLoader.DoDpisMatch(image, this.Graphics))
+		if (ImageLoader.DoDpisMatch(image, Graphics))
+		{
 			textureBrush = new TextureBrush(image, new RectangleF(0, 0, image.Width, image.Height), attrib);
+		}
 		else  // if the image dpi does not match the graphics dpi we have to scale the image    
 		{
-			Image scaledImage = ImageLoader.GetScaledImage(image, this.Graphics);
+			Image scaledImage = ImageLoader.GetScaledImage(image, Graphics);
 			textureBrush = new TextureBrush(scaledImage, new RectangleF(0, 0, scaledImage.Width, scaledImage.Height), attrib);
 			scaledImage.Dispose();
 		}
@@ -416,9 +418,10 @@ public partial class ChartGraphics : ChartElement
 		// Increse the brush rectangle by 1 pixel to ensure the fit
 		rectangle.Inflate(1f, 1f);
 
-		Brush gradientBrush = null;
 		float angle = 0;
 
+
+		Brush gradientBrush;
 		// Function which create gradient brush fires exception if 
 		// rectangle size is zero.
 		if (rectangle.Height == 0 || rectangle.Width == 0)
@@ -453,13 +456,13 @@ public partial class ChartGraphics : ChartElement
 			|| type == GradientStyle.DiagonalLeft || type == GradientStyle.DiagonalRight
 			|| type == GradientStyle.HorizontalCenter || type == GradientStyle.VerticalCenter)
 		{
-			RectangleF tempRect = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+			RectangleF tempRect = new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 			// For Horizontal and vertical center gradient types
 			if (type == GradientStyle.HorizontalCenter)
 			{
 				// Resize and wrap gradient
 				tempRect.Height = tempRect.Height / 2F;
-				LinearGradientBrush linearGradientBrush = new LinearGradientBrush(tempRect, firstColor, secondColor, angle);
+				LinearGradientBrush linearGradientBrush = new(tempRect, firstColor, secondColor, angle);
 				gradientBrush = linearGradientBrush;
 				linearGradientBrush.WrapMode = WrapMode.TileFlipX;
 			}
@@ -467,7 +470,7 @@ public partial class ChartGraphics : ChartElement
 			{
 				// Resize and wrap gradient
 				tempRect.Width = tempRect.Width / 2F;
-				LinearGradientBrush linearGradientBrush = new LinearGradientBrush(tempRect, firstColor, secondColor, angle);
+				LinearGradientBrush linearGradientBrush = new(tempRect, firstColor, secondColor, angle);
 				gradientBrush = linearGradientBrush;
 				linearGradientBrush.WrapMode = WrapMode.TileFlipX;
 			}
@@ -484,26 +487,23 @@ public partial class ChartGraphics : ChartElement
 		// *******************************************
 
 		// Create a path
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 
 		// Add a rectangle to the path
 		path.AddRectangle(rectangle);
 
 		// Create a gradient brush
-		PathGradientBrush pathGradientBrush = new PathGradientBrush(path);
+		PathGradientBrush pathGradientBrush = new(path);
 		gradientBrush = pathGradientBrush;
 
 		// Set the center color
 		pathGradientBrush.CenterColor = firstColor;
 
 		// Set the Surround color
-		Color[] colors = { secondColor };
+		Color[] colors = [secondColor];
 		pathGradientBrush.SurroundColors = colors;
 
-		if (path != null)
-		{
-			path.Dispose();
-		}
+		path?.Dispose();
 
 		return gradientBrush;
 	}
@@ -523,25 +523,23 @@ public partial class ChartGraphics : ChartElement
 		)
 	{
 		// Create a path that consists of a single ellipse.
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 		path.AddEllipse(rectangle);
 
 		// Use the path to construct a brush.
-		PathGradientBrush gradientBrush = new PathGradientBrush(path);
-
-		// Set the color at the center of the path.
-		gradientBrush.CenterColor = firstColor;
+		PathGradientBrush gradientBrush = new(path)
+		{
+			// Set the color at the center of the path.
+			CenterColor = firstColor
+		};
 
 		// Set the color along the entire boundary 
 		// of the path to aqua.
-		Color[] colors = { secondColor };
+		Color[] colors = [secondColor];
 
 		gradientBrush.SurroundColors = colors;
 
-		if (path != null)
-		{
-			path.Dispose();
-		}
+		path?.Dispose();
 
 		return gradientBrush;
 
@@ -595,7 +593,7 @@ public partial class ChartGraphics : ChartElement
 		for (int pointIndex = 0; pointIndex < numberOfCornersX2; pointIndex++)
 		{
 			tempPoints[0] = new PointF(rect.X + rect.Width / 2f, (outside == true) ? rect.Y : rect.Y + rect.Height / 4f);
-			Matrix matrix = new Matrix();
+			Matrix matrix = new();
 			matrix.RotateAt(pointIndex * (360f / (numberOfCorners * 2f)), new PointF(rect.X + rect.Width / 2f, rect.Y + rect.Height / 2f));
 			matrix.TransformPoints(tempPoints);
 			points[pointIndex] = tempPoints[0];
@@ -633,7 +631,7 @@ public partial class ChartGraphics : ChartElement
 		RectangleF imageScaleRect
 		)
 	{
-		DrawMarkerAbs(this.GetAbsolutePoint(point), markerStyle, markerSize, markerColor, markerBorderColor, markerBorderSize, markerImage, markerImageTransparentColor, shadowSize, shadowColor, imageScaleRect, false);
+		DrawMarkerAbs(GetAbsolutePoint(point), markerStyle, markerSize, markerColor, markerBorderColor, markerBorderSize, markerImage, markerImageTransparentColor, shadowSize, shadowColor, imageScaleRect, false);
 	}
 
 	/// <summary>
@@ -676,7 +674,7 @@ public partial class ChartGraphics : ChartElement
 		if (markerImage.Length > 0)
 		{
 			// Get image
-			System.Drawing.Image image = _common.ImageLoader.LoadImage(markerImage);
+			Image image = _common.ImageLoader.LoadImage(markerImage);
 
 			if (image != null)
 			{
@@ -684,8 +682,8 @@ public partial class ChartGraphics : ChartElement
 				RectangleF rect = RectangleF.Empty;
 				if (imageScaleRect == RectangleF.Empty)
 				{
-					SizeF size = new SizeF();
-					ImageLoader.GetAdjustedImageSize(image, this.Graphics, ref size);
+					SizeF size = new();
+					ImageLoader.GetAdjustedImageSize(image, Graphics, ref size);
 					imageScaleRect.Width = size.Width;
 					imageScaleRect.Height = size.Height;
 				}
@@ -696,7 +694,7 @@ public partial class ChartGraphics : ChartElement
 				rect.Height = imageScaleRect.Height;
 
 				// Prepare image properties (transparent color)
-				ImageAttributes attrib = new ImageAttributes();
+				ImageAttributes attrib = new();
 				if (markerImageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(markerImageTransparentColor, markerImageTransparentColor, ColorAdjustType.Default);
@@ -705,17 +703,19 @@ public partial class ChartGraphics : ChartElement
 				// Draw image shadow
 				if (shadowSize != 0 && shadowColor != Color.Empty)
 				{
-					ImageAttributes attribShadow = new ImageAttributes();
+					ImageAttributes attribShadow = new();
 					attribShadow.SetColorKey(markerImageTransparentColor, markerImageTransparentColor, ColorAdjustType.Default);
-					ColorMatrix colorMatrix = new ColorMatrix();
-					colorMatrix.Matrix00 = 0.25f; // Red
-					colorMatrix.Matrix11 = 0.25f; // Green
-					colorMatrix.Matrix22 = 0.25f; // Blue
-					colorMatrix.Matrix33 = 0.5f; // alpha
-					colorMatrix.Matrix44 = 1.0f; // w
+					ColorMatrix colorMatrix = new()
+					{
+						Matrix00 = 0.25f, // Red
+						Matrix11 = 0.25f, // Green
+						Matrix22 = 0.25f, // Blue
+						Matrix33 = 0.5f, // alpha
+						Matrix44 = 1.0f // w
+					};
 					attribShadow.SetColorMatrix(colorMatrix);
 
-					this.DrawImage(image,
+					DrawImage(image,
 						new Rectangle((int)rect.X + shadowSize, (int)rect.Y + shadowSize, (int)rect.Width, (int)rect.Height),
 						0, 0, image.Width, image.Height,
 						GraphicsUnit.Pixel,
@@ -723,7 +723,7 @@ public partial class ChartGraphics : ChartElement
 				}
 
 				// Draw image
-				this.DrawImage(image,
+				DrawImage(image,
 					new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height),
 					0, 0, image.Width, image.Height,
 					GraphicsUnit.Pixel,
@@ -735,14 +735,14 @@ public partial class ChartGraphics : ChartElement
 		else if (markerStyle != MarkerStyle.None && markerSize > 0 && markerColor != Color.Empty)
 		{
 			// Enable antialising
-			SmoothingMode oldSmoothingMode = this.SmoothingMode;
+			SmoothingMode oldSmoothingMode = SmoothingMode;
 			if (forceAntiAlias)
 			{
-				this.SmoothingMode = SmoothingMode.AntiAlias;
+				SmoothingMode = SmoothingMode.AntiAlias;
 			}
 
 			// Create solid color brush
-			using (SolidBrush brush = new SolidBrush(markerColor))
+			using (SolidBrush brush = new(markerColor))
 			{
 				// Calculate marker rectangle
 				RectangleF rect = RectangleF.Empty;
@@ -780,19 +780,19 @@ public partial class ChartGraphics : ChartElement
 							// Draw shadow
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
-								Matrix translateMatrix = this.Transform.Clone();
+								Matrix translateMatrix = Transform.Clone();
 								translateMatrix.Translate(shadowSize, shadowSize);
-								Matrix oldMatrix = this.Transform;
-								this.Transform = translateMatrix;
+								Matrix oldMatrix = Transform;
+								Transform = translateMatrix;
 
-								this.FillPolygon(new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)), points);
+								FillPolygon(new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)), points);
 
-								this.Transform = oldMatrix;
+								Transform = oldMatrix;
 							}
 
 							// Draw star
-							this.FillPolygon(brush, points);
-							this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+							FillPolygon(brush, points);
+							DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
 							break;
 						}
 					case (MarkerStyle.Circle):
@@ -802,54 +802,48 @@ public partial class ChartGraphics : ChartElement
 							{
 								if (!softShadows)
 								{
-									using (SolidBrush shadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)))
-									{
-										RectangleF shadowRect = rect;
-										shadowRect.X += shadowSize;
-										shadowRect.Y += shadowSize;
-										this.FillEllipse(shadowBrush, shadowRect);
-									}
+									using SolidBrush shadowBrush = new((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
+									RectangleF shadowRect = rect;
+									shadowRect.X += shadowSize;
+									shadowRect.Y += shadowSize;
+									FillEllipse(shadowBrush, shadowRect);
 								}
 								else
 								{
 									// Add circle to the graphics path
-									using (GraphicsPath path = new GraphicsPath())
+									using GraphicsPath path = new();
+									path.AddEllipse(rect.X + shadowSize - 1, rect.Y + shadowSize - 1, rect.Width + 2, rect.Height + 2);
+
+									// Create path brush
+									using PathGradientBrush shadowBrush = new(path);
+									shadowBrush.CenterColor = shadowColor;
+
+									// Set the color along the entire boundary of the path
+									Color[] colors = [Color.Transparent];
+									shadowBrush.SurroundColors = colors;
+									shadowBrush.CenterPoint = new PointF(point.X, point.Y);
+
+									// Define brush focus scale
+									PointF focusScale = new(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
+									if (focusScale.X < 0)
 									{
-										path.AddEllipse(rect.X + shadowSize - 1, rect.Y + shadowSize - 1, rect.Width + 2, rect.Height + 2);
-
-										// Create path brush
-										using (PathGradientBrush shadowBrush = new PathGradientBrush(path))
-										{
-											shadowBrush.CenterColor = shadowColor;
-
-											// Set the color along the entire boundary of the path
-											Color[] colors = { Color.Transparent };
-											shadowBrush.SurroundColors = colors;
-											shadowBrush.CenterPoint = new PointF(point.X, point.Y);
-
-											// Define brush focus scale
-											PointF focusScale = new PointF(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
-											if (focusScale.X < 0)
-											{
-												focusScale.X = 0;
-											}
-
-											if (focusScale.Y < 0)
-											{
-												focusScale.Y = 0;
-											}
-
-											shadowBrush.FocusScales = focusScale;
-
-											// Draw shadow
-											this.FillPath(shadowBrush, path);
-										}
+										focusScale.X = 0;
 									}
+
+									if (focusScale.Y < 0)
+									{
+										focusScale.Y = 0;
+									}
+
+									shadowBrush.FocusScales = focusScale;
+
+									// Draw shadow
+									FillPath(shadowBrush, path);
 								}
 							}
 
-							this.FillEllipse(brush, rect);
-							this.DrawEllipse(new Pen(markerBorderColor, markerBorderSize), rect);
+							FillEllipse(brush, rect);
+							DrawEllipse(new Pen(markerBorderColor, markerBorderSize), rect);
 							break;
 						}
 					case (MarkerStyle.Square):
@@ -860,8 +854,8 @@ public partial class ChartGraphics : ChartElement
 								FillRectangleShadowAbs(rect, shadowColor, shadowSize, shadowColor);
 							}
 
-							this.FillRectangle(brush, rect);
-							this.DrawRectangle(new Pen(markerBorderColor, markerBorderSize), (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
+							FillRectangle(brush, rect);
+							DrawRectangle(new Pen(markerBorderColor, markerBorderSize), (int)Math.Round(rect.X, 0), (int)Math.Round(rect.Y, 0), (int)Math.Round(rect.Width, 0), (int)Math.Round(rect.Height, 0));
 							break;
 						}
 					case (MarkerStyle.Cross):
@@ -901,7 +895,7 @@ public partial class ChartGraphics : ChartElement
 							points[11].Y = point.Y + crossLineWidth / 2F;
 
 							// Rotate cross coordinates 45 degrees
-							Matrix rotationMatrix = new Matrix();
+							Matrix rotationMatrix = new();
 							rotationMatrix.RotateAt(45, point);
 							rotationMatrix.TransformPoints(points);
 
@@ -909,69 +903,63 @@ public partial class ChartGraphics : ChartElement
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
 								// Create translation matrix
-								Matrix translateMatrix = this.Transform.Clone();
+								Matrix translateMatrix = Transform.Clone();
 								translateMatrix.Translate(
 									(softShadows) ? shadowSize + 1 : shadowSize,
 									(softShadows) ? shadowSize + 1 : shadowSize);
-								Matrix oldMatrix = this.Transform;
-								this.Transform = translateMatrix;
+								Matrix oldMatrix = Transform;
+								Transform = translateMatrix;
 
 								if (!softShadows)
 								{
-									using (Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)))
-									{
-										this.FillPolygon(softShadowBrush, points);
-									}
+									using Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
+									FillPolygon(softShadowBrush, points);
 								}
 								else
 								{
 									// Add polygon to the graphics path
-									using (GraphicsPath path = new GraphicsPath())
+									using GraphicsPath path = new();
+									path.AddPolygon(points);
+
+									// Create path brush
+									using PathGradientBrush shadowBrush = new(path);
+									shadowBrush.CenterColor = shadowColor;
+
+									// Set the color along the entire boundary of the path
+									Color[] colors = [Color.Transparent];
+									shadowBrush.SurroundColors = colors;
+									shadowBrush.CenterPoint = new PointF(point.X, point.Y);
+
+									// Define brush focus scale
+									PointF focusScale = new(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
+									if (focusScale.X < 0)
 									{
-										path.AddPolygon(points);
-
-										// Create path brush
-										using (PathGradientBrush shadowBrush = new PathGradientBrush(path))
-										{
-											shadowBrush.CenterColor = shadowColor;
-
-											// Set the color along the entire boundary of the path
-											Color[] colors = { Color.Transparent };
-											shadowBrush.SurroundColors = colors;
-											shadowBrush.CenterPoint = new PointF(point.X, point.Y);
-
-											// Define brush focus scale
-											PointF focusScale = new PointF(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
-											if (focusScale.X < 0)
-											{
-												focusScale.X = 0;
-											}
-
-											if (focusScale.Y < 0)
-											{
-												focusScale.Y = 0;
-											}
-
-											shadowBrush.FocusScales = focusScale;
-
-											// Draw shadow
-											this.FillPath(shadowBrush, path);
-										}
+										focusScale.X = 0;
 									}
+
+									if (focusScale.Y < 0)
+									{
+										focusScale.Y = 0;
+									}
+
+									shadowBrush.FocusScales = focusScale;
+
+									// Draw shadow
+									FillPath(shadowBrush, path);
 								}
 
-								this.Transform = oldMatrix;
+								Transform = oldMatrix;
 							}
 
 							// Create translation matrix
-							Matrix translateMatrixShape = this.Transform.Clone();
-							Matrix oldMatrixShape = this.Transform;
-							this.Transform = translateMatrixShape;
+							Matrix translateMatrixShape = Transform.Clone();
+							Matrix oldMatrixShape = Transform;
+							Transform = translateMatrixShape;
 
-							this.FillPolygon(brush, points);
-							this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+							FillPolygon(brush, points);
+							DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
 
-							this.Transform = oldMatrixShape;
+							Transform = oldMatrixShape;
 
 							break;
 						}
@@ -990,18 +978,16 @@ public partial class ChartGraphics : ChartElement
 							// Draw shadow
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
-								Matrix translateMatrix = this.Transform.Clone();
+								Matrix translateMatrix = Transform.Clone();
 								translateMatrix.Translate((softShadows) ? 0 : shadowSize,
 									(softShadows) ? 0 : shadowSize);
-								Matrix oldMatrix = this.Transform;
-								this.Transform = translateMatrix;
+								Matrix oldMatrix = Transform;
+								Transform = translateMatrix;
 
 								if (!softShadows)
 								{
-									using (Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)))
-									{
-										this.FillPolygon(softShadowBrush, points);
-									}
+									using Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
+									FillPolygon(softShadowBrush, points);
 								}
 								else
 								{
@@ -1017,17 +1003,17 @@ public partial class ChartGraphics : ChartElement
 
 									// Set rotation matrix to 45 
 									translateMatrix.RotateAt(45, point);
-									this.Transform = translateMatrix;
+									Transform = translateMatrix;
 
 									FillRectangleShadowAbs(diamondRect, shadowColor, shadowSize, shadowColor);
 								}
 
 
-								this.Transform = oldMatrix;
+								Transform = oldMatrix;
 							}
 
-							this.FillPolygon(brush, points);
-							this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+							FillPolygon(brush, points);
+							DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
 							break;
 						}
 					case (MarkerStyle.Triangle):
@@ -1043,36 +1029,36 @@ public partial class ChartGraphics : ChartElement
 							// Draw image shadow
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
-								Matrix translateMatrix = this.Transform.Clone();
+								Matrix translateMatrix = Transform.Clone();
 								translateMatrix.Translate((softShadows) ? shadowSize - 1 : shadowSize,
 									(softShadows) ? shadowSize + 1 : shadowSize);
-								Matrix oldMatrix = this.Transform;
-								this.Transform = translateMatrix;
+								Matrix oldMatrix = Transform;
+								Transform = translateMatrix;
 
 								if (!softShadows)
 								{
-									using (Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor)))
-									{
-										this.FillPolygon(softShadowBrush, points);
-									}
+									using Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
+									FillPolygon(softShadowBrush, points);
 								}
 								else
 								{
 									// Add polygon to the graphics path
-									GraphicsPath path = new GraphicsPath();
+									GraphicsPath path = new();
 									path.AddPolygon(points);
 
 									// Create path brush
-									PathGradientBrush shadowBrush = new PathGradientBrush(path);
-									shadowBrush.CenterColor = shadowColor;
+									PathGradientBrush shadowBrush = new(path)
+									{
+										CenterColor = shadowColor
+									};
 
 									// Set the color along the entire boundary of the path
-									Color[] colors = { Color.Transparent };
+									Color[] colors = [Color.Transparent];
 									shadowBrush.SurroundColors = colors;
 									shadowBrush.CenterPoint = new PointF(point.X, point.Y);
 
 									// Define brush focus scale
-									PointF focusScale = new PointF(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
+									PointF focusScale = new(1 - 2f * shadowSize / rect.Width, 1 - 2f * shadowSize / rect.Height);
 									if (focusScale.X < 0)
 									{
 										focusScale.X = 0;
@@ -1086,14 +1072,14 @@ public partial class ChartGraphics : ChartElement
 									shadowBrush.FocusScales = focusScale;
 
 									// Draw shadow
-									this.FillPath(shadowBrush, path);
+									FillPath(shadowBrush, path);
 								}
 
-								this.Transform = oldMatrix;
+								Transform = oldMatrix;
 							}
 
-							this.FillPolygon(brush, points);
-							this.DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
+							FillPolygon(brush, points);
+							DrawPolygon(new Pen(markerBorderColor, markerBorderSize), points);
 							break;
 						}
 					default:
@@ -1106,7 +1092,7 @@ public partial class ChartGraphics : ChartElement
 			// Restore SmoothingMode
 			if (forceAntiAlias)
 			{
-				this.SmoothingMode = oldSmoothingMode;
+				SmoothingMode = oldSmoothingMode;
 			}
 		}
 	}
@@ -1142,7 +1128,7 @@ public partial class ChartGraphics : ChartElement
 			text = GetStackedText(text);
 		}
 
-		return this.MeasureString(text, font, layoutArea, stringFormat);
+		return MeasureString(text, font, layoutArea, stringFormat);
 	}
 
 	/// <summary>
@@ -1172,7 +1158,7 @@ public partial class ChartGraphics : ChartElement
 			text = GetStackedText(text);
 		}
 
-		return this.MeasureStringRel(text, font, layoutArea, stringFormat);
+		return MeasureStringRel(text, font, layoutArea, stringFormat);
 	}
 
 	/// <summary>
@@ -1202,7 +1188,7 @@ public partial class ChartGraphics : ChartElement
 			text = GetStackedText(text);
 		}
 
-		this.DrawString(text, font, brush, rect, format);
+		DrawString(text, font, brush, rect, format);
 	}
 
 	/// <summary>
@@ -1217,10 +1203,10 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="textOrientation">Text orientation.</param>
 	internal void DrawStringRel(
 		string text,
-		System.Drawing.Font font,
-		System.Drawing.Brush brush,
+		Font font,
+		Brush brush,
 		PointF position,
-		System.Drawing.StringFormat format,
+		StringFormat format,
 		int angle,
 		TextOrientation textOrientation
 		)
@@ -1234,7 +1220,7 @@ public partial class ChartGraphics : ChartElement
 			text = GetStackedText(text);
 		}
 
-		this.DrawStringRel(text, font, brush, position, format, angle);
+		DrawStringRel(text, font, brush, position, format, angle);
 	}
 
 	/// <summary>
@@ -1248,10 +1234,10 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="textOrientation">Text orientation.</param>
 	internal void DrawStringRel(
 		string text,
-		System.Drawing.Font font,
-		System.Drawing.Brush brush,
+		Font font,
+		Brush brush,
 		RectangleF position,
-		System.Drawing.StringFormat format,
+		StringFormat format,
 		TextOrientation textOrientation
 		)
 	{
@@ -1264,7 +1250,7 @@ public partial class ChartGraphics : ChartElement
 			text = GetStackedText(text);
 		}
 
-		this.DrawStringRel(text, font, brush, position, format);
+		DrawStringRel(text, font, brush, position, format);
 	}
 
 	/// <summary>
@@ -1309,10 +1295,10 @@ public partial class ChartGraphics : ChartElement
 	internal void DrawPointLabelStringRel(
 		CommonElements common,
 		string text,
-		System.Drawing.Font font,
-		System.Drawing.Brush brush,
+		Font font,
+		Brush brush,
 		RectangleF position,
-		System.Drawing.StringFormat format,
+		StringFormat format,
 		int angle,
 		RectangleF backPosition,
 		Color backColor,
@@ -1324,7 +1310,7 @@ public partial class ChartGraphics : ChartElement
 		int pointIndex)
 	{
 		// Start Svg/Flash Selection mode
-		this.StartHotRegion(point, true);
+		StartHotRegion(point, true);
 
 		// Draw background
 		DrawPointLabelBackground(
@@ -1341,29 +1327,29 @@ public partial class ChartGraphics : ChartElement
 			pointIndex);
 
 		// End Svg/Flash Selection mode
-		this.EndHotRegion();
+		EndHotRegion();
 
 		point._lastLabelText = text;
 		// Draw text
 		if (IsRightToLeft)
 		{
 			// datapoint label alignments should appear as not RTL.
-			using (StringFormat fmt = (StringFormat)format.Clone())
+			using StringFormat fmt = (StringFormat)format.Clone();
+			if (fmt.Alignment == StringAlignment.Far)
 			{
-				if (fmt.Alignment == StringAlignment.Far)
-				{
-					fmt.Alignment = StringAlignment.Near;
-				}
-				else if (fmt.Alignment == StringAlignment.Near)
-				{
-					fmt.Alignment = StringAlignment.Far;
-				}
-
-				DrawStringRel(text, font, brush, position, fmt, angle);
+				fmt.Alignment = StringAlignment.Near;
 			}
+			else if (fmt.Alignment == StringAlignment.Near)
+			{
+				fmt.Alignment = StringAlignment.Far;
+			}
+
+			DrawStringRel(text, font, brush, position, fmt, angle);
 		}
 		else
+		{
 			DrawStringRel(text, font, brush, position, format, angle);
+		}
 	}
 
 	/// <summary>
@@ -1387,10 +1373,10 @@ public partial class ChartGraphics : ChartElement
 	internal void DrawPointLabelStringRel(
 		CommonElements common,
 		string text,
-		System.Drawing.Font font,
-		System.Drawing.Brush brush,
+		Font font,
+		Brush brush,
 		PointF position,
-		System.Drawing.StringFormat format,
+		StringFormat format,
 		int angle,
 		RectangleF backPosition,
 		Color backColor,
@@ -1402,7 +1388,7 @@ public partial class ChartGraphics : ChartElement
 		int pointIndex)
 	{
 		// Start Svg/Flash Selection mode
-		this.StartHotRegion(point, true);
+		StartHotRegion(point, true);
 
 		// Draw background
 		DrawPointLabelBackground(
@@ -1419,29 +1405,29 @@ public partial class ChartGraphics : ChartElement
 			pointIndex);
 
 		// End Svg/Flash Selection mode
-		this.EndHotRegion();
+		EndHotRegion();
 
 		point._lastLabelText = text;
 		// Draw text
 		if (IsRightToLeft)
 		{
 			// datapoint label alignments should appear as not RTL
-			using (StringFormat fmt = (StringFormat)format.Clone())
+			using StringFormat fmt = (StringFormat)format.Clone();
+			if (fmt.Alignment == StringAlignment.Far)
 			{
-				if (fmt.Alignment == StringAlignment.Far)
-				{
-					fmt.Alignment = StringAlignment.Near;
-				}
-				else if (fmt.Alignment == StringAlignment.Near)
-				{
-					fmt.Alignment = StringAlignment.Far;
-				}
-
-				DrawStringRel(text, font, brush, position, fmt, angle);
+				fmt.Alignment = StringAlignment.Near;
 			}
+			else if (fmt.Alignment == StringAlignment.Near)
+			{
+				fmt.Alignment = StringAlignment.Far;
+			}
+
+			DrawStringRel(text, font, brush, position, fmt, angle);
 		}
 		else
+		{
 			DrawStringRel(text, font, brush, position, format, angle);
+		}
 	}
 
 	/// <summary>
@@ -1474,28 +1460,28 @@ public partial class ChartGraphics : ChartElement
 		// Draw background
 		if (!backPosition.IsEmpty)
 		{
-			RectangleF backPositionAbs = this.Round(this.GetAbsoluteRectangle(backPosition));
+			RectangleF backPositionAbs = Round(GetAbsoluteRectangle(backPosition));
 
 			// Get rotation point
-			PointF rotationPoint = PointF.Empty;
+			PointF rotationPoint;
 			if (textPosition.IsEmpty)
 			{
 				rotationPoint = new PointF(backPositionAbs.X + backPositionAbs.Width / 2f, backPositionAbs.Y + backPositionAbs.Height / 2f);
 			}
 			else
 			{
-				rotationPoint = this.GetAbsolutePoint(textPosition);
+				rotationPoint = GetAbsolutePoint(textPosition);
 			}
 
 			// Create a matrix and rotate it.
-			_myMatrix = this.Transform.Clone();
+			_myMatrix = Transform.Clone();
 			_myMatrix.RotateAt(angle, rotationPoint);
 
 			// Save old state
-			GraphicsState graphicsState = this.Save();
+			GraphicsState graphicsState = Save();
 
 			// Set transformatino
-			this.Transform = _myMatrix;
+			Transform = _myMatrix;
 
 			// Check for empty colors
 			if (!backColor.IsEmpty ||
@@ -1504,7 +1490,7 @@ public partial class ChartGraphics : ChartElement
 				// Fill box around the label
 				using (Brush brush = new SolidBrush(backColor))
 				{
-					this.FillRectangle(brush, backPositionAbs);
+					FillRectangle(brush, backPositionAbs);
 				}
 
 				// deliant: Fix VSTS #156433	(2)	Data Label Border in core always shows when the style is set to NotSet	
@@ -1512,39 +1498,35 @@ public partial class ChartGraphics : ChartElement
 				if (borderWidth > 0 &&
 						!borderColor.IsEmpty && borderDashStyle != ChartDashStyle.NotSet)
 				{
-					AntiAliasingStyles saveAntiAliasing = this.AntiAliasing;
+					AntiAliasingStyles saveAntiAliasing = AntiAliasing;
 					try
 					{
-						this.AntiAliasing = AntiAliasingStyles.None;
-						using (Pen pen = new Pen(borderColor, borderWidth))
-						{
-							pen.DashStyle = GetPenStyle(borderDashStyle);
-							this.DrawRectangle(
-								pen,
-								backPositionAbs.X,
-								backPositionAbs.Y,
-								backPositionAbs.Width,
-								backPositionAbs.Height);
-						}
+						AntiAliasing = AntiAliasingStyles.None;
+						using Pen pen = new(borderColor, borderWidth);
+						pen.DashStyle = GetPenStyle(borderDashStyle);
+						DrawRectangle(
+							pen,
+							backPositionAbs.X,
+							backPositionAbs.Y,
+							backPositionAbs.Width,
+							backPositionAbs.Height);
 					}
 					finally
 					{
-						this.AntiAliasing = saveAntiAliasing;
+						AntiAliasing = saveAntiAliasing;
 					}
 				}
 			}
 			else
 			{
 				// Draw invisible rectangle to handle tooltips
-				using (Brush brush = new SolidBrush(Color.Transparent))
-				{
-					this.FillRectangle(brush, backPositionAbs);
-				}
+				using Brush brush = new SolidBrush(Color.Transparent);
+				FillRectangle(brush, backPositionAbs);
 			}
 
 
 			// Restore old state
-			this.Restore(graphicsState);
+			Restore(graphicsState);
 
 			// Add point label hot region
 			if (common != null &&
@@ -1562,20 +1544,18 @@ public partial class ChartGraphics : ChartElement
 				else
 				{
 					// Convert rectangle to the graphics path and apply rotation transformation
-					using (GraphicsPath path = new GraphicsPath())
-					{
-						path.AddRectangle(backPositionAbs);
-						path.Transform(_myMatrix);
+					using GraphicsPath path = new();
+					path.AddRectangle(backPositionAbs);
+					path.Transform(_myMatrix);
 
-						// Add hot region
-						common.HotRegionsList.AddHotRegion(
-							path,
-							false,
-							this,
-							point,
-							series.Name,
-							pointIndex);
-					}
+					// Add hot region
+					common.HotRegionsList.AddHotRegion(
+						path,
+						false,
+						this,
+						point,
+						series.Name,
+						pointIndex);
 				}
 
 				// Set new hot region element type 
@@ -1599,10 +1579,10 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="angle">Text angle.</param>
 	internal void DrawStringRel(
 		string text,
-		System.Drawing.Font font,
-		System.Drawing.Brush brush,
+		Font font,
+		Brush brush,
 		PointF position,
-		System.Drawing.StringFormat format,
+		StringFormat format,
 		int angle
 		)
 	{
@@ -1626,22 +1606,22 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="angle">Text angle.</param>
 	internal void DrawStringAbs(
 		string text,
-		System.Drawing.Font font,
-		System.Drawing.Brush brush,
+		Font font,
+		Brush brush,
 		PointF absPosition,
-		System.Drawing.StringFormat format,
+		StringFormat format,
 		int angle
 		)
 	{
 		// Create a matrix and rotate it.
-		_myMatrix = this.Transform.Clone();
+		_myMatrix = Transform.Clone();
 		_myMatrix.RotateAt(angle, absPosition);
 
 		// Save aold state
-		GraphicsState graphicsState = this.Save();
+		GraphicsState graphicsState = Save();
 
 		// Set Angle
-		this.Transform = _myMatrix;
+		Transform = _myMatrix;
 
 		// Draw text with anti-aliasing
 		/*
@@ -1652,10 +1632,10 @@ public partial class ChartGraphics : ChartElement
 		*/
 
 		// Draw a string
-		this.DrawString(text, font, brush, absPosition, format);
+		DrawString(text, font, brush, absPosition, format);
 
 		// Restore old state
-		this.Restore(graphicsState);
+		Restore(graphicsState);
 	}
 
 	/// <summary>
@@ -1674,20 +1654,20 @@ public partial class ChartGraphics : ChartElement
 
 		// Get the absolute center and create the centered rectangle points
 		PointF absCenter = GetAbsolutePoint(center);
-		PointF[] points = new PointF[] {
-				new PointF(absCenter.X - size.Width / 2f, absCenter.Y - size.Height / 2f),
-				new PointF(absCenter.X + size.Width / 2f, absCenter.Y - size.Height / 2f),
-				new PointF(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f),
-				new PointF(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)};
+		PointF[] points = [
+				new(absCenter.X - size.Width / 2f, absCenter.Y - size.Height / 2f),
+				new(absCenter.X + size.Width / 2f, absCenter.Y - size.Height / 2f),
+				new(absCenter.X + size.Width / 2f, absCenter.Y + size.Height / 2f),
+				new(absCenter.X - size.Width / 2f, absCenter.Y + size.Height / 2f)];
 
 		//Prepare the same tranformation matrix as used for the axis title
-		Matrix matrix = this.Transform.Clone();
+		Matrix matrix = Transform.Clone();
 		matrix.RotateAt(angle, absCenter);
 		//Tranform the rectangle points
 		matrix.TransformPoints(points);
 
 		//Return the path consisting of the rect points
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 		path.AddLines(points);
 		path.CloseAllFigures();
 		return path;
@@ -1723,10 +1703,10 @@ public partial class ChartGraphics : ChartElement
 		string text,
 		string image,
 		Color imageTransparentColor,
-		System.Drawing.Font font,
-		System.Drawing.Brush brush,
+		Font font,
+		Brush brush,
 		RectangleF position,
-		System.Drawing.StringFormat format,
+		StringFormat format,
 		int angle,
 		RectangleF boundaryRect,
 		CustomLabel label,
@@ -1745,7 +1725,7 @@ public partial class ChartGraphics : ChartElement
 			}
 
 			// Find absolute position
-			RectangleF absPosition = this.GetAbsoluteRectangle(position);
+			RectangleF absPosition = GetAbsoluteRectangle(position);
 
 			// Make sure the rectangle is not empty
 			if (absPosition.Width < 1f)
@@ -1905,17 +1885,25 @@ public partial class ChartGraphics : ChartElement
 				if (angle == 90)
 				{
 					if (drawingFormat.LineAlignment == StringAlignment.Far)
+					{
 						drawingFormat.LineAlignment = StringAlignment.Near;
+					}
 					else if (drawingFormat.LineAlignment == StringAlignment.Near)
+					{
 						drawingFormat.LineAlignment = StringAlignment.Far;
+					}
 				}
 
 				if (angle == -90)
 				{
 					if (drawingFormat.Alignment == StringAlignment.Far)
+					{
 						drawingFormat.Alignment = StringAlignment.Near;
+					}
 					else if (drawingFormat.Alignment == StringAlignment.Near)
+					{
 						drawingFormat.Alignment = StringAlignment.Far;
+					}
 				}
 			}
 
@@ -1925,14 +1913,14 @@ public partial class ChartGraphics : ChartElement
 			oldTransform = null;
 			if (angle != 0)
 			{
-				_myMatrix = this.Transform.Clone();
+				_myMatrix = Transform.Clone();
 				_myMatrix.RotateAt(angle, rotationPoint);
 
 				// Old angle
-				oldTransform = this.Transform;
+				oldTransform = Transform;
 
 				// Set Angle
-				this.Transform = _myMatrix;
+				Transform = _myMatrix;
 			}
 
 			//********************************************************************
@@ -1943,7 +1931,7 @@ public partial class ChartGraphics : ChartElement
 			float offsetX = 0f;
 
 			// Measure text size
-			labelSize = this.MeasureString(text.Replace("\\n", "\n"), font, absPosition.Size, drawingFormat);
+			labelSize = MeasureString(text.Replace("\\n", "\n"), font, absPosition.Size, drawingFormat);
 
 			// Calculate text rectangle
 			labelRect.Width = labelSize.Width;
@@ -2001,7 +1989,7 @@ public partial class ChartGraphics : ChartElement
 				// Adjust label rectangle so it will be inside boundary
 				if (boundaryRect != RectangleF.Empty)
 				{
-					Region region = new Region(labelRect);
+					Region region = new(labelRect);
 					region.Transform(_myMatrix);
 
 					// Extend boundary rectangle to the chart picture border
@@ -2012,7 +2000,7 @@ public partial class ChartGraphics : ChartElement
 					}
 					else if (axis.AxisPosition == AxisPosition.Right)
 					{
-						boundaryRect.Width = this._common.Width - boundaryRect.X;
+						boundaryRect.Width = _common.Width - boundaryRect.X;
 					}
 					else if (axis.AxisPosition == AxisPosition.Top)
 					{
@@ -2021,16 +2009,16 @@ public partial class ChartGraphics : ChartElement
 					}
 					else if (axis.AxisPosition == AxisPosition.Bottom)
 					{
-						boundaryRect.Height = this._common.Height - boundaryRect.Y;
+						boundaryRect.Height = _common.Height - boundaryRect.Y;
 					}
 
 					// Exclude boundary rectangle from the label rectangle
-					region.Exclude(this.GetAbsoluteRectangle(boundaryRect));
+					region.Exclude(GetAbsoluteRectangle(boundaryRect));
 
 					// If any part of the label was outside bounding rectangle
 					if (!region.IsEmpty(Graphics))
 					{
-						this.Transform = oldTransform;
+						Transform = oldTransform;
 						RectangleF truncateRect = region.GetBounds(Graphics);
 
 						float sizeChange = truncateRect.Width / (float)Math.Cos(Math.Abs(angle) / 180F * Math.PI);
@@ -2076,16 +2064,16 @@ public partial class ChartGraphics : ChartElement
 				}
 
 				// Update transformation matrix
-				this.Transform = _myMatrix;
+				Transform = _myMatrix;
 			}
 
 			//********************************************************************
 			//** Reserve space on the left for the label iamge
 			//********************************************************************
-			RectangleF absPositionWithoutImage = new RectangleF(absPosition.Location, absPosition.Size);
+			RectangleF absPositionWithoutImage = new(absPosition.Location, absPosition.Size);
 
-			System.Drawing.Image labelImage = null;
-			SizeF imageAbsSize = new SizeF();
+			Image labelImage = null;
+			SizeF imageAbsSize = new();
 
 			if (image.Length > 0)
 			{
@@ -2093,7 +2081,7 @@ public partial class ChartGraphics : ChartElement
 
 				if (labelImage != null)
 				{
-					ImageLoader.GetAdjustedImageSize(labelImage, this.Graphics, ref imageAbsSize);
+					ImageLoader.GetAdjustedImageSize(labelImage, Graphics, ref imageAbsSize);
 
 					// Adjust label position using image size
 					absPositionWithoutImage.Width -= imageAbsSize.Width;
@@ -2113,14 +2101,14 @@ public partial class ChartGraphics : ChartElement
 			if (labelRowIndex > 0 && labelMark != LabelMarkStyle.None)
 			{
 				// Make sure that me know the exact size of the text
-				labelSize = this.MeasureString(
+				labelSize = MeasureString(
 					text.Replace("\\n", "\n"),
 					font,
 					absPositionWithoutImage.Size,
 					drawingFormat);
 
 				// Adjust for label image
-				SizeF labelSizeWithImage = new SizeF(labelSize.Width, labelSize.Height);
+				SizeF labelSizeWithImage = new(labelSize.Width, labelSize.Height);
 				if (labelImage != null)
 				{
 					labelSizeWithImage.Width += imageAbsSize.Width;
@@ -2146,7 +2134,7 @@ public partial class ChartGraphics : ChartElement
 			{
 				// Measure string height out of one character
 				drawingFormat.FormatFlags ^= StringFormatFlags.LineLimit;
-				SizeF size = this.MeasureString("I", font, absPosition.Size, drawingFormat);
+				SizeF size = MeasureString("I", font, absPosition.Size, drawingFormat);
 
 				// If height of one characte is more than rectangle heigjt - remove LineLimit flag
 				if (size.Height < absPosition.Height)
@@ -2163,7 +2151,7 @@ public partial class ChartGraphics : ChartElement
 				}
 
 				// Measure string height out of one character without clipping
-				SizeF size = this.MeasureString("I", font, absPosition.Size, drawingFormat);
+				SizeF size = MeasureString("I", font, absPosition.Size, drawingFormat);
 
 				// Clear NoClip flag
 				drawingFormat.FormatFlags ^= StringFormatFlags.NoClip;
@@ -2183,50 +2171,47 @@ public partial class ChartGraphics : ChartElement
 			if (IsRightToLeft)
 			{
 				// label alignment on the axis should appear as not RTL. 
-				using (StringFormat fmt = (StringFormat)drawingFormat.Clone())
+				using StringFormat fmt = (StringFormat)drawingFormat.Clone();
+
+				if (fmt.Alignment == StringAlignment.Far)
 				{
-
-					if (fmt.Alignment == StringAlignment.Far)
-					{
-						fmt.Alignment = StringAlignment.Near;
-					}
-					else if (fmt.Alignment == StringAlignment.Near)
-					{
-						fmt.Alignment = StringAlignment.Far;
-					}
-
-					this.DrawString(text.Replace("\\n", "\n"), font, brush,
-					absPositionWithoutImage,
-					fmt);
-
+					fmt.Alignment = StringAlignment.Near;
 				}
+				else if (fmt.Alignment == StringAlignment.Near)
+				{
+					fmt.Alignment = StringAlignment.Far;
+				}
+
+				DrawString(text.Replace("\\n", "\n"), font, brush,
+				absPositionWithoutImage,
+				fmt);
 			}
 			else
-				this.DrawString(text.Replace("\\n", "\n"), font, brush,
+			{
+				DrawString(text.Replace("\\n", "\n"), font, brush,
 				absPositionWithoutImage,
 				drawingFormat);
+			}
 
 			// Add separate hot region for the label
 			if (common.ProcessModeRegions)
 			{
-				using (GraphicsPath path = new GraphicsPath())
-				{
-					path.AddRectangle(labelRect);
-					path.Transform(this.Transform);
-					string url = string.Empty;
-					string mapAreaAttributes = string.Empty;
-					string postbackValue = string.Empty;
-					common.HotRegionsList.AddHotRegion(
-						this,
-						path,
-						false,
-						label.ToolTip,
-						url,
-						mapAreaAttributes,
-						postbackValue,
-						label,
-						ChartElementType.AxisLabels);
-				}
+				using GraphicsPath path = new();
+				path.AddRectangle(labelRect);
+				path.Transform(Transform);
+				string url = string.Empty;
+				string mapAreaAttributes = string.Empty;
+				string postbackValue = string.Empty;
+				common.HotRegionsList.AddHotRegion(
+					this,
+					path,
+					false,
+					label.ToolTip,
+					url,
+					mapAreaAttributes,
+					postbackValue,
+					label,
+					ChartElementType.AxisLabels);
 			}
 
 			//********************************************************************
@@ -2237,7 +2222,7 @@ public partial class ChartGraphics : ChartElement
 				// Make sure we no the text size
 				if (labelSize.IsEmpty)
 				{
-					labelSize = this.MeasureString(
+					labelSize = MeasureString(
 						text.Replace("\\n", "\n"),
 						font,
 						absPositionWithoutImage.Size,
@@ -2245,7 +2230,7 @@ public partial class ChartGraphics : ChartElement
 				}
 
 				// Calculate image rectangle
-				RectangleF imageRect = new RectangleF(
+				RectangleF imageRect = new(
 					absPosition.X + (absPosition.Width - imageAbsSize.Width - labelSize.Width) / 2,
 					absPosition.Y + (absPosition.Height - imageAbsSize.Height) / 2,
 					imageAbsSize.Width,
@@ -2278,14 +2263,14 @@ public partial class ChartGraphics : ChartElement
 				}
 
 				// Create image attribute
-				ImageAttributes attrib = new ImageAttributes();
+				ImageAttributes attrib = new();
 				if (imageTransparentColor != Color.Empty)
 				{
 					attrib.SetColorKey(imageTransparentColor, imageTransparentColor, ColorAdjustType.Default);
 				}
 
 				// Draw image
-				this.DrawImage(
+				DrawImage(
 					labelImage,
 					Rectangle.Round(imageRect),
 					0, 0, labelImage.Width, labelImage.Height,
@@ -2295,24 +2280,22 @@ public partial class ChartGraphics : ChartElement
 				// Add separate hot region for the label image
 				if (common.ProcessModeRegions)
 				{
-					using (GraphicsPath path = new GraphicsPath())
-					{
-						path.AddRectangle(imageRect);
-						path.Transform(this.Transform);
-						string imageUrl = string.Empty;
-						string imageMapAreaAttributes = string.Empty;
-						string postbackValue = string.Empty;
-						common.HotRegionsList.AddHotRegion(
-							this,
-							path,
-							false,
-							string.Empty,
-							imageUrl,
-							imageMapAreaAttributes,
-							postbackValue,
-							label,
-							ChartElementType.AxisLabelImage);
-					}
+					using GraphicsPath path = new();
+					path.AddRectangle(imageRect);
+					path.Transform(Transform);
+					string imageUrl = string.Empty;
+					string imageMapAreaAttributes = string.Empty;
+					string postbackValue = string.Empty;
+					common.HotRegionsList.AddHotRegion(
+						this,
+						path,
+						false,
+						string.Empty,
+						imageUrl,
+						imageMapAreaAttributes,
+						postbackValue,
+						label,
+						ChartElementType.AxisLabelImage);
 				}
 			}
 		}
@@ -2320,7 +2303,7 @@ public partial class ChartGraphics : ChartElement
 		// Set Old Angle
 		if (oldTransform != null)
 		{
-			this.Transform = oldTransform;
+			Transform = oldTransform;
 		}
 	}
 
@@ -2342,14 +2325,14 @@ public partial class ChartGraphics : ChartElement
 		Matrix originalTransform)
 	{
 		// Remeber current and then reset original matrix
-		Matrix curentMatrix = this.Transform;
+		Matrix curentMatrix = Transform;
 		if (originalTransform != null)
 		{
-			this.Transform = originalTransform;
+			Transform = originalTransform;
 		}
 
 		// Calculate center of the text rectangle
-		PointF centerNotRound = new PointF(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F);
+		PointF centerNotRound = new(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F);
 
 		// Rotate rectangle 90 degrees
 		if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
@@ -2364,8 +2347,8 @@ public partial class ChartGraphics : ChartElement
 
 		// Get axis position
 		float axisPosRelative = (float)axis.GetAxisPosition(true);
-		PointF axisPositionAbs = new PointF(axisPosRelative, axisPosRelative);
-		axisPositionAbs = this.GetAbsolutePoint(axisPositionAbs);
+		PointF axisPositionAbs = new(axisPosRelative, axisPosRelative);
+		axisPositionAbs = GetAbsolutePoint(axisPositionAbs);
 
 		// Round position to achieve crisp lines with antialiasing
 		Rectangle absPositionRounded = Rectangle.Round(absPosition);
@@ -2375,23 +2358,24 @@ public partial class ChartGraphics : ChartElement
 		absPositionRounded.Height = (int)Math.Round(absPosition.Bottom) - absPositionRounded.Y;
 
 		// Create pen
-		Pen markPen = new Pen(
+		Pen markPen = new(
 			(markColor.IsEmpty) ? axis.MajorTickMark.LineColor : markColor,
-			axis.MajorTickMark.LineWidth);
-
-		// Set pen style
-		markPen.DashStyle = GetPenStyle(axis.MajorTickMark.LineDashStyle);
+			axis.MajorTickMark.LineWidth)
+		{
+			// Set pen style
+			DashStyle = GetPenStyle(axis.MajorTickMark.LineDashStyle)
+		};
 
 		// Draw top/bottom lines
 		if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
 		{
-			this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Left, absPositionRounded.Bottom);
-			this.DrawLine(markPen, absPositionRounded.Right, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Bottom);
+			DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Left, absPositionRounded.Bottom);
+			DrawLine(markPen, absPositionRounded.Right, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Bottom);
 		}
 		else
 		{
-			this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Top);
-			this.DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Bottom, absPositionRounded.Right, absPositionRounded.Bottom);
+			DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Top, absPositionRounded.Right, absPositionRounded.Top);
+			DrawLine(markPen, absPositionRounded.Left, absPositionRounded.Bottom, absPositionRounded.Right, absPositionRounded.Bottom);
 		}
 
 		// Draw left line
@@ -2399,7 +2383,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
 			{
-				this.DrawLine(
+				DrawLine(
 					markPen,
 					(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right,
 					absPositionRounded.Bottom,
@@ -2408,7 +2392,7 @@ public partial class ChartGraphics : ChartElement
 			}
 			else
 			{
-				this.DrawLine(
+				DrawLine(
 					markPen,
 					absPositionRounded.Left,
 					(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom,
@@ -2422,7 +2406,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			if (axis.AxisPosition == AxisPosition.Left || axis.AxisPosition == AxisPosition.Right)
 			{
-				this.DrawLine(
+				DrawLine(
 					markPen,
 					(axis.AxisPosition == AxisPosition.Left) ? absPositionRounded.Left : absPositionRounded.Right,
 					absPositionRounded.Top,
@@ -2431,7 +2415,7 @@ public partial class ChartGraphics : ChartElement
 			}
 			else
 			{
-				this.DrawLine(
+				DrawLine(
 					markPen,
 					absPositionRounded.Right,
 					(axis.AxisPosition == AxisPosition.Top) ? absPositionRounded.Top : absPositionRounded.Bottom,
@@ -2441,15 +2425,12 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Dispose Pen
-		if (markPen != null)
-		{
-			markPen.Dispose();
-		}
+		markPen?.Dispose();
 
 		// Restore currentmatrix
 		if (originalTransform != null)
 		{
-			this.Transform = curentMatrix;
+			Transform = curentMatrix;
 		}
 	}
 
@@ -2485,8 +2466,8 @@ public partial class ChartGraphics : ChartElement
 
 		// Remember SmoothingMode and turn off anti aliasing for 
 		// vertical or horizontal lines of the label markers.
-		SmoothingMode oldSmoothingMode = this.SmoothingMode;
-		this.SmoothingMode = SmoothingMode.None;
+		SmoothingMode oldSmoothingMode = SmoothingMode;
+		SmoothingMode = SmoothingMode.None;
 
 
 		// Draw box marker
@@ -2504,7 +2485,7 @@ public partial class ChartGraphics : ChartElement
 
 		{
 			// Calculate center of the text rectangle
-			System.Drawing.Point center = System.Drawing.Point.Round(new PointF(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F));
+			Point center = Point.Round(new PointF(absPosition.X + absPosition.Width / 2F, absPosition.Y + absPosition.Height / 2F));
 
 			// Round position to achieve crisp lines with antialiasing
 			Rectangle absPositionRounded = Rectangle.Round(absPosition);
@@ -2557,26 +2538,24 @@ public partial class ChartGraphics : ChartElement
 			}
 
 			// Create pen
-			Pen markPen = new Pen(
+			Pen markPen = new(
 				(markColor.IsEmpty) ? axis.MajorTickMark.LineColor : markColor,
-				axis.MajorTickMark.LineWidth);
-
-			// Set pen style
-			markPen.DashStyle = GetPenStyle(axis.MajorTickMark.LineDashStyle);
+				axis.MajorTickMark.LineWidth)
+			{
+				// Set pen style
+				DashStyle = GetPenStyle(axis.MajorTickMark.LineDashStyle)
+			};
 
 			// Draw marking lines
-			this.DrawLines(markPen, leftLine);
-			this.DrawLines(markPen, rightLine);
+			DrawLines(markPen, leftLine);
+			DrawLines(markPen, rightLine);
 
 			// Dispose Pen
-			if (markPen != null)
-			{
-				markPen.Dispose();
-			}
+			markPen?.Dispose();
 		}
 
 		// Restore previous SmoothingMode
-		this.SmoothingMode = oldSmoothingMode;
+		SmoothingMode = oldSmoothingMode;
 	}
 
 	/// <summary>
@@ -2592,7 +2571,7 @@ public partial class ChartGraphics : ChartElement
 		SizeF newSize;
 
 		// Measure string
-		newSize = this.MeasureString(text, font);
+		newSize = MeasureString(text, font);
 
 		// Convert to relative Coordinates
 		return GetRelativeSize(newSize);
@@ -2615,7 +2594,7 @@ public partial class ChartGraphics : ChartElement
 		// Get absolute coordinates
 		size = GetAbsoluteSize(layoutArea);
 
-		newSize = this.MeasureString(text, font, size, stringFormat);
+		newSize = MeasureString(text, font, size, stringFormat);
 
 		// Convert to relative Coordinates
 		return GetRelativeSize(newSize);
@@ -2632,7 +2611,7 @@ public partial class ChartGraphics : ChartElement
 	internal Size MeasureStringAbs(string text, Font font)
 	{
 		// Measure string
-		SizeF size = this.MeasureString(text, font);
+		SizeF size = MeasureString(text, font);
 		return new Size((int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));
 	}
 
@@ -2648,7 +2627,7 @@ public partial class ChartGraphics : ChartElement
 	/// <returns>A SizeF structure that represents the size of text as drawn with font.</returns>
 	internal Size MeasureStringAbs(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
 	{
-		SizeF size = this.MeasureString(text, font, layoutArea, stringFormat);
+		SizeF size = MeasureString(text, font, layoutArea, stringFormat);
 		return new Size((int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));
 	}
 
@@ -2688,7 +2667,7 @@ public partial class ChartGraphics : ChartElement
 		}
 		*/
 
-		this.DrawString(text, font, brush, rect, format);
+		DrawString(text, font, brush, rect, format);
 	}
 
 
@@ -2727,7 +2706,7 @@ public partial class ChartGraphics : ChartElement
 		// Get absolute coordinates
 		rect = GetAbsoluteRectangle(layoutRectangle);
 
-		size = this.MeasureString(text, font, rect.Size, format);
+		size = MeasureString(text, font, rect.Size, format);
 
 
 		// Find the center of rotation
@@ -2747,14 +2726,14 @@ public partial class ChartGraphics : ChartElement
 			rotationCenter.Y = (rect.Bottom + rect.Top) / 2;
 		}
 		// Create a matrix and rotate it.
-		_myMatrix = this.Transform.Clone();
+		_myMatrix = Transform.Clone();
 		_myMatrix.RotateAt(angle, rotationCenter);
 
 		// Old angle
-		oldTransform = this.Transform;
+		oldTransform = Transform;
 
 		// Set Angle
-		this.Transform = _myMatrix;
+		Transform = _myMatrix;
 
 		// Draw text with anti-aliasing
 		/*
@@ -2768,10 +2747,10 @@ public partial class ChartGraphics : ChartElement
 		}
 		*/
 
-		this.DrawString(text, font, brush, rect, format);
+		DrawString(text, font, brush, rect, format);
 
 		// Set Old Angle
-		this.Transform = oldTransform;
+		Transform = oldTransform;
 	}
 
 	#endregion
@@ -2808,7 +2787,7 @@ public partial class ChartGraphics : ChartElement
 
 					if (gradientRect.Width > 0 && gradientRect.Height > 0)
 					{
-						this.FillRectangleAbs(
+						FillRectangleAbs(
 							gradientRect,
 							Color.Transparent,
 							ChartHatchStyle.None,
@@ -2835,7 +2814,7 @@ public partial class ChartGraphics : ChartElement
 							gradientRect.Height = rect.Bottom - gradientRect.Y;
 						}
 
-						this.FillRectangleAbs(
+						FillRectangleAbs(
 							gradientRect,
 							Color.FromArgb(120, Color.White),
 							ChartHatchStyle.None,
@@ -2866,45 +2845,41 @@ public partial class ChartGraphics : ChartElement
 					}
 
 					// Create and draw left/top path
-					using (GraphicsPath path = new GraphicsPath())
+					using (GraphicsPath path = new())
 					{
 						// Add shadow polygon to the path
-						PointF[] points = new PointF[] {
-														   new PointF(rect.Left, rect.Bottom),
-														   new PointF(rect.Left, rect.Top),
-														   new PointF(rect.Right, rect.Top),
-														   new PointF(rect.Right - shadowSize, rect.Top + shadowSize),
-														   new PointF(rect.Left + shadowSize, rect.Top + shadowSize),
-														   new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize) };
+						PointF[] points = [
+														   new(rect.Left, rect.Bottom),
+														   new(rect.Left, rect.Top),
+														   new(rect.Right, rect.Top),
+														   new(rect.Right - shadowSize, rect.Top + shadowSize),
+														   new(rect.Left + shadowSize, rect.Top + shadowSize),
+														   new(rect.Left + shadowSize, rect.Bottom - shadowSize) ];
 						path.AddPolygon(points);
 
 						// Create brush
-						using (SolidBrush leftTopBrush = new SolidBrush(Color.FromArgb(100, Color.White)))
-						{
-							// Fill shadow path on the left-bottom side of the bar
-							this.FillPath(leftTopBrush, path);
-						}
+						using SolidBrush leftTopBrush = new(Color.FromArgb(100, Color.White));
+						// Fill shadow path on the left-bottom side of the bar
+						FillPath(leftTopBrush, path);
 					}
 
 					// Create and draw top/right path
-					using (GraphicsPath path = new GraphicsPath())
+					using (GraphicsPath path = new())
 					{
 						// Add shadow polygon to the path
-						PointF[] points = new PointF[] {
-														   new PointF(rect.Right, rect.Top),
-														   new PointF(rect.Right, rect.Bottom),
-														   new PointF(rect.Left, rect.Bottom),
-														   new PointF(rect.Left + shadowSize, rect.Bottom - shadowSize),
-														   new PointF(rect.Right - shadowSize, rect.Bottom - shadowSize),
-														   new PointF(rect.Right - shadowSize, rect.Top + shadowSize) };
+						PointF[] points = [
+														   new(rect.Right, rect.Top),
+														   new(rect.Right, rect.Bottom),
+														   new(rect.Left, rect.Bottom),
+														   new(rect.Left + shadowSize, rect.Bottom - shadowSize),
+														   new(rect.Right - shadowSize, rect.Bottom - shadowSize),
+														   new(rect.Right - shadowSize, rect.Top + shadowSize) ];
 						path.AddPolygon(points);
 
 						// Create brush
-						using (SolidBrush bottomRightBrush = new SolidBrush(Color.FromArgb(80, Color.Black)))
-						{
-							// Fill shadow path on the left-bottom side of the bar
-							this.FillPath(bottomRightBrush, path);
-						}
+						using SolidBrush bottomRightBrush = new(Color.FromArgb(80, Color.Black));
+						// Fill shadow path on the left-bottom side of the bar
+						FillPath(bottomRightBrush, path);
 					}
 				}
 				else if (barDrawingStyle == BarDrawingStyle.LightToDark)
@@ -2935,7 +2910,7 @@ public partial class ChartGraphics : ChartElement
 
 					if (gradientRect.Width > 0 && gradientRect.Height > 0)
 					{
-						this.FillRectangleAbs(
+						FillRectangleAbs(
 							gradientRect,
 							(isVertical) ? Color.FromArgb(120, Color.White) : Color.Transparent,
 							ChartHatchStyle.None,
@@ -2963,7 +2938,7 @@ public partial class ChartGraphics : ChartElement
 						}
 
 
-						this.FillRectangleAbs(
+						FillRectangleAbs(
 							gradientRect,
 							(!isVertical) ? Color.FromArgb(80, Color.Black) : Color.Transparent,
 							ChartHatchStyle.None,
@@ -2996,7 +2971,7 @@ public partial class ChartGraphics : ChartElement
 
 					// Draw left/bottom shadow
 					RectangleF gradientRect = rect;
-					using (GraphicsPath path = new GraphicsPath())
+					using (GraphicsPath path = new())
 					{
 						if (isVertical)
 						{
@@ -3014,14 +2989,12 @@ public partial class ChartGraphics : ChartElement
 						path.CloseAllFigures();
 
 						// Create brush and fill path
-						using (SolidBrush brush = new SolidBrush(Color.FromArgb(90, Color.Black)))
-						{
-							this.FillPath(brush, path);
-						}
+						using SolidBrush brush = new(Color.FromArgb(90, Color.Black));
+						FillPath(brush, path);
 					}
 
 					// Draw top/right triangle
-					using (GraphicsPath path = new GraphicsPath())
+					using (GraphicsPath path = new())
 					{
 						if (isVertical)
 						{
@@ -3035,63 +3008,59 @@ public partial class ChartGraphics : ChartElement
 						}
 
 						// Create brush and fill path
-						using (SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black)))
+						using SolidBrush brush = new(Color.FromArgb(50, Color.Black));
+						// Fill shadow path on the left-bottom side of the bar
+						FillPath(brush, path);
+
+						// Draw Lines
+						using (Pen penDark = new(Color.FromArgb(20, Color.Black), 1))
 						{
-							// Fill shadow path on the left-bottom side of the bar
-							this.FillPath(brush, path);
-
-							// Draw Lines
-							using (Pen penDark = new Pen(Color.FromArgb(20, Color.Black), 1))
+							DrawPath(penDark, path);
+							if (isVertical)
 							{
-								this.DrawPath(penDark, path);
-								if (isVertical)
-								{
-									this.DrawLine(
-										penDark,
-										rect.X + rect.Width / 2f,
-										rect.Y + size,
-										rect.X + rect.Width / 2f,
-										rect.Bottom - size);
-								}
-								else
-								{
-									this.DrawLine(
-										penDark,
-										rect.X + size,
-										rect.Y + rect.Height / 2f,
-										rect.X + size,
-										rect.Bottom - rect.Height / 2f);
-								}
+								DrawLine(
+									penDark,
+									rect.X + rect.Width / 2f,
+									rect.Y + size,
+									rect.X + rect.Width / 2f,
+									rect.Bottom - size);
 							}
-
-							// Draw Lines
-							using (Pen pen = new Pen(Color.FromArgb(40, Color.White), 1))
+							else
 							{
-								this.DrawPath(pen, path);
-								if (isVertical)
-								{
-									this.DrawLine(
-										pen,
-										rect.X + rect.Width / 2f,
-										rect.Y + size,
-										rect.X + rect.Width / 2f,
-										rect.Bottom - size);
-								}
-								else
-								{
-									this.DrawLine(
-										pen,
-										rect.X + size,
-										rect.Y + rect.Height / 2f,
-										rect.X + size,
-										rect.Bottom - rect.Height / 2f);
-								}
+								DrawLine(
+									penDark,
+									rect.X + size,
+									rect.Y + rect.Height / 2f,
+									rect.X + size,
+									rect.Bottom - rect.Height / 2f);
 							}
+						}
+
+						// Draw Lines
+						using Pen pen = new(Color.FromArgb(40, Color.White), 1);
+						DrawPath(pen, path);
+						if (isVertical)
+						{
+							DrawLine(
+								pen,
+								rect.X + rect.Width / 2f,
+								rect.Y + size,
+								rect.X + rect.Width / 2f,
+								rect.Bottom - size);
+						}
+						else
+						{
+							DrawLine(
+								pen,
+								rect.X + size,
+								rect.Y + rect.Height / 2f,
+								rect.X + size,
+								rect.Bottom - rect.Height / 2f);
 						}
 					}
 
 					// Draw bottom/left triangle
-					using (GraphicsPath path = new GraphicsPath())
+					using (GraphicsPath path = new())
 					{
 						if (isVertical)
 						{
@@ -3105,22 +3074,18 @@ public partial class ChartGraphics : ChartElement
 						}
 
 						// Create brush
-						using (SolidBrush brush = new SolidBrush(Color.FromArgb(50, Color.Black)))
+						using SolidBrush brush = new(Color.FromArgb(50, Color.Black));
+						// Fill shadow path on the left-bottom side of the bar
+						FillPath(brush, path);
+
+						// Draw edges
+						using (Pen penDark = new(Color.FromArgb(20, Color.Black), 1))
 						{
-							// Fill shadow path on the left-bottom side of the bar
-							this.FillPath(brush, path);
-
-							// Draw edges
-							using (Pen penDark = new Pen(Color.FromArgb(20, Color.Black), 1))
-							{
-								this.DrawPath(penDark, path);
-							}
-
-							using (Pen pen = new Pen(Color.FromArgb(40, Color.White), 1))
-							{
-								this.DrawPath(pen, path);
-							}
+							DrawPath(penDark, path);
 						}
+
+						using Pen pen = new(Color.FromArgb(40, Color.White), 1);
+						DrawPath(pen, path);
 					}
 				}
 			}
@@ -3165,7 +3130,7 @@ public partial class ChartGraphics : ChartElement
 		BarDrawingStyle barDrawingStyle,
 		bool isVertical)
 	{
-		this.FillRectangleRel(
+		FillRectangleRel(
 			rectF,
 			backColor,
 			backHatchStyle,
@@ -3222,7 +3187,7 @@ public partial class ChartGraphics : ChartElement
 		int shadowOffset,
 		PenAlignment penAlignment)
 	{
-		this.FillRectangleRel(
+		FillRectangleRel(
 			rectF,
 			backColor,
 			backHatchStyle,
@@ -3285,7 +3250,7 @@ public partial class ChartGraphics : ChartElement
 		int circularSectorsCount,
 		bool circle3D)
 	{
-		this.FillRectangleRel(
+		FillRectangleRel(
 			rectF,
 			backColor,
 			backHatchStyle,
@@ -3357,10 +3322,10 @@ public partial class ChartGraphics : ChartElement
 		Brush backBrush = null;
 
 		// Remember SmoothingMode and turn off anti aliasing
-		SmoothingMode oldSmoothingMode = this.SmoothingMode;
+		SmoothingMode oldSmoothingMode = SmoothingMode;
 		if (!circular)
 		{
-			this.SmoothingMode = SmoothingMode.Default;
+			SmoothingMode = SmoothingMode.Default;
 		}
 
 		// Color is empty
@@ -3402,13 +3367,13 @@ public partial class ChartGraphics : ChartElement
 			borderWidth > 0)
 		{
 			// SVG and Metafiles do not support inset pen styles - use same rectangle
-			if (this.ActiveRenderingType == RenderingType.Svg ||
-				this.IsMetafile)
+			if (ActiveRenderingType == RenderingType.Svg ||
+				IsMetafile)
 			{
 				fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 			}
-			else if (this.Graphics.Transform.Elements[0] != 1f ||
-				this.Graphics.Transform.Elements[3] != 1f)
+			else if (Graphics.Transform.Elements[0] != 1f ||
+				Graphics.Transform.Elements[3] != 1f)
 			{
 				// Do not reduce filling rectangle if scaling is used in the graphics
 				// transformations. Rounding may cause a 1 pixel gap between the border 
@@ -3436,14 +3401,14 @@ public partial class ChartGraphics : ChartElement
 		// hight ca be extremly large. Drawing such a rectangle may cause an overflow exception. 
 		// The code below restricts the maximum size to double the chart size. See issue 
 		// description for more information. -AG.
-		if (fillRect.Width > 2f * this._width)
+		if (fillRect.Width > 2f * _width)
 		{
-			fillRect.Width = 2f * this._width;
+			fillRect.Width = 2f * _width;
 		}
 
-		if (fillRect.Height > 2f * this._height)
+		if (fillRect.Height > 2f * _height)
 		{
-			fillRect.Height = 2f * this._height;
+			fillRect.Height = 2f * _height;
 		}
 
 
@@ -3481,28 +3446,30 @@ public partial class ChartGraphics : ChartElement
 		if (backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 		{
 			// Load image
-			System.Drawing.Image image = _common.ImageLoader.LoadImage(backImage);
+			Image image = _common.ImageLoader.LoadImage(backImage);
 
 			// Prepare image properties (transparent color)
-			ImageAttributes attrib = new ImageAttributes();
+			ImageAttributes attrib = new();
 			if (backImageTransparentColor != Color.Empty)
 			{
 				attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
 			}
 
 			// Draw scaled image
-			RectangleF imageRect = new RectangleF();
-			imageRect.X = fillRect.X;
-			imageRect.Y = fillRect.Y;
-			imageRect.Width = fillRect.Width;
-			imageRect.Height = fillRect.Height;
+			RectangleF imageRect = new()
+			{
+				X = fillRect.X,
+				Y = fillRect.Y,
+				Width = fillRect.Width,
+				Height = fillRect.Height
+			};
 
-			SizeF imageAbsSize = new SizeF();
+			SizeF imageAbsSize = new();
 
 			// Calculate unscaled image position
 			if (backImageWrapMode == ChartImageWrapMode.Unscaled)
 			{
-				ImageLoader.GetAdjustedImageSize(image, this.Graphics, ref imageAbsSize);
+				ImageLoader.GetAdjustedImageSize(image, Graphics, ref imageAbsSize);
 
 				// Calculate image position
 				imageRect.Width = Math.Min(fillRect.Width, imageAbsSize.Width);
@@ -3547,13 +3514,17 @@ public partial class ChartGraphics : ChartElement
 			if (brush != null)
 			{
 				if (circular)
-					this.DrawCircleAbs(null, brush, fillRect, circularSectorsCount, circle3D);
+				{
+					DrawCircleAbs(null, brush, fillRect, circularSectorsCount, circle3D);
+				}
 				else
-					this.FillRectangle(brush, fillRect);
+				{
+					FillRectangle(brush, fillRect);
+				}
 			}
 
 			// Draw image
-			this.DrawImage(image,
+			DrawImage(image,
 				new Rectangle((int)Math.Round(imageRect.X), (int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
 				0, 0,
 					(backImageWrapMode == ChartImageWrapMode.Unscaled) ? imageRect.Width * image.Width / imageAbsSize.Width : image.Width,
@@ -3568,78 +3539,83 @@ public partial class ChartGraphics : ChartElement
 			{
 				// Fill background with brush
 				if (circular)
-					this.DrawCircleAbs(null, backBrush, fillRect, circularSectorsCount, circle3D);
+				{
+					DrawCircleAbs(null, backBrush, fillRect, circularSectorsCount, circle3D);
+				}
 				else
-					this.FillRectangle(backBrush, fillRect);
+				{
+					FillRectangle(backBrush, fillRect);
+				}
 			}
 
 			if (brush != null)
 			{
 				if (circular)
-					this.DrawCircleAbs(null, brush, fillRect, circularSectorsCount, circle3D);
+				{
+					DrawCircleAbs(null, brush, fillRect, circularSectorsCount, circle3D);
+				}
 				else
-					this.FillRectangle(brush, fillRect);
+				{
+					FillRectangle(brush, fillRect);
+				}
 			}
 		}
 
 		// Draw different bar style
-		this.DrawRectangleBarStyle(barDrawingStyle, isVertical, fillRect);
+		DrawRectangleBarStyle(barDrawingStyle, isVertical, fillRect);
 
 		// Draw border
 		if (borderWidth > 0 && borderDashStyle != ChartDashStyle.NotSet)
 		{
 			// Set a border line color
-			if (_pen.Color != borderColor)
+			if (Pen.Color != borderColor)
 			{
-				_pen.Color = borderColor;
+				Pen.Color = borderColor;
 			}
 
 			// Set a border line width
-			if (_pen.Width != borderWidth)
+			if (Pen.Width != borderWidth)
 			{
-				_pen.Width = borderWidth;
+				Pen.Width = borderWidth;
 			}
 
 			// Set pen alignment
-			if (_pen.Alignment != penAlignment)
+			if (Pen.Alignment != penAlignment)
 			{
-				_pen.Alignment = penAlignment;
+				Pen.Alignment = penAlignment;
 			}
 
 			// Set a border line style
-			if (_pen.DashStyle != GetPenStyle(borderDashStyle))
+			if (Pen.DashStyle != GetPenStyle(borderDashStyle))
 			{
-				_pen.DashStyle = GetPenStyle(borderDashStyle);
+				Pen.DashStyle = GetPenStyle(borderDashStyle);
 			}
 
 			// Draw border
 			if (circular)
 			{
-				this.DrawCircleAbs(_pen, null, rect, circularSectorsCount, false);
+				DrawCircleAbs(Pen, null, rect, circularSectorsCount, false);
 			}
 			else
 			{
 				// NOTE: Rectangle with single pixel inset border is drawn 1 pixel larger 
 				// in the .Net Framework. Increase size by 1 pixel to solve the issue.
-				if (_pen.Alignment == PenAlignment.Inset && _pen.Width > 1f)
+				if (Pen.Alignment == PenAlignment.Inset && Pen.Width > 1f)
 				{
 					rect.Width += 1;
 					rect.Height += 1;
 				}
 
 				// Draw rectangle
-				this.DrawRectangle(_pen, rect.X, rect.Y, rect.Width, rect.Height);
+				DrawRectangle(Pen, rect.X, rect.Y, rect.Width, rect.Height);
 			}
 		}
 
 		// Dispose Image and Gradient
-		if (brush != null)
-		{
-			brush.Dispose();
-		}
+		brush?.Dispose();
 
 		// Return old smoothing mode
-		this.SmoothingMode = oldSmoothingMode;
+		SmoothingMode = oldSmoothingMode;
 	}
 
 	/// <summary>
@@ -3699,11 +3675,11 @@ public partial class ChartGraphics : ChartElement
 		if (!circular && backColor == Color.Transparent)
 		{
 			clippingUsed = true;
-			oldClipRegion = this.Clip;
-			Region region = new Region();
+			oldClipRegion = Clip;
+			Region region = new();
 			region.MakeInfinite();
 			region.Xor(rect);
-			this.Clip = region;
+			Clip = region;
 		}
 
 		// Draw usual or "soft" shadows
@@ -3715,19 +3691,21 @@ public partial class ChartGraphics : ChartElement
 			absolute = Round(rect);
 
 			// Change shadow color
-			using (SolidBrush shadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(backColor.A / 2, shadowColor)))
-			{
-				// Shadow Position
-				offset.X = absolute.X + shadowOffset;
-				offset.Y = absolute.Y + shadowOffset;
-				offset.Width = absolute.Width;
-				offset.Height = absolute.Height;
+			using SolidBrush shadowBrush = new((shadowColor.A != 255) ? shadowColor : Color.FromArgb(backColor.A / 2, shadowColor));
+			// Shadow Position
+			offset.X = absolute.X + shadowOffset;
+			offset.Y = absolute.Y + shadowOffset;
+			offset.Width = absolute.Width;
+			offset.Height = absolute.Height;
 
-				// Draw rectangle
-				if (circular)
-					this.DrawCircleAbs(null, shadowBrush, offset, circularSectorsCount, false);
-				else
-					this.FillRectangle(shadowBrush, offset);
+			// Draw rectangle
+			if (circular)
+			{
+				DrawCircleAbs(null, shadowBrush, offset, circularSectorsCount, false);
+			}
+			else
+			{
+				FillRectangle(shadowBrush, offset);
 			}
 		}
 		else
@@ -3757,7 +3735,7 @@ public partial class ChartGraphics : ChartElement
 			}
 
 			// Create rounded rectangle path
-			GraphicsPath path = new GraphicsPath();
+			GraphicsPath path = new();
 			if (circular && offset.Width != offset.Height)
 			{
 				float radiusX = offset.Width / 2f;
@@ -3783,31 +3761,39 @@ public partial class ChartGraphics : ChartElement
 				path.AddArc(offset.X, offset.Y, 2f * radius, 2f * radius, 180, 90);
 			}
 
-			PathGradientBrush shadowBrush = new PathGradientBrush(path);
-			shadowBrush.CenterColor = shadowColor;
+			PathGradientBrush shadowBrush = new(path)
+			{
+				CenterColor = shadowColor
+			};
 
 			// Set the color along the entire boundary of the path
-			Color[] colors = { Color.Transparent };
+			Color[] colors = [Color.Transparent];
 			shadowBrush.SurroundColors = colors;
 			shadowBrush.CenterPoint = new PointF(offset.X + offset.Width / 2f, offset.Y + offset.Height / 2f);
 
 			// Define brush focus scale
-			PointF focusScale = new PointF(1 - 2f * shadowOffset / offset.Width, 1 - 2f * shadowOffset / offset.Height);
+			PointF focusScale = new(1 - 2f * shadowOffset / offset.Width, 1 - 2f * shadowOffset / offset.Height);
 			if (focusScale.X < 0)
+			{
 				focusScale.X = 0;
+			}
+
 			if (focusScale.Y < 0)
+			{
 				focusScale.Y = 0;
+			}
+
 			shadowBrush.FocusScales = focusScale;
 
 			// Draw rectangle
-			this.FillPath(shadowBrush, path);
+			FillPath(shadowBrush, path);
 		}
 
 		// Reset clip region
 		if (clippingUsed)
 		{
-			Region region = this.Clip;
-			this.Clip = oldClipRegion;
+			Region region = Clip;
+			Clip = oldClipRegion;
 			region.Dispose();
 		}
 	}
@@ -3820,13 +3806,12 @@ public partial class ChartGraphics : ChartElement
 	/// <returns>Graphics path of the polygon circle.</returns>
 	internal GraphicsPath GetPolygonCirclePath(RectangleF position, int polygonSectorsNumber)
 	{
-		PointF firstPoint = new PointF(position.X + position.Width / 2f, position.Y);
-		PointF centerPoint = new PointF(position.X + position.Width / 2f, position.Y + position.Height / 2f);
-		float sectorSize = 0f;
-		GraphicsPath path = new GraphicsPath();
+		PointF firstPoint = new(position.X + position.Width / 2f, position.Y);
+		PointF centerPoint = new(position.X + position.Width / 2f, position.Y + position.Height / 2f);
+		GraphicsPath path = new();
 		PointF prevPoint = PointF.Empty;
-		float curentSector = 0f;
 
+		float sectorSize;
 		// Get sector size
 		if (polygonSectorsNumber <= 2)
 		{
@@ -3839,15 +3824,16 @@ public partial class ChartGraphics : ChartElement
 			sectorSize = 360f / ((float)polygonSectorsNumber);
 		}
 
+		float curentSector;
 		// Loop throug all sectors
 		for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
 		{
 			// Create matrix
-			Matrix matrix = new Matrix();
+			Matrix matrix = new();
 			matrix.RotateAt(curentSector, centerPoint);
 
 			// Get point and rotate it
-			PointF[] points = new PointF[] { firstPoint };
+			PointF[] points = [firstPoint];
 			matrix.TransformPoints(points);
 
 			// Add point into the path
@@ -3882,110 +3868,108 @@ public partial class ChartGraphics : ChartElement
 		{
 			if (brush != null)
 			{
-				this.FillEllipse(brush, position);
+				FillEllipse(brush, position);
 			}
 
 			if (pen != null)
 			{
-				this.DrawEllipse(pen, position);
+				DrawEllipse(pen, position);
 			}
 		}
 
 		// Draw circle as polygon with specified number of sectors
 		else
 		{
-			PointF firstPoint = new PointF(position.X + position.Width / 2f, position.Y);
-			PointF centerPoint = new PointF(position.X + position.Width / 2f, position.Y + position.Height / 2f);
-			float sectorSize = 0f;
+			PointF firstPoint = new(position.X + position.Width / 2f, position.Y);
+			PointF centerPoint = new(position.X + position.Width / 2f, position.Y + position.Height / 2f);
 			PointF prevPoint = PointF.Empty;
-			float curentSector = 0f;
 
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+			// Remember current smoothing mode
+			SmoothingMode oldMode = SmoothingMode;
+			if (fill3DCircle)
 			{
-				// Remember current smoothing mode
-				SmoothingMode oldMode = this.SmoothingMode;
-				if (fill3DCircle)
-				{
-					this.SmoothingMode = SmoothingMode.None;
-				}
+				SmoothingMode = SmoothingMode.None;
+			}
 
-				// Get sector size
-				if (polygonSectorsNumber <= 2)
-				{
-					// Circle sector size
-					sectorSize = 1f;
-				}
-				else
-				{
-					// Polygon sector size
-					sectorSize = 360f / ((float)polygonSectorsNumber);
-				}
+			float sectorSize;
+			// Get sector size
+			if (polygonSectorsNumber <= 2)
+			{
+				// Circle sector size
+				sectorSize = 1f;
+			}
+			else
+			{
+				// Polygon sector size
+				sectorSize = 360f / ((float)polygonSectorsNumber);
+			}
 
-				// Loop throug all sectors
-				for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+			float curentSector;
+			// Loop throug all sectors
+			for (curentSector = 0f; curentSector < 360f; curentSector += sectorSize)
+			{
+				// Create matrix
+				Matrix matrix = new();
+				matrix.RotateAt(curentSector, centerPoint);
+
+				// Get point and rotate it
+				PointF[] points = [firstPoint];
+				matrix.TransformPoints(points);
+
+				// Add point into the path
+				if (!prevPoint.IsEmpty)
 				{
-					// Create matrix
-					Matrix matrix = new Matrix();
-					matrix.RotateAt(curentSector, centerPoint);
+					path.AddLine(prevPoint, points[0]);
 
-					// Get point and rotate it
-					PointF[] points = new PointF[] { firstPoint };
-					matrix.TransformPoints(points);
-
-					// Add point into the path
-					if (!prevPoint.IsEmpty)
+					// Fill each segment separatly for the 3D look
+					if (fill3DCircle)
 					{
-						path.AddLine(prevPoint, points[0]);
-
-						// Fill each segment separatly for the 3D look
-						if (fill3DCircle)
+						path.AddLine(points[0], centerPoint);
+						path.AddLine(centerPoint, prevPoint);
+						using (Brush sectorBrush = GetSector3DBrush(brush, curentSector, sectorSize))
 						{
-							path.AddLine(points[0], centerPoint);
-							path.AddLine(centerPoint, prevPoint);
-							using (Brush sectorBrush = GetSector3DBrush(brush, curentSector, sectorSize))
-							{
-								this.FillPath(sectorBrush, path);
-							}
-
-							path.Reset();
+							FillPath(sectorBrush, path);
 						}
+
+						path.Reset();
 					}
-
-					// Remember last point
-					prevPoint = points[0];
 				}
 
-				path.CloseAllFigures();
+				// Remember last point
+				prevPoint = points[0];
+			}
 
-				// Fill last segment for the 3D look
-				if (!prevPoint.IsEmpty && fill3DCircle)
+			path.CloseAllFigures();
+
+			// Fill last segment for the 3D look
+			if (!prevPoint.IsEmpty && fill3DCircle)
+			{
+				path.AddLine(prevPoint, firstPoint);
+				path.AddLine(firstPoint, centerPoint);
+				path.AddLine(centerPoint, prevPoint);
+				using (Brush sectorBrush = GetSector3DBrush(brush, curentSector, sectorSize))
 				{
-					path.AddLine(prevPoint, firstPoint);
-					path.AddLine(firstPoint, centerPoint);
-					path.AddLine(centerPoint, prevPoint);
-					using (Brush sectorBrush = GetSector3DBrush(brush, curentSector, sectorSize))
-					{
-						this.FillPath(sectorBrush, path);
-					}
-
-					path.Reset();
+					FillPath(sectorBrush, path);
 				}
 
-				// Restore old mode
-				if (fill3DCircle)
-				{
-					this.SmoothingMode = oldMode;
-				}
+				path.Reset();
+			}
 
-				if (brush != null && !circle3D)
-				{
-					this.FillPath(brush, path);
-				}
+			// Restore old mode
+			if (fill3DCircle)
+			{
+				SmoothingMode = oldMode;
+			}
 
-				if (pen != null)
-				{
-					this.DrawPath(pen, path);
-				}
+			if (brush != null && !circle3D)
+			{
+				FillPath(brush, path);
+			}
+
+			if (pen != null)
+			{
+				DrawPath(pen, path);
 			}
 		}
 	}
@@ -4098,19 +4082,22 @@ public partial class ChartGraphics : ChartElement
 		ChartDashStyle borderDashStyle,
 		PenAlignment penAlignment)
 	{
-		Brush brush = null;
 		Brush backBrush = null;
 
 		// Turn off Antialias
-		SmoothingMode oldMode = this.SmoothingMode;
-		this.SmoothingMode = SmoothingMode.None;
+		SmoothingMode oldMode = SmoothingMode;
+		SmoothingMode = SmoothingMode.None;
 
 		// Color is empty
 		if (backColor.IsEmpty)
+		{
 			backColor = Color.White;
+		}
 
 		if (backSecondaryColor.IsEmpty)
+		{
 			backSecondaryColor = Color.White;
+		}
 
 		if (borderColor.IsEmpty)
 		{
@@ -4119,17 +4106,18 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Set a border line color
-		_pen.Color = borderColor;
+		Pen.Color = borderColor;
 
 		// Set a border line width
-		_pen.Width = borderWidth;
+		Pen.Width = borderWidth;
 
 		// Set pen alignment
-		_pen.Alignment = penAlignment;
+		Pen.Alignment = penAlignment;
 
 		// Set a border line style
-		_pen.DashStyle = GetPenStyle(borderDashStyle);
+		Pen.DashStyle = GetPenStyle(borderDashStyle);
 
+		Brush brush;
 		if (backGradientStyle == GradientStyle.None)
 		{
 			// Set a bar color.
@@ -4167,29 +4155,31 @@ public partial class ChartGraphics : ChartElement
 		if (backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 		{
 			// Load image
-			System.Drawing.Image image = _common.ImageLoader.LoadImage(backImage);
+			Image image = _common.ImageLoader.LoadImage(backImage);
 
 
 			// Prepare image properties (transparent color)
-			ImageAttributes attrib = new ImageAttributes();
+			ImageAttributes attrib = new();
 			if (backImageTransparentColor != Color.Empty)
 			{
 				attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
 			}
 
 			// Draw scaled image
-			RectangleF imageRect = new RectangleF();
-			imageRect.X = fillRect.X;
-			imageRect.Y = fillRect.Y;
-			imageRect.Width = fillRect.Width;
-			imageRect.Height = fillRect.Height;
+			RectangleF imageRect = new()
+			{
+				X = fillRect.X,
+				Y = fillRect.Y,
+				Width = fillRect.Width,
+				Height = fillRect.Height
+			};
 
 			// Draw unscaled image using align property
 			if (backImageWrapMode == ChartImageWrapMode.Unscaled)
 			{
-				SizeF imageAbsSize = new SizeF();
+				SizeF imageAbsSize = new();
 
-				ImageLoader.GetAdjustedImageSize(image, this.Graphics, ref imageAbsSize);
+				ImageLoader.GetAdjustedImageSize(image, Graphics, ref imageAbsSize);
 
 				// Calculate image position
 				imageRect.Width = imageAbsSize.Width;
@@ -4231,10 +4221,10 @@ public partial class ChartGraphics : ChartElement
 			}
 
 			// Fill background with brush
-			this.FillRectangle(brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+			FillRectangle(brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
 
 			// Draw image
-			this.DrawImage(image,
+			DrawImage(image,
 				new Rectangle((int)Math.Round(imageRect.X), (int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
 				0, 0, image.Width, image.Height,
 				GraphicsUnit.Pixel,
@@ -4246,19 +4236,23 @@ public partial class ChartGraphics : ChartElement
 			if (backBrush != null && backImageTransparentColor != Color.Empty)
 			{
 				// Fill background with brush
-				this.FillRectangle(backBrush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+				FillRectangle(backBrush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
 			}
 
-			this.FillRectangle(brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+			FillRectangle(brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
 		}
 
 		// Set pen alignment
 		if (borderDashStyle != ChartDashStyle.NotSet)
 		{
 			if (borderWidth > 1)
-				this.DrawRectangle(_pen, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+			{
+				DrawRectangle(Pen, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
+			}
 			else if (borderWidth == 1)
-				this.DrawRectangle(_pen, rect.X, rect.Y, rect.Width, rect.Height);
+			{
+				DrawRectangle(Pen, rect.X, rect.Y, rect.Width, rect.Height);
+			}
 		}
 
 		// Dispose Image and Gradient
@@ -4278,7 +4272,7 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Set Old Smoothing Mode
-		this.SmoothingMode = oldMode;
+		SmoothingMode = oldMode;
 	}
 
 	/// <summary>
@@ -4320,17 +4314,17 @@ public partial class ChartGraphics : ChartElement
 		if (shadowOffset != 0 && shadowColor != Color.Transparent)
 		{
 			// Save graphics state and apply translate transformation
-			GraphicsState graphicsState = this.Save();
-			this.TranslateTransform(shadowOffset, shadowOffset);
+			GraphicsState graphicsState = Save();
+			TranslateTransform(shadowOffset, shadowOffset);
 
 			if (backColor == Color.Transparent &&
 				backSecondaryColor.IsEmpty)
 			{
-				this.DrawPathAbs(
+				DrawPathAbs(
 					path,
 					Color.Transparent,
 					ChartHatchStyle.None,
-					String.Empty,
+					string.Empty,
 					ChartImageWrapMode.Scaled,
 					Color.Empty,
 					ChartImageAlignmentStyle.Center,
@@ -4343,11 +4337,11 @@ public partial class ChartGraphics : ChartElement
 			}
 			else
 			{
-				this.DrawPathAbs(
+				DrawPathAbs(
 					path,
 					shadowColor,
 					ChartHatchStyle.None,
-					String.Empty,
+					string.Empty,
 					ChartImageWrapMode.Scaled,
 					Color.Empty,
 					ChartImageAlignmentStyle.Center,
@@ -4360,11 +4354,11 @@ public partial class ChartGraphics : ChartElement
 			}
 
 			// Restore graphics state
-			this.Restore(graphicsState);
+			Restore(graphicsState);
 		}
 
 		// Draw path
-		this.DrawPathAbs(
+		DrawPathAbs(
 			path,
 			backColor,
 			backHatchStyle,
@@ -4410,15 +4404,18 @@ public partial class ChartGraphics : ChartElement
 		ChartDashStyle borderDashStyle,
 		PenAlignment penAlignment)
 	{
-		Brush brush = null;
 		Brush backBrush = null;
 
 		// Color is empty
 		if (backColor.IsEmpty)
+		{
 			backColor = Color.White;
+		}
 
 		if (backSecondaryColor.IsEmpty)
+		{
 			backSecondaryColor = Color.White;
+		}
 
 		if (borderColor.IsEmpty)
 		{
@@ -4427,11 +4424,12 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Set pen properties
-		_pen.Color = borderColor;
-		_pen.Width = borderWidth;
-		_pen.Alignment = penAlignment;
-		_pen.DashStyle = GetPenStyle(borderDashStyle);
+		Pen.Color = borderColor;
+		Pen.Width = borderWidth;
+		Pen.Alignment = penAlignment;
+		Pen.DashStyle = GetPenStyle(borderDashStyle);
 
+		Brush brush;
 		if (backGradientStyle == GradientStyle.None)
 		{
 			// Set solid brush color.
@@ -4468,28 +4466,30 @@ public partial class ChartGraphics : ChartElement
 		if (backImage.Length > 0 && (backImageWrapMode == ChartImageWrapMode.Unscaled || backImageWrapMode == ChartImageWrapMode.Scaled))
 		{
 			// Load image
-			System.Drawing.Image image = _common.ImageLoader.LoadImage(backImage);
+			Image image = _common.ImageLoader.LoadImage(backImage);
 
 			// Prepare image properties (transparent color)
-			ImageAttributes attrib = new ImageAttributes();
+			ImageAttributes attrib = new();
 			if (backImageTransparentColor != Color.Empty)
 			{
 				attrib.SetColorKey(backImageTransparentColor, backImageTransparentColor, ColorAdjustType.Default);
 			}
 
 			// Draw scaled image
-			RectangleF imageRect = new RectangleF();
-			imageRect.X = fillRect.X;
-			imageRect.Y = fillRect.Y;
-			imageRect.Width = fillRect.Width;
-			imageRect.Height = fillRect.Height;
+			RectangleF imageRect = new()
+			{
+				X = fillRect.X,
+				Y = fillRect.Y,
+				Width = fillRect.Width,
+				Height = fillRect.Height
+			};
 
 			// Draw unscaled image using align property
 			if (backImageWrapMode == ChartImageWrapMode.Unscaled)
 			{
-				SizeF imageSize = new SizeF();
+				SizeF imageSize = new();
 
-				ImageLoader.GetAdjustedImageSize(image, this.Graphics, ref imageSize);
+				ImageLoader.GetAdjustedImageSize(image, Graphics, ref imageSize);
 
 				// Calculate image position
 				imageRect.Width = imageSize.Width;
@@ -4531,17 +4531,17 @@ public partial class ChartGraphics : ChartElement
 			}
 
 			// Fill background with brush
-			this.FillPath(brush, path);
+			FillPath(brush, path);
 
 			// Draw image
-			Region oldClipRegion = this.Clip;
-			this.Clip = new Region(path);
-			this.DrawImage(image,
+			Region oldClipRegion = Clip;
+			Clip = new Region(path);
+			DrawImage(image,
 				new Rectangle((int)Math.Round(imageRect.X), (int)Math.Round(imageRect.Y), (int)Math.Round(imageRect.Width), (int)Math.Round(imageRect.Height)),
 				0, 0, image.Width, image.Height,
 				GraphicsUnit.Pixel,
 				attrib);
-			this.Clip = oldClipRegion;
+			Clip = oldClipRegion;
 		}
 
 		// Draw rectangle
@@ -4550,16 +4550,16 @@ public partial class ChartGraphics : ChartElement
 			if (backBrush != null && backImageTransparentColor != Color.Empty)
 			{
 				// Fill background with brush
-				this.FillPath(backBrush, path);
+				FillPath(backBrush, path);
 			}
 
-			this.FillPath(brush, path);
+			FillPath(brush, path);
 		}
 
 		// Draw border
 		if (borderColor != Color.Empty && borderWidth > 0 && borderDashStyle != ChartDashStyle.NotSet)
 		{
-			this.DrawPath(_pen, path);
+			DrawPath(Pen, path);
 		}
 	}
 
@@ -4619,7 +4619,9 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Check arguments
 		if (rectangle == null)
-			throw new ArgumentNullException("rectangle");
+		{
+			throw new ArgumentNullException(nameof(rectangle));
+		}
 
 		RectangleF relative = RectangleF.Empty;
 
@@ -4643,7 +4645,9 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Check arguments
 		if (point == null)
-			throw new ArgumentNullException("point");
+		{
+			throw new ArgumentNullException(nameof(point));
+		}
 
 		PointF relative = PointF.Empty;
 
@@ -4666,7 +4670,9 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Check arguments
 		if (size == null)
-			throw new ArgumentNullException("size");
+		{
+			throw new ArgumentNullException(nameof(size));
+		}
 
 		SizeF relative = SizeF.Empty;
 
@@ -4688,7 +4694,9 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Check arguments
 		if (point == null)
-			throw new ArgumentNullException("point");
+		{
+			throw new ArgumentNullException(nameof(point));
+		}
 
 		PointF absolute = PointF.Empty;
 
@@ -4710,7 +4718,9 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Check arguments
 		if (rectangle == null)
-			throw new ArgumentNullException("rectangle");
+		{
+			throw new ArgumentNullException(nameof(rectangle));
+		}
 
 		RectangleF absolute = RectangleF.Empty;
 
@@ -4734,7 +4744,9 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Check arguments
 		if (size == null)
-			throw new ArgumentNullException("size");
+		{
+			throw new ArgumentNullException(nameof(size));
+		}
 
 		SizeF absolute = SizeF.Empty;
 
@@ -4760,7 +4772,7 @@ public partial class ChartGraphics : ChartElement
 	internal GraphicsPath CreateRoundedRectPath(RectangleF rect, float[] cornerRadius)
 	{
 		// Create rounded rectangle path
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 		path.AddLine(rect.X + cornerRadius[0], rect.Y, rect.Right - cornerRadius[1], rect.Y);
 		path.AddArc(rect.Right - 2f * cornerRadius[1], rect.Y, 2f * cornerRadius[1], 2f * cornerRadius[2], 270, 90);
 		path.AddLine(rect.Right, rect.Y + cornerRadius[2], rect.Right, rect.Bottom - cornerRadius[3]);
@@ -4788,25 +4800,24 @@ public partial class ChartGraphics : ChartElement
 		GraphicsPath path = CreateRoundedRectPath(rect, cornerRadius);
 
 		// Create gradient brush
-		PathGradientBrush shadowBrush = new PathGradientBrush(path);
-		shadowBrush.CenterColor = centerColor;
+		PathGradientBrush shadowBrush = new(path)
+		{
+			CenterColor = centerColor
+		};
 
 		// Set the color along the entire boundary of the path
-		Color[] colors = { surroundColor };
+		Color[] colors = [surroundColor];
 		shadowBrush.SurroundColors = colors;
 		shadowBrush.CenterPoint = new PointF(rect.X + rect.Width / 2f, rect.Y + rect.Height / 2f);
 
 		// Define brush focus scale
-		PointF focusScale = new PointF(1 - shadowScale * radius / rect.Width, 1 - shadowScale * radius / rect.Height);
+		PointF focusScale = new(1 - shadowScale * radius / rect.Width, 1 - shadowScale * radius / rect.Height);
 		shadowBrush.FocusScales = focusScale;
 
 		// Draw rounded rectangle
-		this.FillPath(shadowBrush, path);
+		FillPath(shadowBrush, path);
 
-		if (path != null)
-		{
-			path.Dispose();
-		}
+		path?.Dispose();
 	}
 
 	/// <summary>
@@ -4887,7 +4898,7 @@ public partial class ChartGraphics : ChartElement
 		IBorderType borderTypeInterface = _common.BorderTypeRegistry.GetBorderType(borderSkin.SkinStyle.ToString());
 		if (borderTypeInterface != null)
 		{
-			borderTypeInterface.Resolution = this.Graphics.DpiX;
+			borderTypeInterface.Resolution = Graphics.DpiX;
 			// Draw border
 			borderTypeInterface.DrawBorder(this, borderSkin, absRect, backColor, backHatchStyle, backImage, backImageWrapMode,
 				backImageTransparentColor, backImageAlign, backGradientStyle, backSecondaryColor,
@@ -4911,15 +4922,15 @@ public partial class ChartGraphics : ChartElement
 		string styleName = point[CustomPropertyName.PieDrawingStyle];
 		if (styleName != null)
 		{
-			if (String.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				pieDrawingStyle = PieDrawingStyle.Default;
 			}
-			else if (String.Compare(styleName, "SoftEdge", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleName, "SoftEdge", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				pieDrawingStyle = PieDrawingStyle.SoftEdge;
 			}
-			else if (String.Compare(styleName, "Concave", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleName, "Concave", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				pieDrawingStyle = PieDrawingStyle.Concave;
 			}
@@ -4972,7 +4983,6 @@ public partial class ChartGraphics : ChartElement
 		PieDrawingStyle pieDrawingStyle
 		)
 	{
-		Pen borderPen = null;   // Pen
 		Brush fillBrush;        // Brush
 
 		// Get absolute rectangle
@@ -5003,11 +5013,9 @@ public partial class ChartGraphics : ChartElement
 			}
 			else
 			{
-				using (GraphicsPath path = new GraphicsPath())
-				{
-					path.AddPie(absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
-					fillBrush = GetGradientBrush(path.GetBounds(), backColor, backSecondaryColor, backGradientStyle);
-				}
+				using GraphicsPath path = new();
+				path.AddPie(absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
+				fillBrush = GetGradientBrush(path.GetBounds(), backColor, backSecondaryColor, backGradientStyle);
 			}
 		}
 		else if (backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
@@ -5022,38 +5030,37 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Create border Pen
-		borderPen = new Pen(borderColor, borderWidth);
+		Pen borderPen = new Pen(borderColor, borderWidth)
+		{
+			// Set a border line style
+			DashStyle = GetPenStyle(borderDashStyle),
 
-		// Set a border line style
-		borderPen.DashStyle = GetPenStyle(borderDashStyle);
-
-		// Use rounded line joins
-		borderPen.LineJoin = LineJoin.Round;
+			// Use rounded line joins
+			LineJoin = LineJoin.Round
+		};
 
 		// Draw Doughnut
 		if (doughnut)
 		{
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+
+			path.AddArc(absRect.X + absRect.Width * doughnutRadius / 200 - 1, absRect.Y + absRect.Height * doughnutRadius / 200 - 1, absRect.Width - absRect.Width * doughnutRadius / 100 + 2, absRect.Height - absRect.Height * doughnutRadius / 100 + 2, startAngle, sweepAngle);
+			path.AddArc(absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle + sweepAngle, -sweepAngle);
+
+			path.CloseFigure();
+
+			FillPath(fillBrush, path);
+
+
+			// Draw Pie gradien effects
+			DrawPieGradientEffects(pieDrawingStyle, absRect, startAngle, sweepAngle, doughnutRadius);
+
+			// Draw Doughnut Border
+			if (!shadow &&
+				borderWidth > 0 &&
+				borderDashStyle != ChartDashStyle.NotSet)
 			{
-
-				path.AddArc(absRect.X + absRect.Width * doughnutRadius / 200 - 1, absRect.Y + absRect.Height * doughnutRadius / 200 - 1, absRect.Width - absRect.Width * doughnutRadius / 100 + 2, absRect.Height - absRect.Height * doughnutRadius / 100 + 2, startAngle, sweepAngle);
-				path.AddArc(absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle + sweepAngle, -sweepAngle);
-
-				path.CloseFigure();
-
-				this.FillPath(fillBrush, path);
-
-
-				// Draw Pie gradien effects
-				this.DrawPieGradientEffects(pieDrawingStyle, absRect, startAngle, sweepAngle, doughnutRadius);
-
-				// Draw Doughnut Border
-				if (!shadow &&
-					borderWidth > 0 &&
-					borderDashStyle != ChartDashStyle.NotSet)
-				{
-					this.DrawPath(borderPen, path);
-				}
+				DrawPath(borderPen, path);
 			}
 		}
 		else // Draw Pie
@@ -5067,10 +5074,10 @@ public partial class ChartGraphics : ChartElement
 			else
 			{
 				// Fill Pie for normal shadow or colored pie slice
-				this.FillPie(fillBrush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
+				FillPie(fillBrush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
 
 				// Draw Pie gradien effects
-				this.DrawPieGradientEffects(pieDrawingStyle, absRect, startAngle, sweepAngle, -1f);
+				DrawPieGradientEffects(pieDrawingStyle, absRect, startAngle, sweepAngle, -1f);
 			}
 
 
@@ -5079,20 +5086,14 @@ public partial class ChartGraphics : ChartElement
 				borderWidth > 0 &&
 				borderDashStyle != ChartDashStyle.NotSet)
 			{
-				this.DrawPie(borderPen, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
+				DrawPie(borderPen, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
 			}
 		}
 
 		// Dispose graphics objects
-		if (borderPen != null)
-		{
-			borderPen.Dispose();
-		}
+		borderPen?.Dispose();
 
-		if (fillBrush != null)
-		{
-			fillBrush.Dispose();
-		}
+		fillBrush?.Dispose();
 	}
 
 	private void DrawPieGradientEffects(
@@ -5112,52 +5113,45 @@ public partial class ChartGraphics : ChartElement
 			// Create brush path
 			RectangleF gradientPath = position;
 			gradientPath.Inflate(-shadowSize, -shadowSize);
-			using (GraphicsPath brushPath = new GraphicsPath())
+			using GraphicsPath brushPath = new();
+			brushPath.AddEllipse(gradientPath);
+
+			// Create shadow path
+			using GraphicsPath path = new();
+			if (doughnutRadius < 0f)
 			{
-				brushPath.AddEllipse(gradientPath);
-
-				// Create shadow path
-				using (GraphicsPath path = new GraphicsPath())
-				{
-					if (doughnutRadius < 0f)
-					{
-						path.AddPie(Rectangle.Round(gradientPath), startAngle, sweepAngle);
-					}
-					else
-					{
-						path.AddArc(
-							gradientPath.X + position.Width * doughnutRadius / 200 - 1 - shadowSize,
-							gradientPath.Y + position.Height * doughnutRadius / 200 - 1 - shadowSize,
-							gradientPath.Width - position.Width * doughnutRadius / 100 + 2 + 2f * shadowSize,
-							gradientPath.Height - position.Height * doughnutRadius / 100 + 2 + 2f * shadowSize,
-							startAngle,
-							sweepAngle);
-						path.AddArc(gradientPath.X, gradientPath.Y, gradientPath.Width, gradientPath.Height, startAngle + sweepAngle, -sweepAngle);
-					}
-
-					// Create linear gradient brush
-					gradientPath.Inflate(1f, 1f);
-					using (LinearGradientBrush brush = new LinearGradientBrush(
-							  gradientPath,
-							  Color.Red,
-							  Color.Green,
-							  LinearGradientMode.Vertical))
-					{
-						ColorBlend colorBlend = new ColorBlend(3);
-						colorBlend.Colors[0] = Color.FromArgb(100, Color.Black);
-						colorBlend.Colors[1] = Color.Transparent;
-						colorBlend.Colors[2] = Color.FromArgb(140, Color.White);
-						colorBlend.Positions[0] = 0f;
-						colorBlend.Positions[1] = 0.5f;
-						colorBlend.Positions[2] = 1f;
-						brush.InterpolationColors = colorBlend;
-
-						// Fill shadow
-						this.FillPath(brush, path);
-
-					}
-				}
+				path.AddPie(Rectangle.Round(gradientPath), startAngle, sweepAngle);
 			}
+			else
+			{
+				path.AddArc(
+					gradientPath.X + position.Width * doughnutRadius / 200 - 1 - shadowSize,
+					gradientPath.Y + position.Height * doughnutRadius / 200 - 1 - shadowSize,
+					gradientPath.Width - position.Width * doughnutRadius / 100 + 2 + 2f * shadowSize,
+					gradientPath.Height - position.Height * doughnutRadius / 100 + 2 + 2f * shadowSize,
+					startAngle,
+					sweepAngle);
+				path.AddArc(gradientPath.X, gradientPath.Y, gradientPath.Width, gradientPath.Height, startAngle + sweepAngle, -sweepAngle);
+			}
+
+			// Create linear gradient brush
+			gradientPath.Inflate(1f, 1f);
+			using LinearGradientBrush brush = new(
+					  gradientPath,
+					  Color.Red,
+					  Color.Green,
+					  LinearGradientMode.Vertical);
+			ColorBlend colorBlend = new(3);
+			colorBlend.Colors[0] = Color.FromArgb(100, Color.Black);
+			colorBlend.Colors[1] = Color.Transparent;
+			colorBlend.Colors[2] = Color.FromArgb(140, Color.White);
+			colorBlend.Positions[0] = 0f;
+			colorBlend.Positions[1] = 0.5f;
+			colorBlend.Positions[2] = 1f;
+			brush.InterpolationColors = colorBlend;
+
+			// Fill shadow
+			FillPath(brush, path);
 		}
 		else if (pieDrawingStyle == PieDrawingStyle.SoftEdge)
 		{
@@ -5171,75 +5165,65 @@ public partial class ChartGraphics : ChartElement
 			}
 
 			// Create brush path
-			using (GraphicsPath brushPath = new GraphicsPath())
+			using GraphicsPath brushPath = new();
+			brushPath.AddEllipse(position);
+
+			// Create shadow path
+			using (GraphicsPath path = new())
 			{
-				brushPath.AddEllipse(position);
+				path.AddArc(position.X + shadowSize, position.Y + shadowSize, position.Width - shadowSize * 2f, position.Height - shadowSize * 2f, startAngle, sweepAngle);
+				path.AddArc(position.X, position.Y, position.Width, position.Height, startAngle + sweepAngle, -sweepAngle);
+				path.CloseFigure();
+
+				// Create shadow brush
+				using PathGradientBrush brush = new(brushPath);
+				brush.CenterColor = Color.Transparent;
+				brush.SurroundColors = [Color.FromArgb(100, Color.Black)];
+
+				Blend blend = new(3);
+				blend.Positions[0] = 0f;
+				blend.Factors[0] = 0f;
+				blend.Positions[1] = shadowSize / (minSize / 2f);
+				blend.Factors[1] = 1f;
+				blend.Positions[2] = 1f;
+				blend.Factors[2] = 1f;
+				brush.Blend = blend;
+
+				// Fill shadow
+				FillPath(brush, path);
+			}
+
+			// Draw inner shadow for the doughnut chart
+			if (doughnutRadius > 0f)
+			{
+				// Create brush path
+				using GraphicsPath brushInsidePath = new();
+				RectangleF innerPosition = position;
+				innerPosition.Inflate(-position.Width * doughnutRadius / 200f + shadowSize, -position.Height * doughnutRadius / 200f + shadowSize);
+				brushInsidePath.AddEllipse(innerPosition);
 
 				// Create shadow path
-				using (GraphicsPath path = new GraphicsPath())
-				{
-					path.AddArc(position.X + shadowSize, position.Y + shadowSize, position.Width - shadowSize * 2f, position.Height - shadowSize * 2f, startAngle, sweepAngle);
-					path.AddArc(position.X, position.Y, position.Width, position.Height, startAngle + sweepAngle, -sweepAngle);
-					path.CloseFigure();
+				using GraphicsPath path = new();
+				path.AddArc(innerPosition.X + shadowSize, innerPosition.Y + shadowSize, innerPosition.Width - 2f * shadowSize, innerPosition.Height - 2f * shadowSize, startAngle, sweepAngle);
+				path.AddArc(innerPosition.X, innerPosition.Y, innerPosition.Width, innerPosition.Height, startAngle + sweepAngle, -sweepAngle);
+				path.CloseFigure();
 
-					// Create shadow brush
-					using (PathGradientBrush brush = new PathGradientBrush(brushPath))
-					{
-						brush.CenterColor = Color.Transparent;
-						brush.SurroundColors = new Color[] { Color.FromArgb(100, Color.Black) };
+				// Create shadow brush
+				using PathGradientBrush brushInner = new(brushInsidePath);
+				brushInner.CenterColor = Color.FromArgb(100, Color.Black);
+				brushInner.SurroundColors = [Color.Transparent];
 
-						Blend blend = new Blend(3);
-						blend.Positions[0] = 0f;
-						blend.Factors[0] = 0f;
-						blend.Positions[1] = shadowSize / (minSize / 2f);
-						blend.Factors[1] = 1f;
-						blend.Positions[2] = 1f;
-						blend.Factors[2] = 1f;
-						brush.Blend = blend;
+				Blend blend = new(3);
+				blend.Positions[0] = 0f;
+				blend.Factors[0] = 0f;
+				blend.Positions[1] = shadowSize / (innerPosition.Width / 2f);
+				blend.Factors[1] = 1f;
+				blend.Positions[2] = 1f;
+				blend.Factors[2] = 1f;
+				brushInner.Blend = blend;
 
-						// Fill shadow
-						this.FillPath(brush, path);
-					}
-				}
-
-				// Draw inner shadow for the doughnut chart
-				if (doughnutRadius > 0f)
-				{
-					// Create brush path
-					using (GraphicsPath brushInsidePath = new GraphicsPath())
-					{
-						RectangleF innerPosition = position;
-						innerPosition.Inflate(-position.Width * doughnutRadius / 200f + shadowSize, -position.Height * doughnutRadius / 200f + shadowSize);
-						brushInsidePath.AddEllipse(innerPosition);
-
-						// Create shadow path
-						using (GraphicsPath path = new GraphicsPath())
-						{
-							path.AddArc(innerPosition.X + shadowSize, innerPosition.Y + shadowSize, innerPosition.Width - 2f * shadowSize, innerPosition.Height - 2f * shadowSize, startAngle, sweepAngle);
-							path.AddArc(innerPosition.X, innerPosition.Y, innerPosition.Width, innerPosition.Height, startAngle + sweepAngle, -sweepAngle);
-							path.CloseFigure();
-
-							// Create shadow brush
-							using (PathGradientBrush brushInner = new PathGradientBrush(brushInsidePath))
-							{
-								brushInner.CenterColor = Color.FromArgb(100, Color.Black);
-								brushInner.SurroundColors = new Color[] { Color.Transparent };
-
-								Blend blend = new Blend(3);
-								blend.Positions[0] = 0f;
-								blend.Factors[0] = 0f;
-								blend.Positions[1] = shadowSize / (innerPosition.Width / 2f);
-								blend.Factors[1] = 1f;
-								blend.Positions[2] = 1f;
-								blend.Factors[2] = 1f;
-								brushInner.Blend = blend;
-
-								// Fill shadow
-								this.FillPath(brushInner, path);
-							}
-						}
-					}
-				}
+				// Fill shadow
+				FillPath(brushInner, path);
 			}
 		}
 	}
@@ -5253,28 +5237,30 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="backColor">Fill color</param>
 	private void DrawPieSoftShadow(float startAngle, float sweepAngle, RectangleF absRect, Color backColor)
 	{
-		GraphicsPath path = new GraphicsPath();
+		GraphicsPath path = new();
 
 		path.AddEllipse(absRect.X, absRect.Y, absRect.Width, absRect.Height);
 
-		PathGradientBrush brush = new PathGradientBrush(path);
+		PathGradientBrush brush = new(path);
 
-		Color[] colors = {
+		Color[] colors = [
 							Color.FromArgb( 0, backColor ),
 							Color.FromArgb( backColor.A, backColor ),
-							Color.FromArgb( backColor.A, backColor )};
+							Color.FromArgb( backColor.A, backColor )];
 
-		float[] relativePositions = {
+		float[] relativePositions = [
 										0f,
 										0.05f,
-										1.0f};    // at the center point.
+										1.0f];    // at the center point.
 
-		ColorBlend colorBlend = new ColorBlend();
-		colorBlend.Colors = colors;
-		colorBlend.Positions = relativePositions;
+		ColorBlend colorBlend = new()
+		{
+			Colors = colors,
+			Positions = relativePositions
+		};
 		brush.InterpolationColors = colorBlend;
 
-		this.FillPie(brush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
+		FillPie(brush, absRect.X, absRect.Y, absRect.Width, absRect.Height, startAngle, sweepAngle);
 	}
 
 	#endregion
@@ -5301,59 +5287,57 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Set a color
-		using (SolidBrush brush = new SolidBrush(color))
+		using SolidBrush brush = new(color);
+		PointF endPoint = PointF.Empty; // End point of axis line
+		PointF[] points; // arrow points
+		PointF absolutePosition; // Absolute position of axis
+
+		absolutePosition = GetAbsolutePoint(position);
+
+		// Arrow type is triangle
+		if (type == AxisArrowStyle.Triangle)
 		{
-			PointF endPoint = PointF.Empty; // End point of axis line
-			PointF[] points; // arrow points
-			PointF absolutePosition; // Absolute position of axis
+			points = GetArrowShape(absolutePosition, orientation, shift, size, type, ref endPoint);
 
-			absolutePosition = GetAbsolutePoint(position);
+			endPoint = GetRelativePoint(endPoint);
 
-			// Arrow type is triangle
-			if (type == AxisArrowStyle.Triangle)
-			{
-				points = GetArrowShape(absolutePosition, orientation, shift, size, type, ref endPoint);
+			// Draw center line
+			DrawLineRel(color, lineWidth, lineDashStyle, position, endPoint);
 
-				endPoint = GetRelativePoint(endPoint);
+			// Draw arrow
+			FillPolygon(brush, points);
 
-				// Draw center line
-				DrawLineRel(color, lineWidth, lineDashStyle, position, endPoint);
+		}
+		// Arrow type is sharp triangle
+		else if (type == AxisArrowStyle.SharpTriangle)
+		{
+			points = GetArrowShape(absolutePosition, orientation, shift, size, type, ref endPoint);
 
-				// Draw arrow
-				this.FillPolygon(brush, points);
+			endPoint = GetRelativePoint(endPoint);
 
-			}
-			// Arrow type is sharp triangle
-			else if (type == AxisArrowStyle.SharpTriangle)
-			{
-				points = GetArrowShape(absolutePosition, orientation, shift, size, type, ref endPoint);
+			// Draw center line
+			DrawLineRel(color, lineWidth, lineDashStyle, position, endPoint);
 
-				endPoint = GetRelativePoint(endPoint);
+			// Draw arrow
+			FillPolygon(brush, points);
 
-				// Draw center line
-				DrawLineRel(color, lineWidth, lineDashStyle, position, endPoint);
+		}
+		// Arrow type is 'Lines'
+		else if (type == AxisArrowStyle.Lines)
+		{
+			points = GetArrowShape(absolutePosition, orientation, shift, size, type, ref endPoint);
 
-				// Draw arrow
-				this.FillPolygon(brush, points);
+			points[0] = GetRelativePoint(points[0]);
+			points[1] = GetRelativePoint(points[1]);
+			points[2] = GetRelativePoint(points[2]);
 
-			}
-			// Arrow type is 'Lines'
-			else if (type == AxisArrowStyle.Lines)
-			{
-				points = GetArrowShape(absolutePosition, orientation, shift, size, type, ref endPoint);
+			endPoint = GetRelativePoint(endPoint);
 
-				points[0] = GetRelativePoint(points[0]);
-				points[1] = GetRelativePoint(points[1]);
-				points[2] = GetRelativePoint(points[2]);
+			// Draw arrow
+			DrawLineRel(color, lineWidth, lineDashStyle, position, endPoint);
+			DrawLineRel(color, lineWidth, lineDashStyle, points[0], points[2]);
+			DrawLineRel(color, lineWidth, lineDashStyle, points[1], points[2]);
 
-				endPoint = GetRelativePoint(endPoint);
-
-				// Draw arrow
-				DrawLineRel(color, lineWidth, lineDashStyle, position, endPoint);
-				DrawLineRel(color, lineWidth, lineDashStyle, points[0], points[2]);
-				DrawLineRel(color, lineWidth, lineDashStyle, points[1], points[2]);
-
-			}
 		}
 	}
 
@@ -5388,9 +5372,13 @@ public partial class ChartGraphics : ChartElement
 
 				// Size for sharp and regular triangle
 				if (type == AxisArrowStyle.SharpTriangle)
+				{
 					sharp = size * 4;
+				}
 				else
+				{
 					sharp = size * 2;
+				}
 
 				points[0].X = position.X - (float)size;
 				points[0].Y = position.Y - (float)shift;
@@ -5401,9 +5389,13 @@ public partial class ChartGraphics : ChartElement
 				// End of the axis line
 				endPoint.X = position.X;
 				if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+				{
 					endPoint.Y = points[1].Y;
+				}
 				else
+				{
 					endPoint.Y = points[2].Y;
+				}
 
 				break;
 			// Bottom orientation
@@ -5417,9 +5409,13 @@ public partial class ChartGraphics : ChartElement
 
 				// Size for sharp and regular triangle
 				if (type == AxisArrowStyle.SharpTriangle)
+				{
 					sharp = size * 4;
+				}
 				else
+				{
 					sharp = size * 2;
+				}
 
 				points[0].X = position.X - (float)size;
 				points[0].Y = position.Y + (float)shift;
@@ -5430,9 +5426,14 @@ public partial class ChartGraphics : ChartElement
 				// End of the axis line
 				endPoint.X = position.X;
 				if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+				{
 					endPoint.Y = points[1].Y;
+				}
 				else
+				{
 					endPoint.Y = points[2].Y;
+				}
+
 				break;
 			// Left orientation
 			case ArrowOrientation.Left:
@@ -5442,9 +5443,13 @@ public partial class ChartGraphics : ChartElement
 
 				// Size for sharp and regular triangle
 				if (type == AxisArrowStyle.SharpTriangle)
+				{
 					sharp = size * 4;
+				}
 				else
+				{
 					sharp = size * 2;
+				}
 
 				points[0].Y = position.Y - (float)size;
 				points[0].X = position.X - (float)shift;
@@ -5455,9 +5460,14 @@ public partial class ChartGraphics : ChartElement
 				// End of the axis line
 				endPoint.Y = position.Y;
 				if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+				{
 					endPoint.X = points[1].X;
+				}
 				else
+				{
 					endPoint.X = points[2].X;
+				}
+
 				break;
 			// Right orientation
 			case ArrowOrientation.Right:
@@ -5467,9 +5477,13 @@ public partial class ChartGraphics : ChartElement
 
 				// Size for sharp and regular triangle
 				if (type == AxisArrowStyle.SharpTriangle)
+				{
 					sharp = size * 4;
+				}
 				else
+				{
 					sharp = size * 2;
+				}
 
 				points[0].Y = position.Y - (float)size;
 				points[0].X = position.X + (float)shift;
@@ -5480,9 +5494,14 @@ public partial class ChartGraphics : ChartElement
 				// End of the axis line
 				endPoint.Y = position.Y;
 				if (type == AxisArrowStyle.SharpTriangle || type == AxisArrowStyle.Triangle)
+				{
 					endPoint.X = points[1].X;
+				}
 				else
+				{
 					endPoint.X = points[2].X;
+				}
+
 				break;
 		}
 
@@ -5505,23 +5524,23 @@ public partial class ChartGraphics : ChartElement
 		string styleName = point[CustomPropertyName.DrawingStyle];
 		if (styleName != null)
 		{
-			if (String.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(styleName, "Default", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				barDrawingStyle = BarDrawingStyle.Default;
 			}
-			else if (String.Compare(styleName, "Cylinder", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleName, "Cylinder", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				barDrawingStyle = BarDrawingStyle.Cylinder;
 			}
-			else if (String.Compare(styleName, "Emboss", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleName, "Emboss", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				barDrawingStyle = BarDrawingStyle.Emboss;
 			}
-			else if (String.Compare(styleName, "LightToDark", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleName, "LightToDark", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				barDrawingStyle = BarDrawingStyle.LightToDark;
 			}
-			else if (String.Compare(styleName, "Wedge", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleName, "Wedge", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				barDrawingStyle = BarDrawingStyle.Wedge;
 			}
@@ -5560,16 +5579,24 @@ public partial class ChartGraphics : ChartElement
 	public double GetPositionFromAxis(string chartAreaName, AxisName axis, double axisValue)
 	{
 		if (axis == AxisName.X)
+		{
 			return _common.ChartPicture.ChartAreas[chartAreaName].AxisX.GetLinearPosition(axisValue);
+		}
 
 		if (axis == AxisName.X2)
+		{
 			return _common.ChartPicture.ChartAreas[chartAreaName].AxisX2.GetLinearPosition(axisValue);
+		}
 
 		if (axis == AxisName.Y)
+		{
 			return _common.ChartPicture.ChartAreas[chartAreaName].AxisY.GetLinearPosition(axisValue);
+		}
 
 		if (axis == AxisName.Y2)
+		{
 			return _common.ChartPicture.ChartAreas[chartAreaName].AxisY2.GetLinearPosition(axisValue);
+		}
 
 		return 0;
 	}
@@ -5581,8 +5608,8 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="height">Height</param>
 	internal void SetPictureSize(int width, int height)
 	{
-		this._width = width;
-		this._height = height;
+		_width = width;
+		_height = height;
 	}
 
 	/// <summary>
@@ -5592,10 +5619,10 @@ public partial class ChartGraphics : ChartElement
 	internal ChartGraphics(CommonElements common)
 	{
 		// Set Common elements
-		this._common = common;
-		base.Common = common;
+		_common = common;
+		Common = common;
 		// Create a pen object
-		_pen = new Pen(Color.Black);
+		Pen = new Pen(Color.Black);
 
 		// Create a brush object
 		_solidBrush = new SolidBrush(Color.Black);
@@ -5606,37 +5633,33 @@ public partial class ChartGraphics : ChartElement
 	/// </summary>
 	internal AntiAliasingStyles AntiAliasing
 	{
-		get
-		{
-			return _antiAliasing;
-		}
+		get;
 		set
 		{
-			_antiAliasing = value;
+			field = value;
 
 			// Graphics mode not set
 			if (Graphics == null)
+			{
 				return;
+			}
 
 			// Convert Chart's anti alias enumeration to GDI+ SmoothingMode
-			if ((_antiAliasing & AntiAliasingStyles.Graphics) == AntiAliasingStyles.Graphics)
+			if ((field & AntiAliasingStyles.Graphics) == AntiAliasingStyles.Graphics)
 			{
-				this.SmoothingMode = SmoothingMode.AntiAlias;
+				SmoothingMode = SmoothingMode.AntiAlias;
 			}
 			else
 			{
-				this.SmoothingMode = SmoothingMode.None;
+				SmoothingMode = SmoothingMode.None;
 			}
 		}
-	}
+	} = AntiAliasingStyles.All;
 
 	/// <summary>
 	/// Gets reusable pen.
 	/// </summary>
-	internal Pen Pen
-	{
-		get { return _pen; }
-	}
+	internal Pen Pen { get; private set; }
 
 	/// <summary>
 	/// Sets the clipping region of this Graphics object 
@@ -5645,7 +5668,7 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="region">Region rectangle</param>
 	internal void SetClip(RectangleF region)
 	{
-		this.SetClipAbs(GetAbsoluteRectangle(region));
+		SetClipAbs(GetAbsoluteRectangle(region));
 	}
 
 	#endregion
@@ -5684,17 +5707,34 @@ public partial class ChartGraphics : ChartElement
 
 		// Make sure colors are in range from 0 to 255
 		if (dRRed > 255.0)
+		{
 			dRRed = 255.0;
+		}
+
 		if (dRRed < 0.0)
+		{
 			dRRed = 0.0;
+		}
+
 		if (dRGreen > 255.0)
+		{
 			dRGreen = 255.0;
+		}
+
 		if (dRGreen < 0.0)
+		{
 			dRGreen = 0.0;
+		}
+
 		if (dRBlue > 255.0)
+		{
 			dRBlue = 255.0;
+		}
+
 		if (dRBlue < 0.0)
+		{
 			dRBlue = 0.0;
+		}
 
 		// Return a gradient color position
 		return Color.FromArgb(beginColor.A, (int)dRRed, (int)dRGreen, (int)dRBlue);
@@ -5731,23 +5771,14 @@ public partial class ChartGraphics : ChartElement
 		if (disposing)
 		{
 			// Free up managed resources
-			if (_pen != null)
-			{
-				_pen.Dispose();
-				_pen = null;
-			}
+			Pen?.Dispose();
+			Pen = null;
 
-			if (_solidBrush != null)
-			{
-				_solidBrush.Dispose();
-				_solidBrush = null;
-			}
+			_solidBrush?.Dispose();
+			_solidBrush = null;
 
-			if (_myMatrix != null)
-			{
-				_myMatrix.Dispose();
-				_myMatrix = null;
-			}
+			_myMatrix?.Dispose();
+			_myMatrix = null;
 		}
 
 		base.Dispose(disposing);

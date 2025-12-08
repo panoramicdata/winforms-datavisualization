@@ -37,7 +37,7 @@ public class ChartAreaCollection : ChartNamedElementCollection<ChartArea>
 	/// </summary>
 	internal string DefaultNameReference
 	{
-		get { return this.Count > 0 ? this[0].Name : String.Empty; }
+		get { return Count > 0 ? this[0].Name : string.Empty; }
 	}
 	#endregion
 
@@ -50,8 +50,8 @@ public class ChartAreaCollection : ChartNamedElementCollection<ChartArea>
 	/// <returns></returns>
 	public ChartArea Add(string name)
 	{
-		ChartArea area = new ChartArea(name);
-		this.Add(area);
+		ChartArea area = new(name);
+		Add(area);
 		return area;
 	}
 
@@ -62,12 +62,16 @@ public class ChartAreaCollection : ChartNamedElementCollection<ChartArea>
 	/// Updates the ChartArea alignment references to another chart areas.
 	/// </summary>
 	/// <param name="sender">The sender.</param>
-	/// <param name="e">The <see cref="Charting.NameReferenceChangedEventArgs"/> instance containing the event data.</param>
+	/// <param name="e">The <see cref="NameReferenceChangedEventArgs"/> instance containing the event data.</param>
 	internal void ChartAreaNameReferenceChanged(object sender, NameReferenceChangedEventArgs e)
 	{
 		foreach (ChartArea chartArea in this)
+		{
 			if (chartArea.AlignWithChartArea == e.OldName)
+			{
 				chartArea.AlignWithChartArea = e.NewName;
+			}
+		}
 	}
 
 	#endregion

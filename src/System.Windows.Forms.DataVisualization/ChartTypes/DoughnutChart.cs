@@ -35,7 +35,7 @@ internal class DoughnutChart : PieChart
 	/// <returns>Chart type image.</returns>
 	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	/// <summary>

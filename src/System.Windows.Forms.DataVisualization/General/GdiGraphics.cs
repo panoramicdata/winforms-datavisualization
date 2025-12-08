@@ -50,7 +50,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		PointF pt2
 		)
 	{
-		_graphics.DrawLine(pen, pt1, pt2);
+		Graphics.DrawLine(pen, pt1, pt2);
 	}
 
 	/// <summary>
@@ -69,7 +69,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float y2
 		)
 	{
-		_graphics.DrawLine(pen, x1, y1, x2, y2);
+		Graphics.DrawLine(pen, x1, y1, x2, y2);
 	}
 
 	/// <summary>
@@ -84,7 +84,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// <param name="srcUnit">Member of the GraphicsUnit enumeration that specifies the units of measure used to determine the source rectangle.</param>
 	/// <param name="imageAttr">ImageAttributes object that specifies recoloring and gamma information for the image object.</param>
 	public void DrawImage(
-		System.Drawing.Image image,
+		Image image,
 		Rectangle destRect,
 		int srcX,
 		int srcY,
@@ -94,7 +94,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		ImageAttributes imageAttr
 		)
 	{
-		_graphics.DrawImage(
+		Graphics.DrawImage(
 				image,
 				destRect,
 				srcX,
@@ -123,7 +123,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float height
 		)
 	{
-		_graphics.DrawEllipse(pen, x, y, width, height);
+		Graphics.DrawEllipse(pen, x, y, width, height);
 	}
 
 	/// <summary>
@@ -144,7 +144,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float tension
 		)
 	{
-		_graphics.DrawCurve(pen, points, offset, numberOfSegments, tension);
+		Graphics.DrawCurve(pen, points, offset, numberOfSegments, tension);
 	}
 
 	/// <summary>
@@ -163,7 +163,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		int height
 		)
 	{
-		_graphics.DrawRectangle(pen, x, y, width, height);
+		Graphics.DrawRectangle(pen, x, y, width, height);
 	}
 
 	/// <summary>
@@ -176,7 +176,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		PointF[] points
 		)
 	{
-		_graphics.DrawPolygon(pen, points);
+		Graphics.DrawPolygon(pen, points);
 	}
 
 	/// <summary>
@@ -195,7 +195,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		StringFormat format
 		)
 	{
-		_graphics.DrawString(s, font, brush, layoutRectangle, format);
+		Graphics.DrawString(s, font, brush, layoutRectangle, format);
 	}
 
 	/// <summary>
@@ -214,7 +214,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		StringFormat format
 		)
 	{
-		_graphics.DrawString(s, font, brush, point, format);
+		Graphics.DrawString(s, font, brush, point, format);
 	}
 
 	/// <summary>
@@ -229,7 +229,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// <param name="srcUnit">Member of the GraphicsUnit enumeration that specifies the units of measure used to determine the source rectangle.</param>
 	/// <param name="imageAttrs">ImageAttributes object that specifies recoloring and gamma information for the image object.</param>
 	public void DrawImage(
-			System.Drawing.Image image,
+			Image image,
 		Rectangle destRect,
 		float srcX,
 		float srcY,
@@ -239,7 +239,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		ImageAttributes imageAttrs
 		)
 	{
-		_graphics.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttrs);
+		Graphics.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttrs);
 	}
 
 	/// <summary>
@@ -258,7 +258,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float height
 		)
 	{
-		_graphics.DrawRectangle(pen, x, y, width, height);
+		Graphics.DrawRectangle(pen, x, y, width, height);
 	}
 
 	/// <summary>
@@ -271,7 +271,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		GraphicsPath path
 		)
 	{
-		_graphics.DrawPath(pen, path);
+		Graphics.DrawPath(pen, path);
 	}
 
 	/// <summary>
@@ -294,7 +294,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float sweepAngle
 		)
 	{
-		_graphics.DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
+		Graphics.DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
 	}
 
 	/// <summary>
@@ -317,7 +317,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float sweepAngle
 		)
 	{
-		_graphics.DrawArc(pen, x, y, width, height, startAngle, sweepAngle);
+		Graphics.DrawArc(pen, x, y, width, height, startAngle, sweepAngle);
 	}
 
 	/// <summary>
@@ -326,11 +326,11 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// <param name="image">Image object to draw.</param>
 	/// <param name="rect">RectangleF structure that specifies the location and size of the drawn image.</param>
 	public void DrawImage(
-			System.Drawing.Image image,
+			Image image,
 		RectangleF rect
 		)
 	{
-		_graphics.DrawImage(image, rect);
+		Graphics.DrawImage(image, rect);
 	}
 
 	/// <summary>
@@ -343,7 +343,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		RectangleF rect
 		)
 	{
-		_graphics.DrawEllipse(pen, rect);
+		Graphics.DrawEllipse(pen, rect);
 	}
 
 	/// <summary>
@@ -356,7 +356,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		PointF[] points
 		)
 	{
-		_graphics.DrawLines(pen, points);
+		Graphics.DrawLines(pen, points);
 	}
 
 	#endregion // Drawing Methods
@@ -374,7 +374,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		RectangleF rect
 		)
 	{
-		_graphics.FillEllipse(brush, rect);
+		Graphics.FillEllipse(brush, rect);
 	}
 
 	/// <summary>
@@ -387,7 +387,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		GraphicsPath path
 		)
 	{
-		_graphics.FillPath(brush, path);
+		Graphics.FillPath(brush, path);
 	}
 
 	/// <summary>
@@ -400,7 +400,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		Region region
 		)
 	{
-		_graphics.FillRegion(brush, region);
+		Graphics.FillRegion(brush, region);
 	}
 
 	/// <summary>
@@ -413,7 +413,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		RectangleF rect
 		)
 	{
-		_graphics.FillRectangle(brush, rect);
+		Graphics.FillRectangle(brush, rect);
 	}
 
 	/// <summary>
@@ -432,7 +432,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float height
 		)
 	{
-		_graphics.FillRectangle(brush, x, y, width, height);
+		Graphics.FillRectangle(brush, x, y, width, height);
 	}
 
 	/// <summary>
@@ -445,7 +445,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		PointF[] points
 		)
 	{
-		_graphics.FillPolygon(brush, points);
+		Graphics.FillPolygon(brush, points);
 	}
 
 	/// <summary>
@@ -470,7 +470,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float sweepAngle
 		)
 	{
-		_graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle);
+		Graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle);
 	}
 
 	#endregion // Filling Methods
@@ -493,7 +493,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		StringFormat stringFormat
 		)
 	{
-		return _graphics.MeasureString(text, font, layoutArea, stringFormat);
+		return Graphics.MeasureString(text, font, layoutArea, stringFormat);
 	}
 
 	/// <summary>
@@ -508,7 +508,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		Font font
 		)
 	{
-		return _graphics.MeasureString(text, font);
+		return Graphics.MeasureString(text, font);
 	}
 
 	/// <summary>
@@ -517,7 +517,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// <returns>This method returns a GraphicsState object that represents the saved state of this Graphics object.</returns>
 	public GraphicsState Save()
 	{
-		return _graphics.Save();
+		return Graphics.Save();
 	}
 
 	/// <summary>
@@ -528,7 +528,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		GraphicsState gstate
 		)
 	{
-		_graphics.Restore(gstate);
+		Graphics.Restore(gstate);
 	}
 
 	/// <summary>
@@ -536,7 +536,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// </summary>
 	public void ResetClip()
 	{
-		_graphics.ResetClip();
+		Graphics.ResetClip();
 	}
 
 	/// <summary>
@@ -547,7 +547,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		RectangleF rect
 		)
 	{
-		_graphics.SetClip(rect);
+		Graphics.SetClip(rect);
 	}
 
 	/// <summary>
@@ -562,7 +562,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		CombineMode combineMode
 		)
 	{
-		_graphics.SetClip(path, combineMode);
+		Graphics.SetClip(path, combineMode);
 	}
 
 	/// <summary>
@@ -575,7 +575,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float dy
 		)
 	{
-		_graphics.TranslateTransform(dx, dy);
+		Graphics.TranslateTransform(dx, dy);
 	}
 
 	/// <summary>
@@ -608,11 +608,11 @@ internal class GdiGraphics : IChartRenderingEngine
 	{
 		get
 		{
-			return _graphics.Transform;
+			return Graphics.Transform;
 		}
 		set
 		{
-			_graphics.Transform = value;
+			Graphics.Transform = value;
 		}
 	}
 
@@ -623,11 +623,11 @@ internal class GdiGraphics : IChartRenderingEngine
 	{
 		get
 		{
-			return _graphics.SmoothingMode;
+			return Graphics.SmoothingMode;
 		}
 		set
 		{
-			_graphics.SmoothingMode = value;
+			Graphics.SmoothingMode = value;
 		}
 	}
 
@@ -638,11 +638,11 @@ internal class GdiGraphics : IChartRenderingEngine
 	{
 		get
 		{
-			return _graphics.TextRenderingHint;
+			return Graphics.TextRenderingHint;
 		}
 		set
 		{
-			_graphics.TextRenderingHint = value;
+			Graphics.TextRenderingHint = value;
 		}
 	}
 
@@ -653,11 +653,11 @@ internal class GdiGraphics : IChartRenderingEngine
 	{
 		get
 		{
-			return _graphics.Clip;
+			return Graphics.Clip;
 		}
 		set
 		{
-			_graphics.Clip = value;
+			Graphics.Clip = value;
 		}
 	}
 
@@ -668,24 +668,14 @@ internal class GdiGraphics : IChartRenderingEngine
 	{
 		get
 		{
-			return _graphics.IsClipEmpty;
+			return Graphics.IsClipEmpty;
 		}
 	}
 
 	/// <summary>
 	/// Reference to the Graphics object
 	/// </summary>
-	public Graphics Graphics
-	{
-		get
-		{
-			return _graphics;
-		}
-		set
-		{
-			_graphics = value;
-		}
-	}
+	public Graphics Graphics { get; set; } = null;
 
 	#endregion // Properties
 
@@ -694,7 +684,6 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// <summary>
 	/// Graphics object
 	/// </summary>
-	Graphics _graphics = null;
 
 	#endregion // Fields
 }

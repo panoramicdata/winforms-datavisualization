@@ -117,31 +117,11 @@ public partial class ChartArea : ChartNamedElement
 
 	// Private data members, which store properties values
 	private Axis[] _axisArray = new Axis[4];
-	private Color _backColor = Color.Empty;
 	private bool _backColorIsSet = false;
-	private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
-	private string _backImage = "";
-	private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
-	private Color _backImageTransparentColor = Color.Empty;
-	private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
-	private GradientStyle _backGradientStyle = GradientStyle.None;
-	private Color _backSecondaryColor = Color.Empty;
-	private Color _borderColor = Color.Black;
-	private int _borderWidth = 1;
-	private ChartDashStyle _borderDashStyle = ChartDashStyle.NotSet;
-	private int _shadowOffset = 0;
-	private Color _shadowColor = Color.FromArgb(128, 0, 0, 0);
 	private ElementPosition _areaPosition = null;
 	private ElementPosition _innerPlotPosition = null;
 	internal int IterationCounter = 0;
-
-	private bool _isSameFontSizeForAllAxes = false;
 	internal float axesAutoFontSize = 8f;
-
-	private string _alignWithChartArea = Constants.NotSetValue;
-	private AreaAlignmentOrientations _alignmentOrientation = AreaAlignmentOrientations.Vertical;
-	private AreaAlignmentStyles _alignmentStyle = AreaAlignmentStyles.All;
-	private int _circularSectorNumber = int.MinValue;
 	private int _circularUsePolygons = int.MinValue;
 
 	// Flag indicates that chart area is acurrently aligned
@@ -165,11 +145,11 @@ public partial class ChartArea : ChartNamedElement
 	// Buffered plotting area image
 	internal Bitmap areaBufferBitmap = null;
 
-	private Cursor _cursorX = new Cursor();
-	private Cursor _cursorY = new Cursor();
+	private Cursor _cursorX = new();
+	private Cursor _cursorY = new();
 
 	// Area SmartLabel class
-	internal SmartLabel smartLabels = new SmartLabel();
+	internal SmartLabel smartLabels = new();
 
 	// Gets or sets a flag that specifies whether the chart area is visible.
 	private bool _visible = true;
@@ -248,7 +228,7 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeChartArea_Visible"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	virtual public bool Visible
 	{
@@ -259,7 +239,7 @@ public partial class ChartArea : ChartNamedElement
 		set
 		{
 			_visible = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -275,17 +255,14 @@ public partial class ChartArea : ChartNamedElement
 	]
 	public string AlignWithChartArea
 	{
-		get
-		{
-			return _alignWithChartArea;
-		}
+		get;
 		set
 		{
-			if (value != _alignWithChartArea)
+			if (value != field)
 			{
-				if (String.IsNullOrEmpty(value))
+				if (string.IsNullOrEmpty(value))
 				{
-					_alignWithChartArea = Constants.NotSetValue;
+					field = Constants.NotSetValue;
 				}
 				else
 				{
@@ -294,13 +271,13 @@ public partial class ChartArea : ChartNamedElement
 						Chart.ChartAreas.VerifyNameReference(value);
 					}
 
-					_alignWithChartArea = value;
+					field = value;
 				}
 
 				Invalidate();
 			}
 		}
-	}
+	} = Constants.NotSetValue;
 
 	/// <summary>
 	/// Gets or sets the alignment orientation of a chart area.
@@ -314,16 +291,13 @@ public partial class ChartArea : ChartNamedElement
 	]
 	public AreaAlignmentOrientations AlignmentOrientation
 	{
-		get
-		{
-			return _alignmentOrientation;
-		}
+		get;
 		set
 		{
-			_alignmentOrientation = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = AreaAlignmentOrientations.Vertical;
 
 
 	/// <summary>
@@ -338,16 +312,13 @@ public partial class ChartArea : ChartNamedElement
 	]
 	public AreaAlignmentStyles AlignmentStyle
 	{
-		get
-		{
-			return _alignmentStyle;
-		}
+		get;
 		set
 		{
-			_alignmentStyle = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = AreaAlignmentStyles.All;
 
 	/// <summary>
 	/// Gets or sets an array that represents all axes for a chart area.
@@ -358,10 +329,10 @@ public partial class ChartArea : ChartNamedElement
 	SRDescription("DescriptionAttributeChartArea_Axes"),
 	TypeConverter(typeof(AxesArrayConverter)),
 	Editor(typeof(AxesArrayEditor), typeof(UITypeEditor)),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
+	[SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
 	public Axis[] Axes
 	{
 		get
@@ -381,7 +352,7 @@ public partial class ChartArea : ChartNamedElement
 	/// <summary>
 	/// Avoid serialization of the axes array
 	/// </summary>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	internal bool ShouldSerializeAxes()
 	{
 		return false;
@@ -499,16 +470,16 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	SRDescription("DescriptionAttributeChartArea_Position"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ElementPositionConverter)),
-	SerializationVisibilityAttribute(SerializationVisibility.Element)
+	SerializationVisibility(SerializationVisibility.Element)
 	]
 	public ElementPosition Position
 	{
 		get
 		{
 			// Serialize only position values if Auto set to false
-			if (this.Chart != null && this.Chart.serializationStatus == SerializationStatus.Saving)
+			if (Chart != null && Chart.serializationStatus == SerializationStatus.Saving)
 			{
 				if (_areaPosition.Auto)
 				{
@@ -516,8 +487,10 @@ public partial class ChartArea : ChartNamedElement
 				}
 				else
 				{
-					ElementPosition newPosition = new ElementPosition();
-					newPosition.Auto = false;
+					ElementPosition newPosition = new()
+					{
+						Auto = false
+					};
 					newPosition.SetPositionNoAuto(_areaPosition.X, _areaPosition.Y, _areaPosition.Width, _areaPosition.Height);
 					return newPosition;
 				}
@@ -540,7 +513,7 @@ public partial class ChartArea : ChartNamedElement
 	/// <returns></returns>
 	internal bool ShouldSerializePosition()
 	{
-		return !this.Position.Auto;
+		return !Position.Auto;
 	}
 
 	/// <summary>
@@ -551,16 +524,16 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	SRDescription("DescriptionAttributeChartArea_InnerPlotPosition"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ElementPositionConverter)),
-	SerializationVisibilityAttribute(SerializationVisibility.Element)
+	SerializationVisibility(SerializationVisibility.Element)
 	]
 	public ElementPosition InnerPlotPosition
 	{
 		get
 		{
 			// Serialize only position values if Auto set to false
-			if (this.Common != null && this.Common.Chart != null && this.Common.Chart.serializationStatus == SerializationStatus.Saving)
+			if (Common != null && Common.Chart != null && Common.Chart.serializationStatus == SerializationStatus.Saving)
 			{
 				if (_innerPlotPosition.Auto)
 				{
@@ -568,8 +541,10 @@ public partial class ChartArea : ChartNamedElement
 				}
 				else
 				{
-					ElementPosition newPosition = new ElementPosition();
-					newPosition.Auto = false;
+					ElementPosition newPosition = new()
+					{
+						Auto = false
+					};
 					newPosition.SetPositionNoAuto(_innerPlotPosition.X, _innerPlotPosition.Y, _innerPlotPosition.Width, _innerPlotPosition.Height);
 					return newPosition;
 				}
@@ -591,7 +566,7 @@ public partial class ChartArea : ChartNamedElement
 	/// <returns></returns>
 	internal bool ShouldSerializeInnerPlotPosition()
 	{
-		return !this.InnerPlotPosition.Auto;
+		return !InnerPlotPosition.Auto;
 	}
 
 	/// <summary>
@@ -602,7 +577,7 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
 	SRDescription("DescriptionAttributeBackColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
 	]
@@ -610,22 +585,22 @@ public partial class ChartArea : ChartNamedElement
 	{
 		get
 		{
-			if (SystemInformation.HighContrast && _backColor.IsEmpty && !_backColorIsSet)
+			if (SystemInformation.HighContrast && field.IsEmpty && !_backColorIsSet)
 			{
-				return Drawing.SystemColors.Control;
+				return SystemColors.Control;
 			}
 
-			return _backColor;
+			return field;
 		}
 		set
 		{
-			_backColor = value;
+			field = value;
 
 			_backColorIsSet = true;
 
 			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the hatching style of a ChartArea object.
@@ -636,22 +611,19 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeBackHatchStyle"),
 	Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 	]
 	public ChartHatchStyle BackHatchStyle
 	{
-		get
-		{
-			return _backHatchStyle;
-		}
+		get;
 		set
 		{
-			_backHatchStyle = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = ChartHatchStyle.None;
 
 	/// <summary>
 	/// Gets or sets the background image of a ChartArea object. 
@@ -662,20 +634,17 @@ public partial class ChartArea : ChartNamedElement
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeBackImage"),
 	Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public string BackImage
 	{
-		get
-		{
-			return _backImage;
-		}
+		get;
 		set
 		{
-			_backImage = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = "";
 
 	/// <summary>
 	/// Gets or sets the drawing mode of the background image of a ChartArea object.
@@ -684,21 +653,18 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageWrapMode.Tile),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeImageWrapMode"),
 	]
 	public ChartImageWrapMode BackImageWrapMode
 	{
-		get
-		{
-			return _backImageWrapMode;
-		}
+		get;
 		set
 		{
-			_backImageWrapMode = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = ChartImageWrapMode.Tile;
 
 	/// <summary>
 	/// Gets or sets the color of a ChartArea object's background image that will be drawn as transparent.  
@@ -707,23 +673,20 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeImageTransparentColor"),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
 	]
 	public Color BackImageTransparentColor
 	{
-		get
-		{
-			return _backImageTransparentColor;
-		}
+		get;
 		set
 		{
-			_backImageTransparentColor = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the alignment of a ChartArea object. 
@@ -732,21 +695,18 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageAlignmentStyle.TopLeft),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeBackImageAlign"),
 	]
 	public ChartImageAlignmentStyle BackImageAlignment
 	{
-		get
-		{
-			return _backImageAlignment;
-		}
+		get;
 		set
 		{
-			_backImageAlignment = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = ChartImageAlignmentStyle.TopLeft;
 
 	/// <summary>
 	/// Gets or sets the orientation of a chart element's gradient, 
@@ -757,22 +717,19 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeBackGradientStyle"),
 	Editor(typeof(GradientEditor), typeof(UITypeEditor))
 	]
 	public GradientStyle BackGradientStyle
 	{
-		get
-		{
-			return _backGradientStyle;
-		}
+		get;
 		set
 		{
-			_backGradientStyle = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = GradientStyle.None;
 
 	/// <summary>
 	/// Gets or sets the secondary color of a ChartArea object.
@@ -782,23 +739,20 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeBackSecondaryColor"),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 	]
 	public Color BackSecondaryColor
 	{
-		get
-		{
-			return _backSecondaryColor;
-		}
+		get;
 		set
 		{
-			_backSecondaryColor = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the shadow color of a ChartArea object.  
@@ -808,22 +762,19 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(Color), "128,0,0,0"),
 	SRDescription("DescriptionAttributeShadowColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 	]
 	public Color ShadowColor
 	{
-		get
-		{
-			return _shadowColor;
-		}
+		get;
 		set
 		{
-			_shadowColor = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = Color.FromArgb(128, 0, 0, 0);
 
 	/// <summary>
 	/// Gets or sets the shadow offset (in pixels) of a ChartArea object.
@@ -833,20 +784,17 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	DefaultValue(0),
 	SRDescription("DescriptionAttributeShadowOffset"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public int ShadowOffset
 	{
-		get
-		{
-			return _shadowOffset;
-		}
+		get;
 		set
 		{
-			_shadowOffset = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = 0;
 
 	/// <summary>
 	/// Gets or sets the border color of a ChartArea object.
@@ -857,22 +805,19 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(Color), "Black"),
 	SRDescription("DescriptionAttributeBorderColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 	]
 	public Color BorderColor
 	{
-		get
-		{
-			return _borderColor;
-		}
+		get;
 		set
 		{
-			_borderColor = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the border width of a ChartArea object.
@@ -883,25 +828,22 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	DefaultValue(1),
 	SRDescription("DescriptionAttributeBorderWidth"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public int BorderWidth
 	{
-		get
-		{
-			return _borderWidth;
-		}
+		get;
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNegative));
 			}
 
-			_borderWidth = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = 1;
 
 	/// <summary>
 	/// Gets or sets the style of the border line of a ChartArea object.
@@ -912,20 +854,17 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	DefaultValue(ChartDashStyle.NotSet),
 	SRDescription("DescriptionAttributeBorderDashStyle"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public ChartDashStyle BorderDashStyle
 	{
-		get
-		{
-			return _borderDashStyle;
-		}
+		get;
 		set
 		{
-			_borderDashStyle = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = ChartDashStyle.NotSet;
 
 	/// <summary>
 	/// Gets or sets the unique name of a ChartArea object.
@@ -935,7 +874,7 @@ public partial class ChartArea : ChartNamedElement
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeChartArea_Name"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public override string Name
 	{
@@ -958,20 +897,17 @@ public partial class ChartArea : ChartNamedElement
 	Bindable(true),
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeChartArea_EquallySizedAxesFont"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public bool IsSameFontSizeForAllAxes
 	{
-		get
-		{
-			return _isSameFontSizeForAllAxes;
-		}
+		get;
 		set
 		{
-			_isSameFontSizeForAllAxes = value;
+			field = value;
 			Invalidate();
 		}
-	}
+	} = false;
 
 
 	#endregion
@@ -1001,14 +937,14 @@ public partial class ChartArea : ChartNamedElement
 	/// </summary>
 	internal void Restore3DAnglesAndReverseMode()
 	{
-		if (this.Area3DStyle.Enable3D && !this.chartAreaIsCurcular)
+		if (Area3DStyle.Enable3D && !chartAreaIsCurcular)
 		{
 			// Restore axis "IsReversed" property and old Y angle
-			this.AxisX.IsReversed = oldReverseX;
-			this.AxisX2.IsReversed = oldReverseX;
-			this.AxisY.IsReversed = oldReverseY;
-			this.AxisY2.IsReversed = oldReverseY;
-			this.Area3DStyle.Rotation = oldYAngle;
+			AxisX.IsReversed = oldReverseX;
+			AxisX2.IsReversed = oldReverseX;
+			AxisY.IsReversed = oldReverseY;
+			AxisY2.IsReversed = oldReverseY;
+			Area3DStyle.Rotation = oldYAngle;
 		}
 	}
 
@@ -1018,55 +954,55 @@ public partial class ChartArea : ChartNamedElement
 	internal void Set3DAnglesAndReverseMode()
 	{
 		// Clear series reversed flag
-		_reverseSeriesOrder = false;
+		ReverseSeriesOrder = false;
 
 		// If 3D charting is enabled
-		if (this.Area3DStyle.Enable3D)
+		if (Area3DStyle.Enable3D)
 		{
 			// Make sure primary & secondary axis has the same IsReversed settings
 			// This is a limitation for the 3D chart required for labels drawing.
-			this.AxisX2.IsReversed = this.AxisX.IsReversed;
-			this.AxisY2.IsReversed = this.AxisY.IsReversed;
+			AxisX2.IsReversed = AxisX.IsReversed;
+			AxisY2.IsReversed = AxisY.IsReversed;
 
 			// Remember reversed order of X & Y axis and Angles
-			oldReverseX = this.AxisX.IsReversed;
-			oldReverseY = this.AxisY.IsReversed;
-			oldYAngle = this.Area3DStyle.Rotation;
+			oldReverseX = AxisX.IsReversed;
+			oldReverseY = AxisY.IsReversed;
+			oldYAngle = Area3DStyle.Rotation;
 
 			// Check if Y angle 
-			if (this.Area3DStyle.Rotation > 90 || this.Area3DStyle.Rotation < -90)
+			if (Area3DStyle.Rotation > 90 || Area3DStyle.Rotation < -90)
 			{
 				// This method depends on the 'switchValueAxes' field which is calculated based on the chart types
 				// of the series associated with the chart area. We need to call SetData method to make sure this field
 				// is correctly initialized. Because we only need to collect information about the series, we pass 'false'
 				// as parameters to limit the amount of work this function does.
-				this.SetData(false, false);
+				SetData(false, false);
 
 				// Reversed series order
-				_reverseSeriesOrder = true;
+				ReverseSeriesOrder = true;
 
 				// Reversed primary and secondary X axis
-				if (!this.switchValueAxes)
+				if (!switchValueAxes)
 				{
-					this.AxisX.IsReversed = !this.AxisX.IsReversed;
-					this.AxisX2.IsReversed = !this.AxisX2.IsReversed;
+					AxisX.IsReversed = !AxisX.IsReversed;
+					AxisX2.IsReversed = !AxisX2.IsReversed;
 				}
 
 				// Reversed primary and secondary Y axis for chart types like Bar
 				else
 				{
-					this.AxisY.IsReversed = !this.AxisY.IsReversed;
-					this.AxisY2.IsReversed = !this.AxisY2.IsReversed;
+					AxisY.IsReversed = !AxisY.IsReversed;
+					AxisY2.IsReversed = !AxisY2.IsReversed;
 				}
 
 				// Adjust Y angle
-				if (this.Area3DStyle.Rotation > 90)
+				if (Area3DStyle.Rotation > 90)
 				{
-					this.Area3DStyle.Rotation = (this.Area3DStyle.Rotation - 90) - 90;
+					Area3DStyle.Rotation = (Area3DStyle.Rotation - 90) - 90;
 				}
-				else if (this.Area3DStyle.Rotation < -90)
+				else if (Area3DStyle.Rotation < -90)
 				{
-					this.Area3DStyle.Rotation = (this.Area3DStyle.Rotation + 90) + 90;
+					Area3DStyle.Rotation = (Area3DStyle.Rotation + 90) + 90;
 				}
 			}
 		}
@@ -1078,20 +1014,20 @@ public partial class ChartArea : ChartNamedElement
 	internal void SetTempValues()
 	{
 		// Save non automatic area position
-		if (!this.Position.Auto)
+		if (!Position.Auto)
 		{
-			this.originalAreaPosition = this.Position.ToRectangleF();
+			originalAreaPosition = Position.ToRectangleF();
 		}
 
 		// Save non automatic area inner plot position
-		if (!this.InnerPlotPosition.Auto)
+		if (!InnerPlotPosition.Auto)
 		{
-			this.originalInnerPlotPosition = this.InnerPlotPosition.ToRectangleF();
+			originalInnerPlotPosition = InnerPlotPosition.ToRectangleF();
 		}
 
-		this._circularSectorNumber = int.MinValue;
-		this._circularUsePolygons = int.MinValue;
-		this._circularAxisList = null;
+		CircularSectorsNumber = int.MinValue;
+		_circularUsePolygons = int.MinValue;
+		_circularAxisList = null;
 
 		// Save Minimum and maximum values for all axes
 		axisX.StoreAxisValues();
@@ -1112,18 +1048,18 @@ public partial class ChartArea : ChartNamedElement
 		axisY2.ResetAxisValues();
 
 		// Restore non automatic area position
-		if (!this.originalAreaPosition.IsEmpty)
+		if (!originalAreaPosition.IsEmpty)
 		{
-			this.lastAreaPosition = this.Position.ToRectangleF();
-			this.Position.SetPositionNoAuto(this.originalAreaPosition.X, this.originalAreaPosition.Y, this.originalAreaPosition.Width, this.originalAreaPosition.Height);
-			this.originalAreaPosition = RectangleF.Empty;
+			lastAreaPosition = Position.ToRectangleF();
+			Position.SetPositionNoAuto(originalAreaPosition.X, originalAreaPosition.Y, originalAreaPosition.Width, originalAreaPosition.Height);
+			originalAreaPosition = RectangleF.Empty;
 		}
 
 		// Save non automatic area inner plot position
-		if (!this.originalInnerPlotPosition.IsEmpty)
+		if (!originalInnerPlotPosition.IsEmpty)
 		{
-			this.InnerPlotPosition.SetPositionNoAuto(this.originalInnerPlotPosition.X, this.originalInnerPlotPosition.Y, this.originalInnerPlotPosition.Width, this.originalInnerPlotPosition.Height);
-			this.originalInnerPlotPosition = RectangleF.Empty;
+			InnerPlotPosition.SetPositionNoAuto(originalInnerPlotPosition.X, originalInnerPlotPosition.Y, originalInnerPlotPosition.Width, originalInnerPlotPosition.Height);
+			originalInnerPlotPosition = RectangleF.Empty;
 		}
 	}
 
@@ -1154,20 +1090,19 @@ public partial class ChartArea : ChartNamedElement
 		_axisArray[3] = axisY2;
 
 		// Set flag to reset auto values for all areas
-		_areaPosition = new ElementPosition(this);
-		_areaPosition.resetAreaAutoPosition = true;
+		_areaPosition = new ElementPosition(this)
+		{
+			resetAreaAutoPosition = true
+		};
 
 		_innerPlotPosition = new ElementPosition(this);
 
 		// Set the position of the new chart area
-		if (PlotAreaPosition == null)
-		{
-			PlotAreaPosition = new ElementPosition(this);
-		}
+		PlotAreaPosition ??= new ElementPosition(this);
 
 		// Initialize cursor class
-		this._cursorX.Initialize(this, AxisName.X);
-		this._cursorY.Initialize(this, AxisName.Y);
+		_cursorX.Initialize(this, AxisName.X);
+		_cursorY.Initialize(this, AxisName.Y);
 	}
 
 	/// <summary>
@@ -1261,12 +1196,12 @@ public partial class ChartArea : ChartNamedElement
 		}
 
 		// Add scroll bar rectangles to the area background 
-		RectangleF backgroundPositionWithScrollBars = new RectangleF(backgroundPosition.Location, backgroundPosition.Size);
+		RectangleF backgroundPositionWithScrollBars = new(backgroundPosition.Location, backgroundPosition.Size);
 
 		if (requireAxes)
 		{
 			// Loop through all axis
-			foreach (Axis axis in this.Axes)
+			foreach (Axis axis in Axes)
 			{
 				// Find axis with visible scroll bars
 				if (axis.ScrollBar.IsVisible && axis.ScrollBar.IsPositionedInside)
@@ -1318,7 +1253,7 @@ public partial class ChartArea : ChartNamedElement
 		//******************************************************
 		int verticalAxes = 0;
 		int horizontalAxes = 0;
-		foreach (Axis axis in this.Axes)
+		foreach (Axis axis in Axes)
 		{
 			if (axis.enabled)
 			{
@@ -1355,10 +1290,10 @@ public partial class ChartArea : ChartNamedElement
 		//******************************************************
 		//** Find same auto-fit font size
 		//******************************************************
-		Axis[] axisArray = (this.switchValueAxes) ?
-			new Axis[] { this.AxisX, this.AxisX2, this.AxisY, this.AxisY2 } :
-			new Axis[] { this.AxisY, this.AxisY2, this.AxisX, this.AxisX2 };
-		if (this.IsSameFontSizeForAllAxes)
+		Axis[] axisArray = (switchValueAxes) ?
+			[AxisX, AxisX2, AxisY, AxisY2] :
+			[AxisY, AxisY2, AxisX, AxisX2];
+		if (IsSameFontSizeForAllAxes)
 		{
 			axesAutoFontSize = 20;
 			foreach (Axis axis in axisArray)
@@ -1369,11 +1304,11 @@ public partial class ChartArea : ChartNamedElement
 					// Resize axis
 					if (axis.AxisPosition == AxisPosition.Bottom || axis.AxisPosition == AxisPosition.Top)
 					{
-						axis.Resize(chartGraph, this.PlotAreaPosition, plottingRect, horizontalAxes, InnerPlotPosition.Auto);
+						axis.Resize(chartGraph, PlotAreaPosition, plottingRect, horizontalAxes, InnerPlotPosition.Auto);
 					}
 					else
 					{
-						axis.Resize(chartGraph, this.PlotAreaPosition, plottingRect, verticalAxes, InnerPlotPosition.Auto);
+						axis.Resize(chartGraph, PlotAreaPosition, plottingRect, verticalAxes, InnerPlotPosition.Auto);
 					}
 
 					// Calculate smallest font size
@@ -1398,9 +1333,9 @@ public partial class ChartArea : ChartNamedElement
 				//******************************************************
 				//** Adjust for the 3D Wall Width for disabled axis
 				//******************************************************
-				if (InnerPlotPosition.Auto && this.Area3DStyle.Enable3D && !this.chartAreaIsCurcular)
+				if (InnerPlotPosition.Auto && Area3DStyle.Enable3D && !chartAreaIsCurcular)
 				{
-					SizeF areaWallSize = chartGraph.GetRelativeSize(new SizeF(this.Area3DStyle.WallWidth, this.Area3DStyle.WallWidth));
+					SizeF areaWallSize = chartGraph.GetRelativeSize(new SizeF(Area3DStyle.WallWidth, Area3DStyle.WallWidth));
 					if (axis.AxisPosition == AxisPosition.Bottom)
 					{
 						plottingRect.Height -= areaWallSize.Height;
@@ -1429,11 +1364,11 @@ public partial class ChartArea : ChartNamedElement
 			//******************************************************
 			if (axis.AxisPosition == AxisPosition.Bottom || axis.AxisPosition == AxisPosition.Top)
 			{
-				axis.Resize(chartGraph, this.PlotAreaPosition, plottingRect, horizontalAxes, InnerPlotPosition.Auto);
+				axis.Resize(chartGraph, PlotAreaPosition, plottingRect, horizontalAxes, InnerPlotPosition.Auto);
 			}
 			else
 			{
-				axis.Resize(chartGraph, this.PlotAreaPosition, plottingRect, verticalAxes, InnerPlotPosition.Auto);
+				axis.Resize(chartGraph, PlotAreaPosition, plottingRect, verticalAxes, InnerPlotPosition.Auto);
 			}
 
 			// Shift top/bottom labels so they will not overlap with left/right labels
@@ -1510,7 +1445,7 @@ public partial class ChartArea : ChartNamedElement
 
 
 			// Calculate horizontal axes size for circualar area
-			if (this.chartAreaIsCurcular &&
+			if (chartAreaIsCurcular &&
 				(axis.AxisPosition == AxisPosition.Top || axis.AxisPosition == AxisPosition.Bottom))
 			{
 				axisSize = axis.titleSize + axis.markSize + axis.scrollBarSize;
@@ -1609,7 +1544,7 @@ public partial class ChartArea : ChartNamedElement
 		//** Make sure there is enough space 
 		//** for labels on the chart sides
 		//******************************************************
-		if (!this.chartAreaIsCurcular)
+		if (!chartAreaIsCurcular)
 		{
 			if (rectLabelSideSpacing.Y > 0 && rectLabelSideSpacing.Y > plottingRect.Y - Position.Y)
 			{
@@ -1640,17 +1575,17 @@ public partial class ChartArea : ChartNamedElement
 		//** Plotting area must be square for the circular 
 		//** chart area (in pixels).
 		//******************************************************
-		if (this.chartAreaIsCurcular)
+		if (chartAreaIsCurcular)
 		{
 			// Adjust area to fit the axis title
-			float xTitleSize = (float)Math.Max(this.AxisY.titleSize, this.AxisY2.titleSize);
+			float xTitleSize = (float)Math.Max(AxisY.titleSize, AxisY2.titleSize);
 			if (xTitleSize > 0)
 			{
 				plottingRect.X += xTitleSize;
 				plottingRect.Width -= 2f * xTitleSize;
 			}
 
-			float yTitleSize = (float)Math.Max(this.AxisX.titleSize, this.AxisX2.titleSize);
+			float yTitleSize = (float)Math.Max(AxisX.titleSize, AxisX2.titleSize);
 			if (yTitleSize > 0)
 			{
 				plottingRect.Y += yTitleSize;
@@ -1673,10 +1608,10 @@ public partial class ChartArea : ChartNamedElement
 			plottingRect = chartGraph.GetRelativeRectangle(rect);
 
 			// Remember circular chart area center
-			this.circularCenter = new PointF(plottingRect.X + plottingRect.Width / 2f, plottingRect.Y + plottingRect.Height / 2f);
+			circularCenter = new PointF(plottingRect.X + plottingRect.Width / 2f, plottingRect.Y + plottingRect.Height / 2f);
 
 			// Calculate auto-fit font of the circular axis labels and update area position
-			FitCircularLabels(chartGraph, this.PlotAreaPosition, ref plottingRect, xTitleSize, yTitleSize);
+			FitCircularLabels(chartGraph, PlotAreaPosition, ref plottingRect, xTitleSize, yTitleSize);
 		}
 
 		//******************************************************
@@ -1705,12 +1640,12 @@ public partial class ChartArea : ChartNamedElement
 		//** automatically calculated after the opposite axis 
 		//** change the size of plotting area.
 		//******************************************************
-		this.AxisY2.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
-		this.AxisY.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
+		AxisY2.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
+		AxisY.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
 		if (InnerPlotPosition.Auto)
 		{
-			this.AxisX2.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
-			this.AxisX.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
+			AxisX2.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
+			AxisX.AdjustLabelFontAtSecondPass(chartGraph, InnerPlotPosition.Auto);
 		}
 
 	}
@@ -1722,7 +1657,7 @@ public partial class ChartArea : ChartNamedElement
 	/// <returns>Found axis.</returns>
 	private Axis FindAxis(AxisPosition axisPosition)
 	{
-		foreach (Axis axis in this.Axes)
+		foreach (Axis axis in Axes)
 		{
 			if (axis.AxisPosition == axisPosition)
 			{
@@ -1862,7 +1797,7 @@ public partial class ChartArea : ChartNamedElement
 		if (!borderOnly)
 		{
 			// Draw background
-			if (!this.Area3DStyle.Enable3D || !requireAxes || chartAreaIsCurcular)
+			if (!Area3DStyle.Enable3D || !requireAxes || chartAreaIsCurcular)
 			{
 				// 3D Pie Chart doesn't need scene
 				// Draw 2D background
@@ -1883,18 +1818,18 @@ public partial class ChartArea : ChartNamedElement
 					ShadowOffset,
 					PenAlignment.Outset,
 					chartAreaIsCurcular,
-					(chartAreaIsCurcular && this.CircularUsePolygons) ? this.CircularSectorsNumber : 0,
-					this.Area3DStyle.Enable3D);
+					(chartAreaIsCurcular && CircularUsePolygons) ? CircularSectorsNumber : 0,
+					Area3DStyle.Enable3D);
 			}
 			else
 			{
 				// Draw chart area 3D scene
-				this.DrawArea3DScene(graph, position);
+				DrawArea3DScene(graph, position);
 			}
 		}
 		else
 		{
-			if (!this.Area3DStyle.Enable3D || !requireAxes || chartAreaIsCurcular)
+			if (!Area3DStyle.Enable3D || !requireAxes || chartAreaIsCurcular)
 			{
 				// Draw chart area border
 				if (BorderColor != Color.Empty && BorderWidth > 0)
@@ -1915,8 +1850,8 @@ public partial class ChartArea : ChartNamedElement
 						0,
 						PenAlignment.Outset,
 						chartAreaIsCurcular,
-						(chartAreaIsCurcular && this.CircularUsePolygons) ? this.CircularSectorsNumber : 0,
-						this.Area3DStyle.Enable3D);
+						(chartAreaIsCurcular && CircularUsePolygons) ? CircularSectorsNumber : 0,
+						Area3DStyle.Enable3D);
 				}
 			}
 
@@ -1990,12 +1925,12 @@ public partial class ChartArea : ChartNamedElement
 
 
 		// Reset Smart Labels 
-		this.smartLabels.Reset();
+		smartLabels.Reset();
 
 
 
 		// Set values for optimized drawing
-		foreach (Axis currentAxis in this._axisArray)
+		foreach (Axis currentAxis in _axisArray)
 		{
 			currentAxis.optimizedGetPosition = true;
 			currentAxis.paintViewMax = currentAxis.ViewMaximum;
@@ -2012,9 +1947,13 @@ public partial class ChartArea : ChartNamedElement
 			currentAxis.paintAreaPositionBottom = currentAxis.paintAreaPosition.Y + currentAxis.paintAreaPosition.Height;
 			currentAxis.paintAreaPositionRight = currentAxis.paintAreaPosition.X + currentAxis.paintAreaPosition.Width;
 			if (currentAxis.AxisPosition == AxisPosition.Top || currentAxis.AxisPosition == AxisPosition.Bottom)
+			{
 				currentAxis.paintChartAreaSize = currentAxis.paintAreaPosition.Width;
+			}
 			else
+			{
 				currentAxis.paintChartAreaSize = currentAxis.paintAreaPosition.Height;
+			}
 
 			currentAxis.valueMultiplier = 0.0;
 			if (currentAxis.paintRange != 0)
@@ -2023,9 +1962,10 @@ public partial class ChartArea : ChartNamedElement
 			}
 		}
 
+		Axis[] axesArray = [axisY, axisY2, axisX, axisX2];
+
 		// Draw Axis Striplines (only when StripWidth > 0)
-		bool useScaleSegments = false;
-		Axis[] axesArray = new Axis[] { axisY, axisY2, axisX, axisX2 };
+		bool useScaleSegments;
 		foreach (Axis currentAxis in axesArray)
 		{
 
@@ -2050,7 +1990,7 @@ public partial class ChartArea : ChartNamedElement
 		}
 
 		// Draw Axis Grids
-		axesArray = new Axis[] { axisY, axisX2, axisY2, axisX };
+		axesArray = [axisY, axisX2, axisY2, axisX];
 		foreach (Axis currentAxis in axesArray)
 		{
 
@@ -2101,7 +2041,7 @@ public partial class ChartArea : ChartNamedElement
 		}
 
 		// Draw Axis elements on the back of the 3D scene
-		if (this.Area3DStyle.Enable3D && !this.chartAreaIsCurcular)
+		if (Area3DStyle.Enable3D && !chartAreaIsCurcular)
 		{
 			foreach (Axis currentAxis in axesArray)
 			{
@@ -2131,14 +2071,14 @@ public partial class ChartArea : ChartNamedElement
 
 		// Draws chart area border
 		bool borderDrawn = false;
-		if (this.Area3DStyle.Enable3D || !IsBorderOnTopSeries())
+		if (Area3DStyle.Enable3D || !IsBorderOnTopSeries())
 		{
 			borderDrawn = true;
 			PaintAreaBack(graph, backgroundPosition, true);
 		}
 
 		// Draw chart types
-		if (!this.Area3DStyle.Enable3D || this.chartAreaIsCurcular)
+		if (!Area3DStyle.Enable3D || chartAreaIsCurcular)
 		{
 			// Drawing in 2D space
 
@@ -2146,12 +2086,12 @@ public partial class ChartArea : ChartNamedElement
 			// If two chart series of the same type (for example Line) are separated
 			// by other series (for example Area) the order is not correct.
 			// Old implementation draws ALL series that belongs to the chart type.
-			ArrayList typeAndSeries = this.GetChartTypesAndSeriesToDraw();
+			ArrayList typeAndSeries = GetChartTypesAndSeriesToDraw();
 
 			// Draw series by chart type or by series
 			foreach (ChartTypeAndSeriesInfo chartTypeInfo in typeAndSeries)
 			{
-				this.IterationCounter = 0;
+				IterationCounter = 0;
 				IChartType type = Common.ChartTypeRegistry.GetChartType(chartTypeInfo.ChartType);
 
 				// If 'chartTypeInfo.Series' set to NULL all series of that chart type are drawn at once
@@ -2205,7 +2145,7 @@ public partial class ChartArea : ChartNamedElement
 		Common.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, graph, Common, PlotAreaPosition));
 
 		// Draw axis scale break lines
-		axesArray = new Axis[] { axisY, axisY2 };
+		axesArray = [axisY, axisY2];
 		foreach (Axis currentAxis in axesArray)
 		{
 			for (int segmentIndex = 0; segmentIndex < (currentAxis.ScaleSegments.Count - 1); segmentIndex++)
@@ -2216,7 +2156,7 @@ public partial class ChartArea : ChartNamedElement
 		}
 
 		// Reset values for optimized drawing
-		foreach (Axis curentAxis in this._axisArray)
+		foreach (Axis curentAxis in _axisArray)
 		{
 			curentAxis.optimizedGetPosition = false;
 
@@ -2239,9 +2179,9 @@ public partial class ChartArea : ChartNamedElement
 	{
 		// For most of the chart types chart area border is drawn on top.
 		bool result = true;
-		foreach (Series series in this.Common.Chart.Series)
+		foreach (Series series in Common.Chart.Series)
 		{
-			if (series.ChartArea == this.Name)
+			if (series.ChartArea == Name)
 			{
 				// It is common for the Bubble and Point chart types to draw markers
 				// partially outside of the chart area. By drawing the border before
@@ -2267,40 +2207,40 @@ public partial class ChartArea : ChartNamedElement
 	internal void PaintCursors(ChartGraphics graph, bool cursorOnly)
 	{
 		// Cursors and selection are supoorted only in 2D charts
-		if (this.Area3DStyle.Enable3D == true)
+		if (Area3DStyle.Enable3D == true)
 		{
 			return;
 		}
 
 		// Do not draw cursor/selection for chart types that do not require axis (like Pie)
-		if (!this.requireAxes)
+		if (!requireAxes)
 		{
 			return;
 		}
 
 		// Cursors and selection are not supoorted in circular areas
-		if (this.chartAreaIsCurcular)
+		if (chartAreaIsCurcular)
 		{
 			return;
 		}
 
 		// Do not draw cursor/selection while printing
-		if (this.Common != null &&
-			this.Common.ChartPicture != null &&
-			this.Common.ChartPicture.isPrinting)
+		if (Common != null &&
+			Common.ChartPicture != null &&
+			Common.ChartPicture._isPrinting)
 		{
 			return;
 		}
 
 		// Do not draw cursor/selection when chart area is not visible
 		// because either width or height is set to zero
-		if (this.Position.Width == 0f ||
-			this.Position.Height == 0f)
+		if (Position.Width == 0f ||
+			Position.Height == 0f)
 		{
 			return;
 		}
 
-		Chart chart = this.Common.Chart;
+		Chart chart = Common.Chart;
 		ChartPicture chartPicture = Common.ChartPicture;
 
 		// Check if cursor should be drawn
@@ -2312,12 +2252,12 @@ public partial class ChartArea : ChartNamedElement
 			!double.IsNaN(_cursorY.Position))
 		{
 
-			if (!chartPicture.backgroundRestored &&
-				!chartPicture.isSelectionMode)
+			if (!chartPicture._backgroundRestored &&
+				!chartPicture._isSelectionMode)
 			{
-				chartPicture.backgroundRestored = true;
+				chartPicture._backgroundRestored = true;
 
-				Rectangle chartPosition = new Rectangle(0, 0, chartPicture.Width, chartPicture.Height);
+				Rectangle chartPosition = new(0, 0, chartPicture.Width, chartPicture.Height);
 
 				// Get chart area position
 				Rectangle absAreaPlotPosition = Rectangle.Round(graph.GetAbsoluteRectangle(PlotAreaPosition.ToRectangleF()));
@@ -2327,21 +2267,15 @@ public partial class ChartArea : ChartNamedElement
 
 				// Create area buffer bitmap
 				if (areaBufferBitmap == null ||
-					chartPicture.nonTopLevelChartBuffer == null ||
+					chartPicture._nonTopLevelChartBuffer == null ||
 					!cursorOnly)
 				{
 					// Dispose previous bitmap
-					if (areaBufferBitmap != null)
-					{
-						areaBufferBitmap.Dispose();
-						areaBufferBitmap = null;
-					}
+					areaBufferBitmap?.Dispose();
+					areaBufferBitmap = null;
 
-					if (chartPicture.nonTopLevelChartBuffer != null)
-					{
-						chartPicture.nonTopLevelChartBuffer.Dispose();
-						chartPicture.nonTopLevelChartBuffer = null;
-					}
+					chartPicture._nonTopLevelChartBuffer?.Dispose();
+					chartPicture._nonTopLevelChartBuffer = null;
 
 
 					// Copy chart area plotting rectangle from the chart's dubble buffer image into area dubble buffer image
@@ -2355,16 +2289,16 @@ public partial class ChartArea : ChartNamedElement
 						chart.paintBufferBitmap.Size.Width >= chartPosition.Size.Width &&
 						chart.paintBufferBitmap.Size.Height >= chartPosition.Size.Height)
 					{
-						chartPicture.nonTopLevelChartBuffer = chart.paintBufferBitmap.Clone(
+						chartPicture._nonTopLevelChartBuffer = chart.paintBufferBitmap.Clone(
 							chartPosition, chart.paintBufferBitmap.PixelFormat);
 					}
 
 				}
-				else if (cursorOnly && chartPicture.nonTopLevelChartBuffer != null)
+				else if (cursorOnly && chartPicture._nonTopLevelChartBuffer != null)
 				{
 					// Restore previous background
 					chart.paintBufferBitmapGraphics.DrawImageUnscaled(
-						chartPicture.nonTopLevelChartBuffer,
+						chartPicture._nonTopLevelChartBuffer,
 						chartPosition);
 				}
 			}
@@ -2389,13 +2323,12 @@ public partial class ChartArea : ChartNamedElement
 	internal ICircularChartType GetCircularChartType()
 	{
 		// Get number of sectors in circular chart area
-		foreach (Series series in this.Common.DataManager.Series)
+		foreach (Series series in Common.DataManager.Series)
 		{
-			if (series.IsVisible() && series.ChartArea == this.Name)
+			if (series.IsVisible() && series.ChartArea == Name)
 			{
-				ICircularChartType type = Common.ChartTypeRegistry.GetChartType(series.ChartTypeName) as ICircularChartType;
 				;
-				if (type != null)
+				if (Common.ChartTypeRegistry.GetChartType(series.ChartTypeName) is ICircularChartType type)
 				{
 					return type;
 				}
@@ -2421,7 +2354,7 @@ public partial class ChartArea : ChartNamedElement
 		float yTitleSize)
 	{
 		// Check if axis labels are enabled
-		if (!this.AxisX.LabelStyle.Enabled)
+		if (!AxisX.LabelStyle.Enabled)
 		{
 			return;
 		}
@@ -2434,7 +2367,7 @@ public partial class ChartArea : ChartNamedElement
 		RectangleF areaRectAbs = chartGraph.GetAbsoluteRectangle(chartAreaPosition.ToRectangleF());
 
 		// Get absolute markers size and spacing
-		float spacing = chartGraph.GetAbsolutePoint(new PointF(0, this.AxisX.markSize + Axis.elementSpacing)).Y;
+		float spacing = chartGraph.GetAbsolutePoint(new PointF(0, AxisX.markSize + Axis.elementSpacing)).Y;
 
 		// Get circular axis list
 		ArrayList axisList = GetCircularAxisList();
@@ -2445,13 +2378,13 @@ public partial class ChartArea : ChartNamedElement
 		//*****************************************************************
 		//** Calculate the auto-fit font if required
 		//*****************************************************************
-		if (this.AxisX.LabelStyle.Enabled && this.AxisX.IsLabelAutoFit)
+		if (AxisX.LabelStyle.Enabled && AxisX.IsLabelAutoFit)
 		{
 			// Set max auto fit font
-			this.AxisX.autoLabelFont = Common.ChartPicture.FontCache.GetFont(
-				this.AxisX.LabelStyle.Font.FontFamily,
+			AxisX.autoLabelFont = Common.ChartPicture.FontCache.GetFont(
+				AxisX.LabelStyle.Font.FontFamily,
 				14,
-				this.AxisX.LabelStyle.Font.Style,
+				AxisX.LabelStyle.Font.Style,
 				GraphicsUnit.Point);
 
 			// Get estimated labels size
@@ -2460,7 +2393,7 @@ public partial class ChartArea : ChartNamedElement
 			labelsSizeEstimate += spacing;
 
 			// Calculate auto-fit font
-			this.AxisX.GetCircularAxisLabelsAutoFitFont(chartGraph, axisList, labelsStyle, plotAreaRectAbs, areaRectAbs, labelsSizeEstimate);
+			AxisX.GetCircularAxisLabelsAutoFitFont(chartGraph, axisList, labelsStyle, plotAreaRectAbs, areaRectAbs, labelsSizeEstimate);
 		}
 
 		//*****************************************************************
@@ -2497,10 +2430,10 @@ public partial class ChartArea : ChartNamedElement
 		//** Set axes labels size
 		//*****************************************************************
 		SizeF relativeLabelSize = chartGraph.GetRelativeSize(new SizeF(labelsSize, labelsSize));
-		this.AxisX.labelSize = relativeLabelSize.Height;
-		this.AxisX2.labelSize = relativeLabelSize.Height;
-		this.AxisY.labelSize = relativeLabelSize.Width;
-		this.AxisY2.labelSize = relativeLabelSize.Width;
+		AxisX.labelSize = relativeLabelSize.Height;
+		AxisX2.labelSize = relativeLabelSize.Height;
+		AxisY.labelSize = relativeLabelSize.Width;
+		AxisY2.labelSize = relativeLabelSize.Width;
 
 	}
 
@@ -2519,12 +2452,12 @@ public partial class ChartArea : ChartNamedElement
 		SizeF titleSize)
 	{
 		// Find current horiz. and vert. spacing between plotting and chart areas
-		SizeF areaDiff = new SizeF(plotAreaRectAbs.X - areaRectAbs.X, plotAreaRectAbs.Y - areaRectAbs.Y);
+		SizeF areaDiff = new(plotAreaRectAbs.X - areaRectAbs.X, plotAreaRectAbs.Y - areaRectAbs.Y);
 		areaDiff.Width -= titleSize.Width;
 		areaDiff.Height -= titleSize.Height;
 
 		// Get absolute center of the area
-		PointF areaCenterAbs = chartGraph.GetAbsolutePoint(this.circularCenter);
+		PointF areaCenterAbs = chartGraph.GetAbsolutePoint(circularCenter);
 
 		// Get circular axis list
 		ArrayList axisList = GetCircularAxisList();
@@ -2545,7 +2478,7 @@ public partial class ChartArea : ChartNamedElement
 			//*****************************************************************
 			SizeF textSize = chartGraph.MeasureString(
 				axis.Title.Replace("\\n", "\n"),
-				(this.AxisX.autoLabelFont == null) ? this.AxisX.LabelStyle.Font : this.AxisX.autoLabelFont);
+				(AxisX.autoLabelFont == null) ? AxisX.LabelStyle.Font : AxisX.autoLabelFont);
 			textSize.Width = (float)Math.Ceiling(textSize.Width * 1.1f);
 			textSize.Height = (float)Math.Ceiling(textSize.Height * 1.1f);
 
@@ -2573,10 +2506,14 @@ public partial class ChartArea : ChartNamedElement
 				width -= areaDiff.Width;
 				height -= areaDiff.Height;
 				if (width < 0)
+				{
 					width = 0;
-				if (height < 0)
-					height = 0;
+				}
 
+				if (height < 0)
+				{
+					height = 0;
+				}
 
 				labelsSize = (float)Math.Max(
 					labelsSize,
@@ -2592,8 +2529,8 @@ public partial class ChartArea : ChartNamedElement
 				}
 
 				// Get label rotated position
-				PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
-				Matrix newMatrix = new Matrix();
+				PointF[] labelPosition = [new(areaCenterAbs.X, plotAreaRectAbs.Y)];
+				Matrix newMatrix = new();
 				newMatrix.RotateAt(textAngle, areaCenterAbs);
 				newMatrix.TransformPoints(labelPosition);
 
@@ -2622,23 +2559,23 @@ public partial class ChartArea : ChartNamedElement
 		get
 		{
 			// Check if value was precalculated
-			if (this._circularUsePolygons == int.MinValue)
+			if (_circularUsePolygons == int.MinValue)
 			{
 				_circularUsePolygons = 0;
 
 				// Look for custom properties in series
-				foreach (Series series in this.Common.DataManager.Series)
+				foreach (Series series in Common.DataManager.Series)
 				{
-					if (series.ChartArea == this.Name && series.IsVisible())
+					if (series.ChartArea == Name && series.IsVisible())
 					{
 						// Get custom attribute
 						if (series.IsCustomPropertySet(CustomPropertyName.AreaDrawingStyle))
 						{
-							if (String.Compare(series[CustomPropertyName.AreaDrawingStyle], "Polygon", StringComparison.OrdinalIgnoreCase) == 0)
+							if (string.Compare(series[CustomPropertyName.AreaDrawingStyle], "Polygon", StringComparison.OrdinalIgnoreCase) == 0)
 							{
 								_circularUsePolygons = 1;
 							}
-							else if (String.Compare(series[CustomPropertyName.AreaDrawingStyle], "Circle", StringComparison.OrdinalIgnoreCase) == 0)
+							else if (string.Compare(series[CustomPropertyName.AreaDrawingStyle], "Circle", StringComparison.OrdinalIgnoreCase) == 0)
 							{
 								_circularUsePolygons = 0;
 							}
@@ -2653,7 +2590,7 @@ public partial class ChartArea : ChartNamedElement
 				}
 			}
 
-			return (this._circularUsePolygons == 1);
+			return (_circularUsePolygons == 1);
 		}
 	}
 
@@ -2666,24 +2603,24 @@ public partial class ChartArea : ChartNamedElement
 		CircularAxisLabelsStyle style = CircularAxisLabelsStyle.Auto;
 
 		// Get maximum number of points in all series
-		foreach (Series series in this.Common.DataManager.Series)
+		foreach (Series series in Common.DataManager.Series)
 		{
-			if (series.IsVisible() && series.ChartArea == this.Name && series.IsCustomPropertySet(CustomPropertyName.CircularLabelsStyle))
+			if (series.IsVisible() && series.ChartArea == Name && series.IsCustomPropertySet(CustomPropertyName.CircularLabelsStyle))
 			{
 				string styleName = series[CustomPropertyName.CircularLabelsStyle];
-				if (String.Compare(styleName, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(styleName, "Auto", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					style = CircularAxisLabelsStyle.Auto;
 				}
-				else if (String.Compare(styleName, "Circular", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(styleName, "Circular", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					style = CircularAxisLabelsStyle.Circular;
 				}
-				else if (String.Compare(styleName, "Radial", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(styleName, "Radial", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					style = CircularAxisLabelsStyle.Radial;
 				}
-				else if (String.Compare(styleName, "Horizontal", StringComparison.OrdinalIgnoreCase) == 0)
+				else if (string.Compare(styleName, "Horizontal", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					style = CircularAxisLabelsStyle.Horizontal;
 				}
@@ -2717,14 +2654,16 @@ public partial class ChartArea : ChartNamedElement
 		get
 		{
 			// Check if value was precalculated
-			if (this._circularSectorNumber == int.MinValue)
+			if (field == int.MinValue)
 			{
-				this._circularSectorNumber = GetCircularSectorNumber();
+				field = GetCircularSectorNumber();
 			}
 
-			return this._circularSectorNumber;
+			return field;
 		}
-	}
+
+		private set;
+	} = int.MinValue;
 
 	/// <summary>
 	/// Gets number of sectors in the circular chart area.
@@ -2732,10 +2671,10 @@ public partial class ChartArea : ChartNamedElement
 	/// <returns>Number of sectors.</returns>
 	private int GetCircularSectorNumber()
 	{
-		ICircularChartType type = this.GetCircularChartType();
+		ICircularChartType type = GetCircularChartType();
 		if (type != null)
 		{
-			return type.GetNumerOfSectors(this, this.Common.DataManager.Series);
+			return type.GetNumerOfSectors(this, Common.DataManager.Series);
 		}
 
 		return 0;
@@ -2750,30 +2689,30 @@ public partial class ChartArea : ChartNamedElement
 		// Check if list was already created
 		if (_circularAxisList == null)
 		{
-			_circularAxisList = new ArrayList();
+			_circularAxisList = [];
 
 			// Loop through all sectors
 			int sectorNumber = GetCircularSectorNumber();
 			for (int sectorIndex = 0; sectorIndex < sectorNumber; sectorIndex++)
 			{
 				// Create new axis object
-				CircularChartAreaAxis axis = new CircularChartAreaAxis(sectorIndex * 360f / sectorNumber);
+				CircularChartAreaAxis axis = new(sectorIndex * 360f / sectorNumber);
 
 				// Check if custom X axis labels will be used
-				if (this.AxisX.CustomLabels.Count > 0)
+				if (AxisX.CustomLabels.Count > 0)
 				{
-					if (sectorIndex < this.AxisX.CustomLabels.Count)
+					if (sectorIndex < AxisX.CustomLabels.Count)
 					{
-						axis.Title = this.AxisX.CustomLabels[sectorIndex].Text;
-						axis.TitleForeColor = this.AxisX.CustomLabels[sectorIndex].ForeColor;
+						axis.Title = AxisX.CustomLabels[sectorIndex].Text;
+						axis.TitleForeColor = AxisX.CustomLabels[sectorIndex].ForeColor;
 					}
 				}
 				else
 				{
 					// Get axis title from all series
-					foreach (Series series in this.Common.DataManager.Series)
+					foreach (Series series in Common.DataManager.Series)
 					{
-						if (series.IsVisible() && series.ChartArea == this.Name && sectorIndex < series.Points.Count)
+						if (series.IsVisible() && series.ChartArea == Name && sectorIndex < series.Points.Count)
 						{
 							if (series.Points[sectorIndex].AxisLabel.Length > 0)
 							{
@@ -2801,9 +2740,9 @@ public partial class ChartArea : ChartNamedElement
 	internal float CircularPositionToAngle(double position)
 	{
 		// Get X axis scale size
-		double scaleRatio = 360.0 / Math.Abs(this.AxisX.Maximum - this.AxisX.Minimum);
+		double scaleRatio = 360.0 / Math.Abs(AxisX.Maximum - AxisX.Minimum);
 
-		return (float)(position * scaleRatio + this.AxisX.Crossing);
+		return (float)(position * scaleRatio + AxisX.Crossing);
 	}
 
 	#endregion
@@ -2822,25 +2761,25 @@ public partial class ChartArea : ChartNamedElement
 	/// <returns>List of 'ChartTypeAndSeriesInfo' objects.</returns>
 	private ArrayList GetChartTypesAndSeriesToDraw()
 	{
-		ArrayList resultList = new ArrayList();
+		ArrayList resultList = [];
 
 		// Build chart type or series position based lists
-		if (this.ChartTypes.Count > 1 &&
-			(this.ChartTypes.Contains(ChartTypeNames.Area)
-			|| this.ChartTypes.Contains(ChartTypeNames.SplineArea)
+		if (ChartTypes.Count > 1 &&
+			(ChartTypes.Contains(ChartTypeNames.Area)
+			|| ChartTypes.Contains(ChartTypeNames.SplineArea)
 			)
 			)
 		{
 			// Array of chart type names that do not require furher processing
-			ArrayList processedChartType = new ArrayList();
-			ArrayList splitChartType = new ArrayList();
+			ArrayList processedChartType = [];
+			ArrayList splitChartType = [];
 
 			// Draw using the exact order in the series collection
 			int seriesIndex = 0;
-			foreach (Series series in this.Common.DataManager.Series)
+			foreach (Series series in Common.DataManager.Series)
 			{
 				// Check if series is visible and belongs to the chart area
-				if (series.ChartArea == this.Name && series.IsVisible() && series.Points.Count > 0)
+				if (series.ChartArea == Name && series.IsVisible() && series.Points.Count > 0)
 				{
 					// Check if this chart type was already processed
 					if (!processedChartType.Contains(series.ChartTypeName))
@@ -2874,9 +2813,9 @@ public partial class ChartArea : ChartNamedElement
 							else
 							{
 								bool otherChartTypeFound = false;
-								for (int curentSeriesIndex = seriesIndex + 1; curentSeriesIndex < this.Common.DataManager.Series.Count; curentSeriesIndex++)
+								for (int curentSeriesIndex = seriesIndex + 1; curentSeriesIndex < Common.DataManager.Series.Count; curentSeriesIndex++)
 								{
-									if (series.ChartTypeName == this.Common.DataManager.Series[curentSeriesIndex].ChartTypeName)
+									if (series.ChartTypeName == Common.DataManager.Series[curentSeriesIndex].ChartTypeName)
 									{
 										if (otherChartTypeFound)
 										{
@@ -2886,8 +2825,8 @@ public partial class ChartArea : ChartNamedElement
 									}
 									else
 									{
-										if (this.Common.DataManager.Series[curentSeriesIndex].ChartType == SeriesChartType.Area ||
-											this.Common.DataManager.Series[curentSeriesIndex].ChartType == SeriesChartType.SplineArea)
+										if (Common.DataManager.Series[curentSeriesIndex].ChartType == SeriesChartType.Area ||
+											Common.DataManager.Series[curentSeriesIndex].ChartType == SeriesChartType.SplineArea)
 										{
 											otherChartTypeFound = true;
 										}
@@ -2915,7 +2854,7 @@ public partial class ChartArea : ChartNamedElement
 		}
 		else
 		{
-			foreach (string chartType in this.ChartTypes)
+			foreach (string chartType in ChartTypes)
 			{
 				resultList.Add(new ChartTypeAndSeriesInfo(chartType));
 			}
@@ -2942,7 +2881,7 @@ public partial class ChartArea : ChartNamedElement
 		/// <param name="chartType">Chart type name to initialize with.</param>
 		public ChartTypeAndSeriesInfo(string chartType)
 		{
-			this.ChartType = chartType;
+			ChartType = chartType;
 		}
 
 		/// <summary>
@@ -2951,8 +2890,8 @@ public partial class ChartArea : ChartNamedElement
 		/// <param name="series">Series to initialize with.</param>
 		public ChartTypeAndSeriesInfo(Series series)
 		{
-			this.ChartType = series.ChartTypeName;
-			this.Series = series;
+			ChartType = series.ChartTypeName;
+			Series = series;
 		}
 
 		// Chart type name
@@ -2971,60 +2910,42 @@ public partial class ChartArea : ChartNamedElement
 	/// Releases unmanaged and - optionally - managed resources
 	/// </summary>
 	/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX2")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY2")]
+	[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX")]
+	[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisX2")]
+	[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY")]
+	[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "axisY2")]
 	protected override void Dispose(bool disposing)
 	{
 		if (disposing)
 		{
 			// Dispose managed resources
-			if (this._axisArray != null)
+			if (_axisArray != null)
 			{
-				foreach (Axis axis in this._axisArray)
+				foreach (Axis axis in _axisArray)
 				{
 					axis.Dispose();
 				}
 
-				this._axisArray = null;
+				_axisArray = null;
 			}
 
-			if (this._areaPosition != null)
-			{
-				this._areaPosition.Dispose();
-				this._areaPosition = null;
-			}
+			_areaPosition?.Dispose();
+			_areaPosition = null;
 
-			if (this._innerPlotPosition != null)
-			{
-				this._innerPlotPosition.Dispose();
-				this._innerPlotPosition = null;
-			}
+			_innerPlotPosition?.Dispose();
+			_innerPlotPosition = null;
 
-			if (this.PlotAreaPosition != null)
-			{
-				this.PlotAreaPosition.Dispose();
-				this.PlotAreaPosition = null;
-			}
+			PlotAreaPosition?.Dispose();
+			PlotAreaPosition = null;
 
-			if (this.areaBufferBitmap != null)
-			{
-				this.areaBufferBitmap.Dispose();
-				this.areaBufferBitmap = null;
-			}
+			areaBufferBitmap?.Dispose();
+			areaBufferBitmap = null;
 
-			if (this._cursorX != null)
-			{
-				this._cursorX.Dispose();
-				this._cursorX = null;
-			}
+			_cursorX?.Dispose();
+			_cursorX = null;
 
-			if (this._cursorY != null)
-			{
-				this._cursorY.Dispose();
-				this._cursorY = null;
-			}
+			_cursorY?.Dispose();
+			_cursorY = null;
 		}
 
 		base.Dispose(disposing);

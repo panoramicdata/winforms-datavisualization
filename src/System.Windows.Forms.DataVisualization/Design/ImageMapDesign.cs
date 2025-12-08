@@ -62,7 +62,7 @@ internal class ImageValueEditor : FileNameEditor
 				if (imageLoader != null && !string.IsNullOrEmpty((string)e.Value))
 				{
 					// Load a image
-					System.Drawing.Image image = imageLoader.LoadImage((string)e.Value);
+					Drawing.Image image = imageLoader.LoadImage((string)e.Value);
 
 					// Draw Image
 					e.Graphics.DrawImage(image, e.Bounds);

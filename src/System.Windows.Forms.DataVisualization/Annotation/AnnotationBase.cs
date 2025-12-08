@@ -137,8 +137,8 @@ public abstract class Annotation : ChartNamedElement
 	private double _height = double.NaN;
 
 	// Annotation axes attaching fields
-	private string _axisXName = String.Empty;
-	private string _axisYName = String.Empty;
+	private string _axisXName = string.Empty;
+	private string _axisYName = string.Empty;
 	private Axis _axisX = null;
 	private Axis _axisY = null;
 
@@ -146,7 +146,7 @@ public abstract class Annotation : ChartNamedElement
 	private bool _visible = true;
 	private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
 	private Color _foreColor = Color.Black;
-	private FontCache _fontCache = new FontCache();
+	private FontCache _fontCache = new();
 	private Font _textFont;
 	private TextStyle _textStyle = TextStyle.Default;
 	internal Color lineColor = Color.Black;
@@ -160,7 +160,7 @@ public abstract class Annotation : ChartNamedElement
 	private int _shadowOffset = 0;
 
 	// Anchor position attribute fields
-	private string _anchorDataPointName = String.Empty;
+	private string _anchorDataPointName = string.Empty;
 	private DataPoint _anchorDataPoint = null;
 	private DataPoint _anchorDataPoint2 = null;
 	private double _anchorX = double.NaN;
@@ -173,17 +173,16 @@ public abstract class Annotation : ChartNamedElement
 	internal RectangleF[] selectionRects = null;
 
 	// Annotation tooltip
-	private string _tooltip = String.Empty;
+	private string _tooltip = string.Empty;
 
 	// Selection handles size
 	internal const int selectionMarkerSize = 6;
 
 	// Pre calculated relative position of annotation and anchor point
-	internal RectangleF currentPositionRel = new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
-	internal PointF currentAnchorLocationRel = new PointF(float.NaN, float.NaN);
+	internal RectangleF currentPositionRel = new(float.NaN, float.NaN, float.NaN, float.NaN);
+	internal PointF currentAnchorLocationRel = new(float.NaN, float.NaN);
 
 	// Smart labels style		
-	private AnnotationSmartLabelStyle _smartLabelStyle = null;
 
 	// Index of last selected point in the annotation path
 	internal int currentPathPointIndex = -1;
@@ -246,7 +245,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeName4"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	public override string Name
 	{
@@ -274,9 +273,9 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotation_AnnotationType"),
 	]
 	public abstract string AnnotationType
@@ -315,7 +314,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			if (value != _clipToChartArea)
 			{
-				if (String.IsNullOrEmpty(value))
+				if (string.IsNullOrEmpty(value))
 				{
 					_clipToChartArea = Constants.NotSetValue;
 				}
@@ -329,7 +328,7 @@ public abstract class Annotation : ChartNamedElement
 					_clipToChartArea = value;
 				}
 
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 	}
@@ -355,36 +354,30 @@ public abstract class Annotation : ChartNamedElement
 	SRDescription("DescriptionAttributeSmartLabels"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	]
-	public AnnotationSmartLabelStyle SmartLabelStyle
-	{
-		get
+	public AnnotationSmartLabelStyle SmartLabelStyle { get
 		{
-			if (this._smartLabelStyle == null)
-			{
-				this._smartLabelStyle = new AnnotationSmartLabelStyle(this);
-			}
+			field ??= new AnnotationSmartLabelStyle(this);
 
-			return _smartLabelStyle;
+			return field;
 		}
 		set
 		{
 			value.chartElement = this;
-			_smartLabelStyle = value;
-			this.Invalidate();
-		}
-	}
+			field = value;
+			Invalidate();
+		} } = null;
 
 	/// <summary>
 	/// Gets the group, if any, the annotation belongs to.
 	/// </summary>
 	[
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	public AnnotationGroup AnnotationGroup
 	{
-		get { return this.annotationGroup; }
+		get { return annotationGroup; }
 	}
 
 	#endregion
@@ -424,7 +417,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_isSizeAlwaysRelative = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -455,7 +448,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributePosition"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeAnnotationBaseX"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")]
@@ -468,7 +461,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_x = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -499,7 +492,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributePosition"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeAnnotationBaseY"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")]
@@ -512,7 +505,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_y = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -548,7 +541,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributePosition"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeAnnotationWidth"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	virtual public double Width
@@ -561,11 +554,11 @@ public abstract class Annotation : ChartNamedElement
 		{
 			if (value < -WidthHightLimit || value > WidthHightLimit)
 			{
-				throw new ArgumentException(SR.ExceptionValueMustBeInRange("Width", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
+				throw new ArgumentException(SR.ExceptionValueMustBeInRange(nameof(Width), (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
 			}
 
 			_width = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -601,7 +594,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributePosition"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeAnnotationHeight"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	virtual public double Height
@@ -614,11 +607,11 @@ public abstract class Annotation : ChartNamedElement
 		{
 			if (value < -WidthHightLimit || value > WidthHightLimit)
 			{
-				throw new ArgumentException(SR.ExceptionValueMustBeInRange("Height", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
+				throw new ArgumentException(SR.ExceptionValueMustBeInRange(nameof(Height), (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
 			}
 
 			_height = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -641,10 +634,10 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributePosition"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeRight3"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	virtual public double Right
@@ -656,7 +649,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_width = value - _x;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -679,10 +672,10 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributePosition"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeBottom"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	virtual public double Bottom
@@ -694,7 +687,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_height = value - _y;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -742,11 +735,11 @@ public abstract class Annotation : ChartNamedElement
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	virtual internal SelectionPointsStyle SelectionPointsStyle
@@ -767,7 +760,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeVisible"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	virtual public bool Visible
 	{
@@ -859,7 +852,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_textFont = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -940,7 +933,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationLineWidthIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationLineWidthIsNegative));
 			}
 
 			_lineWidth = value;
@@ -987,7 +980,7 @@ public abstract class Annotation : ChartNamedElement
 		SRCategory("CategoryAttributeAppearance"),
 		DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBackColor"),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -1019,7 +1012,7 @@ public abstract class Annotation : ChartNamedElement
 	[
 		SRCategory("CategoryAttributeAppearance"),
 		DefaultValue(ChartHatchStyle.None),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
@@ -1050,7 +1043,7 @@ public abstract class Annotation : ChartNamedElement
 	[
 		SRCategory("CategoryAttributeAppearance"),
 		DefaultValue(GradientStyle.None),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
@@ -1084,7 +1077,7 @@ public abstract class Annotation : ChartNamedElement
 	[
 		SRCategory("CategoryAttributeAppearance"),
 		DefaultValue(typeof(Color), ""),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
@@ -1173,7 +1166,7 @@ public abstract class Annotation : ChartNamedElement
 	DefaultValue(""),
 	Browsable(false),
 	Bindable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	SRDescription("DescriptionAttributeAxisXName"),
 	]
 	virtual public string AxisXName
@@ -1191,7 +1184,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			_axisXName = value;
 			_axisX = null;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1210,10 +1203,10 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeAnchorAxes"),
 	Browsable(false),
 	Bindable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeAxisYName"),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	]
 	virtual public string AxisYName
 	{
@@ -1225,7 +1218,7 @@ public abstract class Annotation : ChartNamedElement
 		}
 		set
 		{
-			this.YAxisName = value;
+			YAxisName = value;
 		}
 	}
 
@@ -1246,7 +1239,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeAnchorAxes"),
 	Browsable(false),
 	Bindable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeAxisYName"),
 	]
@@ -1265,7 +1258,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			_axisYName = value;
 			_axisY = null;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1289,8 +1282,8 @@ public abstract class Annotation : ChartNamedElement
 	[
 	SRCategory("CategoryAttributeAnchorAxes"),
 	DefaultValue(null),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAxisX"),
 	Editor(typeof(AnnotationAxisUITypeEditor), typeof(UITypeEditor)),
 	TypeConverter(typeof(AnnotationAxisValueConverter)),
@@ -1309,8 +1302,8 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_axisX = value;
-			_axisXName = String.Empty;
-			this.ResetCurrentRelativePosition();
+			_axisXName = string.Empty;
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1334,8 +1327,8 @@ public abstract class Annotation : ChartNamedElement
 	[
 	SRCategory("CategoryAttributeAnchorAxes"),
 	DefaultValue(null),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAxisY"),
 	Editor(typeof(AnnotationAxisUITypeEditor), typeof(UITypeEditor)),
 	TypeConverter(typeof(AnnotationAxisValueConverter)),
@@ -1354,8 +1347,8 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_axisY = value;
-			_axisYName = String.Empty;
-			this.ResetCurrentRelativePosition();
+			_axisYName = string.Empty;
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1378,7 +1371,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeAnchor"),
 	Browsable(false),
 	Bindable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeAnchorDataPointName"),
 	]
@@ -1397,7 +1390,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			_anchorDataPointName = value;
 			_anchorDataPoint = null;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1409,8 +1402,8 @@ public abstract class Annotation : ChartNamedElement
 	/// <seealso cref="AnchorOffsetY"/>
 	/// <seealso cref="AnchorX"/>
 	/// <seealso cref="AnchorY"/>
-	/// <seealso cref="SetAnchor(Charting.DataPoint)"/>
-	/// <seealso cref="SetAnchor(Charting.DataPoint, Charting.DataPoint)"/>
+	/// <seealso cref="SetAnchor(DataPoint)"/>
+	/// <seealso cref="SetAnchor(DataPoint, DataPoint)"/>
 	/// </summary>
 	/// <value>
 	/// A <see cref="DataPoint"/> object an annotation is anchored to.
@@ -1436,8 +1429,8 @@ public abstract class Annotation : ChartNamedElement
 	[
 	SRCategory("CategoryAttributeAnchor"),
 	DefaultValue(null),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnchorDataPoint"),
 	Editor(typeof(AnchorPointUITypeEditor), typeof(UITypeEditor)),
 	TypeConverter(typeof(AnchorPointValueConverter)),
@@ -1456,8 +1449,8 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_anchorDataPoint = value;
-			_anchorDataPointName = String.Empty;
-			this.ResetCurrentRelativePosition();
+			_anchorDataPointName = string.Empty;
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1494,7 +1487,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeAnchor"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeAnchorX"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	virtual public double AnchorX
@@ -1506,7 +1499,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_anchorX = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1543,7 +1536,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeAnchor"),
 	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeAnchorY"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(DoubleNanValueConverter)),
 	]
 	virtual public double AnchorY
@@ -1555,7 +1548,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			_anchorY = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1579,7 +1572,7 @@ public abstract class Annotation : ChartNamedElement
 	SRCategory("CategoryAttributeAnchor"),
 	DefaultValue(0.0),
 	SRDescription("DescriptionAttributeAnchorOffsetX3"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	]
 	virtual public double AnchorOffsetX
 	{
@@ -1591,35 +1584,35 @@ public abstract class Annotation : ChartNamedElement
 		{
 			if (value > 100.0 || value < -100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
 			}
 
 			anchorOffsetX = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
 
 	/// <summary>
 	/// Gets or sets the y-coordinate offset between the positions of an annotation and its anchor point.
-	/// <seealso cref="Annotation.AnchorOffsetX"/>
-	/// <seealso cref="Annotation.AnchorDataPoint"/>
-	/// <seealso cref="Annotation.AnchorY"/>
-	/// <seealso cref="Annotation.AnchorAlignment"/>
+	/// <seealso cref="AnchorOffsetX"/>
+	/// <seealso cref="AnchorDataPoint"/>
+	/// <seealso cref="AnchorY"/>
+	/// <seealso cref="AnchorAlignment"/>
 	/// </summary>
 	/// <value>
 	/// A double value that represents the y-coordinate offset between the positions of an annotation and its anchor point.
 	/// </value>
 	/// <remarks>
-	/// Annotation must be anchored using <see cref="Annotation.AnchorDataPoint"/> or 
-	/// <see cref="Annotation.AnchorY"/> properties and it's <see cref="Annotation.Y"/> property must be set
+	/// Annotation must be anchored using <see cref="AnchorDataPoint"/> or 
+	/// <see cref="AnchorY"/> properties and it's <see cref="Y"/> property must be set
 	/// to <b>Double.NaN</b>.
 	/// </remarks>
 	[
 		SRCategory("CategoryAttributeAnchor"),
 		DefaultValue(0.0),
 		SRDescription("DescriptionAttributeAnchorOffsetY3"),
-		RefreshPropertiesAttribute(RefreshProperties.All),
+		RefreshProperties(RefreshProperties.All),
 		]
 	virtual public double AnchorOffsetY
 	{
@@ -1631,11 +1624,11 @@ public abstract class Annotation : ChartNamedElement
 		{
 			if (value > 100.0 || value < -100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAnnotationAnchorOffsetInvalid));
 			}
 
 			anchorOffsetY = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1671,7 +1664,7 @@ public abstract class Annotation : ChartNamedElement
 		set
 		{
 			anchorAlignment = value;
-			this.ResetCurrentRelativePosition();
+			ResetCurrentRelativePosition();
 			Invalidate();
 		}
 	}
@@ -1891,31 +1884,31 @@ public abstract class Annotation : ChartNamedElement
 		Color markerColor = Color.FromArgb(200, 255, 255, 255);
 		MarkerStyle markerStyle = MarkerStyle.Square;
 		int markerSize = selectionMarkerSize;
-		Boolean selected = this.IsSelected;
+		bool selected = IsSelected;
 
 		SizeF markerSizeRel = chartGraphics.GetRelativeSize(new SizeF(markerSize, markerSize));
-		if (this.Common.ProcessModePaint &&
-			!this.Common.ChartPicture.isPrinting)
+		if (Common.ProcessModePaint &&
+			!Common.ChartPicture._isPrinting)
 		{
 			// Clear selection rectangles
-			this.selectionRects = null;
+			selectionRects = null;
 
 			// Check if annotation is selected
 			if (selected)
 			{
 				// Create selection rectangles
-				this.selectionRects = new RectangleF[9];
+				selectionRects = new RectangleF[9];
 
 				// Draw selection handles for single dimension annotations like line.
-				if (this.SelectionPointsStyle == SelectionPointsStyle.TwoPoints)
+				if (SelectionPointsStyle == SelectionPointsStyle.TwoPoints)
 				{
 					// Save selection handles position in array elements 0 and 4
-					this.selectionRects[(int)ResizingMode.TopLeftHandle] = new RectangleF(
+					selectionRects[(int)ResizingMode.TopLeftHandle] = new RectangleF(
 						rect.X - markerSizeRel.Width / 2f,
 						rect.Y - markerSizeRel.Height / 2f,
 						markerSizeRel.Width,
 						markerSizeRel.Height);
-					this.selectionRects[(int)ResizingMode.BottomRightHandle] = new RectangleF(
+					selectionRects[(int)ResizingMode.BottomRightHandle] = new RectangleF(
 						rect.Right - markerSizeRel.Width / 2f,
 						rect.Bottom - markerSizeRel.Height / 2f,
 						markerSizeRel.Width,
@@ -1949,7 +1942,7 @@ public abstract class Annotation : ChartNamedElement
 						Color.FromArgb(128, 0, 0, 0),
 						RectangleF.Empty);
 				}
-				else if (this.SelectionPointsStyle == SelectionPointsStyle.Rectangle)
+				else if (SelectionPointsStyle == SelectionPointsStyle.Rectangle)
 				{
 					for (int index = 0; index < 8; index++)
 					{
@@ -1984,7 +1977,7 @@ public abstract class Annotation : ChartNamedElement
 						}
 
 						// Save selection handles position in array elements 0 and 4
-						this.selectionRects[index] = new RectangleF(
+						selectionRects[index] = new RectangleF(
 							handlePosition.X - markerSizeRel.Width / 2f,
 							handlePosition.Y - markerSizeRel.Height / 2f,
 							markerSizeRel.Width,
@@ -2021,7 +2014,7 @@ public abstract class Annotation : ChartNamedElement
 				double anchorY = double.NaN;
 				bool relativeX = false;
 				bool relativeY = false;
-				this.GetAnchorLocation(ref anchorX, ref anchorY, ref relativeX, ref relativeY);
+				GetAnchorLocation(ref anchorX, ref anchorY, ref relativeX, ref relativeY);
 
 				// Convert anchor location to relative coordinates
 				if (!double.IsNaN(anchorX) && !double.IsNaN(anchorY))
@@ -2056,19 +2049,18 @@ public abstract class Annotation : ChartNamedElement
 					{
 						// Get anotation Z coordinate (use scene depth or anchored point Z position)
 						float positionZ = chartArea.areaSceneDepth;
-						if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
+						if (AnchorDataPoint != null && AnchorDataPoint.series != null)
 						{
-							float depth = 0f;
+							float depth;
 							chartArea.GetSeriesZPositionAndDepth(
-								this.AnchorDataPoint.series,
+								AnchorDataPoint.series,
 								out depth,
 								out positionZ);
 							positionZ += depth / 2f;
 						}
 
 						// Define 3D points of annotation object
-						Point3D[] annot3DPoints = new Point3D[1];
-						annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+						Point3D[] annot3DPoints = [new Point3D((float)anchorX, (float)anchorY, positionZ)];
 
 						// Tranform cube coordinates
 						chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -2079,7 +2071,7 @@ public abstract class Annotation : ChartNamedElement
 					}
 
 					// Save selection handles position in array elements 0 and 4
-					this.selectionRects[(int)ResizingMode.AnchorHandle] = new RectangleF(
+					selectionRects[(int)ResizingMode.AnchorHandle] = new RectangleF(
 						(float)anchorX - markerSizeRel.Width / 2f,
 						(float)anchorY - markerSizeRel.Height / 2f,
 						markerSizeRel.Width,
@@ -2110,12 +2102,12 @@ public abstract class Annotation : ChartNamedElement
 					RectangleF[] newSelectionRects = new RectangleF[pathPoints.Length + 9];
 
 					// Copy previous rectangles (first nine elements)
-					for (int index = 0; index < this.selectionRects.Length; index++)
+					for (int index = 0; index < selectionRects.Length; index++)
 					{
-						newSelectionRects[index] = this.selectionRects[index];
+						newSelectionRects[index] = selectionRects[index];
 					}
 
-					this.selectionRects = newSelectionRects;
+					selectionRects = newSelectionRects;
 
 					// Loop through all points
 					for (int index = 0; index < pathPoints.Length; index++)
@@ -2124,7 +2116,7 @@ public abstract class Annotation : ChartNamedElement
 						PointF handlePosition = chartGraphics.GetRelativePoint(pathPoints[index]);
 
 						// Save selection handles position in array elements 0 and 4
-						this.selectionRects[9 + index] = new RectangleF(
+						selectionRects[9 + index] = new RectangleF(
 							handlePosition.X - markerSizeRel.Width / 2f,
 							handlePosition.Y - markerSizeRel.Height / 2f,
 							markerSizeRel.Width,
@@ -2166,12 +2158,12 @@ public abstract class Annotation : ChartNamedElement
 		RectangleF position = GetContentPosition();
 		if (!double.IsNaN(position.Width))
 		{
-			this.Width = position.Width;
+			Width = position.Width;
 		}
 
 		if (!double.IsNaN(position.Height))
 		{
-			this.Height = position.Height;
+			Height = position.Height;
 		}
 	}
 
@@ -2193,16 +2185,16 @@ public abstract class Annotation : ChartNamedElement
 	/// <param name="inRelativeAnchorY">Indicates if Y coordinate is in relative chart coordinates.</param>
 	private void GetAnchorLocation(ref double anchorX, ref double anchorY, ref bool inRelativeAnchorX, ref bool inRelativeAnchorY)
 	{
-		anchorX = this.AnchorX;
-		anchorY = this.AnchorY;
+		anchorX = AnchorX;
+		anchorY = AnchorY;
 
-		if (this.AnchorDataPoint != null &&
-			this.AnchorDataPoint.series != null &&
-			this.Chart != null &&
-			this.Chart.chartPicture != null)
+		if (AnchorDataPoint != null &&
+			AnchorDataPoint.series != null &&
+			Chart != null &&
+			Chart.chartPicture != null)
 		{
 			// Anchor data point is not allowed for gropped annotations
-			if (this.AnnotationGroup != null)
+			if (AnnotationGroup != null)
 			{
 				throw (new InvalidOperationException(SR.ExceptionAnnotationGroupedAnchorDataPointMustBeEmpty));
 			}
@@ -2213,14 +2205,14 @@ public abstract class Annotation : ChartNamedElement
 				// Get X value from data point
 				if (double.IsNaN(anchorX))
 				{
-					anchorX = this.AnchorDataPoint.positionRel.X;
+					anchorX = AnchorDataPoint.positionRel.X;
 					inRelativeAnchorX = true;
 				}
 
 				// Get Y value from data point
 				if (double.IsNaN(anchorY))
 				{
-					anchorY = this.AnchorDataPoint.positionRel.Y;
+					anchorY = AnchorDataPoint.positionRel.Y;
 					inRelativeAnchorY = true;
 				}
 			}
@@ -2258,22 +2250,22 @@ public abstract class Annotation : ChartNamedElement
 		//***********************************************************************
 		//** Check if annotation was anchored to 2 points.
 		//***********************************************************************
-		if (this._anchorDataPoint != null &&
-			this._anchorDataPoint2 != null)
+		if (_anchorDataPoint != null &&
+			_anchorDataPoint2 != null)
 		{
 			// Annotation size is in axis coordinates
-			this.IsSizeAlwaysRelative = false;
+			IsSizeAlwaysRelative = false;
 
 			// Set annotation size
-			this.Height =
-				vertAxis.PositionToValue(this._anchorDataPoint2.positionRel.Y, false) -
-				vertAxis.PositionToValue(this._anchorDataPoint.positionRel.Y, false);
-			this.Width =
-				horizAxis.PositionToValue(this._anchorDataPoint2.positionRel.X, false) -
-				horizAxis.PositionToValue(this._anchorDataPoint.positionRel.X, false);
+			Height =
+				vertAxis.PositionToValue(_anchorDataPoint2.positionRel.Y, false) -
+				vertAxis.PositionToValue(_anchorDataPoint.positionRel.Y, false);
+			Width =
+				horizAxis.PositionToValue(_anchorDataPoint2.positionRel.X, false) -
+				horizAxis.PositionToValue(_anchorDataPoint.positionRel.X, false);
 
 			// Reset second anchor point after setting width and height
-			this._anchorDataPoint2 = null;
+			_anchorDataPoint2 = null;
 		}
 
 		//***********************************************************************
@@ -2290,14 +2282,14 @@ public abstract class Annotation : ChartNamedElement
 		//***********************************************************************
 		//** Get anchoring coordinates from anchored Data Point.
 		//***********************************************************************
-		double anchorX = this.AnchorX;
-		double anchorY = this.AnchorY;
+		double anchorX = AnchorX;
+		double anchorY = AnchorY;
 		GetAnchorLocation(ref anchorX, ref anchorY, ref inRelativeAnchorX, ref inRelativeAnchorY);
 
 		//***********************************************************************
 		//** Calculate scaling and translation for the annotations in the group.
 		//***********************************************************************
-		AnnotationGroup group = this.AnnotationGroup;
+		AnnotationGroup group = AnnotationGroup;
 		PointF groupLocation = PointF.Empty;
 		double groupScaleX = 1.0;
 		double groupScaleY = 1.0;
@@ -2306,9 +2298,11 @@ public abstract class Annotation : ChartNamedElement
 			// Do not save relative position of annotations inside the group
 			saveCurrentPosition = false;
 
+
 			// Take relative position of the group
-			SizeF groupSize = SizeF.Empty;
-			PointF groupAnchorLocation = PointF.Empty;
+			SizeF groupSize;
+
+			PointF groupAnchorLocation;
 			group.GetRelativePosition(out groupLocation, out groupSize, out groupAnchorLocation);
 
 			// Calculate Scale
@@ -2320,8 +2314,8 @@ public abstract class Annotation : ChartNamedElement
 		//***********************************************************************
 		//** Get annotation automatic size.
 		//***********************************************************************
-		double relativeWidth = this._width;
-		double relativeHeight = this._height;
+		double relativeWidth = _width;
+		double relativeHeight = _height;
 
 		// Get annotation content position
 		RectangleF contentPosition = GetContentPosition();
@@ -2350,9 +2344,9 @@ public abstract class Annotation : ChartNamedElement
 		//***********************************************************************
 		//** Provide "dummy" size at design time
 		//***********************************************************************
-		if (this.Chart != null && this.Chart.IsDesignMode())
+		if (Chart != null && Chart.IsDesignMode())
 		{
-			if (this.IsSizeAlwaysRelative ||
+			if (IsSizeAlwaysRelative ||
 				(vertAxis == null && horizAxis == null))
 			{
 				if (double.IsNaN(relativeWidth))
@@ -2372,8 +2366,8 @@ public abstract class Annotation : ChartNamedElement
 		//***********************************************************************
 		//** Get annotation location.
 		//***********************************************************************
-		double relativeX = this.X;
-		double relativeY = this.Y;
+		double relativeX = X;
+		double relativeY = Y;
 
 		// Check if annotation location Y coordinate is defined
 		if (double.IsNaN(relativeY) && !double.IsNaN(anchorY))
@@ -2385,18 +2379,18 @@ public abstract class Annotation : ChartNamedElement
 				relativeAnchorY = vertAxis.ValueToPosition(anchorY);
 			}
 
-			if (this.AnchorAlignment == ContentAlignment.TopCenter ||
-				this.AnchorAlignment == ContentAlignment.TopLeft ||
-				this.AnchorAlignment == ContentAlignment.TopRight)
+			if (AnchorAlignment == ContentAlignment.TopCenter ||
+				AnchorAlignment == ContentAlignment.TopLeft ||
+				AnchorAlignment == ContentAlignment.TopRight)
 			{
-				relativeY = relativeAnchorY + this.AnchorOffsetY;
+				relativeY = relativeAnchorY + AnchorOffsetY;
 				relativeY *= groupScaleY;
 			}
-			else if (this.AnchorAlignment == ContentAlignment.BottomCenter ||
-				this.AnchorAlignment == ContentAlignment.BottomLeft ||
-				this.AnchorAlignment == ContentAlignment.BottomRight)
+			else if (AnchorAlignment == ContentAlignment.BottomCenter ||
+				AnchorAlignment == ContentAlignment.BottomLeft ||
+				AnchorAlignment == ContentAlignment.BottomRight)
 			{
-				relativeY = relativeAnchorY - this.AnchorOffsetY;
+				relativeY = relativeAnchorY - AnchorOffsetY;
 				relativeY *= groupScaleY;
 				if (relativeHeight != 0f && !double.IsNaN(relativeHeight))
 				{
@@ -2414,7 +2408,7 @@ public abstract class Annotation : ChartNamedElement
 			}
 			else
 			{
-				relativeY = relativeAnchorY + this.AnchorOffsetY;
+				relativeY = relativeAnchorY + AnchorOffsetY;
 				relativeY *= groupScaleY;
 				if (relativeHeight != 0f && !double.IsNaN(relativeHeight))
 				{
@@ -2446,18 +2440,18 @@ public abstract class Annotation : ChartNamedElement
 				relativeAnchorX = horizAxis.ValueToPosition(anchorX);
 			}
 
-			if (this.AnchorAlignment == ContentAlignment.BottomLeft ||
-				this.AnchorAlignment == ContentAlignment.MiddleLeft ||
-				this.AnchorAlignment == ContentAlignment.TopLeft)
+			if (AnchorAlignment == ContentAlignment.BottomLeft ||
+				AnchorAlignment == ContentAlignment.MiddleLeft ||
+				AnchorAlignment == ContentAlignment.TopLeft)
 			{
-				relativeX = relativeAnchorX + this.AnchorOffsetX;
+				relativeX = relativeAnchorX + AnchorOffsetX;
 				relativeX *= groupScaleX;
 			}
-			else if (this.AnchorAlignment == ContentAlignment.BottomRight ||
-				this.AnchorAlignment == ContentAlignment.MiddleRight ||
-				this.AnchorAlignment == ContentAlignment.TopRight)
+			else if (AnchorAlignment == ContentAlignment.BottomRight ||
+				AnchorAlignment == ContentAlignment.MiddleRight ||
+				AnchorAlignment == ContentAlignment.TopRight)
 			{
-				relativeX = relativeAnchorX - this.AnchorOffsetX;
+				relativeX = relativeAnchorX - AnchorOffsetX;
 				relativeX *= groupScaleX;
 				if (relativeWidth != 0f && !double.IsNaN(relativeWidth))
 				{
@@ -2474,7 +2468,7 @@ public abstract class Annotation : ChartNamedElement
 			}
 			else
 			{
-				relativeX = relativeAnchorX + this.AnchorOffsetX;
+				relativeX = relativeAnchorX + AnchorOffsetX;
 				relativeX *= groupScaleX;
 				if (relativeWidth != 0f && !double.IsNaN(relativeWidth))
 				{
@@ -2582,21 +2576,23 @@ public abstract class Annotation : ChartNamedElement
 		{
 			// Get anotation Z coordinate (use scene depth or anchored point Z position)
 			float positionZ = chartArea.areaSceneDepth;
-			if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
+			if (AnchorDataPoint != null && AnchorDataPoint.series != null)
 			{
-				float depth = 0f;
+				float depth;
 				chartArea.GetSeriesZPositionAndDepth(
-					this.AnchorDataPoint.series,
+					AnchorDataPoint.series,
 					out depth,
 					out positionZ);
 				positionZ += depth / 2f;
 			}
 
 			// Define 3D points of annotation object
-			Point3D[] annot3DPoints = new Point3D[3];
-			annot3DPoints[0] = new Point3D((float)relativeX, (float)relativeY, positionZ);
-			annot3DPoints[1] = new Point3D((float)(relativeX + relativeWidth), (float)(relativeY + relativeHeight), positionZ);
-			annot3DPoints[2] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+			Point3D[] annot3DPoints =
+			[
+				new Point3D((float)relativeX, (float)relativeY, positionZ),
+				new Point3D((float)(relativeX + relativeWidth), (float)(relativeY + relativeHeight), positionZ),
+				new Point3D((float)anchorX, (float)anchorY, positionZ),
+			];
 
 			// Tranform cube coordinates
 			chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -2608,7 +2604,7 @@ public abstract class Annotation : ChartNamedElement
 			anchorY = annot3DPoints[2].Y;
 
 			// Don't adjust size for text annotation
-			if (!(isTextAnnotation && this.IsSizeAlwaysRelative))
+			if (!(isTextAnnotation && IsSizeAlwaysRelative))
 			{
 				relativeWidth = annot3DPoints[1].X - relativeX;
 				relativeHeight = annot3DPoints[1].Y - relativeY;
@@ -2618,7 +2614,7 @@ public abstract class Annotation : ChartNamedElement
 		//***********************************************************************
 		//** Provide "dummy" position at design time
 		//***********************************************************************
-		if (this.Chart != null && this.Chart.IsDesignMode())
+		if (Chart != null && Chart.IsDesignMode())
 		{
 			if (double.IsNaN(relativeX))
 			{
@@ -2656,84 +2652,80 @@ public abstract class Annotation : ChartNamedElement
 		//** Adjust text based annotaion position using SmartLabelStyle.
 		//***********************************************************************
 		// Check if smart labels are enabled
-		if (this.SmartLabelStyle.Enabled && isTextAnnotation &&
+		if (SmartLabelStyle.Enabled && isTextAnnotation &&
 			group == null)
 		{
 			// Anchor point must be set
 			if (!double.IsNaN(anchorX) && !double.IsNaN(anchorY) &&
-				double.IsNaN(this.X) && double.IsNaN(this.Y))
+				double.IsNaN(X) && double.IsNaN(Y))
 			{
-				if (this.Chart != null &&
-					this.Chart.chartPicture != null)
+				if (Chart != null &&
+					Chart.chartPicture != null)
 				{
 					// Remember old movement distance restriction
-					double oldMinMovingDistance = this.SmartLabelStyle.MinMovingDistance;
-					double oldMaxMovingDistance = this.SmartLabelStyle.MaxMovingDistance;
+					double oldMinMovingDistance = SmartLabelStyle.MinMovingDistance;
+					double oldMaxMovingDistance = SmartLabelStyle.MaxMovingDistance;
 
 					// Increase annotation moving restrictions according to the anchor offset
-					PointF anchorOffsetAbs = this.GetGraphics().GetAbsolutePoint(
-						new PointF((float)this.AnchorOffsetX, (float)this.AnchorOffsetY));
+					PointF anchorOffsetAbs = GetGraphics().GetAbsolutePoint(
+						new PointF((float)AnchorOffsetX, (float)AnchorOffsetY));
 					float maxAnchorOffsetAbs = Math.Max(anchorOffsetAbs.X, anchorOffsetAbs.Y);
 					if (maxAnchorOffsetAbs > 0.0)
 					{
-						this.SmartLabelStyle.MinMovingDistance += maxAnchorOffsetAbs;
-						this.SmartLabelStyle.MaxMovingDistance += maxAnchorOffsetAbs;
+						SmartLabelStyle.MinMovingDistance += maxAnchorOffsetAbs;
+						SmartLabelStyle.MaxMovingDistance += maxAnchorOffsetAbs;
 					}
 
 					// Adjust label position using SmartLabelStyle algorithm
 					LabelAlignmentStyles labelAlignment = LabelAlignmentStyles.Bottom;
-					using (StringFormat format = new StringFormat())
+					using StringFormat format = new();
+					SizeF markerSizeRel = new((float)AnchorOffsetX, (float)AnchorOffsetY);
+					PointF newlocation = Chart.chartPicture._annotationSmartLabel.AdjustSmartLabelPosition(
+						Common,
+						Chart.chartPicture.ChartGraph,
+						chartArea,
+						SmartLabelStyle,
+						location,
+						size,
+						format,
+						anchorLocation,
+						markerSizeRel,
+						labelAlignment,
+						(this is CalloutAnnotation));
+
+					// Restore old movement distance restriction
+					SmartLabelStyle.MinMovingDistance = oldMinMovingDistance;
+					SmartLabelStyle.MaxMovingDistance = oldMaxMovingDistance;
+
+					// Check if annotation should be hidden
+					if (newlocation.IsEmpty)
 					{
-						SizeF markerSizeRel = new SizeF((float)this.AnchorOffsetX, (float)this.AnchorOffsetY);
-						PointF newlocation = this.Chart.chartPicture.annotationSmartLabel.AdjustSmartLabelPosition(
-							this.Common,
-							this.Chart.chartPicture.ChartGraph,
-							chartArea,
-							this.SmartLabelStyle,
-							location,
+						location = new PointF(float.NaN, float.NaN);
+					}
+					else
+					{
+						// Get new position using alignment in format
+						RectangleF newPosition = Chart.chartPicture._annotationSmartLabel.GetLabelPosition(
+							Chart.chartPicture.ChartGraph,
+							newlocation,
 							size,
 							format,
-							anchorLocation,
-							markerSizeRel,
-							labelAlignment,
-							(this is CalloutAnnotation));
+							false);
 
-						// Restore old movement distance restriction
-						this.SmartLabelStyle.MinMovingDistance = oldMinMovingDistance;
-						this.SmartLabelStyle.MaxMovingDistance = oldMaxMovingDistance;
-
-						// Check if annotation should be hidden
-						if (newlocation.IsEmpty)
-						{
-							location = new PointF(float.NaN, float.NaN);
-						}
-						else
-						{
-							// Get new position using alignment in format
-							RectangleF newPosition = this.Chart.chartPicture.annotationSmartLabel.GetLabelPosition(
-								this.Chart.chartPicture.ChartGraph,
-								newlocation,
-								size,
-								format,
-								false);
-
-							// Set new location
-							location = newPosition.Location;
-						}
+						// Set new location
+						location = newPosition.Location;
 					}
 				}
 			}
 			else
 			{
 				// Add annotation position into the list (to prevent overlapping)
-				using (StringFormat format = new StringFormat())
-				{
-					this.Chart.chartPicture.annotationSmartLabel.AddSmartLabelPosition(
-						this.Chart.chartPicture.ChartGraph,
-						location,
-						size,
-						format);
-				}
+				using StringFormat format = new();
+				Chart.chartPicture._annotationSmartLabel.AddSmartLabelPosition(
+					Chart.chartPicture.ChartGraph,
+					location,
+					size,
+					format);
 			}
 		}
 
@@ -2779,8 +2771,8 @@ public abstract class Annotation : ChartNamedElement
 		//***********************************************************************
 		//** Set pre calculated position and anchor location
 		//***********************************************************************
-		this.currentPositionRel = new RectangleF(position.Location, position.Size);
-		this.currentAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
+		currentPositionRel = new RectangleF(position.Location, position.Size);
+		currentAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
 
 		//***********************************************************************
 		//** Get vertical and horizontal axis
@@ -2807,19 +2799,19 @@ public abstract class Annotation : ChartNamedElement
 		if (chartArea != null && chartArea.Area3DStyle.Enable3D == true)
 		{
 			// If anchor point was set - get its relative position and use it as an anchor point
-			if (this.AnchorDataPoint != null)
+			if (AnchorDataPoint != null)
 			{
 				bool inRelativeCoordX = true;
 				bool inRelativeCoordY = true;
-				this.GetAnchorLocation(ref newAnchorX, ref newAnchorY, ref inRelativeCoordX, ref inRelativeCoordY);
-				this.currentAnchorLocationRel = new PointF((float)newAnchorX, (float)newAnchorY);
+				GetAnchorLocation(ref newAnchorX, ref newAnchorY, ref inRelativeCoordX, ref inRelativeCoordY);
+				currentAnchorLocationRel = new PointF((float)newAnchorX, (float)newAnchorY);
 			}
 
 			// In 3D always use relative annotation coordinates
 			// Disconnect annotation from axes and anchor point
-			this.AnchorDataPoint = null;
-			this.AxisX = null;
-			this.AxisY = null;
+			AnchorDataPoint = null;
+			AxisX = null;
+			AxisY = null;
 			horizAxis = null;
 			vertAxis = null;
 		}
@@ -2846,7 +2838,7 @@ public abstract class Annotation : ChartNamedElement
 				}
 			}
 
-			if (!this.IsSizeAlwaysRelative)
+			if (!IsSizeAlwaysRelative)
 			{
 				if (float.IsNaN(position.Right) &&
 					!float.IsNaN(position.Width) &&
@@ -2892,7 +2884,7 @@ public abstract class Annotation : ChartNamedElement
 				}
 			}
 
-			if (!this.IsSizeAlwaysRelative)
+			if (!IsSizeAlwaysRelative)
 			{
 				if (float.IsNaN(position.Bottom) &&
 					!float.IsNaN(position.Height) &&
@@ -2923,21 +2915,23 @@ public abstract class Annotation : ChartNamedElement
 		if (userInput)
 		{
 			// Set flag that annotation position was changed
-			this.positionChanged = true;
+			positionChanged = true;
 
 			// Fire position changing event
-			if (this.Chart != null)
+			if (Chart != null)
 			{
-				AnnotationPositionChangingEventArgs args = new AnnotationPositionChangingEventArgs();
-				args.NewLocationX = newX;
-				args.NewLocationY = newY;
-				args.NewSizeWidth = newWidth;
-				args.NewSizeHeight = newHeight;
-				args.NewAnchorLocationX = newAnchorX;
-				args.NewAnchorLocationY = newAnchorY;
-				args.Annotation = this;
+				AnnotationPositionChangingEventArgs args = new()
+				{
+					NewLocationX = newX,
+					NewLocationY = newY,
+					NewSizeWidth = newWidth,
+					NewSizeHeight = newHeight,
+					NewAnchorLocationX = newAnchorX,
+					NewAnchorLocationY = newAnchorY,
+					Annotation = this
+				};
 
-				if (this.Chart.OnAnnotationPositionChanging(ref args))
+				if (Chart.OnAnnotationPositionChanging(ref args))
 				{
 					// Get user changed position/anchor
 					newX = args.NewLocationX;
@@ -2951,15 +2945,15 @@ public abstract class Annotation : ChartNamedElement
 		}
 
 		// Adjust location & size
-		this.X = newX;
-		this.Y = newY;
-		this.Width = newWidth;
-		this.Height = newHeight;
-		this.AnchorX = newAnchorX;
-		this.AnchorY = newAnchorY;
+		X = newX;
+		Y = newY;
+		Width = newWidth;
+		Height = newHeight;
+		AnchorX = newAnchorX;
+		AnchorY = newAnchorY;
 
 		// Invalidate annotation
-		this.Invalidate();
+		Invalidate();
 
 		return;
 	}
@@ -3001,25 +2995,28 @@ public abstract class Annotation : ChartNamedElement
 				movingDistance = Chart.chartPicture.ChartGraph.GetRelativeSize(movingDistance);
 			}
 
+
 			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
+			PointF firstPoint;
+
+			PointF anchorPoint;
+
+			SizeF size;
 			if (userInput)
 			{
-				if (this.startMovePositionRel.X == 0f &&
-					this.startMovePositionRel.Y == 0f &&
-					this.startMovePositionRel.Width == 0f &&
-					this.startMovePositionRel.Height == 0f)
+				if (startMovePositionRel.X == 0f &&
+					startMovePositionRel.Y == 0f &&
+					startMovePositionRel.Width == 0f &&
+					startMovePositionRel.Height == 0f)
 				{
 					GetRelativePosition(out firstPoint, out size, out anchorPoint);
-					this.startMovePositionRel = new RectangleF(firstPoint, size);
-					this.startMoveAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
+					startMovePositionRel = new RectangleF(firstPoint, size);
+					startMoveAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
 				}
 
-				firstPoint = this.startMovePositionRel.Location;
-				size = this.startMovePositionRel.Size;
-				anchorPoint = this.startMoveAnchorLocationRel;
+				firstPoint = startMovePositionRel.Location;
+				size = startMovePositionRel.Size;
+				anchorPoint = startMoveAnchorLocationRel;
 			}
 			else
 			{
@@ -3082,12 +3079,12 @@ public abstract class Annotation : ChartNamedElement
 			// Make sure we do not override automatic Width and Heigth
 			if (resizeMode == ResizingMode.Moving)
 			{
-				if (double.IsNaN(this.Width))
+				if (double.IsNaN(Width))
 				{
 					size.Width = float.NaN;
 				}
 
-				if (double.IsNaN(this.Height))
+				if (double.IsNaN(Height))
 				{
 					size.Height = float.NaN;
 				}
@@ -3096,17 +3093,17 @@ public abstract class Annotation : ChartNamedElement
 			// Make sure we do not override automatic X and Y
 			if (resizeMode == ResizingMode.AnchorHandle)
 			{
-				if (double.IsNaN(this.X))
+				if (double.IsNaN(X))
 				{
 					firstPoint.X = float.NaN;
 				}
 
-				if (double.IsNaN(this.Y))
+				if (double.IsNaN(Y))
 				{
 					firstPoint.Y = float.NaN;
 				}
 			}
-			else if (double.IsNaN(this.AnchorX) || double.IsNaN(this.AnchorY))
+			else if (double.IsNaN(AnchorX) || double.IsNaN(AnchorY))
 			{
 				anchorPoint = new PointF(float.NaN, float.NaN);
 			}
@@ -3217,7 +3214,7 @@ public abstract class Annotation : ChartNamedElement
 	/// <returns>Data point name.</returns>
 	internal string GetDataPointName(DataPoint dataPoint)
 	{
-		string name = String.Empty;
+		string name = string.Empty;
 		if (dataPoint.series != null)
 		{
 			int pointIndex = dataPoint.series.Points.IndexOf(dataPoint);
@@ -3239,7 +3236,7 @@ public abstract class Annotation : ChartNamedElement
 	/// <returns>Axis name.</returns>
 	private string GetAxisName(Axis axis)
 	{
-		string name = String.Empty;
+		string name = string.Empty;
 		if (axis.ChartArea != null)
 		{
 			name = axis.ChartArea.Name +
@@ -3277,7 +3274,7 @@ public abstract class Annotation : ChartNamedElement
 		// Check if annotation is found
 		if (collection != null)
 		{
-			Annotation annot = collection.FindByName(this.Name);
+			Annotation annot = collection.FindByName(Name);
 			if (annot != null)
 			{
 				// Reinsert annotation at the beginning of the collection
@@ -3310,7 +3307,7 @@ public abstract class Annotation : ChartNamedElement
 		// Check if annotation is found
 		if (collection != null)
 		{
-			Annotation annot = collection.FindByName(this.Name);
+			Annotation annot = collection.FindByName(Name);
 			if (annot != null)
 			{
 				// Reinsert annotation at the end of the collection
@@ -3335,7 +3332,7 @@ public abstract class Annotation : ChartNamedElement
 	internal void AddSmartLabelMarkerPositions(ArrayList list)
 	{
 		// Anchor position is added to the list of non-overlapped markers
-		if (this.Visible && this.IsAnchorDrawn())
+		if (Visible && IsAnchorDrawn())
 		{
 			// Get vertical and horizontal axis
 			Axis vertAxis = null;
@@ -3347,7 +3344,7 @@ public abstract class Annotation : ChartNamedElement
 			double anchorY = double.NaN;
 			bool relativeX = false;
 			bool relativeY = false;
-			this.GetAnchorLocation(ref anchorX, ref anchorY, ref relativeX, ref relativeY);
+			GetAnchorLocation(ref anchorX, ref anchorY, ref relativeX, ref relativeY);
 
 			// Convert anchor location to relative coordinates
 			if (!double.IsNaN(anchorX) && !double.IsNaN(anchorY))
@@ -3382,19 +3379,18 @@ public abstract class Annotation : ChartNamedElement
 				{
 					// Get anotation Z coordinate (use scene depth or anchored point Z position)
 					float positionZ = chartArea.areaSceneDepth;
-					if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
+					if (AnchorDataPoint != null && AnchorDataPoint.series != null)
 					{
-						float depth = 0f;
+						float depth;
 						chartArea.GetSeriesZPositionAndDepth(
-							this.AnchorDataPoint.series,
+							AnchorDataPoint.series,
 							out depth,
 							out positionZ);
 						positionZ += depth / 2f;
 					}
 
 					// Define 3D points of annotation object
-					Point3D[] annot3DPoints = new Point3D[1];
-					annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+					Point3D[] annot3DPoints = [new Point3D((float)anchorX, (float)anchorY, positionZ)];
 
 					// Tranform cube coordinates
 					chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -3405,11 +3401,11 @@ public abstract class Annotation : ChartNamedElement
 				}
 
 				// Save selection handles position in array elements 0 and 4
-				if (this.GetGraphics() != null)
+				if (GetGraphics() != null)
 				{
-					SizeF markerSizeRel = this.GetGraphics().GetRelativeSize(
+					SizeF markerSizeRel = GetGraphics().GetRelativeSize(
 						new SizeF(1f, 1f));
-					RectangleF anchorRect = new RectangleF(
+					RectangleF anchorRect = new(
 						(float)anchorX - markerSizeRel.Width / 2f,
 						(float)anchorY - markerSizeRel.Height / 2f,
 						markerSizeRel.Width,
@@ -3461,15 +3457,15 @@ public abstract class Annotation : ChartNamedElement
 	public void SetAnchor(DataPoint dataPoint1, DataPoint dataPoint2)
 	{
 		// Set annotation position to automatic
-		this.X = double.NaN;
-		this.Y = double.NaN;
+		X = double.NaN;
+		Y = double.NaN;
 
 		// Reset anchor point if any
-		this.AnchorX = double.NaN;
-		this.AnchorY = double.NaN;
+		AnchorX = double.NaN;
+		AnchorY = double.NaN;
 
 		// Set anchor point
-		this.AnchorDataPoint = dataPoint1;
+		AnchorDataPoint = dataPoint1;
 
 		// Get vertical and horizontal axis
 		Axis vertAxis = null;
@@ -3479,11 +3475,11 @@ public abstract class Annotation : ChartNamedElement
 		// Set Width and Height in axis coordinates
 		if (dataPoint2 != null && dataPoint1 != null)
 		{
-			this._anchorDataPoint2 = dataPoint2;
+			_anchorDataPoint2 = dataPoint2;
 		}
 
 		// Invalidate annotation
-		this.Invalidate();
+		Invalidate();
 	}
 
 	#endregion // Public Anchoring Methods
@@ -3503,15 +3499,15 @@ public abstract class Annotation : ChartNamedElement
 	virtual public void BeginPlacement()
 	{
 		// Can't place annotations inside the group
-		if (this.AnnotationGroup != null)
+		if (AnnotationGroup != null)
 		{
 			throw (new InvalidOperationException(SR.ExceptionAnnotationGroupedUnableToStartPlacement));
 		}
 
-		if (this.Chart != null)
+		if (Chart != null)
 		{
 			// Set the annotation object which is currently placed 
-			this.Chart.Annotations.placingAnnotation = this;
+			Chart.Annotations.placingAnnotation = this;
 		}
 		else
 		{
@@ -3533,19 +3529,19 @@ public abstract class Annotation : ChartNamedElement
 	/// </remarks>
 	virtual public void EndPlacement()
 	{
-		if (this.Chart != null)
+		if (Chart != null)
 		{
 			// Reset currently placed annotation object
-			this.Chart.Annotations.placingAnnotation = null;
+			Chart.Annotations.placingAnnotation = null;
 
 			// Restore default cursor
-			this.Chart.Cursor = this.Chart.defaultCursor;
+			Chart.Cursor = Chart.defaultCursor;
 
 			// Clear last placement mouse position
-			this.lastPlacementPosition = PointF.Empty;
+			lastPlacementPosition = PointF.Empty;
 
 			// Fire annotation placed event
-			this.Chart.OnAnnotationPlaced(this);
+			Chart.OnAnnotationPlaced(this);
 		}
 	}
 
@@ -3559,70 +3555,73 @@ public abstract class Annotation : ChartNamedElement
 		if (buttons == MouseButtons.Right)
 		{
 			// Stop any pacement
-			this.EndPlacement();
+			EndPlacement();
 		}
 
 		if (buttons == MouseButtons.Left &&
 			IsValidPlacementPosition(point.X, point.Y))
 		{
-			if (this.lastPlacementPosition.IsEmpty)
+			if (lastPlacementPosition.IsEmpty)
 			{
 				// Remeber position where mouse was clicked
-				this.lastPlacementPosition = this.GetGraphics().GetRelativePoint(point);
+				lastPlacementPosition = GetGraphics().GetRelativePoint(point);
+
 
 				// Get annotation position in relative coordinates
-				PointF firstPoint = PointF.Empty;
-				PointF anchorPoint = PointF.Empty;
-				SizeF size = SizeF.Empty;
-				this.GetRelativePosition(out firstPoint, out size, out anchorPoint);
+				PointF firstPoint;
+
+				PointF anchorPoint;
+
+				SizeF size;
+				GetRelativePosition(out firstPoint, out size, out anchorPoint);
 
 				// Set annotation X, Y coordinate
-				if (this.AllowMoving)
+				if (AllowMoving)
 				{
-					firstPoint = this.GetGraphics().GetRelativePoint(point);
+					firstPoint = GetGraphics().GetRelativePoint(point);
 
 					// Do not change default position
-					if (double.IsNaN(this.AnchorX))
+					if (double.IsNaN(AnchorX))
 					{
 						anchorPoint.X = float.NaN;
 					}
 
-					if (double.IsNaN(this.AnchorY))
+					if (double.IsNaN(AnchorY))
 					{
 						anchorPoint.Y = float.NaN;
 					}
 
 				}
-				else if (this.AllowAnchorMoving)
+				else if (AllowAnchorMoving)
 				{
-					anchorPoint = this.GetGraphics().GetRelativePoint(point);
+					anchorPoint = GetGraphics().GetRelativePoint(point);
 
 					// Do not change default position
-					if (double.IsNaN(this.X))
+					if (double.IsNaN(X))
 					{
 						firstPoint.X = float.NaN;
 					}
 
-					if (double.IsNaN(this.Y))
+					if (double.IsNaN(Y))
 					{
 						firstPoint.Y = float.NaN;
 					}
 				}
 
 				// Do not change default size
-				if (double.IsNaN(this.Width))
+				if (double.IsNaN(Width))
 				{
 					size.Width = float.NaN;
 				}
 
-				if (double.IsNaN(this.Height))
+				if (double.IsNaN(Height))
 				{
 					size.Height = float.NaN;
 				}
 
 				// Set annotation position
-				this.positionChanged = true;
-				this.SetPositionRelative(
+				positionChanged = true;
+				SetPositionRelative(
 					new RectangleF(firstPoint, size),
 					anchorPoint,
 					true);
@@ -3649,65 +3648,65 @@ public abstract class Annotation : ChartNamedElement
 		if (buttons == MouseButtons.Left)
 		{
 			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			this.GetRelativePosition(out firstPoint, out size, out anchorPoint);
+			PointF firstPoint;
+			PointF anchorPoint;
+			SizeF size;
+			GetRelativePosition(out firstPoint, out size, out anchorPoint);
 
-			if (this.AllowResizing)
+			if (AllowResizing)
 			{
-				PointF pointRel = this.GetGraphics().GetRelativePoint(point);
+				PointF pointRel = GetGraphics().GetRelativePoint(point);
 				size = new SizeF(
-					pointRel.X - this.lastPlacementPosition.X,
-					pointRel.Y - this.lastPlacementPosition.Y);
+					pointRel.X - lastPlacementPosition.X,
+					pointRel.Y - lastPlacementPosition.Y);
 			}
 			else
 			{
 				// Do not change default size
-				if (double.IsNaN(this.Width))
+				if (double.IsNaN(Width))
 				{
 					size.Width = float.NaN;
 				}
 
-				if (double.IsNaN(this.Height))
+				if (double.IsNaN(Height))
 				{
 					size.Height = float.NaN;
 				}
 			}
 
 			// Do not change default position
-			if (double.IsNaN(this.X))
+			if (double.IsNaN(X))
 			{
 				firstPoint.X = float.NaN;
 			}
 
-			if (double.IsNaN(this.Y))
+			if (double.IsNaN(Y))
 			{
 				firstPoint.Y = float.NaN;
 			}
 
-			if (double.IsNaN(this.AnchorX))
+			if (double.IsNaN(AnchorX))
 			{
 				anchorPoint.X = float.NaN;
 			}
 
-			if (double.IsNaN(this.AnchorY))
+			if (double.IsNaN(AnchorY))
 			{
 				anchorPoint.Y = float.NaN;
 			}
 
 			// Set annotation position
-			this.positionChanged = true;
-			this.SetPositionRelative(
+			positionChanged = true;
+			SetPositionRelative(
 				new RectangleF(firstPoint, size),
 				anchorPoint,
 				true);
 
 			// End placement
-			if (!size.IsEmpty || !this.AllowResizing)
+			if (!size.IsEmpty || !AllowResizing)
 			{
 				result = true;
-				this.EndPlacement();
+				EndPlacement();
 			}
 
 			// Invalidate and update the chart
@@ -3728,56 +3727,56 @@ public abstract class Annotation : ChartNamedElement
 	internal virtual void PlacementMouseMove(PointF point)
 	{
 		// Check if annotation was moved
-		if (this.GetGraphics() != null &&
-			!this.lastPlacementPosition.IsEmpty)
+		if (GetGraphics() != null &&
+			!lastPlacementPosition.IsEmpty)
 		{
 			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
-			this.GetRelativePosition(out firstPoint, out size, out anchorPoint);
+			PointF firstPoint;
+			PointF anchorPoint;
+			SizeF size;
+			GetRelativePosition(out firstPoint, out size, out anchorPoint);
 
-			if (this.AllowResizing)
+			if (AllowResizing)
 			{
-				PointF pointRel = this.GetGraphics().GetRelativePoint(point);
+				PointF pointRel = GetGraphics().GetRelativePoint(point);
 				size = new SizeF(
-					pointRel.X - this.lastPlacementPosition.X,
-					pointRel.Y - this.lastPlacementPosition.Y);
+					pointRel.X - lastPlacementPosition.X,
+					pointRel.Y - lastPlacementPosition.Y);
 			}
 
 			// Do not change default position
-			if (double.IsNaN(this.X))
+			if (double.IsNaN(X))
 			{
 				firstPoint.X = float.NaN;
 			}
 
-			if (double.IsNaN(this.Y))
+			if (double.IsNaN(Y))
 			{
 				firstPoint.Y = float.NaN;
 			}
 
-			if (double.IsNaN(this.AnchorX))
+			if (double.IsNaN(AnchorX))
 			{
 				anchorPoint.X = float.NaN;
 			}
 
-			if (double.IsNaN(this.AnchorY))
+			if (double.IsNaN(AnchorY))
 			{
 				anchorPoint.Y = float.NaN;
 			}
 
 			// Set annotation position
-			this.positionChanged = true;
-			this.SetPositionRelative(
+			positionChanged = true;
+			SetPositionRelative(
 				new RectangleF(firstPoint, size),
 				anchorPoint,
 				true);
 
 			// Invalidate and update the chart
-			if (this.Chart != null)
+			if (Chart != null)
 			{
 				Invalidate();
-				this.Chart.UpdateAnnotations();
+				Chart.UpdateAnnotations();
 			}
 		}
 	}
@@ -3790,20 +3789,20 @@ public abstract class Annotation : ChartNamedElement
 	/// <returns>True if annotation can be placed at specified coordinates.</returns>
 	virtual internal bool IsValidPlacementPosition(float x, float y)
 	{
-		if (this.Chart != null &&
-			this.GetGraphics() != null)
+		if (Chart != null &&
+			GetGraphics() != null)
 		{
 			// Check if cursor is over the area where placement allowed
 			// If so - change cursor to cross
-			RectangleF placementRect = new RectangleF(0f, 0f, 100f, 100f);
-			if (this.ClipToChartArea.Length > 0 &&
-				this.ClipToChartArea != Constants.NotSetValue)
+			RectangleF placementRect = new(0f, 0f, 100f, 100f);
+			if (ClipToChartArea.Length > 0 &&
+				ClipToChartArea != Constants.NotSetValue)
 			{
-				ChartArea area = Chart.ChartAreas[this.ClipToChartArea];
+				ChartArea area = Chart.ChartAreas[ClipToChartArea];
 				placementRect = area.PlotAreaPosition.ToRectangleF();
 			}
 
-			placementRect = this.GetGraphics().GetAbsoluteRectangle(placementRect);
+			placementRect = GetGraphics().GetAbsoluteRectangle(placementRect);
 			if (placementRect.Contains(x, y))
 			{
 				return true;
@@ -3822,40 +3821,40 @@ public abstract class Annotation : ChartNamedElement
 	/// <returns>True if annotation is visible.</returns>
 	internal bool IsVisible()
 	{
-		if (this.Visible)
+		if (Visible)
 		{
-			if (this.Chart != null)
+			if (Chart != null)
 			{
 				// Check if annotation is anchored to the data point
 				ChartArea area = null;
-				if (this.AnchorDataPoint != null &&
-					this.AnchorDataPoint.series != null)
+				if (AnchorDataPoint != null &&
+					AnchorDataPoint.series != null)
 				{
-					if (this.Chart.ChartAreas.IndexOf(this.AnchorDataPoint.series.ChartArea) >= 0)
+					if (Chart.ChartAreas.IndexOf(AnchorDataPoint.series.ChartArea) >= 0)
 					{
-						area = this.Chart.ChartAreas[this.AnchorDataPoint.series.ChartArea];
+						area = Chart.ChartAreas[AnchorDataPoint.series.ChartArea];
 					}
 				}
 
 				if (area == null &&
-					this._anchorDataPoint2 != null &&
-					this._anchorDataPoint2.series != null)
+					_anchorDataPoint2 != null &&
+					_anchorDataPoint2.series != null)
 				{
-					if (this.Chart.ChartAreas.IndexOf(this._anchorDataPoint2.series.ChartArea) >= 0)
+					if (Chart.ChartAreas.IndexOf(_anchorDataPoint2.series.ChartArea) >= 0)
 					{
-						area = this.Chart.ChartAreas[this._anchorDataPoint2.series.ChartArea];
+						area = Chart.ChartAreas[_anchorDataPoint2.series.ChartArea];
 					}
 				}
 
 				// Check if annotation uses chart area axis values
-				if (area == null && this.AxisX != null)
+				if (area == null && AxisX != null)
 				{
-					area = this.AxisX.ChartArea;
+					area = AxisX.ChartArea;
 				}
 
-				if (area == null && this.AxisY != null)
+				if (area == null && AxisY != null)
 				{
-					area = this.AxisY.ChartArea;
+					area = AxisY.ChartArea;
 				}
 
 				// Check if associated area is visible
@@ -3878,8 +3877,8 @@ public abstract class Annotation : ChartNamedElement
 	/// </summary>
 	internal void ResetCurrentRelativePosition()
 	{
-		this.currentPositionRel = new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
-		this.currentAnchorLocationRel = new PointF(float.NaN, float.NaN);
+		currentPositionRel = new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
+		currentAnchorLocationRel = new PointF(float.NaN, float.NaN);
 	}
 
 	/// <summary>
@@ -3890,9 +3889,9 @@ public abstract class Annotation : ChartNamedElement
 	/// <returns>Modified string.</returns>
 	internal string ReplaceKeywords(string strOriginal)
 	{
-		if (this.AnchorDataPoint != null)
+		if (AnchorDataPoint != null)
 		{
-			return this.AnchorDataPoint.ReplaceKeywords(strOriginal);
+			return AnchorDataPoint.ReplaceKeywords(strOriginal);
 		}
 
 		return strOriginal;
@@ -3912,17 +3911,17 @@ public abstract class Annotation : ChartNamedElement
 		// Get anchor position
 		bool inRelativeAnchorX = false;
 		bool inRelativeAnchorY = false;
-		double anchorX = this.AnchorX;
-		double anchorY = this.AnchorY;
+		double anchorX = AnchorX;
+		double anchorY = AnchorY;
 		GetAnchorLocation(ref anchorX, ref anchorY, ref inRelativeAnchorX, ref inRelativeAnchorY);
 
 		// Check if anchor is set
 		if (!double.IsNaN(anchorX) && !double.IsNaN(anchorY))
 		{
 			// Check if anchor is in axes coordinates
-			if (this.AnchorDataPoint != null ||
-				this.AxisX != null ||
-				this.AxisY != null)
+			if (AnchorDataPoint != null ||
+				AxisX != null ||
+				AxisY != null)
 			{
 				// Convert anchor point to relative coordinates
 				if (!inRelativeAnchorX && horizAxis != null)
@@ -3956,19 +3955,18 @@ public abstract class Annotation : ChartNamedElement
 					{
 						// Get anotation Z coordinate (use scene depth or anchored point Z position)
 						float positionZ = chartArea.areaSceneDepth;
-						if (this.AnchorDataPoint != null && this.AnchorDataPoint.series != null)
+						if (AnchorDataPoint != null && AnchorDataPoint.series != null)
 						{
-							float depth = 0f;
+							float depth;
 							chartArea.GetSeriesZPositionAndDepth(
-								this.AnchorDataPoint.series,
+								AnchorDataPoint.series,
 								out depth,
 								out positionZ);
 							positionZ += depth / 2f;
 						}
 
 						// Define 3D points of annotation object
-						Point3D[] annot3DPoints = new Point3D[1];
-						annot3DPoints[0] = new Point3D((float)anchorX, (float)anchorY, positionZ);
+						Point3D[] annot3DPoints = [new Point3D((float)anchorX, (float)anchorY, positionZ)];
 
 						// Tranform cube coordinates
 						chartArea.matrix3D.TransformPoints(annot3DPoints);
@@ -4001,9 +3999,9 @@ public abstract class Annotation : ChartNamedElement
 	/// <returns>Chart graphics object.</returns>
 	internal ChartGraphics GetGraphics()
 	{
-		if (this.Common != null)
+		if (Common != null)
 		{
-			return this.Common.graph;
+			return Common.graph;
 		}
 
 		return null;
@@ -4019,24 +4017,24 @@ public abstract class Annotation : ChartNamedElement
 	{
 		ResizingMode resizingMode = ResizingMode.None;
 
-		if (this.Common != null &&
-			this.Common.graph != null)
+		if (Common != null &&
+			Common.graph != null)
 		{
 			// Convert point to relative coordinates
-			point = this.Common.graph.GetRelativePoint(point);
+			point = Common.graph.GetRelativePoint(point);
 
 			// Check if point is in one of the selection handles
-			if (this.selectionRects != null)
+			if (selectionRects != null)
 			{
-				for (int index = 0; index < this.selectionRects.Length; index++)
+				for (int index = 0; index < selectionRects.Length; index++)
 				{
-					if (!this.selectionRects[index].IsEmpty &&
-						this.selectionRects[index].Contains(point))
+					if (!selectionRects[index].IsEmpty &&
+						selectionRects[index].Contains(point))
 					{
 						if (index > (int)ResizingMode.AnchorHandle)
 						{
 							resizingMode = ResizingMode.MovingPathPoints;
-							this.currentPathPointIndex = index - 9;
+							currentPathPointIndex = index - 9;
 						}
 						else
 						{
@@ -4088,52 +4086,52 @@ public abstract class Annotation : ChartNamedElement
 		vertAxis = null;
 		horizAxis = null;
 
-		if (this.AxisX != null && this.AxisX.ChartArea != null)
+		if (AxisX != null && AxisX.ChartArea != null)
 		{
-			if (this.AxisX.ChartArea.switchValueAxes)
+			if (AxisX.ChartArea.switchValueAxes)
 			{
-				vertAxis = this.AxisX;
+				vertAxis = AxisX;
 			}
 			else
 			{
-				horizAxis = this.AxisX;
+				horizAxis = AxisX;
 			}
 		}
 
-		if (this.AxisY != null && this.AxisY.ChartArea != null)
+		if (AxisY != null && AxisY.ChartArea != null)
 		{
-			if (this.AxisY.ChartArea.switchValueAxes)
+			if (AxisY.ChartArea.switchValueAxes)
 			{
-				horizAxis = this.AxisY;
+				horizAxis = AxisY;
 			}
 			else
 			{
-				vertAxis = this.AxisY;
+				vertAxis = AxisY;
 			}
 		}
 
 		// Get axes from attached data point
-		if (this.AnchorDataPoint != null)
+		if (AnchorDataPoint != null)
 		{
 			if (horizAxis == null)
 			{
-				horizAxis = GetDataPointAxis(this.AnchorDataPoint, AxisName.X);
+				horizAxis = GetDataPointAxis(AnchorDataPoint, AxisName.X);
 
 				// For chart types like Bar, RangeBar and others, position of X and Y axes are flipped
 				if (horizAxis != null && horizAxis.ChartArea != null && horizAxis.ChartArea.switchValueAxes)
 				{
-					horizAxis = GetDataPointAxis(this.AnchorDataPoint, AxisName.Y);
+					horizAxis = GetDataPointAxis(AnchorDataPoint, AxisName.Y);
 				}
 			}
 
 			if (vertAxis == null)
 			{
-				vertAxis = GetDataPointAxis(this.AnchorDataPoint, AxisName.Y);
+				vertAxis = GetDataPointAxis(AnchorDataPoint, AxisName.Y);
 
 				// For chart types like Bar, RangeBar and others, position of X and Y axes are flipped
 				if (vertAxis != null && vertAxis.ChartArea != null && vertAxis.ChartArea.switchValueAxes)
 				{
-					vertAxis = GetDataPointAxis(this.AnchorDataPoint, AxisName.X);
+					vertAxis = GetDataPointAxis(AnchorDataPoint, AxisName.X);
 				}
 			}
 		}
@@ -4141,7 +4139,7 @@ public abstract class Annotation : ChartNamedElement
 		// No axes coordinate system for grouped annotations
 		if (vertAxis != null || horizAxis != null)
 		{
-			if (this.AnnotationGroup != null)
+			if (AnnotationGroup != null)
 			{
 				throw (new InvalidOperationException(SR.ExceptionAnnotationGroupedAxisMustBeEmpty));
 			}
@@ -4163,11 +4161,8 @@ public abstract class Annotation : ChartNamedElement
 		if (disposing)
 		{
 			//Free managed resources
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			_fontCache?.Dispose();
+			_fontCache = null;
 		}
 
 		base.Dispose(disposing);
@@ -4195,75 +4190,40 @@ public class AnnotationPositionChangingEventArgs : EventArgs
 {
 	#region Fields
 
-	private Annotation _Annotation = null;
 	/// <summary>
 	/// Gets or sets the annotation the event is fired for.
 	/// </summary>
-	public Annotation Annotation
-	{
-		get { return _Annotation; }
-		set { _Annotation = value; }
-	}
+	public Annotation Annotation { get; set; } = null;
 
-	private double _NewLocationX = 0.0;
 	/// <summary>
 	/// Gets or sets the new X location of the annotation.
 	/// </summary>
-	public double NewLocationX
-	{
-		get { return _NewLocationX; }
-		set { _NewLocationX = value; }
-	}
+	public double NewLocationX { get; set; } = 0.0;
 
-	private double _NewLocationY = 0.0;
 	/// <summary>
 	/// Gets or sets the new Y location of the annotation.
 	/// </summary>
-	public double NewLocationY
-	{
-		get { return _NewLocationY; }
-		set { _NewLocationY = value; }
-	}
+	public double NewLocationY { get; set; } = 0.0;
 
-	private double _NewSizeWidth = 0.0;
 	/// <summary>
 	/// Gets or sets the new width of the annotation.
 	/// </summary>
-	public double NewSizeWidth
-	{
-		get { return _NewSizeWidth; }
-		set { _NewSizeWidth = value; }
-	}
+	public double NewSizeWidth { get; set; } = 0.0;
 
-	private double _NewSizeHeight = 0.0;
 	/// <summary>
 	/// Gets or sets the new height of the annotation.
 	/// </summary>
-	public double NewSizeHeight
-	{
-		get { return _NewSizeHeight; }
-		set { _NewSizeHeight = value; }
-	}
+	public double NewSizeHeight { get; set; } = 0.0;
 
-	private double _NewAnchorLocationX = 0.0;
 	/// <summary>
 	/// Gets or sets the new annotation anchor point X location.
 	/// </summary>
-	public double NewAnchorLocationX
-	{
-		get { return _NewAnchorLocationX; }
-		set { _NewAnchorLocationX = value; }
-	}
+	public double NewAnchorLocationX { get; set; } = 0.0;
 
-	private double _NewAnchorLocationY = 0.0;
 	/// <summary>
 	/// Gets or sets the new annotation anchor point Y location.
 	/// </summary>
-	public double NewAnchorLocationY
-	{
-		get { return _NewAnchorLocationY; }
-		set { _NewAnchorLocationY = value; }
-	}
+	public double NewAnchorLocationY { get; set; } = 0.0;
 
 	#endregion // Fields
 
@@ -4275,24 +4235,24 @@ public class AnnotationPositionChangingEventArgs : EventArgs
 	/// </summary>
 	[
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	]
 	public RectangleF NewPosition
 	{
 		get
 		{
 			return new RectangleF(
-				(float)this.NewLocationX,
-				(float)this.NewLocationY,
-				(float)this.NewSizeWidth,
-				(float)this.NewSizeHeight);
+				(float)NewLocationX,
+				(float)NewLocationY,
+				(float)NewSizeWidth,
+				(float)NewSizeHeight);
 		}
 		set
 		{
-			this.NewLocationX = value.X;
-			this.NewLocationY = value.Y;
-			this.NewSizeWidth = value.Width;
-			this.NewSizeHeight = value.Height;
+			NewLocationX = value.X;
+			NewLocationY = value.Y;
+			NewSizeWidth = value.Width;
+			NewSizeHeight = value.Height;
 		}
 	}
 
@@ -4301,20 +4261,20 @@ public class AnnotationPositionChangingEventArgs : EventArgs
 	/// </summary>
 	[
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	]
 	public PointF NewAnchorLocation
 	{
 		get
 		{
 			return new PointF(
-				(float)this.NewAnchorLocationX,
-				(float)this.NewAnchorLocationY);
+				(float)NewAnchorLocationX,
+				(float)NewAnchorLocationY);
 		}
 		set
 		{
-			this.NewAnchorLocationX = value.X;
-			this.NewAnchorLocationY = value.Y;
+			NewAnchorLocationX = value.X;
+			NewAnchorLocationY = value.Y;
 		}
 	}
 

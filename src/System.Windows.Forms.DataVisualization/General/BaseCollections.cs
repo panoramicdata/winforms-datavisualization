@@ -20,7 +20,6 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	#region Member variables
 
 	private IChartElement _parent = null;
-	private CommonElements _common = null;
 	internal int _suspendUpdates = 0;
 	#endregion
 
@@ -45,14 +44,14 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	{
 		get
 		{
-			if (_common == null && _parent != null)
+			if (field == null && _parent != null)
 			{
-				_common = _parent.Common;
+				field = _parent.Common;
 			}
 
-			return _common;
+			return field;
 		}
-	}
+	} = null;
 
 	/// <summary>
 	/// Gets the chart.
@@ -62,9 +61,13 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 		get
 		{
 			if (Common != null)
+			{
 				return Common.Chart;
+			}
 			else
+			{
 				return null;
+			}
 		}
 	}
 
@@ -103,7 +106,9 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	public virtual void Invalidate()
 	{
 		if (_parent != null && !IsSuspended)
+		{
 			_parent.Invalidate();
+		}
 	}
 
 	/// <summary>
@@ -120,10 +125,14 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	public virtual void ResumeUpdates()
 	{
 		if (_suspendUpdates > 0)
+		{
 			_suspendUpdates--;
+		}
 
 		if (_suspendUpdates == 0)
-			this.Invalidate();
+		{
+			Invalidate();
+		}
 	}
 
 	/// <summary>
@@ -133,9 +142,9 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	protected override void ClearItems()
 	{
 		SuspendUpdates();
-		while (this.Count > 0)
+		while (Count > 0)
 		{
-			this.RemoveItem(0);
+			RemoveItem(0);
 		}
 
 		ResumeUpdates();
@@ -166,7 +175,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	protected override void RemoveItem(int index)
 	{
-		this.Deinitialize(this[index]);
+		Deinitialize(this[index]);
 		this[index].Parent = null;
 		base.RemoveItem(index);
 		Invalidate();
@@ -180,7 +189,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	protected override void InsertItem(int index, T item)
 	{
-		this.Initialize(item);
+		Initialize(item);
 		item.Parent = this;
 		base.InsertItem(index, item);
 		Invalidate();
@@ -194,7 +203,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	protected override void SetItem(int index, T item)
 	{
-		this.Initialize(item);
+		Initialize(item);
 		item.Parent = this;
 		base.SetItem(index, item);
 		Invalidate();
@@ -206,18 +215,18 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 
 	IChartElement IChartElement.Parent
 	{
-		get { return this.Parent; }
-		set { this.Parent = value; }
+		get { return Parent; }
+		set { Parent = value; }
 	}
 
 	void IChartElement.Invalidate()
 	{
-		this.Invalidate();
+		Invalidate();
 	}
 
 	CommonElements IChartElement.Common
 	{
-		get { return this.Common; }
+		get { return Common; }
 	}
 
 	#endregion
@@ -246,7 +255,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
 	public void Dispose()
 	{
-		this.Dispose(true);
+		Dispose(true);
 		GC.SuppressFinalize(this);
 	}
 	#endregion
@@ -285,33 +294,37 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	{
 		get
 		{
-			int index = this.IndexOf(name);
+			int index = IndexOf(name);
 			if (index != -1)
 			{
 				return this[index];
 			}
 
-			throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
+			throw new ArgumentException(SR.ExceptionNameNotFound(name, GetType().Name));
 		}
 		set
 		{
-			int nameIndex = this.IndexOf(name);
-			int itemIndex = this.IndexOf(value);
+			int nameIndex = IndexOf(name);
+			int itemIndex = IndexOf(value);
 			bool nameFound = nameIndex > -1;
 			bool itemFound = itemIndex > -1;
 
 			if (!nameFound && !itemFound)
-				this.Add(value);
-
+			{
+				Add(value);
+			}
 			else if (nameFound && !itemFound)
+			{
 				this[nameIndex] = value;
-
+			}
 			else if (!nameFound && itemFound)
-				throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name, this.GetType().Name));
-
+			{
+				throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name, GetType().Name));
+			}
 			else if (nameFound && itemFound && nameIndex != itemIndex)
-				throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name, this.GetType().Name));
-
+			{
+				throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(name, GetType().Name));
+			}
 		}
 	}
 	#endregion
@@ -358,8 +371,8 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	{
 		// Find unique name
 		string result = string.Empty;
-		string prefix = this.NamePrefix;
-		for (int i = 1; i < System.Int32.MaxValue; i++)
+		string prefix = NamePrefix;
+		for (int i = 1; i < int.MaxValue; i++)
 		{
 			result = prefix + i.ToString(CultureInfo.InvariantCulture);
 			// Check whether the name is unique
@@ -383,7 +396,10 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 		foreach (T namedObj in this)
 		{
 			if (namedObj.Name == name)
+			{
 				return i;
+			}
+
 			i++;
 		}
 
@@ -397,7 +413,9 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	internal void VerifyNameReference(string name)
 	{
 		if (Chart != null && !Chart.serializing && !IsNameReferenceValid(name))
-			throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
+		{
+			throw new ArgumentException(SR.ExceptionNameNotFound(name, GetType().Name));
+		}
 	}
 
 	/// <summary>
@@ -406,7 +424,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	/// <param name="name">Chart element name.</param>
 	internal bool IsNameReferenceValid(string name)
 	{
-		return String.IsNullOrEmpty(name) ||
+		return string.IsNullOrEmpty(name) ||
 				name == Constants.NotSetValue ||
 				IndexOf(name) >= 0;
 	}
@@ -421,7 +439,9 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 		foreach (T namedObj in this)
 		{
 			if (namedObj.Name == name)
+			{
 				return namedObj;
+			}
 		}
 
 		return null;
@@ -434,17 +454,21 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	/// <param name="item">The object to insert.</param>
 	protected override void InsertItem(int index, T item)
 	{
-		if (String.IsNullOrEmpty(item.Name))
-			item.Name = this.NextUniqueName();
+		if (string.IsNullOrEmpty(item.Name))
+		{
+			item.Name = NextUniqueName();
+		}
 		else if (!IsUniqueName(item.Name))
-			throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(item.Name, this.GetType().Name));
+		{
+			throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(item.Name, GetType().Name));
+		}
 
 		//If the item references other named references we might need to fix the references
 		FixNameReferences(item);
 
 		base.InsertItem(index, item);
 
-		if (this.Count == 1 && item != null)
+		if (Count == 1 && item != null)
 		{
 			// First element is added to the list -> fire the NameReferenceChanged event to update all the dependent elements
 			((INameController)this).OnNameReferenceChanged(new NameReferenceChangedEventArgs(null, item));
@@ -458,10 +482,14 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	/// <param name="item">The new value for the element at the specified index.</param>
 	protected override void SetItem(int index, T item)
 	{
-		if (String.IsNullOrEmpty(item.Name))
-			item.Name = this.NextUniqueName();
+		if (string.IsNullOrEmpty(item.Name))
+		{
+			item.Name = NextUniqueName();
+		}
 		else if (!IsUniqueName(item.Name) && IndexOf(item.Name) != index)
-			throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(item.Name, this.GetType().Name));
+		{
+			throw new ArgumentException(SR.ExceptionNameAlreadyExistsInCollection(item.Name, GetType().Name));
+		}
 
 		//If the item references other named references we might need to fix the references
 		FixNameReferences(item);
@@ -493,7 +521,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 		{
 			// All elements referencing the removed element will be redirected to the first element in collection
 			// Fire the NameReferenceChanged event to update all the dependent elements
-			ChartNamedElement defaultElement = this.Count > 0 ? this[0] : null;
+			ChartNamedElement defaultElement = Count > 0 ? this[0] : null;
 			((INameController)this).OnNameReferenceChanged(new NameReferenceChangedEventArgs(removedElement, defaultElement));
 		}
 	}
@@ -519,7 +547,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	/// </returns>
 	bool INameController.IsUniqueName(string name)
 	{
-		return this.IsUniqueName(name);
+		return IsUniqueName(name);
 	}
 
 	/// <summary>
@@ -548,8 +576,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	{
 		if (!IsSuspended)
 		{
-			if (this.NameReferenceChanging != null)
-				this.NameReferenceChanging(this, e);
+			NameReferenceChanging?.Invoke(this, e);
 		}
 	}
 
@@ -561,8 +588,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	{
 		if (!IsSuspended)
 		{
-			if (this.NameReferenceChanged != null)
-				this.NameReferenceChanged(this, e);
+			NameReferenceChanged?.Invoke(this, e);
 		}
 	}
 
@@ -580,16 +606,27 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 		{
 			_cachedState = new List<T>(this);
 			if (changingCallback != null)
-				this.NameReferenceChanging += changingCallback;
+			{
+				NameReferenceChanging += changingCallback;
+			}
+
 			if (changedCallback != null)
-				this.NameReferenceChanged += changedCallback;
+			{
+				NameReferenceChanged += changedCallback;
+			}
 		}
 		else
 		{
 			if (changingCallback != null)
-				this.NameReferenceChanging -= changingCallback;
+			{
+				NameReferenceChanging -= changingCallback;
+			}
+
 			if (changedCallback != null)
-				this.NameReferenceChanged -= changedCallback;
+			{
+				NameReferenceChanged -= changedCallback;
+			}
+
 			_cachedState.Clear();
 			_cachedState = null;
 		}

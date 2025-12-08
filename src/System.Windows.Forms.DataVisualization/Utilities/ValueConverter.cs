@@ -41,7 +41,7 @@ internal static class ValueConverter
 		ChartValueType valueType,
 		ChartElementType elementType)
 	{
-		format = format ?? String.Empty;
+		format = format ?? string.Empty;
 		string convertionFormat = format;
 		string result = "";
 
@@ -87,11 +87,13 @@ internal static class ValueConverter
 			{
 				convertionFormat = "{0:d}";
 				if (valueType == ChartValueType.DateTimeOffset)
+				{
 					convertionFormat += " +0";
+				}
 			}
 
 			// Convert date to string
-			result = String.Format(CultureInfo.CurrentCulture, convertionFormat, DateTime.FromOADate(value));
+			result = string.Format(CultureInfo.CurrentCulture, convertionFormat, DateTime.FromOADate(value));
 		}
 		else if (valueType == ChartValueType.Time)
 		{
@@ -102,7 +104,7 @@ internal static class ValueConverter
 			}
 
 			// Convert date to string
-			result = String.Format(CultureInfo.CurrentCulture, convertionFormat, DateTime.FromOADate(value));
+			result = string.Format(CultureInfo.CurrentCulture, convertionFormat, DateTime.FromOADate(value));
 		}
 		else
 		{
@@ -117,7 +119,7 @@ internal static class ValueConverter
 			try
 			{
 				// Numeric value formatting
-				result = String.Format(CultureInfo.CurrentCulture, convertionFormat, value);
+				result = string.Format(CultureInfo.CurrentCulture, convertionFormat, value);
 			}
 			catch (FormatException)
 			{
@@ -131,7 +133,7 @@ internal static class ValueConverter
 				try
 				{
 					// Decimal value formatting
-					result = String.Format(CultureInfo.CurrentCulture, convertionFormat, (long)value);
+					result = string.Format(CultureInfo.CurrentCulture, convertionFormat, (long)value);
 				}
 				catch (ArgumentNullException)
 				{
@@ -155,7 +157,7 @@ internal static class ValueConverter
 		if (chart != null)
 		{
 			// Call number formatter
-			FormatNumberEventArgs eventArguments = new FormatNumberEventArgs(value, format, valueType, result, objTag, elementType);
+			FormatNumberEventArgs eventArguments = new(value, format, valueType, result, objTag, elementType);
 			chart.CallOnFormatNumber(obj, eventArguments);
 			result = eventArguments.LocalizedValue;
 		}

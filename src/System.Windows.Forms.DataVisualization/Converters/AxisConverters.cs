@@ -91,7 +91,7 @@ internal class AxisLabelDateValueConverter : DoubleConverter
 							return DateTime.FromOADate((double)value).ToShortDateString();
 						}
 
-						return DateTime.FromOADate((double)value).ToString("g", System.Globalization.CultureInfo.CurrentCulture);
+						return DateTime.FromOADate((double)value).ToString("g", CultureInfo.CurrentCulture);
 					}
 				}
 			}
@@ -109,7 +109,6 @@ internal class AxisLabelDateValueConverter : DoubleConverter
 	/// <returns>Converted object.</returns>
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
-		object result = null;
 		bool convertFromDate = false;
 		string stringValue = value as string;
 
@@ -158,6 +157,7 @@ internal class AxisLabelDateValueConverter : DoubleConverter
 
 		}
 
+		object result;
 		// Try to convert from double string
 		try
 		{
@@ -227,10 +227,7 @@ internal class AxisCrossingValueConverter : AxisMinMaxValueConverter
 	/// <returns>Standart values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
-		values.Add(Double.NaN);
-		values.Add(Double.MinValue);
-		values.Add(Double.MaxValue);
+		ArrayList values = [double.NaN, double.MinValue, double.MaxValue];
 
 		return new StandardValuesCollection(values);
 	}
@@ -248,15 +245,15 @@ internal class AxisCrossingValueConverter : AxisMinMaxValueConverter
 		double doubleValue = (double)value;
 		if (destinationType == typeof(string))
 		{
-			if (Double.IsNaN(doubleValue))
+			if (double.IsNaN(doubleValue))
 			{
 				return Constants.AutoValue;
 			}
-			else if (doubleValue == Double.MinValue)
+			else if (doubleValue == double.MinValue)
 			{
 				return Constants.MinValue;
 			}
-			else if (doubleValue == Double.MaxValue)
+			else if (doubleValue == double.MaxValue)
 			{
 				return Constants.MaxValue;
 			}
@@ -276,20 +273,19 @@ internal class AxisCrossingValueConverter : AxisMinMaxValueConverter
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		// If converting from string value
-		string crossingValue = value as string;
-		if (crossingValue != null)
+		if (value is string crossingValue)
 		{
-			if (String.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
-				return Double.NaN;
+				return double.NaN;
 			}
-			else if (String.Compare(crossingValue, Constants.MinValue, StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(crossingValue, Constants.MinValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
-				return Double.MinValue;
+				return double.MinValue;
 			}
-			else if (String.Compare(crossingValue, Constants.MaxValue, StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(crossingValue, Constants.MaxValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
-				return Double.MaxValue;
+				return double.MaxValue;
 			}
 		}
 
@@ -328,7 +324,9 @@ internal class AxisMinMaxValueConverter : DoubleConverter
 					axis.InternalIntervalType);
 
 				if (strValue != null)
+				{
 					return strValue;
+				}
 			}
 		}
 
@@ -344,7 +342,6 @@ internal class AxisMinMaxValueConverter : DoubleConverter
 	/// <returns>Converted object.</returns>
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
-		object result = null;
 		bool convertFromDate = false;
 		string stringValue = value as string;
 
@@ -375,6 +372,7 @@ internal class AxisMinMaxValueConverter : DoubleConverter
 			}
 		}
 
+		object result;
 		// Try to convert from double string
 		try
 		{
@@ -442,8 +440,7 @@ internal class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
 	/// <param name="context">Descriptor context.</param>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
-		values.Add(Double.NaN);
+		ArrayList values = [double.NaN];
 
 		return new StandardValuesCollection(values);
 	}
@@ -461,7 +458,7 @@ internal class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
 		double doubleValue = (double)value;
 		if (destinationType == typeof(string))
 		{
-			if (Double.IsNaN(doubleValue))
+			if (double.IsNaN(doubleValue))
 			{
 				return Constants.AutoValue;
 			}
@@ -477,12 +474,11 @@ internal class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		// If converting from string value
-		string crossingValue = value as string;
-		if (crossingValue != null)
+		if (value is string crossingValue)
 		{
-			if (String.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
-				return Double.NaN;
+				return double.NaN;
 			}
 		}
 
@@ -527,11 +523,7 @@ internal class StripLineTitleAngleConverter : Int32Converter
 	/// <param name="context">Descriptor context.</param>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
-		values.Add(0);
-		values.Add(90);
-		values.Add(180);
-		values.Add(270);
+		ArrayList values = [0, 90, 180, 270];
 
 		return new StandardValuesCollection(values);
 	}
@@ -578,10 +570,10 @@ internal class AxisIntervalValueConverter : DoubleConverter
 	/// <returns>Standart values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 		if (!hideNotSet)
 		{
-			values.Add(Double.NaN);
+			values.Add(double.NaN);
 		}
 
 		values.Add(0.0);
@@ -602,7 +594,7 @@ internal class AxisIntervalValueConverter : DoubleConverter
 		double doubleValue = (double)value;
 		if (destinationType == typeof(string))
 		{
-			if (Double.IsNaN(doubleValue))
+			if (double.IsNaN(doubleValue))
 			{
 				return Constants.NotSetValue;
 			}
@@ -626,16 +618,15 @@ internal class AxisIntervalValueConverter : DoubleConverter
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		// If converting from string value
-		string crossingValue = value as string;
-		if (crossingValue != null)
+		if (value is string crossingValue)
 		{
-			if (String.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(crossingValue, Constants.AutoValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				return 0.0;
 			}
-			else if (String.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(crossingValue, Constants.NotSetValue, StringComparison.OrdinalIgnoreCase) == 0)
 			{
-				return Double.NaN;
+				return double.NaN;
 			}
 		}
 
@@ -656,6 +647,6 @@ internal class AxisElementIntervalValueConverter : AxisIntervalValueConverter
 	/// </summary>
 	public AxisElementIntervalValueConverter()
 	{
-		base.hideNotSet = false;
+		hideNotSet = false;
 	}
 }

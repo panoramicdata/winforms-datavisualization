@@ -25,42 +25,42 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting;
 /// <summary>
 /// Stirng editor form that is used to edit properties that support keywords.
 /// </summary>
-internal class KeywordsStringEditorForm : System.Windows.Forms.Form
+internal class KeywordsStringEditorForm : Form
 {
 	#region Fields
 
 	// Form fields
-	private System.Windows.Forms.RichTextBox _richTextBox;
-	private System.Windows.Forms.GroupBox _groupBoxString;
-	private System.Windows.Forms.Button _buttonOk;
-	private System.Windows.Forms.Button _buttonCancel;
-	private System.Windows.Forms.Button _buttonInsert;
-	private System.Windows.Forms.Button _buttonEdit;
-	private System.Windows.Forms.Label _labelDescription;
-	private System.Windows.Forms.Panel _panelInsertEditButtons;
-	private System.Windows.Forms.Panel _panelOkCancelButtons;
-	private System.Windows.Forms.Panel _panelTopContent;
+	private RichTextBox _richTextBox;
+	private GroupBox _groupBoxString;
+	private Button _buttonOk;
+	private Button _buttonCancel;
+	private Button _buttonInsert;
+	private Button _buttonEdit;
+	private Label _labelDescription;
+	private Panel _panelInsertEditButtons;
+	private Panel _panelOkCancelButtons;
+	private Panel _panelTopContent;
 
 	/// <summary>
 	/// Required designer variable.
 	/// </summary>
-	private System.ComponentModel.Container _components = null;
+	private readonly Container _components = null;
 
 	/// <summary>
 	/// Property name that is beign edited.
 	/// </summary>
-	private string _propertyName = string.Empty;
+	private readonly string _propertyName = string.Empty;
 
 	/// <summary>
 	/// Object/class name beign edited.
 	/// </summary>
-	private string _classTypeName = string.Empty;
+	private readonly string _classTypeName = string.Empty;
 
 	/// <summary>
 	/// Initial string to be edited.
 	/// </summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-	private string _initialString = string.Empty;
+	[SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+	private readonly string _initialString = string.Empty;
 
 	/// <summary>
 	/// Result String after editing.
@@ -70,7 +70,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// <summary>
 	/// Maximum Y value index that can be used
 	/// </summary>
-	private int _maxYValueIndex = 9;
+	private readonly int _maxYValueIndex = 9;
 
 	/// <summary>
 	/// List of applicable keywords
@@ -109,8 +109,8 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	// 16588 DEU and JPN: VCS/VB/VWD/VC: ChartAPI: Some string are truncated on the 'String Keywords Editor'
 	// 3523  DEU and JPN: VCS/VB/VWD/VC: ChartAPI: Some string are truncated on the 'String Keywords Editor'
 
-	private static int widthDialogExtend = 80;
-	private static int heightDialogExtend = 38;
+	private static readonly int widthDialogExtend = 80;
+	private static readonly int heightDialogExtend = 38;
 
 	#endregion // Fields
 
@@ -139,11 +139,11 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	{
 
 		// Save input parameters
-		this._classTypeName = classTypeName;
-		this._propertyName = propertyName;
-		this._maxYValueIndex = maxYValueIndex;
-		this._initialString = initialString;
-		this.ResultString = initialString;
+		_classTypeName = classTypeName;
+		_propertyName = propertyName;
+		_maxYValueIndex = maxYValueIndex;
+		_initialString = initialString;
+		ResultString = initialString;
 	}
 
 	/// <summary>
@@ -154,10 +154,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	{
 		if (disposing)
 		{
-			if (_components != null)
-			{
-				_components.Dispose();
-			}
+			_components?.Dispose();
 		}
 
 		base.Dispose(disposing);
@@ -172,151 +169,151 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	private void InitializeComponent()
 	{
-		this._richTextBox = new System.Windows.Forms.RichTextBox();
-		this._groupBoxString = new System.Windows.Forms.GroupBox();
-		this._buttonEdit = new System.Windows.Forms.Button();
-		this._buttonInsert = new System.Windows.Forms.Button();
-		this._buttonOk = new System.Windows.Forms.Button();
-		this._buttonCancel = new System.Windows.Forms.Button();
-		this._labelDescription = new System.Windows.Forms.Label();
-		this._panelOkCancelButtons = new System.Windows.Forms.Panel();
-		this._panelTopContent = new System.Windows.Forms.Panel();
-		this._panelInsertEditButtons = new System.Windows.Forms.Panel();
-		this._groupBoxString.SuspendLayout();
-		this._panelOkCancelButtons.SuspendLayout();
-		this._panelTopContent.SuspendLayout();
-		this._panelInsertEditButtons.SuspendLayout();
-		this.SuspendLayout();
+		_richTextBox = new RichTextBox();
+		_groupBoxString = new GroupBox();
+		_buttonEdit = new Button();
+		_buttonInsert = new Button();
+		_buttonOk = new Button();
+		_buttonCancel = new Button();
+		_labelDescription = new Label();
+		_panelOkCancelButtons = new Panel();
+		_panelTopContent = new Panel();
+		_panelInsertEditButtons = new Panel();
+		_groupBoxString.SuspendLayout();
+		_panelOkCancelButtons.SuspendLayout();
+		_panelTopContent.SuspendLayout();
+		_panelInsertEditButtons.SuspendLayout();
+		SuspendLayout();
 		// 
 		// richTextBox
 		// 
-		this._richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-		this._richTextBox.Location = new System.Drawing.Point(6, 19);
-		this._richTextBox.Margin = new System.Windows.Forms.Padding(7);
-		this._richTextBox.Name = "_richTextBox";
-		this._richTextBox.Size = new System.Drawing.Size(488, 106);
-		this._richTextBox.TabIndex = 0;
-		this._richTextBox.WordWrap = false;
-		this._richTextBox.SelectionChanged += new System.EventHandler(this.richTextBox_SelectionChanged);
-		this._richTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox_KeyDown);
-		this._richTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.richTextBox_KeyPress);
-		this._richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
+		_richTextBox.Dock = DockStyle.Fill;
+		_richTextBox.Location = new Point(6, 19);
+		_richTextBox.Margin = new Padding(7);
+		_richTextBox.Name = "_richTextBox";
+		_richTextBox.Size = new Size(488, 106);
+		_richTextBox.TabIndex = 0;
+		_richTextBox.WordWrap = false;
+		_richTextBox.SelectionChanged += new EventHandler(richTextBox_SelectionChanged);
+		_richTextBox.KeyDown += new KeyEventHandler(richTextBox_KeyDown);
+		_richTextBox.KeyPress += new KeyPressEventHandler(richTextBox_KeyPress);
+		_richTextBox.TextChanged += new EventHandler(richTextBox_TextChanged);
 		// 
 		// groupBoxString
 		// 
-		this._groupBoxString.Controls.Add(this._panelInsertEditButtons);
-		this._groupBoxString.Controls.Add(this._richTextBox);
-		this._groupBoxString.Dock = System.Windows.Forms.DockStyle.Fill;
-		this._groupBoxString.Location = new System.Drawing.Point(0, 56);
-		this._groupBoxString.Name = "_groupBoxString";
-		this._groupBoxString.Padding = new System.Windows.Forms.Padding(6);
-		this._groupBoxString.Size = new System.Drawing.Size(500, 131);
-		this._groupBoxString.TabIndex = 1;
-		this._groupBoxString.TabStop = false;
-		this._groupBoxString.Text = SR.LabelStringWithKeywords;
+		_groupBoxString.Controls.Add(_panelInsertEditButtons);
+		_groupBoxString.Controls.Add(_richTextBox);
+		_groupBoxString.Dock = DockStyle.Fill;
+		_groupBoxString.Location = new Point(0, 56);
+		_groupBoxString.Name = "_groupBoxString";
+		_groupBoxString.Padding = new Padding(6);
+		_groupBoxString.Size = new Size(500, 131);
+		_groupBoxString.TabIndex = 1;
+		_groupBoxString.TabStop = false;
+		_groupBoxString.Text = SR.LabelStringWithKeywords;
 		// 
 		// buttonEdit
 		// 
-		this._buttonEdit.Enabled = false;
-		this._buttonEdit.Location = new System.Drawing.Point(30, 34);
-		this._buttonEdit.Name = "_buttonEdit";
-		this._buttonEdit.Size = new System.Drawing.Size(156, 27);
-		this._buttonEdit.TabIndex = 2;
-		this._buttonEdit.Text = SR.LabelEditKeyword;
-		this._buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+		_buttonEdit.Enabled = false;
+		_buttonEdit.Location = new Point(30, 34);
+		_buttonEdit.Name = "_buttonEdit";
+		_buttonEdit.Size = new Size(156, 27);
+		_buttonEdit.TabIndex = 2;
+		_buttonEdit.Text = SR.LabelEditKeyword;
+		_buttonEdit.Click += new EventHandler(buttonEdit_Click);
 		// 
 		// buttonInsert
 		// 
-		this._buttonInsert.Location = new System.Drawing.Point(30, 2);
-		this._buttonInsert.Name = "_buttonInsert";
-		this._buttonInsert.Size = new System.Drawing.Size(156, 27);
-		this._buttonInsert.TabIndex = 1;
-		this._buttonInsert.Text = SR.LabelInsertNewKeyword;
-		this._buttonInsert.Click += new System.EventHandler(this.buttonInsert_Click);
+		_buttonInsert.Location = new Point(30, 2);
+		_buttonInsert.Name = "_buttonInsert";
+		_buttonInsert.Size = new Size(156, 27);
+		_buttonInsert.TabIndex = 1;
+		_buttonInsert.Text = SR.LabelInsertNewKeyword;
+		_buttonInsert.Click += new EventHandler(buttonInsert_Click);
 		// 
 		// buttonOk
 		// 
-		this._buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-		this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-		this._buttonOk.Location = new System.Drawing.Point(305, 9);
-		this._buttonOk.Name = "_buttonOk";
-		this._buttonOk.Size = new System.Drawing.Size(90, 27);
-		this._buttonOk.TabIndex = 2;
-		this._buttonOk.Text = SR.LabelButtonOk;
-		this._buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+		_buttonOk.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+		_buttonOk.DialogResult = DialogResult.OK;
+		_buttonOk.Location = new Point(305, 9);
+		_buttonOk.Name = "_buttonOk";
+		_buttonOk.Size = new Size(90, 27);
+		_buttonOk.TabIndex = 2;
+		_buttonOk.Text = SR.LabelButtonOk;
+		_buttonOk.Click += new EventHandler(buttonOk_Click);
 		// 
 		// buttonCancel
 		// 
-		this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-		this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-		this._buttonCancel.Location = new System.Drawing.Point(401, 9);
-		this._buttonCancel.Name = "_buttonCancel";
-		this._buttonCancel.Size = new System.Drawing.Size(90, 27);
-		this._buttonCancel.TabIndex = 3;
-		this._buttonCancel.Text = SR.LabelButtonCancel;
+		_buttonCancel.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+		_buttonCancel.DialogResult = DialogResult.Cancel;
+		_buttonCancel.Location = new Point(401, 9);
+		_buttonCancel.Name = "_buttonCancel";
+		_buttonCancel.Size = new Size(90, 27);
+		_buttonCancel.TabIndex = 3;
+		_buttonCancel.Text = SR.LabelButtonCancel;
 		// 
 		// labelDescription
 		// 
-		this._labelDescription.Dock = System.Windows.Forms.DockStyle.Top;
-		this._labelDescription.Location = new System.Drawing.Point(0, 0);
-		this._labelDescription.Name = "_labelDescription";
-		this._labelDescription.Size = new System.Drawing.Size(500, 56);
-		this._labelDescription.TabIndex = 0;
-		this._labelDescription.Text = SR.DesciptionCustomLabelEditorTitle;
+		_labelDescription.Dock = DockStyle.Top;
+		_labelDescription.Location = new Point(0, 0);
+		_labelDescription.Name = "_labelDescription";
+		_labelDescription.Size = new Size(500, 56);
+		_labelDescription.TabIndex = 0;
+		_labelDescription.Text = SR.DesciptionCustomLabelEditorTitle;
 		// 
 		// _panelOkCancelButtons
 		// 
-		this._panelOkCancelButtons.Controls.Add(this._buttonOk);
-		this._panelOkCancelButtons.Controls.Add(this._buttonCancel);
-		this._panelOkCancelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-		this._panelOkCancelButtons.Location = new System.Drawing.Point(4, 191);
-		this._panelOkCancelButtons.Name = "_panelOkCancelButtons";
-		this._panelOkCancelButtons.Padding = new System.Windows.Forms.Padding(6);
-		this._panelOkCancelButtons.Size = new System.Drawing.Size(500, 44);
-		this._panelOkCancelButtons.TabIndex = 4;
+		_panelOkCancelButtons.Controls.Add(_buttonOk);
+		_panelOkCancelButtons.Controls.Add(_buttonCancel);
+		_panelOkCancelButtons.Dock = DockStyle.Bottom;
+		_panelOkCancelButtons.Location = new Point(4, 191);
+		_panelOkCancelButtons.Name = "_panelOkCancelButtons";
+		_panelOkCancelButtons.Padding = new Padding(6);
+		_panelOkCancelButtons.Size = new Size(500, 44);
+		_panelOkCancelButtons.TabIndex = 4;
 		// 
 		// _panelTopContent
 		// 
-		this._panelTopContent.Controls.Add(this._groupBoxString);
-		this._panelTopContent.Controls.Add(this._labelDescription);
-		this._panelTopContent.Dock = System.Windows.Forms.DockStyle.Fill;
-		this._panelTopContent.Location = new System.Drawing.Point(4, 4);
-		this._panelTopContent.Name = "_panelTopContent";
-		this._panelTopContent.Size = new System.Drawing.Size(500, 187);
-		this._panelTopContent.TabIndex = 5;
+		_panelTopContent.Controls.Add(_groupBoxString);
+		_panelTopContent.Controls.Add(_labelDescription);
+		_panelTopContent.Dock = DockStyle.Fill;
+		_panelTopContent.Location = new Point(4, 4);
+		_panelTopContent.Name = "_panelTopContent";
+		_panelTopContent.Size = new Size(500, 187);
+		_panelTopContent.TabIndex = 5;
 		// 
 		// _panelInsertEditButtons
 		// 
-		this._panelInsertEditButtons.Controls.Add(this._buttonInsert);
-		this._panelInsertEditButtons.Controls.Add(this._buttonEdit);
-		this._panelInsertEditButtons.Dock = System.Windows.Forms.DockStyle.Right;
-		this._panelInsertEditButtons.Location = new System.Drawing.Point(305, 19);
-		this._panelInsertEditButtons.Name = "_panelInsertEditButtons";
-		this._panelInsertEditButtons.Size = new System.Drawing.Size(189, 106);
-		this._panelInsertEditButtons.TabIndex = 3;
+		_panelInsertEditButtons.Controls.Add(_buttonInsert);
+		_panelInsertEditButtons.Controls.Add(_buttonEdit);
+		_panelInsertEditButtons.Dock = DockStyle.Right;
+		_panelInsertEditButtons.Location = new Point(305, 19);
+		_panelInsertEditButtons.Name = "_panelInsertEditButtons";
+		_panelInsertEditButtons.Size = new Size(189, 106);
+		_panelInsertEditButtons.TabIndex = 3;
 		// 
 		// KeywordsStringEditorForm
 		// 
-		this.CancelButton = this._buttonCancel;
-		this.ClientSize = new System.Drawing.Size(524, 275);
-		this.Controls.Add(this._panelTopContent);
-		this.Controls.Add(this._panelOkCancelButtons);
-		this.MaximizeBox = false;
-		this.MinimizeBox = false;
-		this.MinimumSize = new System.Drawing.Size(524, 275);
-		this.Padding = new System.Windows.Forms.Padding(4);
-		this.ShowIcon = false;
-		this.ShowInTaskbar = false;
-		this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-		this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-		this.Name = "KeywordsStringEditorForm";
-		this.Text = SR.LabelStringKeywordsEditor;
-		this.Load += new System.EventHandler(this.KeywordsStringEditorForm_Load);
-		this._groupBoxString.ResumeLayout(false);
-		this._panelOkCancelButtons.ResumeLayout(false);
-		this._panelTopContent.ResumeLayout(false);
-		this._panelInsertEditButtons.ResumeLayout(false);
-		this.ResumeLayout(false);
+		CancelButton = _buttonCancel;
+		ClientSize = new Size(524, 275);
+		Controls.Add(_panelTopContent);
+		Controls.Add(_panelOkCancelButtons);
+		MaximizeBox = false;
+		MinimizeBox = false;
+		MinimumSize = new Size(524, 275);
+		Padding = new Padding(4);
+		ShowIcon = false;
+		ShowInTaskbar = false;
+		SizeGripStyle = SizeGripStyle.Show;
+		StartPosition = FormStartPosition.CenterScreen;
+		Name = "KeywordsStringEditorForm";
+		Text = SR.LabelStringKeywordsEditor;
+		Load += new EventHandler(KeywordsStringEditorForm_Load);
+		_groupBoxString.ResumeLayout(false);
+		_panelOkCancelButtons.ResumeLayout(false);
+		_panelTopContent.ResumeLayout(false);
+		_panelInsertEditButtons.ResumeLayout(false);
+		ResumeLayout(false);
 
 	}
 	#endregion
@@ -328,23 +325,23 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void KeywordsStringEditorForm_Load(object sender, System.EventArgs e)
+	private void KeywordsStringEditorForm_Load(object sender, EventArgs e)
 	{
 		// Insert new line characters in the text
-		this._labelDescription.Text = this._labelDescription.Text.Replace("\\n", "\n");
+		_labelDescription.Text = _labelDescription.Text.Replace("\\n", "\n");
 
 		// Load list of keywords applicable for the specified object and property.
-		this.applicableKeywords = this.GetApplicableKeywords();
-		if (this.applicableKeywords.Count == 0)
+		applicableKeywords = GetApplicableKeywords();
+		if (applicableKeywords.Count == 0)
 		{
-			this._buttonInsert.Enabled = false;
-			this._buttonEdit.Enabled = false;
+			_buttonInsert.Enabled = false;
+			_buttonEdit.Enabled = false;
 		}
 
-		if (!String.IsNullOrEmpty(this._initialString))
+		if (!string.IsNullOrEmpty(_initialString))
 		{
 			// Set text to edit
-			this._richTextBox.Rtf = this.GetRtfText(this._initialString);
+			_richTextBox.Rtf = GetRtfText(_initialString);
 		}
 	}
 
@@ -353,33 +350,33 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void buttonInsert_Click(object sender, System.EventArgs e)
+	private void buttonInsert_Click(object sender, EventArgs e)
 	{
 		// Show keyword editor form
-		KeywordEditor keywordEditor = new KeywordEditor(
-			this.applicableKeywords,
+		KeywordEditor keywordEditor = new(
+			applicableKeywords,
 			string.Empty,
-			this._maxYValueIndex);
+			_maxYValueIndex);
 		if (keywordEditor.ShowDialog() == DialogResult.OK)
 		{
 			if (_selectedKeywordLength > 0)
 			{
 				// Insert keyword at the end of curently selected keyword 
 				// and separate them with space
-				this._richTextBox.SelectionStart = this._richTextBox.SelectionStart + this._richTextBox.SelectionLength;
-				this._richTextBox.SelectionLength = 0;
-				this._richTextBox.SelectedText = " " + keywordEditor.Keyword;
+				_richTextBox.SelectionStart = _richTextBox.SelectionStart + _richTextBox.SelectionLength;
+				_richTextBox.SelectionLength = 0;
+				_richTextBox.SelectedText = " " + keywordEditor.Keyword;
 			}
 			else
 			{
 				// Insert new keyword at current location
-				this._richTextBox.SelectionLength = Math.Max(0, this._selectedKeywordLength);
-				this._richTextBox.SelectedText = keywordEditor.Keyword;
+				_richTextBox.SelectionLength = Math.Max(0, _selectedKeywordLength);
+				_richTextBox.SelectedText = keywordEditor.Keyword;
 			}
 		}
 
 		// Set focus back to the editor
-		this._richTextBox.Focus();
+		_richTextBox.Focus();
 	}
 
 	/// <summary>
@@ -387,30 +384,30 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void buttonEdit_Click(object sender, System.EventArgs e)
+	private void buttonEdit_Click(object sender, EventArgs e)
 	{
 		// Get seloected keyword
-		string keyword = this._richTextBox.Text.Substring(this._selectedKeywordStart, this._selectedKeywordLength);
+		string keyword = _richTextBox.Text.Substring(_selectedKeywordStart, _selectedKeywordLength);
 
 		// Show keyword editor form
-		KeywordEditor keywordEditor = new KeywordEditor(
-			this.applicableKeywords,
+		KeywordEditor keywordEditor = new(
+			applicableKeywords,
 			keyword,
-			this._maxYValueIndex);
+			_maxYValueIndex);
 		if (keywordEditor.ShowDialog() == DialogResult.OK)
 		{
-			int start = this._selectedKeywordStart;
-			int length = this._selectedKeywordLength;
+			int start = _selectedKeywordStart;
+			int length = _selectedKeywordLength;
 
 			// Update currently selected kyword
-			this._richTextBox.Text = this._richTextBox.Text.Substring(0, start) +
+			_richTextBox.Text = _richTextBox.Text.Substring(0, start) +
 				keywordEditor.Keyword +
-				this._richTextBox.Text.Substring(start + length);
-			this._richTextBox.SelectionStart = start + keywordEditor.Keyword.Length;
+				_richTextBox.Text.Substring(start + length);
+			_richTextBox.SelectionStart = start + keywordEditor.Keyword.Length;
 		}
 
 		// Set focus back to the editor
-		this._richTextBox.Focus();
+		_richTextBox.Focus();
 	}
 
 	/// <summary>
@@ -418,22 +415,22 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void richTextBox_TextChanged(object sender, System.EventArgs e)
+	private void richTextBox_TextChanged(object sender, EventArgs e)
 	{
 		if (!_updating)
 		{
 			_updating = true;
 
 			// Save current selection
-			int selectionStart = this._richTextBox.SelectionStart;
-			int selectionLength = this._richTextBox.SelectionLength;
+			int selectionStart = _richTextBox.SelectionStart;
+			int selectionLength = _richTextBox.SelectionLength;
 
 			// Update RTF tex
-			_richTextBox.Rtf = this.GetRtfText(_richTextBox.Text);
+			_richTextBox.Rtf = GetRtfText(_richTextBox.Text);
 
 			// Restore selection
-			this._richTextBox.SelectionStart = selectionStart;
-			this._richTextBox.SelectionLength = selectionLength;
+			_richTextBox.SelectionStart = selectionStart;
+			_richTextBox.SelectionLength = selectionLength;
 
 			_updating = false;
 		}
@@ -444,29 +441,29 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void richTextBox_SelectionChanged(object sender, System.EventArgs e)
+	private void richTextBox_SelectionChanged(object sender, EventArgs e)
 	{
 		// No any processing in selection mode with the Shift key down
-		if ((System.Windows.Forms.Control.ModifierKeys & Keys.Shift) != Keys.Shift)
+		if ((ModifierKeys & Keys.Shift) != Keys.Shift)
 		{
 			if (!_updating)
 			{
 				_updating = true;
 
 				// Update RTF text only when selected (bolded) keyword is changed
-				string selectedKeywordTemp = this._selectedKeywordName;
-				string newRtf = this.GetRtfText(_richTextBox.Text);
-				if (selectedKeywordTemp != this._selectedKeywordName)
+				string selectedKeywordTemp = _selectedKeywordName;
+				string newRtf = GetRtfText(_richTextBox.Text);
+				if (selectedKeywordTemp != _selectedKeywordName)
 				{
 					// Save current selection
-					int selectionStart = this._richTextBox.SelectionStart;
+					int selectionStart = _richTextBox.SelectionStart;
 
 					// Update RTF text
 					_richTextBox.Rtf = newRtf;
 
 					// Restore selection
-					this._richTextBox.SelectionStart = selectionStart;
-					this._richTextBox.SelectionLength = 0;
+					_richTextBox.SelectionStart = selectionStart;
+					_richTextBox.SelectionLength = 0;
 				}
 
 				_updating = false;
@@ -479,7 +476,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void richTextBox_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+	private void richTextBox_KeyPress(object sender, KeyPressEventArgs e)
 	{
 		// Make sure we enter a closing bracket when user starts 
 		// entering the format string
@@ -499,20 +496,20 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void richTextBox_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+	private void richTextBox_KeyDown(object sender, KeyEventArgs e)
 	{
 		// Delete keyword when user press 'Delete' key
 		if (e.KeyCode == Keys.Delete &&
-			this._selectedKeywordStart >= 0 &&
-			this._selectedKeywordLength > 0)
+			_selectedKeywordStart >= 0 &&
+			_selectedKeywordLength > 0)
 		{
 			// Remember selection start because it will be changed as soon
 			// as we update editor text
-			int newSelectionPosition = this._selectedKeywordStart;
+			int newSelectionPosition = _selectedKeywordStart;
 
 			// Remove keyword
-			string newText = _richTextBox.Text.Substring(0, this._selectedKeywordStart);
-			newText += _richTextBox.Text.Substring(this._selectedKeywordStart + this._selectedKeywordLength);
+			string newText = _richTextBox.Text.Substring(0, _selectedKeywordStart);
+			newText += _richTextBox.Text.Substring(_selectedKeywordStart + _selectedKeywordLength);
 			_richTextBox.Text = newText;
 
 			// Restore cursor (selection) position
@@ -527,14 +524,14 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void buttonOk_Click(object sender, System.EventArgs e)
+	private void buttonOk_Click(object sender, EventArgs e)
 	{
 		// Get text from the editor
-		this.ResultString = this._richTextBox.Text;
+		ResultString = _richTextBox.Text;
 
 		// New line character should be presented as 2 characters "\n"
-		this.ResultString = this.ResultString.Replace("\r\n", "\\n");
-		this.ResultString = this.ResultString.Replace("\n", "\\n");
+		ResultString = ResultString.Replace("\r\n", "\\n");
+		ResultString = ResultString.Replace("\n", "\\n");
 	}
 
 	#endregion // Event Handlers
@@ -548,11 +545,10 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// <returns>Input text formatted as RTF.</returns>
 	private string GetRtfText(string originalText)
 	{
-		// Initialize empty string
-		string resultRtf = string.Empty;
 
+		// Initialize empty string
 		// Start with RTF header and font table
-		resultRtf = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}}\r\n";
+		string resultRtf = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}}\r\n";
 
 		// Add color table
 		resultRtf += @"{\colortbl ;\red0\green0\blue255;}\r\n";
@@ -561,7 +557,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 		resultRtf += @"\viewkind4\uc1\pard\f0\fs17 ";
 
 		// Add text
-		resultRtf += GetUnicodeRtf(this.GetColorHilightedRtfText(originalText));
+		resultRtf += GetUnicodeRtf(GetColorHilightedRtfText(originalText));
 
 		// Finish RTF format
 		resultRtf += @"\par\r\n}";
@@ -572,14 +568,18 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	// VSTS: 65162: The non ansi 1252 characters will be lost, we need conversion in \uXXXX? format.
 	private string GetUnicodeRtf(string orginalText)
 	{
-		System.Text.StringBuilder result = new System.Text.StringBuilder();
+		Text.StringBuilder result = new();
 		foreach (char c in orginalText.ToCharArray())
 		{
 			int charInt = Convert.ToInt32(c);
 			if (charInt < 0x00 || charInt > 0x7f)
+			{
 				result.Append(@"\u" + charInt.ToString() + "?");
+			}
 			else
+			{
 				result.Append(Convert.ToString(c));
+			}
 		}
 
 		return result.ToString();
@@ -596,12 +596,12 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 		string selectedKeyword = string.Empty;
 
 		// Reset selected keyword position
-		this._selectedKeywordStart = -1;
-		this._selectedKeywordLength = 0;
+		_selectedKeywordStart = -1;
+		_selectedKeywordLength = 0;
 
 		// Current selection position that will be adjusted when formatting 
 		// characters are added infron of it.
-		int selectionStart = this._richTextBox.SelectionStart;
+		int selectionStart = _richTextBox.SelectionStart;
 
 		// Replace special new line character sequence "\n"
 		resultText = resultText.Replace("\\n", "\r\n");
@@ -620,7 +620,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 		resultText = resultText.Replace(@"\", @"\\");
 
 		// Iterate through all keywords 
-		foreach (KeywordInfo keywordInfo in this.applicableKeywords)
+		foreach (KeywordInfo keywordInfo in applicableKeywords)
 		{
 			// Fill array of possible names for that keyword
 			string[] keywordNames = keywordInfo.GetKeywords();
@@ -684,9 +684,9 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 							// Remember selected keyword by name and position
 							selectedKeyword = keywordInfo.Name;
 							selectedKeyword += "__" + startIndex.ToString(CultureInfo.InvariantCulture);
-							this._selectedKeywordStart = startIndex;
-							this._selectedKeywordStart -= selectionStart - this._richTextBox.SelectionStart;
-							this._selectedKeywordLength = keywordLength;
+							_selectedKeywordStart = startIndex;
+							_selectedKeywordStart -= selectionStart - _richTextBox.SelectionStart;
+							_selectedKeywordLength = keywordLength;
 
 							formattedKeyword += @"\b";
 						}
@@ -720,17 +720,17 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 		}
 
 		// Set currenly selected keyword name
-		this._selectedKeywordName = selectedKeyword;
+		_selectedKeywordName = selectedKeyword;
 
 		// Update Edit button
-		if (this._selectedKeywordName.Length > 0)
+		if (_selectedKeywordName.Length > 0)
 		{
 			// Enable Edit button and set it text
-			this._buttonEdit.Enabled = true;
+			_buttonEdit.Enabled = true;
 		}
 		else
 		{
-			this._buttonEdit.Enabled = false;
+			_buttonEdit.Enabled = false;
 		}
 
 		// Replace all the "\n" strings with new line objectTag "\par"
@@ -753,16 +753,16 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	/// Get list of keywords applicable to current object and property.
 	/// </summary>
 	/// <returns></returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
 	private ArrayList GetApplicableKeywords()
 	{
 		// Create new array
-		ArrayList keywordList = new ArrayList();
+		ArrayList keywordList = [];
 
 		// Get acess to the chart keywords registry
 		if (KeywordsRegistry != null &&
-			this._propertyName.Length > 0 &&
-			this._classTypeName.Length > 0)
+			_propertyName.Length > 0 &&
+			_classTypeName.Length > 0)
 		{
 			// Iterate through all keywords in the registry
 			foreach (KeywordInfo keywordInfo in KeywordsRegistry.registeredKeywords)
@@ -772,7 +772,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 				string[] typeNames = keywordInfo.AppliesToTypes.Split(',');
 				foreach (string typeName in typeNames)
 				{
-					if (this._classTypeName == typeName.Trim())
+					if (_classTypeName == typeName.Trim())
 					{
 						typeSupported = true;
 						break;
@@ -785,7 +785,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 					string[] propertyNames = keywordInfo.AppliesToProperties.Split(',');
 					foreach (string propertyName in propertyNames)
 					{
-						if (this._propertyName == propertyName.Trim())
+						if (_propertyName == propertyName.Trim())
 						{
 							// Add KeywordInfo into the list
 							keywordList.Add(keywordInfo);
@@ -805,18 +805,18 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 	private void PrepareControlsLayout()
 	{
 		int buttonWidthAdd = 18;
-		this.Width += widthDialogExtend;
-		this._panelOkCancelButtons.Width += widthDialogExtend;
-		this._panelInsertEditButtons.Width += widthDialogExtend;
-		this._buttonInsert.Width += widthDialogExtend + buttonWidthAdd;
-		this._buttonInsert.Left -= buttonWidthAdd;
-		this._buttonEdit.Width += widthDialogExtend + buttonWidthAdd;
-		this._buttonEdit.Left -= buttonWidthAdd;
-		this._labelDescription.Width += widthDialogExtend;
+		Width += widthDialogExtend;
+		_panelOkCancelButtons.Width += widthDialogExtend;
+		_panelInsertEditButtons.Width += widthDialogExtend;
+		_buttonInsert.Width += widthDialogExtend + buttonWidthAdd;
+		_buttonInsert.Left -= buttonWidthAdd;
+		_buttonEdit.Width += widthDialogExtend + buttonWidthAdd;
+		_buttonEdit.Left -= buttonWidthAdd;
+		_labelDescription.Width += widthDialogExtend;
 
-		this.Height += heightDialogExtend;
-		this._panelOkCancelButtons.Top += heightDialogExtend;
-		this._labelDescription.Height += heightDialogExtend;
+		Height += heightDialogExtend;
+		_panelOkCancelButtons.Top += heightDialogExtend;
+		_labelDescription.Height += heightDialogExtend;
 	}
 
 	#endregion // Helper Methods
@@ -825,7 +825,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 /// <summary>
 /// Editor for the string properties that may contain keyords.
 /// </summary>
-internal class KeywordsStringEditor : System.Drawing.Design.UITypeEditor
+internal class KeywordsStringEditor : UITypeEditor
 {
 	#region Editor methods and properties
 
@@ -935,7 +935,7 @@ internal class KeywordsStringEditor : System.Drawing.Design.UITypeEditor
 				}
 
 				// Show editor form
-				KeywordsStringEditorForm form = new KeywordsStringEditorForm(
+				KeywordsStringEditorForm form = new(
 					(string)value,
 						instance.GetType().Name,
 					context.PropertyDescriptor.Name,

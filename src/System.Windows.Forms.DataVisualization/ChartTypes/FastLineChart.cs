@@ -186,9 +186,9 @@ internal class FastLineChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -208,18 +208,18 @@ internal class FastLineChart : IChartType
 		ChartArea area,
 		Series seriesToDraw)
 	{
-		this.Common = common;
-		this.Graph = graph;
+		Common = common;
+		Graph = graph;
 		bool clipRegionSet = false;
 		if (area.Area3DStyle.Enable3D)
 		{
 			// Initialize variables
-			this.chartArea3DEnabled = true;
+			chartArea3DEnabled = true;
 			matrix3D = area.matrix3D;
 		}
 		else
 		{
-			this.chartArea3DEnabled = false;
+			chartArea3DEnabled = false;
 		}
 
 		//************************************************************
@@ -228,7 +228,7 @@ internal class FastLineChart : IChartType
 		foreach (Series series in common.DataManager.Series)
 		{
 			// Process non empty series of the area with FastLine chart type
-			if (String.Compare(series.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) != 0
+			if (string.Compare(series.ChartTypeName, Name, true, CultureInfo.CurrentCulture) != 0
 				|| series.ChartArea != area.Name ||
 				!series.IsVisible())
 			{
@@ -236,11 +236,11 @@ internal class FastLineChart : IChartType
 			}
 
 			// Get 3D series depth and Z position
-			if (this.chartArea3DEnabled)
+			if (chartArea3DEnabled)
 			{
 				float seriesDepth;
 				area.GetSeriesZPositionAndDepth(series, out seriesDepth, out seriesZCoordinate);
-				this.seriesZCoordinate += seriesDepth / 2.0f;
+				seriesZCoordinate += seriesDepth / 2.0f;
 			}
 
 			// Set active horizontal/vertical axis
@@ -282,19 +282,23 @@ internal class FastLineChart : IChartType
 			double axesValuesPixelSizeX = Math.Abs(hAxis.PositionToValue(axesMin.Width + pixelSize.Width, false) - hAxis.PositionToValue(axesMin.Width, false));
 
 			// Create line pen
-			Pen linePen = new Pen(series.Color, series.BorderWidth);
-			linePen.DashStyle = graph.GetPenStyle(series.BorderDashStyle);
-			linePen.StartCap = LineCap.Round;
-			linePen.EndCap = LineCap.Round;
+			Pen linePen = new(series.Color, series.BorderWidth)
+			{
+				DashStyle = graph.GetPenStyle(series.BorderDashStyle),
+				StartCap = LineCap.Round,
+				EndCap = LineCap.Round
+			};
 
 			// Create empty line pen
-			Pen emptyLinePen = new Pen(series.EmptyPointStyle.Color, series.EmptyPointStyle.BorderWidth);
-			emptyLinePen.DashStyle = graph.GetPenStyle(series.EmptyPointStyle.BorderDashStyle);
-			emptyLinePen.StartCap = LineCap.Round;
-			emptyLinePen.EndCap = LineCap.Round;
+			Pen emptyLinePen = new(series.EmptyPointStyle.Color, series.EmptyPointStyle.BorderWidth)
+			{
+				DashStyle = graph.GetPenStyle(series.EmptyPointStyle.BorderDashStyle),
+				StartCap = LineCap.Round,
+				EndCap = LineCap.Round
+			};
 
 			// Check if series is indexed
-			bool indexedSeries = ChartHelper.IndexedSeries(this.Common, series.Name);
+			bool indexedSeries = ChartHelper.IndexedSeries(Common, series.Name);
 
 			// Loop through all ponts in the series
 			int index = 0;
@@ -524,11 +528,6 @@ internal class FastLineChart : IChartType
 					prevPoint.X,
 					(float)yValueRangeMax);
 
-				verticalLineDetected = false;
-				yValueRangeMin = double.NaN;
-				yValueRangeMax = double.NaN;
-				pointRangeMin = null;
-				pointRangeMax = null;
 			}
 
 		}
@@ -596,52 +595,50 @@ internal class FastLineChart : IChartType
 		Graph.DrawLine(pen, firstPointX, firstPointY, secondPointX, secondPointY);
 
 		// Process selection regions
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Create grapics path object for the line
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+			float width = pen.Width + 2;
+
+			if (Math.Abs(firstPointX - secondPointX) > Math.Abs(firstPointY - secondPointY))
 			{
-				float width = pen.Width + 2;
+				path.AddLine(firstPointX, firstPointY - width, secondPointX, secondPointY - width);
+				path.AddLine(secondPointX, secondPointY + width, firstPointX, firstPointY + width);
+				path.CloseAllFigures();
+			}
+			else
+			{
+				path.AddLine(firstPointX - width, firstPointY, secondPointX - width, secondPointY);
+				path.AddLine(secondPointX + width, secondPointY, firstPointX + width, firstPointY);
+				path.CloseAllFigures();
+			}
 
-				if (Math.Abs(firstPointX - secondPointX) > Math.Abs(firstPointY - secondPointY))
-				{
-					path.AddLine(firstPointX, firstPointY - width, secondPointX, secondPointY - width);
-					path.AddLine(secondPointX, secondPointY + width, firstPointX, firstPointY + width);
-					path.CloseAllFigures();
-				}
-				else
-				{
-					path.AddLine(firstPointX - width, firstPointY, secondPointX - width, secondPointY);
-					path.AddLine(secondPointX + width, secondPointY, firstPointX + width, firstPointY);
-					path.CloseAllFigures();
-				}
+			// Calculate bounding rectangle
+			RectangleF pathBounds = path.GetBounds();
 
-				// Calculate bounding rectangle
-				RectangleF pathBounds = path.GetBounds();
-
-				// If one side of the bounding rectangle is less than 2 pixels
-				// use rectangle region shape to optimize used coordinates space
-				if (pathBounds.Width <= 2.0 || pathBounds.Height <= 2.0)
-				{
-					// Add hot region path as rectangle
-					pathBounds.Inflate(pen.Width, pen.Width);
-					this.Common.HotRegionsList.AddHotRegion(
-						Graph.GetRelativeRectangle(pathBounds),
-						point,
-						point.series.Name,
-						pointIndex);
-				}
-				else
-				{
-					// Add hot region path as polygon
-					this.Common.HotRegionsList.AddHotRegion(
-						path,
-						false,
-						Graph,
-						point,
-						point.series.Name,
-						pointIndex);
-				}
+			// If one side of the bounding rectangle is less than 2 pixels
+			// use rectangle region shape to optimize used coordinates space
+			if (pathBounds.Width <= 2.0 || pathBounds.Height <= 2.0)
+			{
+				// Add hot region path as rectangle
+				pathBounds.Inflate(pen.Width, pen.Width);
+				Common.HotRegionsList.AddHotRegion(
+					Graph.GetRelativeRectangle(pathBounds),
+					point,
+					point.series.Name,
+					pointIndex);
+			}
+			else
+			{
+				// Add hot region path as polygon
+				Common.HotRegionsList.AddHotRegion(
+					path,
+					false,
+					Graph,
+					point,
+					point.series.Name,
+					pointIndex);
 			}
 		}
 	}

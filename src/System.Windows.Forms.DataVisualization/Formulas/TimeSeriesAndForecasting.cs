@@ -82,7 +82,7 @@ internal class TimeSeriesAndForecasting : IFormula
 	{
 		string name;
 
-		name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+		name = formulaName.ToUpper(CultureInfo.InvariantCulture);
 
 		// Not used for these formulas.
 		outLabels = null;
@@ -139,30 +139,30 @@ internal class TimeSeriesAndForecasting : IFormula
 	/// <param name="inputValues">Arrays of doubles - Input values</param>
 	/// <param name="outputValues">Arrays of doubles - Output values</param>
 	/// <param name="parameterList">Array of strings - Parameters</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
 	private void Forecasting(double[][] inputValues, out double[][] outputValues, string[] parameterList)
 	{
 		// Polynomial degree
 		int degree;
 		RegressionType regressionType = RegressionType.Polynomial;
 
-		if (String.Equals(parameterList[0], "Exponential", StringComparison.OrdinalIgnoreCase))
+		if (string.Equals(parameterList[0], "Exponential", StringComparison.OrdinalIgnoreCase))
 		{
 			regressionType = RegressionType.Exponential;
 			degree = 2;
 		}
-		else if (String.Equals(parameterList[0], "Linear", StringComparison.OrdinalIgnoreCase))
+		else if (string.Equals(parameterList[0], "Linear", StringComparison.OrdinalIgnoreCase))
 		{
 			regressionType = RegressionType.Polynomial;
 			degree = 2;
 		}
-		else if (String.Equals(parameterList[0], "IsLogarithmic", StringComparison.OrdinalIgnoreCase) ||
-				 String.Equals(parameterList[0], "Logarithmic", StringComparison.OrdinalIgnoreCase))
+		else if (string.Equals(parameterList[0], "IsLogarithmic", StringComparison.OrdinalIgnoreCase) ||
+				 string.Equals(parameterList[0], "Logarithmic", StringComparison.OrdinalIgnoreCase))
 		{
 			regressionType = RegressionType.Logarithmic;
 			degree = 2;
 		}
-		else if (String.Equals(parameterList[0], "Power", StringComparison.OrdinalIgnoreCase))
+		else if (string.Equals(parameterList[0], "Power", StringComparison.OrdinalIgnoreCase))
 		{
 			regressionType = RegressionType.Power;
 			degree = 2;
@@ -178,10 +178,14 @@ internal class TimeSeriesAndForecasting : IFormula
 
 
 		if (degree > 5 || degree < 1)
+		{
 			throw new InvalidOperationException(SR.ExceptionForecastingDegreeInvalid);
+		}
 
 		if (degree > inputValues[0].Length)
-			throw new InvalidOperationException(SR.ExceptionForecastingNotEnoughDataPoints(degree.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+		{
+			throw new InvalidOperationException(SR.ExceptionForecastingNotEnoughDataPoints(degree.ToString(CultureInfo.InvariantCulture)));
+		}
 
 		// Forecasting period
 		int period;
@@ -259,10 +263,14 @@ internal class TimeSeriesAndForecasting : IFormula
 		outputValues[3] = new double[tempOut[0].Length];
 
 		if (!approximationError)
+		{
 			dev = 0;
+		}
 
 		if (!forecastingError)
+		{
 			error = 0;
+		}
 
 		for (int index = 0; index < inputValues[0].Length; index++)
 		{
@@ -322,7 +330,9 @@ internal class TimeSeriesAndForecasting : IFormula
 			interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
 
 			if (interval <= 0)
+			{
 				interval = 1;
+			}
 
 			for (int index = 0; index < inputValues[0].Length; index++)
 			{
@@ -357,7 +367,9 @@ internal class TimeSeriesAndForecasting : IFormula
 			interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
 
 			if (interval <= 0)
+			{
 				interval = 1;
+			}
 
 			PolynomialRegression(regressionType, inputValues, out outputValues, 2, forecastingPeriod, interval);
 
@@ -394,13 +406,14 @@ internal class TimeSeriesAndForecasting : IFormula
 		double[] coefficients = new double[polynomialDegree];
 		int size = inputValues[0].Length;
 		double minimumX = double.MaxValue;
-		double interval = 1.0;
 
 		// Find Interval for X values
-		interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
+		double interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
 
 		if (interval <= 0)
+		{
 			interval = 1;
+		}
 
 		if (regressionType != RegressionType.Logarithmic)
 		{
@@ -409,7 +422,9 @@ internal class TimeSeriesAndForecasting : IFormula
 			for (int xIndex = 0; xIndex < inputValues[0].Length; xIndex++)
 			{
 				if (minimumX > inputValues[0][xIndex])
+				{
 					minimumX = inputValues[0][xIndex];
+				}
 			}
 
 			// Change X values.
@@ -587,7 +602,9 @@ internal class TimeSeriesAndForecasting : IFormula
 		{
 			// Skeep this column
 			if (column == columnPos)
+			{
 				continue;
+			}
 
 			// Copy rows
 			for (int row = 1; row < size; row++)

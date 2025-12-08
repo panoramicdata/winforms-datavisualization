@@ -112,19 +112,9 @@ internal class Matrix3D
 	private float _perspectiveZ;
 
 	/// <summary>
-	/// X Angle.
-	/// </summary>
-	private float _angleX;
-
-	/// <summary>
-	/// Y Angle.
-	/// </summary>
-	private float _angleY;
-
-	/// <summary>
 	/// Private fields used for lighting
 	/// </summary>
-	Point3D[] _lightVectors = new Point3D[7];
+	readonly Point3D[] _lightVectors = new Point3D[7];
 
 	/// <summary>
 	/// LightStyle Style
@@ -138,18 +128,12 @@ internal class Matrix3D
 	/// <summary>
 	/// Gets the X Angle.
 	/// </summary>
-	internal float AngleX
-	{
-		get { return _angleX; }
-	}
+	internal float AngleX { get; private set; }
 
 	/// <summary>
 	/// Gets the Y Angle.
 	/// </summary>
-	internal float AngleY
-	{
-		get { return _angleY; }
-	}
+	internal float AngleY { get; private set; }
 
 	/// <summary>
 	/// Get perspective value.
@@ -176,7 +160,7 @@ internal class Matrix3D
 	/// <returns>True if matrix was initialized.</returns>
 	public bool IsInitialized()
 	{
-		return (this._mainMatrix != null);
+		return (_mainMatrix != null);
 	}
 
 	/// <summary>
@@ -211,12 +195,12 @@ internal class Matrix3D
 		_translateZ = depth / 2F;
 		float width = innerPlotRectangle.Width;
 		float height = innerPlotRectangle.Height;
-		this._perspective = perspective;
-		this._rightAngleAxis = rightAngleAxis;
+		_perspective = perspective;
+		_rightAngleAxis = rightAngleAxis;
 
 		// Remember Angles
-		this._angleX = angleX;
-		this._angleY = angleY;
+		AngleX = angleX;
+		AngleY = angleY;
 
 		// Change Degrees to radians.
 		angleX = angleX / 180F * (float)Math.PI;
@@ -239,12 +223,12 @@ internal class Matrix3D
 		}
 		else
 		{
-			if (this._angleY >= 45)
+			if (AngleY >= 45)
 			{
 				// Rotate Chart Area Cube by Y axis. 
 				Rotate(Math.PI / 2, RotationAxis.Y);
 			}
-			else if (this._angleY <= -45)
+			else if (AngleY <= -45)
 			{
 				// Rotate Chart Area Cube by Y axis. 
 				Rotate(-Math.PI / 2, RotationAxis.Y);
@@ -262,7 +246,9 @@ internal class Matrix3D
 			foreach (Point3D point in points)
 			{
 				if (point.Z > maxZ)
+				{
 					maxZ = point.Z;
+				}
 			}
 
 			// Set Projection plane
@@ -291,16 +277,24 @@ internal class Matrix3D
 			foreach (Point3D point in points)
 			{
 				if (point.X - _translateX < 0F && Math.Abs(point.X - _translateX) > minX)
+				{
 					minX = Math.Abs(point.X - _translateX);
+				}
 
 				if (point.X - _translateX >= 0F && Math.Abs(point.X - _translateX) > maxX)
+				{
 					maxX = Math.Abs(point.X - _translateX);
+				}
 
 				if (point.Y - _translateY < 0F && Math.Abs(point.Y - _translateY) > minY)
+				{
 					minY = Math.Abs(point.Y - _translateY);
+				}
 
 				if (point.Y - _translateY >= 0F && Math.Abs(point.Y - _translateY) > maxY)
+				{
 					maxY = Math.Abs(point.Y - _translateY);
+				}
 			}
 
 			_shiftX = (maxX - minX) / 2F;
@@ -319,11 +313,15 @@ internal class Matrix3D
 			// position) / (distance from the edge of rectangle to 
 			// the center of the rectangle).
 			if (maxXScale < Math.Abs(point.X - _translateX) / width * 2)
+			{
 				maxXScale = Math.Abs(point.X - _translateX) / width * 2;
+			}
 
 			// Find maximum relative distance for Y axis.
 			if (maxYScale < Math.Abs(point.Y - _translateY) / height * 2)
+			{
 				maxYScale = Math.Abs(point.Y - _translateY) / height * 2;
+			}
 		}
 
 		// Remember scale factor
@@ -435,21 +433,21 @@ internal class Matrix3D
 	{
 		float coorectionAngle = 45F;
 
-		float xFactor = this._angleX / 45;
+		float xFactor = AngleX / 45;
 
 		float yFactor;
 
-		if (this._angleY >= 45)
+		if (AngleY >= 45)
 		{
-			yFactor = (this._angleY - 90) / coorectionAngle;
+			yFactor = (AngleY - 90) / coorectionAngle;
 		}
-		else if (this._angleY <= -45)
+		else if (AngleY <= -45)
 		{
-			yFactor = (this._angleY + 90) / coorectionAngle;
+			yFactor = (AngleY + 90) / coorectionAngle;
 		}
 		else
 		{
-			yFactor = this._angleY / coorectionAngle;
+			yFactor = AngleY / coorectionAngle;
 		}
 
 		// Projection formula
@@ -502,11 +500,13 @@ internal class Matrix3D
 	/// <param name="dz">Translate in z axis direction.</param>
 	private void Translate(float dx, float dy, float dz)
 	{
-		float[][] translationMatrix = new float[4][];
-		translationMatrix[0] = new float[4];
-		translationMatrix[1] = new float[4];
-		translationMatrix[2] = new float[4];
-		translationMatrix[3] = new float[4];
+		float[][] translationMatrix =
+		[
+			new float[4],
+			new float[4],
+			new float[4],
+			new float[4],
+		];
 
 		// Matrix initialization
 		// Row loop
@@ -584,11 +584,7 @@ internal class Matrix3D
 	{
 		// A matrix which is result of matrix multiplication
 		// of mulMatrix and mainMatrix
-		float[][] resultMatrix = new float[4][];
-		resultMatrix[0] = new float[4];
-		resultMatrix[1] = new float[4];
-		resultMatrix[2] = new float[4];
-		resultMatrix[3] = new float[4];
+		float[][] resultMatrix = [new float[4], new float[4], new float[4], new float[4]];
 
 		// Row loop
 		for (int row = 0; row < 4; row++)
@@ -655,11 +651,13 @@ internal class Matrix3D
 	/// <param name="axis">Axis used for rotation</param>
 	private void Rotate(double angle, RotationAxis axis)
 	{
-		float[][] rotationMatrix = new float[4][];
-		rotationMatrix[0] = new float[4];
-		rotationMatrix[1] = new float[4];
-		rotationMatrix[2] = new float[4];
-		rotationMatrix[3] = new float[4];
+		float[][] rotationMatrix =
+		[
+			new float[4],
+			new float[4],
+			new float[4],
+			new float[4],
+		];
 
 		// Change angle direction
 		angle = -1F * angle;
@@ -760,23 +758,23 @@ internal class Matrix3D
 	/// <returns>Collection of Points 3D.</returns>
 	private Point3D[] Set3DBarPoints(float dx, float dy, float dz)
 	{
-		Point3D[] points = new Point3D[8];
-
-		// ********************************************
-		// 3D Bar side: Front
-		// ********************************************
-		points[0] = new Point3D(-dx / 2, -dy / 2, dz / 2);
-		points[1] = new Point3D(dx / 2, -dy / 2, dz / 2);
-		points[2] = new Point3D(dx / 2, dy / 2, dz / 2);
-		points[3] = new Point3D(-dx / 2, dy / 2, dz / 2);
-
-		// ********************************************
-		// 3D Bar side: Back
-		// ********************************************
-		points[4] = new Point3D(-dx / 2, -dy / 2, -dz / 2);
-		points[5] = new Point3D(dx / 2, -dy / 2, -dz / 2);
-		points[6] = new Point3D(dx / 2, dy / 2, -dz / 2);
-		points[7] = new Point3D(-dx / 2, dy / 2, -dz / 2);
+		Point3D[] points =
+		[
+			// ********************************************
+			// 3D Bar side: Front
+			// ********************************************
+			new Point3D(-dx / 2, -dy / 2, dz / 2),
+			new Point3D(dx / 2, -dy / 2, dz / 2),
+			new Point3D(dx / 2, dy / 2, dz / 2),
+			new Point3D(-dx / 2, dy / 2, dz / 2),
+			// ********************************************
+			// 3D Bar side: Back
+			// ********************************************
+			new Point3D(-dx / 2, -dy / 2, -dz / 2),
+			new Point3D(dx / 2, -dy / 2, -dz / 2),
+			new Point3D(dx / 2, dy / 2, -dz / 2),
+			new Point3D(-dx / 2, dy / 2, -dz / 2),
+		];
 
 		return points;
 	}
@@ -793,7 +791,7 @@ internal class Matrix3D
 	internal void InitLight(LightStyle lightStyle)
 	{
 		// Set LightStyle Style
-		this._lightStyle = lightStyle;
+		_lightStyle = lightStyle;
 
 		// Center of rotation
 		_lightVectors[0] = new Point3D(0F, 0F, 0F);
@@ -905,16 +903,15 @@ internal class Matrix3D
 					if (_rightAngleAxis)
 					{
 						// LightStyle source Vector
-						Point3D lightSource = new Point3D(0F, 0F, -1F);
-						Point3D[] rightPRpoints = new Point3D[1];
-						rightPRpoints[0] = lightSource;
+						Point3D lightSource = new(0F, 0F, -1F);
+						Point3D[] rightPRpoints = [lightSource];
 						RightAngleProjection(rightPRpoints);
 
 						// ******************************************************************
 						// Color correction. Angle between Normal vector of polygon and 
 						// vector of lightStyle source is used.
 						// ******************************************************************
-						if (this._angleY >= 45 || this._angleY <= -45)
+						if (AngleY >= 45 || AngleY <= -45)
 						{
 							front = ChartGraphics.GetGradientColor(surfaceColor, Color.Black, GetAngle(lightSource, _lightVectors[1]) / Math.PI);
 
@@ -942,7 +939,7 @@ internal class Matrix3D
 					else
 					{
 						// LightStyle source Vector
-						Point3D lightSource = new Point3D(0F, 0F, 1F);
+						Point3D lightSource = new(0F, 0F, 1F);
 
 						// ******************************************************************
 						// Color correction. Angle between Normal vector of polygon and 
@@ -1004,21 +1001,27 @@ internal class Matrix3D
 			case LightStyle.Simplistic:
 				{
 					// Find two vectors of polygon
-					Point3D firstVector = new Point3D();
-					firstVector.X = points[0].X - points[1].X;
-					firstVector.Y = points[0].Y - points[1].Y;
-					firstVector.Z = points[0].Z - points[1].Z;
+					Point3D firstVector = new()
+					{
+						X = points[0].X - points[1].X,
+						Y = points[0].Y - points[1].Y,
+						Z = points[0].Z - points[1].Z
+					};
 
-					Point3D secondVector = new Point3D();
-					secondVector.X = points[2].X - points[1].X;
-					secondVector.Y = points[2].Y - points[1].Y;
-					secondVector.Z = points[2].Z - points[1].Z;
+					Point3D secondVector = new()
+					{
+						X = points[2].X - points[1].X,
+						Y = points[2].Y - points[1].Y,
+						Z = points[2].Z - points[1].Z
+					};
 
 					// Find Normal vector for Polygon
-					Point3D normalVector = new Point3D();
-					normalVector.X = firstVector.Y * secondVector.Z - firstVector.Z * secondVector.Y;
-					normalVector.Y = firstVector.Z * secondVector.X - firstVector.X * secondVector.Z;
-					normalVector.Z = firstVector.X * secondVector.Y - firstVector.Y * secondVector.X;
+					Point3D normalVector = new()
+					{
+						X = firstVector.Y * secondVector.Z - firstVector.Z * secondVector.Y,
+						Y = firstVector.Z * secondVector.X - firstVector.X * secondVector.Z,
+						Z = firstVector.X * secondVector.Y - firstVector.Y * secondVector.X
+					};
 
 					// Polygon is left side ( like side of area chart )
 					if (surfaceName == SurfaceNames.Left)
@@ -1095,21 +1098,27 @@ internal class Matrix3D
 				{
 
 					// Find two vectors of polygon
-					Point3D firstVector = new Point3D();
-					firstVector.X = points[0].X - points[1].X;
-					firstVector.Y = points[0].Y - points[1].Y;
-					firstVector.Z = points[0].Z - points[1].Z;
+					Point3D firstVector = new()
+					{
+						X = points[0].X - points[1].X,
+						Y = points[0].Y - points[1].Y,
+						Z = points[0].Z - points[1].Z
+					};
 
-					Point3D secondVector = new Point3D();
-					secondVector.X = points[2].X - points[1].X;
-					secondVector.Y = points[2].Y - points[1].Y;
-					secondVector.Z = points[2].Z - points[1].Z;
+					Point3D secondVector = new()
+					{
+						X = points[2].X - points[1].X,
+						Y = points[2].Y - points[1].Y,
+						Z = points[2].Z - points[1].Z
+					};
 
 					// Find Normal vector for Polygon
-					Point3D normalVector = new Point3D();
-					normalVector.X = firstVector.Y * secondVector.Z - firstVector.Z * secondVector.Y;
-					normalVector.Y = firstVector.Z * secondVector.X - firstVector.X * secondVector.Z;
-					normalVector.Z = firstVector.X * secondVector.Y - firstVector.Y * secondVector.X;
+					Point3D normalVector = new()
+					{
+						X = firstVector.Y * secondVector.Z - firstVector.Z * secondVector.Y,
+						Y = firstVector.Z * secondVector.X - firstVector.X * secondVector.Z,
+						Z = firstVector.X * secondVector.Y - firstVector.Y * secondVector.X
+					};
 
 					// ******************************************************************
 					// Color correction. Angle between Normal vector of polygon and 

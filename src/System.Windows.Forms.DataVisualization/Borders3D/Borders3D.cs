@@ -116,19 +116,6 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		#region Fields
 
 		// Private data members, which store properties values
-		private Color _pageColor = Color.White;
-		private BorderSkinStyle _skinStyle = BorderSkinStyle.None;
-		private GradientStyle _backGradientStyle = GradientStyle.None;
-		private Color _backSecondaryColor = Color.Empty;
-		private Color _backColor = Color.Gray;
-		private string _backImage = "";
-		private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
-		private Color _backImageTransparentColor = Color.Empty;
-		private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
-		private Color _borderColor = Color.Black;
-		private int _borderWidth = 1;
-		private ChartDashStyle _borderDashStyle = ChartDashStyle.NotSet;
-		private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
 
 		#endregion
 
@@ -159,7 +146,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(typeof(Color), "White"),
 		SRDescription("DescriptionAttributeBorderSkin_PageColor"),
 		TypeConverter(typeof(ColorConverter)),
@@ -167,16 +154,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		]
 		public Color PageColor
 		{
-			get
-			{
-				return _pageColor;
-			}
+			get;
 			set
 			{
-				_pageColor = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = Color.White;
 
 
 		/// <summary>
@@ -185,23 +169,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		[
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(BorderSkinStyle.None),
 		SRDescription("DescriptionAttributeBorderSkin_SkinStyle"),
-		ParenthesizePropertyNameAttribute(true)
+		ParenthesizePropertyName(true)
 		]
 		public BorderSkinStyle SkinStyle
 		{
-			get
-			{
-				return _skinStyle;
-			}
+			get;
 			set
 			{
-				_skinStyle = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = BorderSkinStyle.None;
 
 		/// <summary>
 		/// Gets or sets the background color of a skin frame.
@@ -210,7 +191,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(typeof(Color), "Gray"),
 		SRDescription("DescriptionAttributeFrameBackColor"),
 		TypeConverter(typeof(ColorConverter)),
@@ -218,16 +199,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		]
 		public Color BackColor
 		{
-			get
-			{
-				return _backColor;
-			}
+			get;
 			set
 			{
-				_backColor = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = Color.Gray;
 
 		/// <summary>
 		/// Gets or sets the border color of a skin frame.
@@ -236,7 +214,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(typeof(Color), "Black"),
 		SRDescription("DescriptionAttributeBorderColor"),
 		TypeConverter(typeof(ColorConverter)),
@@ -244,16 +222,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		]
 		public Color BorderColor
 		{
-			get
-			{
-				return _borderColor;
-			}
+			get;
 			set
 			{
-				_borderColor = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = Color.Black;
 
 		/// <summary>
 		/// Gets or sets the background hatch style of a skin frame.
@@ -262,23 +237,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(ChartHatchStyle.None),
 		SRDescription("DescriptionAttributeFrameBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
 		public ChartHatchStyle BackHatchStyle
 		{
-			get
-			{
-				return _backHatchStyle;
-			}
+			get;
 			set
 			{
-				_backHatchStyle = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = ChartHatchStyle.None;
 
 		/// <summary>
 		/// Gets or sets the background image of a skin frame.
@@ -287,23 +259,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(""),
 		SRDescription("DescriptionAttributeBackImage"),
 		Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
 		]
 		public string BackImage
 		{
-			get
-			{
-				return _backImage;
-			}
+			get;
 			set
 			{
-				_backImage = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = "";
 
 		/// <summary>
 		/// Gets or sets the drawing mode for the background image of a skin frame.
@@ -312,22 +281,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(ChartImageWrapMode.Tile),
 		SRDescription("DescriptionAttributeImageWrapMode"),
 		]
 		public ChartImageWrapMode BackImageWrapMode
 		{
-			get
-			{
-				return _backImageWrapMode;
-			}
+			get;
 			set
 			{
-				_backImageWrapMode = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = ChartImageWrapMode.Tile;
 
 		/// <summary>
 		/// Gets or sets a color which will be replaced with a transparent color 
@@ -337,7 +303,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeImageTransparentColor"),
 		TypeConverter(typeof(ColorConverter)),
@@ -345,16 +311,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		]
 		public Color BackImageTransparentColor
 		{
-			get
-			{
-				return _backImageTransparentColor;
-			}
+			get;
 			set
 			{
-				_backImageTransparentColor = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = Color.Empty;
 
 		/// <summary>
 		/// Gets or sets the background image alignment of a skin frame.
@@ -366,22 +329,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(ChartImageAlignmentStyle.TopLeft),
 		SRDescription("DescriptionAttributeBackImageAlign"),
 		]
 		public ChartImageAlignmentStyle BackImageAlignment
 		{
-			get
-			{
-				return _backImageAlignment;
-			}
+			get;
 			set
 			{
-				_backImageAlignment = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = ChartImageAlignmentStyle.TopLeft;
 
 		/// <summary>
 		/// Gets or sets the background gradient style of a skin frame.
@@ -390,23 +350,20 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(GradientStyle.None),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
 		public GradientStyle BackGradientStyle
 		{
-			get
-			{
-				return _backGradientStyle;
-			}
+			get;
 			set
 			{
-				_backGradientStyle = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = GradientStyle.None;
 
 		/// <summary>
 		/// Gets or sets the secondary background color of a skin frame.
@@ -419,7 +376,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBorderSkin_FrameBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
@@ -427,16 +384,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		]
 		public Color BackSecondaryColor
 		{
-			get
-			{
-				return _backSecondaryColor;
-			}
+			get;
 			set
 			{
-				_backSecondaryColor = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = Color.Empty;
 
 		/// <summary>
 		/// Gets or sets the width of the border line of a skin frame.
@@ -445,27 +399,24 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(1),
 		SRDescription("DescriptionAttributeBorderSkin_FrameBorderWidth"),
 		]
 		public int BorderWidth
 		{
-			get
-			{
-				return _borderWidth;
-			}
+			get;
 			set
 			{
 				if (value < 0)
 				{
-					throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
+					throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionBorderWidthIsNotPositive));
 				}
 
-				_borderWidth = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = 1;
 
 		/// <summary>
 		/// Gets or sets the style of the border line of a skin frame.
@@ -474,22 +425,19 @@ namespace System.Windows.Forms.DataVisualization.Charting
 
 		SRCategory("CategoryAttributeAppearance"),
 		Bindable(true),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 		DefaultValue(ChartDashStyle.NotSet),
 		SRDescription("DescriptionAttributeBorderSkin_FrameBorderDashStyle"),
 		]
 		public ChartDashStyle BorderDashStyle
 		{
-			get
-			{
-				return _borderDashStyle;
-			}
+			get;
 			set
 			{
-				_borderDashStyle = value;
-				this.Invalidate();
+				field = value;
+				Invalidate();
 			}
-		}
+		} = ChartDashStyle.NotSet;
 
 		#endregion
 	}
@@ -506,11 +454,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		#region Fields
 
 		// Border types image resource manager
-		private ResourceManager _resourceManager = null;
 
 		// Storage for all registered border types
-		internal Hashtable registeredBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
-		private Hashtable _createdBorderTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
+		internal Hashtable registeredBorderTypes = new(StringComparer.OrdinalIgnoreCase);
+		private readonly Hashtable _createdBorderTypes = new(StringComparer.OrdinalIgnoreCase);
 
 		#endregion
 
@@ -528,7 +475,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 		/// </summary>
 		/// <param name="serviceType">Service type to get.</param>
 		/// <returns>Border registry service.</returns>
-		[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		object IServiceProvider.GetService(Type serviceType)
 		{
 			if (serviceType == typeof(BorderTypeRegistry))
@@ -617,14 +564,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			get
 			{
 				// Create border images resource manager
-				if (_resourceManager == null)
-				{
-					_resourceManager = new ResourceManager("System.Web.UI.DataVisualization.Charting", Assembly.GetExecutingAssembly());
-				}
+				field ??= new ResourceManager("System.Web.UI.DataVisualization.Charting", Assembly.GetExecutingAssembly());
 
-				return _resourceManager;
+				return field;
 			}
-		}
+		} = null;
 
 		#endregion
 	}

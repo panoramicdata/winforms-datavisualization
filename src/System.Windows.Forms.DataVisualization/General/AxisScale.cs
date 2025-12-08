@@ -109,11 +109,10 @@ public partial class Axis
 
 	// Used for column chart margin
 	internal double marginTemp = 0.0;
-	private ArrayList _stripLineOffsets = new ArrayList();
+	private readonly ArrayList _stripLineOffsets = [];
 
 
 	// Data members, which store properties values
-	private bool _isLogarithmic = false;
 	internal double logarithmBase = 10.0;
 	internal bool isReversed = false;
 	internal bool isStartedFromZero = true;
@@ -125,22 +124,22 @@ public partial class Axis
 	internal bool autoEnabled = true;
 	internal LabelStyle labelStyle = null;
 	private DateTimeIntervalType _internalIntervalType = DateTimeIntervalType.Auto;
-	internal double maximum = Double.NaN;
-	internal double crossing = Double.NaN;
-	internal double minimum = Double.NaN;
+	internal double maximum = double.NaN;
+	internal double crossing = double.NaN;
+	internal double minimum = double.NaN;
 
 	// Temporary Minimum and maximum values.
-	internal double tempMaximum = Double.NaN;
-	internal double tempMinimum = Double.NaN;
-	internal double tempCrossing = Double.NaN;
+	internal double tempMaximum = double.NaN;
+	internal double tempMinimum = double.NaN;
+	internal double tempCrossing = double.NaN;
 	internal CustomLabelsCollection tempLabels;
 	internal bool tempAutoMaximum = true;
 	internal bool tempAutoMinimum = true;
-	internal double tempMajorGridInterval = Double.NaN;
+	internal double tempMajorGridInterval = double.NaN;
 	internal double tempMinorGridInterval = 0.0;
-	internal double tempMajorTickMarkInterval = Double.NaN;
+	internal double tempMajorTickMarkInterval = double.NaN;
 	internal double tempMinorTickMarkInterval = 0.0;
-	internal double tempLabelInterval = Double.NaN;
+	internal double tempLabelInterval = double.NaN;
 	internal DateTimeIntervalType tempGridIntervalType = DateTimeIntervalType.NotSet;
 	internal DateTimeIntervalType tempTickMarkIntervalType = DateTimeIntervalType.NotSet;
 	internal DateTimeIntervalType tempLabelIntervalType = DateTimeIntervalType.NotSet;
@@ -152,10 +151,8 @@ public partial class Axis
 	internal AxisName axisType = AxisName.X;
 
 	// Automatic maximum value (from data point values).
-	private bool _autoMaximum = true;
 
 	// Automatic minimum value (from data point values).
-	private bool _autoMinimum = true;
 
 	/// <summary>
 	/// Axis position: Left, Right, Top Bottom
@@ -188,7 +185,7 @@ public partial class Axis
 
 	// Correction of interval because of 
 	// 3D Rotation and perspective
-	internal double interval3DCorrection = Double.NaN;
+	internal double interval3DCorrection = double.NaN;
 
 	// Axis coordinate convertion optimization fields
 	internal bool optimizedGetPosition = false;
@@ -204,7 +201,6 @@ public partial class Axis
 
 
 	// Determines how number of intervals automatically calculated
-	private IntervalAutoMode _intervalAutoMode = IntervalAutoMode.FixedCount;
 
 	// True if scale segments are used
 	internal bool scaleSegmentsUsed = false;
@@ -214,7 +210,7 @@ public partial class Axis
 	// Preffered number of intervals on the axis
 	internal int prefferedNumberofIntervals = 5;
 
-	private Stack<Double> _intervalsStore = new Stack<Double>();
+	private readonly Stack<double> _intervalsStore = new();
 
 	#endregion
 
@@ -226,20 +222,20 @@ public partial class Axis
 	[
 	Bindable(true),
 	DefaultValue(AxisPosition.Left),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeReverse"),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	virtual internal AxisPosition AxisPosition
 	{
 		get
 		{
-			return this._axisPosition;
+			return _axisPosition;
 		}
 		set
 		{
-			this._axisPosition = value;
+			_axisPosition = value;
 #if SUBAXES
 			// Update axis position of the sub axis
 			if( !((Axis)this).IsSubAxis )
@@ -251,7 +247,7 @@ public partial class Axis
 			}
 
 #endif // SUBAXES
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -268,16 +264,13 @@ public partial class Axis
 	]
 	public IntervalAutoMode IntervalAutoMode
 	{
-		get
-		{
-			return this._intervalAutoMode;
-		}
+		get;
 		set
 		{
-			this._intervalAutoMode = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = IntervalAutoMode.FixedCount;
 
 
 
@@ -290,7 +283,7 @@ public partial class Axis
 	SRCategory("CategoryAttributeScale"),
 	Bindable(true),
 	DefaultValue(false),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeReverse"),
 	]
 	public bool IsReversed
@@ -302,7 +295,7 @@ public partial class Axis
 		set
 		{
 			isReversed = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -316,7 +309,7 @@ public partial class Axis
 	SRCategory("CategoryAttributeScale"),
 	Bindable(true),
 	DefaultValue(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeStartFromZero3"),
 	]
 	public bool IsStartedFromZero
@@ -328,7 +321,7 @@ public partial class Axis
 		set
 		{
 			isStartedFromZero = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -341,7 +334,7 @@ public partial class Axis
 	SRCategory("CategoryAttributeScale"),
 	Bindable(true),
 	DefaultValue(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeMargin"),
 	]
 	public bool IsMarginVisible
@@ -349,18 +342,26 @@ public partial class Axis
 		get
 		{
 			if (margin > 0)
+			{
 				return true;
+			}
 			else
+			{
 				return false;
+			}
 		}
 		set
 		{
 			if (value == true)
+			{
 				margin = 100;
+			}
 			else
+			{
 				margin = 0;
+			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -371,9 +372,9 @@ public partial class Axis
 	SRCategory("CategoryAttributeScale"),
 	Bindable(true),
 	DefaultValue(DateTimeIntervalType.Auto),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeInternalIntervalType"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	]
 	internal DateTimeIntervalType InternalIntervalType
 	{
@@ -390,13 +391,13 @@ public partial class Axis
 				majorGrid.intervalType = value;
 			}
 
-			if (this.tempMajorTickMarkInterval <= 0.0 ||
+			if (tempMajorTickMarkInterval <= 0.0 ||
 				(double.IsNaN(tempMajorTickMarkInterval) && ((Axis)this).Interval <= 0.0))
 			{
 				majorTickMark.intervalType = value;
 			}
 
-			if (this.tempLabelInterval <= 0.0 ||
+			if (tempLabelInterval <= 0.0 ||
 				(double.IsNaN(tempLabelInterval) && ((Axis)this).Interval <= 0.0))
 			{
 				labelStyle.intervalType = value;
@@ -404,7 +405,7 @@ public partial class Axis
 
 			_internalIntervalType = value;
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -434,7 +435,7 @@ public partial class Axis
 				labelStyle.interval = value;
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -465,7 +466,7 @@ public partial class Axis
 			labelStyle.intervalType = newIntervalType;
 		}
 
-		this.Invalidate();
+		Invalidate();
 	}
 
 
@@ -476,8 +477,8 @@ public partial class Axis
 
 	SRCategory("CategoryAttributeScale"),
 	Bindable(true),
-	DefaultValue(Double.NaN),
-	NotifyParentPropertyAttribute(true),
+	DefaultValue(double.NaN),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeMaximum"),
 	TypeConverter(typeof(AxisMinMaxAutoValueConverter))
 	]
@@ -486,18 +487,22 @@ public partial class Axis
 		get
 		{
 			// Get maximum
-			if (_isLogarithmic && logarithmicConvertedToLinear && !Double.IsNaN(maximum))
+			if (IsLogarithmic && logarithmicConvertedToLinear && !double.IsNaN(maximum))
+			{
 				return logarithmicMaximum;
+			}
 			else
+			{
 				return maximum;
+			}
 		}
 		set
 		{
 			// Split a value to maximum and auto maximum
-			if (Double.IsNaN(value))
+			if (double.IsNaN(value))
 			{
-				_autoMaximum = true;
-				maximum = Double.NaN;
+				AutoMaximum = true;
+				maximum = double.NaN;
 			}
 			else
 			{
@@ -507,7 +512,7 @@ public partial class Axis
 				// Set non linearized Maximum for logarithmic scale
 				logarithmicMaximum = value;
 
-				_autoMaximum = false;
+				AutoMaximum = false;
 			}
 
 			// Reset original property value fields
@@ -515,9 +520,9 @@ public partial class Axis
 
 			// This line is added because of Save ScaleView State August 29, 2003
 			// in Web Forms. This place could cause problems with Reset Auto Values.
-			((Axis)this).tempAutoMaximum = _autoMaximum;
+			((Axis)this).tempAutoMaximum = AutoMaximum;
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -528,8 +533,8 @@ public partial class Axis
 
 	SRCategory("CategoryAttributeScale"),
 	Bindable(true),
-	DefaultValue(Double.NaN),
-	NotifyParentPropertyAttribute(true),
+	DefaultValue(double.NaN),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeMinimum"),
 	TypeConverter(typeof(AxisMinMaxAutoValueConverter))
 	]
@@ -538,24 +543,28 @@ public partial class Axis
 		get
 		{
 			// Get minimum
-			if (_isLogarithmic && logarithmicConvertedToLinear && !Double.IsNaN(maximum))
+			if (IsLogarithmic && logarithmicConvertedToLinear && !double.IsNaN(maximum))
+			{
 				return logarithmicMinimum;
+			}
 			else
+			{
 				return minimum;
+			}
 		}
 		set
 		{
 			// Split a value to minimum and auto minimum
-			if (Double.IsNaN(value))
+			if (double.IsNaN(value))
 			{
-				_autoMinimum = true;
-				minimum = Double.NaN;
+				AutoMinimum = true;
+				minimum = double.NaN;
 			}
 			else
 			{
 				// Set maximum
 				minimum = value;
-				_autoMinimum = false;
+				AutoMinimum = false;
 
 				// Set non linearized Minimum for logarithmic scale
 				logarithmicMinimum = value;
@@ -566,9 +575,9 @@ public partial class Axis
 
 			// This line is added because of Save ScaleView State August 29, 2003
 			// in Web Forms. This place could cause problems with Reset Auto Values.
-			((Axis)this).tempAutoMinimum = _autoMinimum;
+			((Axis)this).tempAutoMinimum = AutoMinimum;
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -578,8 +587,8 @@ public partial class Axis
 	[
 	SRCategory("CategoryAttributeScale"),
 	Bindable(true),
-	DefaultValue(Double.NaN),
-	NotifyParentPropertyAttribute(true),
+	DefaultValue(double.NaN),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeCrossing"),
 	TypeConverter(typeof(AxisCrossingValueConverter))
 	]
@@ -588,12 +597,20 @@ public partial class Axis
 		get
 		{
 			if (paintMode)
-				if (_isLogarithmic)
-					return Math.Pow(this.logarithmBase, GetCrossing());
+			{
+				if (IsLogarithmic)
+				{
+					return Math.Pow(logarithmBase, GetCrossing());
+				}
 				else
+				{
 					return GetCrossing();
+				}
+			}
 			else
+			{
 				return crossing;
+			}
 		}
 		set
 		{
@@ -602,7 +619,7 @@ public partial class Axis
 			// Reset original property value fields
 			((Axis)this).tempCrossing = crossing;
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -614,7 +631,7 @@ public partial class Axis
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	DefaultValue(typeof(AxisEnabled), "Auto"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeEnabled7"),
 	]
 	public AxisEnabled Enabled
@@ -652,7 +669,7 @@ public partial class Axis
 				autoEnabled = false;
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -664,21 +681,18 @@ public partial class Axis
 		SRCategory("CategoryAttributeScale"),
 	Bindable(true),
 	DefaultValue(false),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeLogarithmic"),
 	]
 	public bool IsLogarithmic
 	{
-		get
-		{
-			return _isLogarithmic;
-		}
+		get;
 		set
 		{
-			_isLogarithmic = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = false;
 
 	/// <summary>
 	/// Base of the logarithm used in logarithmic scale. 
@@ -688,7 +702,7 @@ public partial class Axis
 		SRCategory("CategoryAttributeScale"),
 	Bindable(true),
 	DefaultValue(10.0),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeLogarithmBase"),
 	]
 	public double LogarithmBase
@@ -701,12 +715,12 @@ public partial class Axis
 		{
 			if (value < 2.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleLogarithmBaseInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleLogarithmBaseInvalid));
 			}
 
 			logarithmBase = value;
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -726,19 +740,19 @@ public partial class Axis
 	SRCategory("CategoryAttributeScale"),
 	SRDescription("DescriptionAttributeScaleBreakStyle"),
 		TypeConverter(typeof(NoNameExpandableObjectConverter)),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	]
 	virtual public AxisScaleBreakStyle ScaleBreakStyle
 	{
 		get
 		{
-			return this.axisScaleBreakStyle;
+			return axisScaleBreakStyle;
 		}
 		set
 		{
-			this.axisScaleBreakStyle = value;
-			this.axisScaleBreakStyle.axis = (Axis)this;
+			axisScaleBreakStyle = value;
+			axisScaleBreakStyle.axis = (Axis)this;
 			//this.Invalidate();
 		}
 	}
@@ -754,7 +768,7 @@ public partial class Axis
 	Browsable(false),
 	EditorBrowsable(EditorBrowsableState.Never),
 	SRDescription("DescriptionAttributeAxisScaleSegmentCollection_AxisScaleSegmentCollection"),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
 		Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
 		]
@@ -762,7 +776,7 @@ public partial class Axis
 	{
 		get
 		{
-			return this.scaleSegments;
+			return scaleSegments;
 		}
 	}
 
@@ -790,7 +804,7 @@ public partial class Axis
 		{
 			_scaleView = value;
 			_scaleView.axis = (Axis)this;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -814,7 +828,7 @@ public partial class Axis
 		{
 			scrollBar = value;
 			scrollBar.axis = (Axis)this;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -839,18 +853,12 @@ public partial class Axis
 	/// <summary>
 	/// Gets automatic maximum value (from data point values). 
 	/// </summary>
-	internal bool AutoMaximum
-	{
-		get { return _autoMaximum; }
-	}
+	internal bool AutoMaximum { get; private set; } = true;
 
 	/// <summary>
 	/// Gets automatic minimum value (from data point values). 
 	/// </summary>
-	internal bool AutoMinimum
-	{
-		get { return _autoMinimum; }
-	}
+	internal bool AutoMinimum { get; private set; } = true;
 
 	#endregion
 
@@ -865,9 +873,9 @@ public partial class Axis
 	public double GetPosition(double axisValue)
 	{
 		// Adjust for the IsLogarithmic axis
-		if (_isLogarithmic && axisValue != 0.0)
+		if (IsLogarithmic && axisValue != 0.0)
 		{
-			axisValue = Math.Log(axisValue, this.logarithmBase);
+			axisValue = Math.Log(axisValue, logarithmBase);
 		}
 
 		// Get linear position
@@ -899,11 +907,11 @@ public partial class Axis
 		// Convert it to pixels
 		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
 		{
-			val *= (this.Common.ChartPicture.Width - 1) / 100F;
+			val *= (Common.ChartPicture.Width - 1) / 100F;
 		}
 		else
 		{
-			val *= (this.Common.ChartPicture.Height - 1) / 100F;
+			val *= (Common.ChartPicture.Height - 1) / 100F;
 		}
 
 		return val;
@@ -933,7 +941,7 @@ public partial class Axis
 		if (validateInput &&
 			(position < 0 || position > 100))
 		{
-			throw (new ArgumentException(SR.ExceptionAxisScalePositionInvalid, "position"));
+			throw (new ArgumentException(SR.ExceptionAxisScalePositionInvalid, nameof(position)));
 		}
 
 		// Check if plot area position was already calculated
@@ -944,17 +952,25 @@ public partial class Axis
 
 		// Convert chart picture position to plotting position
 		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+		{
 			position = position - PlotAreaPosition.X;
+		}
 		else
+		{
 			position = PlotAreaPosition.Bottom - position;
+		}
 
 
 		// The Chart area size
 		double ChartArea;
 		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+		{
 			ChartArea = PlotAreaPosition.Width;
+		}
 		else
+		{
 			ChartArea = PlotAreaPosition.Height;
+		}
 
 
 		// The Real range as double
@@ -972,9 +988,13 @@ public partial class Axis
 
 		// Corrected axis value for reversed
 		if (isReversed)
+		{
 			axisValue = viewMax - axisValue;
+		}
 		else
+		{
 			axisValue = viewMin + axisValue;
+		}
 
 		return axisValue;
 	}
@@ -991,11 +1011,11 @@ public partial class Axis
 		double val = position;
 		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
 		{
-			val *= 100F / ((float)(this.Common.ChartPicture.Width - 1));
+			val *= 100F / ((float)(Common.ChartPicture.Width - 1));
 		}
 		else
 		{
-			val *= 100F / ((float)(this.Common.ChartPicture.Height - 1));
+			val *= 100F / ((float)(Common.ChartPicture.Height - 1));
 		}
 
 		// Get from relative position
@@ -1016,13 +1036,21 @@ public partial class Axis
 		if (GetOppositeAxis().isReversed)
 		{
 			if (AxisPosition == AxisPosition.Left)
+			{
 				AxisPosition = AxisPosition.Right;
+			}
 			else if (AxisPosition == AxisPosition.Right)
+			{
 				AxisPosition = AxisPosition.Left;
+			}
 			else if (AxisPosition == AxisPosition.Top)
+			{
 				AxisPosition = AxisPosition.Bottom;
+			}
 			else if (AxisPosition == AxisPosition.Bottom)
+			{
 				AxisPosition = AxisPosition.Top;
+			}
 		}
 	}
 
@@ -1050,7 +1078,7 @@ public partial class Axis
 			ser.ChartType == SeriesChartType.StackedBar ||
 			ser.ChartType == SeriesChartType.StackedBar100) &&
 				margin != 100.0 && !offsetTempSet &&
-				this._autoMinimum)
+				AutoMinimum)
 		{
 
 			// Find offset correction for Column chart margin.
@@ -1074,20 +1102,20 @@ public partial class Axis
 			offset = (margin) / 100;
 			double contraOffset = (100 - margin) / 100;
 
-			if (this._intervalsStore.Count == 0)
+			if (_intervalsStore.Count == 0)
 			{
-				this._intervalsStore.Push(this.labelStyle.intervalOffset);
-				this._intervalsStore.Push(this.majorGrid.intervalOffset);
-				this._intervalsStore.Push(this.majorTickMark.intervalOffset);
-				this._intervalsStore.Push(this.minorGrid.intervalOffset);
-				this._intervalsStore.Push(this.minorTickMark.intervalOffset);
+				_intervalsStore.Push(labelStyle.intervalOffset);
+				_intervalsStore.Push(majorGrid.intervalOffset);
+				_intervalsStore.Push(majorTickMark.intervalOffset);
+				_intervalsStore.Push(minorGrid.intervalOffset);
+				_intervalsStore.Push(minorTickMark.intervalOffset);
 			}
 
-			this.labelStyle.intervalOffset = Double.IsNaN(this.labelStyle.intervalOffset) ? offset : this.labelStyle.intervalOffset + offset;
-			this.majorGrid.intervalOffset = Double.IsNaN(this.majorGrid.intervalOffset) ? offset : this.majorGrid.intervalOffset + offset;
-			this.majorTickMark.intervalOffset = Double.IsNaN(this.majorTickMark.intervalOffset) ? offset : this.majorTickMark.intervalOffset + offset;
-			this.minorGrid.intervalOffset = Double.IsNaN(this.minorGrid.intervalOffset) ? offset : this.minorGrid.intervalOffset + offset;
-			this.minorTickMark.intervalOffset = Double.IsNaN(this.minorTickMark.intervalOffset) ? offset : this.minorTickMark.intervalOffset + offset;
+			labelStyle.intervalOffset = double.IsNaN(labelStyle.intervalOffset) ? offset : labelStyle.intervalOffset + offset;
+			majorGrid.intervalOffset = double.IsNaN(majorGrid.intervalOffset) ? offset : majorGrid.intervalOffset + offset;
+			majorTickMark.intervalOffset = double.IsNaN(majorTickMark.intervalOffset) ? offset : majorTickMark.intervalOffset + offset;
+			minorGrid.intervalOffset = double.IsNaN(minorGrid.intervalOffset) ? offset : minorGrid.intervalOffset + offset;
+			minorTickMark.intervalOffset = double.IsNaN(minorTickMark.intervalOffset) ? offset : minorTickMark.intervalOffset + offset;
 
 			foreach (StripLine strip in ((Axis)(this)).StripLines)
 			{
@@ -1104,15 +1132,15 @@ public partial class Axis
 	/// </summary>
 	internal void ResetTempAxisOffset()
 	{
-		if (this.offsetTempSet)
+		if (offsetTempSet)
 		{
-			System.Diagnostics.Debug.Assert(this._intervalsStore.Count == 5, "Fail in interval store count");
+			Diagnostics.Debug.Assert(_intervalsStore.Count == 5, "Fail in interval store count");
 
-			this.minorTickMark.intervalOffset = this._intervalsStore.Pop();
-			this.minorGrid.intervalOffset = this._intervalsStore.Pop();
-			this.majorTickMark.intervalOffset = this._intervalsStore.Pop();
-			this.majorGrid.intervalOffset = this._intervalsStore.Pop();
-			this.labelStyle.intervalOffset = this._intervalsStore.Pop();
+			minorTickMark.intervalOffset = _intervalsStore.Pop();
+			minorGrid.intervalOffset = _intervalsStore.Pop();
+			majorTickMark.intervalOffset = _intervalsStore.Pop();
+			majorGrid.intervalOffset = _intervalsStore.Pop();
+			labelStyle.intervalOffset = _intervalsStore.Pop();
 			int index = 0;
 			foreach (StripLine strip in ((Axis)(this)).StripLines)
 			{
@@ -1153,7 +1181,7 @@ public partial class Axis
 		// For X Axes
 		if (axisType == AxisName.X || axisType == AxisName.X2)
 		{
-			if (margin == 0.0 && !this.roundedXValues)
+			if (margin == 0.0 && !roundedXValues)
 			{
 				return inter;
 			}
@@ -1205,7 +1233,7 @@ public partial class Axis
 		// If the interval is zero return error
 		if (diff == 0.0)
 		{
-			throw (new ArgumentOutOfRangeException("diff", SR.ExceptionAxisScaleIntervalIsZero));
+			throw (new ArgumentOutOfRangeException(nameof(diff), SR.ExceptionAxisScaleIntervalIsZero));
 		}
 
 		// If the real interval is > 1.0
@@ -1239,15 +1267,21 @@ public partial class Axis
 			}
 		}
 
-		double power = (this.IsLogarithmic) ? this.logarithmBase : 10.0;
+		double power = (IsLogarithmic) ? logarithmBase : 10.0;
 		double tempDiff = diff / Math.Pow(power, step);
 
 		if (tempDiff < 3)
+		{
 			tempDiff = 2;
+		}
 		else if (tempDiff < 7)
+		{
 			tempDiff = 5;
+		}
 		else
+		{
 			tempDiff = 10;
+		}
 
 		// Make a correction of the real interval
 		return tempDiff * Math.Pow(power, step);
@@ -1484,13 +1518,17 @@ public partial class Axis
 		// If the interval is zero return error
 		if (years <= 1.0)
 		{
-			throw (new ArgumentOutOfRangeException("years", SR.ExceptionAxisScaleIntervalIsLessThen1Year));
+			throw (new ArgumentOutOfRangeException(nameof(years), SR.ExceptionAxisScaleIntervalIsLessThen1Year));
 		}
 
 		if (years < 5)
+		{
 			return 1;
+		}
 		else if (years < 10)
+		{
 			return 2;
+		}
 
 		// Make a correction of the interval
 		return Math.Floor(years / 5);
@@ -1516,10 +1554,9 @@ public partial class Axis
 	/// <returns>Date-time type or Auto.</returns>
 	internal ChartValueType GetDateTimeType()
 	{
-		List<string> list = null;
-
 		ChartValueType dateType = ChartValueType.Auto;
 
+		List<string> list;
 		// Check if Value type is date from first series in the axis
 		if (axisType == AxisName.X)
 		{
@@ -1588,7 +1625,7 @@ public partial class Axis
 	/// <returns>Crossing value</returns>
 	private double GetCrossing()
 	{
-		if (Double.IsNaN(crossing))
+		if (double.IsNaN(crossing))
 		{
 			if (Common.ChartTypeRegistry.GetChartType((string)ChartArea.ChartTypes[0]).ZeroCrossing)
 			{
@@ -1610,11 +1647,11 @@ public partial class Axis
 				return ViewMinimum;
 			}
 		}
-		else if (crossing == Double.MaxValue)
+		else if (crossing == double.MaxValue)
 		{
 			return ViewMaximum;
 		}
-		else if (crossing == Double.MinValue)
+		else if (crossing == double.MinValue)
 		{
 			return ViewMinimum;
 		}
@@ -1631,7 +1668,7 @@ public partial class Axis
 	internal void SetAutoMinimum(double min)
 	{
 		// Set the minimum
-		if (_autoMinimum)
+		if (AutoMinimum)
 		{
 			minimum = min;
 		}
@@ -1646,7 +1683,7 @@ public partial class Axis
 	internal void SetAutoMaximum(double max)
 	{
 		// Set the maximum
-		if (_autoMaximum)
+		if (AutoMaximum)
 		{
 			maximum = max;
 		}
@@ -1675,48 +1712,76 @@ public partial class Axis
 				list = ChartArea.GetXAxesSeries(AxisType.Primary, ((Axis)this).SubAxisName);
 				// There aren't data series
 				if (list.Count == 0)
+				{
 					oppositeAxis = ChartArea.AxisY;
+				}
 				// Take opposite axis from the first series from chart area
 				else if (Common.DataManager.Series[list[0]].YAxisType == AxisType.Primary)
+				{
 					oppositeAxis = ChartArea.AxisY.GetSubAxis(Common.DataManager.Series[list[0]].YSubAxisName);
+				}
 				else
+				{
 					oppositeAxis = ChartArea.AxisY2.GetSubAxis(Common.DataManager.Series[list[0]].YSubAxisName);
+				}
+
 				break;
 			// X2 Axis
 			case AxisName.X2:
 				list = ChartArea.GetXAxesSeries(AxisType.Secondary, ((Axis)this).SubAxisName);
 				// There aren't data series
 				if (list.Count == 0)
+				{
 					oppositeAxis = ChartArea.AxisY2;
+				}
 				// Take opposite axis from the first series from chart area
 				else if (Common.DataManager.Series[list[0]].YAxisType == AxisType.Primary)
+				{
 					oppositeAxis = ChartArea.AxisY.GetSubAxis(Common.DataManager.Series[list[0]].YSubAxisName);
+				}
 				else
+				{
 					oppositeAxis = ChartArea.AxisY2.GetSubAxis(Common.DataManager.Series[list[0]].YSubAxisName);
+				}
+
 				break;
 			// Y Axis
 			case AxisName.Y:
 				list = ChartArea.GetYAxesSeries(AxisType.Primary, ((Axis)this).SubAxisName);
 				// There aren't data series
 				if (list.Count == 0)
+				{
 					oppositeAxis = ChartArea.AxisX;
+				}
 				// Take opposite axis from the first series from chart area
 				else if (Common.DataManager.Series[list[0]].XAxisType == AxisType.Primary)
+				{
 					oppositeAxis = ChartArea.AxisX.GetSubAxis(Common.DataManager.Series[list[0]].XSubAxisName);
+				}
 				else
+				{
 					oppositeAxis = ChartArea.AxisX2.GetSubAxis(Common.DataManager.Series[list[0]].XSubAxisName);
+				}
+
 				break;
 			// Y2 Axis
 			case AxisName.Y2:
 				list = ChartArea.GetYAxesSeries(AxisType.Secondary, ((Axis)this).SubAxisName);
 				// There aren't data series
 				if (list.Count == 0)
+				{
 					oppositeAxis = ChartArea.AxisX2;
+				}
 				// Take opposite axis from the first series from chart area
 				else if (Common.DataManager.Series[list[0]].XAxisType == AxisType.Primary)
+				{
 					oppositeAxis = ChartArea.AxisX.GetSubAxis(Common.DataManager.Series[list[0]].XSubAxisName);
+				}
 				else
+				{
 					oppositeAxis = ChartArea.AxisX2.GetSubAxis(Common.DataManager.Series[list[0]].XSubAxisName);
+				}
+
 				break;
 		}
 
@@ -1735,7 +1800,7 @@ public partial class Axis
 			false : true;
 
 		// Check if some value calculation is optimized
-		if (!this.optimizedGetPosition)
+		if (!optimizedGetPosition)
 		{
 			paintViewMax = ViewMaximum;
 			paintViewMin = ViewMinimum;
@@ -1754,9 +1819,13 @@ public partial class Axis
 
 			// The Chart area size
 			if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+			{
 				paintChartAreaSize = paintAreaPosition.Width;
+			}
 			else
+			{
 				paintChartAreaSize = paintAreaPosition.Height;
+			}
 
 			valueMultiplier = 0.0;
 			if (paintRange != 0)
@@ -1771,17 +1840,17 @@ public partial class Axis
 
 
 		// Check if axis scale segments are enabled
-		if (this.scaleSegmentsUsed)
+		if (scaleSegmentsUsed)
 		{
-			AxisScaleSegment scaleSegment = this.ScaleSegments.FindScaleSegmentForAxisValue(axisValue);
+			AxisScaleSegment scaleSegment = ScaleSegments.FindScaleSegmentForAxisValue(axisValue);
 			if (scaleSegment != null)
 			{
-				double segmentSize = 0.0;
-				double segmentPosition = 0.0;
+				double segmentSize;
+				double segmentPosition;
 				scaleSegment.GetScalePositionAndSize(paintChartAreaSize, out segmentPosition, out segmentSize);
 
 				// Make sure value do not exceed max possible
-				if (!this.ScaleSegments.AllowOutOfScaleValues)
+				if (!ScaleSegments.AllowOutOfScaleValues)
 				{
 					if (axisValue > scaleSegment.ScaleMaximum)
 					{
@@ -1806,16 +1875,24 @@ public partial class Axis
 		if (isReversed)
 		{
 			if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+			{
 				position = paintAreaPositionRight - position;
+			}
 			else
+			{
 				position = paintAreaPosition.Y + position;
+			}
 		}
 		else
 		{
 			if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+			{
 				position = paintAreaPosition.X + position;
+			}
 			else
+			{
 				position = paintAreaPositionBottom - position;
+			}
 		}
 
 		return position;
@@ -1838,31 +1915,31 @@ public partial class Axis
 		double axisInterval;
 
 		// Check if veiw size specified without scaleView position
-		if (!Double.IsNaN(this.ScaleView.Size))
+		if (!double.IsNaN(ScaleView.Size))
 		{
 			// If size set only use axis minimum for scaleView position
-			if (Double.IsNaN(this.ScaleView.Position))
+			if (double.IsNaN(ScaleView.Position))
 			{
-				this.ScaleView.Position = this.Minimum;
+				ScaleView.Position = Minimum;
 			}
 		}
 
 		// Zooming Mode
-		if (!Double.IsNaN(_scaleView.Position) && !Double.IsNaN(_scaleView.Size))
+		if (!double.IsNaN(_scaleView.Position) && !double.IsNaN(_scaleView.Size))
 		{
 			double viewMaximum = ViewMaximum;
 			double viewMinimum = ViewMinimum;
 
 			// IsLogarithmic axes
-			if (this._isLogarithmic)
+			if (IsLogarithmic)
 			{
-				viewMaximum = Math.Pow(this.logarithmBase, viewMaximum);
-				viewMinimum = Math.Pow(this.logarithmBase, viewMinimum);
+				viewMaximum = Math.Pow(logarithmBase, viewMaximum);
+				viewMinimum = Math.Pow(logarithmBase, viewMinimum);
 			}
 			else
 			{
 				// Add rounding and gap for maximum and minimum
-				EstimateAxis(ref this.minimum, ref this.maximum, _autoMaximum, _autoMinimum);
+				EstimateAxis(ref minimum, ref maximum, AutoMaximum, AutoMinimum);
 			}
 
 			// Find Interval for Zoom
@@ -1871,7 +1948,7 @@ public partial class Axis
 		else // No Zooming mode
 		{
 			// Estimate axis shoud be always called for non logarithmic axis
-			axisInterval = EstimateAxis(ref this.minimum, ref this.maximum, _autoMaximum, _autoMinimum);
+			axisInterval = EstimateAxis(ref minimum, ref maximum, AutoMaximum, AutoMinimum);
 		}
 
 		// Set intervals for grids, tick marks and labels
@@ -1886,7 +1963,7 @@ public partial class Axis
 #if SUBAXES
 			if( ChartArea.SeriesIntegerType( this.axisType, ((Axis)this).SubAxisName ) )
 #else // SUBAXES
-			if (ChartArea.SeriesIntegerType(this.axisType, string.Empty))
+			if (ChartArea.SeriesIntegerType(axisType, string.Empty))
 #endif // SUBAXES
 			{
 				axisInterval = Math.Round(axisInterval);
@@ -1922,7 +1999,7 @@ public partial class Axis
 		// The axis minimum value is greater than the maximum value.
 		if (maximumValue < minimumValue)
 		{
-			if (!this.Common.ChartPicture.SuppressExceptions)
+			if (!Common.ChartPicture.SuppressExceptions)
 			{
 				throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumValueIsGreaterThenMaximumDataPoint));
 			}
@@ -1939,7 +2016,7 @@ public partial class Axis
 		ChartValueType dateType = GetDateTimeType();
 
 		// Axis type is logarithmic
-		if (_isLogarithmic)
+		if (IsLogarithmic)
 		{
 			axisInterval = EstimateLogarithmicAxis(ref minimumValue, ref maximumValue, crossing, autoMaximum, autoMinimum);
 		}
@@ -1953,7 +2030,7 @@ public partial class Axis
 		// Axis type is number
 		else
 		{
-			axisInterval = EstimateNumberAxis(ref minimumValue, ref maximumValue, this.IsStartedFromZero, this.prefferedNumberofIntervals, autoMaximum, autoMinimum);
+			axisInterval = EstimateNumberAxis(ref minimumValue, ref maximumValue, IsStartedFromZero, prefferedNumberofIntervals, autoMaximum, autoMinimum);
 		}
 
 		// Set intervals for grids, tick marks and labels
@@ -1989,15 +2066,15 @@ public partial class Axis
 		if (!logarithmicConvertedToLinear)
 		{
 			// Remember values. Do not use POW function because of rounding.
-			this.logarithmicMinimum = this.minimum;
-			this.logarithmicMaximum = this.maximum;
+			logarithmicMinimum = minimum;
+			logarithmicMaximum = maximum;
 		}
 
 		// For log axis margin always turn on.
 		margin = 100;
 
 		// Supress zero and negative values with logarithmic axis exceptions
-		if (this.Common != null && this.Common.Chart != null && this.Common.Chart.chartPicture.SuppressExceptions)
+		if (Common != null && Common.Chart != null && Common.Chart.chartPicture.SuppressExceptions)
 		{
 			if (minimumValue <= 0.0)
 			{
@@ -2009,7 +2086,7 @@ public partial class Axis
 				maximumValue = 1.0;
 			}
 
-			if (crossingValue <= 0.0 && crossingValue != Double.MinValue)
+			if (crossingValue <= 0.0 && crossingValue != double.MinValue)
 			{
 				crossingValue = 1.0;
 			}
@@ -2019,17 +2096,22 @@ public partial class Axis
 		if (minimumValue <= 0.0 || maximumValue <= 0.0 || crossingValue <= 0.0)
 		{
 			if (minimumValue <= 0.0)
-				throw (new ArgumentOutOfRangeException("minimumValue", SR.ExceptionAxisScaleLogarithmicNegativeValues));
+			{
+				throw (new ArgumentOutOfRangeException(nameof(minimumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
+			}
+
 			if (maximumValue <= 0.0)
-				throw (new ArgumentOutOfRangeException("maximumValue", SR.ExceptionAxisScaleLogarithmicNegativeValues));
+			{
+				throw (new ArgumentOutOfRangeException(nameof(maximumValue), SR.ExceptionAxisScaleLogarithmicNegativeValues));
+			}
 		}
 
 		// Change crossing to linear scale
-		crossingValue = Math.Log(crossingValue, this.logarithmBase);
+		crossingValue = Math.Log(crossingValue, logarithmBase);
 
 		// Change minimum and maximum to linear scale
-		minimumValue = Math.Log(minimumValue, this.logarithmBase);
-		maximumValue = Math.Log(maximumValue, this.logarithmBase);
+		minimumValue = Math.Log(minimumValue, logarithmBase);
+		maximumValue = Math.Log(maximumValue, logarithmBase);
 
 		logarithmicConvertedToLinear = true;
 
@@ -2039,12 +2121,14 @@ public partial class Axis
 		// Make good interval for logarithmic scale
 		axisInterval = Math.Floor(diff);
 		if (axisInterval == 0)
+		{
 			axisInterval = 1;
+		}
 
 		if (autoMinimum && autoMaximum)
 		{
 			// The maximum and minimum rounding with interval
-			RoundedValues(axisInterval, this.IsStartedFromZero, autoMaximum, autoMinimum, ref minimumValue, ref maximumValue);
+			RoundedValues(axisInterval, IsStartedFromZero, autoMaximum, autoMinimum, ref minimumValue, ref maximumValue);
 		}
 
 		// Do not allow min/max values more than a hundred
@@ -2053,13 +2137,17 @@ public partial class Axis
 			if (autoMinimum)
 			{
 				if (minimumValue < 0)
+				{
 					minimumValue = 0;
+				}
 			}
 
 			if (autoMaximum)
 			{
 				if (maximumValue > 2)
+				{
 					maximumValue = 2;
+				}
 			}
 		}
 
@@ -2096,13 +2184,13 @@ public partial class Axis
 
 		// For 3D Charts interval could be changed. After rotation 
 		// projection of axis could be very small.
-		if (!double.IsNaN(this.interval3DCorrection) &&
+		if (!double.IsNaN(interval3DCorrection) &&
 			ChartArea.Area3DStyle.Enable3D &&
 			!ChartArea.chartAreaIsCurcular)
 		{
-			axisInterval = Math.Floor(axisInterval / this.interval3DCorrection);
+			axisInterval = Math.Floor(axisInterval / interval3DCorrection);
 
-			this.interval3DCorrection = double.NaN;
+			interval3DCorrection = double.NaN;
 		}
 
 		// Find number of units between minimum and maximum
@@ -2190,11 +2278,11 @@ public partial class Axis
 
 		// For 3D Charts interval could be changed. After rotation 
 		// projection of axis could be very small.
-		if (!double.IsNaN(this.interval3DCorrection) &&
+		if (!double.IsNaN(interval3DCorrection) &&
 			ChartArea.Area3DStyle.Enable3D &&
 			!ChartArea.chartAreaIsCurcular)
 		{
-			diff = diff / this.interval3DCorrection;
+			diff = diff / interval3DCorrection;
 
 			// Do not change minimum and maximum with 3D correction.
 			if (max - min < diff)
@@ -2202,7 +2290,7 @@ public partial class Axis
 				diff = max - min;
 			}
 
-			this.interval3DCorrection = double.NaN;
+			interval3DCorrection = double.NaN;
 
 			if (diff != 0.0)
 			{
@@ -2218,7 +2306,6 @@ public partial class Axis
 				// Can not find interval. Minimum and maximum are same
 
 				max = min + 1;
-				diff = 0.2;
 				axisInterval = 0.2;
 			}
 			else
@@ -2268,17 +2355,27 @@ public partial class Axis
 				if (autoMinimum)
 				{
 					if (minimumValue < -100)
+					{
 						minimumValue = -100;
+					}
+
 					if (minIsZero)
+					{
 						minimumValue = 0;
+					}
 				}
 
 				if (autoMaximum)
 				{
 					if (maximumValue > 100)
+					{
 						maximumValue = 100;
+					}
+
 					if (maxIsZero)
+					{
 						maximumValue = 0;
+					}
 				}
 			}
 		}

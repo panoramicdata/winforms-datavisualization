@@ -68,7 +68,7 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 	/// <param name="seriesToDraw">Chart series to draw.</param>
 	override public void Paint(ChartGraphics graph, CommonElements common, ChartArea area, Series seriesToDraw)
 	{
-		this.Common = common;
+		Common = common;
 		// Reset total per point value
 		_totalPerPoint = null;
 		_seriesCount = -1;
@@ -94,7 +94,7 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 			foreach (Series ser in common.DataManager.Series)
 			{
 				// Use series of the same type which belong to this area 
-				if (String.Compare(ser.ChartTypeName, Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0
+				if (string.Compare(ser.ChartTypeName, Name, true, Globalization.CultureInfo.CurrentCulture) == 0
 					&& ser.ChartArea == area.Name && ser.IsVisible())
 				{
 					++seriesCount;
@@ -131,7 +131,7 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 			foreach (Series ser in common.DataManager.Series)
 			{
 				// Use series of the same type which belong to this area 
-				if (String.Compare(ser.ChartTypeName, Name, true, System.Globalization.CultureInfo.CurrentCulture) == 0
+				if (string.Compare(ser.ChartTypeName, Name, true, Globalization.CultureInfo.CurrentCulture) == 0
 					&& ser.ChartArea == area.Name && ser.IsVisible())
 				{
 					seriesArray[seriesIndex++] = ser;
@@ -213,8 +213,8 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Check series of the current chart type & area
-			if (String.Compare(series.ChartArea, ser.ChartArea, true, System.Globalization.CultureInfo.CurrentCulture) == 0 &&
-				String.Compare(series.ChartTypeName, ser.ChartTypeName, true, System.Globalization.CultureInfo.CurrentCulture) == 0 &&
+			if (string.Compare(series.ChartArea, ser.ChartArea, true, Globalization.CultureInfo.CurrentCulture) == 0 &&
+				string.Compare(series.ChartTypeName, ser.ChartTypeName, true, Globalization.CultureInfo.CurrentCulture) == 0 &&
 				series.IsVisible())
 			{
 				yValue = (ser.Points[pointIndex].YValues[0] / _totalPerPoint[pointIndex]) * 100.0;
@@ -226,11 +226,13 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 				}
 
 				if (!double.IsNaN(yValue))
+				{
 					if (area.Area3DStyle.Enable3D && yValue < 0.0)
 					{
 						// No negative values support in 3D stacked area chart
 						yValue = -yValue;
 					}
+				}
 
 				{
 					if (yValue >= 0.0 && !double.IsNaN(prevPosY))
@@ -245,7 +247,7 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 				}
 
 				// Exit loop when current series was found
-				if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+				if (string.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
 				{
 					break;
 				}
@@ -291,7 +293,7 @@ internal class StackedAreaChart : AreaChart
 	/// <summary>
 	/// Shape of the previous series
 	/// </summary>
-	protected GraphicsPath areaBottomPath = new GraphicsPath();
+	protected GraphicsPath areaBottomPath = new();
 
 	/// <summary>
 	/// Previous stacked positive Y values.
@@ -358,9 +360,9 @@ internal class StackedAreaChart : AreaChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -376,7 +378,7 @@ internal class StackedAreaChart : AreaChart
 	/// <param name="seriesToDraw">Chart series to draw.</param>
 	public override void Paint(ChartGraphics graph, CommonElements common, ChartArea area, Series seriesToDraw)
 	{
-		this.Common = common;
+		Common = common;
 		// Set Clip Region
 		graph.SetClip(area.PlotAreaPosition.ToRectangleF());
 
@@ -402,7 +404,7 @@ internal class StackedAreaChart : AreaChart
 		ChartArea area,
 		Series seriesToDraw)
 	{
-		this.Common = common;
+		Common = common;
 		ArrayList prevPointsArray = null;
 		ArrayList curentPointsArray = null;
 
@@ -419,7 +421,7 @@ internal class StackedAreaChart : AreaChart
 		}
 
 		// Zero X values mode.
-		bool indexedSeries = ChartHelper.IndexedSeries(this.Common, area.GetSeriesFromChartType(this.Name).ToArray());
+		bool indexedSeries = ChartHelper.IndexedSeries(Common, area.GetSeriesFromChartType(Name).ToArray());
 
 		// Indicates that the second point loop for drawing lines or labels is required
 		bool requiresSecondPointLoop = false;
@@ -432,18 +434,15 @@ internal class StackedAreaChart : AreaChart
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with area chart type
-			if (String.Compare(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) != 0
+			if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
 			}
 
 			// Reset area shape paths
-			if (areaPath != null)
-			{
-				areaPath.Dispose();
-				areaPath = null;
-			}
+			areaPath?.Dispose();
+			areaPath = null;
 
 			areaBottomPath.Reset();
 
@@ -467,8 +466,8 @@ internal class StackedAreaChart : AreaChart
 
 
 			// Get axis position
-			axisPos.X = (float)VAxis.GetPosition(this.VAxis.Crossing);
-			axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
+			axisPos.X = (float)VAxis.GetPosition(VAxis.Crossing);
+			axisPos.Y = (float)VAxis.GetPosition(VAxis.Crossing);
 			axisPos = graph.GetAbsolutePoint(axisPos);
 
 			// Fill previous series values array 
@@ -556,7 +555,7 @@ internal class StackedAreaChart : AreaChart
 
 
 				// Calculate data point area segment path
-				using (GraphicsPath path = new GraphicsPath())
+				using (GraphicsPath path = new())
 				{
 					path.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
 					path.AddLine(secondPoint.X, secondPoint.Y, secondPoint.X, prevYValue2);
@@ -591,8 +590,8 @@ internal class StackedAreaChart : AreaChart
 						}
 						else if (point.BackGradientStyle != GradientStyle.None)
 						{
-							this.gradientFill = true;
-							this.Series = point.series;
+							gradientFill = true;
+							Series = point.series;
 						}
 						else if (point.BackImage.Length > 0 && point.BackImageWrapMode != ChartImageWrapMode.Unscaled && point.BackImageWrapMode != ChartImageWrapMode.Scaled)
 						{
@@ -622,7 +621,7 @@ internal class StackedAreaChart : AreaChart
 						}
 
 						// Draw area
-						if (!this.gradientFill)
+						if (!gradientFill)
 						{
 							// Start Svg Selection mode
 							graph.StartHotRegion(point);
@@ -635,7 +634,7 @@ internal class StackedAreaChart : AreaChart
 
 							// Draw top and bottom lines with antialiasing turned On.
 							// Process only if line is drawn by an angle
-							Pen areaLinePen = new Pen(areaBrush, 1);
+							Pen areaLinePen = new(areaBrush, 1);
 							if (!(firstPoint.X == secondPoint.X || firstPoint.Y == secondPoint.Y))
 							{
 								graph.DrawLine(areaLinePen, firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
@@ -650,17 +649,13 @@ internal class StackedAreaChart : AreaChart
 							graph.EndHotRegion();
 						}
 
-						if (areaPath == null)
-						{
-							areaPath = new GraphicsPath();
-						}
+						areaPath ??= new GraphicsPath();
 
 						areaPath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
 						areaBottomPath.AddLine(firstPoint.X, prevYValue1, secondPoint.X, prevYValue2);
 
 						//Clean up
-						if (areaBrush != null)
-							areaBrush.Dispose();
+						areaBrush?.Dispose();
 					}
 
 					if (common.ProcessModeRegions)
@@ -694,42 +689,40 @@ internal class StackedAreaChart : AreaChart
 						if (point.BorderWidth > 1 && point.BorderDashStyle != ChartDashStyle.NotSet && point.BorderColor != Color.Empty)
 						{
 							// Create grapics path object dor the curve
-							using (GraphicsPath linePath = new GraphicsPath())
+							using GraphicsPath linePath = new();
+							try
 							{
-								try
-								{
-									linePath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
+								linePath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
 
-									// Widen the lines to the size of pen plus 2
-									linePath.Widen(new Pen(point.Color, point.BorderWidth + 2));
-								}
-								catch (OutOfMemoryException)
-								{
-									// GraphicsPath.Widen incorrectly throws OutOfMemoryException
-									// catching here and reacting by not widening
-								}
-								catch (ArgumentException)
-								{
-								}
-
-								// Allocate array of floats
-								pointNew = PointF.Empty;
-								coord = new float[linePath.PointCount * 2];
-								for (int i = 0; i < linePath.PointCount; i++)
-								{
-									pointNew = graph.GetRelativePoint(linePath.PathPoints[i]);
-									coord[2 * i] = pointNew.X;
-									coord[2 * i + 1] = pointNew.Y;
-								}
-
-								common.HotRegionsList.AddHotRegion(
-									linePath,
-									false,
-									coord,
-									point,
-									ser.Name,
-									index);
+								// Widen the lines to the size of pen plus 2
+								linePath.Widen(new Pen(point.Color, point.BorderWidth + 2));
 							}
+							catch (OutOfMemoryException)
+							{
+								// GraphicsPath.Widen incorrectly throws OutOfMemoryException
+								// catching here and reacting by not widening
+							}
+							catch (ArgumentException)
+							{
+							}
+
+							// Allocate array of floats
+							pointNew = PointF.Empty;
+							coord = new float[linePath.PointCount * 2];
+							for (int i = 0; i < linePath.PointCount; i++)
+							{
+								pointNew = graph.GetRelativePoint(linePath.PathPoints[i]);
+								coord[2 * i] = pointNew.X;
+								coord[2 * i + 1] = pointNew.Y;
+							}
+
+							common.HotRegionsList.AddHotRegion(
+								linePath,
+								false,
+								coord,
+								point,
+								ser.Name,
+								index);
 						}
 					}
 				}
@@ -746,18 +739,16 @@ internal class StackedAreaChart : AreaChart
 			if (gradientFill && areaPath != null)
 			{
 				// Create gradient path
-				using (GraphicsPath gradientPath = new GraphicsPath())
+				using (GraphicsPath gradientPath = new())
 				{
 					gradientPath.AddPath(areaPath, true);
 					areaBottomPath.Reverse();
 					gradientPath.AddPath(areaBottomPath, true);
 
 					// Create brush
-					using (Brush areaBrush = graph.GetGradientBrush(gradientPath.GetBounds(), this.Series.Color, this.Series.BackSecondaryColor, this.Series.BackGradientStyle))
-					{
-						// Fill area with gradient
-						graph.FillPath(areaBrush, gradientPath);
-					}
+					using Brush areaBrush = graph.GetGradientBrush(gradientPath.GetBounds(), Series.Color, Series.BackSecondaryColor, Series.BackGradientStyle);
+					// Fill area with gradient
+					graph.FillPath(areaBrush, gradientPath);
 				}
 
 				areaPath.Dispose();
@@ -784,7 +775,7 @@ internal class StackedAreaChart : AreaChart
 			curentPointsArray = null;
 			foreach (Series ser in common.DataManager.Series)
 			{
-				if (String.Compare(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) != 0
+				if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 					|| ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
@@ -795,8 +786,8 @@ internal class StackedAreaChart : AreaChart
 				VAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
 
 				// Get axis position
-				axisPos.X = (float)VAxis.GetPosition(this.VAxis.Crossing);
-				axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
+				axisPos.X = (float)VAxis.GetPosition(VAxis.Crossing);
+				axisPos.Y = (float)VAxis.GetPosition(VAxis.Crossing);
 				axisPos = graph.GetAbsolutePoint(axisPos);
 
 				// Fill previous series values array 
@@ -893,7 +884,7 @@ internal class StackedAreaChart : AreaChart
 			curentPointsArray = null;
 			foreach (Series ser in common.DataManager.Series)
 			{
-				if (String.Compare(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) != 0
+				if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 					|| ser.ChartArea != area.Name || !ser.IsVisible())
 				{
 					continue;
@@ -904,8 +895,8 @@ internal class StackedAreaChart : AreaChart
 				VAxis = area.GetAxis(AxisName.Y, ser.YAxisType, ser.YSubAxisName);
 
 				// Get axis position
-				axisPos.X = (float)VAxis.GetPosition(this.VAxis.Crossing);
-				axisPos.Y = (float)VAxis.GetPosition(this.VAxis.Crossing);
+				axisPos.X = (float)VAxis.GetPosition(VAxis.Crossing);
+				axisPos.Y = (float)VAxis.GetPosition(VAxis.Crossing);
 				axisPos = graph.GetAbsolutePoint(axisPos);
 
 				// Fill previous series values array 
@@ -975,89 +966,87 @@ internal class StackedAreaChart : AreaChart
 					if (!point.IsEmpty && (ser.IsValueShownAsLabel || point.IsValueShownAsLabel || point.Label.Length > 0))
 					{
 						// Label text format
-						using (StringFormat format = new StringFormat())
+						using StringFormat format = new();
+						format.Alignment = StringAlignment.Center;
+						format.LineAlignment = StringAlignment.Center;
+
+						// Get label text
+						string text;
+						if (point.Label.Length == 0)
 						{
-							format.Alignment = StringAlignment.Center;
-							format.LineAlignment = StringAlignment.Center;
-
-							// Get label text
-							string text;
-							if (point.Label.Length == 0)
+							double pointLabelValue = GetYValue(common, area, ser, point, index, 0);
+							// Round Y values for 100% stacked area
+							if (hundredPercentStacked && point.LabelFormat.Length == 0)
 							{
-								double pointLabelValue = GetYValue(common, area, ser, point, index, 0);
-								// Round Y values for 100% stacked area
-								if (this.hundredPercentStacked && point.LabelFormat.Length == 0)
-								{
-									pointLabelValue = Math.Round(pointLabelValue, 2);
-								}
-
-								text = ValueConverter.FormatValue(
-									ser.Chart,
-									point,
-									point.Tag,
-									pointLabelValue,
-									point.LabelFormat,
-									ser.YValueType,
-									ChartElementType.DataPoint);
-							}
-							else
-							{
-								text = point.ReplaceKeywords(point.Label);
+								pointLabelValue = Math.Round(pointLabelValue, 2);
 							}
 
-							// Disable the clip region
-							Region oldClipRegion = graph.Clip;
-							graph.Clip = new Region();
+							text = ValueConverter.FormatValue(
+								ser.Chart,
+								point,
+								point.Tag,
+								pointLabelValue,
+								point.LabelFormat,
+								ser.YValueType,
+								ChartElementType.DataPoint);
+						}
+						else
+						{
+							text = point.ReplaceKeywords(point.Label);
+						}
 
-							// Draw label
-							PointF labelPosition = PointF.Empty;
-							labelPosition.X = secondPoint.X;
-							labelPosition.Y = secondPoint.Y - (secondPoint.Y - prevYValue2) / 2f;
-							labelPosition = graph.GetRelativePoint(labelPosition);
+						// Disable the clip region
+						Region oldClipRegion = graph.Clip;
+						graph.Clip = new Region();
 
-							// Measure string
-							SizeF sizeFont = graph.GetRelativeSize(
-								graph.MeasureString(
+						// Draw label
+						PointF labelPosition = PointF.Empty;
+						labelPosition.X = secondPoint.X;
+						labelPosition.Y = secondPoint.Y - (secondPoint.Y - prevYValue2) / 2f;
+						labelPosition = graph.GetRelativePoint(labelPosition);
+
+						// Measure string
+						SizeF sizeFont = graph.GetRelativeSize(
+							graph.MeasureString(
+							text,
+							point.Font,
+							new SizeF(1000f, 1000f),
+							StringFormat.GenericTypographic));
+
+						// Get label background position
+						RectangleF labelBackPosition = RectangleF.Empty;
+						SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+						sizeLabel.Height += sizeFont.Height / 8;
+						sizeLabel.Width += sizeLabel.Width / text.Length;
+						labelBackPosition = new RectangleF(
+							labelPosition.X - sizeLabel.Width / 2,
+							labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+							sizeLabel.Width,
+							sizeLabel.Height);
+
+						// Draw label text
+						using (Brush brush = new SolidBrush(point.LabelForeColor))
+						{
+							graph.DrawPointLabelStringRel(
+								common,
 								text,
 								point.Font,
-								new SizeF(1000f, 1000f),
-								StringFormat.GenericTypographic));
-
-							// Get label background position
-							RectangleF labelBackPosition = RectangleF.Empty;
-							SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-							sizeLabel.Height += sizeFont.Height / 8;
-							sizeLabel.Width += sizeLabel.Width / text.Length;
-							labelBackPosition = new RectangleF(
-								labelPosition.X - sizeLabel.Width / 2,
-								labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-								sizeLabel.Width,
-								sizeLabel.Height);
-
-							// Draw label text
-							using (Brush brush = new SolidBrush(point.LabelForeColor))
-							{
-								graph.DrawPointLabelStringRel(
-									common,
-									text,
-									point.Font,
-									brush,
-									labelPosition,
-									format,
-									point.LabelAngle,
-									labelBackPosition,
-									point.LabelBackColor,
-									point.LabelBorderColor,
-									point.LabelBorderWidth,
-									point.LabelBorderDashStyle,
-									ser,
-									point,
-									index);
-							}
-
-							// Restore old clip region
-							graph.Clip = oldClipRegion;
+								brush,
+								labelPosition,
+								format,
+								point.LabelAngle,
+								labelBackPosition,
+								point.LabelBackColor,
+								point.LabelBorderColor,
+								point.LabelBorderWidth,
+								point.LabelBorderDashStyle,
+								ser,
+								point,
+								index);
 						}
+
+						// Restore old clip region
+						graph.Clip = oldClipRegion;
 					}
 
 
@@ -1209,7 +1198,7 @@ internal class StackedAreaChart : AreaChart
 			bool seriesFound = false;
 			foreach (Series ser in area.Common.DataManager.Series)
 			{
-				if (String.Compare(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, true, System.Globalization.CultureInfo.CurrentCulture) == 0)
+				if (string.Compare(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, true, Globalization.CultureInfo.CurrentCulture) == 0)
 				{
 					// If series on top of current was found - check point transparency
 					if (seriesFound)
@@ -1229,7 +1218,7 @@ internal class StackedAreaChart : AreaChart
 					}
 
 					// Check series name
-					if (String.Compare(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal) == 0)
+					if (string.Compare(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal) == 0)
 					{
 						seriesFound = true;
 					}
@@ -1244,10 +1233,10 @@ internal class StackedAreaChart : AreaChart
 			DataPointCustomProperties pointProperties = null;
 			foreach (Series ser in area.Common.DataManager.Series)
 			{
-				if (String.Compare(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(ser.ChartTypeName, secondPoint.dataPoint.series.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					// Check series name
-					if (pointProperties != null && String.Compare(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal) == 0)
+					if (pointProperties != null && string.Compare(ser.Name, secondPoint.dataPoint.series.Name, StringComparison.Ordinal) == 0)
 					{
 						if (pointProperties.Color.A != 255)
 						{
@@ -1301,26 +1290,26 @@ internal class StackedAreaChart : AreaChart
 		double xValue = (float)firstPoint.xPosition;
 		if (yValue >= 0.0)
 		{
-			if (double.IsNaN(this.prevPosY))
+			if (double.IsNaN(prevPosY))
 			{
 				yValue = axisPosition;
 			}
 			else
 			{
-				yValue = vAxis.GetPosition(this.prevPosY);
-				xValue = hAxis.GetPosition(this.prevPositionX);
+				yValue = vAxis.GetPosition(prevPosY);
+				xValue = hAxis.GetPosition(prevPositionX);
 			}
 		}
 		else
 		{
-			if (double.IsNaN(this.prevNegY))
+			if (double.IsNaN(prevNegY))
 			{
 				yValue = axisPosition;
 			}
 			else
 			{
-				yValue = vAxis.GetPosition(this.prevNegY);
-				xValue = hAxis.GetPosition(this.prevPositionX);
+				yValue = vAxis.GetPosition(prevNegY);
+				xValue = hAxis.GetPosition(prevPositionX);
 			}
 		}
 
@@ -1331,26 +1320,26 @@ internal class StackedAreaChart : AreaChart
 		xValue = (float)secondPoint.xPosition;
 		if (yValue >= 0.0)
 		{
-			if (double.IsNaN(this.prevPosY))
+			if (double.IsNaN(prevPosY))
 			{
 				yValue = axisPosition;
 			}
 			else
 			{
-				yValue = vAxis.GetPosition(this.prevPosY);
-				xValue = hAxis.GetPosition(this.prevPositionX);
+				yValue = vAxis.GetPosition(prevPosY);
+				xValue = hAxis.GetPosition(prevPositionX);
 			}
 		}
 		else
 		{
-			if (double.IsNaN(this.prevNegY))
+			if (double.IsNaN(prevNegY))
 			{
 				yValue = axisPosition;
 			}
 			else
 			{
-				yValue = vAxis.GetPosition(this.prevNegY);
-				xValue = hAxis.GetPosition(this.prevPositionX);
+				yValue = vAxis.GetPosition(prevNegY);
+				xValue = hAxis.GetPosition(prevPositionX);
 			}
 		}
 
@@ -1469,81 +1458,76 @@ internal class StackedAreaChart : AreaChart
 			(pointShowLabelAsValue || pointLabel.Length > 0))
 		{
 			// Label text format
-			using (StringFormat format = new StringFormat())
+			using StringFormat format = new();
+			format.Alignment = StringAlignment.Center;
+			format.LineAlignment = StringAlignment.Center;
+
+			// Get label text
+			string text;
+			if (pointLabel.Length == 0)
 			{
-				format.Alignment = StringAlignment.Center;
-				format.LineAlignment = StringAlignment.Center;
-
-				// Get label text
-				string text;
-				if (pointLabel.Length == 0)
+				// Round Y values for 100% stacked area
+				double pointLabelValue = pointEx.dataPoint.YValues[(labelYValueIndex == -1) ? YValueIndex : labelYValueIndex];
+				if (hundredPercentStacked && pointEx.dataPoint.LabelFormat.Length == 0)
 				{
-					// Round Y values for 100% stacked area
-					double pointLabelValue = pointEx.dataPoint.YValues[(labelYValueIndex == -1) ? YValueIndex : labelYValueIndex];
-					if (this.hundredPercentStacked && pointEx.dataPoint.LabelFormat.Length == 0)
-					{
-						pointLabelValue = Math.Round(pointLabelValue, 2);
-					}
-
-					text = ValueConverter.FormatValue(
-						pointEx.dataPoint.series.Chart,
-						pointEx.dataPoint,
-						pointEx.dataPoint.Tag,
-						pointLabelValue,
-						pointEx.dataPoint.LabelFormat,
-						pointEx.dataPoint.series.YValueType,
-						ChartElementType.DataPoint);
-				}
-				else
-				{
-					text = pointEx.dataPoint.ReplaceKeywords(pointLabel);
+					pointLabelValue = Math.Round(pointLabelValue, 2);
 				}
 
-				// Get label position
-				Point3D[] points = new Point3D[1];
-				points[0] = new Point3D((float)pointEx.xPosition, (float)(pointEx.yPosition + pointEx.height) / 2f, positionZ + depth);
-				area.matrix3D.TransformPoints(points);
-
-				// Measure string
-				SizeF sizeFont = graph.GetRelativeSize(
-					graph.MeasureString(
-					text,
-					pointEx.dataPoint.Font,
-					new SizeF(1000f, 1000f),
-					StringFormat.GenericTypographic));
-
-				// Get label background position
-				RectangleF labelBackPosition = RectangleF.Empty;
-				SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-				sizeLabel.Height += sizeFont.Height / 8;
-				sizeLabel.Width += sizeLabel.Width / text.Length;
-				labelBackPosition = new RectangleF(
-					points[0].PointF.X - sizeLabel.Width / 2,
-					points[0].PointF.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-					sizeLabel.Width,
-					sizeLabel.Height);
-
-				// Draw label text
-				using (Brush brush = new SolidBrush(pointEx.dataPoint.LabelForeColor))
-				{
-					graph.DrawPointLabelStringRel(
-						common,
-						text,
-						pointEx.dataPoint.Font,
-						brush,
-						points[0].PointF,
-						format,
-						pointEx.dataPoint.LabelAngle,
-						labelBackPosition,
-						pointEx.dataPoint.LabelBackColor,
-						pointEx.dataPoint.LabelBorderColor,
-						pointEx.dataPoint.LabelBorderWidth,
-						pointEx.dataPoint.LabelBorderDashStyle,
-						pointEx.dataPoint.series,
-						pointEx.dataPoint,
-						pointEx.index - 1);
-				}
+				text = ValueConverter.FormatValue(
+					pointEx.dataPoint.series.Chart,
+					pointEx.dataPoint,
+					pointEx.dataPoint.Tag,
+					pointLabelValue,
+					pointEx.dataPoint.LabelFormat,
+					pointEx.dataPoint.series.YValueType,
+					ChartElementType.DataPoint);
 			}
+			else
+			{
+				text = pointEx.dataPoint.ReplaceKeywords(pointLabel);
+			}
+
+			// Get label position
+			Point3D[] points = [new Point3D((float)pointEx.xPosition, (float)(pointEx.yPosition + pointEx.height) / 2f, positionZ + depth)];
+			area.matrix3D.TransformPoints(points);
+
+			// Measure string
+			SizeF sizeFont = graph.GetRelativeSize(
+				graph.MeasureString(
+				text,
+				pointEx.dataPoint.Font,
+				new SizeF(1000f, 1000f),
+				StringFormat.GenericTypographic));
+
+			// Get label background position
+			RectangleF labelBackPosition = RectangleF.Empty;
+			SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+			sizeLabel.Height += sizeFont.Height / 8;
+			sizeLabel.Width += sizeLabel.Width / text.Length;
+			labelBackPosition = new RectangleF(
+				points[0].PointF.X - sizeLabel.Width / 2,
+				points[0].PointF.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+				sizeLabel.Width,
+				sizeLabel.Height);
+
+			// Draw label text
+			using Brush brush = new SolidBrush(pointEx.dataPoint.LabelForeColor);
+			graph.DrawPointLabelStringRel(
+				common,
+				text,
+				pointEx.dataPoint.Font,
+				brush,
+				points[0].PointF,
+				format,
+				pointEx.dataPoint.LabelAngle,
+				labelBackPosition,
+				pointEx.dataPoint.LabelBackColor,
+				pointEx.dataPoint.LabelBorderColor,
+				pointEx.dataPoint.LabelBorderWidth,
+				pointEx.dataPoint.LabelBorderDashStyle,
+				pointEx.dataPoint.series,
+				pointEx.dataPoint,
+				pointEx.index - 1);
 		}
 	}
 
@@ -1615,8 +1599,8 @@ internal class StackedAreaChart : AreaChart
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Check series of the current chart type & area
-			if (String.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
-					String.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
+			if (string.Compare(series.ChartArea, ser.ChartArea, StringComparison.Ordinal) == 0 &&
+					string.Compare(series.ChartTypeName, ser.ChartTypeName, StringComparison.OrdinalIgnoreCase) == 0 &&
 				ser.IsVisible())
 			{
 				yValue = ser.Points[pointIndex].YValues[0];
@@ -1640,7 +1624,7 @@ internal class StackedAreaChart : AreaChart
 				}
 
 				// Exit loop when current series was found
-				if (String.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
+				if (string.Compare(series.Name, ser.Name, StringComparison.Ordinal) == 0)
 				{
 					break;
 				}
@@ -1679,11 +1663,8 @@ internal class StackedAreaChart : AreaChart
 		if (disposing)
 		{
 			// Dispose managed resources
-			if (this.areaBottomPath != null)
-			{
-				this.areaBottomPath.Dispose();
-				this.areaBottomPath = null;
-			}
+			areaBottomPath?.Dispose();
+			areaBottomPath = null;
 		}
 
 		base.Dispose(disposing);

@@ -67,7 +67,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	/// <param name="value">Value to convert.</param>
 	/// <param name="destinationType">Convertion destination type.</param>
 	/// <returns>Converted object.</returns>
-	public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 	{
 		if (destinationType == typeof(string))
 		{
@@ -87,27 +87,26 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	/// <returns>Indicates if convertion is possible.</returns>
 	[SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
 		Justification = "Too large of a code change to justify making this change")]
-	public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
-		string stringValue = value as string;
-		if (stringValue != null && context != null && context.Instance != null)
+		if (value is string stringValue && context != null && context.Instance != null)
 		{
 			// Create new custom attribute class with a reference to the DataPointCustomProperties
 			if (context.Instance is DataPointCustomProperties)
 			{
 				((DataPointCustomProperties)context.Instance).CustomProperties = stringValue;
-				CustomProperties newAttributes = new CustomProperties(((DataPointCustomProperties)context.Instance));
+				CustomProperties newAttributes = new(((DataPointCustomProperties)context.Instance));
 				return newAttributes;
 			}
 
 			else if (context.Instance is CustomProperties)
 			{
-				CustomProperties newAttributes = new CustomProperties(((CustomProperties)context.Instance).DataPointCustomProperties);
+				CustomProperties newAttributes = new(((CustomProperties)context.Instance).DataPointCustomProperties);
 				return newAttributes;
 			}
 			else if (context.Instance is IDataPointCustomPropertiesProvider)
 			{
-				CustomProperties newAttributes = new CustomProperties(((IDataPointCustomPropertiesProvider)context.Instance).DataPointCustomProperties);
+				CustomProperties newAttributes = new(((IDataPointCustomPropertiesProvider)context.Instance).DataPointCustomProperties);
 				return newAttributes;
 			}
 
@@ -125,7 +124,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 
 				if (attributes != null)
 				{
-					CustomProperties newAttributes = new CustomProperties(attributes);
+					CustomProperties newAttributes = new(attributes);
 					return newAttributes;
 				}
 			}
@@ -158,9 +157,8 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	/// <returns>A PropertyDescriptorCollection with the properties that are exposed for this data type, or a null reference (Nothing in Visual Basic) if there are no properties.</returns>
 	public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object obj, Attribute[] attributes)
 	{
-		PropertyDescriptorCollection propCollection = new PropertyDescriptorCollection(null);
-		CustomProperties attr = obj as CustomProperties;
-		if (attr != null && context != null)
+		PropertyDescriptorCollection propCollection = new(null);
+		if (obj is CustomProperties attr && context != null)
 		{
 			// Get series associated with custom attribute
 			Series series = (attr.DataPointCustomProperties is Series) ? ((Series)attr.DataPointCustomProperties) : attr.DataPointCustomProperties.series;
@@ -178,7 +176,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 						Attribute[] propAttributes = GetPropertyAttributes(attrInfo);
 
 						// Create property descriptor
-						CustomAttributesPropertyDescriptor propertyDescriptor = new CustomAttributesPropertyDescriptor(
+						CustomAttributesPropertyDescriptor propertyDescriptor = new(
 							typeof(CustomProperties),
 							attrInfo.Name,
 							attrInfo.ValueType,
@@ -191,14 +189,14 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 				}
 
 				// Always add "UserDefined" property for all user defined custom properties
-				Attribute[] propUserDefinedAttributes = new Attribute[] {
+				Attribute[] propUserDefinedAttributes = [
 						new NotifyParentPropertyAttribute(true),
 						new RefreshPropertiesAttribute(RefreshProperties.All),
 						new DescriptionAttribute(SR.DescriptionAttributeUserDefined)
-					};
+					];
 
 				// Create property descriptor
-				CustomAttributesPropertyDescriptor propertyUserDefinedDescriptor = new CustomAttributesPropertyDescriptor(
+				CustomAttributesPropertyDescriptor propertyUserDefinedDescriptor = new(
 					typeof(CustomProperties),
 					"UserDefined",
 					typeof(string),
@@ -221,9 +219,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	/// <returns>True if custom attribute applies.</returns>
 	private bool IsApplicableCustomProperty(CustomPropertyInfo attrInfo, object obj)
 	{
-
-		CustomProperties customProperties = obj as CustomProperties;
-		if (customProperties != null)
+		if (obj is CustomProperties customProperties)
 		{
 			obj = customProperties.DataPointCustomProperties;
 		}
@@ -263,14 +259,12 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	/// <returns>True if specified object contains one or more data points.</returns>
 	private bool IsDataPoint(object obj)
 	{
-		Series series = obj as Series;
-		if (series != null)
+		if (obj is Series series)
 		{
 			return false;
 		}
 
-		Array array = obj as Array;
-		if (array != null && array.Length > 0)
+		if (obj is Array array && array.Length > 0)
 		{
 			if (array.GetValue(0) is Series)
 			{
@@ -314,7 +308,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	private Series[] GetSelectedSeries(object obj)
 	{
 		// Get array of series
-		Series[] seriesArray = new Series[0];
+		Series[] seriesArray = [];
 		if (obj is Array && ((Array)obj).Length > 0)
 		{
 			if (((Array)obj).GetValue(0) is Series)
@@ -324,16 +318,16 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 			}
 			else if (((Array)obj).GetValue(0) is DataPointCustomProperties)
 			{
-				seriesArray = new Series[] { ((DataPointCustomProperties)((Array)obj).GetValue(0)).series };
+				seriesArray = [((DataPointCustomProperties)((Array)obj).GetValue(0)).series];
 			}
 		}
 		else if (obj is Series)
 		{
-			seriesArray = new Series[] { ((Series)obj) };
+			seriesArray = [((Series)obj)];
 		}
 		else if (obj is DataPointCustomProperties)
 		{
-			seriesArray = new Series[] { ((DataPointCustomProperties)obj).series };
+			seriesArray = [((DataPointCustomProperties)obj).series];
 		}
 
 		return seriesArray;
@@ -368,7 +362,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	private Attribute[] GetPropertyAttributes(CustomPropertyInfo attrInfo)
 	{
 		// Create default value attribute
-		DefaultValueAttribute defaultValueAttribute = null;
+		DefaultValueAttribute defaultValueAttribute;
 		if (attrInfo.DefaultValue.GetType() == attrInfo.ValueType)
 		{
 			defaultValueAttribute = new DefaultValueAttribute(attrInfo.DefaultValue);
@@ -382,12 +376,13 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 			throw (new InvalidOperationException(SR.ExceptionCustomAttributeDefaultValueTypeInvalid));
 		}
 		// Add all properties into the list
-		ArrayList propList = new ArrayList();
-
-		propList.Add(new NotifyParentPropertyAttribute(true));
-		propList.Add(new RefreshPropertiesAttribute(RefreshProperties.All));
-		propList.Add(new DescriptionAttribute(attrInfo.Description));
-		propList.Add(defaultValueAttribute);
+		ArrayList propList =
+		[
+			new NotifyParentPropertyAttribute(true),
+			new RefreshPropertiesAttribute(RefreshProperties.All),
+			new DescriptionAttribute(attrInfo.Description),
+			defaultValueAttribute,
+		];
 
 		if (attrInfo.Name.Equals(CustomPropertyName.ErrorBarType, StringComparison.Ordinal))
 		{
@@ -443,10 +438,10 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		/// </returns>
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
-			ArrayList result = new ArrayList();
+			ArrayList result = [];
 			foreach (ChartTypes.ErrorBarType item in Enum.GetValues(typeof(ChartTypes.ErrorBarType)))
 			{
-				string itemStr = String.Format(CultureInfo.InvariantCulture, "{0}({1:N0})", item, ChartTypes.ErrorBarChart.DefaultErrorBarTypeValue(item));
+				string itemStr = string.Format(CultureInfo.InvariantCulture, "{0}({1:N0})", item, ChartTypes.ErrorBarChart.DefaultErrorBarTypeValue(item));
 				result.Add(itemStr);
 			}
 
@@ -461,15 +456,15 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	/// <summary>
 	/// Custom properties inner property descriptor class.
 	/// </summary>
-	protected class CustomAttributesPropertyDescriptor : TypeConverter.SimplePropertyDescriptor
+	protected class CustomAttributesPropertyDescriptor : SimplePropertyDescriptor
 	{
 		#region Fields
 
 		// Property name
-		private string _name = string.Empty;
+		private readonly string _name = string.Empty;
 
 		// Custom attribute information
-		private CustomPropertyInfo _customAttributeInfo = null;
+		private readonly CustomPropertyInfo _customAttributeInfo = null;
 
 		#endregion // Fields
 
@@ -491,8 +486,8 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 			CustomPropertyInfo customAttributeInfo)
 			: base(componentType, name, propertyType, attributes)
 		{
-			this._name = name;
-			this._customAttributeInfo = customAttributeInfo;
+			_name = name;
+			_customAttributeInfo = customAttributeInfo;
 		}
 
 		#endregion // Constructor
@@ -508,21 +503,21 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		{
 			// "UserDefined" property expose comma separated user defined properties
 			CustomProperties customAttr = component as CustomProperties;
-			if (this._name == "UserDefined")
+			if (_name == "UserDefined")
 			{
 				return customAttr.GetUserDefinedCustomProperties();
 			}
 			else
 			{
-				object val = null;
 
 				// Check if custom attribute with this name is set
-				string stringValue = customAttr.DataPointCustomProperties[this._name];
-				if (this._customAttributeInfo != null)
+				string stringValue = customAttr.DataPointCustomProperties[_name];
+				object val;
+				if (_customAttributeInfo != null)
 				{
 					if (stringValue == null || stringValue.Length == 0)
 					{
-						val = GetValueFromString(this._customAttributeInfo.DefaultValue);
+						val = GetValueFromString(_customAttributeInfo.DefaultValue);
 					}
 					else
 					{
@@ -546,14 +541,14 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		public override void SetValue(object component, object value)
 		{
 			// Validate new value
-			ValidateValue(this._name, value);
+			ValidateValue(_name, value);
 
 			// Get new value as string
 			string stringValue = GetStringFromValue(value);
 
 			// "UserDefined" property expose comma separated user defined properties
 			CustomProperties customAttr = component as CustomProperties;
-			if (this._name == "UserDefined")
+			if (_name == "UserDefined")
 			{
 				customAttr.SetUserDefinedAttributes(stringValue);
 			}
@@ -566,12 +561,12 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 					// Remove custom properties with default values from data point
 					// only when series do not have this attribute set.
 					if (!(customAttr.DataPointCustomProperties is DataPoint) ||
-						!((DataPoint)customAttr.DataPointCustomProperties).series.IsCustomPropertySet(this._name))
+						!((DataPoint)customAttr.DataPointCustomProperties).series.IsCustomPropertySet(_name))
 					{
 						// Delete attribute
-						if (customAttr.DataPointCustomProperties.IsCustomPropertySet(this._name))
+						if (customAttr.DataPointCustomProperties.IsCustomPropertySet(_name))
 						{
-							customAttr.DataPointCustomProperties.DeleteCustomProperty(this._name);
+							customAttr.DataPointCustomProperties.DeleteCustomProperty(_name);
 							setAttributeValue = false;
 						}
 					}
@@ -580,14 +575,13 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 				// Set custom attribute value
 				if (setAttributeValue)
 				{
-					customAttr.DataPointCustomProperties[this._name] = stringValue;
+					customAttr.DataPointCustomProperties[_name] = stringValue;
 				}
 			}
 
 			customAttr.DataPointCustomProperties.CustomProperties = customAttr.DataPointCustomProperties.CustomProperties;
 
-			IChangeTracking changeTracking = component as IChangeTracking;
-			if (changeTracking != null)
+			if (component is IChangeTracking changeTracking)
 			{
 				changeTracking.AcceptChanges();
 			}
@@ -602,8 +596,8 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		public bool IsDefaultValue(string val)
 		{
 			// Get default value string
-			string defaultValue = GetStringFromValue(this._customAttributeInfo.DefaultValue);
-			return (String.Compare(val, defaultValue, StringComparison.Ordinal) == 0);
+			string defaultValue = GetStringFromValue(_customAttributeInfo.DefaultValue);
+			return (string.Compare(val, defaultValue, StringComparison.Ordinal) == 0);
 		}
 
 		/// <summary>
@@ -616,46 +610,45 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 			object result = null;
 			if (obj != null)
 			{
-				if (this._customAttributeInfo.ValueType == obj.GetType())
+				if (_customAttributeInfo.ValueType == obj.GetType())
 				{
 					return obj;
 				}
 
-				string stringValue = obj as string;
-				if (stringValue != null)
+				if (obj is string stringValue)
 				{
-					if (this._customAttributeInfo.ValueType == typeof(string))
+					if (_customAttributeInfo.ValueType == typeof(string))
 					{
 						result = stringValue;
 					}
-					else if (this._customAttributeInfo.ValueType == typeof(float))
+					else if (_customAttributeInfo.ValueType == typeof(float))
 					{
-						result = float.Parse(stringValue, System.Globalization.CultureInfo.InvariantCulture);
+						result = float.Parse(stringValue, CultureInfo.InvariantCulture);
 					}
-					else if (this._customAttributeInfo.ValueType == typeof(double))
+					else if (_customAttributeInfo.ValueType == typeof(double))
 					{
-						result = double.Parse(stringValue, System.Globalization.CultureInfo.InvariantCulture);
+						result = double.Parse(stringValue, CultureInfo.InvariantCulture);
 					}
-					else if (this._customAttributeInfo.ValueType == typeof(int))
+					else if (_customAttributeInfo.ValueType == typeof(int))
 					{
-						result = int.Parse(stringValue, System.Globalization.CultureInfo.InvariantCulture);
+						result = int.Parse(stringValue, CultureInfo.InvariantCulture);
 					}
-					else if (this._customAttributeInfo.ValueType == typeof(bool))
+					else if (_customAttributeInfo.ValueType == typeof(bool))
 					{
 						result = bool.Parse(stringValue);
 					}
-					else if (this._customAttributeInfo.ValueType == typeof(Color))
+					else if (_customAttributeInfo.ValueType == typeof(Color))
 					{
-						ColorConverter colorConverter = new ColorConverter();
-						result = (Color)colorConverter.ConvertFromString(null, System.Globalization.CultureInfo.InvariantCulture, stringValue);
+						ColorConverter colorConverter = new();
+						result = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, stringValue);
 					}
-					else if (this._customAttributeInfo.ValueType.IsEnum)
+					else if (_customAttributeInfo.ValueType.IsEnum)
 					{
-						result = Enum.Parse(this._customAttributeInfo.ValueType, stringValue, true);
+						result = Enum.Parse(_customAttributeInfo.ValueType, stringValue, true);
 					}
 					else
 					{
-						throw (new InvalidOperationException(SR.ExceptionCustomAttributeTypeUnsupported(this._customAttributeInfo.ValueType.ToString())));
+						throw (new InvalidOperationException(SR.ExceptionCustomAttributeTypeUnsupported(_customAttributeInfo.ValueType.ToString())));
 					}
 
 				}
@@ -674,20 +667,20 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		{
 			if (value is Color)
 			{
-				ColorConverter colorConverter = new ColorConverter();
-				return colorConverter.ConvertToString(null, System.Globalization.CultureInfo.InvariantCulture, value);
+				ColorConverter colorConverter = new();
+				return colorConverter.ConvertToString(null, CultureInfo.InvariantCulture, value);
 			}
 			else if (value is float)
 			{
-				return ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+				return ((float)value).ToString(CultureInfo.InvariantCulture);
 			}
 			else if (value is double)
 			{
-				return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+				return ((double)value).ToString(CultureInfo.InvariantCulture);
 			}
 			else if (value is int)
 			{
-				return ((int)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+				return ((int)value).ToString(CultureInfo.InvariantCulture);
 			}
 			else if (value is bool)
 			{
@@ -707,37 +700,37 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		public virtual void ValidateValue(string attrName, object value)
 		{
 			// Check for validation rules
-			if (this._customAttributeInfo == null)
+			if (_customAttributeInfo == null)
 			{
 				return;
 			}
 
 			// Check if property Min/Max value is provided
 			bool outOfRange = false;
-			if (this._customAttributeInfo.MaxValue != null)
+			if (_customAttributeInfo.MaxValue != null)
 			{
-				if (value.GetType() != this._customAttributeInfo.MaxValue.GetType())
+				if (value.GetType() != _customAttributeInfo.MaxValue.GetType())
 				{
 					throw (new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMaximumPossibleValueInvalid(attrName)));
 				}
 
 				if (value is float)
 				{
-					if ((float)value > (float)this._customAttributeInfo.MaxValue)
+					if ((float)value > (float)_customAttributeInfo.MaxValue)
 					{
 						outOfRange = true;
 					}
 				}
 				else if (value is double)
 				{
-					if ((double)value > (double)this._customAttributeInfo.MaxValue)
+					if ((double)value > (double)_customAttributeInfo.MaxValue)
 					{
 						outOfRange = true;
 					}
 				}
 				else if (value is int)
 				{
-					if ((int)value > (int)this._customAttributeInfo.MaxValue)
+					if ((int)value > (int)_customAttributeInfo.MaxValue)
 					{
 						outOfRange = true;
 					}
@@ -750,30 +743,30 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 			}
 
 			// Check if property Min value is provided
-			if (this._customAttributeInfo.MinValue != null)
+			if (_customAttributeInfo.MinValue != null)
 			{
-				if (value.GetType() != this._customAttributeInfo.MinValue.GetType())
+				if (value.GetType() != _customAttributeInfo.MinValue.GetType())
 				{
 					throw (new InvalidOperationException(SR.ExceptionCustomAttributeTypeOrMinimumPossibleValueInvalid(attrName)));
 				}
 
 				if (value is float)
 				{
-					if ((float)value < (float)this._customAttributeInfo.MinValue)
+					if ((float)value < (float)_customAttributeInfo.MinValue)
 					{
 						outOfRange = true;
 					}
 				}
 				else if (value is double)
 				{
-					if ((double)value < (double)this._customAttributeInfo.MinValue)
+					if ((double)value < (double)_customAttributeInfo.MinValue)
 					{
 						outOfRange = true;
 					}
 				}
 				else if (value is int)
 				{
-					if ((int)value < (int)this._customAttributeInfo.MinValue)
+					if ((int)value < (int)_customAttributeInfo.MinValue)
 					{
 						outOfRange = true;
 					}
@@ -787,17 +780,17 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 			// Value out of range exception
 			if (outOfRange)
 			{
-				if (this._customAttributeInfo.MaxValue != null && this._customAttributeInfo.MinValue != null)
+				if (_customAttributeInfo.MaxValue != null && _customAttributeInfo.MinValue != null)
 				{
-					throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange(attrName, this._customAttributeInfo.MinValue.ToString(), this._customAttributeInfo.MaxValue.ToString())));
+					throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange(attrName, _customAttributeInfo.MinValue.ToString(), _customAttributeInfo.MaxValue.ToString())));
 				}
-				else if (this._customAttributeInfo.MinValue != null)
+				else if (_customAttributeInfo.MinValue != null)
 				{
-					throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeBiggerThenValue(attrName, this._customAttributeInfo.MinValue.ToString())));
+					throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeBiggerThenValue(attrName, _customAttributeInfo.MinValue.ToString())));
 				}
-				else if (this._customAttributeInfo.MaxValue != null)
+				else if (_customAttributeInfo.MaxValue != null)
 				{
-					throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeMoreThenValue(attrName, this._customAttributeInfo.MaxValue.ToString())));
+					throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeMoreThenValue(attrName, _customAttributeInfo.MaxValue.ToString())));
 				}
 			}
 		}
@@ -818,10 +811,10 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	#region Fields
 
 	// Reference to the base property descriptor
-	private PropertyDescriptor _basePropertyDescriptor = null;
+	private readonly PropertyDescriptor _basePropertyDescriptor = null;
 
 	// Dynamic display name of the property
-	private string _displayName = string.Empty;
+	private readonly string _displayName = string.Empty;
 
 	#endregion // Fields 
 
@@ -837,8 +830,8 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 		string displayName)
 		: base(basePropertyDescriptor)
 	{
-		this._displayName = displayName;
-		this._basePropertyDescriptor = basePropertyDescriptor;
+		_displayName = displayName;
+		_basePropertyDescriptor = basePropertyDescriptor;
 	}
 
 	#endregion // Constructor
@@ -863,12 +856,12 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	{
 		get
 		{
-			if (this._displayName.Length > 0)
+			if (_displayName.Length > 0)
 			{
-				return this._displayName;
+				return _displayName;
 			}
 
-			return this._basePropertyDescriptor.DisplayName;
+			return _basePropertyDescriptor.DisplayName;
 		}
 	}
 
@@ -879,7 +872,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	{
 		get
 		{
-			return this._basePropertyDescriptor.IsBrowsable;
+			return _basePropertyDescriptor.IsBrowsable;
 		}
 	}
 
@@ -890,7 +883,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	{
 		get
 		{
-			return this._basePropertyDescriptor.IsReadOnly;
+			return _basePropertyDescriptor.IsReadOnly;
 		}
 	}
 
@@ -901,7 +894,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	{
 		get
 		{
-			return this._basePropertyDescriptor.PropertyType;
+			return _basePropertyDescriptor.PropertyType;
 		}
 	}
 
@@ -926,7 +919,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	/// <returns>The value of a property for a given component.</returns>
 	public override object GetValue(object component)
 	{
-		return this._basePropertyDescriptor.GetValue(component);
+		return _basePropertyDescriptor.GetValue(component);
 	}
 
 	/// <summary>
@@ -935,7 +928,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	/// <param name="component">The component with the property value that is to be reset to the default value.</param>
 	public override void ResetValue(object component)
 	{
-		this._basePropertyDescriptor.ResetValue(component);
+		_basePropertyDescriptor.ResetValue(component);
 	}
 
 	/// <summary>
@@ -945,7 +938,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	/// <returns>True if the property should be persisted; otherwise, false.</returns>
 	public override bool ShouldSerializeValue(object component)
 	{
-		return this._basePropertyDescriptor.ShouldSerializeValue(component);
+		return _basePropertyDescriptor.ShouldSerializeValue(component);
 	}
 
 	/// <summary>
@@ -955,7 +948,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 	/// <param name="value">The new value.</param>
 	public override void SetValue(object component, object value)
 	{
-		this._basePropertyDescriptor.SetValue(component, value);
+		_basePropertyDescriptor.SetValue(component, value);
 	}
 
 	#endregion // Methods

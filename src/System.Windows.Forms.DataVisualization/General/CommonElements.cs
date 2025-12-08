@@ -31,8 +31,6 @@ internal class CommonElements
 {
 	#region Fields
 
-	private Chart _chart;
-	private ChartImage _chartPicture;
 
 	// Reference to Chart Graphics Object
 	internal ChartGraphics graph = null;
@@ -53,8 +51,6 @@ internal class CommonElements
 	internal bool processModeRegions = false;
 
 	// Private Fields
-	private int _width = 0;
-	private int _height = 0;
 
 	#endregion
 
@@ -100,7 +96,7 @@ internal class CommonElements
 	{
 		get
 		{
-			return ChartPicture.hotRegionsList;
+			return ChartPicture._hotRegionsList;
 		}
 	}
 
@@ -133,9 +129,9 @@ internal class CommonElements
 	{
 		get
 		{
-			if (_chart == null)
-				_chart = (Chart)container.GetService(typeof(Chart));
-			return _chart;
+			field ??= (Chart)container.GetService(typeof(Chart));
+
+			return field;
 		}
 	}
 
@@ -181,41 +177,21 @@ internal class CommonElements
 	{
 		get
 		{
-			if (_chartPicture == null)
-				_chartPicture = (ChartImage)container.GetService(typeof(ChartImage));
-			return _chartPicture;
+			field ??= (ChartImage)container.GetService(typeof(ChartImage));
+
+			return field;
 		}
 	}
 
 	/// <summary>
 	/// Width of the chart picture
 	/// </summary>
-	internal int Width
-	{
-		get
-		{
-			return _width;
-		}
-		set
-		{
-			_width = value;
-		}
-	}
+	internal int Width { get; set; } = 0;
 
 	/// <summary>
 	/// Height of the chart picture
 	/// </summary>
-	internal int Height
-	{
-		get
-		{
-			return _height;
-		}
-		set
-		{
-			_height = value;
-		}
-	}
+	internal int Height { get; set; } = 0;
 
 	#endregion
 
@@ -250,11 +226,10 @@ internal class CommonElements
 	/// <param name="stringToParse">String to convert.</param>
 	/// <param name="throwException">if set to <c>true</c> the exception thrown.</param>
 	/// <returns>Double result.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Double.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Double@)")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Double.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Double@)")]
 	internal static double ParseDouble(string stringToParse, bool throwException)
 	{
-		Double result = 0.0;
-
+		double result;
 		if (throwException)
 		{
 			result = double.Parse(stringToParse, NumberStyles.Any, CultureInfo.InvariantCulture);
@@ -276,10 +251,10 @@ internal class CommonElements
 	/// </summary>
 	/// <param name="stringToParse">String to convert.</param>
 	/// <returns>Double result.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Single.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Single@)")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Single.TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Single@)")]
 	internal static float ParseFloat(string stringToParse)
 	{
-		float result = 0f;
+		float result;
 		bool parseSucceed = float.TryParse(stringToParse, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
 
 		if (!parseSucceed)

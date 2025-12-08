@@ -37,9 +37,8 @@ internal class AnchorPointValueConverter : TypeConverter
 				return Constants.NotSetValue;
 			}
 
-			DataPoint dataPoint = value as DataPoint;
 
-			if (dataPoint != null)
+			if (value is DataPoint dataPoint)
 			{
 				if (dataPoint.series != null)
 				{
@@ -79,8 +78,7 @@ internal class AnnotationAxisValueConverter : TypeConverter
 				return Constants.NotSetValue;
 			}
 
-			Axis axis = value as Axis;
-			if (axis != null)
+			if (value is Axis axis)
 			{
 				if (axis.ChartArea != null)
 				{

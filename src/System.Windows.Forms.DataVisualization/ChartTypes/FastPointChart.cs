@@ -186,9 +186,9 @@ internal class FastPointChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -208,17 +208,17 @@ internal class FastPointChart : IChartType
 		ChartArea area,
 		Series seriesToDraw)
 	{
-		this.Common = common;
-		this.Graph = graph;
+		Common = common;
+		Graph = graph;
 		if (area.Area3DStyle.Enable3D)
 		{
 			// Initialize variables
-			this.chartArea3DEnabled = true;
+			chartArea3DEnabled = true;
 			matrix3D = area.matrix3D;
 		}
 		else
 		{
-			this.chartArea3DEnabled = false;
+			chartArea3DEnabled = false;
 		}
 
 		//************************************************************
@@ -227,7 +227,7 @@ internal class FastPointChart : IChartType
 		foreach (Series series in common.DataManager.Series)
 		{
 			// Process non empty series of the area with FastPoint chart type
-			if (String.Compare(series.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) != 0
+			if (string.Compare(series.ChartTypeName, Name, true, CultureInfo.CurrentCulture) != 0
 				|| series.ChartArea != area.Name ||
 				!series.IsVisible())
 			{
@@ -235,11 +235,11 @@ internal class FastPointChart : IChartType
 			}
 
 			// Get 3D series depth and Z position
-			if (this.chartArea3DEnabled)
+			if (chartArea3DEnabled)
 			{
 				float seriesDepth;
-				area.GetSeriesZPositionAndDepth(series, out seriesDepth, out this.seriesZCoordinate);
-				this.seriesZCoordinate += seriesDepth / 2.0f;
+				area.GetSeriesZPositionAndDepth(series, out seriesDepth, out seriesZCoordinate);
+				seriesZCoordinate += seriesDepth / 2.0f;
 			}
 
 			// Set active horizontal/vertical axis
@@ -283,8 +283,8 @@ internal class FastPointChart : IChartType
 			double axesValuesPixelSizeY = Math.Abs(vAxis.PositionToValue(axesMin.Height + pixelSize.Height, false) - vAxis.PositionToValue(axesMin.Height, false));
 
 			// Create point marker brush
-			SolidBrush markerBrush = new SolidBrush(((series.MarkerColor.IsEmpty) ? series.Color : series.MarkerColor));
-			SolidBrush emptyMarkerBrush = new SolidBrush(((series.EmptyPointStyle.MarkerColor.IsEmpty) ? series.EmptyPointStyle.Color : series.EmptyPointStyle.MarkerColor));
+			SolidBrush markerBrush = new(((series.MarkerColor.IsEmpty) ? series.Color : series.MarkerColor));
+			SolidBrush emptyMarkerBrush = new(((series.EmptyPointStyle.MarkerColor.IsEmpty) ? series.EmptyPointStyle.Color : series.EmptyPointStyle.MarkerColor));
 
 			// Create point marker border pen
 			Pen borderPen = null;
@@ -300,7 +300,7 @@ internal class FastPointChart : IChartType
 			}
 
 			// Check if series is indexed
-			bool indexedSeries = ChartHelper.IndexedSeries(this.Common, series.Name);
+			bool indexedSeries = ChartHelper.IndexedSeries(Common, series.Name);
 
 			// Get marker size taking in consideration current DPIs
 			int markerSize = series.MarkerSize;
@@ -312,12 +312,9 @@ internal class FastPointChart : IChartType
 
 			// Loop through all ponts in the series
 			int index = 0;
-			double xValue = 0.0;
-			double yValue = 0.0;
 			double xValuePrev = 0.0;
 			double yValuePrev = 0.0;
 			PointF currentPoint = PointF.Empty;
-			bool currentPointIsEmpty = false;
 			double xPixelConverter = (graph.Common.ChartPicture.Width - 1.0) / 100.0;
 			double yPixelConverter = (graph.Common.ChartPicture.Height - 1.0) / 100.0;
 			MarkerStyle markerStyle = series.MarkerStyle;
@@ -325,10 +322,10 @@ internal class FastPointChart : IChartType
 			foreach (DataPoint point in series.Points)
 			{
 				// Get point X and Y values
-				xValue = (indexedSeries) ? index + 1 : point.XValue;
+				double xValue = (indexedSeries) ? index + 1 : point.XValue;
 				xValue = hAxis.GetLogValue(xValue);
-				yValue = vAxis.GetLogValue(point.YValues[0]);
-				currentPointIsEmpty = point.IsEmpty;
+				double yValue = vAxis.GetLogValue(point.YValues[0]);
+				bool currentPointIsEmpty = point.IsEmpty;
 
 				// Check if point is completly out of the data scaleView
 				if (xValue < hAxisMin ||
@@ -366,7 +363,7 @@ internal class FastPointChart : IChartType
 				MarkerStyle currentMarkerStyle = (currentPointIsEmpty) ? emptyMarkerStyle : markerStyle;
 				if (currentMarkerStyle != MarkerStyle.None)
 				{
-					this.DrawMarker(
+					DrawMarker(
 						graph,
 						point,
 						index,
@@ -386,15 +383,9 @@ internal class FastPointChart : IChartType
 			// Dispose used brushes and pens
 			markerBrush.Dispose();
 			emptyMarkerBrush.Dispose();
-			if (borderPen != null)
-			{
-				borderPen.Dispose();
-			}
+			borderPen?.Dispose();
 
-			if (emptyBorderPen != null)
-			{
-				emptyBorderPen.Dispose();
-			}
+			emptyBorderPen?.Dispose();
 		}
 	}
 
@@ -424,7 +415,7 @@ internal class FastPointChart : IChartType
 		{
 			Point3D[] points = new Point3D[1];
 			location = graph.GetRelativePoint(location);
-			points[0] = new Point3D(location.X, location.Y, this.seriesZCoordinate);
+			points[0] = new Point3D(location.X, location.Y, seriesZCoordinate);
 			matrix3D.TransformPoints(points);
 			location.X = points[0].X;
 			location.Y = points[0].Y;
@@ -432,7 +423,7 @@ internal class FastPointChart : IChartType
 		}
 
 		// Create marker bounding rectangle in pixels
-		RectangleF markerBounds = new RectangleF(
+		RectangleF markerBounds = new(
 			location.X - markerSize / 2f, location.Y - markerSize / 2f, markerSize, markerSize);
 
 		// Draw Marker
@@ -538,7 +529,7 @@ internal class FastPointChart : IChartType
 					points[11].Y = location.Y + crossLineWidth / 2F;
 
 					// Rotate cross coordinates 45 degrees
-					Matrix rotationMatrix = new Matrix();
+					Matrix rotationMatrix = new();
 					rotationMatrix.RotateAt(45, location);
 					rotationMatrix.TransformPoints(points);
 					rotationMatrix.Dispose();
@@ -603,9 +594,9 @@ internal class FastPointChart : IChartType
 		}
 
 		// Process selection regions
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
-			this.Common.HotRegionsList.AddHotRegion(
+			Common.HotRegionsList.AddHotRegion(
 				graph.GetRelativeRectangle(markerBounds),
 				point,
 				point.series.Name,

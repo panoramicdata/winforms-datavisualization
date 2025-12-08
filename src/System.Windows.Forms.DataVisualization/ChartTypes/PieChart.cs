@@ -108,7 +108,7 @@ internal class PieChart : IChartType
 
 	// Array of label rectangles used to prevent labels overlapping 
 	// for 2D pie chart outside labels.
-	private ArrayList _labelsRectangles = new ArrayList();
+	private readonly ArrayList _labelsRectangles = [];
 
 	#endregion
 
@@ -124,9 +124,9 @@ internal class PieChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	/// <summary>
@@ -253,8 +253,8 @@ internal class PieChart : IChartType
 	internal static void PrepareData(Series series)
 	{
 		// Check series chart type
-		if (String.Compare(series.ChartTypeName, ChartTypeNames.Pie, StringComparison.OrdinalIgnoreCase) != 0 &&
-			String.Compare(series.ChartTypeName, ChartTypeNames.Doughnut, StringComparison.OrdinalIgnoreCase) != 0
+		if (string.Compare(series.ChartTypeName, ChartTypeNames.Pie, StringComparison.OrdinalIgnoreCase) != 0 &&
+			string.Compare(series.ChartTypeName, ChartTypeNames.Doughnut, StringComparison.OrdinalIgnoreCase) != 0
 				)
 		{
 			return;
@@ -292,9 +292,11 @@ internal class PieChart : IChartType
 			}
 
 			// Create a temp series which will hold original series data points
-			Series seriesOriginalData = new Series("PIE_ORIGINAL_DATA_" + series.Name, series.YValuesPerPoint);
-			seriesOriginalData.Enabled = false;
-			seriesOriginalData.IsVisibleInLegend = false;
+			Series seriesOriginalData = new("PIE_ORIGINAL_DATA_" + series.Name, series.YValuesPerPoint)
+			{
+				Enabled = false,
+				IsVisibleInLegend = false
+			};
 			chart.Series.Add(seriesOriginalData);
 			foreach (DataPoint dp in series.Points)
 			{
@@ -399,7 +401,7 @@ internal class PieChart : IChartType
 				// Set collected point color
 				if (series.IsCustomPropertySet(CustomPropertyName.CollectedColor))
 				{
-					ColorConverter colorConverter = new ColorConverter();
+					ColorConverter colorConverter = new();
 					try
 					{
 						collectedPoint.Color = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, series[CustomPropertyName.CollectedColor]);
@@ -498,12 +500,12 @@ internal class PieChart : IChartType
 				series.ChartArea == area.Name)
 			{
 				// Check if series chart type matches
-				if (String.Compare(series.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) != 0)
+				if (string.Compare(series.ChartTypeName, Name, true, CultureInfo.CurrentCulture) != 0)
 				{
 					if (!common.ChartPicture.SuppressExceptions)
 					{
 						// Pie/Doughnut chart can not be combined with other chart type
-						throw (new InvalidOperationException(SR.ExceptionChartCanNotCombine(this.Name)));
+						throw (new InvalidOperationException(SR.ExceptionChartCanNotCombine(Name)));
 					}
 				}
 			}
@@ -537,7 +539,7 @@ internal class PieChart : IChartType
 		else
 		{
 			// Reset overlapped labels flag
-			this._labelsOverlap = false;
+			_labelsOverlap = false;
 
 			//Set Clip Region
 			((ChartGraphics)graph).SetClip(area.Position.ToRectangleF());
@@ -550,13 +552,13 @@ internal class PieChart : IChartType
 
 			// If overlapping labels are detected they will be drawn in "columns" on each
 			// side of the pie. Adjust plotting area to fit the labels
-			if (this._labelsOverlap)
+			if (_labelsOverlap)
 			{
 				// Resize pie because of labels
 				SizeCorrection(graph, common, area);
 
 				// Reset overlapped labels flag
-				this._labelsOverlap = false;
+				_labelsOverlap = false;
 
 				// Draw Pie labels
 				ProcessChartType(false, graph, common, area, false, LabelsMode.LabelsOverlap);
@@ -599,8 +601,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (minimumSize < 0.1 || minimumSize > 0.7)
+			{
 				throw (new ArgumentException(SR.ExceptionPieMinimumRelativePieSizeInvalid));
-
+			}
 		}
 
 		return minimumSize;
@@ -612,7 +615,7 @@ internal class PieChart : IChartType
 	/// </summary>
 	private void SizeCorrection(ChartGraphics graph, CommonElements common, ChartArea area)
 	{
-		float correction = (this._labelsOverlap) ? this._sizeCorrection : 0.95F;
+		float correction = (_labelsOverlap) ? _sizeCorrection : 0.95F;
 		_sliceExploded = false;
 
 		// Estimate Labels
@@ -621,7 +624,7 @@ internal class PieChart : IChartType
 			for (; correction >= (float)MinimumRelativePieSize(area); correction -= 0.05F)
 			{
 				// Decrease Pie size
-				this._sizeCorrection = correction;
+				_sizeCorrection = correction;
 
 				// Check if labels fit.
 				ProcessChartType(false, graph, common, area, false, LabelsMode.EstimateSize);
@@ -656,7 +659,6 @@ internal class PieChart : IChartType
 	private void ProcessChartType(bool selection, ChartGraphics graph, CommonElements common, ChartArea area, bool shadow, LabelsMode labels)
 	{
 		float startAngle = 0;           // Angle in degrees measured clockwise from the x-axis to the first side of the pie section. 
-		string explodedAttrib = ""; // Exploded attribute
 		bool exploded;                  // Exploded pie slice
 		float midAngle;                 // Angle between Start Angle and End Angle
 
@@ -725,8 +727,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (doughnutRadius < 0f || doughnutRadius > 99f)
+			{
 				throw (new ArgumentException(SR.ExceptionPieRadiusInvalid));
-
+			}
 		}
 
 		// This method is introduced to check colors of palette. For 
@@ -772,7 +775,7 @@ internal class PieChart : IChartType
 			SizeF relativeSize = graph.GetRelativeSize(new SizeF(absRadius, absRadius));
 
 			// Center of the pie
-			PointF middlePoint = new PointF(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height / 2);
+			PointF middlePoint = new(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height / 2);
 
 			// Rectangle which will always create circle, never ellipse.
 			rectangle = new RectangleF(middlePoint.X - relativeSize.Width / 2, middlePoint.Y - relativeSize.Height / 2, relativeSize.Width, relativeSize.Height);
@@ -803,15 +806,19 @@ internal class PieChart : IChartType
 			exploded = false;
 			if (point.IsCustomPropertySet(CustomPropertyName.Exploded))
 			{
-				explodedAttrib = point[CustomPropertyName.Exploded];
-				if (String.Compare(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase) == 0)
+				string explodedAttrib = point[CustomPropertyName.Exploded];
+				if (string.Compare(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase) == 0)
+				{
 					exploded = true;
+				}
 				else
+				{
 					exploded = false;
+				}
 			}
 
 			Color pieLineColor = Color.Empty;
-			ColorConverter colorConverter = new ColorConverter();
+			ColorConverter colorConverter = new();
 
 			// Check if special color properties are set
 			if (point.IsCustomPropertySet(CustomPropertyName.PieLineColor) || dataSeries[typeSeries[0]].IsCustomPropertySet(CustomPropertyName.PieLineColor))
@@ -871,41 +878,57 @@ internal class PieChart : IChartType
 					}
 
 					// Shadow Rectangle
-					RectangleF shadowRect = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+					RectangleF shadowRect = new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 					shadowRect.Offset((float)offset, (float)offset);
 
 					// Change shadow color
-					Color shcolor = new Color();
-					Color shGradientColor = new Color();
-					Color shBorderColor = new Color();
+					Color shcolor = new();
+					Color shGradientColor = new();
+					Color shBorderColor = new();
 
 					// Solid color
 					if (point.Color.A != 255)
+					{
 						shcolor = Color.FromArgb(point.Color.A / 2, point.series.ShadowColor);
+					}
 					else
+					{
 						shcolor = point.series.ShadowColor;
+					}
 
 					// Gradient Color
 					if (!point.BackSecondaryColor.IsEmpty)
 					{
 						if (point.BackSecondaryColor.A != 255)
+						{
 							shGradientColor = Color.FromArgb(point.BackSecondaryColor.A / 2, point.series.ShadowColor);
+						}
 						else
+						{
 							shGradientColor = point.series.ShadowColor;
+						}
 					}
 					else
+					{
 						shGradientColor = Color.Empty;
+					}
 
 					// Border color
 					if (!point.BorderColor.IsEmpty)
 					{
 						if (point.BorderColor.A != 255)
+						{
 							shBorderColor = Color.FromArgb(point.BorderColor.A / 2, point.series.ShadowColor);
+						}
 						else
+						{
 							shBorderColor = point.series.ShadowColor;
+						}
 					}
 					else
+					{
 						shBorderColor = Color.Empty;
+					}
 
 					// Draw shadow of pie slice
 					graph.DrawPieRel(
@@ -1002,7 +1025,9 @@ internal class PieChart : IChartType
 			// If exploded the shift is bigger
 			float expShift = 1;
 			if (exploded)
+			{
 				expShift = 1.2F;
+			}
 
 			midAngle = startAngle + sweepAngle / 2;
 
@@ -1020,9 +1045,9 @@ internal class PieChart : IChartType
 			}
 		}
 
-		if (labels == LabelsMode.LabelsOverlap && this._labelsOverlap)
+		if (labels == LabelsMode.LabelsOverlap && _labelsOverlap)
 		{
-			this._labelsOverlap = PrepareLabels(area.Position.ToRectangleF());
+			_labelsOverlap = PrepareLabels(area.Position.ToRectangleF());
 		}
 
 		// Call Paint event
@@ -1062,7 +1087,7 @@ internal class PieChart : IChartType
 		graph.Clip = new Region();
 
 		// Get label text
-		text = this.GetLabelText(point);
+		text = GetLabelText(point);
 		if (text.Length == 0)
 		{
 			return;
@@ -1080,24 +1105,36 @@ internal class PieChart : IChartType
 			string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 		else if (series.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
 		{
 			string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 
 		// Get label style attribute from point
@@ -1106,12 +1143,18 @@ internal class PieChart : IChartType
 			string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 		// Get label style attribute from point
 		else if (point.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
@@ -1119,12 +1162,18 @@ internal class PieChart : IChartType
 			string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 
 
@@ -1136,7 +1185,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
+			}
 		}
 
 		// Take labels radial line size attribute from point
@@ -1147,7 +1198,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
+			}
 		}
 
 		// Take labels horizontal line size attribute from series
@@ -1158,7 +1211,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
+			}
 		}
 
 		// Take labels horizontal line size attribute from point
@@ -1169,7 +1224,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
+			}
 		}
 
 		float expShift = 1;
@@ -1220,51 +1277,47 @@ internal class PieChart : IChartType
 			y = (float)Math.Sin((startAngle + sweepAngle / 2) * Math.PI / 180) * height + middlePoint.Y;
 
 			// Center the string horizontally and vertically.
-			using (StringFormat format = new StringFormat())
-			{
-				format.Alignment = StringAlignment.Center;
-				format.LineAlignment = StringAlignment.Center;
+			using StringFormat format = new();
+			format.Alignment = StringAlignment.Center;
+			format.LineAlignment = StringAlignment.Center;
 
-				SizeF sizeFont = graph.GetRelativeSize(
-					graph.MeasureString(
-					text.Replace("\\n", "\n"),
-					point.Font,
-					new SizeF(1000f, 1000f),
-					StringFormat.GenericTypographic));
+			SizeF sizeFont = graph.GetRelativeSize(
+				graph.MeasureString(
+				text.Replace("\\n", "\n"),
+				point.Font,
+				new SizeF(1000f, 1000f),
+				StringFormat.GenericTypographic));
 
-				// Get label background position
-				RectangleF labelBackPosition = RectangleF.Empty;
-				SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-				sizeLabel.Height += sizeLabel.Height / 8;
-				sizeLabel.Width += sizeLabel.Width / text.Length;
-				labelBackPosition = PointChart.GetLabelPosition(
-					graph,
-					new PointF(x, y),
-					sizeLabel,
-					format,
-					true);
+			// Get label background position
+			RectangleF labelBackPosition = RectangleF.Empty;
+			SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+			sizeLabel.Height += sizeLabel.Height / 8;
+			sizeLabel.Width += sizeLabel.Width / text.Length;
+			labelBackPosition = PointChart.GetLabelPosition(
+				graph,
+				new PointF(x, y),
+				sizeLabel,
+				format,
+				true);
 
-				// Draw the label inside the pie
-				using (Brush brush = new SolidBrush(point.LabelForeColor))
-				{
-					graph.DrawPointLabelStringRel(
-						area.Common,
-						text,
-						point.Font,
-						brush,
-						new PointF(x, y),
-						format,
-						point.LabelAngle,
-						labelBackPosition,
-						point.LabelBackColor,
-						point.LabelBorderColor,
-						point.LabelBorderWidth,
-						point.LabelBorderDashStyle,
-						series,
-						point,
-						pointIndex);
-				}
-			}
+			// Draw the label inside the pie
+			using Brush brush = new SolidBrush(point.LabelForeColor);
+			graph.DrawPointLabelStringRel(
+				area.Common,
+				text,
+				point.Font,
+				brush,
+				new PointF(x, y),
+				format,
+				point.LabelAngle,
+				labelBackPosition,
+				point.LabelBackColor,
+				point.LabelBorderColor,
+				point.LabelBorderWidth,
+				point.LabelBorderDashStyle,
+				series,
+				point,
+				pointIndex);
 		}
 
 		// ********************************************
@@ -1278,7 +1331,9 @@ internal class PieChart : IChartType
 
 			// If exploded the shift is bigger
 			if (exploded)
+			{
 				expShift = 1.2F;
+			}
 
 			float midAngle = startAngle + sweepAngle / 2;
 
@@ -1301,132 +1356,128 @@ internal class PieChart : IChartType
 			}
 
 			// Set string alingment
-			using (StringFormat format = new StringFormat())
+			using StringFormat format = new();
+			format.Alignment = StringAlignment.Center;
+			format.LineAlignment = StringAlignment.Center;
+
+			// Find second line position
+			float y3 = (float)Math.Sin((midAngle) * Math.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
+			float x3;
+			float x3Overlap;
+
+			RectangleF labelRect = RectangleF.Empty;
+			RectangleF labelRectOver = RectangleF.Empty;
+
+			if (midAngle > 90 && midAngle < 270)
 			{
-				format.Alignment = StringAlignment.Center;
-				format.LineAlignment = StringAlignment.Center;
+				format.Alignment = StringAlignment.Far;
+				x3Overlap = -relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
+				x3 = (float)Math.Cos((midAngle) * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
 
-				// Find second line position
-				float y3 = (float)Math.Sin((midAngle) * Math.PI / 180) * relativeSize.Height * shift * expShift + middlePoint.Y;
-				float x3;
-				float x3Overlap;
-
-				RectangleF labelRect = RectangleF.Empty;
-				RectangleF labelRectOver = RectangleF.Empty;
-
-				if (midAngle > 90 && midAngle < 270)
+				if (overlapTest)
 				{
-					format.Alignment = StringAlignment.Far;
-					x3Overlap = -relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
-					x3 = (float)Math.Cos((midAngle) * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X - relativeSize.Width / 10 * labelsHorizontalLineSize;
+					x3Overlap = x3;
+				}
 
-					if (overlapTest)
-					{
-						x3Overlap = x3;
-					}
+				// This method returns calculated rectangle from point position 
+				// for outside label. Rectangle mustn’t be out of chart area.
+				labelRect = GetLabelRect(new PointF(x3, y3), area, text, format, graph, point, true);
+				labelRectOver = GetLabelRect(new PointF(x3Overlap, y3), area, text, format, graph, point, true);
+			}
+			else
+			{
+				format.Alignment = StringAlignment.Near;
 
-					// This method returns calculated rectangle from point position 
-					// for outside label. Rectangle mustn’t be out of chart area.
-					labelRect = GetLabelRect(new PointF(x3, y3), area, text, format, graph, point, true);
-					labelRectOver = GetLabelRect(new PointF(x3Overlap, y3), area, text, format, graph, point, true);
+				x3Overlap = relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
+				x3 = (float)Math.Cos((midAngle) * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
+
+				if (overlapTest)
+				{
+					x3Overlap = x3;
+				}
+
+				// This method returns calculated rectangle from point position 
+				// for outside label. Rectangle mustn’t be out of chart area.
+				labelRect = GetLabelRect(new PointF(x3, y3), area, text, format, graph, point, false);
+				labelRectOver = GetLabelRect(new PointF(x3Overlap, y3), area, text, format, graph, point, false);
+			}
+
+			// Draw second line
+			if (!overlapTest)
+			{
+				if (_labelsOverlap)
+				{
+					float calculatedY3 = (((RectangleF)_labelsRectangles[pointIndex]).Top + ((RectangleF)_labelsRectangles[pointIndex]).Bottom) / 2f;
+					graph.DrawLineRel(pieLineColor, point.BorderWidth, ChartDashStyle.Solid, new PointF(x2, y2), new PointF(x3Overlap, calculatedY3));
 				}
 				else
 				{
-					format.Alignment = StringAlignment.Near;
-
-					x3Overlap = relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
-					x3 = (float)Math.Cos((midAngle) * Math.PI / 180) * relativeSize.Width * shift * expShift + middlePoint.X + relativeSize.Width / 10 * labelsHorizontalLineSize;
-
-					if (overlapTest)
-					{
-						x3Overlap = x3;
-					}
-
-					// This method returns calculated rectangle from point position 
-					// for outside label. Rectangle mustn’t be out of chart area.
-					labelRect = GetLabelRect(new PointF(x3, y3), area, text, format, graph, point, false);
-					labelRectOver = GetLabelRect(new PointF(x3Overlap, y3), area, text, format, graph, point, false);
+					graph.DrawLineRel(pieLineColor, point.BorderWidth, ChartDashStyle.Solid, new PointF(x2, y2), new PointF(x3, y3));
 				}
+			}
 
-				// Draw second line
-				if (!overlapTest)
+			// Draw the string
+			if (!overlapTest)
+			{
+				RectangleF rect = new(labelRect.Location, labelRect.Size);
+				if (_labelsOverlap)
 				{
-					if (this._labelsOverlap)
-					{
-						float calculatedY3 = (((RectangleF)this._labelsRectangles[pointIndex]).Top + ((RectangleF)this._labelsRectangles[pointIndex]).Bottom) / 2f;
-						graph.DrawLineRel(pieLineColor, point.BorderWidth, ChartDashStyle.Solid, new PointF(x2, y2), new PointF(x3Overlap, calculatedY3));
-					}
-					else
-					{
-						graph.DrawLineRel(pieLineColor, point.BorderWidth, ChartDashStyle.Solid, new PointF(x2, y2), new PointF(x3, y3));
-					}
+					// Draw label from collection if original labels overlap.
+					rect = (RectangleF)_labelsRectangles[pointIndex];
+					rect.X = labelRectOver.X;
+					rect.Width = labelRectOver.Width;
 				}
 
-				// Draw the string
-				if (!overlapTest)
+				// Get label background position
+				SizeF valueTextSize = graph.MeasureStringRel(text.Replace("\\n", "\n"), point.Font);
+				valueTextSize.Height += valueTextSize.Height / 8;
+				float spacing = valueTextSize.Width / text.Length / 2;
+				valueTextSize.Width += spacing;
+				RectangleF labelBackPosition = new(
+					rect.X,
+					rect.Y + rect.Height / 2f - valueTextSize.Height / 2f,
+					valueTextSize.Width,
+					valueTextSize.Height);
+
+				// Adjust position based on alignment
+				if (format.Alignment == StringAlignment.Near)
 				{
-					RectangleF rect = new RectangleF(labelRect.Location, labelRect.Size);
-					if (this._labelsOverlap)
-					{
-						// Draw label from collection if original labels overlap.
-						rect = (RectangleF)this._labelsRectangles[pointIndex];
-						rect.X = labelRectOver.X;
-						rect.Width = labelRectOver.Width;
-					}
-
-					// Get label background position
-					SizeF valueTextSize = graph.MeasureStringRel(text.Replace("\\n", "\n"), point.Font);
-					valueTextSize.Height += valueTextSize.Height / 8;
-					float spacing = valueTextSize.Width / text.Length / 2;
-					valueTextSize.Width += spacing;
-					RectangleF labelBackPosition = new RectangleF(
-						rect.X,
-						rect.Y + rect.Height / 2f - valueTextSize.Height / 2f,
-						valueTextSize.Width,
-						valueTextSize.Height);
-
-					// Adjust position based on alignment
-					if (format.Alignment == StringAlignment.Near)
-					{
-						labelBackPosition.X -= spacing / 2f;
-					}
-					else if (format.Alignment == StringAlignment.Center)
-					{
-						labelBackPosition.X = rect.X + (rect.Width - valueTextSize.Width) / 2f;
-					}
-					else if (format.Alignment == StringAlignment.Far)
-					{
-						labelBackPosition.X = rect.Right - valueTextSize.Width - spacing / 2f;
-					}
-
-					// Draw label text outside
-					using (Brush brush = new SolidBrush(point.LabelForeColor))
-					{
-						graph.DrawPointLabelStringRel(
-							area.Common,
-							text,
-							point.Font,
-							brush,
-							rect,
-							format,
-							point.LabelAngle,
-							labelBackPosition,
-							point.LabelBackColor,
-							point.LabelBorderColor,
-							point.LabelBorderWidth,
-							point.LabelBorderDashStyle,
-							series,
-							point,
-							pointIndex);
-					}
+					labelBackPosition.X -= spacing / 2f;
 				}
-				else
+				else if (format.Alignment == StringAlignment.Center)
 				{
-					// Insert labels in label collection. This 
-					// code is executed only if labels overlap.
-					this.InsertOverlapLabel(labelRectOver);
-					added = true;
+					labelBackPosition.X = rect.X + (rect.Width - valueTextSize.Width) / 2f;
 				}
+				else if (format.Alignment == StringAlignment.Far)
+				{
+					labelBackPosition.X = rect.Right - valueTextSize.Width - spacing / 2f;
+				}
+
+				// Draw label text outside
+				using Brush brush = new SolidBrush(point.LabelForeColor);
+				graph.DrawPointLabelStringRel(
+					area.Common,
+					text,
+					point.Font,
+					brush,
+					rect,
+					format,
+					point.LabelAngle,
+					labelBackPosition,
+					point.LabelBackColor,
+					point.LabelBorderColor,
+					point.LabelBorderWidth,
+					point.LabelBorderDashStyle,
+					series,
+					point,
+					pointIndex);
+			}
+			else
+			{
+				// Insert labels in label collection. This 
+				// code is executed only if labels overlap.
+				InsertOverlapLabel(labelRectOver);
+				added = true;
 			}
 		}
 		// Restore old clip region
@@ -1502,24 +1553,36 @@ internal class PieChart : IChartType
 			string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 		else if (series.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
 		{
 			string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 
 		// Get label style attribute from point
@@ -1528,24 +1591,36 @@ internal class PieChart : IChartType
 			string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 		else if (point.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
 		{
 			string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 
 		return style;
@@ -1568,7 +1643,7 @@ internal class PieChart : IChartType
 		float labelsRadialLineSize = 1; // Radial line size for outside labels
 		float shift;
 
-		string pointLabel = this.GetPointLabel(point);
+		string pointLabel = GetPointLabel(point);
 
 		Series series = point.series;
 
@@ -1580,24 +1655,36 @@ internal class PieChart : IChartType
 			string labelStyleAttrib = series[CustomPropertyName.LabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 		else if (series.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
 		{
 			string labelStyleAttrib = series[CustomPropertyName.PieLabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 
 		// Get label style attribute from point
@@ -1606,24 +1693,36 @@ internal class PieChart : IChartType
 			string labelStyleAttrib = point[CustomPropertyName.LabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 		else if (point.IsCustomPropertySet(CustomPropertyName.PieLabelStyle))
 		{
 			string labelStyleAttrib = point[CustomPropertyName.PieLabelStyle];
 
 			// Labels Disabled
-			if (String.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(labelStyleAttrib, "disabled", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Disabled;
-			else if (String.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			}
+			else if (string.Compare(labelStyleAttrib, "outside", StringComparison.OrdinalIgnoreCase) == 0)
+			{
 				style = PieLabelStyle.Outside;
+			}
 			else
+			{
 				style = PieLabelStyle.Inside;
+			}
 		}
 
 		// Take labels radial line size attribute from series
@@ -1634,7 +1733,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
+			}
 		}
 
 		// Take labels radial line size attribute from point
@@ -1645,7 +1746,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsRadialLineSize < 0 || labelsRadialLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieRadialLineSizeInvalid);
+			}
 		}
 
 		// Take labels horizontal line size attribute from series
@@ -1656,7 +1759,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
+			}
 		}
 
 		// Take labels horizontal line size attribute from point
@@ -1667,7 +1772,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelsHorizontalLineSize < 0 || labelsHorizontalLineSize > 100)
+			{
 				throw new InvalidOperationException(SR.ExceptionPieHorizontalLineSizeInvalid);
+			}
 		}
 
 		float expShift = 1;
@@ -1683,7 +1790,9 @@ internal class PieChart : IChartType
 
 			// If exploded the shift is bigger
 			if (exploded)
+			{
 				expShift = 1.2F;
+			}
 
 			float midAngle = startAngle + sweepAngle / 2;
 
@@ -1723,7 +1832,7 @@ internal class PieChart : IChartType
 
 			_labelsFit = true;
 
-			if (this._labelsOverlap)
+			if (_labelsOverlap)
 			{
 				if (midAngle > 90 && midAngle < 270)
 				{
@@ -1747,23 +1856,31 @@ internal class PieChart : IChartType
 				if (midAngle > 90 && midAngle < 270)
 				{
 					if (x3 - size.Width < area.PlotAreaPosition.ToRectangleF().Left)
+					{
 						_labelsFit = false;
+					}
 				}
 				else
 				{
 					if (x3 + size.Width > area.PlotAreaPosition.ToRectangleF().Right)
+					{
 						_labelsFit = false;
+					}
 				}
 
 				if (midAngle > 180 && midAngle < 360)
 				{
 					if (y3 - size.Height / 2 < area.PlotAreaPosition.ToRectangleF().Top)
+					{
 						_labelsFit = false;
+					}
 				}
 				else
 				{
 					if (y3 + size.Height / 2 > area.PlotAreaPosition.ToRectangleF().Bottom)
+					{
 						_labelsFit = false;
+					}
 				}
 			}
 
@@ -1787,91 +1904,89 @@ internal class PieChart : IChartType
 	private void Map(CommonElements common, DataPoint point, float startAngle, float sweepAngle, RectangleF rectangle, bool doughnut, float doughnutRadius, ChartGraphics graph, int pointIndex)
 	{
 		// Create a graphics path
-		using (GraphicsPath path = new GraphicsPath())
+		using GraphicsPath path = new();
+
+		// Create the interior doughnut rectangle
+		RectangleF doughnutRect = RectangleF.Empty;
+
+		doughnutRect.X = rectangle.X + rectangle.Width * (1 - (100 - doughnutRadius) / 100) / 2;
+		doughnutRect.Y = rectangle.Y + rectangle.Height * (1 - (100 - doughnutRadius) / 100) / 2;
+		doughnutRect.Width = rectangle.Width * (100 - doughnutRadius) / 100;
+		doughnutRect.Height = rectangle.Height * (100 - doughnutRadius) / 100;
+
+		// Get absolute coordinates of the pie rectangle
+		rectangle = graph.GetAbsoluteRectangle(rectangle);
+
+		// Add the pie to the graphics path
+		path.AddPie(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, startAngle, sweepAngle);
+		// VSTS #250394 (Dev10:591140) Fix - Control should not return “useless” map areas
+		if (sweepAngle <= 0)
+		{
+			return;
+		}
+		// If the chart type is doughnut
+		if (doughnut)
 		{
 
-			// Create the interior doughnut rectangle
-			RectangleF doughnutRect = RectangleF.Empty;
+			// Get absolute coordinates of the interior doughnut rectangle
+			doughnutRect = graph.GetAbsoluteRectangle(doughnutRect);
 
-			doughnutRect.X = rectangle.X + rectangle.Width * (1 - (100 - doughnutRadius) / 100) / 2;
-			doughnutRect.Y = rectangle.Y + rectangle.Height * (1 - (100 - doughnutRadius) / 100) / 2;
-			doughnutRect.Width = rectangle.Width * (100 - doughnutRadius) / 100;
-			doughnutRect.Height = rectangle.Height * (100 - doughnutRadius) / 100;
+			// Add the interior doughnut region to the graphics path
+			path.AddPie(doughnutRect.X, doughnutRect.Y, doughnutRect.Width, doughnutRect.Width, startAngle, sweepAngle);
+		}
 
-			// Get absolute coordinates of the pie rectangle
-			rectangle = graph.GetAbsoluteRectangle(rectangle);
+		// Make a polygon from curves
+		path.Flatten(new Matrix(), 1f);
 
-			// Add the pie to the graphics path
-			path.AddPie(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, startAngle, sweepAngle);
-			// VSTS #250394 (Dev10:591140) Fix - Control should not return “useless” map areas
-			if (sweepAngle <= 0)
-			{
-				return;
-			}
-			// If the chart type is doughnut
-			if (doughnut)
-			{
+		// Create an area of points and convert them to 
+		// relative coordinates.
+		PointF[] pointNew = new PointF[path.PointCount];
+		for (int i = 0; i < path.PointCount; i++)
+		{
+			pointNew[i] = graph.GetRelativePoint(path.PathPoints[i]);
+		}
 
-				// Get absolute coordinates of the interior doughnut rectangle
-				doughnutRect = graph.GetAbsoluteRectangle(doughnutRect);
+		// Allocate array of floats
+		float[] coord = new float[path.PointCount * 2];
 
-				// Add the interior doughnut region to the graphics path
-				path.AddPie(doughnutRect.X, doughnutRect.Y, doughnutRect.Width, doughnutRect.Width, startAngle, sweepAngle);
-			}
-
-			// Make a polygon from curves
-			path.Flatten(new Matrix(), 1f);
-
-			// Create an area of points and convert them to 
-			// relative coordinates.
-			PointF[] pointNew = new PointF[path.PointCount];
-			for (int i = 0; i < path.PointCount; i++)
-			{
-				pointNew[i] = graph.GetRelativePoint(path.PathPoints[i]);
-			}
-
-			// Allocate array of floats
-			float[] coord = new float[path.PointCount * 2];
-
-			// Transfer path points
-			for (int index = 0; index < path.PointCount; index++)
-			{
-				coord[2 * index] = pointNew[index].X;
-				coord[2 * index + 1] = pointNew[index].Y;
-			}
+		// Transfer path points
+		for (int index = 0; index < path.PointCount; index++)
+		{
+			coord[2 * index] = pointNew[index].X;
+			coord[2 * index + 1] = pointNew[index].Y;
+		}
 
 
 
-			// Check if processing collected data point
-			if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
-			{
-				// Add point to the map area
-				common.HotRegionsList.AddHotRegion(
-					graph,
-					path,
-					false,
-					point.ReplaceKeywords(point.ToolTip),
-				string.Empty,
-				string.Empty,
-				string.Empty,
-					point,
-					ChartElementType.DataPoint);
-
-				return;
-			}
-
-
-
-			// Add points to the map area
+		// Check if processing collected data point
+		if (point.IsCustomPropertySet("_COLLECTED_DATA_POINT"))
+		{
+			// Add point to the map area
 			common.HotRegionsList.AddHotRegion(
+				graph,
 				path,
 				false,
-				coord,
+				point.ReplaceKeywords(point.ToolTip),
+			string.Empty,
+			string.Empty,
+			string.Empty,
 				point,
-				point.series.Name,
-				pointIndex
-				);
+				ChartElementType.DataPoint);
+
+			return;
 		}
+
+
+
+		// Add points to the map area
+		common.HotRegionsList.AddHotRegion(
+			path,
+			false,
+			coord,
+			point,
+			point.series.Name,
+			pointIndex
+			);
 	}
 
 	/// <summary>
@@ -1914,7 +2029,7 @@ internal class PieChart : IChartType
 		int numberOfRight = 0;
 
 		// Find the number of left and right labels.
-		foreach (RectangleF rect in this._labelsRectangles)
+		foreach (RectangleF rect in _labelsRectangles)
 		{
 			if (rect.X < splitPoint)
 			{
@@ -1934,7 +2049,7 @@ internal class PieChart : IChartType
 		{
 			double[] startPoints = new double[numberOfLeft];
 			double[] endPoints = new double[numberOfLeft];
-			int[] positionIndex = new Int32[numberOfLeft];
+			int[] positionIndex = new int[numberOfLeft];
 
 			// Fill double arrays with Top and Bottom coordinates 
 			// from the label rectangle.
@@ -1952,10 +2067,10 @@ internal class PieChart : IChartType
 			}
 
 			// Sort label positions
-			this.SortIntervals(startPoints, endPoints, positionIndex);
+			SortIntervals(startPoints, endPoints, positionIndex);
 
 			// Find no overlapping positions if possible.
-			if (this.ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
+			if (ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
 			{
 				// Fill label rectangle top and bottom coordinates 
 				// from double arrays.
@@ -1987,7 +2102,7 @@ internal class PieChart : IChartType
 		{
 			double[] startPoints = new double[numberOfRight];
 			double[] endPoints = new double[numberOfRight];
-			int[] positionIndex = new Int32[numberOfRight];
+			int[] positionIndex = new int[numberOfRight];
 
 			// Fill double arrays with Top and Bottom coordinates 
 			// from the label rectangle.
@@ -2005,10 +2120,10 @@ internal class PieChart : IChartType
 			}
 
 			// Sort label positions
-			this.SortIntervals(startPoints, endPoints, positionIndex);
+			SortIntervals(startPoints, endPoints, positionIndex);
 
 			// Find no overlapping positions if possible.
-			if (this.ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
+			if (ArrangeOverlappingIntervals(startPoints, endPoints, area.Top, area.Bottom))
 			{
 				// Fill label rectangle top and bottom coordinates 
 				// from double arrays.
@@ -2090,7 +2205,7 @@ internal class PieChart : IChartType
 			{
 				if (labelRect.IntersectsWith(rect))
 				{
-					this._labelsOverlap = true;
+					_labelsOverlap = true;
 				}
 			}
 		}
@@ -2344,7 +2459,6 @@ internal class PieChart : IChartType
 		ChartArea area,
 		float pieWidth)
 	{
-		string explodedAttrib = "";                 // Exploded attribute
 		bool exploded;                                  // Exploded pie slice
 		float midAngle;                                 // Angle between Start Angle and End Angle
 
@@ -2401,12 +2515,13 @@ internal class PieChart : IChartType
 
 		// Is exploded if only one is exploded
 		bool isExploded = false;
+		string explodedAttrib;
 		foreach (DataPoint point in dataSeries[typeSeries[0]].Points)
 		{
 			if (point.IsCustomPropertySet(CustomPropertyName.Exploded))
 			{
 				explodedAttrib = point[CustomPropertyName.Exploded];
-				if (String.Compare(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					isExploded = true;
 				}
@@ -2421,8 +2536,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (doughnutRadius < 0f || doughnutRadius > 99f)
+			{
 				throw (new ArgumentException(SR.ExceptionPieRadiusInvalid));
-
+			}
 		}
 
 		// Take 3D Label Line Size attribute
@@ -2433,8 +2549,9 @@ internal class PieChart : IChartType
 
 			// Validation
 			if (labelLineSize < 30f || labelLineSize > 200f)
+			{
 				throw (new ArgumentException(SR.ExceptionPie3DLabelLineSizeInvalid));
-
+			}
 		}
 
 		labelLineSize = labelLineSize * 0.1F / 100F;
@@ -2460,7 +2577,7 @@ internal class PieChart : IChartType
 			return;
 		}
 
-		RectangleF plotingRectangle = new RectangleF(area.Position.ToRectangleF().X + 1, area.Position.ToRectangleF().Y + 1, area.Position.ToRectangleF().Width - 2, area.Position.ToRectangleF().Height - 2);
+		RectangleF plotingRectangle = new(area.Position.ToRectangleF().X + 1, area.Position.ToRectangleF().Y + 1, area.Position.ToRectangleF().Width - 2, area.Position.ToRectangleF().Height - 2);
 
 		// Check if any data point has outside label
 		bool outside = false;
@@ -2521,9 +2638,13 @@ internal class PieChart : IChartType
 				// Rectangle size
 				RectangleF rectangle;
 				if (area.InnerPlotPosition.Auto)
+				{
 					rectangle = new RectangleF(plotingRectangle.X, plotingRectangle.Y, plotingRectangle.Width, plotingRectangle.Height);
+				}
 				else
+				{
 					rectangle = new RectangleF(area.PlotAreaPosition.ToRectangleF().X, area.PlotAreaPosition.ToRectangleF().Y, area.PlotAreaPosition.ToRectangleF().Width, area.PlotAreaPosition.ToRectangleF().Height);
+				}
 
 				// Find smallest edge
 				SizeF absoluteSize = graph.GetAbsoluteSize(new SizeF(rectangle.Width, rectangle.Height));
@@ -2533,7 +2654,7 @@ internal class PieChart : IChartType
 				SizeF relativeSize = graph.GetRelativeSize(new SizeF(absRadius, absRadius));
 
 				// Center of the pie
-				PointF middlePoint = new PointF(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height / 2);
+				PointF middlePoint = new(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height / 2);
 
 				// Rectangle which will always create circle, never ellipse.
 				rectangle = new RectangleF(middlePoint.X - relativeSize.Width / 2, middlePoint.Y - relativeSize.Height / 2, relativeSize.Width, relativeSize.Height);
@@ -2543,10 +2664,14 @@ internal class PieChart : IChartType
 				if (point.IsCustomPropertySet(CustomPropertyName.Exploded))
 				{
 					explodedAttrib = point[CustomPropertyName.Exploded];
-					if (String.Compare(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase) == 0)
+					if (string.Compare(explodedAttrib, "true", StringComparison.OrdinalIgnoreCase) == 0)
+					{
 						exploded = true;
+					}
 					else
+					{
 						exploded = false;
+					}
 				}
 
 				// Size correction because of exploded or labels
@@ -2661,12 +2786,13 @@ internal class PieChart : IChartType
 		int pointIndex
 		)
 	{
-		SolidBrush brush = new SolidBrush(point.Color);
+		SolidBrush brush = new(point.Color);
 
-		// For lightStyle style Non, Border color always exist.
-		Color penColor = Color.Empty;
 		Color penCurveColor = Color.Empty;
 
+
+		// For lightStyle style Non, Border color always exist.
+		Color penColor;
 		if (point.BorderColor == Color.Empty && area.Area3DStyle.LightStyle == LightStyle.None)
 		{
 			penColor = ChartGraphics.GetGradientColor(point.Color, Color.Black, 0.5);
@@ -2685,8 +2811,10 @@ internal class PieChart : IChartType
 			penCurveColor = penColor;
 		}
 
-		Pen pen = new Pen(penColor, point.BorderWidth);
-		pen.DashStyle = graph.GetPenStyle(point.BorderDashStyle);
+		Pen pen = new(penColor, point.BorderWidth)
+		{
+			DashStyle = graph.GetPenStyle(point.BorderDashStyle)
+		};
 
 		// Pen for back side slice.
 		Pen backSlicePen;
@@ -2699,14 +2827,18 @@ internal class PieChart : IChartType
 			backSlicePen = pen;
 		}
 
-		Pen penCurve = new Pen(penCurveColor, point.BorderWidth);
-		penCurve.DashStyle = graph.GetPenStyle(point.BorderDashStyle);
+		Pen penCurve = new(penCurveColor, point.BorderWidth)
+		{
+			DashStyle = graph.GetPenStyle(point.BorderDashStyle)
+		};
 
 		// Set Border Width;
 		PointF[] points = GetPiePoints(graph, area, pieWidth, rectangle, startAngle, sweepAngle, true, doughnutRadius, exploded);
 
 		if (points == null)
+		{
 			return;
+		}
 
 		// Remember data point anchor location
 		point.positionRel.X = points[(int)PiePoints.TopLabelLine].X;
@@ -2721,7 +2853,7 @@ internal class PieChart : IChartType
 		{
 			// Draw back pie slice (do not fill). 
 			// Used for transparency.
-			if (!this.Doughnut)
+			if (!Doughnut)
 			{
 				graph.FillPieSlice(
 					area,
@@ -2827,7 +2959,9 @@ internal class PieChart : IChartType
 				bool BackFrontDoughnut = (startAngle > -180 && startAngle < 0 || startAngle > 180 && startAngle < 360) && (endAngle > -180 && endAngle < 0 || endAngle > 180 && endAngle < 360);
 
 				if (area.Area3DStyle.Inclination > 0)
+				{
 					BackFrontDoughnut = !BackFrontDoughnut;
+				}
 
 				if (midAngle > -90 && midAngle < 90 || midAngle > 270 && midAngle < 450)
 				{
@@ -2861,7 +2995,7 @@ internal class PieChart : IChartType
 		}
 		else if (turn == 3)
 		{
-			if (!this.Doughnut)
+			if (!Doughnut)
 			{
 				// Fill pie slice
 				graph.FillPieSlice(
@@ -2945,7 +3079,7 @@ internal class PieChart : IChartType
 				Color pieLineColor = pen.Color;
 				if (point.IsCustomPropertySet(CustomPropertyName.PieLineColor) || (point.series != null && point.series.IsCustomPropertySet(CustomPropertyName.PieLineColor)))
 				{
-					ColorConverter colorConverter = new ColorConverter();
+					ColorConverter colorConverter = new();
 					bool failed = false;
 
 					try
@@ -2982,10 +3116,8 @@ internal class PieChart : IChartType
 				}
 
 				// Draw labels
-				using (Pen labelPen = new Pen(pieLineColor, pen.Width))
-				{
-					Draw3DOutsideLabels(graph, area, labelPen, points, point, midAngle, pointIndex);
-				}
+				using Pen labelPen = new(pieLineColor, pen.Width);
+				Draw3DOutsideLabels(graph, area, labelPen, points, point, midAngle, pointIndex);
 			}
 
 		}
@@ -3000,12 +3132,9 @@ internal class PieChart : IChartType
 		}
 
 		//Clean up resources
-		if (brush != null)
-			brush.Dispose();
-		if (pen != null)
-			pen.Dispose();
-		if (penCurve != null)
-			penCurve.Dispose();
+		brush?.Dispose();
+		pen?.Dispose();
+		penCurve?.Dispose();
 	}
 
 	/// <summary>
@@ -3135,7 +3264,7 @@ internal class PieChart : IChartType
 			pieWidth);
 
 		// Top Label Center
-		if (this.Doughnut)
+		if (Doughnut)
 		{
 			points[(int)PiePoints.TopLabelCenter] = new Point3D(
 				rectangle.X + (float)Math.Cos((startAngle + sweepAngle / 2) * Math.PI / 180) * rectangle.Width * (1 + doughnutRadius) / 4F + rectangle.Width / 2F,
@@ -3289,195 +3418,195 @@ internal class PieChart : IChartType
 		)
 	{
 		// Create a graphics path
-		using (GraphicsPath path = new GraphicsPath())
+		using GraphicsPath path = new();
+		Brush brush;
+
+		if (area.Area3DStyle.LightStyle == LightStyle.None)
 		{
-			Brush brush;
+			brush = brushWithoutLight;
+		}
+		else
+		{
+			brush = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+		}
 
-			if (area.Area3DStyle.LightStyle == LightStyle.None)
+		float endAngle = startAngle + sweepAngle;
+
+		// Very big pie slice ( > 180 degree )
+		if (sweepAngle > 180)
+		{
+			if (DrawPieCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
 			{
-				brush = brushWithoutLight;
+				return;
+			}
+		}
+
+		// Pie slice pass throw 180 degree. Curve has to be spited.
+		if (startAngle < 180 && endAngle > 180)
+		{
+			if (area.Area3DStyle.Inclination < 0)
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.TopRectTopLeftPoint],
+					points[(int)PiePoints.TopRectBottomRightPoint],
+					points[(int)PiePoints.BottomRectTopLeftPoint],
+					points[(int)PiePoints.BottomRectBottomRightPoint],
+					points[(int)PiePoints.TopStart],
+					points[(int)PiePoints.Top180],
+					points[(int)PiePoints.BottomStart],
+					points[(int)PiePoints.Bottom180],
+					startAngle,
+					180 - startAngle,
+					pointIndex
+					);
+
 			}
 			else
 			{
-				brush = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.TopRectTopLeftPoint],
+					points[(int)PiePoints.TopRectBottomRightPoint],
+					points[(int)PiePoints.BottomRectTopLeftPoint],
+					points[(int)PiePoints.BottomRectBottomRightPoint],
+					points[(int)PiePoints.Top180],
+					points[(int)PiePoints.TopEnd],
+					points[(int)PiePoints.Bottom180],
+					points[(int)PiePoints.BottomEnd],
+					180,
+					startAngle + sweepAngle - 180,
+					pointIndex
+					);
+
 			}
+		}
 
-			float endAngle = startAngle + sweepAngle;
-
-			// Very big pie slice ( > 180 degree )
-			if (sweepAngle > 180)
+		// Pie slice pass throw 0 degree. Curve has to be spited.
+		else if (startAngle < 0 && endAngle > 0)
+		{
+			if (area.Area3DStyle.Inclination > 0)
 			{
-				if (DrawPieCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
-					return;
-			}
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.TopRectTopLeftPoint],
+					points[(int)PiePoints.TopRectBottomRightPoint],
+					points[(int)PiePoints.BottomRectTopLeftPoint],
+					points[(int)PiePoints.BottomRectBottomRightPoint],
+					points[(int)PiePoints.TopStart],
+					points[(int)PiePoints.Top0],
+					points[(int)PiePoints.BottomStart],
+					points[(int)PiePoints.Bottom0],
+					startAngle,
+					-startAngle,
+					pointIndex
+					);
 
-			// Pie slice pass throw 180 degree. Curve has to be spited.
-			if (startAngle < 180 && endAngle > 180)
-			{
-				if (area.Area3DStyle.Inclination < 0)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.TopRectTopLeftPoint],
-						points[(int)PiePoints.TopRectBottomRightPoint],
-						points[(int)PiePoints.BottomRectTopLeftPoint],
-						points[(int)PiePoints.BottomRectBottomRightPoint],
-						points[(int)PiePoints.TopStart],
-						points[(int)PiePoints.Top180],
-						points[(int)PiePoints.BottomStart],
-						points[(int)PiePoints.Bottom180],
-						startAngle,
-						180 - startAngle,
-						pointIndex
-						);
-
-				}
-				else
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.TopRectTopLeftPoint],
-						points[(int)PiePoints.TopRectBottomRightPoint],
-						points[(int)PiePoints.BottomRectTopLeftPoint],
-						points[(int)PiePoints.BottomRectBottomRightPoint],
-						points[(int)PiePoints.Top180],
-						points[(int)PiePoints.TopEnd],
-						points[(int)PiePoints.Bottom180],
-						points[(int)PiePoints.BottomEnd],
-						180,
-						startAngle + sweepAngle - 180,
-						pointIndex
-						);
-
-				}
-			}
-
-			// Pie slice pass throw 0 degree. Curve has to be spited.
-			else if (startAngle < 0 && endAngle > 0)
-			{
-				if (area.Area3DStyle.Inclination > 0)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.TopRectTopLeftPoint],
-						points[(int)PiePoints.TopRectBottomRightPoint],
-						points[(int)PiePoints.BottomRectTopLeftPoint],
-						points[(int)PiePoints.BottomRectBottomRightPoint],
-						points[(int)PiePoints.TopStart],
-						points[(int)PiePoints.Top0],
-						points[(int)PiePoints.BottomStart],
-						points[(int)PiePoints.Bottom0],
-						startAngle,
-						-startAngle,
-						pointIndex
-						);
-
-				}
-				else
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.TopRectTopLeftPoint],
-						points[(int)PiePoints.TopRectBottomRightPoint],
-						points[(int)PiePoints.BottomRectTopLeftPoint],
-						points[(int)PiePoints.BottomRectBottomRightPoint],
-						points[(int)PiePoints.Top0],
-						points[(int)PiePoints.TopEnd],
-						points[(int)PiePoints.Bottom0],
-						points[(int)PiePoints.BottomEnd],
-						0,
-						sweepAngle + startAngle,
-						pointIndex
-						);
-
-				}
-			}
-			// Pie slice pass throw 360 degree. Curve has to be spited.
-			else if (startAngle < 360 && endAngle > 360)
-			{
-				if (area.Area3DStyle.Inclination > 0)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.TopRectTopLeftPoint],
-						points[(int)PiePoints.TopRectBottomRightPoint],
-						points[(int)PiePoints.BottomRectTopLeftPoint],
-						points[(int)PiePoints.BottomRectBottomRightPoint],
-						points[(int)PiePoints.TopStart],
-						points[(int)PiePoints.Top0],
-						points[(int)PiePoints.BottomStart],
-						points[(int)PiePoints.Bottom0],
-						startAngle,
-						360 - startAngle,
-						pointIndex
-						);
-
-				}
-				else
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.TopRectTopLeftPoint],
-						points[(int)PiePoints.TopRectBottomRightPoint],
-						points[(int)PiePoints.BottomRectTopLeftPoint],
-						points[(int)PiePoints.BottomRectBottomRightPoint],
-						points[(int)PiePoints.Top0],
-						points[(int)PiePoints.TopEnd],
-						points[(int)PiePoints.Bottom0],
-						points[(int)PiePoints.BottomEnd],
-						0,
-						endAngle - 360,
-						pointIndex
-						);
-				}
 			}
 			else
 			{
-				// ***************************************************
-				// REGULAR CASE: The curve is not split.
-				// ***************************************************
-				if (startAngle < 180 && startAngle >= 0 && area.Area3DStyle.Inclination < 0
-					|| startAngle < 540 && startAngle >= 360 && area.Area3DStyle.Inclination < 0
-					|| startAngle >= 180 && startAngle < 360 && area.Area3DStyle.Inclination > 0
-					|| startAngle >= -180 && startAngle < 0 && area.Area3DStyle.Inclination > 0
-					)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.TopRectTopLeftPoint],
-						points[(int)PiePoints.TopRectBottomRightPoint],
-						points[(int)PiePoints.BottomRectTopLeftPoint],
-						points[(int)PiePoints.BottomRectBottomRightPoint],
-						points[(int)PiePoints.TopStart],
-						points[(int)PiePoints.TopEnd],
-						points[(int)PiePoints.BottomStart],
-						points[(int)PiePoints.BottomEnd],
-						startAngle,
-						sweepAngle,
-						pointIndex
-						);
-				}
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.TopRectTopLeftPoint],
+					points[(int)PiePoints.TopRectBottomRightPoint],
+					points[(int)PiePoints.BottomRectTopLeftPoint],
+					points[(int)PiePoints.BottomRectBottomRightPoint],
+					points[(int)PiePoints.Top0],
+					points[(int)PiePoints.TopEnd],
+					points[(int)PiePoints.Bottom0],
+					points[(int)PiePoints.BottomEnd],
+					0,
+					sweepAngle + startAngle,
+					pointIndex
+					);
+
+			}
+		}
+		// Pie slice pass throw 360 degree. Curve has to be spited.
+		else if (startAngle < 360 && endAngle > 360)
+		{
+			if (area.Area3DStyle.Inclination > 0)
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.TopRectTopLeftPoint],
+					points[(int)PiePoints.TopRectBottomRightPoint],
+					points[(int)PiePoints.BottomRectTopLeftPoint],
+					points[(int)PiePoints.BottomRectBottomRightPoint],
+					points[(int)PiePoints.TopStart],
+					points[(int)PiePoints.Top0],
+					points[(int)PiePoints.BottomStart],
+					points[(int)PiePoints.Bottom0],
+					startAngle,
+					360 - startAngle,
+					pointIndex
+					);
+
+			}
+			else
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.TopRectTopLeftPoint],
+					points[(int)PiePoints.TopRectBottomRightPoint],
+					points[(int)PiePoints.BottomRectTopLeftPoint],
+					points[(int)PiePoints.BottomRectBottomRightPoint],
+					points[(int)PiePoints.Top0],
+					points[(int)PiePoints.TopEnd],
+					points[(int)PiePoints.Bottom0],
+					points[(int)PiePoints.BottomEnd],
+					0,
+					endAngle - 360,
+					pointIndex
+					);
+			}
+		}
+		else
+		{
+			// ***************************************************
+			// REGULAR CASE: The curve is not split.
+			// ***************************************************
+			if (startAngle < 180 && startAngle >= 0 && area.Area3DStyle.Inclination < 0
+				|| startAngle < 540 && startAngle >= 360 && area.Area3DStyle.Inclination < 0
+				|| startAngle >= 180 && startAngle < 360 && area.Area3DStyle.Inclination > 0
+				|| startAngle >= -180 && startAngle < 0 && area.Area3DStyle.Inclination > 0
+				)
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.TopRectTopLeftPoint],
+					points[(int)PiePoints.TopRectBottomRightPoint],
+					points[(int)PiePoints.BottomRectTopLeftPoint],
+					points[(int)PiePoints.BottomRectBottomRightPoint],
+					points[(int)PiePoints.TopStart],
+					points[(int)PiePoints.TopEnd],
+					points[(int)PiePoints.BottomStart],
+					points[(int)PiePoints.BottomEnd],
+					startAngle,
+					sweepAngle,
+					pointIndex
+					);
 			}
 		}
 	}
@@ -3800,198 +3929,197 @@ internal class PieChart : IChartType
 		)
 	{
 		// Create a graphics path
-		using (GraphicsPath path = new GraphicsPath())
+		using GraphicsPath path = new();
+
+		Brush brush;
+
+		if (area.Area3DStyle.LightStyle == LightStyle.None)
 		{
+			brush = brushWithoutLight;
+		}
+		else
+		{
+			brush = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+		}
 
-			Brush brush;
+		float endAngle = startAngle + sweepAngle;
 
-			if (area.Area3DStyle.LightStyle == LightStyle.None)
+		// Very big pie slice ( > 180 degree )
+		if (sweepAngle > 180)
+		{
+			if (DrawDoughnutCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
 			{
-				brush = brushWithoutLight;
+				return;
+			}
+		}
+
+		// Pie slice pass throw 180 degree. Curve has to be spited.
+		if (startAngle < 180 && endAngle > 180)
+		{
+			if (area.Area3DStyle.Inclination > 0)
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutTopStart],
+					points[(int)PiePoints.DoughnutTop180],
+					points[(int)PiePoints.DoughnutBottomStart],
+					points[(int)PiePoints.DoughnutBottom180],
+					startAngle,
+					180 - startAngle,
+					pointIndex
+					);
+
 			}
 			else
 			{
-				brush = graph.GetGradientBrush(graph.GetAbsoluteRectangle(area.Position.ToRectangleF()), Color.FromArgb(brushWithoutLight.Color.A, 0, 0, 0), brushWithoutLight.Color, GradientStyle.VerticalCenter);
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutTop180],
+					points[(int)PiePoints.DoughnutTopEnd],
+					points[(int)PiePoints.DoughnutBottom180],
+					points[(int)PiePoints.DoughnutBottomEnd],
+					180,
+					startAngle + sweepAngle - 180,
+					pointIndex
+					);
+
 			}
+		}
 
-			float endAngle = startAngle + sweepAngle;
-
-			// Very big pie slice ( > 180 degree )
-			if (sweepAngle > 180)
+		// Pie slice pass throw 0 degree. Curve has to be spited.
+		else if (startAngle < 0 && endAngle > 0)
+		{
+			if (area.Area3DStyle.Inclination < 0)
 			{
-				if (DrawDoughnutCurvesBigSlice(graph, area, dataPoint, startAngle, sweepAngle, points, brush, pen, rightPosition, sameBackFront, pointIndex))
-					return;
-			}
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutTopStart],
+					points[(int)PiePoints.DoughnutTop0],
+					points[(int)PiePoints.DoughnutBottomStart],
+					points[(int)PiePoints.DoughnutBottom0],
+					startAngle,
+					-startAngle,
+					pointIndex
+					);
 
-			// Pie slice pass throw 180 degree. Curve has to be spited.
-			if (startAngle < 180 && endAngle > 180)
-			{
-				if (area.Area3DStyle.Inclination > 0)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutTopStart],
-						points[(int)PiePoints.DoughnutTop180],
-						points[(int)PiePoints.DoughnutBottomStart],
-						points[(int)PiePoints.DoughnutBottom180],
-						startAngle,
-						180 - startAngle,
-						pointIndex
-						);
-
-				}
-				else
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutTop180],
-						points[(int)PiePoints.DoughnutTopEnd],
-						points[(int)PiePoints.DoughnutBottom180],
-						points[(int)PiePoints.DoughnutBottomEnd],
-						180,
-						startAngle + sweepAngle - 180,
-						pointIndex
-						);
-
-				}
-			}
-
-			// Pie slice pass throw 0 degree. Curve has to be spited.
-			else if (startAngle < 0 && endAngle > 0)
-			{
-				if (area.Area3DStyle.Inclination < 0)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutTopStart],
-						points[(int)PiePoints.DoughnutTop0],
-						points[(int)PiePoints.DoughnutBottomStart],
-						points[(int)PiePoints.DoughnutBottom0],
-						startAngle,
-						-startAngle,
-						pointIndex
-						);
-
-				}
-				else
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutTop0],
-						points[(int)PiePoints.DoughnutTopEnd],
-						points[(int)PiePoints.DoughnutBottom0],
-						points[(int)PiePoints.DoughnutBottomEnd],
-						0,
-						sweepAngle + startAngle,
-						pointIndex
-						);
-
-				}
-			}
-			// Pie slice pass throw 360 degree. Curve has to be spited.
-			else if (startAngle < 360 && endAngle > 360)
-			{
-				if (area.Area3DStyle.Inclination < 0)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutTopStart],
-						points[(int)PiePoints.DoughnutTop0],
-						points[(int)PiePoints.DoughnutBottomStart],
-						points[(int)PiePoints.DoughnutBottom0],
-						startAngle,
-						360 - startAngle,
-						pointIndex
-						);
-
-				}
-				else
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutTop0],
-						points[(int)PiePoints.DoughnutTopEnd],
-						points[(int)PiePoints.DoughnutBottom0],
-						points[(int)PiePoints.DoughnutBottomEnd],
-						0,
-						endAngle - 360,
-						pointIndex
-						);
-				}
 			}
 			else
 			{
-				// ***************************************************
-				// REGULAR CASE: The curve is not split.
-				// ***************************************************
-				if (startAngle < 180 && startAngle >= 0 && area.Area3DStyle.Inclination > 0
-					|| startAngle < 540 && startAngle >= 360 && area.Area3DStyle.Inclination > 0
-					|| startAngle >= 180 && startAngle < 360 && area.Area3DStyle.Inclination < 0
-					|| startAngle >= -180 && startAngle < 0 && area.Area3DStyle.Inclination < 0
-					)
-				{
-					graph.FillPieCurve(
-						area,
-						dataPoint,
-						brush,
-						pen,
-						points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
-						points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
-						points[(int)PiePoints.DoughnutTopStart],
-						points[(int)PiePoints.DoughnutTopEnd],
-						points[(int)PiePoints.DoughnutBottomStart],
-						points[(int)PiePoints.DoughnutBottomEnd],
-						startAngle,
-						sweepAngle,
-						pointIndex
-						);
-				}
-			}
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutTop0],
+					points[(int)PiePoints.DoughnutTopEnd],
+					points[(int)PiePoints.DoughnutBottom0],
+					points[(int)PiePoints.DoughnutBottomEnd],
+					0,
+					sweepAngle + startAngle,
+					pointIndex
+					);
 
+			}
+		}
+		// Pie slice pass throw 360 degree. Curve has to be spited.
+		else if (startAngle < 360 && endAngle > 360)
+		{
+			if (area.Area3DStyle.Inclination < 0)
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutTopStart],
+					points[(int)PiePoints.DoughnutTop0],
+					points[(int)PiePoints.DoughnutBottomStart],
+					points[(int)PiePoints.DoughnutBottom0],
+					startAngle,
+					360 - startAngle,
+					pointIndex
+					);
+
+			}
+			else
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutTop0],
+					points[(int)PiePoints.DoughnutTopEnd],
+					points[(int)PiePoints.DoughnutBottom0],
+					points[(int)PiePoints.DoughnutBottomEnd],
+					0,
+					endAngle - 360,
+					pointIndex
+					);
+			}
+		}
+		else
+		{
+			// ***************************************************
+			// REGULAR CASE: The curve is not split.
+			// ***************************************************
+			if (startAngle < 180 && startAngle >= 0 && area.Area3DStyle.Inclination > 0
+				|| startAngle < 540 && startAngle >= 360 && area.Area3DStyle.Inclination > 0
+				|| startAngle >= 180 && startAngle < 360 && area.Area3DStyle.Inclination < 0
+				|| startAngle >= -180 && startAngle < 0 && area.Area3DStyle.Inclination < 0
+				)
+			{
+				graph.FillPieCurve(
+					area,
+					dataPoint,
+					brush,
+					pen,
+					points[(int)PiePoints.DoughnutTopRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutTopRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutBottomRectTopLeftPoint],
+					points[(int)PiePoints.DoughnutBottomRectBottomRightPoint],
+					points[(int)PiePoints.DoughnutTopStart],
+					points[(int)PiePoints.DoughnutTopEnd],
+					points[(int)PiePoints.DoughnutBottomStart],
+					points[(int)PiePoints.DoughnutBottomEnd],
+					startAngle,
+					sweepAngle,
+					pointIndex
+					);
+			}
 		}
 
 	}
@@ -4322,7 +4450,9 @@ internal class PieChart : IChartType
 		foreach (DataPoint point in series.Points)
 		{
 			if (point.IsEmpty)
+			{
 				numOfEmpty++;
+			}
 
 			if (!point.IsEmpty)
 			{
@@ -4468,7 +4598,10 @@ internal class PieChart : IChartType
 				if (pointIndx < frontPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4500,7 +4633,10 @@ internal class PieChart : IChartType
 				if (pointIndx > frontPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4543,7 +4679,10 @@ internal class PieChart : IChartType
 				else if (pointIndx > backPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4577,7 +4716,10 @@ internal class PieChart : IChartType
 				else if (pointIndx < frontPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4620,7 +4762,10 @@ internal class PieChart : IChartType
 				else if (pointIndx > frontPoint && pointIndx < backPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4657,7 +4802,10 @@ internal class PieChart : IChartType
 				else if (pointIndx > backPoint && pointIndx < frontPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4691,7 +4839,10 @@ internal class PieChart : IChartType
 				else if (pointIndx > frontPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4725,7 +4876,10 @@ internal class PieChart : IChartType
 				else if (pointIndx < backPoint)
 				{
 					if (points[listIndx] != null)
+					{
 						throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
+					}
+
 					points[listIndx] = point;
 					newStartAngleList[listIndx] = startAngleList[pointIndx];
 					newSweepAngleList[listIndx] = sweepAngleList[pointIndx];
@@ -4894,7 +5048,9 @@ internal class PieChart : IChartType
 		internal float GetLabelPosition(int index)
 		{
 			if (index < 0 || index > numOfItems - 1)
+			{
 				throw new InvalidOperationException(SR.Exception3DPieLabelsIndexInvalid);
+			}
 
 			return (float)_chartAreaPosition.Y + columnHeight * index + columnHeight / 2;
 		}
@@ -4930,11 +5086,11 @@ internal class PieChart : IChartType
 			// Find initial X position for labels ( All labels are aligne ).
 			if (_rightPosition)
 			{
-				position.X = _innerPlotPosition.Right + _chartAreaPosition.Width * this._labelLineSize;
+				position.X = _innerPlotPosition.Right + _chartAreaPosition.Width * _labelLineSize;
 			}
 			else
 			{
-				position.X = _innerPlotPosition.Left - _chartAreaPosition.Width * this._labelLineSize;
+				position.X = _innerPlotPosition.Left - _chartAreaPosition.Width * _labelLineSize;
 			}
 
 			// Find angle between invisible line (which connects center of a pie and label) 
@@ -5105,7 +5261,9 @@ internal class PieChart : IChartType
 
 			// Adjust position only if there are many labels
 			if (_numOfInsertedLabels < _points.Length / 2)
+			{
 				return;
+			}
 
 			// Find the number of empty label positions on the top.
 			for (int point = 0; point < _points.Length && _points[point] == null; point++)
@@ -5128,7 +5286,9 @@ internal class PieChart : IChartType
 			// If difference between empty spaces on the top and 
 			// the bottom is not bigger then 2 do not adjust labels.
 			if (Math.Abs(numEmptyUp - numEmptyDown) < 2)
+			{
 				return;
+			}
 
 			if (moreEmptyUp)
 			{
@@ -5137,7 +5297,9 @@ internal class PieChart : IChartType
 				for (int point = numMove; point < _points.Length; point++)
 				{
 					if (numEmptyUp + indexPoint > _points.Length - 1)
+					{
 						break;
+					}
 
 					_points[point] = _points[numEmptyUp + indexPoint];
 					_points[numEmptyUp + indexPoint] = null;
@@ -5151,7 +5313,9 @@ internal class PieChart : IChartType
 				for (int point = _points.Length - 1 - numMove; point >= 0; point--)
 				{
 					if (indexPoint - numEmptyDown < 0)
+					{
 						break;
+					}
 
 					_points[point] = _points[indexPoint - numEmptyDown];
 					_points[indexPoint - numEmptyDown] = null;
@@ -5236,10 +5400,10 @@ internal class PieChart : IChartType
 			_yPositions = new float[numOfItems];
 
 			// Label column position
-			this._rightPosition = rightPosition;
+			_rightPosition = rightPosition;
 
 			// 3D Label line size
-			this._labelLineSize = labelLineSize;
+			_labelLineSize = labelLineSize;
 
 		}
 
@@ -5317,15 +5481,15 @@ internal class PieChart : IChartType
 		pieRectangle.Height = pieRectangle.Height - pieRectangle.Height * 0.3F;
 
 		// Size of pie chart can not be less then MinimumRelativePieSize of chart area.
-		if (pieRectangle.Width < oldWidth * (float)this.MinimumRelativePieSize(area))
+		if (pieRectangle.Width < oldWidth * (float)MinimumRelativePieSize(area))
 		{
-			pieRectangle.Width = oldWidth * (float)this.MinimumRelativePieSize(area);
+			pieRectangle.Width = oldWidth * (float)MinimumRelativePieSize(area);
 		}
 
 		// Size of pie chart can not be less then MinimumRelativePieSize of chart area.
-		if (pieRectangle.Height < oldHeight * (float)this.MinimumRelativePieSize(area))
+		if (pieRectangle.Height < oldHeight * (float)MinimumRelativePieSize(area))
 		{
-			pieRectangle.Height = oldHeight * (float)this.MinimumRelativePieSize(area);
+			pieRectangle.Height = oldHeight * (float)MinimumRelativePieSize(area);
 		}
 
 		// Size has to be reduce always because of label lines.
@@ -5342,7 +5506,7 @@ internal class PieChart : IChartType
 		// Find maximum number of rows. Number of rows will be changed 
 		// but this is only recommendation, which depends on font size 
 		// and Height of chart area.
-		SizeF fontSize = new SizeF(1.4F * series.Font.Size, 1.4F * series.Font.Size);
+		SizeF fontSize = new(1.4F * series.Font.Size, 1.4F * series.Font.Size);
 		fontSize = graph.GetRelativeSize(fontSize);
 		int maxNumOfRows = (int)(pieRectangle.Height / maxSizeVertical/*fontSize.Height*/ );
 
@@ -5423,109 +5587,105 @@ internal class PieChart : IChartType
 		graph.DrawLine(pen, points[(int)PiePoints.TopLabelLine], points[(int)PiePoints.TopLabelLineout]);
 		LabelColumn columnLabel;
 
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.LineAlignment = StringAlignment.Center;
+
+		RectangleF chartAreaPosition = graph.GetAbsoluteRectangle(area.Position.ToRectangleF());
+		RectangleF labelPosition = RectangleF.Empty;
+
+		PointF labelPoint;
+
+		if (midAngle >= -90 && midAngle < 90 || midAngle >= 270 && midAngle < 450)
 		{
-			format.LineAlignment = StringAlignment.Center;
+			columnLabel = labelColumnRight;
+			format.Alignment = StringAlignment.Near;
 
-			RectangleF chartAreaPosition = graph.GetAbsoluteRectangle(area.Position.ToRectangleF());
-			RectangleF labelPosition = RectangleF.Empty;
+			float labelVertSize = graph.GetAbsoluteSize(new SizeF(0f, labelColumnRight.columnHeight)).Height;
+			labelPoint = graph.GetAbsolutePoint(columnLabel.GetLabelPosition(point));
 
-			PointF labelPoint;
-
-			if (midAngle >= -90 && midAngle < 90 || midAngle >= 270 && midAngle < 450)
+			// Label has to be right from TopLabelLineOut
+			if (points[(int)PiePoints.TopLabelLineout].X > labelPoint.X)
 			{
-				columnLabel = labelColumnRight;
-				format.Alignment = StringAlignment.Near;
-
-				float labelVertSize = graph.GetAbsoluteSize(new SizeF(0f, this.labelColumnRight.columnHeight)).Height;
-				labelPoint = graph.GetAbsolutePoint(columnLabel.GetLabelPosition(point));
-
-				// Label has to be right from TopLabelLineOut
-				if (points[(int)PiePoints.TopLabelLineout].X > labelPoint.X)
-				{
-					labelPoint.X = points[(int)PiePoints.TopLabelLineout].X + 10;
-				}
-
-				labelPosition.X = labelPoint.X;
-				labelPosition.Width = chartAreaPosition.Right - labelPosition.X;
-				labelPosition.Y = labelPoint.Y - labelVertSize / 2;
-				labelPosition.Height = labelVertSize;
-
-			}
-			else
-			{
-				columnLabel = labelColumnLeft;
-				format.Alignment = StringAlignment.Far;
-
-				float labelVertSize = graph.GetAbsoluteSize(new SizeF(0f, this.labelColumnLeft.columnHeight)).Height;
-				labelPoint = graph.GetAbsolutePoint(columnLabel.GetLabelPosition(point));
-
-				// Label has to be left from TopLabelLineOut
-				if (points[(int)PiePoints.TopLabelLineout].X < labelPoint.X)
-				{
-					labelPoint.X = points[(int)PiePoints.TopLabelLineout].X - 10;
-				}
-
-				labelPosition.X = chartAreaPosition.X;
-				labelPosition.Width = labelPoint.X - labelPosition.X;
-				labelPosition.Y = labelPoint.Y - labelVertSize / 2;
-				labelPosition.Height = labelVertSize;
+				labelPoint.X = points[(int)PiePoints.TopLabelLineout].X + 10;
 			}
 
-			format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.LineLimit;
-			format.Trimming = StringTrimming.EllipsisWord;
+			labelPosition.X = labelPoint.X;
+			labelPosition.Width = chartAreaPosition.Right - labelPosition.X;
+			labelPosition.Y = labelPoint.Y - labelVertSize / 2;
+			labelPosition.Height = labelVertSize;
 
-			graph.DrawLine(pen, points[(int)PiePoints.TopLabelLineout], labelPoint);
-
-			// Get label relative position
-			labelPosition = graph.GetRelativeRectangle(labelPosition);
-
-			// Get label background position
-			SizeF valueTextSize = graph.MeasureStringRel(text.Replace("\\n", "\n"), point.Font);
-			valueTextSize.Height += valueTextSize.Height / 8;
-			float spacing = valueTextSize.Width / text.Length / 2;
-			valueTextSize.Width += spacing;
-			RectangleF labelBackPosition = new RectangleF(
-				labelPosition.X,
-				labelPosition.Y + labelPosition.Height / 2f - valueTextSize.Height / 2f,
-				valueTextSize.Width,
-				valueTextSize.Height);
-
-			// Adjust position based on alignment
-			if (format.Alignment == StringAlignment.Near)
-			{
-				labelBackPosition.X -= spacing / 2f;
-			}
-			else if (format.Alignment == StringAlignment.Center)
-			{
-				labelBackPosition.X = labelPosition.X + (labelPosition.Width - valueTextSize.Width) / 2f;
-			}
-			else if (format.Alignment == StringAlignment.Far)
-			{
-				labelBackPosition.X = labelPosition.Right - valueTextSize.Width - spacing / 2f;
-			}
-
-			// Draw label text
-			using (Brush brush = new SolidBrush(point.LabelForeColor))
-			{
-				graph.DrawPointLabelStringRel(
-					graph.Common,
-					text,
-					point.Font,
-					brush,
-					labelPosition,
-					format,
-					0,
-					labelBackPosition,
-					point.LabelBackColor,
-					point.LabelBorderColor,
-					point.LabelBorderWidth,
-					point.LabelBorderDashStyle,
-					point.series,
-					point,
-					pointIndex);
-			}
 		}
+		else
+		{
+			columnLabel = labelColumnLeft;
+			format.Alignment = StringAlignment.Far;
+
+			float labelVertSize = graph.GetAbsoluteSize(new SizeF(0f, labelColumnLeft.columnHeight)).Height;
+			labelPoint = graph.GetAbsolutePoint(columnLabel.GetLabelPosition(point));
+
+			// Label has to be left from TopLabelLineOut
+			if (points[(int)PiePoints.TopLabelLineout].X < labelPoint.X)
+			{
+				labelPoint.X = points[(int)PiePoints.TopLabelLineout].X - 10;
+			}
+
+			labelPosition.X = chartAreaPosition.X;
+			labelPosition.Width = labelPoint.X - labelPosition.X;
+			labelPosition.Y = labelPoint.Y - labelVertSize / 2;
+			labelPosition.Height = labelVertSize;
+		}
+
+		format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.LineLimit;
+		format.Trimming = StringTrimming.EllipsisWord;
+
+		graph.DrawLine(pen, points[(int)PiePoints.TopLabelLineout], labelPoint);
+
+		// Get label relative position
+		labelPosition = graph.GetRelativeRectangle(labelPosition);
+
+		// Get label background position
+		SizeF valueTextSize = graph.MeasureStringRel(text.Replace("\\n", "\n"), point.Font);
+		valueTextSize.Height += valueTextSize.Height / 8;
+		float spacing = valueTextSize.Width / text.Length / 2;
+		valueTextSize.Width += spacing;
+		RectangleF labelBackPosition = new(
+			labelPosition.X,
+			labelPosition.Y + labelPosition.Height / 2f - valueTextSize.Height / 2f,
+			valueTextSize.Width,
+			valueTextSize.Height);
+
+		// Adjust position based on alignment
+		if (format.Alignment == StringAlignment.Near)
+		{
+			labelBackPosition.X -= spacing / 2f;
+		}
+		else if (format.Alignment == StringAlignment.Center)
+		{
+			labelBackPosition.X = labelPosition.X + (labelPosition.Width - valueTextSize.Width) / 2f;
+		}
+		else if (format.Alignment == StringAlignment.Far)
+		{
+			labelBackPosition.X = labelPosition.Right - valueTextSize.Width - spacing / 2f;
+		}
+
+		// Draw label text
+		using Brush brush = new SolidBrush(point.LabelForeColor);
+		graph.DrawPointLabelStringRel(
+			graph.Common,
+			text,
+			point.Font,
+			brush,
+			labelPosition,
+			format,
+			0,
+			labelBackPosition,
+			point.LabelBackColor,
+			point.LabelBorderColor,
+			point.LabelBorderWidth,
+			point.LabelBorderDashStyle,
+			point.series,
+			point,
+			pointIndex);
 	}
 
 	/// <summary>
@@ -5538,9 +5698,11 @@ internal class PieChart : IChartType
 	private void Draw3DInsideLabels(ChartGraphics graph, PointF[] points, DataPoint point, int pointIndex)
 	{
 		// Set String Alignment
-		StringFormat format = new StringFormat();
-		format.LineAlignment = StringAlignment.Center;
-		format.Alignment = StringAlignment.Center;
+		StringFormat format = new()
+		{
+			LineAlignment = StringAlignment.Center,
+			Alignment = StringAlignment.Center
+		};
 
 		// Take label text
 		string text = GetLabelText(point);
@@ -5555,38 +5717,34 @@ internal class PieChart : IChartType
 			point.Font,
 			new SizeF(1000f, 1000f),
 			new StringFormat(StringFormat.GenericTypographic)));
-
-		// Get label background position
-		RectangleF labelBackPosition = RectangleF.Empty;
-		SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
+		SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
 		sizeLabel.Height += sizeFont.Height / 8;
 		sizeLabel.Width += sizeLabel.Width / text.Length;
-		labelBackPosition = new RectangleF(
-			labelPosition.X - sizeLabel.Width / 2,
-			labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
-			sizeLabel.Width,
-			sizeLabel.Height);
+		// Get label background position
+		RectangleF labelBackPosition = new RectangleF(
+	labelPosition.X - sizeLabel.Width / 2,
+	labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
+	sizeLabel.Width,
+	sizeLabel.Height);
 
 		// Draw label text
-		using (Brush brush = new SolidBrush(point.LabelForeColor))
-		{
-			graph.DrawPointLabelStringRel(
-				graph.Common,
-				text,
-				point.Font,
-				brush,
-				labelPosition,
-				format,
-				0,
-				labelBackPosition,
-				point.LabelBackColor,
-				point.LabelBorderColor,
-				point.LabelBorderWidth,
-				point.LabelBorderDashStyle,
-				point.series,
-				point,
-				pointIndex);
-		}
+		using Brush brush = new SolidBrush(point.LabelForeColor);
+		graph.DrawPointLabelStringRel(
+			graph.Common,
+			text,
+			point.Font,
+			brush,
+			labelPosition,
+			format,
+			0,
+			labelBackPosition,
+			point.LabelBackColor,
+			point.LabelBorderColor,
+			point.LabelBorderWidth,
+			point.LabelBorderDashStyle,
+			point.series,
+			point,
+			pointIndex);
 	}
 
 	/// <summary>
@@ -5594,9 +5752,9 @@ internal class PieChart : IChartType
 	/// </summary>
 	/// <param name="point">The point.</param>
 	/// <returns></returns>
-	private String GetPointLabel(DataPoint point)
+	private string GetPointLabel(DataPoint point)
 	{
-		String pointLabel = String.Empty;
+		string pointLabel;
 
 		// If There is no Label take axis Label
 		if (point.Label.Length == 0)
@@ -5605,13 +5763,15 @@ internal class PieChart : IChartType
 			// remove axis label if is set the CustomPropertyName.PieAutoAxisLabels and is set to false
 			if (point.series != null &&
 				point.series.IsCustomPropertySet(CustomPropertyName.PieAutoAxisLabels) &&
-				String.Equals(point.series.GetCustomProperty(CustomPropertyName.PieAutoAxisLabels), "false", StringComparison.OrdinalIgnoreCase))
+				string.Equals(point.series.GetCustomProperty(CustomPropertyName.PieAutoAxisLabels), "false", StringComparison.OrdinalIgnoreCase))
 			{
-				pointLabel = String.Empty;
+				pointLabel = string.Empty;
 			}
 		}
 		else
+		{
 			pointLabel = point.Label;
+		}
 
 		return point.ReplaceKeywords(pointLabel);
 	}
@@ -5623,7 +5783,7 @@ internal class PieChart : IChartType
 	/// <returns>Formated text</returns>
 	private string GetLabelText(DataPoint point)
 	{
-		string pointLabel = this.GetPointLabel(point);
+		string pointLabel = GetPointLabel(point);
 		// Get label text
 		string text;
 		if (point.Label.Length == 0 && point.IsValueShownAsLabel)

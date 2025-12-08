@@ -85,11 +85,10 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 	#region Fields
 
 	// Chart types image resource manager
-	private ResourceManager _resourceManager = null;
 
 	// Storage for registered/created chart types
-	internal Hashtable registeredChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
-	private Hashtable _createdChartTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
+	internal Hashtable registeredChartTypes = new(StringComparer.OrdinalIgnoreCase);
+	private readonly Hashtable _createdChartTypes = new(StringComparer.OrdinalIgnoreCase);
 
 	#endregion
 
@@ -107,7 +106,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 	/// </summary>
 	/// <param name="serviceType">Service type to get.</param>
 	/// <returns>Chart type registry service.</returns>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	object IServiceProvider.GetService(Type serviceType)
 	{
 		if (serviceType == typeof(ChartTypeRegistry))
@@ -170,7 +169,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 	/// <returns>Chart type object derived from IChartType.</returns>
 	public IChartType GetChartType(SeriesChartType chartType)
 	{
-		return this.GetChartType(Series.GetChartTypeName(chartType));
+		return GetChartType(Series.GetChartTypeName(chartType));
 	}
 
 	/// <summary>
@@ -206,14 +205,11 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 		get
 		{
 			// Create chart images resource manager
-			if (_resourceManager == null)
-			{
-				_resourceManager = new ResourceManager(typeof(Chart).Namespace + ".Design", Assembly.GetExecutingAssembly());
-			}
+			field ??= new ResourceManager(typeof(Chart).Namespace + ".Design", Assembly.GetExecutingAssembly());
 
-			return _resourceManager;
+			return field;
 		}
-	}
+	} = null;
 
 	#endregion
 
@@ -228,13 +224,13 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 		if (disposing)
 		{
 			// Dispose managed resource
-			foreach (string name in this._createdChartTypes.Keys)
+			foreach (string name in _createdChartTypes.Keys)
 			{
 				IChartType chartType = (IChartType)_createdChartTypes[name];
 				chartType.Dispose();
 			}
 
-			this._createdChartTypes.Clear();
+			_createdChartTypes.Clear();
 		}
 	}
 
@@ -274,7 +270,7 @@ internal interface IChartType : IDisposable
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	System.Drawing.Image GetImage(ChartTypeRegistry registry);
+	Drawing.Image GetImage(ChartTypeRegistry registry);
 
 	/// <summary>
 	/// True if chart type is stacked
@@ -399,7 +395,7 @@ internal interface IChartType : IDisposable
 	/// <param name="pointIndex">Index of the point.</param>
 	/// <param name="yValueIndex">Index of the Y value to get.</param>
 	/// <returns>Y value of the point.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "5#y")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "5#y")]
 	double GetYValue(CommonElements common, ChartArea area, Series series, DataPoint point, int pointIndex, int yValueIndex);
 
 	#endregion

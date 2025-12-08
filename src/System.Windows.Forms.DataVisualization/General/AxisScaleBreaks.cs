@@ -85,37 +85,28 @@ public class AxisScaleBreakStyle
 	internal Axis axis = null;
 
 	// True if scale breaks are enabled
-	private bool _enabled = false;
 
 	// AxisName of the break line 
-	private BreakLineStyle _breakLineStyle = BreakLineStyle.Ragged;
 
 	// Spacing between scale segments created by scale breaks
-	private double _segmentSpacing = 1.5;
 
 	// Break line color
-	private Color _breakLineColor = Color.Black;
 
 	// Break line width
-	private int _breakLineWidth = 1;
 
 	// Break line style
-	private ChartDashStyle _breakLineDashStyle = ChartDashStyle.Solid;
 
 	// Minimum segment size in axis length percentage 
-	private double _minSegmentSize = 10.0;
+	private readonly double _minSegmentSize = 10.0;
 
 	// Number of segments the axis is devided into to perform statistical analysis
-	private int _totalNumberOfSegments = 100;
+	private readonly int _totalNumberOfSegments = 100;
 
 	// Minimum "empty" size to be replace by the scale break
-	private int _minimumNumberOfEmptySegments = 25;
 
 	// Maximum number of breaks
-	private int _maximumNumberOfBreaks = 2;
 
 	// Indicates if scale segment should start from zero.
-	private StartFromZero _startFromZero = StartFromZero.Auto;
 
 	#endregion // Fields
 
@@ -156,16 +147,13 @@ public class AxisScaleBreakStyle
 	]
 	public StartFromZero StartFromZero
 	{
-		get
-		{
-			return this._startFromZero;
-		}
+		get;
 		set
 		{
-			this._startFromZero = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = StartFromZero.Auto;
 
 	/// <summary>
 	/// Maximum number of scale breaks that can be used.
@@ -177,21 +165,18 @@ public class AxisScaleBreakStyle
 	]
 	public int MaxNumberOfBreaks
 	{
-		get
-		{
-			return this._maximumNumberOfBreaks;
-		}
+		get;
 		set
 		{
 			if (value < 1 || value > 5)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksNumberInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksNumberInvalid));
 			}
 
-			this._maximumNumberOfBreaks = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 2;
 
 	/// <summary>
 	/// Minimum axis scale region size, in percentage of the total axis length, 
@@ -204,21 +189,18 @@ public class AxisScaleBreakStyle
 	]
 	public int CollapsibleSpaceThreshold
 	{
-		get
-		{
-			return this._minimumNumberOfEmptySegments;
-		}
+		get;
 		set
 		{
 			if (value < 10 || value > 90)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksCollapsibleSpaceInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksCollapsibleSpaceInvalid));
 			}
 
-			this._minimumNumberOfEmptySegments = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 25;
 
 	/// <summary>
 	/// Gets or sets a flag which determines if axis automatic scale breaks are enabled.
@@ -227,20 +209,17 @@ public class AxisScaleBreakStyle
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeAxisScaleBreakStyle_Enabled"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	public bool Enabled
 	{
-		get
-		{
-			return this._enabled;
-		}
+		get;
 		set
 		{
-			this._enabled = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = false;
 
 	/// <summary>
 	/// Gets or sets the style of the scale break line.
@@ -252,16 +231,13 @@ public class AxisScaleBreakStyle
 	]
 	public BreakLineStyle BreakLineStyle
 	{
-		get
-		{
-			return this._breakLineStyle;
-		}
+		get;
 		set
 		{
-			this._breakLineStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = BreakLineStyle.Ragged;
 
 	/// <summary>
 	/// Gets or sets the spacing of the scale break.
@@ -273,21 +249,18 @@ public class AxisScaleBreakStyle
 	]
 	public double Spacing
 	{
-		get
-		{
-			return this._segmentSpacing;
-		}
+		get;
 		set
 		{
 			if (value < 0.0 || value > 10)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksSpacingInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksSpacingInvalid));
 			}
 
-			this._segmentSpacing = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 1.5;
 
 	/// <summary>
 	/// Gets or sets the color of the scale break line.
@@ -301,16 +274,13 @@ public class AxisScaleBreakStyle
 		]
 	public Color LineColor
 	{
-		get
-		{
-			return this._breakLineColor;
-		}
+		get;
 		set
 		{
-			this._breakLineColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the width of the scale break line.
@@ -322,21 +292,18 @@ public class AxisScaleBreakStyle
 	]
 	public int LineWidth
 	{
-		get
-		{
-			return this._breakLineWidth;
-		}
+		get;
 		set
 		{
 			if (value < 1.0 || value > 10)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksLineWidthInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisScaleBreaksLineWidthInvalid));
 			}
 
-			this._breakLineWidth = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 1;
 
 	/// <summary>
 	/// Gets or sets the line style of the scale break line.
@@ -348,16 +315,13 @@ public class AxisScaleBreakStyle
 	]
 	public ChartDashStyle LineDashStyle
 	{
-		get
-		{
-			return this._breakLineDashStyle;
-		}
+		get;
 		set
 		{
-			this._breakLineDashStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = ChartDashStyle.Solid;
 
 	#endregion // Properties
 
@@ -370,8 +334,8 @@ public class AxisScaleBreakStyle
 	internal bool IsEnabled()
 	{
 		// Axis scale breaks must be enabled AND supported by the axis.
-		if (this.Enabled &&
-			this.CanUseAxisScaleBreaks())
+		if (Enabled &&
+			CanUseAxisScaleBreaks())
 		{
 			return true;
 		}
@@ -386,37 +350,37 @@ public class AxisScaleBreakStyle
 	internal bool CanUseAxisScaleBreaks()
 	{
 		// Check input parameters
-		if (this.axis == null || this.axis.ChartArea == null || this.axis.ChartArea.Common.Chart == null)
+		if (axis == null || axis.ChartArea == null || axis.ChartArea.Common.Chart == null)
 		{
 			return false;
 		}
 
 		// No scale breaks in 3D charts
-		if (this.axis.ChartArea.Area3DStyle.Enable3D)
+		if (axis.ChartArea.Area3DStyle.Enable3D)
 		{
 			return false;
 		}
 
 		// Axis scale break can only be applied to the Y and Y 2 axis
-		if (this.axis.axisType == AxisName.X || this.axis.axisType == AxisName.X2)
+		if (axis.axisType == AxisName.X || axis.axisType == AxisName.X2)
 		{
 			return false;
 		}
 
 		// No scale breaks for logarithmic axis
-		if (this.axis.IsLogarithmic)
+		if (axis.IsLogarithmic)
 		{
 			return false;
 		}
 
 		// No scale breaks if axis zooming is enabled
-		if (this.axis.ScaleView.IsZoomed)
+		if (axis.ScaleView.IsZoomed)
 		{
 			return false;
 		}
 
 		// Check series associated with this axis
-		ArrayList axisSeries = AxisScaleBreakStyle.GetAxisSeries(this.axis);
+		ArrayList axisSeries = GetAxisSeries(axis);
 		foreach (Series series in axisSeries)
 		{
 
@@ -429,7 +393,7 @@ public class AxisScaleBreakStyle
 
 
 			// Get chart type interface
-			IChartType chartType = this.axis.ChartArea.Common.ChartTypeRegistry.GetChartType(series.ChartTypeName);
+			IChartType chartType = axis.ChartArea.Common.ChartTypeRegistry.GetChartType(series.ChartTypeName);
 			if (chartType == null)
 			{
 				return false;
@@ -454,7 +418,7 @@ public class AxisScaleBreakStyle
 	/// <returns>A list of series that are attached to the specified axis.</returns>
 	static internal ArrayList GetAxisSeries(Axis axis)
 	{
-		ArrayList seriesList = new ArrayList();
+		ArrayList seriesList = [];
 		if (axis != null && axis.ChartArea != null && axis.ChartArea.Common.Chart != null)
 		{
 			// Iterate through series in the chart
@@ -485,10 +449,7 @@ public class AxisScaleBreakStyle
 	/// </summary>
 	private void Invalidate()
 	{
-		if (this.axis != null)
-		{
-			this.axis.Invalidate();
-		}
+		axis?.Invalidate();
 	}
 
 	#endregion // Helper Methods
@@ -505,16 +466,16 @@ public class AxisScaleBreakStyle
 		axisSegments.Clear();
 
 		// Check if scale breaks are enabled
-		if (this.IsEnabled())
+		if (IsEnabled())
 		{
 			// Fill collection of segments
-			this.FillAxisSegmentCollection(axisSegments);
+			FillAxisSegmentCollection(axisSegments);
 
 			// Check if more than 1 segments were defined
 			if (axisSegments.Count >= 1)
 			{
 				// Get index of segment which scale should start from zero
-				int startFromZeroSegmentIndex = this.GetStartScaleFromZeroSegmentIndex(axisSegments);
+				int startFromZeroSegmentIndex = GetStartScaleFromZeroSegmentIndex(axisSegments);
 
 				// Calculate segment interaval and round the scale
 				int index = 0;
@@ -526,20 +487,20 @@ public class AxisScaleBreakStyle
 					// Calculate interval and round scale
 					double minimum = axisScaleSegment.ScaleMinimum;
 					double maximum = axisScaleSegment.ScaleMaximum;
-					axisScaleSegment.Interval = this.axis.EstimateNumberAxis(
-						ref minimum, ref maximum, startFromZero, this.axis.prefferedNumberofIntervals, true, true);
+					axisScaleSegment.Interval = axis.EstimateNumberAxis(
+						ref minimum, ref maximum, startFromZero, axis.prefferedNumberofIntervals, true, true);
 					axisScaleSegment.ScaleMinimum = minimum;
 					axisScaleSegment.ScaleMaximum = maximum;
 
 					// Make sure new scale break value range do not exceed axis current scale
-					if (axisScaleSegment.ScaleMinimum < this.axis.Minimum)
+					if (axisScaleSegment.ScaleMinimum < axis.Minimum)
 					{
-						axisScaleSegment.ScaleMinimum = this.axis.Minimum;
+						axisScaleSegment.ScaleMinimum = axis.Minimum;
 					}
 
-					if (axisScaleSegment.ScaleMaximum > this.axis.Maximum)
+					if (axisScaleSegment.ScaleMaximum > axis.Maximum)
 					{
-						axisScaleSegment.ScaleMaximum = this.axis.Maximum;
+						axisScaleSegment.ScaleMaximum = axis.Maximum;
 					}
 
 					// Increase segment index
@@ -576,7 +537,7 @@ public class AxisScaleBreakStyle
 				// Calculate the position of each segment
 				if (adjustPosition)
 				{
-					this.SetAxisSegmentPosition(axisSegments);
+					SetAxisSegmentPosition(axisSegments);
 				}
 			}
 		}
@@ -589,8 +550,8 @@ public class AxisScaleBreakStyle
 	/// <returns>Index axis segment or -1.</returns>
 	private int GetStartScaleFromZeroSegmentIndex(AxisScaleSegmentCollection axisSegments)
 	{
-		if (this.StartFromZero == StartFromZero.Auto ||
-			this.StartFromZero == StartFromZero.Yes)
+		if (StartFromZero == StartFromZero.Auto ||
+			StartFromZero == StartFromZero.Yes)
 		{
 			int index = 0;
 			foreach (AxisScaleSegment axisScaleSegment in axisSegments)
@@ -610,7 +571,7 @@ public class AxisScaleBreakStyle
 					// data points in the segment hard to read. This may hapen 
 					// when the distance from zero to current minimum is 
 					// significantly larger than current scale size.
-					if (this.StartFromZero == StartFromZero.Auto &&
+					if (StartFromZero == StartFromZero.Auto &&
 					axisScaleSegment.ScaleMinimum > 2.0 * (axisScaleSegment.ScaleMaximum - axisScaleSegment.ScaleMinimum))
 					{
 						return -1;
@@ -644,7 +605,7 @@ public class AxisScaleBreakStyle
 		}
 
 		// Calculate segment minimum size
-		double minSize = Math.Min(this._minSegmentSize, Math.Floor(100.0 / axisSegments.Count));
+		double minSize = Math.Min(_minSegmentSize, Math.Floor(100.0 / axisSegments.Count));
 
 		// Set segment position
 		double currentPosition = 0.0;
@@ -660,7 +621,7 @@ public class AxisScaleBreakStyle
 			// Set spacing for all segments except the last one
 			if (index < (axisSegments.Count - 1))
 			{
-				axisSegments[index].Spacing = this._segmentSpacing;
+				axisSegments[index].Spacing = Spacing;
 			}
 
 			// Advance current position
@@ -668,7 +629,7 @@ public class AxisScaleBreakStyle
 		}
 
 		// Make sure we do not exceed the 100% axis length
-		double totalHeight = 0.0;
+		double totalHeight;
 		do
 		{
 			// Calculate total height
@@ -717,14 +678,19 @@ public class AxisScaleBreakStyle
 		// Clear axis segments collection
 		axisSegments.Clear();
 
+
 		// Get statistics for the series attached to the axis
-		double minYValue = 0.0;
-		double maxYValue = 0.0;
-		double segmentSize = 0.0;
-		double[] segmentMaxValue = null;
-		double[] segmentMinValue = null;
+		double minYValue;
+
+		double maxYValue;
+
+		double segmentSize;
+
+		double[] segmentMaxValue;
+
+		double[] segmentMinValue;
 		int[] segmentPointNumber = GetSeriesDataStatistics(
-		this._totalNumberOfSegments,
+		_totalNumberOfSegments,
 		out minYValue,
 		out maxYValue,
 		out segmentSize,
@@ -738,11 +704,11 @@ public class AxisScaleBreakStyle
 		// Calculate scale maximum and minimum
 		double minimum = minYValue;
 		double maximum = maxYValue;
-		this.axis.EstimateNumberAxis(
+		axis.EstimateNumberAxis(
 			ref minimum,
 			ref maximum,
-			this.axis.IsStartedFromZero,
-			this.axis.prefferedNumberofIntervals,
+			axis.IsStartedFromZero,
+			axis.prefferedNumberofIntervals,
 			true,
 			true);
 
@@ -756,22 +722,24 @@ public class AxisScaleBreakStyle
 		double dataRangePercent = (maxYValue - minYValue) / ((maximum - minimum) / 100.0);
 
 		// Get sequences of empty segments
-		ArrayList emptySequences = new ArrayList();
+		ArrayList emptySequences = [];
 		bool doneFlag = false;
 		while (!doneFlag)
 		{
 			doneFlag = true;
 
+
 			// Get longest sequence of segments with no points
-			int startSegment = 0;
-			int numberOfSegments = 0;
-			this.GetLargestSequenseOfSegmentsWithNoPoints(
+			int startSegment;
+
+			int numberOfSegments;
+			GetLargestSequenseOfSegmentsWithNoPoints(
 				segmentPointNumber,
 				out startSegment,
 				out numberOfSegments);
 
 			// Adjust minimum empty segments  number depending on current segments
-			int minEmptySegments = (int)(this._minimumNumberOfEmptySegments * (100.0 / dataRangePercent));
+			int minEmptySegments = (int)(CollapsibleSpaceThreshold * (100.0 / dataRangePercent));
 			if (axisSegments.Count > 0 && numberOfSegments > 0)
 			{
 				// Find the segment which contain newly found empty segments sequence
@@ -789,7 +757,7 @@ public class AxisScaleBreakStyle
 							emptySpacePercent = emptySpacePercent / 100 * axisScaleSegment.Size;
 
 							if (emptySpacePercent > minEmptySegments &&
-								numberOfSegments > this._minSegmentSize)
+								numberOfSegments > _minSegmentSize)
 							{
 								minEmptySegments = numberOfSegments;
 							}
@@ -820,7 +788,7 @@ public class AxisScaleBreakStyle
 					for (int index = 0; index < segmentPointNumber.Length; index++)
 					{
 						// Check if current segment is excluded
-						bool excludedSegment = this.IsExcludedSegment(emptySequences, index);
+						bool excludedSegment = IsExcludedSegment(emptySequences, index);
 
 						// If not excluded segment - update from/to range if they were set
 						if (!excludedSegment &&
@@ -854,10 +822,12 @@ public class AxisScaleBreakStyle
 							}
 
 							// Add axis scale segment
-							AxisScaleSegment axisScaleSegment = new AxisScaleSegment();
-							axisScaleSegment.ScaleMaximum = segmentTo;
-							axisScaleSegment.ScaleMinimum = segmentFrom;
-							axisScaleSegment.Tag = numberOfPoints;
+							AxisScaleSegment axisScaleSegment = new()
+							{
+								ScaleMaximum = segmentTo,
+								ScaleMinimum = segmentFrom,
+								Tag = numberOfPoints
+							};
 							axisSegments.Add(axisScaleSegment);
 
 							// Reset segment range
@@ -869,11 +839,11 @@ public class AxisScaleBreakStyle
 				}
 
 				// Calculate the position of each segment
-				this.SetAxisSegmentPosition(axisSegments);
+				SetAxisSegmentPosition(axisSegments);
 			}
 
 			// Make sure we do not exceed specified number of breaks
-			if ((axisSegments.Count - 1) >= this._maximumNumberOfBreaks)
+			if ((axisSegments.Count - 1) >= MaxNumberOfBreaks)
 			{
 				doneFlag = true;
 			}
@@ -920,11 +890,9 @@ public class AxisScaleBreakStyle
 		out double[] segmentMinValue)
 	{
 		// Get all series associated with the axis
-		ArrayList axisSeries = AxisScaleBreakStyle.GetAxisSeries(this.axis);
+		ArrayList axisSeries = GetAxisSeries(axis);
 
 		// Get range of Y values from axis series
-		minYValue = 0.0;
-		maxYValue = 0.0;
 		axis.Common.DataManager.GetMinMaxYValue(axisSeries, out minYValue, out maxYValue);
 
 		int numberOfPoints = 0;
@@ -957,7 +925,7 @@ public class AxisScaleBreakStyle
 		{
 			// Get number of Y values to process
 			int maxYValueCount = 1;
-			IChartType chartType = this.axis.ChartArea.Common.ChartTypeRegistry.GetChartType(series.ChartTypeName);
+			IChartType chartType = axis.ChartArea.Common.ChartTypeRegistry.GetChartType(series.ChartTypeName);
 			if (chartType != null)
 			{
 				if (chartType.ExtraYValuesConnectedToYAxis && chartType.YValuesPerPoint > 1)

@@ -83,9 +83,9 @@ internal class CandleStickChart : StockChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -136,7 +136,7 @@ internal class StockChart : IChartType
 	/// <param name="style">Open-close marks default style.</param>
 	public StockChart(StockOpenCloseMarkStyle style)
 	{
-		this.openCloseStyle = style;
+		openCloseStyle = style;
 	}
 
 	#endregion
@@ -252,9 +252,9 @@ internal class StockChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	virtual public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 	#endregion
 
@@ -298,7 +298,7 @@ internal class StockChart : IChartType
 
 
 		// All data series from chart area which have Stock chart type
-		List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
+		List<string> typeSeries = area.GetSeriesFromChartType(Name);
 
 		// Zero X values mode.
 		bool indexedSeries = ChartHelper.IndexedSeries(common, typeSeries.ToArray());
@@ -309,7 +309,7 @@ internal class StockChart : IChartType
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with stock chart type
-			if (String.Compare(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) != 0
+			if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
@@ -534,7 +534,9 @@ internal class StockChart : IChartType
 					}
 
 					if (point.MarkerImage.Length > 0)
+					{
 						common.ImageLoader.GetAdjustedImageSize(point.MarkerImage, graph.Graphics, ref markerSize);
+					}
 
 					// Get marker position
 					PointF markerPosition = PointF.Empty;
@@ -569,10 +571,7 @@ internal class StockChart : IChartType
 							// Insert circle area
 							if (point.MarkerStyle == MarkerStyle.Circle)
 							{
-								float[] circCoord = new float[3];
-								circCoord[0] = markerPosition.X;
-								circCoord[1] = markerPosition.Y;
-								circCoord[2] = relativeMarkerSize.Width / 2f;
+								float[] circCoord = [markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f];
 
 								common.HotRegionsList.AddHotRegion(
 									insertIndex,
@@ -669,15 +668,15 @@ internal class StockChart : IChartType
 
 		if (styleType != null && styleType.Length > 0)
 		{
-			if (String.Compare(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				style = StockOpenCloseMarkStyle.Candlestick;
 			}
-			else if (String.Compare(styleType, "Triangle", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleType, "Triangle", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				style = StockOpenCloseMarkStyle.Triangle;
 			}
-			else if (String.Compare(styleType, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleType, "Line", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				style = StockOpenCloseMarkStyle.Line;
 			}
@@ -698,17 +697,17 @@ internal class StockChart : IChartType
 
 		if (showOpenClose != null && showOpenClose.Length > 0)
 		{
-			if (String.Compare(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				showOpen = true;
 				showClose = true;
 			}
-			else if (String.Compare(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				showOpen = true;
 				showClose = false;
 			}
-			else if (String.Compare(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				showOpen = false;
 				showClose = true;
@@ -729,7 +728,7 @@ internal class StockChart : IChartType
 		if (forceCandleStick || style == StockOpenCloseMarkStyle.Candlestick)
 		{
 			// Colors used to draw bar of the open-close style
-			ColorConverter colorConverter = new ColorConverter();
+			ColorConverter colorConverter = new();
 			Color priceUpColor = point.Color;
 			Color priceDownColor = point.BackSecondaryColor;
 
@@ -792,7 +791,7 @@ internal class StockChart : IChartType
 			Color barBorderColor = (point.BorderColor == Color.Empty) ? (barColor == Color.Empty) ? point.Color : barColor : point.BorderColor;
 
 			// Get absolute height
-			SizeF sizeOfHeight = new SizeF(rect.Height, rect.Height);
+			SizeF sizeOfHeight = new(rect.Height, rect.Height);
 			sizeOfHeight = graph.GetAbsoluteSize(sizeOfHeight);
 
 			// Draw open-close bar
@@ -827,41 +826,37 @@ internal class StockChart : IChartType
 		// Draw open-close marks as triangals
 		else if (style == StockOpenCloseMarkStyle.Triangle)
 		{
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+			PointF point1 = graph.GetAbsolutePoint(new PointF(xPosition, open));
+			PointF point2 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open + height / 2f));
+			PointF point3 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open - height / 2f));
+
+			using Brush brush = new SolidBrush(point.Color);
+			// Draw Open mark line
+			if (showOpen)
 			{
-				PointF point1 = graph.GetAbsolutePoint(new PointF(xPosition, open));
-				PointF point2 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open + height / 2f));
-				PointF point3 = graph.GetAbsolutePoint(new PointF(xPosition - width / 2f, open - height / 2f));
-
-				using (Brush brush = new SolidBrush(point.Color))
+				if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
 				{
-					// Draw Open mark line
-					if (showOpen)
-					{
-						if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
-						{
-							path.AddLine(point2, point1);
-							path.AddLine(point1, point3);
-							path.AddLine(point3, point3);
-							graph.FillPath(brush, path);
-						}
-					}
+					path.AddLine(point2, point1);
+					path.AddLine(point1, point3);
+					path.AddLine(point3, point3);
+					graph.FillPath(brush, path);
+				}
+			}
 
-					// Draw close mark line
-					if (showClose)
-					{
-						if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
-						{
-							path.Reset();
-							point1 = graph.GetAbsolutePoint(new PointF(xPosition, close));
-							point2 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close + height / 2f));
-							point3 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close - height / 2f));
-							path.AddLine(point2, point1);
-							path.AddLine(point1, point3);
-							path.AddLine(point3, point3);
-							graph.FillPath(brush, path);
-						}
-					}
+			// Draw close mark line
+			if (showClose)
+			{
+				if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
+				{
+					path.Reset();
+					point1 = graph.GetAbsolutePoint(new PointF(xPosition, close));
+					point2 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close + height / 2f));
+					point3 = graph.GetAbsolutePoint(new PointF(xPosition + width / 2f, close - height / 2f));
+					path.AddLine(point2, point1);
+					path.AddLine(point1, point3);
+					path.AddLine(point3, point3);
+					graph.FillPath(brush, path);
 				}
 			}
 
@@ -924,162 +919,160 @@ internal class StockChart : IChartType
 		if (ser.IsValueShownAsLabel || point.IsValueShownAsLabel || point.Label.Length > 0)
 		{
 			// Label text format
-			using (StringFormat format = new StringFormat())
+			using StringFormat format = new();
+			format.Alignment = StringAlignment.Near;
+			format.LineAlignment = StringAlignment.Center;
+			if (point.LabelAngle == 0)
 			{
-				format.Alignment = StringAlignment.Near;
-				format.LineAlignment = StringAlignment.Center;
-				if (point.LabelAngle == 0)
+				format.Alignment = StringAlignment.Center;
+				format.LineAlignment = StringAlignment.Far;
+			}
+
+			// Get label text
+			string text;
+			if (point.Label.Length == 0)
+			{
+				// Check what value to show (High, Low, Open, Close)
+				int valueIndex = 3;
+				string valueType = "";
+				if (point.IsCustomPropertySet(CustomPropertyName.LabelValueType))
 				{
-					format.Alignment = StringAlignment.Center;
-					format.LineAlignment = StringAlignment.Far;
+					valueType = point[CustomPropertyName.LabelValueType];
+				}
+				else if (ser.IsCustomPropertySet(CustomPropertyName.LabelValueType))
+				{
+					valueType = ser[CustomPropertyName.LabelValueType];
 				}
 
-				// Get label text
-				string text;
-				if (point.Label.Length == 0)
+				if (string.Compare(valueType, "High", StringComparison.OrdinalIgnoreCase) == 0)
 				{
-					// Check what value to show (High, Low, Open, Close)
-					int valueIndex = 3;
-					string valueType = "";
-					if (point.IsCustomPropertySet(CustomPropertyName.LabelValueType))
-					{
-						valueType = point[CustomPropertyName.LabelValueType];
-					}
-					else if (ser.IsCustomPropertySet(CustomPropertyName.LabelValueType))
-					{
-						valueType = ser[CustomPropertyName.LabelValueType];
-					}
-
-					if (String.Compare(valueType, "High", StringComparison.OrdinalIgnoreCase) == 0)
-					{
-						valueIndex = 0;
-					}
-					else if (String.Compare(valueType, "Low", StringComparison.OrdinalIgnoreCase) == 0)
-					{
-						valueIndex = 1;
-					}
-					else if (String.Compare(valueType, "Open", StringComparison.OrdinalIgnoreCase) == 0)
-					{
-						valueIndex = 2;
-					}
-
-					text = ValueConverter.FormatValue(
-						ser.Chart,
-						point,
-						point.Tag,
-						point.YValues[valueIndex],
-						point.LabelFormat,
-						ser.YValueType,
-						ChartElementType.DataPoint);
+					valueIndex = 0;
 				}
-				else
+				else if (string.Compare(valueType, "Low", StringComparison.OrdinalIgnoreCase) == 0)
 				{
-					text = point.ReplaceKeywords(point.Label);
+					valueIndex = 1;
+				}
+				else if (string.Compare(valueType, "Open", StringComparison.OrdinalIgnoreCase) == 0)
+				{
+					valueIndex = 2;
 				}
 
-				// Get text angle
-				int textAngle = point.LabelAngle;
+				text = ValueConverter.FormatValue(
+					ser.Chart,
+					point,
+					point.Tag,
+					point.YValues[valueIndex],
+					point.LabelFormat,
+					ser.YValueType,
+					ChartElementType.DataPoint);
+			}
+			else
+			{
+				text = point.ReplaceKeywords(point.Label);
+			}
 
-				// Check if text contains white space only
-				if (text.Trim().Length != 0)
+			// Get text angle
+			int textAngle = point.LabelAngle;
+
+			// Check if text contains white space only
+			if (text.Trim().Length != 0)
+			{
+				SizeF sizeFont = SizeF.Empty;
+
+
+				// Check if Smart Labels are enabled
+				if (ser.SmartLabelStyle.Enabled)
 				{
-					SizeF sizeFont = SizeF.Empty;
-
-
-					// Check if Smart Labels are enabled
-					if (ser.SmartLabelStyle.Enabled)
+					// Get marker size
+					SizeF markerSize = SizeF.Empty;
+					markerSize.Width = point.MarkerSize;
+					markerSize.Height = point.MarkerSize;
+					if (graph != null && graph.Graphics != null)
 					{
-						// Get marker size
-						SizeF markerSize = SizeF.Empty;
-						markerSize.Width = point.MarkerSize;
-						markerSize.Height = point.MarkerSize;
-						if (graph != null && graph.Graphics != null)
+						// Marker size is in pixels and we do the mapping for higher DPIs
+						markerSize.Width = point.MarkerSize * graph.Graphics.DpiX / 96;
+						markerSize.Height = point.MarkerSize * graph.Graphics.DpiY / 96;
+					}
+
+					if (point.MarkerImage.Length > 0)
+					{
+						common.ImageLoader.GetAdjustedImageSize(point.MarkerImage, graph.Graphics, ref markerSize);
+					}
+
+					// Get point label style attribute
+					markerSize = graph.GetRelativeSize(markerSize);
+					sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
+
+					// Adjust label position using SmartLabelStyle algorithm
+					position = area.smartLabels.AdjustSmartLabelPosition(
+						common,
+						graph,
+						area,
+						ser.SmartLabelStyle,
+						position,
+						sizeFont,
+						format,
+						position,
+						markerSize,
+						LabelAlignmentStyles.Top);
+
+					// Smart labels always use 0 degrees text angle
+					textAngle = 0;
+
+				}
+
+
+
+				// Draw label
+				if (!position.IsEmpty)
+				{
+					RectangleF labelBackPosition = RectangleF.Empty;
+
+					if (!point.LabelBackColor.IsEmpty ||
+						point.LabelBorderWidth > 0 ||
+						!point.LabelBorderColor.IsEmpty)
+					{
+						// Get text size
+						if (sizeFont.IsEmpty)
 						{
-							// Marker size is in pixels and we do the mapping for higher DPIs
-							markerSize.Width = point.MarkerSize * graph.Graphics.DpiX / 96;
-							markerSize.Height = point.MarkerSize * graph.Graphics.DpiY / 96;
+							sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
 						}
 
-						if (point.MarkerImage.Length > 0)
-							common.ImageLoader.GetAdjustedImageSize(point.MarkerImage, graph.Graphics, ref markerSize);
+						// Adjust label y coordinate
+						position.Y -= sizeFont.Height / 8;
 
-						// Get point label style attribute
-						markerSize = graph.GetRelativeSize(markerSize);
-						sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
-
-						// Adjust label position using SmartLabelStyle algorithm
-						position = area.smartLabels.AdjustSmartLabelPosition(
-							common,
+						// Get label background position
+						SizeF sizeLabel = new(sizeFont.Width, sizeFont.Height);
+						sizeLabel.Height += sizeFont.Height / 8;
+						sizeLabel.Width += sizeLabel.Width / text.Length;
+						labelBackPosition = PointChart.GetLabelPosition(
 							graph,
-							area,
-							ser.SmartLabelStyle,
 							position,
-							sizeFont,
+							sizeLabel,
 							format,
-							position,
-							markerSize,
-							LabelAlignmentStyles.Top);
-
-						// Smart labels always use 0 degrees text angle
-						textAngle = 0;
-
+							true);
 					}
 
 
+					// Draw label text
+					using Brush brush = new SolidBrush(point.LabelForeColor);
+					graph.DrawPointLabelStringRel(
+						common,
+						text,
+						point.Font,
+						brush,
+						position,
+						format,
+						textAngle,
+						labelBackPosition,
 
-					// Draw label
-					if (!position.IsEmpty)
-					{
-						RectangleF labelBackPosition = RectangleF.Empty;
-
-						if (!point.LabelBackColor.IsEmpty ||
-							point.LabelBorderWidth > 0 ||
-							!point.LabelBorderColor.IsEmpty)
-						{
-							// Get text size
-							if (sizeFont.IsEmpty)
-							{
-								sizeFont = graph.GetRelativeSize(graph.MeasureString(text, point.Font, new SizeF(1000f, 1000f), StringFormat.GenericTypographic));
-							}
-
-							// Adjust label y coordinate
-							position.Y -= sizeFont.Height / 8;
-
-							// Get label background position
-							SizeF sizeLabel = new SizeF(sizeFont.Width, sizeFont.Height);
-							sizeLabel.Height += sizeFont.Height / 8;
-							sizeLabel.Width += sizeLabel.Width / text.Length;
-							labelBackPosition = PointChart.GetLabelPosition(
-								graph,
-								position,
-								sizeLabel,
-								format,
-								true);
-						}
-
-
-						// Draw label text
-						using (Brush brush = new SolidBrush(point.LabelForeColor))
-						{
-							graph.DrawPointLabelStringRel(
-								common,
-								text,
-								point.Font,
-								brush,
-								position,
-								format,
-								textAngle,
-								labelBackPosition,
-
-								point.LabelBackColor,
-								point.LabelBorderColor,
-								point.LabelBorderWidth,
-								point.LabelBorderDashStyle,
-								ser,
-								point,
-								pointIndex - 1);
-						}
-					}
+						point.LabelBackColor,
+						point.LabelBorderColor,
+						point.LabelBorderWidth,
+						point.LabelBorderDashStyle,
+						ser,
+						point,
+						pointIndex - 1);
 				}
 			}
 		}
@@ -1107,7 +1100,7 @@ internal class StockChart : IChartType
 	{
 
 		// All data series from chart area which have Stock chart type
-		List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
+		List<string> typeSeries = area.GetSeriesFromChartType(Name);
 
 		// Zero X values mode.
 		bool indexedSeries = ChartHelper.IndexedSeries(common, typeSeries.ToArray());
@@ -1118,7 +1111,7 @@ internal class StockChart : IChartType
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with stock chart type
-			if (String.Compare(ser.ChartTypeName, this.Name, StringComparison.OrdinalIgnoreCase) != 0
+			if (string.Compare(ser.ChartTypeName, Name, StringComparison.OrdinalIgnoreCase) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
@@ -1231,9 +1224,11 @@ internal class StockChart : IChartType
 				point.positionRel = new PointF((float)xPosition, (float)high);
 
 				// 3D Transform coordinates
-				Point3D[] points = new Point3D[2];
-				points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-				points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+				Point3D[] points =
+				[
+					new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+					new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+				];
 				area.matrix3D.TransformPoints(points);
 
 				// Start Svg Selection mode
@@ -1345,9 +1340,11 @@ internal class StockChart : IChartType
 
 
 				// 3D Transform coordinates
-				Point3D[] points = new Point3D[2];
-				points[0] = new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f);
-				points[1] = new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f);
+				Point3D[] points =
+				[
+					new Point3D(xPosition, (float)high, seriesZPosition + seriesDepth / 2f),
+					new Point3D(xPosition, (float)low, seriesZPosition + seriesDepth / 2f),
+				];
 				area.matrix3D.TransformPoints(points);
 				xPosition = points[0].X;
 				high = points[0].Y;
@@ -1371,7 +1368,9 @@ internal class StockChart : IChartType
 					}
 
 					if (point.MarkerImage.Length > 0)
+					{
 						common.ImageLoader.GetAdjustedImageSize(point.MarkerImage, graph.Graphics, ref markerSize);
+					}
 
 					// Get marker position
 					PointF markerPosition = PointF.Empty;
@@ -1406,10 +1405,7 @@ internal class StockChart : IChartType
 							// Insert circle area
 							if (point.MarkerStyle == MarkerStyle.Circle)
 							{
-								float[] circCoord = new float[3];
-								circCoord[0] = markerPosition.X;
-								circCoord[1] = markerPosition.Y;
-								circCoord[2] = relativeMarkerSize.Width / 2f;
+								float[] circCoord = [markerPosition.X, markerPosition.Y, relativeMarkerSize.Width / 2f];
 
 								common.HotRegionsList.AddHotRegion(
 									insertIndex,
@@ -1505,15 +1501,15 @@ internal class StockChart : IChartType
 
 		if (styleType != null && styleType.Length > 0)
 		{
-			if (String.Compare(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(styleType, "Candlestick", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				style = StockOpenCloseMarkStyle.Candlestick;
 			}
-			else if (String.Compare(styleType, "Triangle", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleType, "Triangle", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				style = StockOpenCloseMarkStyle.Triangle;
 			}
-			else if (String.Compare(styleType, "Line", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(styleType, "Line", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				style = StockOpenCloseMarkStyle.Line;
 			}
@@ -1534,17 +1530,17 @@ internal class StockChart : IChartType
 
 		if (showOpenClose != null && showOpenClose.Length > 0)
 		{
-			if (String.Compare(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(showOpenClose, "Both", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				showOpen = true;
 				showClose = true;
 			}
-			else if (String.Compare(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(showOpenClose, "Open", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				showOpen = true;
 				showClose = false;
 			}
-			else if (String.Compare(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase) == 0)
+			else if (string.Compare(showOpenClose, "Close", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				showOpen = false;
 				showClose = true;
@@ -1565,7 +1561,7 @@ internal class StockChart : IChartType
 		if (forceCandleStick || style == StockOpenCloseMarkStyle.Candlestick)
 		{
 			// Colors used to draw bar of the open-close style
-			ColorConverter colorConverter = new ColorConverter();
+			ColorConverter colorConverter = new();
 			Color priceUpColor = point.Color;
 			Color priceDownColor = point.BackSecondaryColor;
 
@@ -1628,9 +1624,11 @@ internal class StockChart : IChartType
 			Color barBorderColor = (point.BorderColor == Color.Empty) ? (barColor == Color.Empty) ? point.Color : barColor : point.BorderColor;
 
 			// Translate coordinates
-			Point3D[] points = new Point3D[2];
-			points[0] = new Point3D(rect.X, rect.Y, zPosition + depth / 2f);
-			points[1] = new Point3D(rect.Right, rect.Bottom, zPosition + depth / 2f);
+			Point3D[] points =
+			[
+				new Point3D(rect.X, rect.Y, zPosition + depth / 2f),
+				new Point3D(rect.Right, rect.Bottom, zPosition + depth / 2f),
+			];
 			area.matrix3D.TransformPoints(points);
 			rect.Location = points[0].PointF;
 			rect.Width = (float)Math.Abs(points[1].X - points[0].X);
@@ -1668,53 +1666,51 @@ internal class StockChart : IChartType
 		// Draw open-close marks as triangals
 		else if (style == StockOpenCloseMarkStyle.Triangle)
 		{
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+
+			// Translate coordinates
+			Point3D[] points =
+			[
+				new Point3D(xPosition, open, zPosition + depth / 2f),
+				new Point3D(xPosition - width / 2f, open + height / 2f, zPosition + depth / 2f),
+				new Point3D(xPosition - width / 2f, open - height / 2f, zPosition + depth / 2f),
+			];
+			area.matrix3D.TransformPoints(points);
+			points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
+			points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
+			points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
+
+			using Brush brush = new SolidBrush(point.Color);
+			// Draw Open mark line
+			if (showOpen)
 			{
-
-				// Translate coordinates
-				Point3D[] points = new Point3D[3];
-				points[0] = new Point3D(xPosition, open, zPosition + depth / 2f);
-				points[1] = new Point3D(xPosition - width / 2f, open + height / 2f, zPosition + depth / 2f);
-				points[2] = new Point3D(xPosition - width / 2f, open - height / 2f, zPosition + depth / 2f);
-				area.matrix3D.TransformPoints(points);
-				points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
-				points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
-				points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
-
-				using (Brush brush = new SolidBrush(point.Color))
+				if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
 				{
-					// Draw Open mark line
-					if (showOpen)
-					{
-						if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
-						{
-							path.AddLine(points[1].PointF, points[0].PointF);
-							path.AddLine(points[0].PointF, points[2].PointF);
-							path.AddLine(points[2].PointF, points[2].PointF);
-							graph.FillPath(brush, path);
-						}
-					}
+					path.AddLine(points[1].PointF, points[0].PointF);
+					path.AddLine(points[0].PointF, points[2].PointF);
+					path.AddLine(points[2].PointF, points[2].PointF);
+					graph.FillPath(brush, path);
+				}
+			}
 
-					// Draw close mark line
-					if (showClose)
-					{
-						if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
-						{
-							points[0] = new Point3D(xPosition, close, zPosition + depth / 2f);
-							points[1] = new Point3D(xPosition + width / 2f, close + height / 2f, zPosition + depth / 2f);
-							points[2] = new Point3D(xPosition + width / 2f, close - height / 2f, zPosition + depth / 2f);
-							area.matrix3D.TransformPoints(points);
-							points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
-							points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
-							points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
+			// Draw close mark line
+			if (showClose)
+			{
+				if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
+				{
+					points[0] = new Point3D(xPosition, close, zPosition + depth / 2f);
+					points[1] = new Point3D(xPosition + width / 2f, close + height / 2f, zPosition + depth / 2f);
+					points[2] = new Point3D(xPosition + width / 2f, close - height / 2f, zPosition + depth / 2f);
+					area.matrix3D.TransformPoints(points);
+					points[0].PointF = graph.GetAbsolutePoint(points[0].PointF);
+					points[1].PointF = graph.GetAbsolutePoint(points[1].PointF);
+					points[2].PointF = graph.GetAbsolutePoint(points[2].PointF);
 
-							path.Reset();
-							path.AddLine(points[1].PointF, points[0].PointF);
-							path.AddLine(points[0].PointF, points[2].PointF);
-							path.AddLine(points[2].PointF, points[2].PointF);
-							graph.FillPath(brush, path);
-						}
-					}
+					path.Reset();
+					path.AddLine(points[1].PointF, points[0].PointF);
+					path.AddLine(points[0].PointF, points[2].PointF);
+					path.AddLine(points[2].PointF, points[2].PointF);
+					graph.FillPath(brush, path);
 				}
 			}
 		}
@@ -1728,9 +1724,11 @@ internal class StockChart : IChartType
 				if (openY <= VAxis.ViewMaximum && openY >= VAxis.ViewMinimum)
 				{
 					// Translate coordinates
-					Point3D[] points = new Point3D[2];
-					points[0] = new Point3D(xPosition - width / 2f, open, zPosition + depth / 2f);
-					points[1] = new Point3D(xPosition, open, zPosition + depth / 2f);
+					Point3D[] points =
+					[
+						new Point3D(xPosition - width / 2f, open, zPosition + depth / 2f),
+						new Point3D(xPosition, open, zPosition + depth / 2f),
+					];
 					area.matrix3D.TransformPoints(points);
 
 					graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle,
@@ -1746,9 +1744,11 @@ internal class StockChart : IChartType
 				if (closeY <= VAxis.ViewMaximum && closeY >= VAxis.ViewMinimum)
 				{
 					// Translate coordinates
-					Point3D[] points = new Point3D[2];
-					points[0] = new Point3D(xPosition, close, zPosition + depth / 2f);
-					points[1] = new Point3D(xPosition + width / 2f, close, zPosition + depth / 2f);
+					Point3D[] points =
+					[
+						new Point3D(xPosition, close, zPosition + depth / 2f),
+						new Point3D(xPosition + width / 2f, close, zPosition + depth / 2f),
+					];
 					area.matrix3D.TransformPoints(points);
 
 					graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle,
@@ -1805,7 +1805,7 @@ internal class StockChart : IChartType
 	public void AddSmartLabelMarkerPositions(CommonElements common, ChartArea area, Series series, ArrayList list)
 	{
 		// Check if series is indexed
-		bool indexedSeries = ChartHelper.IndexedSeries(common, area.GetSeriesFromChartType(this.Name).ToArray());
+		bool indexedSeries = ChartHelper.IndexedSeries(common, area.GetSeriesFromChartType(Name).ToArray());
 
 		//************************************************************
 		//** Set active horizontal/vertical axis
@@ -1879,8 +1879,12 @@ internal class StockChart : IChartType
 			}
 
 			if (point.MarkerImage.Length > 0)
+			{
 				if (common.graph != null)
+				{
 					common.ImageLoader.GetAdjustedImageSize(point.MarkerImage, common.graph.Graphics, ref markerSize);
+				}
+			}
 
 			// Transform marker position in 3D space
 			if (area.Area3DStyle.Enable3D)
@@ -1889,11 +1893,13 @@ internal class StockChart : IChartType
 				float seriesDepth, seriesZPosition;
 				area.GetSeriesZPositionAndDepth(series, out seriesDepth, out seriesZPosition);
 
-				Point3D[] marker3DPosition = new Point3D[1];
-				marker3DPosition[0] = new Point3D(
-					markerPosition.X,
-					markerPosition.Y,
-					(float)(seriesZPosition + seriesDepth / 2f));
+				Point3D[] marker3DPosition =
+				[
+					new Point3D(
+						markerPosition.X,
+						markerPosition.Y,
+						(float)(seriesZPosition + seriesDepth / 2f)),
+				];
 
 				// Transform coordinates
 				area.matrix3D.TransformPoints(marker3DPosition);
@@ -1910,7 +1916,7 @@ internal class StockChart : IChartType
 					markerSize = common.graph.GetRelativeSize(markerSize);
 
 					// Add marker position into the list
-					RectangleF markerRect = new RectangleF(
+					RectangleF markerRect = new(
 						markerPosition.X - markerSize.Width / 2f,
 						markerPosition.Y - markerSize.Height,
 						markerSize.Width,

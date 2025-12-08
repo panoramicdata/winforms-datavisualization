@@ -25,13 +25,11 @@ internal class DataManager : ChartElement, IServiceProvider
 {
 	#region Fields
 	// Series collection
-	private SeriesCollection _series = null;
 
 	// Servise container reference
 	internal IServiceContainer serviceContainer = null;
 
 	// Chart color palette
-	private ChartColorPalette _colorPalette = ChartColorPalette.BrightPastel;
 
 	#endregion
 
@@ -50,7 +48,7 @@ internal class DataManager : ChartElement, IServiceProvider
 
 		serviceContainer = container;
 		Common = new CommonElements(container);
-		_series = new SeriesCollection(this);
+		Series = new SeriesCollection(this);
 	}
 
 	/// <summary>
@@ -58,7 +56,7 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// </summary>
 	/// <param name="serviceType">Service type requested.</param>
 	/// <returns>Data Manager service object.</returns>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	object IServiceProvider.GetService(Type serviceType)
 	{
 		if (serviceType == typeof(DataManager))
@@ -76,8 +74,8 @@ internal class DataManager : ChartElement, IServiceProvider
 	{
 		// Attach to the Chart Picture painting events
 		ChartImage chartPicture = (ChartImage)serviceContainer.GetService(typeof(ChartImage));
-		chartPicture.BeforePaint += new EventHandler<ChartPaintEventArgs>(this.ChartPicture_BeforePaint);
-		chartPicture.AfterPaint += new EventHandler<ChartPaintEventArgs>(this.ChartPicture_AfterPaint);
+		chartPicture.BeforePaint += new EventHandler<ChartPaintEventArgs>(ChartPicture_BeforePaint);
+		chartPicture.AfterPaint += new EventHandler<ChartPaintEventArgs>(ChartPicture_AfterPaint);
 	}
 
 	#endregion
@@ -88,8 +86,7 @@ internal class DataManager : ChartElement, IServiceProvider
 	{
 		base.Invalidate();
 
-		if (Chart != null)
-			Chart.Invalidate();
+		Chart?.Invalidate();
 	}
 
 
@@ -102,9 +99,9 @@ internal class DataManager : ChartElement, IServiceProvider
 	{
 		// Prepare series for drawing
 		int markerIndex = 1;
-		for (int index = 0; index < this.Series.Count; index++)
+		for (int index = 0; index < Series.Count; index++)
 		{
-			Series series = this.Series[index];
+			Series series = Series[index];
 
 			// Reset series "X values are zeros" flag
 			series.xValuesZerosChecked = false;
@@ -119,7 +116,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				paletteColorsInPoints = true;
 			}
 
-			this.PrepareData(
+			PrepareData(
 			paletteColorsInPoints,
 			series.Name);
 
@@ -155,9 +152,9 @@ internal class DataManager : ChartElement, IServiceProvider
 		if (control != null)
 		{
 			// Clean up series after drawing
-			for (int index = 0; index < this.Series.Count; index++)
+			for (int index = 0; index < Series.Count; index++)
 			{
-				Series series = this.Series[index];
+				Series series = Series[index];
 				if (series.UnPrepareData(control.Site))
 				{
 					--index;
@@ -175,9 +172,9 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// </summary>
 	internal void ApplyPaletteColors()
 	{
-		ChartColorPalette palette = this.Palette;
+		ChartColorPalette palette = Palette;
 		// switch to default pallette if is none and custom collors array is empty.
-		if (palette == ChartColorPalette.None && this.PaletteCustomColors.Length == 0)
+		if (palette == ChartColorPalette.None && PaletteCustomColors.Length == 0)
 		{
 			palette = ChartColorPalette.BrightPastel;
 		}
@@ -185,9 +182,9 @@ internal class DataManager : ChartElement, IServiceProvider
 		// Get palette colors
 		int colorIndex = 0;
 		Color[] paletteColors = (palette == ChartColorPalette.None) ?
-			this.PaletteCustomColors : ChartPaletteColors.GetPaletteColors(palette);
+			PaletteCustomColors : ChartPaletteColors.GetPaletteColors(palette);
 
-		foreach (Series dataSeries in _series)
+		foreach (Series dataSeries in Series)
 		{
 			// Check if chart area name is valid
 			bool validAreaName = false;
@@ -222,7 +219,7 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <param name="series">List of series indexes, which requires data preparation</param>
 	internal void PrepareData(bool pointsApplyPaletteColors, params string[] series)
 	{
-		this.ApplyPaletteColors();
+		ApplyPaletteColors();
 
 		// Prepare data in series
 		Chart control = (Chart)serviceContainer.GetService(typeof(Chart));
@@ -230,7 +227,7 @@ internal class DataManager : ChartElement, IServiceProvider
 		{
 			foreach (string seriesName in series)
 			{
-				this.Series[seriesName].PrepareData(pointsApplyPaletteColors);
+				Series[seriesName].PrepareData(pointsApplyPaletteColors);
 			}
 		}
 	}
@@ -265,7 +262,7 @@ internal class DataManager : ChartElement, IServiceProvider
 		int numberOfPoints = 0;
 		foreach (string seriesName in series)
 		{
-			numberOfPoints = Math.Max(numberOfPoints, this._series[seriesName].Points.Count);
+			numberOfPoints = Math.Max(numberOfPoints, Series[seriesName].Points.Count);
 		}
 
 		return numberOfPoints;
@@ -279,10 +276,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Maximum Y value</returns>
 	internal double GetMaxYValue(int valueIndex, params string[] series)
 	{
-		double returnValue = Double.MinValue;
+		double returnValue = double.MinValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -308,10 +305,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Maximum Y value</returns>
 	internal double GetMaxYWithRadiusValue(ChartArea area, params string[] series)
 	{
-		double returnValue = Double.MinValue;
+		double returnValue = double.MinValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -344,10 +341,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Maximum X value</returns>
 	internal double GetMaxXWithRadiusValue(ChartArea area, params string[] series)
 	{
-		double returnValue = Double.MinValue;
+		double returnValue = double.MinValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -380,10 +377,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Minimum X value</returns>
 	internal double GetMinXWithRadiusValue(ChartArea area, params string[] series)
 	{
-		double returnValue = Double.MaxValue;
+		double returnValue = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -415,10 +412,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Maximum Y value</returns>
 	internal double GetMaxYValue(params string[] series)
 	{
-		double returnValue = Double.MinValue;
+		double returnValue = double.MinValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -446,10 +443,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Maximum X value</returns>
 	internal double GetMaxXValue(params string[] series)
 	{
-		double returnValue = Double.MinValue;
+		double returnValue = double.MinValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				returnValue = Math.Max(returnValue, seriesPoint.XValue);
 			}
@@ -466,11 +463,11 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <param name="series">Series IDs</param>
 	internal void GetMinMaxXValue(out double min, out double max, params string[] series)
 	{
-		max = Double.MinValue;
-		min = Double.MaxValue;
+		max = double.MinValue;
+		min = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				max = Math.Max(max, seriesPoint.XValue);
 				min = Math.Min(min, seriesPoint.XValue);
@@ -487,11 +484,11 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <param name="series">Series IDs</param>
 	internal void GetMinMaxYValue(int valueIndex, out double min, out double max, params string[] series)
 	{
-		max = Double.MinValue;
-		min = Double.MaxValue;
+		max = double.MinValue;
+		min = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// Skip empty point
 				if (IsPointSkipped(seriesPoint))
@@ -517,11 +514,11 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <param name="series">Series IDs</param>
 	internal void GetMinMaxYValue(out double min, out double max, params string[] series)
 	{
-		max = Double.MinValue;
-		min = Double.MaxValue;
+		max = double.MinValue;
+		min = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// Skip empty point
 				if (IsPointSkipped(seriesPoint))
@@ -548,10 +545,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <param name="seriesList">Series objects list.</param>
 	/// <param name="min">Returns maximum Y value.</param>
 	/// <param name="max">Returns minimum Y value.</param>
-	internal void GetMinMaxYValue(System.Collections.ArrayList seriesList, out double min, out double max)
+	internal void GetMinMaxYValue(Collections.ArrayList seriesList, out double min, out double max)
 	{
-		max = Double.MinValue;
-		min = Double.MaxValue;
+		max = double.MinValue;
+		min = double.MaxValue;
 		foreach (Series series in seriesList)
 		{
 			foreach (DataPoint seriesPoint in series.Points)
@@ -591,26 +588,28 @@ internal class DataManager : ChartElement, IServiceProvider
 			double noStackedMax = 0;
 			foreach (string seriesName in series)
 			{
-				if (this._series[seriesName].Points.Count > pointIndex)
+				if (Series[seriesName].Points.Count > pointIndex)
 				{
 					// Take chart type from the series 
 					ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
-					IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
+					IChartType chartType = chartTypeRegistry.GetChartType(Series[seriesName].ChartTypeName);
 
 					// If stacked area
 					if (!chartType.StackSign)
+					{
 						continue;
+					}
 
 					if (chartType.Stacked)
 					{
-						if (this._series[seriesName].Points[pointIndex].YValues[valueIndex] > 0)
+						if (Series[seriesName].Points[pointIndex].YValues[valueIndex] > 0)
 						{
-							stackedMax += this._series[seriesName].Points[pointIndex].YValues[valueIndex];
+							stackedMax += Series[seriesName].Points[pointIndex].YValues[valueIndex];
 						}
 					}
 					else
 					{
-						noStackedMax = Math.Max(noStackedMax, this._series[seriesName].Points[pointIndex].YValues[valueIndex]);
+						noStackedMax = Math.Max(noStackedMax, Series[seriesName].Points[pointIndex].YValues[valueIndex]);
 					}
 				}
 			}
@@ -631,7 +630,7 @@ internal class DataManager : ChartElement, IServiceProvider
 	internal double GetMaxUnsignedStackedYValue(int valueIndex, params string[] series)
 	{
 		double returnValue = 0;
-		double maxValue = Double.MinValue;
+		double maxValue = double.MinValue;
 		double numberOfPoints = GetNumberOfPoints(series);
 		for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
 		{
@@ -639,28 +638,30 @@ internal class DataManager : ChartElement, IServiceProvider
 			double noStackedMax = 0;
 			foreach (string seriesName in series)
 			{
-				if (this._series[seriesName].Points.Count > pointIndex)
+				if (Series[seriesName].Points.Count > pointIndex)
 				{
 					// Take chart type from the series 
 					ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
-					IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
+					IChartType chartType = chartTypeRegistry.GetChartType(Series[seriesName].ChartTypeName);
 
 					// If stacked column and bar
-					if (chartType.StackSign || double.IsNaN(this._series[seriesName].Points[pointIndex].YValues[valueIndex]))
+					if (chartType.StackSign || double.IsNaN(Series[seriesName].Points[pointIndex].YValues[valueIndex]))
 					{
 						continue;
 					}
 
 					if (chartType.Stacked)
 					{
-						maxValue = Double.MinValue;
-						stackedMax += this._series[seriesName].Points[pointIndex].YValues[valueIndex];
+						maxValue = double.MinValue;
+						stackedMax += Series[seriesName].Points[pointIndex].YValues[valueIndex];
 						if (stackedMax > maxValue)
+						{
 							maxValue = stackedMax;
+						}
 					}
 					else
 					{
-						noStackedMax = Math.Max(noStackedMax, this._series[seriesName].Points[pointIndex].YValues[valueIndex]);
+						noStackedMax = Math.Max(noStackedMax, Series[seriesName].Points[pointIndex].YValues[valueIndex]);
 					}
 				}
 			}
@@ -686,11 +687,11 @@ internal class DataManager : ChartElement, IServiceProvider
 			double doubleIndexValue = 0;
 			foreach (string seriesName in series)
 			{
-				if (this._series[seriesName].Points.Count > pointIndex)
+				if (Series[seriesName].Points.Count > pointIndex)
 				{
-					if (this._series[seriesName].Points[pointIndex].XValue > 0)
+					if (Series[seriesName].Points[pointIndex].XValue > 0)
 					{
-						doubleIndexValue += this._series[seriesName].Points[pointIndex].XValue;
+						doubleIndexValue += Series[seriesName].Points[pointIndex].XValue;
 					}
 				}
 			}
@@ -709,10 +710,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Minimum Y value</returns>
 	internal double GetMinYValue(int valueIndex, params string[] series)
 	{
-		double returnValue = Double.MaxValue;
+		double returnValue = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -738,10 +739,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Minimum Y value</returns>
 	internal double GetMinYWithRadiusValue(ChartArea area, params string[] series)
 	{
-		double returnValue = Double.MaxValue;
+		double returnValue = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -773,10 +774,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Minimum Y value</returns>
 	internal double GetMinYValue(params string[] series)
 	{
-		double returnValue = Double.MaxValue;
+		double returnValue = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				// The empty point
 				if (IsPointSkipped(seriesPoint))
@@ -804,10 +805,10 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Minimum X value</returns>
 	internal double GetMinXValue(params string[] series)
 	{
-		double returnValue = Double.MaxValue;
+		double returnValue = double.MaxValue;
 		foreach (string seriesName in series)
 		{
-			foreach (DataPoint seriesPoint in this._series[seriesName].Points)
+			foreach (DataPoint seriesPoint in Series[seriesName].Points)
 			{
 				returnValue = Math.Min(returnValue, seriesPoint.XValue);
 			}
@@ -824,7 +825,7 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Minimum stacked Y value</returns>
 	internal double GetMinStackedYValue(int valueIndex, params string[] series)
 	{
-		double returnValue = Double.MaxValue;
+		double returnValue = double.MaxValue;
 		double numberOfPoints = GetNumberOfPoints(series);
 		for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
 		{
@@ -832,26 +833,28 @@ internal class DataManager : ChartElement, IServiceProvider
 			double noStackedMin = 0;
 			foreach (string seriesName in series)
 			{
-				if (this._series[seriesName].Points.Count > pointIndex)
+				if (Series[seriesName].Points.Count > pointIndex)
 				{
 					// Take chart type from the series 
 					ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
-					IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
+					IChartType chartType = chartTypeRegistry.GetChartType(Series[seriesName].ChartTypeName);
 
 					// If stacked area
-					if (!chartType.StackSign || double.IsNaN(this._series[seriesName].Points[pointIndex].YValues[valueIndex]))
+					if (!chartType.StackSign || double.IsNaN(Series[seriesName].Points[pointIndex].YValues[valueIndex]))
+					{
 						continue;
+					}
 
 					if (chartType.Stacked)
 					{
-						if (this._series[seriesName].Points[pointIndex].YValues[valueIndex] < 0)
+						if (Series[seriesName].Points[pointIndex].YValues[valueIndex] < 0)
 						{
-							stackedMin += this._series[seriesName].Points[pointIndex].YValues[valueIndex];
+							stackedMin += Series[seriesName].Points[pointIndex].YValues[valueIndex];
 						}
 					}
 					else
 					{
-						noStackedMin = Math.Min(noStackedMin, this._series[seriesName].Points[pointIndex].YValues[valueIndex]);
+						noStackedMin = Math.Min(noStackedMin, Series[seriesName].Points[pointIndex].YValues[valueIndex]);
 					}
 				}
 			}
@@ -859,7 +862,7 @@ internal class DataManager : ChartElement, IServiceProvider
 			stackedMin = Math.Min(stackedMin, noStackedMin);
 			if (stackedMin == 0)
 			{
-				stackedMin = this._series[series[0]].Points[this._series[series[0]].Points.Count - 1].YValues[valueIndex];
+				stackedMin = Series[series[0]].Points[Series[series[0]].Points.Count - 1].YValues[valueIndex];
 			}
 
 			returnValue = Math.Min(returnValue, stackedMin);
@@ -876,40 +879,41 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <returns>Minimum stacked Y value</returns>
 	internal double GetMinUnsignedStackedYValue(int valueIndex, params string[] series)
 	{
-		double returnValue = Double.MaxValue;
-		double minValue = Double.MaxValue;
+		double returnValue = double.MaxValue;
 		double numberOfPoints = GetNumberOfPoints(series);
 		for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
 		{
 			double stackedMin = 0;
 			double noStackedMin = 0;
-			minValue = Double.MaxValue;
+			double minValue = double.MaxValue;
 			foreach (string seriesName in series)
 			{
-				if (this._series[seriesName].Points.Count > pointIndex)
+				if (Series[seriesName].Points.Count > pointIndex)
 				{
 					// Take chart type from the series 
 					ChartTypeRegistry chartTypeRegistry = (ChartTypeRegistry)serviceContainer.GetService(typeof(ChartTypeRegistry));
-					IChartType chartType = chartTypeRegistry.GetChartType(this._series[seriesName].ChartTypeName);
+					IChartType chartType = chartTypeRegistry.GetChartType(Series[seriesName].ChartTypeName);
 
 					// If stacked column and bar
-					if (chartType.StackSign || double.IsNaN(this._series[seriesName].Points[pointIndex].YValues[valueIndex]))
+					if (chartType.StackSign || double.IsNaN(Series[seriesName].Points[pointIndex].YValues[valueIndex]))
 					{
 						continue;
 					}
 
 					if (chartType.Stacked)
 					{
-						if (this._series[seriesName].Points[pointIndex].YValues[valueIndex] < 0)
+						if (Series[seriesName].Points[pointIndex].YValues[valueIndex] < 0)
 						{
-							stackedMin += this._series[seriesName].Points[pointIndex].YValues[valueIndex];
+							stackedMin += Series[seriesName].Points[pointIndex].YValues[valueIndex];
 							if (stackedMin < minValue)
+							{
 								minValue = stackedMin;
+							}
 						}
 					}
 					else
 					{
-						noStackedMin = Math.Min(noStackedMin, this._series[seriesName].Points[pointIndex].YValues[valueIndex]);
+						noStackedMin = Math.Min(noStackedMin, Series[seriesName].Points[pointIndex].YValues[valueIndex]);
 					}
 				}
 			}
@@ -935,9 +939,9 @@ internal class DataManager : ChartElement, IServiceProvider
 			double doubleIndexValue = 0;
 			foreach (string seriesName in series)
 			{
-				if (this._series[seriesName].Points[pointIndex].XValue < 0)
+				if (Series[seriesName].Points[pointIndex].XValue < 0)
 				{
-					doubleIndexValue += this._series[seriesName].Points[pointIndex].XValue;
+					doubleIndexValue += Series[seriesName].Points[pointIndex].XValue;
 				}
 			}
 
@@ -963,13 +967,13 @@ internal class DataManager : ChartElement, IServiceProvider
 		int seriesIndex = 0;
 		foreach (string seriesName in series)
 		{
-			seriesArray[seriesIndex++] = this._series[seriesName];
+			seriesArray[seriesIndex++] = Series[seriesName];
 		}
 
 		// Loop through all dat points
 		try
 		{
-			for (int pointIndex = 0; pointIndex < this._series[series[0]].Points.Count; pointIndex++)
+			for (int pointIndex = 0; pointIndex < Series[series[0]].Points.Count; pointIndex++)
 			{
 				// Calculate the total for all series
 				double totalPerPoint = 0;
@@ -1001,7 +1005,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw (new InvalidOperationException(SR.ExceptionDataManager100StackedSeriesPointsNumeberMismatch));
 		}
@@ -1024,13 +1028,13 @@ internal class DataManager : ChartElement, IServiceProvider
 		int seriesIndex = 0;
 		foreach (string seriesName in series)
 		{
-			seriesArray[seriesIndex++] = this._series[seriesName];
+			seriesArray[seriesIndex++] = Series[seriesName];
 		}
 
 		// Loop through all dat points
 		try
 		{
-			for (int pointIndex = 0; pointIndex < this._series[series[0]].Points.Count; pointIndex++)
+			for (int pointIndex = 0; pointIndex < Series[series[0]].Points.Count; pointIndex++)
 			{
 				// Calculate the total for all series
 				double totalPerPoint = 0;
@@ -1062,7 +1066,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw (new InvalidOperationException(SR.ExceptionDataManager100StackedSeriesPointsNumeberMismatch));
 		}
@@ -1082,13 +1086,7 @@ internal class DataManager : ChartElement, IServiceProvider
 		Editor(typeof(SeriesCollectionEditor), typeof(UITypeEditor)),
 		Bindable(true)
 	]
-	public SeriesCollection Series
-	{
-		get
-		{
-			return _series;
-		}
-	}
+	public SeriesCollection Series { get; private set; } = null;
 
 	/// <summary>
 	/// Color palette to use
@@ -1100,20 +1098,9 @@ internal class DataManager : ChartElement, IServiceProvider
 		DefaultValue(ChartColorPalette.BrightPastel),
 		Editor(typeof(ColorPaletteEditor), typeof(UITypeEditor))
 		]
-	public ChartColorPalette Palette
-	{
-		get
-		{
-			return _colorPalette;
-		}
-		set
-		{
-			_colorPalette = value;
-		}
-	}
+	public ChartColorPalette Palette { get; set; } = ChartColorPalette.BrightPastel;
 
 	// Array of custom palette colors.
-	private Color[] _paletteCustomColors = new Color[0];
 
 	/// <summary>
 	/// Array of custom palette colors.
@@ -1124,21 +1111,11 @@ internal class DataManager : ChartElement, IServiceProvider
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-	SerializationVisibilityAttribute(SerializationVisibility.Attribute),
+	SerializationVisibility(SerializationVisibility.Attribute),
 	SRDescription("DescriptionAttributeDataManager_PaletteCustomColors"),
 	TypeConverter(typeof(ColorArrayConverter))
 	]
-	public Color[] PaletteCustomColors
-	{
-		set
-		{
-			this._paletteCustomColors = value;
-		}
-		get
-		{
-			return this._paletteCustomColors;
-		}
-	}
+	public Color[] PaletteCustomColors { set; get; } = [];
 
 
 
@@ -1154,11 +1131,8 @@ internal class DataManager : ChartElement, IServiceProvider
 	{
 		if (disposing)
 		{
-			if (_series != null)
-			{
-				_series.Dispose();
-				_series = null;
-			}
+			Series?.Dispose();
+			Series = null;
 		}
 	}
 

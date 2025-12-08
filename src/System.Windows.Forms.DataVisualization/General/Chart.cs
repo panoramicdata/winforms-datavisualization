@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
@@ -32,7 +31,7 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
-using FontStyle = System.Drawing.FontStyle;
+using FontStyle = FontStyle;
 
 /// <summary>
 /// ChartImage class adds image type and data binding functionality to
@@ -42,14 +41,8 @@ internal class ChartImage : ChartPicture
 {
 	#region Fields
 
-	// Private data members, which store properties values
-	private int _compression = 0;
-
-	// Chart data source object
-	private object _dataSource = null;
-
 	// Indicates that control was bound to the data source
-	internal bool boundToDataSource = false;
+	internal bool _boundToDataSource = false;
 
 	#endregion
 
@@ -77,23 +70,19 @@ internal class ChartImage : ChartPicture
 	SRDescription("DescriptionAttributeDataSource"),
 	DefaultValue(null),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public object DataSource
 	{
-		get
+		get; set
 		{
-			return _dataSource;
-		}
-		set
-		{
-			if (_dataSource != value)
+			if (field != value)
 			{
-				_dataSource = value;
-				this.boundToDataSource = false;
+				field = value;
+				_boundToDataSource = false;
 			}
 		}
-	}
+	} = null;
 
 	/// <summary>
 	/// Image compression value
@@ -106,20 +95,16 @@ internal class ChartImage : ChartPicture
 	]
 	public int Compression
 	{
-		get
-		{
-			return _compression;
-		}
-		set
+		get; set
 		{
 			if (value < 0 || value > 100)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartCompressionInvalid));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartCompressionInvalid));
 			}
 
-			_compression = value;
+			field = value;
 		}
-	}
+	} = 0;
 
 	#endregion
 
@@ -137,66 +122,53 @@ internal class ChartImage : ChartPicture
 	public void SaveIntoMetafile(Stream imageStream, EmfType emfType)
 	{
 		// Check arguments
-		if (imageStream == null)
-			throw new ArgumentNullException("imageStream");
+		ArgumentNullException.ThrowIfNull(imageStream);
 
 		// Create temporary Graphics object for metafile
-		using (Bitmap bitmap = new Bitmap(this.Width, this.Height))
+		using Bitmap bitmap = new(Width, Height);
+		using Graphics newGraphics = Graphics.FromImage(bitmap);
+		IntPtr hdc = IntPtr.Zero;
+		try
 		{
-			using (Graphics newGraphics = Graphics.FromImage(bitmap))
+			hdc = newGraphics.GetHdc();
+
+
+			// Create metafile object to record.
+			using Metafile metaFile = new(
+				imageStream,
+				hdc,
+				new Rectangle(0, 0, Width, Height),
+				MetafileFrameUnit.Pixel,
+				emfType);
+
+			// Create graphics object to record metaFile.
+			using Graphics metaGraphics = Graphics.FromImage(metaFile);
+
+			// Note: Fix for issue #3674. Some 3D borders shadows may be drawn outside
+			// of image boundaries. This causes issues when generated EMF file
+			// is placed in IE. Image looks shifted down and hot areas do not align.
+			if (BorderSkin.SkinStyle != BorderSkinStyle.None)
 			{
-				IntPtr hdc = IntPtr.Zero;
-				try
-				{
-					System.Security.Permissions.SecurityPermission securityPermission = new System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode);
-					securityPermission.Demand();
+				metaGraphics.Clip = new Region(new Rectangle(0, 0, Width, Height));
+			}
 
-					hdc = newGraphics.GetHdc();
-
-
-					// Create metafile object to record.
-					using (Metafile metaFile = new Metafile(
-						imageStream,
-						hdc,
-						new Rectangle(0, 0, this.Width, this.Height),
-						MetafileFrameUnit.Pixel,
-						emfType))
-					{
-
-						// Create graphics object to record metaFile.
-						using (Graphics metaGraphics = Graphics.FromImage(metaFile))
-						{
-
-							// Note: Fix for issue #3674. Some 3D borders shadows may be drawn outside
-							// of image boundaries. This causes issues when generated EMF file
-							// is placed in IE. Image looks shifted down and hot areas do not align.
-							if (this.BorderSkin.SkinStyle != BorderSkinStyle.None)
-							{
-								metaGraphics.Clip = new Region(new Rectangle(0, 0, this.Width, this.Height));
-							}
-
-							// Draw chart in the metafile
-							this.ChartGraph.IsMetafile = true;
-							this.Paint(metaGraphics, false);
-							this.ChartGraph.IsMetafile = false;
-
-						}
-					}
-				}
-				finally
-				{
-					if (hdc != IntPtr.Zero)
-					{
-						newGraphics.ReleaseHdc(hdc);
-					}
-				}
+			// Draw chart in the metafile
+			ChartGraph.IsMetafile = true;
+			Paint(metaGraphics, false);
+			ChartGraph.IsMetafile = false;
+		}
+		finally
+		{
+			if (hdc != IntPtr.Zero)
+			{
+				newGraphics.ReleaseHdc(hdc);
 			}
 		}
 	}
 
 	public Bitmap GetImage()
 	{
-		return this.GetImage(96);
+		return GetImage(96);
 	}
 	/// <summary>
 	/// Create Image and draw chart picture
@@ -209,7 +181,7 @@ internal class ChartImage : ChartPicture
 
 		while (image == null)
 		{
-			bool failed = true;
+			bool failed;
 			try
 			{
 				image = new Bitmap(Math.Max(1, Width), Math.Max(1, Height));
@@ -252,21 +224,25 @@ internal class ChartImage : ChartPicture
 
 		Color backGroundColor;
 
-		if (this.BackColor != Color.Empty)
-			backGroundColor = this.BackColor;
+		if (BackColor != Color.Empty)
+		{
+			backGroundColor = BackColor;
+		}
 		else
+		{
 			backGroundColor = Color.White;
+		}
 
 		// Get the page color if border skin is visible.
 		if (GetBorderSkinVisibility() &&
-			this.BorderSkin.PageColor != Color.Empty)
+			BorderSkin.PageColor != Color.Empty)
 		{
-			backGroundColor = this.BorderSkin.PageColor;
+			backGroundColor = BorderSkin.PageColor;
 		}
 
 		// draw a rctangle first with the size of the control, this prevent strange behavior when printing in the reporting services,
 		// without this rectangle, the printed picture is blurry
-		Pen pen = new Pen(backGroundColor);
+		Pen pen = new(backGroundColor);
 		offScreen.DrawRectangle(pen, 0, 0, Width, Height);
 		pen.Dispose();
 
@@ -317,11 +293,9 @@ internal class ChartImage : ChartPicture
 	/// <param name="dataSource">Data source object to get the members for.</param>
 	/// <param name="usedForYValue">Indicates that member will be used for Y values.</param>
 	/// <returns>List of member names.</returns>
-	[SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
-		Justification = "Too large of a code change to justify making this change")]
 	static internal ArrayList GetDataSourceMemberNames(object dataSource, bool usedForYValue)
 	{
-		ArrayList names = new ArrayList();
+		ArrayList names = [];
 		if (dataSource != null)
 		{
 			// ADDED: for VS2005 compatibility, DT Nov 25, 2004
@@ -336,13 +310,13 @@ internal class ChartImage : ChartPicture
 						{
 							// SQL derived datasource
 							Type selectArgsType = dataSource.GetType().Assembly.GetType("System.Web.UI.DataSourceSelectArguments", true);
-							ConstructorInfo ci = selectArgsType.GetConstructor(new Type[] { });
-							dataSource = m.Invoke(dataSource, new object[] { ci.Invoke(new object[] { }) });
+							ConstructorInfo ci = selectArgsType.GetConstructor([]);
+							dataSource = m.Invoke(dataSource, [ci.Invoke([])]);
 						}
 						else
 						{
 							// object data source
-							dataSource = m.Invoke(dataSource, new object[] { });
+							dataSource = m.Invoke(dataSource, []);
 						}
 					}
 				}
@@ -358,17 +332,17 @@ internal class ChartImage : ChartPicture
 			// Check all DataTable based data souces
 			DataTable dataTable = null;
 
-			if (dataSource is DataTable)
+			if (dataSource is DataTable table)
 			{
-				dataTable = (DataTable)dataSource;
+				dataTable = table;
 			}
-			else if (dataSource is DataView)
+			else if (dataSource is DataView view)
 			{
-				dataTable = ((DataView)dataSource).Table;
+				dataTable = view.Table;
 			}
-			else if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
+			else if (dataSource is DataSet set && set.Tables.Count > 0)
 			{
-				dataTable = ((DataSet)dataSource).Tables[0];
+				dataTable = set.Tables[0];
 			}
 
 			// Check if DataTable was set
@@ -384,9 +358,9 @@ internal class ChartImage : ChartPicture
 				}
 			}
 
-			else if (names.Count == 0 && dataSource is ITypedList)
+			else if (names.Count == 0 && dataSource is ITypedList list)
 			{
-				foreach (PropertyDescriptor pd in ((ITypedList)dataSource).GetItemProperties(null))
+				foreach (PropertyDescriptor pd in list.GetItemProperties(null))
 				{
 					if (!usedForYValue || pd.PropertyType != typeof(string))
 					{
@@ -394,10 +368,10 @@ internal class ChartImage : ChartPicture
 					}
 				}
 			}
-			else if (names.Count == 0 && dataSource is IEnumerable)
+			else if (names.Count == 0 && dataSource is IEnumerable enumerable)
 			{
 				// .Net 2.0 ObjectDataSource processing
-				IEnumerator e = ((IEnumerable)dataSource).GetEnumerator();
+				IEnumerator e = enumerable.GetEnumerator();
 				e.Reset();
 				e.MoveNext();
 				foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(e.Current))
@@ -409,8 +383,6 @@ internal class ChartImage : ChartPicture
 
 				}
 			}
-
-
 
 			// Check if list still empty
 			if (names.Count == 0)
@@ -427,40 +399,38 @@ internal class ChartImage : ChartPicture
 	/// <summary>
 	/// Data binds control to the data source
 	/// </summary>
-	[SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
-		Justification = "Too large of a code change to justify making this change")]
 	internal void DataBind()
 	{
 		// Set bound flag
-		this.boundToDataSource = true;
+		_boundToDataSource = true;
 
-		object dataSource = this.DataSource;
+		object dataSource = DataSource;
 		if (dataSource != null)
 		{
 
 			// Convert data source to recognizable source for the series
-			if (dataSource is DataSet && ((DataSet)dataSource).Tables.Count > 0)
+			if (dataSource is DataSet set && set.Tables.Count > 0)
 			{
-				dataSource = ((DataSet)dataSource).DefaultViewManager.CreateDataView(((DataSet)dataSource).Tables[0]);
+				dataSource = set.DefaultViewManager.CreateDataView(set.Tables[0]);
 
 			}
-			else if (dataSource is DataTable)
+			else if (dataSource is DataTable table)
 			{
-				dataSource = new DataView((DataTable)dataSource);
+				dataSource = new DataView(table);
 			}
 			else if (dataSource is IList)
 			{
 				dataSource = dataSource as IList;
 			}
-			else if (dataSource is IListSource)
+			else if (dataSource is IListSource source)
 			{
-				if (((IListSource)dataSource).ContainsListCollection && ((IListSource)dataSource).GetList().Count > 0)
+				if (source.ContainsListCollection && source.GetList().Count > 0)
 				{
-					dataSource = ((IListSource)dataSource).GetList()[0] as IEnumerable;
+					dataSource = source.GetList()[0] as IEnumerable;
 				}
 				else
 				{
-					dataSource = ((IListSource)dataSource).GetList();
+					dataSource = source.GetList();
 				}
 			}
 			else
@@ -481,18 +451,18 @@ internal class ChartImage : ChartPicture
 	internal void DataBind(IEnumerable dataSource, ArrayList seriesList)
 	{
 		// Data bind series
-		if (dataSource != null && this.Common != null)
+		if (dataSource != null && Common != null)
 		{
 			//************************************************************
 			//** If list of series is not provided - bind all of them.
 			//************************************************************
 			if (seriesList == null)
 			{
-				seriesList = new ArrayList();
-				foreach (Series series in this.Common.Chart.Series)
+				seriesList = [];
+				foreach (Series series in Common.Chart.Series)
 				{
 					// note: added for design time data binding
-					if (this.Common.Chart.IsDesignMode())
+					if (Common.Chart.IsDesignMode())
 					{
 						if (series.YValueMembers.Length > 0)
 						{
@@ -539,16 +509,17 @@ internal class ChartImage : ChartPicture
 				}
 			}
 
+			bool autoDetectType = true;
+
 
 			//************************************************************
 			//** Loop through the enumerator.
 			//************************************************************
-			bool valueExsists = true;
-			bool autoDetectType = true;
+			bool valueExists;
 			do
 			{
 				// Move to the next item
-				valueExsists = enumerator.MoveNext();
+				valueExists = enumerator.MoveNext();
 
 				// Loop through all series
 				foreach (Series series in seriesList)
@@ -573,19 +544,19 @@ internal class ChartImage : ChartPicture
 						// Double check that a string object is not provided for data binding
 						if (dataSource is string)
 						{
-							throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, "dataSource"));
+							throw (new ArgumentException(SR.ExceptionDataBindYValuesToString, nameof(dataSource)));
 						}
 
 						// Check number of fields
 						if (yFieldNames == null || yFieldNames.GetLength(0) > series.YValuesPerPoint)
 						{
-							throw (new ArgumentOutOfRangeException("dataSource", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture))));
+							throw (new ArgumentOutOfRangeException(nameof(dataSource), SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(CultureInfo.InvariantCulture))));
 						}
 
 						//************************************************************
 						//** Create new data point.
 						//************************************************************
-						if (valueExsists)
+						if (valueExists)
 						{
 							// Auto detect values type
 							if (autoDetectType)
@@ -605,7 +576,7 @@ internal class ChartImage : ChartPicture
 
 
 							// Create new point
-							DataPoint newDataPoint = new DataPoint(series);
+							DataPoint newDataPoint = new(series);
 							bool emptyValues = false;
 							bool xValueIsNull = false;
 
@@ -619,7 +590,7 @@ internal class ChartImage : ChartPicture
 							if (series.XValueMember.Length > 0)
 							{
 								xValueObj = DataPointCollection.ConvertEnumerationItem(enumerator.Current, series.XValueMember.Trim());
-								if (xValueObj is System.DBNull || xValueObj == null)
+								if (xValueObj is DBNull || xValueObj == null)
 								{
 									xValueIsNull = true;
 									emptyValues = true;
@@ -630,7 +601,7 @@ internal class ChartImage : ChartPicture
 							if (yFieldNames.Length == 0)
 							{
 								yValuesObj[0] = DataPointCollection.ConvertEnumerationItem(enumerator.Current, null);
-								if (yValuesObj[0] is System.DBNull || yValuesObj[0] == null)
+								if (yValuesObj[0] is DBNull || yValuesObj[0] == null)
 								{
 									emptyValues = true;
 									yValuesObj[0] = 0.0;
@@ -643,7 +614,7 @@ internal class ChartImage : ChartPicture
 									if (yFieldNames[i].Length > 0)
 									{
 										yValuesObj[i] = DataPointCollection.ConvertEnumerationItem(enumerator.Current, yFieldNames[i]);
-										if (yValuesObj[i] is System.DBNull || yValuesObj[i] == null)
+										if (yValuesObj[i] is DBNull || yValuesObj[i] == null)
 										{
 											emptyValues = true;
 											yValuesObj[i] = 0.0;
@@ -691,7 +662,7 @@ internal class ChartImage : ChartPicture
 								}
 							}
 
-							if (this.Common.Chart.IsDesignMode())
+							if (Common.Chart.IsDesignMode())
 							{
 								series["TempDesignData"] = "true";
 							}
@@ -699,7 +670,7 @@ internal class ChartImage : ChartPicture
 					}
 				}
 
-			} while (valueExsists);
+			} while (valueExists);
 
 		}
 	}
@@ -713,7 +684,7 @@ internal class ChartImage : ChartPicture
 	internal void AlignDataPointsByAxisLabel(bool sortAxisLabels, PointSortOrder sortingOrder)
 	{
 		// Find series which are attached to the same X axis in the same chart area
-		foreach (ChartArea chartArea in this.ChartAreas)
+		foreach (ChartArea chartArea in ChartAreas)
 		{
 
 			// Check if chart area is visible
@@ -721,9 +692,9 @@ internal class ChartImage : ChartPicture
 
 			{
 				// Create series list for primary and secondary X axis
-				ArrayList chartAreaSeriesPrimary = new ArrayList();
-				ArrayList chartAreaSeriesSecondary = new ArrayList();
-				foreach (Series series in this.Common.Chart.Series)
+				ArrayList chartAreaSeriesPrimary = [];
+				ArrayList chartAreaSeriesSecondary = [];
+				foreach (Series series in Common.Chart.Series)
 				{
 					// Check if series belongs to the chart area
 					if (series.ChartArea == chartArea.Name)
@@ -769,10 +740,10 @@ internal class ChartImage : ChartPicture
 		// Collect information about all points in all series
 		bool indexedX = true;
 		bool uniqueAxisLabels = true;
-		ArrayList axisLabels = new ArrayList();
+		ArrayList axisLabels = [];
 		foreach (Series series in seriesList)
 		{
-			ArrayList seriesAxisLabels = new ArrayList();
+			ArrayList seriesAxisLabels = [];
 			foreach (DataPoint point in series.Points)
 			{
 				// Check if series has indexed X values
@@ -847,9 +818,11 @@ internal class ChartImage : ChartPicture
 					if (index >= series.Points.Count ||
 						series.Points[index].XValue != index + 1)
 					{
-						DataPoint newPoint = new DataPoint(series);
-						newPoint.AxisLabel = (string)axisLabels[index];
-						newPoint.XValue = index + 1;
+						DataPoint newPoint = new(series)
+						{
+							AxisLabel = (string)axisLabels[index],
+							XValue = index + 1
+						};
 						newPoint.YValues[0] = 0.0;
 						newPoint.IsEmpty = true;
 						series.Points.Insert(index, newPoint);
@@ -884,21 +857,29 @@ internal class ChartImage : ChartPicture
 	{
 		// Check arguments
 		if (dataSource == null)
-			throw (new ArgumentNullException("dataSource", SR.ExceptionDataPointInsertionNoDataSource));
+		{
+			throw (new ArgumentNullException(nameof(dataSource), SR.ExceptionDataPointInsertionNoDataSource));
+		}
 
 		if (dataSource is string)
-			throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, "dataSource"));
+		{
+			throw (new ArgumentException(SR.ExceptionDataBindSeriesToString, nameof(dataSource)));
+		}
 
-		if (String.IsNullOrEmpty(yFields))
-			throw (new ArgumentException(SR.ExceptionChartDataPointsInsertionFailedYValuesEmpty, "yFields"));
+		if (string.IsNullOrEmpty(yFields))
+		{
+			throw (new ArgumentException(SR.ExceptionChartDataPointsInsertionFailedYValuesEmpty, nameof(yFields)));
+		}
 
-		if (String.IsNullOrEmpty(seriesGroupByField))
-			throw (new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, "seriesGroupByField"));
+		if (string.IsNullOrEmpty(seriesGroupByField))
+		{
+			throw (new ArgumentException(SR.ExceptionDataBindSeriesGroupByParameterIsEmpty, nameof(seriesGroupByField)));
+		}
 
 
 		// List of series and group by field values
-		ArrayList seriesList = new ArrayList();
-		ArrayList groupByValueList = new ArrayList();
+		ArrayList seriesList = [];
+		ArrayList groupByValueList = [];
 
 		// Convert comma separated Y values field names string to array of names
 		string[] yFieldNames = null;
@@ -965,9 +946,10 @@ internal class ChartImage : ChartPicture
 					enumerator.Current,
 					seriesGroupByField);
 
-				// Check series group by field and create new series if required
-				Series series = null;
 				int seriesIndex = groupByValueList.IndexOf(groupObj);
+
+				// Check series group by field and create new series if required
+				Series series;
 				if (seriesIndex >= 0)
 				{
 					// Select existing series from the list
@@ -976,8 +958,10 @@ internal class ChartImage : ChartPicture
 				else
 				{
 					// Create new series
-					series = new Series();
-					series.YValuesPerPoint = yFieldNames.GetLength(0);
+					series = new Series
+					{
+						YValuesPerPoint = yFieldNames.GetLength(0)
+					};
 
 					// If not the first series in the list copy some properties
 					if (seriesList.Count > 0)
@@ -989,8 +973,7 @@ internal class ChartImage : ChartPicture
 					}
 
 					// Try to set series name based on grouping vlaue
-					string groupObjStr = groupObj as string;
-					if (groupObjStr != null)
+					if (groupObj is string groupObjStr)
 					{
 						series.Name = groupObjStr;
 					}
@@ -1014,7 +997,7 @@ internal class ChartImage : ChartPicture
 				}
 
 				// Create new data point
-				DataPoint newDataPoint = new DataPoint(series);
+				DataPoint newDataPoint = new(series);
 				bool emptyValues = false;
 
 				// Set X to the value provided
@@ -1117,7 +1100,7 @@ internal class ChartImage : ChartPicture
 			}
 
 			// Change order of series in collection
-			ArrayList sortedSeriesList = new ArrayList();
+			ArrayList sortedSeriesList = [];
 			foreach (object obj in groupByValueList)
 			{
 				sortedSeriesList.Add(seriesList[oldList.IndexOf(obj)]);
@@ -1129,7 +1112,7 @@ internal class ChartImage : ChartPicture
 		// Add all series from the list into the series collection
 		foreach (Series series in seriesList)
 		{
-			this.Common.Chart.Series.Add(series);
+			Common.Chart.Series.Add(series);
 		}
 	}
 
@@ -1145,8 +1128,7 @@ internal class ChartImage : ChartPicture
 		string xField)
 	{
 		// Check arguments
-		if (dataSource == null)
-			throw new ArgumentNullException("dataSource");
+		ArgumentNullException.ThrowIfNull(dataSource);
 
 		// Get list of member names from the data source
 		ArrayList dataSourceFields = GetDataSourceMemberNames(dataSource, true);
@@ -1157,7 +1139,7 @@ internal class ChartImage : ChartPicture
 			int index = -1;
 			for (int i = 0; i < dataSourceFields.Count; i++)
 			{
-				if (String.Equals((string)dataSourceFields[i], xField, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals((string)dataSourceFields[i], xField, StringComparison.OrdinalIgnoreCase))
 				{
 					index = i;
 					break;
@@ -1184,15 +1166,16 @@ internal class ChartImage : ChartPicture
 		if (seriesNumber > 0)
 		{
 			// Create as many series as fields in the data source
-			ArrayList seriesList = new ArrayList();
+			ArrayList seriesList = [];
 			int index = 0;
 			foreach (string fieldName in dataSourceFields)
 			{
-				Series series = new Series(fieldName);
-
-				// Set binding properties
-				series.YValueMembers = fieldName;
-				series.XValueMember = xField;
+				Series series = new(fieldName)
+				{
+					// Set binding properties
+					YValueMembers = fieldName,
+					XValueMember = xField
+				};
 
 				// Add to list
 				seriesList.Add(series);
@@ -1201,17 +1184,17 @@ internal class ChartImage : ChartPicture
 
 
 			// Data bind series
-			this.DataBind(dataSource, seriesList);
+			DataBind(dataSource, seriesList);
 
 			// Add all series from the list into the series collection
 			foreach (Series series in seriesList)
 			{
 				// Clear binding properties
-				series.YValueMembers = String.Empty;
-				series.XValueMember = String.Empty;
+				series.YValueMembers = string.Empty;
+				series.XValueMember = string.Empty;
 
 				// Add series into the list
-				this.Common.Chart.Series.Add(series);
+				Common.Chart.Series.Add(series);
 			}
 		}
 	}
@@ -1234,45 +1217,23 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// <summary>
 	/// Indicates that chart exceptions should be suppressed.
 	/// </summary>
-	private bool _suppressExceptions = false;
 
 	// Chart Graphic object
 	internal ChartGraphics ChartGraph { get; set; }
 
 	// Private data members, which store properties values
-	private GradientStyle _backGradientStyle = GradientStyle.None;
-	private Color _backSecondaryColor = Color.Empty;
-	private Color _backColor = Color.White;
-	private string _backImage = "";
-	private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
-	private Color _backImageTransparentColor = Color.Empty;
-	private ChartImageAlignmentStyle _backImageAlign = ChartImageAlignmentStyle.TopLeft;
-	private Color _borderColor = Color.White;
-	private int _borderWidth = 1;
-	private ChartDashStyle _borderDashStyle = ChartDashStyle.NotSet;
-	private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
-	private AntiAliasingStyles _antiAliasing = AntiAliasingStyles.All;
-	private TextAntiAliasingQuality _textAntiAliasingQuality = TextAntiAliasingQuality.High;
-	private bool _isSoftShadows = true;
-	private int _width = 300;
-	private int _height = 300;
-	private DataManipulator _dataManipulator = new DataManipulator();
-	internal HotRegionsList hotRegionsList = null;
-	private BorderSkin _borderSkin = null;
+	internal HotRegionsList _hotRegionsList = null;
+
 	// Chart areas collection
-	private ChartAreaCollection _chartAreas = null;
 
 	// Chart legend collection
-	private LegendCollection _legends = null;
 
 	// Chart title collection
-	private TitleCollection _titles = null;
 
 	// Chart annotation collection
-	private AnnotationCollection _annotations = null;
 
 	// Annotation smart labels class
-	internal AnnotationSmartLabel annotationSmartLabel = new AnnotationSmartLabel();
+	internal AnnotationSmartLabel _annotationSmartLabel = new();
 
 	// Chart picture events
 	internal event EventHandler<ChartPaintEventArgs> BeforePaint;
@@ -1282,31 +1243,29 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	private RectangleF _titlePosition = RectangleF.Empty;
 
 	// Element spacing size
-	internal const float elementSpacing = 3F;
+	internal const float ElementSpacing = 3F;
 
 	// Maximum size of the font in percentage
-	internal const float maxTitleSize = 15F;
+	internal const float MaxTitleSize = 15F;
 
 	// Printing indicator
-	internal bool isPrinting = false;
+	internal bool _isPrinting = false;
 
 	// Indicates chart selection mode
-	internal bool isSelectionMode = false;
-
-	private FontCache _fontCache = new FontCache();
+	internal bool _isSelectionMode = false;
 
 	// Position of the chart 3D border
 	private RectangleF _chartBorderPosition = RectangleF.Empty;
 
 	// Saving As Image indicator
-	internal bool isSavingAsImage = false;
+	internal bool _isSavingAsImage = false;
 
 	// Indicates that chart background is restored from the double buffer
 	// prior to drawing top level objects like annotations, cursors and selection.
-	internal bool backgroundRestored = false;
+	internal bool _backgroundRestored = false;
 
 	// Buffered image of non-top level chart elements
-	internal Bitmap nonTopLevelChartBuffer = null;
+	internal Bitmap _nonTopLevelChartBuffer = null;
 
 	#endregion
 
@@ -1326,25 +1285,25 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		// Create and set Common Elements
 		Common = new CommonElements(container);
 		ChartGraph = new ChartGraphics(Common);
-		hotRegionsList = new HotRegionsList(Common);
+		_hotRegionsList = new HotRegionsList(Common);
 
 		// Create border properties class
-		_borderSkin = new BorderSkin(this);
+		BorderSkin = new BorderSkin(this);
 
 		// Create a collection of chart areas
-		_chartAreas = new ChartAreaCollection(this);
+		ChartAreas = new ChartAreaCollection(this);
 
 		// Create a collection of legends
-		_legends = new LegendCollection(this);
+		Legends = new LegendCollection(this);
 
 		// Create a collection of titles
-		_titles = new TitleCollection(this);
+		Titles = new TitleCollection(this);
 
 		// Create a collection of annotations
-		_annotations = new AnnotationCollection(this);
+		Annotations = new AnnotationCollection(this);
 
 		// Set Common elements for data manipulator
-		_dataManipulator.Common = Common;
+		DataManipulator.Common = Common;
 	}
 
 	/// <summary>
@@ -1352,7 +1311,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// </summary>
 	/// <param name="serviceType">Service AxisName</param>
 	/// <returns>Chart picture</returns>
-	[EditorBrowsableAttribute(EditorBrowsableState.Never)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	object IServiceProvider.GetService(Type serviceType)
 	{
 		if (serviceType == typeof(ChartPicture))
@@ -1374,24 +1333,24 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	{
 		// Check chart size
 		// NOTE: Fixes issue #4733
-		if (this.Width <= 0 || this.Height <= 0)
+		if (Width <= 0 || Height <= 0)
 		{
 			return;
 		}
 
 		// Set process Mode to hot regions
-		this.Common.HotRegionsList.ProcessChartMode |= ProcessMode.HotRegions;
-		this.Common.HotRegionsList.hitTestCalled = true;
+		Common.HotRegionsList.ProcessChartMode |= ProcessMode.HotRegions;
+		Common.HotRegionsList.hitTestCalled = true;
 
 		// Enable selection mode
-		this.isSelectionMode = true;
+		_isSelectionMode = true;
 
 		// Hot Region list does not exist. Create the list.
 		//this.common.HotRegionsList.List = new ArrayList();
-		this.Common.HotRegionsList.Clear();
+		Common.HotRegionsList.Clear();
 
 		// Create a new bitmap
-		Bitmap image = new Bitmap(Math.Max(1, Width), Math.Max(1, Height));
+		Bitmap image = new(Math.Max(1, Width), Math.Max(1, Height));
 
 		// Creates a new Graphics object from the
 		// specified Image object.
@@ -1401,7 +1360,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		ChartGraph.Graphics = offScreen;
 
 		// Remember the previous dirty flag
-		bool oldDirtyFlag = this.Common.Chart.dirtyFlag;
+		bool oldDirtyFlag = Common.Chart.dirtyFlag;
 
 
 		Paint(ChartGraph.Graphics, false);
@@ -1409,13 +1368,13 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		image.Dispose();
 
 		// Restore the previous dirty flag
-		this.Common.Chart.dirtyFlag = oldDirtyFlag;
+		Common.Chart.dirtyFlag = oldDirtyFlag;
 
 		// Disable selection mode
-		this.isSelectionMode = false;
+		_isSelectionMode = false;
 
 		// Set process Mode to hot regions
-		this.Common.HotRegionsList.ProcessChartMode |= ProcessMode.HotRegions;
+		Common.HotRegionsList.ProcessChartMode |= ProcessMode.HotRegions;
 
 	}
 
@@ -1425,15 +1384,15 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// <returns>Text rendering quality.</returns>
 	internal TextRenderingHint GetTextRenderingHint()
 	{
-		TextRenderingHint result = TextRenderingHint.SingleBitPerPixelGridFit;
-		if ((this.AntiAliasing & AntiAliasingStyles.Text) == AntiAliasingStyles.Text)
+		TextRenderingHint result;
+		if ((AntiAliasing & AntiAliasingStyles.Text) == AntiAliasingStyles.Text)
 		{
 			result = TextRenderingHint.ClearTypeGridFit;
-			if (this.TextAntiAliasingQuality == TextAntiAliasingQuality.Normal)
+			if (TextAntiAliasingQuality == TextAntiAliasingQuality.Normal)
 			{
 				result = TextRenderingHint.AntiAlias;
 			}
-			else if (this.TextAntiAliasingQuality == TextAntiAliasingQuality.SystemDefault)
+			else if (TextAntiAliasingQuality == TextAntiAliasingQuality.SystemDefault)
 			{
 				result = TextRenderingHint.SystemDefault;
 			}
@@ -1448,7 +1407,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 
 	internal bool GetBorderSkinVisibility()
 	{
-		return _borderSkin.SkinStyle != BorderSkinStyle.None && this.Width > 20 && this.Height > 20;
+		return BorderSkin.SkinStyle != BorderSkinStyle.None && Width > 20 && Height > 20;
 	}
 
 	/// <summary>
@@ -1456,20 +1415,18 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// </summary>
 	/// <param name="graph">The graph provides drawing object to the display device. A Graphics object is associated with a specific device context.</param>
 	/// <param name="paintTopLevelElementOnly">Indicates that only chart top level elements like cursors, selection or annotation objects must be redrawn.</param>
-	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "3#svg")]
 	internal void Paint(
 	Graphics graph,
 	bool paintTopLevelElementOnly)
 	{
-
 		// Reset restored and saved backgound flags
-		this.backgroundRestored = false;
+		_backgroundRestored = false;
 
 		// Reset Annotation Smart Labels
-		this.annotationSmartLabel.Reset();
+		_annotationSmartLabel.Reset();
 
 		// Do not draw the control if size is less than 5 pixel
-		if (this.Width < 5 || this.Height < 5)
+		if (Width < 5 || Height < 5)
 		{
 			return;
 		}
@@ -1477,25 +1434,25 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		bool resetHotRegionList = false;
 
 		if (
-				this.Common.HotRegionsList.hitTestCalled
+				Common.HotRegionsList.hitTestCalled
 				|| IsToolTipsEnabled()
 				)
 		{
 			Common.HotRegionsList.ProcessChartMode = ProcessMode.HotRegions | ProcessMode.Paint;
 
-			this.Common.HotRegionsList.hitTestCalled = false;
+			Common.HotRegionsList.hitTestCalled = false;
 
 			// Clear list of hot regions
 			if (paintTopLevelElementOnly)
 			{
 				// If repainting only top level elements (annotations) -
 				// clear top level objects hot regions only
-				for (int index = 0; index < this.Common.HotRegionsList.List.Count; index++)
+				for (int index = 0; index < Common.HotRegionsList.List.Count; index++)
 				{
-					HotRegion region = (HotRegion)this.Common.HotRegionsList.List[index];
+					HotRegion region = (HotRegion)Common.HotRegionsList.List[index];
 					if (region.Type == ChartElementType.Annotation)
 					{
-						this.Common.HotRegionsList.List.RemoveAt(index);
+						Common.HotRegionsList.List.RemoveAt(index);
 						--index;
 					}
 				}
@@ -1517,16 +1474,15 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		// Reset hot region list
 		if (resetHotRegionList)
 		{
-			this.Common.HotRegionsList.Clear();
+			Common.HotRegionsList.Clear();
 		}
 
 		// Check if control was data bound
-		ChartImage chartImage = this as ChartImage;
-		if (chartImage != null && !chartImage.boundToDataSource)
+		if (this is ChartImage chartImage && !chartImage._boundToDataSource)
 		{
-			if (this.Common != null && this.Common.Chart != null && !this.Common.Chart.IsDesignMode())
+			if (Common != null && Common.Chart != null && !Common.Chart.IsDesignMode())
 			{
-				this.Common.Chart.DataBind();
+				Common.Chart.DataBind();
 			}
 		}
 
@@ -1536,8 +1492,8 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		Common.graph = ChartGraph;
 
 		// Set anti alias mode
-		ChartGraph.AntiAliasing = _antiAliasing;
-		ChartGraph.softShadows = _isSoftShadows;
+		ChartGraph.AntiAliasing = AntiAliasing;
+		ChartGraph.softShadows = IsSoftShadows;
 		ChartGraph.TextRenderingHint = GetTextRenderingHint();
 
 		try
@@ -1546,14 +1502,14 @@ internal class ChartPicture : ChartElement, IServiceProvider
 			if (!paintTopLevelElementOnly)
 			{
 				// Fire Before Paint event
-				OnBeforePaint(new ChartPaintEventArgs(this.Chart, this.ChartGraph, this.Common, new ElementPosition(0, 0, 100, 100)));
+				OnBeforePaint(new ChartPaintEventArgs(Chart, ChartGraph, Common, new ElementPosition(0, 0, 100, 100)));
 
 				// Flag indicates that resize method should be called
 				// after adjusting the intervals in 3D charts
 				bool resizeAfterIntervalAdjusting = false;
 
 				// RecalculateAxesScale paint chart areas
-				foreach (ChartArea area in _chartAreas)
+				foreach (ChartArea area in ChartAreas)
 				{
 
 					// Check if area is visible
@@ -1573,7 +1529,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 				}
 
 				// Call Customize event
-				this.Common.Chart.CallOnCustomize();
+				Common.Chart.CallOnCustomize();
 
 				// Resize picture
 				Resize(ChartGraph, resizeAfterIntervalAdjusting);
@@ -1582,7 +1538,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 				// This code is introduce because labels has to
 				// be changed when scene is rotated.
 				bool intervalReCalculated = false;
-				foreach (ChartArea area in _chartAreas)
+				foreach (ChartArea area in ChartAreas)
 				{
 					if (area.Area3DStyle.Enable3D &&
 						!area.chartAreaIsCurcular
@@ -1609,7 +1565,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 					if (intervalReCalculated)
 					{
 						// Call Customize event
-						this.Common.Chart.CallOnCustomize();
+						Common.Chart.CallOnCustomize();
 					}
 
 					// Resize chart elements
@@ -1624,7 +1580,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 				{
 					// Fill rectangle with page color
 					ChartGraph.FillRectangleAbs(new RectangleF(0, 0, Width - 1, Height - 1),
-						_borderSkin.PageColor,
+						BorderSkin.PageColor,
 						ChartHatchStyle.None,
 						"",
 						ChartImageWrapMode.Tile,
@@ -1632,15 +1588,15 @@ internal class ChartPicture : ChartElement, IServiceProvider
 						ChartImageAlignmentStyle.Center,
 						GradientStyle.None,
 						Color.Empty,
-						_borderSkin.PageColor,
+						BorderSkin.PageColor,
 						1,
 						ChartDashStyle.Solid,
 						PenAlignment.Inset);
 
 					// Draw 3D border
 					ChartGraph.Draw3DBorderAbs(
-						_borderSkin,
-						this._chartBorderPosition,
+						BorderSkin,
+						_chartBorderPosition,
 						BackColor,
 						BackHatchStyle,
 						BackImage,
@@ -1673,10 +1629,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 				}
 
 				// Call BackPaint event
-				this.Chart.CallOnPrePaint(new ChartPaintEventArgs(this.Chart, this.ChartGraph, this.Common, new ElementPosition(0, 0, 100, 100)));
+				Chart.CallOnPrePaint(new ChartPaintEventArgs(Chart, ChartGraph, Common, new ElementPosition(0, 0, 100, 100)));
 
 				// Call paint function for each chart area.
-				foreach (ChartArea area in _chartAreas)
+				foreach (ChartArea area in ChartAreas)
 				{
 
 					// Check if area is visible
@@ -1690,36 +1646,36 @@ internal class ChartPicture : ChartElement, IServiceProvider
 				// This code is introduced because of GetPointsInterval method,
 				// which is very time consuming. There is no reason to calculate
 				// interval after painting.
-				foreach (ChartArea area in _chartAreas)
+				foreach (ChartArea area in ChartAreas)
 				{
 					// Reset interval data
 					area.intervalData = double.NaN;
 				}
 
 				// Draw Legends
-				foreach (Legend legendCurrent in this.Legends)
+				foreach (Legend legendCurrent in Legends)
 				{
 					legendCurrent.Paint(ChartGraph);
 				}
 
 				// Draw chart titles from the collection
-				foreach (Title titleCurrent in this.Titles)
+				foreach (Title titleCurrent in Titles)
 				{
 					titleCurrent.Paint(ChartGraph);
 				}
 
 				// Call Paint event
-				this.Chart.CallOnPostPaint(new ChartPaintEventArgs(this.Chart, this.ChartGraph, this.Common, new ElementPosition(0, 0, 100, 100)));
+				Chart.CallOnPostPaint(new ChartPaintEventArgs(Chart, ChartGraph, Common, new ElementPosition(0, 0, 100, 100)));
 			}
 
 			// Draw annotation objects
-			this.Annotations.Paint(ChartGraph, paintTopLevelElementOnly);
+			Annotations.Paint(ChartGraph, paintTopLevelElementOnly);
 
 			// Draw chart areas cursors in all areas.
 			// Only if not in selection
-			if (!this.isSelectionMode)
+			if (!_isSelectionMode)
 			{
-				foreach (ChartArea area in _chartAreas)
+				foreach (ChartArea area in ChartAreas)
 				{
 
 					// Check if area is visible
@@ -1732,7 +1688,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 			}
 
 			// Return default values
-			foreach (ChartArea area in _chartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if area is visible
@@ -1744,17 +1700,17 @@ internal class ChartPicture : ChartElement, IServiceProvider
 				}
 			}
 		}
-		catch (System.Exception)
+		catch (Exception)
 		{
 			throw;
 		}
 		finally
 		{
 			// Fire After Paint event
-			OnAfterPaint(new ChartPaintEventArgs(this.Chart, this.ChartGraph, this.Common, new ElementPosition(0, 0, 100, 100)));
+			OnAfterPaint(new ChartPaintEventArgs(Chart, ChartGraph, Common, new ElementPosition(0, 0, 100, 100)));
 
 			// Restore temp values for each chart area
-			foreach (ChartArea area in _chartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if area is visible
@@ -1774,11 +1730,8 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// <param name="e">Event arguments.</param>
 	protected virtual void OnBeforePaint(ChartPaintEventArgs e)
 	{
-		if (BeforePaint != null)
-		{
-			//Invokes the delegates.
-			BeforePaint(this, e);
-		}
+		//Invokes the delegates.
+		BeforePaint?.Invoke(this, e);
 	}
 
 	/// <summary>
@@ -1787,19 +1740,15 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// <param name="e">Event arguments.</param>
 	protected virtual void OnAfterPaint(ChartPaintEventArgs e)
 	{
-		if (AfterPaint != null)
-		{
-			//Invokes the delegates.
-			AfterPaint(this, e);
-		}
+		//Invokes the delegates.
+		AfterPaint?.Invoke(this, e);
 	}
 
 	internal override void Invalidate()
 	{
 		base.Invalidate();
 
-		if (Chart != null)
-			Chart.Invalidate();
+		Chart?.Invalidate();
 	}
 	#endregion
 
@@ -1822,30 +1771,29 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	public void Resize(ChartGraphics chartGraph, bool calcAreaPositionOnly)
 	{
 		// Set the chart size for Common elements
-		Common.Width = _width;
-		Common.Height = _height;
+		Common.Width = Width;
+		Common.Height = Height;
 
 		// Set the chart size for Chart graphics
-		chartGraph.SetPictureSize(_width, _height);
+		chartGraph.SetPictureSize(Width, Height);
 
 		// Initialize chart area(s) rectangle
-		RectangleF chartAreasRectangle = new RectangleF(0, 0, _width - 1, _height - 1);
+		RectangleF chartAreasRectangle = new(0, 0, Width - 1, Height - 1);
 		chartAreasRectangle = chartGraph.GetRelativeRectangle(chartAreasRectangle);
 
 		//******************************************************
 		//** Get the 3D border interface
 		//******************************************************
 		_titlePosition = RectangleF.Empty;
-		IBorderType border3D = null;
 		bool titleInBorder = false;
 
-		if (_borderSkin.SkinStyle != BorderSkinStyle.None)
+		if (BorderSkin.SkinStyle != BorderSkinStyle.None)
 		{
 			// Set border size
-			this._chartBorderPosition = chartGraph.GetAbsoluteRectangle(chartAreasRectangle);
+			_chartBorderPosition = chartGraph.GetAbsoluteRectangle(chartAreasRectangle);
 
 			// Get border interface
-			border3D = Common.BorderTypeRegistry.GetBorderType(_borderSkin.SkinStyle.ToString());
+			IBorderType border3D = Common.BorderTypeRegistry.GetBorderType(BorderSkin.SkinStyle.ToString());
 			if (border3D != null)
 			{
 				border3D.Resolution = chartGraph.Graphics.DpiX;
@@ -1868,32 +1816,32 @@ internal class ChartPicture : ChartElement, IServiceProvider
 			frameTitlePosition = new RectangleF(_titlePosition.Location, _titlePosition.Size);
 		}
 
-		foreach (Title title in this.Titles)
+		foreach (Title title in Titles)
 		{
 			if (title.DockedToChartArea == Constants.NotSetValue &&
 			title.Position.Auto &&
 			title.Visible)
 			{
-				title.CalcTitlePosition(chartGraph, ref chartAreasRectangle, ref frameTitlePosition, elementSpacing);
+				title.CalcTitlePosition(chartGraph, ref chartAreasRectangle, ref frameTitlePosition, ElementSpacing);
 			}
 		}
 
 		//******************************************************
 		//** Calculate position of all legends in the collection
 		//******************************************************
-		this.Legends.CalcLegendPosition(chartGraph, ref chartAreasRectangle, elementSpacing);
+		Legends.CalcLegendPosition(chartGraph, ref chartAreasRectangle, ElementSpacing);
 
 		//******************************************************
 		//** Calculate position of the chart area(s)
 		//******************************************************
-		chartAreasRectangle.Width -= elementSpacing;
-		chartAreasRectangle.Height -= elementSpacing;
-		RectangleF areaPosition = new RectangleF();
+		chartAreasRectangle.Width -= ElementSpacing;
+		chartAreasRectangle.Height -= ElementSpacing;
+		RectangleF areaPosition = new();
 
 
 		// Get number of chart areas that requeres automatic positioning
 		int areaNumber = 0;
-		foreach (ChartArea area in _chartAreas)
+		foreach (ChartArea area in ChartAreas)
 		{
 
 			// Check if area is visible
@@ -1919,7 +1867,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		// Set position for all areas
 		int column = 0;
 		int row = 0;
-		foreach (ChartArea area in _chartAreas)
+		foreach (ChartArea area in ChartAreas)
 		{
 
 			// Check if area is visible
@@ -1929,16 +1877,16 @@ internal class ChartPicture : ChartElement, IServiceProvider
 				if (area.Position.Auto)
 				{
 					// Calculate area position
-					areaPosition.Width = chartAreasRectangle.Width / areaColumns - elementSpacing;
-					areaPosition.Height = chartAreasRectangle.Height / areaRows - elementSpacing;
-					areaPosition.X = chartAreasRectangle.X + column * (chartAreasRectangle.Width / areaColumns) + elementSpacing;
-					areaPosition.Y = chartAreasRectangle.Y + row * (chartAreasRectangle.Height / areaRows) + elementSpacing;
+					areaPosition.Width = chartAreasRectangle.Width / areaColumns - ElementSpacing;
+					areaPosition.Height = chartAreasRectangle.Height / areaRows - ElementSpacing;
+					areaPosition.X = chartAreasRectangle.X + column * (chartAreasRectangle.Width / areaColumns) + ElementSpacing;
+					areaPosition.Y = chartAreasRectangle.Y + row * (chartAreasRectangle.Height / areaRows) + ElementSpacing;
 
 					// Calculate position of all titles in the collection docked outside of the chart area
-					TitleCollection.CalcOutsideTitlePosition(this, chartGraph, area, ref areaPosition, elementSpacing);
+					TitleCollection.CalcOutsideTitlePosition(this, chartGraph, area, ref areaPosition, ElementSpacing);
 
 					// Calculate position of the legend if it's docked outside of the chart area
-					this.Legends.CalcOutsideLegendPosition(chartGraph, area, ref areaPosition, elementSpacing);
+					Legends.CalcOutsideLegendPosition(chartGraph, area, ref areaPosition, ElementSpacing);
 
 					// Set area position without changing the Auto flag
 					area.Position.SetPositionNoAuto(areaPosition.X, areaPosition.Y, areaPosition.Width, areaPosition.Height);
@@ -1956,10 +1904,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 					RectangleF rect = area.Position.ToRectangleF();
 
 					// Calculate position of all titles in the collection docked outside of the chart area
-					TitleCollection.CalcOutsideTitlePosition(this, chartGraph, area, ref rect, elementSpacing);
+					TitleCollection.CalcOutsideTitlePosition(this, chartGraph, area, ref rect, ElementSpacing);
 
 					// Calculate position of the legend if it's docked outside of the chart area
-					this.Legends.CalcOutsideLegendPosition(chartGraph, area, ref rect, elementSpacing);
+					Legends.CalcOutsideLegendPosition(chartGraph, area, ref rect, ElementSpacing);
 				}
 			}
 		}
@@ -1978,7 +1926,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 			//******************************************************
 			//** Call Resize function for each chart area.
 			//******************************************************
-			foreach (ChartArea area in _chartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if area is visible
@@ -2000,9 +1948,9 @@ internal class ChartPicture : ChartElement, IServiceProvider
 			//******************************************************
 
 			// Calculate position of all titles in the collection docked outside of the chart area
-			TitleCollection.CalcInsideTitlePosition(this, chartGraph, elementSpacing);
+			TitleCollection.CalcInsideTitlePosition(this, chartGraph, ElementSpacing);
 
-			this.Legends.CalcInsideLegendPosition(chartGraph, elementSpacing);
+			Legends.CalcInsideLegendPosition(chartGraph, ElementSpacing);
 		}
 	}
 
@@ -2015,10 +1963,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// </summary>
 	internal void ResetMinMaxFromData()
 	{
-		if (_chartAreas != null)
+		if (ChartAreas != null)
 		{
 			// Call ResetMinMaxFromData function for each chart area.
-			foreach (ChartArea area in _chartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if area is visible
@@ -2036,7 +1984,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	public void Recalculate()
 	{
 		// Call ReCalc function for each chart area.
-		foreach (ChartArea area in _chartAreas)
+		foreach (ChartArea area in ChartAreas)
 		{
 
 			// Check if area is visible
@@ -2063,11 +2011,11 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	{
 		get
 		{
-			return this.Common.Chart.RightToLeft;
+			return Common.Chart.RightToLeft;
 		}
 		set
 		{
-			this.Common.Chart.RightToLeft = value;
+			Common.Chart.RightToLeft = value;
 		}
 	}
 
@@ -2079,17 +2027,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeSuppressExceptions"),
 	]
-	internal bool SuppressExceptions
-	{
-		set
-		{
-			_suppressExceptions = value;
-		}
-		get
-		{
-			return _suppressExceptions;
-		}
-	}
+	internal bool SuppressExceptions { set; get; } = false;
 
 	/// <summary>
 	/// Chart border skin style.
@@ -2100,17 +2038,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	DefaultValue(BorderSkinStyle.None),
 	SRDescription("DescriptionAttributeBorderSkin"),
 	]
-	public BorderSkin BorderSkin
-	{
-		get
-		{
-			return _borderSkin;
-		}
-		set
-		{
-			_borderSkin = value;
-		}
-	}
+	public BorderSkin BorderSkin { get; set; } = null;
 
 	/// <summary>
 	/// Reference to chart area collection
@@ -2121,13 +2049,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRDescription("DescriptionAttributeChartAreas"),
 		Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
 		]
-	public ChartAreaCollection ChartAreas
-	{
-		get
-		{
-			return _chartAreas;
-		}
-	}
+	public ChartAreaCollection ChartAreas { get; private set; } = null;
 
 	/// <summary>
 	/// Chart legend collection.
@@ -2137,13 +2059,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRDescription("DescriptionAttributeLegends"),
 		Editor(typeof(LegendCellCollectionEditor), typeof(UITypeEditor))
 		]
-	public LegendCollection Legends
-	{
-		get
-		{
-			return _legends;
-		}
-	}
+	public LegendCollection Legends { get; private set; } = null;
 
 	/// <summary>
 	/// Chart title collection.
@@ -2153,13 +2069,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRDescription("DescriptionAttributeTitles"),
 		Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
 		]
-	public TitleCollection Titles
-	{
-		get
-		{
-			return _titles;
-		}
-	}
+	public TitleCollection Titles { get; private set; } = null;
 
 
 
@@ -2171,13 +2081,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRDescription("DescriptionAttributeAnnotations3"),
 		Editor(typeof(AnnotationCollectionEditor), (typeof(UITypeEditor)))
 	]
-	public AnnotationCollection Annotations
-	{
-		get
-		{
-			return _annotations;
-		}
-	}
+	public AnnotationCollection Annotations { get; private set; } = null;
 
 	/// <summary>
 	/// Background color for the Chart
@@ -2190,17 +2094,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), (typeof(UITypeEditor)))
 		]
-	public Color BackColor
-	{
-		get
-		{
-			return _backColor;
-		}
-		set
-		{
-			_backColor = value;
-		}
-	}
+	public Color BackColor { get; set; } = Color.White;
 
 	/// <summary>
 	/// Border color for the Chart
@@ -2214,17 +2108,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), (typeof(UITypeEditor)))
 		]
-	public Color BorderColor
-	{
-		get
-		{
-			return _borderColor;
-		}
-		set
-		{
-			_borderColor = value;
-		}
-	}
+	public Color BorderColor { get; set; } = Color.White;
 
 	/// <summary>
 	/// Chart width
@@ -2237,17 +2121,13 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	]
 	public int Width
 	{
-		get
+		get; set
 		{
-			return _width;
+			InspectChartDimensions(value, Height);
+			field = value;
+			Common.Width = field;
 		}
-		set
-		{
-			this.InspectChartDimensions(value, this.Height);
-			_width = value;
-			Common.Width = _width;
-		}
-	}
+	} = 300;
 
 	/// <summary>
 	/// Series Data Manipulator
@@ -2256,16 +2136,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRCategory("CategoryAttributeData"),
 	SRDescription("DescriptionAttributeDataManipulator"),
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
-	public DataManipulator DataManipulator
-	{
-		get
-		{
-			return _dataManipulator;
-		}
-	}
+	public DataManipulator DataManipulator { get; } = new();
 
 	/// <summary>
 	/// Chart height
@@ -2278,17 +2152,13 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	]
 	public int Height
 	{
-		get
+		get; set
 		{
-			return _height;
-		}
-		set
-		{
-			this.InspectChartDimensions(this.Width, value);
-			_height = value;
+			InspectChartDimensions(Width, value);
+			field = value;
 			Common.Height = value;
 		}
-	}
+	} = 300;
 
 	/// <summary>
 	/// Back Hatch style
@@ -2301,17 +2171,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
-	public ChartHatchStyle BackHatchStyle
-	{
-		get
-		{
-			return _backHatchStyle;
-		}
-		set
-		{
-			_backHatchStyle = value;
-		}
-	}
+	public ChartHatchStyle BackHatchStyle { get; set; } = ChartHatchStyle.None;
 
 	/// <summary>
 	/// Chart area background image
@@ -2322,19 +2182,9 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	DefaultValue(""),
 		SRDescription("DescriptionAttributeBackImage"),
 		Editor(typeof(ImageValueEditor), (typeof(UITypeEditor))),
-		NotifyParentPropertyAttribute(true)
+		NotifyParentProperty(true)
 	]
-	public string BackImage
-	{
-		get
-		{
-			return _backImage;
-		}
-		set
-		{
-			_backImage = value;
-		}
-	}
+	public string BackImage { get; set; } = "";
 
 	/// <summary>
 	/// Chart area background image drawing mode.
@@ -2343,20 +2193,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageWrapMode.Tile),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageWrapMode"),
 	]
-	public ChartImageWrapMode BackImageWrapMode
-	{
-		get
-		{
-			return _backImageWrapMode;
-		}
-		set
-		{
-			_backImageWrapMode = value;
-		}
-	}
+	public ChartImageWrapMode BackImageWrapMode { get; set; } = ChartImageWrapMode.Tile;
 
 	/// <summary>
 	/// Background image transparent color.
@@ -2365,22 +2205,12 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageTransparentColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color BackImageTransparentColor
-	{
-		get
-		{
-			return _backImageTransparentColor;
-		}
-		set
-		{
-			_backImageTransparentColor = value;
-		}
-	}
+	public Color BackImageTransparentColor { get; set; } = Color.Empty;
 
 	/// <summary>
 	/// Background image alignment used by ClampUnscale drawing mode.
@@ -2389,20 +2219,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageAlignmentStyle.TopLeft),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackImageAlign"),
 	]
-	public ChartImageAlignmentStyle BackImageAlignment
-	{
-		get
-		{
-			return _backImageAlign;
-		}
-		set
-		{
-			_backImageAlign = value;
-		}
-	}
+	public ChartImageAlignmentStyle BackImageAlignment { get; set; } = ChartImageAlignmentStyle.TopLeft;
 
 	/// <summary>
 	/// Indicates that smoothing is applied while drawing shadows.
@@ -2413,17 +2233,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeSoftShadows3"),
 	]
-	public bool IsSoftShadows
-	{
-		get
-		{
-			return _isSoftShadows;
-		}
-		set
-		{
-			_isSoftShadows = value;
-		}
-	}
+	public bool IsSoftShadows { get; set; } = true;
 
 	/// <summary>
 	/// Specifies whether smoothing (antialiasing) is applied while drawing chart.
@@ -2434,17 +2244,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	DefaultValue(typeof(AntiAliasingStyles), "All"),
 	SRDescription("DescriptionAttributeAntiAlias"),
 	]
-	public AntiAliasingStyles AntiAliasing
-	{
-		get
-		{
-			return _antiAliasing;
-		}
-		set
-		{
-			_antiAliasing = value;
-		}
-	}
+	public AntiAliasingStyles AntiAliasing { get; set; } = AntiAliasingStyles.All;
 
 	/// <summary>
 	/// Specifies the quality of text antialiasing.
@@ -2455,17 +2255,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	DefaultValue(typeof(TextAntiAliasingQuality), "High"),
 	SRDescription("DescriptionAttributeTextAntiAliasingQuality"),
 	]
-	public TextAntiAliasingQuality TextAntiAliasingQuality
-	{
-		get
-		{
-			return _textAntiAliasingQuality;
-		}
-		set
-		{
-			_textAntiAliasingQuality = value;
-		}
-	}
+	public TextAntiAliasingQuality TextAntiAliasingQuality { get; set; } = TextAntiAliasingQuality.High;
 
 	/// <summary>
 	/// A type for the background gradient
@@ -2478,17 +2268,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
-	public GradientStyle BackGradientStyle
-	{
-		get
-		{
-			return _backGradientStyle;
-		}
-		set
-		{
-			_backGradientStyle = value;
-		}
-	}
+	public GradientStyle BackGradientStyle { get; set; } = GradientStyle.None;
 
 	/// <summary>
 	/// The second color which is used for a gradient
@@ -2502,17 +2282,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color BackSecondaryColor
-	{
-		get
-		{
-			return _backSecondaryColor;
-		}
-		set
-		{
-			_backSecondaryColor = value;
-		}
-	}
+	public Color BackSecondaryColor { get; set; } = Color.Empty;
 
 	/// <summary>
 	/// The width of the border line
@@ -2526,20 +2296,16 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	]
 	public int BorderWidth
 	{
-		get
-		{
-			return _borderWidth;
-		}
-		set
+		get; set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartBorderIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionChartBorderIsNegative));
 			}
 
-			_borderWidth = value;
+			field = value;
 		}
-	}
+	} = 1;
 
 	/// <summary>
 	/// The style of the border line
@@ -2551,26 +2317,13 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	DefaultValue(ChartDashStyle.NotSet),
 		SRDescription("DescriptionAttributeBorderDashStyle"),
 	]
-	public ChartDashStyle BorderDashStyle
-	{
-		get
-		{
-			return _borderDashStyle;
-		}
-		set
-		{
-			_borderDashStyle = value;
-		}
-	}
+	public ChartDashStyle BorderDashStyle { get; set; } = ChartDashStyle.NotSet;
 
 	/// <summary>
 	/// Gets the font cache.
 	/// </summary>
 	/// <value>The font cache.</value>
-	internal FontCache FontCache
-	{
-		get { return _fontCache; }
-	}
+	internal FontCache FontCache { get; private set; } = new();
 
 	#endregion
 
@@ -2586,7 +2339,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		bool alignmentRequired = false;
 
 		// Loop through all chart areas
-		foreach (ChartArea area in this.ChartAreas)
+		foreach (ChartArea area in ChartAreas)
 		{
 
 			// Check if chart area is visible
@@ -2599,7 +2352,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 					alignmentRequired = true;
 
 					// Check the chart area used for alignment
-					if (this._chartAreas.IndexOf(area.AlignWithChartArea) < 0)
+					if (ChartAreas.IndexOf(area.AlignWithChartArea) < 0)
 					{
 						throw (new InvalidOperationException(SR.ExceptionChartAreaNameReferenceInvalid(area.Name, area.AlignWithChartArea)));
 					}
@@ -2619,10 +2372,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// <returns>List of areas that area aligned to the master area.</returns>
 	private ArrayList GetAlignedAreasGroup(ChartArea masterArea, AreaAlignmentStyles type, AreaAlignmentOrientations orientation)
 	{
-		ArrayList areaList = new ArrayList();
+		ArrayList areaList = [];
 
 		// Loop throught the chart areas and get the ones aligned with specified master area
-		foreach (ChartArea area in this.ChartAreas)
+		foreach (ChartArea area in ChartAreas)
 		{
 
 			// Check if chart area is visible
@@ -2659,7 +2412,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		if (IsAreasAlignmentRequired())
 		{
 			// Loop through all chart areas
-			foreach (ChartArea area in this.ChartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if chart area is visible
@@ -2793,7 +2546,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		if (IsAreasAlignmentRequired())
 		{
 			// Loop through all chart areas
-			foreach (ChartArea area in this.ChartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if chart area is visible
@@ -2807,7 +2560,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 						RectangleF areaPosition = area.Position.ToRectangleF();
 
 						// Get master chart area
-						ChartArea masterArea = this.ChartAreas[area.AlignWithChartArea];
+						ChartArea masterArea = ChartAreas[area.AlignWithChartArea];
 
 						// Vertical alignment
 						if ((area.AlignmentOrientation & AreaAlignmentOrientations.Vertical) == AreaAlignmentOrientations.Vertical)
@@ -2845,7 +2598,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		if (IsAreasAlignmentRequired())
 		{
 			// Loop through all chart areas
-			foreach (ChartArea area in this.ChartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if chart area is visible
@@ -2912,7 +2665,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		if (IsAreasAlignmentRequired())
 		{
 			// Loop through all chart areas
-			foreach (ChartArea area in this.ChartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if chart area is visible
@@ -2967,7 +2720,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		if (IsAreasAlignmentRequired())
 		{
 			// Loop through all chart areas
-			foreach (ChartArea area in this.ChartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 
 				// Check if chart area is visible
@@ -3029,19 +2782,19 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// <param name="height">The height.</param>
 	internal void InspectChartDimensions(int width, int height)
 	{
-		if (this.Chart.IsDesignMode() && ((width * height) > (100 * 1024 * 1024)))
+		if (Chart.IsDesignMode() && ((width * height) > (100 * 1024 * 1024)))
 		{
 			throw new ArgumentException(SR.ExceptionChartOutOfLimits);
 		}
 
 		if (width < 0)
 		{
-			throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan("Width", "0px"));
+			throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan(nameof(Width), "0px"));
 		}
 
 		if (height < 0)
 		{
-			throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan("Height", "0px"));
+			throw new ArgumentException(SR.ExceptionValueMustBeGreaterThan(nameof(Height), "0px"));
 		}
 	}
 
@@ -3052,11 +2805,10 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	public void LoadTemplate(string name)
 	{
 		// Check arguments
-		if (name == null)
-			throw new ArgumentNullException("name");
+		ArgumentNullException.ThrowIfNull(name);
 
 		// Load template data into the stream
-		Stream stream = new FileStream(name, FileMode.Open, FileAccess.Read);
+		var stream = new FileStream(name, FileMode.Open, FileAccess.Read);
 
 		// Load template from stream
 		LoadTemplate(stream);
@@ -3072,10 +2824,9 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	public void LoadTemplate(Stream stream)
 	{
 		// Check arguments
-		if (stream == null)
-			throw new ArgumentNullException("stream");
+		ArgumentNullException.ThrowIfNull(stream);
 
-		ChartSerializer serializer = (ChartSerializer)this.Common.container.GetService(typeof(ChartSerializer));
+		ChartSerializer serializer = (ChartSerializer)Common.container.GetService(typeof(ChartSerializer));
 		if (serializer != null)
 		{
 			// Save previous serializer properties
@@ -3127,7 +2878,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	{
 		// Check if default title exists
 		Title defaultTitle = null;
-		foreach (Title title in this.Titles)
+		foreach (Title title in Titles)
 		{
 			if (title.Name == "Default Title")
 			{
@@ -3138,9 +2889,11 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		// Create new default title
 		if (defaultTitle == null && create)
 		{
-			defaultTitle = new Title();
-			defaultTitle.Name = "Default Title";
-			this.Titles.Insert(0, defaultTitle);
+			defaultTitle = new Title
+			{
+				Name = "Default Title"
+			};
+			Titles.Insert(0, defaultTitle);
 		}
 
 		return defaultTitle;
@@ -3232,59 +2985,32 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		if (disposing)
 		{
 			// Dispose managed resources
-			if (ChartGraph != null)
-			{
-				ChartGraph.Dispose();
-				ChartGraph = null;
-			}
+			ChartGraph?.Dispose();
+			ChartGraph = null;
 
-			if (_legends != null)
-			{
-				_legends.Dispose();
-				_legends = null;
-			}
+			Legends?.Dispose();
+			Legends = null;
 
-			if (_titles != null)
-			{
-				_titles.Dispose();
-				_titles = null;
-			}
+			Titles?.Dispose();
+			Titles = null;
 
-			if (_chartAreas != null)
-			{
-				_chartAreas.Dispose();
-				_chartAreas = null;
-			}
+			ChartAreas?.Dispose();
+			ChartAreas = null;
 
-			if (_annotations != null)
-			{
-				_annotations.Dispose();
-				_annotations = null;
-			}
+			Annotations?.Dispose();
+			Annotations = null;
 
-			if (hotRegionsList != null)
-			{
-				hotRegionsList.Dispose();
-				hotRegionsList = null;
-			}
+			_hotRegionsList?.Dispose();
+			_hotRegionsList = null;
 
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			FontCache?.Dispose();
+			FontCache = null;
 
-			if (_borderSkin != null)
-			{
-				_borderSkin.Dispose();
-				_borderSkin = null;
-			}
+			BorderSkin?.Dispose();
+			BorderSkin = null;
 
-			if (nonTopLevelChartBuffer != null)
-			{
-				nonTopLevelChartBuffer.Dispose();
-				nonTopLevelChartBuffer = null;
-			}
+			_nonTopLevelChartBuffer?.Dispose();
+			_nonTopLevelChartBuffer = null;
 		}
 
 		base.Dispose(disposing);
@@ -3301,12 +3027,6 @@ public class ChartPaintEventArgs : EventArgs
 	#region Fields
 
 	// Private fields
-	private object _chartElement = null;
-	private ChartGraphics _chartGraph = null;
-	private CommonElements _common = null;
-	private Chart _chart = null;
-	private ElementPosition _position = null;
-
 	#endregion
 
 	#region Properties
@@ -3316,47 +3036,23 @@ public class ChartPaintEventArgs : EventArgs
 	/// Gets the chart element of the event.
 	/// </summary>
 	/// <value>The chart element.</value>
-	public object ChartElement
-	{
-		get
-		{
-			return _chartElement;
-		}
-	}
+	public object ChartElement { get; } = null;
 
 
 	/// <summary>
 	/// Gets the ChartGraphics object of the event.
 	/// </summary>
-	public ChartGraphics ChartGraphics
-	{
-		get
-		{
-			return _chartGraph;
-		}
-	}
+	public ChartGraphics ChartGraphics { get; } = null;
 
 	/// <summary>
 	/// Chart Common elements.
 	/// </summary>
-	internal CommonElements CommonElements
-	{
-		get
-		{
-			return _common;
-		}
-	}
+	internal CommonElements CommonElements { get; } = null;
 
 	/// <summary>
 	/// Chart element position in relative coordinates of the event.
 	/// </summary>
-	public ElementPosition Position
-	{
-		get
-		{
-			return _position;
-		}
-	}
+	public ElementPosition Position { get; } = null;
 
 	/// <summary>
 	/// Chart object of the event.
@@ -3365,14 +3061,14 @@ public class ChartPaintEventArgs : EventArgs
 	{
 		get
 		{
-			if (_chart == null && _common != null)
+			if (field == null && CommonElements != null)
 			{
-				_chart = _common.Chart;
+				field = CommonElements.Chart;
 			}
 
-			return _chart;
+			return field;
 		}
-	}
+	} = null;
 
 	#endregion
 
@@ -3394,10 +3090,10 @@ public class ChartPaintEventArgs : EventArgs
 	/// <param name="position">Position.</param>
 	internal ChartPaintEventArgs(object chartElement, ChartGraphics chartGraph, CommonElements common, ElementPosition position)
 	{
-		this._chartElement = chartElement;
-		this._chartGraph = chartGraph;
-		this._common = common;
-		this._position = position;
+		ChartElement = chartElement;
+		ChartGraphics = chartGraph;
+		CommonElements = common;
+		Position = position;
 	}
 
 	#endregion
@@ -3411,13 +3107,6 @@ public class FormatNumberEventArgs : EventArgs
 	#region Fields
 
 	// Private fields
-	private double _value;
-	private string _format;
-	private string _localizedValue;
-	private ChartValueType _valueType = ChartValueType.Auto;
-	private object _senderTag;
-	private ChartElementType _elementType = ChartElementType.Nothing;
-
 	#endregion
 
 	#region Properties
@@ -3425,51 +3114,32 @@ public class FormatNumberEventArgs : EventArgs
 	/// <summary>
 	/// Value to be formatted.
 	/// </summary>
-	public double Value
-	{
-		get { return this._value; }
-	}
+	public double Value { get; }
 
 	/// <summary>
 	/// Localized text.
 	/// </summary>
-	public string LocalizedValue
-	{
-		get { return _localizedValue; }
-		set { _localizedValue = value; }
-	}
+	public string LocalizedValue { get; set; }
 
 	/// <summary>
 	/// Format string.
 	/// </summary>
-	public string Format
-	{
-		get { return _format; }
-	}
+	public string Format { get; }
 
 	/// <summary>
 	/// Value type.
 	/// </summary>
-	public ChartValueType ValueType
-	{
-		get { return _valueType; }
-	}
+	public ChartValueType ValueType { get; } = ChartValueType.Auto;
 
 	/// <summary>
 	/// The sender object of the event.
 	/// </summary>
-	public object SenderTag
-	{
-		get { return _senderTag; }
-	}
+	public object SenderTag { get; }
 
 	/// <summary>
 	/// Chart element type.
 	/// </summary>
-	public ChartElementType ElementType
-	{
-		get { return _elementType; }
-	}
+	public ChartElementType ElementType { get; } = ChartElementType.Nothing;
 
 	#endregion
 
@@ -3493,12 +3163,12 @@ public class FormatNumberEventArgs : EventArgs
 	/// <param name="elementType">Chart element type.</param>
 	internal FormatNumberEventArgs(double value, string format, ChartValueType valueType, string localizedValue, object senderTag, ChartElementType elementType)
 	{
-		this._value = value;
-		this._format = format;
-		this._valueType = valueType;
-		this._localizedValue = localizedValue;
-		this._senderTag = senderTag;
-		this._elementType = elementType;
+		Value = value;
+		Format = format;
+		ValueType = valueType;
+		LocalizedValue = localizedValue;
+		SenderTag = senderTag;
+		ElementType = elementType;
 	}
 
 	#endregion
@@ -3513,8 +3183,6 @@ internal class FontCache : IDisposable
 	#region Static
 
 	// Default font family name
-	private static string _defaultFamilyName;
-
 	/// <summary>
 	/// Gets the default font family name.
 	/// </summary>
@@ -3523,25 +3191,22 @@ internal class FontCache : IDisposable
 	{
 		get
 		{
-			if (_defaultFamilyName == null)
+			if (field == null)
 			{
 				// Find the "Microsoft Sans Serif" font
 				foreach (FontFamily fontFamily in FontFamily.Families)
 				{
 					if (fontFamily.Name == "Microsoft Sans Serif")
 					{
-						_defaultFamilyName = fontFamily.Name;
+						field = fontFamily.Name;
 						break;
 					}
 				}
 				// Not found - use the default Sans Serif font
-				if (_defaultFamilyName == null)
-				{
-					_defaultFamilyName = FontFamily.GenericSansSerif.Name;
-				}
+				field ??= FontFamily.GenericSansSerif.Name;
 			}
 
-			return _defaultFamilyName;
+			return field;
 		}
 	}
 	#endregion
@@ -3549,7 +3214,7 @@ internal class FontCache : IDisposable
 	#region Fields
 
 	// Cached fonts dictionary
-	private Dictionary<KeyInfo, Font> _fontCache = new Dictionary<KeyInfo, Font>(new KeyInfo.EqualityComparer());
+	private readonly Dictionary<KeyInfo, Font> _fontCache = new(new KeyInfo.EqualityComparer());
 
 	#endregion // Fields
 
@@ -3560,7 +3225,7 @@ internal class FontCache : IDisposable
 	/// <value>The default font.</value>
 	public Font DefaultFont
 	{
-		get { return this.GetFont(DefaultFamilyName, 8); }
+		get { return GetFont(DefaultFamilyName, 8); }
 	}
 
 	/// <summary>
@@ -3569,7 +3234,7 @@ internal class FontCache : IDisposable
 	/// <value>The default font.</value>
 	public Font DefaultBoldFont
 	{
-		get { return this.GetFont(DefaultFamilyName, 8, FontStyle.Bold); }
+		get { return GetFont(DefaultFamilyName, 8, FontStyle.Bold); }
 	}
 	#endregion
 
@@ -3583,13 +3248,14 @@ internal class FontCache : IDisposable
 	/// <returns>Font instance</returns>
 	public Font GetFont(string familyName, int size)
 	{
-		KeyInfo key = new KeyInfo(familyName, size);
-		if (!this._fontCache.ContainsKey(key))
+		KeyInfo key = new(familyName, size);
+		if (!_fontCache.TryGetValue(key, out Font value))
 		{
-			this._fontCache.Add(key, new Font(familyName, size));
+			value = new Font(familyName, size);
+			_fontCache.Add(key, value);
 		}
 
-		return this._fontCache[key];
+		return value;
 	}
 
 	/// <summary>
@@ -3601,13 +3267,14 @@ internal class FontCache : IDisposable
 	/// <returns>Font instance</returns>
 	public Font GetFont(string familyName, float size, FontStyle style)
 	{
-		KeyInfo key = new KeyInfo(familyName, size, style);
-		if (!this._fontCache.ContainsKey(key))
+		KeyInfo key = new(familyName, size, style);
+		if (!_fontCache.TryGetValue(key, out Font value))
 		{
-			this._fontCache.Add(key, new Font(familyName, size, style));
+			value = new Font(familyName, size, style);
+			_fontCache.Add(key, value);
 		}
 
-		return this._fontCache[key];
+		return value;
 	}
 
 	/// <summary>
@@ -3619,13 +3286,14 @@ internal class FontCache : IDisposable
 	/// <returns>Font instance</returns>
 	public Font GetFont(FontFamily family, float size, FontStyle style)
 	{
-		KeyInfo key = new KeyInfo(family, size, style);
-		if (!this._fontCache.ContainsKey(key))
+		KeyInfo key = new(family, size, style);
+		if (!_fontCache.TryGetValue(key, out Font value))
 		{
-			this._fontCache.Add(key, new Font(family, size, style));
+			value = new Font(family, size, style);
+			_fontCache.Add(key, value);
 		}
 
-		return this._fontCache[key];
+		return value;
 	}
 
 	/// <summary>
@@ -3638,13 +3306,14 @@ internal class FontCache : IDisposable
 	/// <returns>Font instance</returns>
 	public Font GetFont(FontFamily family, float size, FontStyle style, GraphicsUnit unit)
 	{
-		KeyInfo key = new KeyInfo(family, size, style, unit);
-		if (!this._fontCache.ContainsKey(key))
+		KeyInfo key = new(family, size, style, unit);
+		if (!_fontCache.TryGetValue(key, out Font value))
 		{
-			this._fontCache.Add(key, new Font(family, size, style, unit));
+			value = new Font(family, size, style, unit);
+			_fontCache.Add(key, value);
 		}
 
-		return this._fontCache[key];
+		return value;
 	}
 
 	#endregion
@@ -3673,11 +3342,11 @@ internal class FontCache : IDisposable
 	/// </summary>
 	private class KeyInfo
 	{
-		string _familyName;
-		float _size = 8;
-		GraphicsUnit _unit = GraphicsUnit.Point;
-		FontStyle _style = FontStyle.Regular;
-		int _gdiCharSet = 1;
+		readonly string _familyName;
+		readonly float _size = 8;
+		readonly GraphicsUnit _unit = GraphicsUnit.Point;
+		readonly FontStyle _style = FontStyle.Regular;
+		readonly int _gdiCharSet = 1;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="KeyInfo"/> class.
@@ -3686,8 +3355,8 @@ internal class FontCache : IDisposable
 		/// <param name="size">The size.</param>
 		public KeyInfo(string familyName, float size)
 		{
-			this._familyName = familyName;
-			this._size = size;
+			_familyName = familyName;
+			_size = size;
 		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="KeyInfo"/> class.
@@ -3697,9 +3366,9 @@ internal class FontCache : IDisposable
 		/// <param name="style">The style.</param>
 		public KeyInfo(string familyName, float size, FontStyle style)
 		{
-			this._familyName = familyName;
-			this._size = size;
-			this._style = style;
+			_familyName = familyName;
+			_size = size;
+			_style = style;
 		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="KeyInfo"/> class.
@@ -3709,9 +3378,9 @@ internal class FontCache : IDisposable
 		/// <param name="style">The style.</param>
 		public KeyInfo(FontFamily family, float size, FontStyle style)
 		{
-			this._familyName = family.ToString();
-			this._size = size;
-			this._style = style;
+			_familyName = family.ToString();
+			_size = size;
+			_style = style;
 		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="KeyInfo"/> class.
@@ -3722,10 +3391,10 @@ internal class FontCache : IDisposable
 		/// <param name="unit">The unit.</param>
 		public KeyInfo(FontFamily family, float size, FontStyle style, GraphicsUnit unit)
 		{
-			this._familyName = family.ToString();
-			this._size = size;
-			this._style = style;
-			this._unit = unit;
+			_familyName = family.ToString();
+			_size = size;
+			_style = style;
+			_unit = unit;
 		}
 
 		#region IEquatable<FontKeyInfo> Members

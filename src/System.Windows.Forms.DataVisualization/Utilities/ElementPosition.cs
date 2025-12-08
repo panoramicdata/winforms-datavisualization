@@ -79,11 +79,11 @@ public class ElementPosition : ChartElement
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public ElementPosition(float x, float y, float width, float height)
 	{
-		this._auto = false;
-		this._x = x;
-		this._y = y;
-		this._width = width;
-		this._height = height;
+		_auto = false;
+		_x = x;
+		_y = y;
+		_width = width;
+		_height = height;
 	}
 
 	#endregion
@@ -130,14 +130,13 @@ public class ElementPosition : ChartElement
 						}
 
 
-						IDesignerMessageBoxDialog confirm = Chart.Site.GetService(typeof(IDesignerMessageBoxDialog)) as IDesignerMessageBoxDialog;
-						if (confirm != null && confirm.ShowQuestion(message))
+						if (Chart.Site.GetService(typeof(IDesignerMessageBoxDialog)) is IDesignerMessageBoxDialog confirm && confirm.ShowQuestion(message))
 						{
 							foreach (ChartArea area in Chart.ChartAreas)
 							{
 								if (autoValue)
 								{
-									this.SetPositionNoAuto(0f, 0f, 0f, 0f);
+									SetPositionNoAuto(0f, 0f, 0f, 0f);
 								}
 
 								area.Position._auto = autoValue;
@@ -166,13 +165,15 @@ public class ElementPosition : ChartElement
 	public void FromRectangleF(RectangleF rect)
 	{
 		if (rect == null)
-			throw new ArgumentNullException("rect");
+		{
+			throw new ArgumentNullException(nameof(rect));
+		}
 
-		this._x = rect.X;
-		this._y = rect.Y;
-		this._width = rect.Width;
-		this._height = rect.Height;
-		this._auto = false;
+		_x = rect.X;
+		_y = rect.Y;
+		_width = rect.Width;
+		_height = rect.Height;
+		_auto = false;
 	}
 
 	/// <summary>
@@ -183,7 +184,7 @@ public class ElementPosition : ChartElement
 	[Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)]
 	public SizeF Size
 	{
-		get { return new SizeF(this._width, this._height); }
+		get { return new SizeF(_width, _height); }
 	}
 
 	/// <summary>
@@ -194,7 +195,7 @@ public class ElementPosition : ChartElement
 	[Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)]
 	public float Bottom
 	{
-		get { return this._y + this._height; }
+		get { return _y + _height; }
 	}
 
 	/// <summary>
@@ -205,7 +206,7 @@ public class ElementPosition : ChartElement
 	[Utilities.SerializationVisibility(Utilities.SerializationVisibility.Hidden)]
 	public float Right
 	{
-		get { return this._x + this._width; }
+		get { return _x + _width; }
 	}
 
 	/// <summary>
@@ -215,15 +216,14 @@ public class ElementPosition : ChartElement
 	/// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
 	internal override bool EqualsInternal(object obj)
 	{
-		ElementPosition pos = obj as ElementPosition;
-		if (pos != null)
+		if (obj is ElementPosition pos)
 		{
-			if (this._auto == true && this._auto == pos._auto)
+			if (_auto == true && _auto == pos._auto)
 			{
 				return true;
 			}
-			else if (this._x == pos._x && this._y == pos._y &&
-					this._width == pos._width && this._height == pos._height)
+			else if (_x == pos._x && _y == pos._y &&
+					_width == pos._width && _height == pos._height)
 			{
 				return true;
 			}
@@ -240,13 +240,13 @@ public class ElementPosition : ChartElement
 	internal override string ToStringInternal()
 	{
 		string posString = Constants.AutoValue;
-		if (!this._auto)
+		if (!_auto)
 		{
 			posString =
-				this._x.ToString(System.Globalization.CultureInfo.CurrentCulture) + ", " +
-				this._y.ToString(System.Globalization.CultureInfo.CurrentCulture) + ", " +
-				this._width.ToString(System.Globalization.CultureInfo.CurrentCulture) + ", " +
-				this._height.ToString(System.Globalization.CultureInfo.CurrentCulture);
+				_x.ToString(Globalization.CultureInfo.CurrentCulture) + ", " +
+				_y.ToString(Globalization.CultureInfo.CurrentCulture) + ", " +
+				_width.ToString(Globalization.CultureInfo.CurrentCulture) + ", " +
+				_height.ToString(Globalization.CultureInfo.CurrentCulture);
 		}
 
 		return posString;
@@ -261,12 +261,12 @@ public class ElementPosition : ChartElement
 	/// <param name="height">Height.</param>
 	internal void SetPositionNoAuto(float x, float y, float width, float height)
 	{
-		bool oldValue = this._auto;
-		this._x = x;
-		this._y = y;
-		this._width = width;
-		this._height = height;
-		this._auto = oldValue;
+		bool oldValue = _auto;
+		_x = x;
+		_y = y;
+		_width = width;
+		_height = height;
+		_auto = oldValue;
 	}
 
 	#endregion
@@ -281,8 +281,8 @@ public class ElementPosition : ChartElement
 	Bindable(true),
 	DefaultValue(0.0F),
 	SRDescription("DescriptionAttributeElementPosition_X"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All),
 		SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")
 		]
 	public float X
@@ -295,7 +295,7 @@ public class ElementPosition : ChartElement
 		{
 			if (value < 0.0 || value > 100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 			}
 
 			_x = value;
@@ -307,7 +307,7 @@ public class ElementPosition : ChartElement
 				Width = 100 - _x;
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -319,8 +319,8 @@ public class ElementPosition : ChartElement
 	Bindable(true),
 	DefaultValue(0.0F),
 	SRDescription("DescriptionAttributeElementPosition_Y"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All),
 		SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")
 		]
 	public float Y
@@ -333,7 +333,7 @@ public class ElementPosition : ChartElement
 		{
 			if (value < 0.0 || value > 100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 			}
 
 			_y = value;
@@ -345,7 +345,7 @@ public class ElementPosition : ChartElement
 				Height = 100 - _y;
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -357,8 +357,8 @@ public class ElementPosition : ChartElement
 	Bindable(true),
 	DefaultValue(0.0F),
 	SRDescription("DescriptionAttributeElementPosition_Width"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All)
 	]
 	public float Width
 	{
@@ -370,7 +370,7 @@ public class ElementPosition : ChartElement
 		{
 			if (value < 0.0 || value > 100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 			}
 
 			_width = value;
@@ -382,7 +382,7 @@ public class ElementPosition : ChartElement
 				_x = 100 - Width;
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -394,8 +394,8 @@ public class ElementPosition : ChartElement
 	Bindable(true),
 	DefaultValue(0.0F),
 	SRDescription("DescriptionAttributeElementPosition_Height"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All)
 	]
 	public float Height
 	{
@@ -407,7 +407,7 @@ public class ElementPosition : ChartElement
 		{
 			if (value < 0.0 || value > 100.0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionElementPositionArgumentOutOfRange));
 			}
 
 			_height = value;
@@ -420,7 +420,7 @@ public class ElementPosition : ChartElement
 
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -432,8 +432,8 @@ public class ElementPosition : ChartElement
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeElementPosition_Auto"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All)
 	]
 	public bool Auto
 	{
@@ -449,15 +449,15 @@ public class ElementPosition : ChartElement
 
 				if (value)
 				{
-					this._x = 0;
-					this._y = 0;
-					this._width = 0;
-					this._height = 0;
+					_x = 0;
+					_y = 0;
+					_width = 0;
+					_height = 0;
 				}
 
 				_auto = value;
 
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 	}

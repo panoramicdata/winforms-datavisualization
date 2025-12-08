@@ -18,7 +18,7 @@ namespace System.Windows.Forms.Design.DataVisualization.Charting;
 /// <summary>
 /// UI type editor for the enumerations with Flags attribute
 /// </summary>
-internal class FlagsEnumUITypeEditor : System.Drawing.Design.UITypeEditor
+internal class FlagsEnumUITypeEditor : UITypeEditor
 {
 	#region Constructor
 
@@ -50,17 +50,17 @@ internal class FlagsEnumUITypeEditor : System.Drawing.Design.UITypeEditor
 				// Get enum type
 				if (value != null)
 				{
-					this._enumType = value.GetType();
+					_enumType = value.GetType();
 				}
 				else if (context != null && context.PropertyDescriptor != null)
 				{
-					this._enumType = context.PropertyDescriptor.PropertyType;
+					_enumType = context.PropertyDescriptor.PropertyType;
 				}
 
-				if (this._enumType != null)
+				if (_enumType != null)
 				{
 					// Create control for editing
-					FlagsEnumCheckedListBox control = new FlagsEnumCheckedListBox(value, this._enumType);
+					FlagsEnumCheckedListBox control = new(value, _enumType);
 
 					// Show drop down control
 					_edSvc.DropDownControl(control);
@@ -100,10 +100,10 @@ internal class FlagsEnumCheckedListBox : CheckedListBox
 	#region Control fields
 
 	// Enumeration object to edit
-	private object _editValue = null;
+	private readonly object _editValue = null;
 
 	// Enumeration type to edit
-	private Type _editType = null;
+	private readonly Type _editType = null;
 
 	#endregion
 
@@ -117,14 +117,14 @@ internal class FlagsEnumCheckedListBox : CheckedListBox
 	public FlagsEnumCheckedListBox(object editValue, Type editType)
 	{
 		// Set editable value
-		this._editValue = editValue;
-		this._editType = editType;
+		_editValue = editValue;
+		_editType = editType;
 
 		// Set control border style
-		this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+		BorderStyle = BorderStyle.None;
 
 		// Fill enum items list
-		this.FillList();
+		FillList();
 	}
 
 	#endregion
@@ -137,33 +137,33 @@ internal class FlagsEnumCheckedListBox : CheckedListBox
 	private void FillList()
 	{
 		// Check if editable object is of type Enum
-		if (!(this._editType.IsEnum))
+		if (!(_editType.IsEnum))
 		{
 			throw (new ArgumentException(SR.ExceptionEditorUITypeEditorInapplicable));
 		}
 
 		// Check underlying type
-		if (Enum.GetUnderlyingType(this._editType) != typeof(Int32))
+		if (Enum.GetUnderlyingType(_editType) != typeof(int))
 		{
 			throw (new ArgumentException(SR.ExceptionEditorUITypeEditorInt32ApplicableOnly));
 		}
 
 		// Convert enumeration value to Int32
-		Int32 editValueInt32 = 0;
+		int editValueInt32 = 0;
 		if (_editValue != null)
 		{
-			editValueInt32 = (Int32)_editValue;
+			editValueInt32 = (int)_editValue;
 		}
 
 		// Fill list with all possible values in the enumeration
-		foreach (object enumValue in Enum.GetValues(this._editType))
+		foreach (object enumValue in Enum.GetValues(_editType))
 		{
 			// Add items into list except the enum value zero
-			Int32 currentValueInt32 = (Int32)enumValue;
+			int currentValueInt32 = (int)enumValue;
 			if (currentValueInt32 != 0)
 			{
 				bool isChecked = (editValueInt32 & currentValueInt32) == currentValueInt32;
-				this.Items.Add(Enum.GetName(this._editType, enumValue), isChecked);
+				Items.Add(Enum.GetName(_editType, enumValue), isChecked);
 			}
 		}
 	}
@@ -175,15 +175,15 @@ internal class FlagsEnumCheckedListBox : CheckedListBox
 	public object GetNewValue()
 	{
 		// Update enumeration flags
-		Int32 editValueInt32 = 0;
-		foreach (object checkedItem in this.CheckedItems)
+		int editValueInt32 = 0;
+		foreach (object checkedItem in CheckedItems)
 		{
-			Int32 currentValueInt32 = (Int32)Enum.Parse(this._editType, (string)checkedItem);
+			int currentValueInt32 = (int)Enum.Parse(_editType, (string)checkedItem);
 			editValueInt32 = editValueInt32 | currentValueInt32;
 		}
 
 		// Return enumeration value
-		return Enum.ToObject(this._editType, editValueInt32);
+		return Enum.ToObject(_editType, editValueInt32);
 	}
 
 	#endregion

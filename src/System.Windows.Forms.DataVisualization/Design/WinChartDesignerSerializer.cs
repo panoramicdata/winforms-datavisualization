@@ -50,22 +50,21 @@ internal class ChartWinDesignerSerializer : CodeDomSerializer
 		{
 			result = baseSerializer.Serialize(manager, value);
 
-			System.CodeDom.CodeStatementCollection statements = result as System.CodeDom.CodeStatementCollection;
 
 			// Sustom serialization of the DataSource property
-			if (statements != null && chart != null)
+			if (result is CodeDom.CodeStatementCollection statements && chart != null)
 			{
 				// Check if DataSource property is set 
-				if (chart.DataSource != null && chart.DataSource is String && ((String)chart.DataSource) != "(none)")
+				if (chart.DataSource != null && chart.DataSource is string && ((string)chart.DataSource) != "(none)")
 				{
 					// Add assignment statement for the DataSource property
-					System.CodeDom.CodeExpression targetObject =
-						base.SerializeToExpression(manager, value);
+					CodeDom.CodeExpression targetObject =
+						SerializeToExpression(manager, value);
 					if (targetObject != null)
 					{
-						System.CodeDom.CodeAssignStatement assignStatement = new System.CodeDom.CodeAssignStatement(
-							new System.CodeDom.CodePropertyReferenceExpression(targetObject, "DataSource"),
-							new System.CodeDom.CodePropertyReferenceExpression(new System.CodeDom.CodeThisReferenceExpression(), (String)chart.DataSource));
+						CodeDom.CodeAssignStatement assignStatement = new(
+							new CodeDom.CodePropertyReferenceExpression(targetObject, "DataSource"),
+							new CodeDom.CodePropertyReferenceExpression(new CodeDom.CodeThisReferenceExpression(), (string)chart.DataSource));
 						statements.Add(assignStatement);
 					}
 				}

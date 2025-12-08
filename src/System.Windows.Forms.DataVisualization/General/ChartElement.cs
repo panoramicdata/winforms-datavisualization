@@ -958,7 +958,7 @@ internal class ChartHelper
 					// Make sure that the beginning is aligned correctly for cases
 					// like quarters and half years
 					DateTime resultDate = newStartDate;
-					DateTime sizeAdjustedDate = new DateTime(newStartDate.Year, 1, 1, 0, 0, 0);
+					DateTime sizeAdjustedDate = new(newStartDate.Year, 1, 1, 0, 0, 0);
 					while (sizeAdjustedDate < newStartDate)
 					{
 						resultDate = sizeAdjustedDate;
@@ -1261,7 +1261,7 @@ internal class ChartHelper
 		else
 		{
 			DateTime date = DateTime.FromOADate(current);
-			TimeSpan span = new TimeSpan(0);
+			TimeSpan span = new(0);
 
 			if (type == DateTimeIntervalType.Days)
 			{
@@ -1343,7 +1343,7 @@ internal class ChartHelper
 			series.IsCustomPropertySet(Utilities.CustomPropertyName.IsXAxisQuantitative))
 		{
 			string attribValue = series[Utilities.CustomPropertyName.IsXAxisQuantitative];
-			if (String.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(attribValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 				return false;
 			}

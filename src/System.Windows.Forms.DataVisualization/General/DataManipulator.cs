@@ -219,10 +219,8 @@ public class DataManipulator : DataFormula
 	#region Fields
 
 	// Indicates that filtering do not remove points, just mark them as empty
-	private bool _filterSetEmptyPoints = false;
 
 	// Indicates that points that match the criteria must be filtered out
-	private bool _filterMatchedPoints = true;
 
 	#endregion // Fields
 
@@ -295,11 +293,11 @@ public class DataManipulator : DataFormula
 					{
 						array[index] = Common.DataManager.Series[seriesName.Trim()];
 					}
-					catch (System.Exception)
+					catch (Exception)
 					{
 						if (createNew)
 						{
-							Series newSeries = new Series(seriesName.Trim());
+							Series newSeries = new(seriesName.Trim());
 							Common.DataManager.Series.Add(newSeries);
 							array[index] = newSeries;
 						}
@@ -337,10 +335,9 @@ public class DataManipulator : DataFormula
 	private void Sort(PointSortOrder pointSortOrder, string sortBy, Series[] series)
 	{
 		// Check arguments
-		if (sortBy == null)
-			throw new ArgumentNullException("sortBy");
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(sortBy);
+
+		ArgumentNullException.ThrowIfNull(series);
 
 		// Check array of series
 		if (series.Length == 0)
@@ -349,8 +346,8 @@ public class DataManipulator : DataFormula
 		}
 
 		// Sort series 
-		DataPointComparer comparer = new DataPointComparer(series[0], pointSortOrder, sortBy);
-		this.Sort(comparer, series);
+		DataPointComparer comparer = new(series[0], pointSortOrder, sortBy);
+		Sort(comparer, series);
 	}
 
 	/// <summary>
@@ -361,10 +358,9 @@ public class DataManipulator : DataFormula
 	private void Sort(IComparer<DataPoint> comparer, Series[] series)
 	{
 		// Check arguments
-		if (comparer == null)
-			throw new ArgumentNullException("comparer");
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(comparer);
+
+		ArgumentNullException.ThrowIfNull(series);
 
 		//**************************************************
 		//** Check array of series
@@ -380,13 +376,13 @@ public class DataManipulator : DataFormula
 		if (series.Length > 1)
 		{
 			// Check if series X values are aligned
-			this.CheckXValuesAlignment(series);
+			CheckXValuesAlignment(series);
 
 			// Apply points indexes to the first series
 			int pointIndex = 0;
 			foreach (DataPoint point in series[0].Points)
 			{
-				point["_Index"] = pointIndex.ToString(System.Globalization.CultureInfo.InvariantCulture);
+				point["_Index"] = pointIndex.ToString(Globalization.CultureInfo.InvariantCulture);
 				++pointIndex;
 			}
 		}
@@ -403,11 +399,10 @@ public class DataManipulator : DataFormula
 		{
 			// Sort other series (depending on the first)
 			int toIndex = 0;
-			int fromIndex = 0;
 			foreach (DataPoint point in series[0].Points)
 			{
 				// Move point from index is stored in point attribute (as index before sorting)
-				fromIndex = int.Parse(point["_Index"], System.Globalization.CultureInfo.InvariantCulture);
+				int fromIndex = int.Parse(point["_Index"], Globalization.CultureInfo.InvariantCulture);
 
 				// Move points in series
 				for (int seriesIndex = 1; seriesIndex < series.Length; seriesIndex++)
@@ -451,8 +446,7 @@ public class DataManipulator : DataFormula
 	public void Sort(PointSortOrder pointSortOrder, string sortBy, string seriesName)
 	{
 		// Check arguments
-		if (seriesName == null)
-			throw new ArgumentNullException("seriesName");
+		ArgumentNullException.ThrowIfNull(seriesName);
 
 		Sort(pointSortOrder, sortBy, ConvertToSeriesArray(seriesName, false));
 	}
@@ -465,8 +459,7 @@ public class DataManipulator : DataFormula
 	public void Sort(PointSortOrder pointSortOrder, Series series)
 	{
 		// Check arguments
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		Sort(pointSortOrder, "Y", ConvertToSeriesArray(series, false));
 	}
@@ -479,8 +472,7 @@ public class DataManipulator : DataFormula
 	public void Sort(PointSortOrder pointSortOrder, string seriesName)
 	{
 		// Check arguments
-		if (seriesName == null)
-			throw new ArgumentNullException("seriesName");
+		ArgumentNullException.ThrowIfNull(seriesName);
 
 		Sort(pointSortOrder, "Y", ConvertToSeriesArray(seriesName, false));
 	}
@@ -494,8 +486,7 @@ public class DataManipulator : DataFormula
 	public void Sort(PointSortOrder pointSortOrder, string sortBy, Series series)
 	{
 		// Check arguments
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		Sort(pointSortOrder, sortBy, ConvertToSeriesArray(series, false));
 	}
@@ -508,8 +499,7 @@ public class DataManipulator : DataFormula
 	public void Sort(IComparer<DataPoint> comparer, Series series)
 	{
 		// Check arguments - comparer is checked in the private override of Sort
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		Sort(comparer, ConvertToSeriesArray(series, false));
 	}
@@ -522,8 +512,7 @@ public class DataManipulator : DataFormula
 	public void Sort(IComparer<DataPoint> comparer, string seriesName)
 	{
 		// Check arguments - comparer is checked in the private override of Sort
-		if (seriesName == null)
-			throw new ArgumentNullException("seriesName");
+		ArgumentNullException.ThrowIfNull(seriesName);
 
 		Sort(comparer, ConvertToSeriesArray(seriesName, false));
 	}
@@ -553,7 +542,9 @@ public class DataManipulator : DataFormula
 	{
 		// Check the arguments
 		if (interval <= 0)
-			throw new ArgumentOutOfRangeException("interval");
+		{
+			throw new ArgumentOutOfRangeException(nameof(interval));
+		}
 
 		//**************************************************
 		//** Automaticly detect minimum and maximum values
@@ -678,9 +669,11 @@ public class DataManipulator : DataFormula
 					{
 						lastInsertPoint = insertPosition;
 						++numberOfPoints;
-						DataPoint dataPoint = new DataPoint(ser);
-						dataPoint.XValue = currentPointValue;
-						dataPoint.IsEmpty = true;
+						DataPoint dataPoint = new(ser)
+						{
+							XValue = currentPointValue,
+							IsEmpty = true
+						};
 						ser.Points.Insert(insertPosition, dataPoint);
 					}
 				}
@@ -827,8 +820,7 @@ public class DataManipulator : DataFormula
 		string seriesName)
 	{
 		// Check arguments
-		if (seriesName == null)
-			throw new ArgumentNullException("seriesName");
+		ArgumentNullException.ThrowIfNull(seriesName);
 
 		InsertEmptyPoints(
 		interval,
@@ -861,8 +853,7 @@ public class DataManipulator : DataFormula
 		Series series)
 	{
 		// Check arguments
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		InsertEmptyPoints(
 		interval,
@@ -889,8 +880,10 @@ public class DataManipulator : DataFormula
 		//*****************************************************
 		//** Create DataSet object
 		//*****************************************************
-		DataSet dataSet = new DataSet();
-		dataSet.Locale = System.Globalization.CultureInfo.CurrentCulture;
+		DataSet dataSet = new()
+		{
+			Locale = Globalization.CultureInfo.CurrentCulture
+		};
 		// If input series are specified
 		if (series != null)
 		{
@@ -921,8 +914,10 @@ public class DataManipulator : DataFormula
 				//*****************************************************
 				//** Create new table for the series
 				//*****************************************************
-				DataTable seriesTable = new DataTable(ser.Name);
-				seriesTable.Locale = System.Globalization.CultureInfo.CurrentCulture;
+				DataTable seriesTable = new(ser.Name)
+				{
+					Locale = Globalization.CultureInfo.CurrentCulture
+				};
 
 				//*****************************************************
 				//** Add X column into data table schema
@@ -961,7 +956,7 @@ public class DataManipulator : DataFormula
 					}
 					else
 					{
-						seriesTable.Columns.Add("Y" + (yIndex + 1).ToString(System.Globalization.CultureInfo.InvariantCulture), columnType);
+						seriesTable.Columns.Add("Y" + (yIndex + 1).ToString(Globalization.CultureInfo.InvariantCulture), columnType);
 					}
 				}
 
@@ -972,7 +967,7 @@ public class DataManipulator : DataFormula
 				double pointIndex = 1.0;
 				foreach (DataPoint point in ser.Points)
 				{
-					if (!point.IsEmpty || !this.IsEmptyPointIgnored)
+					if (!point.IsEmpty || !IsEmptyPointIgnored)
 					{
 						DataRow dataRow = seriesTable.NewRow();
 
@@ -980,10 +975,14 @@ public class DataManipulator : DataFormula
 						object xValue = point.XValue;
 						if (ser.IsXValueDateTime())
 						{
-							if (Double.IsNaN(point.XValue))
+							if (double.IsNaN(point.XValue))
+							{
 								xValue = DBNull.Value;
+							}
 							else
+							{
 								xValue = DateTime.FromOADate(point.XValue);
+							}
 						}
 						else if (ser.XValueType == ChartValueType.String)
 						{
@@ -1000,17 +999,21 @@ public class DataManipulator : DataFormula
 							{
 								if (ser.IsYValueDateTime())
 								{
-									if (Double.IsNaN(point.YValues[yIndex]))
+									if (double.IsNaN(point.YValues[yIndex]))
+									{
 										xValue = DBNull.Value;
+									}
 									else
+									{
 										yValue = DateTime.FromOADate(point.YValues[yIndex]);
+									}
 								}
 								else if (ser.YValueType == ChartValueType.String)
 								{
 									yValue = point.AxisLabel;
 								}
 							}
-							else if (!this.IsEmptyPointIgnored)
+							else if (!IsEmptyPointIgnored)
 							{
 								// Special handling of empty points
 								yValue = DBNull.Value;
@@ -1022,7 +1025,7 @@ public class DataManipulator : DataFormula
 							}
 							else
 							{
-								dataRow["Y" + (yIndex + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)] = yValue;
+								dataRow["Y" + (yIndex + 1).ToString(Globalization.CultureInfo.InvariantCulture)] = yValue;
 							}
 						}
 
@@ -1068,7 +1071,9 @@ public class DataManipulator : DataFormula
 	{
 		// Check arguments
 		if (seriesNames == null)
+		{
 			throw new ArgumentNullException(seriesNames);
+		}
 
 		return ExportSeriesValues(ConvertToSeriesArray(seriesNames, false));
 	}
@@ -1081,8 +1086,7 @@ public class DataManipulator : DataFormula
 	public DataSet ExportSeriesValues(Series series)
 	{
 		// Check arguments
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		return ExportSeriesValues(ConvertToSeriesArray(series, false));
 	}
@@ -1097,17 +1101,7 @@ public class DataManipulator : DataFormula
 	/// If set to true, filtered points are marked as empty; otherwise they are removed. 
 	/// This property defaults to be false.
 	/// </summary>
-	public bool FilterSetEmptyPoints
-	{
-		get
-		{
-			return _filterSetEmptyPoints;
-		}
-		set
-		{
-			_filterSetEmptyPoints = value;
-		}
-	}
+	public bool FilterSetEmptyPoints { get; set; } = false;
 
 	/// <summary>
 	/// Gets or sets a value that determines if points are filtered 
@@ -1116,17 +1110,7 @@ public class DataManipulator : DataFormula
 	/// If set to false, points that do not match the criteria are filtered. 
 	/// This property defaults to be true.
 	/// </summary>
-	public bool FilterMatchedPoints
-	{
-		get
-		{
-			return _filterMatchedPoints;
-		}
-		set
-		{
-			_filterMatchedPoints = value;
-		}
-	}
+	public bool FilterMatchedPoints { get; set; } = true;
 
 	#endregion
 
@@ -1154,7 +1138,7 @@ public class DataManipulator : DataFormula
 
 		if (pointCount <= 0)
 		{
-			throw (new ArgumentOutOfRangeException("pointCount", SR.ExceptionDataManipulatorPointCountIsZero));
+			throw (new ArgumentOutOfRangeException(nameof(pointCount), SR.ExceptionDataManipulatorPointCountIsZero));
 		}
 
 		//**************************************************
@@ -1211,7 +1195,7 @@ public class DataManipulator : DataFormula
 		//**************************************************
 		//** Sort input data 
 		//**************************************************
-		this.Sort((getTopValues) ? PointSortOrder.Descending : PointSortOrder.Ascending,
+		Sort((getTopValues) ? PointSortOrder.Descending : PointSortOrder.Ascending,
 			usingValue,
 			output);
 
@@ -1224,7 +1208,7 @@ public class DataManipulator : DataFormula
 			// Only keep N first points
 			while (output[seriesIndex].Points.Count > pointCount)
 			{
-				if (this.FilterSetEmptyPoints)
+				if (FilterSetEmptyPoints)
 				{
 					output[seriesIndex].Points[pointCount].IsEmpty = true;
 					++pointCount;
@@ -1254,10 +1238,7 @@ public class DataManipulator : DataFormula
 
 		CheckXValuesAlignment(inputSeries);
 
-		if (filterInterface == null)
-		{
-			throw (new ArgumentNullException("filterInterface"));
-		}
+		ArgumentNullException.ThrowIfNull(filterInterface);
 
 		//**************************************************
 		//** Filter points in the first series and remove
@@ -1317,7 +1298,7 @@ public class DataManipulator : DataFormula
 			bool matchCriteria = filterInterface.FilterDataPoint(
 				inputSeries[0].Points[pointIndex],
 				inputSeries[0],
-				originalPointIndex) == this.FilterMatchedPoints;
+				originalPointIndex) == FilterMatchedPoints;
 
 
 			// Process all series
@@ -1326,7 +1307,7 @@ public class DataManipulator : DataFormula
 				bool seriesMatchCriteria = matchCriteria;
 				if (output[seriesIndex] != inputSeries[seriesIndex])
 				{
-					if (seriesMatchCriteria && !this.FilterSetEmptyPoints)
+					if (seriesMatchCriteria && !FilterSetEmptyPoints)
 					{
 						// Don't do anything...
 						seriesMatchCriteria = false;
@@ -1343,7 +1324,7 @@ public class DataManipulator : DataFormula
 				if (seriesMatchCriteria)
 				{
 					// Set point's empty flag
-					if (this.FilterSetEmptyPoints)
+					if (FilterSetEmptyPoints)
 					{
 						output[seriesIndex].Points[pointIndex].IsEmpty = true;
 						for (int valueIndex = 0; valueIndex < output[seriesIndex].Points[pointIndex].YValues.Length; valueIndex++)
@@ -1376,9 +1357,9 @@ public class DataManipulator : DataFormula
 	private class PointElementFilter : IDataPointFilter
 	{
 		// Private fields
-		private DataManipulator _dataManipulator = null;
-		private DateRangeType _dateRange;
-		private int[] _rangeElements = null;
+		private readonly DataManipulator _dataManipulator = null;
+		private readonly DateRangeType _dateRange;
+		private readonly int[] _rangeElements = null;
 
 		// Default constructor is not accesiable
 		private PointElementFilter()
@@ -1393,9 +1374,9 @@ public class DataManipulator : DataFormula
 		/// <param name="rangeElements">Range elements to filter.</param>
 		public PointElementFilter(DataManipulator dataManipulator, DateRangeType dateRange, string rangeElements)
 		{
-			this._dataManipulator = dataManipulator;
-			this._dateRange = dateRange;
-			this._rangeElements = dataManipulator.ConvertElementIndexesToArray(rangeElements);
+			_dataManipulator = dataManipulator;
+			_dateRange = dateRange;
+			_rangeElements = dataManipulator.ConvertElementIndexesToArray(rangeElements);
 		}
 
 		/// <summary>
@@ -1408,8 +1389,8 @@ public class DataManipulator : DataFormula
 		public bool FilterDataPoint(DataPoint point, Series series, int pointIndex)
 		{
 			return _dataManipulator.CheckFilterElementCriteria(
-				this._dateRange,
-				this._rangeElements,
+				_dateRange,
+				_rangeElements,
 				point);
 		}
 	}
@@ -1421,9 +1402,9 @@ public class DataManipulator : DataFormula
 	private class PointValueFilter : IDataPointFilter
 	{
 		// Private fields
-		private CompareMethod _compareMethod;
-		private string _usingValue;
-		private double _compareValue;
+		private readonly CompareMethod _compareMethod;
+		private readonly string _usingValue;
+		private readonly double _compareValue;
 
 		/// <summary>
 		/// Default constructor is not accessible
@@ -1442,9 +1423,9 @@ public class DataManipulator : DataFormula
 			double compareValue,
 			string usingValue)
 		{
-			this._compareMethod = compareMethod;
-			this._usingValue = usingValue;
-			this._compareValue = compareValue;
+			_compareMethod = compareMethod;
+			_usingValue = usingValue;
+			_compareValue = compareValue;
 		}
 
 		/// <summary>
@@ -1504,7 +1485,7 @@ public class DataManipulator : DataFormula
 		// Check if there are items in the array
 		if (indexes.Length == 0)
 		{
-			throw (new ArgumentException(SR.ExceptionDataManipulatorIndexUndefined, "rangeElements"));
+			throw (new ArgumentException(SR.ExceptionDataManipulatorIndexUndefined, nameof(rangeElements)));
 		}
 
 		// Allocate memory for the result array
@@ -1523,8 +1504,8 @@ public class DataManipulator : DataFormula
 					// Convert to integer
 					try
 					{
-						result[index] = Int32.Parse(rangeIndex[0], System.Globalization.CultureInfo.InvariantCulture);
-						result[index + 1] = Int32.Parse(rangeIndex[1], System.Globalization.CultureInfo.InvariantCulture);
+						result[index] = int.Parse(rangeIndex[0], Globalization.CultureInfo.InvariantCulture);
+						result[index + 1] = int.Parse(rangeIndex[1], Globalization.CultureInfo.InvariantCulture);
 
 						if (result[index + 1] < result[index])
 						{
@@ -1533,14 +1514,14 @@ public class DataManipulator : DataFormula
 							result[index + 1] = temp;
 						}
 					}
-					catch (System.Exception)
+					catch (Exception)
 					{
-						throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, "rangeElements"));
+						throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements)));
 					}
 				}
 				else
 				{
-					throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, "rangeElements"));
+					throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements)));
 				}
 			}
 			else
@@ -1548,12 +1529,12 @@ public class DataManipulator : DataFormula
 				// Convert to integer
 				try
 				{
-					result[index] = Int32.Parse(str, System.Globalization.CultureInfo.InvariantCulture);
+					result[index] = int.Parse(str, Globalization.CultureInfo.InvariantCulture);
 					result[index + 1] = result[index];
 				}
-				catch (System.Exception)
+				catch (Exception)
 				{
-					throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, "rangeElements"));
+					throw (new ArgumentException(SR.ExceptionDataManipulatorIndexFormatInvalid, nameof(rangeElements)));
 				}
 			}
 
@@ -1585,32 +1566,50 @@ public class DataManipulator : DataFormula
 				case (DateRangeType.Year):
 					if (dateTimeValue.Year >= rangeElements[index] &&
 						dateTimeValue.Year <= rangeElements[index + 1])
+					{
 						return true;
+					}
+
 					break;
 				case (DateRangeType.Month):
 					if (dateTimeValue.Month >= rangeElements[index] &&
 						dateTimeValue.Month <= rangeElements[index + 1])
+					{
 						return true;
+					}
+
 					break;
 				case (DateRangeType.DayOfWeek):
 					if ((int)dateTimeValue.DayOfWeek >= rangeElements[index] &&
 						(int)dateTimeValue.DayOfWeek <= rangeElements[index + 1])
+					{
 						return true;
+					}
+
 					break;
 				case (DateRangeType.DayOfMonth):
 					if (dateTimeValue.Day >= rangeElements[index] &&
 						dateTimeValue.Day <= rangeElements[index + 1])
+					{
 						return true;
+					}
+
 					break;
 				case (DateRangeType.Hour):
 					if (dateTimeValue.Hour >= rangeElements[index] &&
 						dateTimeValue.Hour <= rangeElements[index + 1])
+					{
 						return true;
+					}
+
 					break;
 				case (DateRangeType.Minute):
 					if (dateTimeValue.Minute >= rangeElements[index] &&
 						dateTimeValue.Minute <= rangeElements[index + 1])
+					{
 						return true;
+					}
+
 					break;
 			}
 		}
@@ -1639,10 +1638,9 @@ public class DataManipulator : DataFormula
 		string outputSeriesNames)
 	{
 		// Check arguments
-		if (rangeElements == null)
-			throw new ArgumentNullException("rangeElements");
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(rangeElements);
+
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		// Filter points using filtering interface
 		Filter(new PointElementFilter(this, dateRange, rangeElements),
@@ -1666,10 +1664,9 @@ public class DataManipulator : DataFormula
 		Series inputSeries)
 	{
 		// Check arguments
-		if (rangeElements == null)
-			throw new ArgumentNullException("rangeElements");
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(rangeElements);
+
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Filter(dateRange, rangeElements, inputSeries, null);
 	}
@@ -1691,10 +1688,9 @@ public class DataManipulator : DataFormula
 		Series outputSeries)
 	{
 		// Check arguments
-		if (rangeElements == null)
-			throw new ArgumentNullException("rangeElements");
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(rangeElements);
+
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		// Filter points using filtering interface
 		Filter(new PointElementFilter(this, dateRange, rangeElements),
@@ -1718,10 +1714,9 @@ public class DataManipulator : DataFormula
 		string inputSeriesNames)
 	{
 		// Check arguments
-		if (rangeElements == null)
-			throw new ArgumentNullException("rangeElements");
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(rangeElements);
+
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		Filter(dateRange,
 		rangeElements,
@@ -1741,8 +1736,7 @@ public class DataManipulator : DataFormula
 		Series inputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Filter(compareMethod,
 			compareValue,
@@ -1764,8 +1758,7 @@ public class DataManipulator : DataFormula
 		Series outputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		// Filter points using filtering interface
 		Filter(new PointValueFilter(compareMethod, compareValue, "Y"),
@@ -1788,10 +1781,9 @@ public class DataManipulator : DataFormula
 		string usingValue)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
-		if (usingValue == null)
-			throw new ArgumentNullException("usingValue");
+		ArgumentNullException.ThrowIfNull(inputSeries);
+
+		ArgumentNullException.ThrowIfNull(usingValue);
 
 		// Filter points using filtering interface
 		Filter(new PointValueFilter(compareMethod, compareValue, usingValue),
@@ -1811,8 +1803,7 @@ public class DataManipulator : DataFormula
 		string inputSeriesNames)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		Filter(compareMethod,
 			compareValue,
@@ -1834,8 +1825,7 @@ public class DataManipulator : DataFormula
 		string outputSeriesNames)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		// Filter points using filtering interface
 		Filter(new PointValueFilter(compareMethod, compareValue, "Y"),
@@ -1858,10 +1848,9 @@ public class DataManipulator : DataFormula
 		string usingValue)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
-		if (usingValue == null)
-			throw new ArgumentNullException("usingValue");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
+
+		ArgumentNullException.ThrowIfNull(usingValue);
 
 		// Filter points using filtering interface
 		Filter(new PointValueFilter(compareMethod, compareValue, usingValue),
@@ -1885,10 +1874,9 @@ public class DataManipulator : DataFormula
 		bool getTopValues)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
-		if (usingValue == null)
-			throw new ArgumentNullException("usingValue");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
+
+		ArgumentNullException.ThrowIfNull(usingValue);
 
 		FilterTopN(pointCount,
 			ConvertToSeriesArray(inputSeriesNames, false),
@@ -1907,8 +1895,7 @@ public class DataManipulator : DataFormula
 		Series inputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		FilterTopN(pointCount,
 		ConvertToSeriesArray(inputSeries, false),
@@ -1928,8 +1915,7 @@ public class DataManipulator : DataFormula
 		Series outputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		FilterTopN(pointCount,
 		ConvertToSeriesArray(inputSeries, false),
@@ -1951,10 +1937,9 @@ public class DataManipulator : DataFormula
 		string usingValue)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
-		if (usingValue == null)
-			throw new ArgumentNullException("usingValue");
+		ArgumentNullException.ThrowIfNull(inputSeries);
+
+		ArgumentNullException.ThrowIfNull(usingValue);
 
 		FilterTopN(pointCount,
 			ConvertToSeriesArray(inputSeries, false),
@@ -1978,10 +1963,9 @@ public class DataManipulator : DataFormula
 		bool getTopValues)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
-		if (usingValue == null)
-			throw new ArgumentNullException("usingValue");
+		ArgumentNullException.ThrowIfNull(inputSeries);
+
+		ArgumentNullException.ThrowIfNull(usingValue);
 
 		FilterTopN(pointCount,
 			ConvertToSeriesArray(inputSeries, false),
@@ -2001,8 +1985,7 @@ public class DataManipulator : DataFormula
 		string inputSeriesNames)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		FilterTopN(pointCount,
 			ConvertToSeriesArray(inputSeriesNames, false),
@@ -2023,8 +2006,7 @@ public class DataManipulator : DataFormula
 		string outputSeriesNames)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		FilterTopN(pointCount,
 			ConvertToSeriesArray(inputSeriesNames, false),
@@ -2047,10 +2029,9 @@ public class DataManipulator : DataFormula
 		string usingValue)
 	{
 		// Check arguments
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
-		if (usingValue == null)
-			throw new ArgumentNullException("usingValue");
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
+
+		ArgumentNullException.ThrowIfNull(usingValue);
 
 		FilterTopN(pointCount,
 			ConvertToSeriesArray(inputSeriesNames, false),
@@ -2070,10 +2051,9 @@ public class DataManipulator : DataFormula
 	Series inputSeries)
 	{
 		// Check arguments
-		if (filterInterface == null)
-			throw new ArgumentNullException("filterInterface");
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(filterInterface);
+
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Filter(filterInterface,
 			ConvertToSeriesArray(inputSeries, false),
@@ -2091,10 +2071,9 @@ public class DataManipulator : DataFormula
 	Series outputSeries)
 	{
 		// Check arguments
-		if (filterInterface == null)
-			throw new ArgumentNullException("filterInterface");
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(filterInterface);
+
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Filter(filterInterface,
 			ConvertToSeriesArray(inputSeries, false),
@@ -2111,10 +2090,9 @@ public class DataManipulator : DataFormula
 	string inputSeriesNames)
 	{
 		// Check arguments
-		if (filterInterface == null)
-			throw new ArgumentNullException("filterInterface");
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(filterInterface);
+
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		Filter(filterInterface,
 			ConvertToSeriesArray(inputSeriesNames, false),
@@ -2132,10 +2110,9 @@ public class DataManipulator : DataFormula
 	string outputSeriesNames)
 	{
 		// Check arguments
-		if (filterInterface == null)
-			throw new ArgumentNullException("filterInterface");
-		if (inputSeriesNames == null)
-			throw new ArgumentNullException("inputSeriesNames");
+		ArgumentNullException.ThrowIfNull(filterInterface);
+
+		ArgumentNullException.ThrowIfNull(inputSeriesNames);
 
 		Filter(filterInterface,
 		ConvertToSeriesArray(inputSeriesNames, false),
@@ -2175,8 +2152,7 @@ public class DataManipulator : DataFormula
 	private void GroupByAxisLabel(string formula, Series[] inputSeries, Series[] outputSeries)
 	{
 		// Check arguments
-		if (formula == null)
-			throw new ArgumentNullException("formula");
+		ArgumentNullException.ThrowIfNull(formula);
 
 		//**************************************************
 		//** Check input/output series arrays
@@ -2186,7 +2162,7 @@ public class DataManipulator : DataFormula
 		//**************************************************
 		//** Check and parse formula
 		//**************************************************
-		int outputValuesNumber = 1;
+		int outputValuesNumber;
 		GroupingFunctionInfo[] functions = GetGroupingFunctions(inputSeries, formula, out outputValuesNumber);
 
 		//**************************************************
@@ -2225,12 +2201,14 @@ public class DataManipulator : DataFormula
 			// Copy input data into temp storage
 			if (input != output)
 			{
-				Series inputTemp = new Series("Temp", input.YValuesPerPoint);
+				Series inputTemp = new("Temp", input.YValuesPerPoint);
 				foreach (DataPoint point in input.Points)
 				{
-					DataPoint dp = new DataPoint(inputTemp);
-					dp.AxisLabel = point.AxisLabel;
-					dp.XValue = point.XValue;
+					DataPoint dp = new(inputTemp)
+					{
+						AxisLabel = point.AxisLabel,
+						XValue = point.XValue
+					};
 					point.YValues.CopyTo(dp.YValues, 0);
 					dp.IsEmpty = point.IsEmpty;
 					inputTemp.Points.Add(dp);
@@ -2344,7 +2322,7 @@ public class DataManipulator : DataFormula
 					//**************************************************
 					//** Create new point object
 					//**************************************************
-					DataPoint newPoint = new DataPoint();
+					DataPoint newPoint = new();
 					newPoint.ResizeYValueArray(outputValuesNumber - 1);
 					newPoint.XValue = pointTempValues[0];
 					newPoint.AxisLabel = currentLabel;
@@ -2426,8 +2404,7 @@ public class DataManipulator : DataFormula
 		Series[] outputSeries)
 	{
 		// Check arguments
-		if (formula == null)
-			throw new ArgumentNullException("formula");
+		ArgumentNullException.ThrowIfNull(formula);
 
 		//**************************************************
 		//** Check input/output series arrays
@@ -2437,7 +2414,7 @@ public class DataManipulator : DataFormula
 		//**************************************************
 		//** Check and parse formula
 		//**************************************************
-		int outputValuesNumber = 1;
+		int outputValuesNumber;
 		GroupingFunctionInfo[] functions = GetGroupingFunctions(inputSeries, formula, out outputValuesNumber);
 
 		//**************************************************
@@ -2487,22 +2464,19 @@ public class DataManipulator : DataFormula
 			//**************************************************
 			int intervalFirstIndex = 0;
 			int intervalLastIndex = 0;
-			double intervalFrom = 0;
-			double intervalTo = 0;
 
 			// Set interval start point
-			intervalFrom = input.Points[0].XValue;
+			double intervalFrom = input.Points[0].XValue;
 
 			// Adjust start point depending on the interval type
 			intervalFrom = ChartHelper.AlignIntervalStart(intervalFrom, interval, ConvertIntervalType(intervalType));
-
-			// Add offset to the start position
-			double offsetFrom = 0;
+			double intervalTo;
 			if (intervalOffset != 0)
 			{
-				offsetFrom = intervalFrom + ChartHelper.GetIntervalSize(intervalFrom,
-				intervalOffset,
-				ConvertIntervalType(intervalOffsetType));
+				// Add offset to the start position
+				double offsetFrom = intervalFrom + ChartHelper.GetIntervalSize(intervalFrom,
+	intervalOffset,
+	ConvertIntervalType(intervalOffsetType));
 
 				// Check if there are points left outside first group
 				if (input.Points[0].XValue < offsetFrom)
@@ -2629,7 +2603,7 @@ public class DataManipulator : DataFormula
 						//**************************************************
 						//** Create new point object
 						//**************************************************
-						DataPoint newPoint = new DataPoint();
+						DataPoint newPoint = new();
 						newPoint.ResizeYValueArray(outputValuesNumber - 1);
 						newPoint.XValue = pointTempValues[0];
 						for (int i = 1; i < pointTempValues.Length; i++)
@@ -2793,7 +2767,7 @@ public class DataManipulator : DataFormula
 			//*******************************************************************
 			//** Ignore empty points
 			//*******************************************************************
-			if (point.IsEmpty && this.IsEmptyPointIgnored)
+			if (point.IsEmpty && IsEmptyPointIgnored)
 			{
 				++numberOfEmptyPoints;
 				return;
@@ -2813,7 +2787,7 @@ public class DataManipulator : DataFormula
 
 				// Process point values depending on the formula
 				if (functionInfo.function == GroupingFunction.Min &&
-					(!point.IsEmpty && this.IsEmptyPointIgnored))
+					(!point.IsEmpty && IsEmptyPointIgnored))
 				{
 					pointTempValues[functionInfo.outputIndex] =
 						Math.Min(pointTempValues[functionInfo.outputIndex], point.YValues[funcIndex - 1]);
@@ -2908,13 +2882,13 @@ public class DataManipulator : DataFormula
 					pointTempValues[functionInfo.outputIndex] = 0;
 
 					// Create a list of uniques values
-					ArrayList uniqueValues = new ArrayList(intervalLastIndex - intervalFirstIndex + 1);
+					ArrayList uniqueValues = new(intervalLastIndex - intervalFirstIndex + 1);
 
 					// Second pass through inteval points required for calculations
 					for (int secondPassIndex = intervalFirstIndex; secondPassIndex <= intervalLastIndex; secondPassIndex++)
 					{
 						// Ignore empty points
-						if (series.Points[secondPassIndex].IsEmpty && this.IsEmptyPointIgnored)
+						if (series.Points[secondPassIndex].IsEmpty && IsEmptyPointIgnored)
 						{
 							continue;
 						}
@@ -2941,7 +2915,7 @@ public class DataManipulator : DataFormula
 					for (int secondPassIndex = intervalFirstIndex; secondPassIndex <= intervalLastIndex; secondPassIndex++)
 					{
 						// Ignore empty points
-						if (series.Points[secondPassIndex].IsEmpty && this.IsEmptyPointIgnored)
+						if (series.Points[secondPassIndex].IsEmpty && IsEmptyPointIgnored)
 						{
 							continue;
 						}
@@ -3003,12 +2977,12 @@ public class DataManipulator : DataFormula
 		}
 
 		// Check each formula in the array
-		GroupingFunctionInfo defaultFormula = new GroupingFunctionInfo();
+		GroupingFunctionInfo defaultFormula = new();
 		foreach (string s in valueFormulas)
 		{
 			// Trim white space and make upper case
 			string formulaString = s.Trim();
-			formulaString = formulaString.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+			formulaString = formulaString.ToUpper(Globalization.CultureInfo.InvariantCulture);
 
 			// Get value index and formula type from the string
 			int valueIndex = 1;
@@ -3121,9 +3095,9 @@ public class DataManipulator : DataFormula
 					// Try to convert the rest of the string to integer
 					try
 					{
-						valueIndex = Int32.Parse(formulaParts[0], System.Globalization.CultureInfo.InvariantCulture);
+						valueIndex = int.Parse(formulaParts[0], Globalization.CultureInfo.InvariantCulture);
 					}
-					catch (System.Exception)
+					catch (Exception)
 					{
 						throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaFormatInvalid(formulaString)));
 					}
@@ -3137,31 +3111,57 @@ public class DataManipulator : DataFormula
 
 		// Check formula name
 		if (formulaParts[formulaParts.Length - 1] == "MIN")
+		{
 			return GroupingFunction.Min;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "MAX")
+		{
 			return GroupingFunction.Max;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "AVE")
+		{
 			return GroupingFunction.Ave;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "SUM")
+		{
 			return GroupingFunction.Sum;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "FIRST")
+		{
 			return GroupingFunction.First;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "LAST")
+		{
 			return GroupingFunction.Last;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "HILOOPCL")
+		{
 			return GroupingFunction.HiLoOpCl;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "HILO")
+		{
 			return GroupingFunction.HiLo;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "COUNT")
+		{
 			return GroupingFunction.Count;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "DISTINCTCOUNT")
+		{
 			return GroupingFunction.DistinctCount;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "VARIANCE")
+		{
 			return GroupingFunction.Variance;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "DEVIATION")
+		{
 			return GroupingFunction.Deviation;
+		}
 		else if (formulaParts[formulaParts.Length - 1] == "CENTER")
+		{
 			return GroupingFunction.Center;
+		}
 
 		// Invalid formula name
 		throw (new ArgumentException(SR.ExceptionDataManipulatorGroupingFormulaNameInvalid(formulaString)));
@@ -3206,8 +3206,7 @@ public class DataManipulator : DataFormula
 		Series inputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Group(formula, interval, intervalType, inputSeries, null);
 	}
@@ -3226,8 +3225,7 @@ public class DataManipulator : DataFormula
 		string inputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		Group(formula, interval, intervalType, inputSeriesName, "");
 	}
@@ -3250,8 +3248,7 @@ public class DataManipulator : DataFormula
 		Series inputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Group(formula, interval, intervalType, intervalOffset, intervalOffsetType, inputSeries, null);
 	}
@@ -3274,8 +3271,7 @@ public class DataManipulator : DataFormula
 		string inputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		Group(formula, interval, intervalType, intervalOffset, intervalOffsetType, inputSeriesName, "");
 	}
@@ -3290,8 +3286,7 @@ public class DataManipulator : DataFormula
 	public void GroupByAxisLabel(string formula, string inputSeriesName, string outputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		GroupByAxisLabel(formula,
 			ConvertToSeriesArray(inputSeriesName, false),
@@ -3307,8 +3302,7 @@ public class DataManipulator : DataFormula
 	public void GroupByAxisLabel(string formula, Series inputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		GroupByAxisLabel(formula, inputSeries, null);
 	}
@@ -3322,8 +3316,7 @@ public class DataManipulator : DataFormula
 	public void GroupByAxisLabel(string formula, string inputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		GroupByAxisLabel(formula, inputSeriesName, null);
 	}
@@ -3349,8 +3342,7 @@ public class DataManipulator : DataFormula
 		string outputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		Group(formula,
 			interval,
@@ -3377,8 +3369,7 @@ public class DataManipulator : DataFormula
 		Series outputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Group(formula, interval, intervalType, 0, IntervalType.Number, inputSeries, outputSeries);
 	}
@@ -3399,8 +3390,7 @@ public class DataManipulator : DataFormula
 		string outputSeriesName)
 	{
 		// Check arguments
-		if (inputSeriesName == null)
-			throw new ArgumentNullException("inputSeriesName");
+		ArgumentNullException.ThrowIfNull(inputSeriesName);
 
 		Group(formula, interval, intervalType, 0, IntervalType.Number, inputSeriesName, outputSeriesName);
 	}
@@ -3425,8 +3415,7 @@ public class DataManipulator : DataFormula
 		Series outputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		Group(formula,
 			interval,
@@ -3447,8 +3436,7 @@ public class DataManipulator : DataFormula
 	public void GroupByAxisLabel(string formula, Series inputSeries, Series outputSeries)
 	{
 		// Check arguments
-		if (inputSeries == null)
-			throw new ArgumentNullException("inputSeries");
+		ArgumentNullException.ThrowIfNull(inputSeries);
 
 		GroupByAxisLabel(formula,
 		ConvertToSeriesArray(inputSeries, false),

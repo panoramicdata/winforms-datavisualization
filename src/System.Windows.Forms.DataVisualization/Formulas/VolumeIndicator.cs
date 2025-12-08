@@ -49,7 +49,7 @@ internal class VolumeIndicators : PriceIndicators
 	{
 		string name;
 
-		name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+		name = formulaName.ToUpper(Globalization.CultureInfo.InvariantCulture);
 
 		// Not used for these formulas.
 		outLabels = null;
@@ -118,7 +118,9 @@ internal class VolumeIndicators : PriceIndicators
 
 		// There is no enough series
 		if (length != 5)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresFourArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 4);
@@ -126,21 +128,29 @@ internal class VolumeIndicators : PriceIndicators
 		// Period for moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Not enough values for Money Flow.
 		if (inputValues[0].Length < period)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsNotEnoughPoints);
+		}
 
 		outputValues = new double[2][];
 
@@ -177,12 +187,10 @@ internal class VolumeIndicators : PriceIndicators
 			}
 		}
 
-		double PosMoney = 0;
-		double NegMoney = 0;
 		for (int index = period - 1; index < inputValues[1].Length; index++)
 		{
-			PosMoney = 0;
-			NegMoney = 0;
+			double PosMoney = 0;
+			double NegMoney = 0;
 			// Find Money flow using period
 			for (int periodIndex = index - period + 1; periodIndex <= index; periodIndex++)
 			{
@@ -224,7 +232,9 @@ internal class VolumeIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 2);
@@ -281,7 +291,9 @@ internal class VolumeIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 2);
@@ -303,13 +315,19 @@ internal class VolumeIndicators : PriceIndicators
 			// Set Y Values
 			// If today’s close is greater than yesterday’s close then
 			if (inputValues[1][index - 1] < inputValues[1][index])
+			{
 				outputValues[1][index] = outputValues[1][index - 1] + inputValues[2][index];
+			}
 			// If today’s close is less than yesterday’s close then
 			else if (inputValues[1][index - 1] > inputValues[1][index])
+			{
 				outputValues[1][index] = outputValues[1][index - 1] - inputValues[2][index];
+			}
 			// If today’s close is equal to yesterday’s close then
 			else
+			{
 				outputValues[1][index] = outputValues[1][index - 1];
+			}
 		}
 	}
 
@@ -333,7 +351,9 @@ internal class VolumeIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 2);
@@ -341,8 +361,8 @@ internal class VolumeIndicators : PriceIndicators
 		// Start Value
 		double startValue;
 		try
-		{ startValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
-		catch (System.Exception)
+		{ startValue = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
+		catch (Exception)
 		{ throw new InvalidOperationException(SR.ExceptionVolumeIndicatorStartValueMissing); }
 
 		outputValues = new double[2][];
@@ -369,8 +389,9 @@ internal class VolumeIndicators : PriceIndicators
 			}
 			// If today’s volume is greater than or equal to yesterday’s volume then:
 			else
+			{
 				outputValues[1][index] = outputValues[1][index - 1];
-
+			}
 		}
 	}
 
@@ -403,7 +424,9 @@ internal class VolumeIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 3)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresTwoArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 2);
@@ -411,8 +434,8 @@ internal class VolumeIndicators : PriceIndicators
 		// Start Value
 		double startValue;
 		try
-		{ startValue = double.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
-		catch (System.Exception)
+		{ startValue = double.Parse(parameterList[0], Globalization.CultureInfo.InvariantCulture); }
+		catch (Exception)
 		{ throw new InvalidOperationException(SR.ExceptionVolumeIndicatorStartValueMissing); }
 
 		outputValues = new double[2][];
@@ -439,7 +462,9 @@ internal class VolumeIndicators : PriceIndicators
 			}
 			// If today’s volume is less than or equal to yesterday’s volume then:
 			else
+			{
 				outputValues[1][index] = outputValues[1][index - 1];
+			}
 		}
 	}
 
@@ -467,7 +492,9 @@ internal class VolumeIndicators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 5)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresFourArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 4);

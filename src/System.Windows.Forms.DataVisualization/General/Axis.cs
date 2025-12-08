@@ -23,7 +23,7 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
-using Point = System.Drawing.Point;
+using Point = Point;
 
 #region Axis name enumeration
 
@@ -116,21 +116,11 @@ public partial class Axis : ChartNamedElement
 	// This field synchronies Store and Reset temporary values
 	private bool _storeValuesEnabled = true;
 
-	private FontCache _fontCache = new FontCache();
+	private FontCache _fontCache = new();
 	private Font _titleFont;
-	private Color _titleForeColor = Color.Black;
-	private StringAlignment _titleAlignment = StringAlignment.Center;
-	private string _title = "";
-	private int _lineWidth = 1;
-	private ChartDashStyle _lineDashStyle = ChartDashStyle.Solid;
-	private Color _lineColor = Color.Black;
-	private bool _isLabelAutoFit = true;
-	private AxisArrowStyle _arrowStyle = AxisArrowStyle.None;
-	private StripLinesCollection _stripLines = null;
 	private bool _isMarksNextToAxis = true;
 
 	// Default text orientation
-	private TextOrientation _textOrientation = TextOrientation.Auto;
 
 	// Size of the axis elements in percentage
 	internal float titleSize = 0F;
@@ -143,11 +133,6 @@ public partial class Axis : ChartNamedElement
 	internal float totlaGroupingLabelsSize = 0F;
 	internal float[] groupingLabelSizes = null;
 	internal float totlaGroupingLabelsSizeAdjustment = 0f;
-	private LabelAutoFitStyles _labelAutoFitStyle = LabelAutoFitStyles.DecreaseFont |
-														LabelAutoFitStyles.IncreaseFont |
-														LabelAutoFitStyles.LabelsAngleStep30 |
-														LabelAutoFitStyles.StaggeredLabels |
-														LabelAutoFitStyles.WordWrap;
 
 	// Auto calculated font for labels
 	internal Font autoLabelFont = null;
@@ -157,8 +142,8 @@ public partial class Axis : ChartNamedElement
 	// Labels auto fitting constants
 	private float _aveLabelFontSize = 10F;
 	private float _minLabelFontSize = 5F;
+
 	// Determines maximum label size of the chart area.
-	private float _maximumAutoSize = 75f;
 
 	// Chart title position rectangle
 	private RectangleF _titlePosition = RectangleF.Empty;
@@ -196,22 +181,6 @@ public partial class Axis : ChartNamedElement
 	// Original axis scaleView position
 	private double _originalViewPosition = double.NaN;
 
-
-	/// <summary>
-	/// Indicates that isInterlaced strip lines will be displayed for the axis.
-	/// </summary>
-	private bool _isInterlaced = false;
-
-	/// <summary>
-	/// Color used to draw isInterlaced strip lines for the axis.
-	/// </summary>
-	private Color _interlacedColor = Color.Empty;
-
-	/// <summary>
-	/// Axis interval offset.
-	/// </summary>
-	private double _intervalOffset = 0;
-
 	/// <summary>
 	/// Axis interval.
 	/// </summary>
@@ -238,14 +207,9 @@ public partial class Axis : ChartNamedElement
 	internal int labelAutoFitMaxFontSize = 10;
 
 	/// <summary>
-	/// Axis tooltip
-	/// </summary>
-	private string _toolTip = String.Empty;
-
-	/// <summary>
 	/// Axis HREF
 	/// </summary>
-	private string _url = String.Empty;
+	private readonly string _url = string.Empty;
 
 
 	#endregion
@@ -280,68 +244,42 @@ public partial class Axis : ChartNamedElement
 	{
 		// DT: Axis could be already created. Don't recreate new labelstyle and other objects.
 		// Initialize axis labels
-		if (labelStyle == null)
-		{
-			labelStyle = new LabelStyle(this);
-		}
+		labelStyle ??= new LabelStyle(this);
 
-		if (_customLabels == null)
-		{
-			_customLabels = new CustomLabelsCollection(this);
-		}
+		CustomLabels ??= new CustomLabelsCollection(this);
 
-		if (_scaleView == null)
-		{
-			// Create axis data scaleView object
-			_scaleView = new AxisScaleView(this);
-		}
+		// Create axis data scaleView object
+		_scaleView ??= new AxisScaleView(this);
 
-		if (scrollBar == null)
-		{
-			// Create axis croll bar class
-			scrollBar = new AxisScrollBar(this);
-		}
+		// Create axis croll bar class
+		scrollBar ??= new AxisScrollBar(this);
 
-		this.axisType = axisTypeName;
+		axisType = axisTypeName;
 
 		// Create grid & tick marks objects
-		if (minorTickMark == null)
-		{
-			minorTickMark = new TickMark(this, false);
-		}
+		minorTickMark ??= new TickMark(this, false);
 
-		if (majorTickMark == null)
-		{
-			majorTickMark = new TickMark(this, true);
-			majorTickMark.Interval = double.NaN;
-			majorTickMark.IntervalOffset = double.NaN;
-			majorTickMark.IntervalType = DateTimeIntervalType.NotSet;
-			majorTickMark.IntervalOffsetType = DateTimeIntervalType.NotSet;
-		}
+		majorTickMark ??= new TickMark(this, true)
+			{
+				Interval = double.NaN,
+				IntervalOffset = double.NaN,
+				IntervalType = DateTimeIntervalType.NotSet,
+				IntervalOffsetType = DateTimeIntervalType.NotSet
+			};
 
-		if (minorGrid == null)
-		{
-			minorGrid = new Grid(this, false);
-		}
+		minorGrid ??= new Grid(this, false);
 
-		if (majorGrid == null)
-		{
-			majorGrid = new Grid(this, true);
-			majorGrid.Interval = double.NaN;
-			majorGrid.IntervalOffset = double.NaN;
-			majorGrid.IntervalType = DateTimeIntervalType.NotSet;
-			majorGrid.IntervalOffsetType = DateTimeIntervalType.NotSet;
-		}
+		majorGrid ??= new Grid(this, true)
+			{
+				Interval = double.NaN,
+				IntervalOffset = double.NaN,
+				IntervalType = DateTimeIntervalType.NotSet,
+				IntervalOffsetType = DateTimeIntervalType.NotSet
+			};
 
-		if (this._stripLines == null)
-		{
-			this._stripLines = new StripLinesCollection(this);
-		}
+		StripLines ??= new StripLinesCollection(this);
 
-		if (_titleFont == null)
-		{
-			_titleFont = _fontCache.DefaultFont;
-		}
+		_titleFont ??= _fontCache.DefaultFont;
 #if SUBAXES
 		if(this.subAxes == null)
 		{
@@ -351,20 +289,14 @@ public partial class Axis : ChartNamedElement
 
 
 		// Initialize axis scroll bar class
-		this.ScrollBar.Initialize();
+		ScrollBar.Initialize();
 
 
 		// Create collection of scale segments
-		if (this.scaleSegments == null)
-		{
-			this.scaleSegments = new AxisScaleSegmentCollection(this);
-		}
+		scaleSegments ??= new AxisScaleSegmentCollection(this);
 
 		// Create scale break style
-		if (this.axisScaleBreakStyle == null)
-		{
-			this.axisScaleBreakStyle = new AxisScaleBreakStyle(this);
-		}
+		axisScaleBreakStyle ??= new AxisScaleBreakStyle(this);
 	}
 
 	/// <summary>
@@ -374,9 +306,9 @@ public partial class Axis : ChartNamedElement
 	/// <param name="axisTypeName">Axis type.</param>
 	internal void Initialize(ChartArea chartArea, AxisName axisTypeName)
 	{
-		this.Initialize(axisTypeName);
-		this.Parent = chartArea;
-		this.Name = GetName(axisTypeName);
+		Initialize(axisTypeName);
+		Parent = chartArea;
+		Name = GetName(axisTypeName);
 	}
 
 	/// <summary>
@@ -420,20 +352,17 @@ public partial class Axis : ChartNamedElement
 	Bindable(true),
 	DefaultValue(TextOrientation.Auto),
 	SRDescription("DescriptionAttribute_TextOrientation"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public TextOrientation TextOrientation
 	{
-		get
-		{
-			return this._textOrientation;
-		}
+		get;
 		set
 		{
-			this._textOrientation = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = TextOrientation.Auto;
 
 	/// <summary>
 	/// Returns sub-axis name.
@@ -489,20 +418,17 @@ public partial class Axis : ChartNamedElement
 	Bindable(true),
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeInterlaced"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public bool IsInterlaced
 	{
-		get
-		{
-			return _isInterlaced;
-		}
+		get;
 		set
 		{
-			_isInterlaced = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = false;
 
 	/// <summary>
 	/// Gets or sets the color used to draw interlaced strip lines for the axis.
@@ -512,22 +438,19 @@ public partial class Axis : ChartNamedElement
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
 	SRDescription("DescriptionAttributeInterlacedColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 	]
 	public Color InterlacedColor
 	{
-		get
-		{
-			return _interlacedColor;
-		}
+		get;
 		set
 		{
-			_interlacedColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Axis name. This field is reserved for internal use only.
@@ -538,8 +461,8 @@ public partial class Axis : ChartNamedElement
 	Browsable(false),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeAxis_Name"),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public override string Name
 	{
@@ -562,8 +485,8 @@ public partial class Axis : ChartNamedElement
 	Browsable(false),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeType"),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	virtual public AxisName AxisName
 	{
@@ -580,21 +503,18 @@ public partial class Axis : ChartNamedElement
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(AxisArrowStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeArrows"),
 	]
 	public AxisArrowStyle ArrowStyle
 	{
-		get
-		{
-			return _arrowStyle;
-		}
+		get;
 		set
 		{
-			_arrowStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = AxisArrowStyle.None;
 
 	/// <summary>
 	/// Gets or sets the properties used for the major gridlines.
@@ -602,7 +522,7 @@ public partial class Axis : ChartNamedElement
 	[
 	SRCategory("CategoryAttributeGridTickMarks"),
 	Bindable(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeMajorGrid"),
 DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -620,15 +540,26 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			majorGrid.majorGridTick = true;
 
 			if (!majorGrid.intervalChanged)
+			{
 				majorGrid.Interval = double.NaN;
-			if (!majorGrid.intervalOffsetChanged)
-				majorGrid.IntervalOffset = double.NaN;
-			if (!majorGrid.intervalTypeChanged)
-				majorGrid.IntervalType = DateTimeIntervalType.NotSet;
-			if (!majorGrid.intervalOffsetTypeChanged)
-				majorGrid.IntervalOffsetType = DateTimeIntervalType.NotSet;
+			}
 
-			this.Invalidate();
+			if (!majorGrid.intervalOffsetChanged)
+			{
+				majorGrid.IntervalOffset = double.NaN;
+			}
+
+			if (!majorGrid.intervalTypeChanged)
+			{
+				majorGrid.IntervalType = DateTimeIntervalType.NotSet;
+			}
+
+			if (!majorGrid.intervalOffsetTypeChanged)
+			{
+				majorGrid.IntervalOffsetType = DateTimeIntervalType.NotSet;
+			}
+
+			Invalidate();
 		}
 	}
 
@@ -638,7 +569,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	[
 	SRCategory("CategoryAttributeGridTickMarks"),
 	Bindable(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeMinorGrid"),
 DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -653,7 +584,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		{
 			minorGrid = value;
 			minorGrid.Initialize(this, false);
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -663,7 +594,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	[
 	SRCategory("CategoryAttributeGridTickMarks"),
 	Bindable(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeMajorTickMark"),
 DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -681,15 +612,26 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			majorTickMark.majorGridTick = true;
 
 			if (!majorTickMark.intervalChanged)
+			{
 				majorTickMark.Interval = double.NaN;
-			if (!majorTickMark.intervalOffsetChanged)
-				majorTickMark.IntervalOffset = double.NaN;
-			if (!majorTickMark.intervalTypeChanged)
-				majorTickMark.IntervalType = DateTimeIntervalType.NotSet;
-			if (!majorTickMark.intervalOffsetTypeChanged)
-				majorTickMark.IntervalOffsetType = DateTimeIntervalType.NotSet;
+			}
 
-			this.Invalidate();
+			if (!majorTickMark.intervalOffsetChanged)
+			{
+				majorTickMark.IntervalOffset = double.NaN;
+			}
+
+			if (!majorTickMark.intervalTypeChanged)
+			{
+				majorTickMark.IntervalType = DateTimeIntervalType.NotSet;
+			}
+
+			if (!majorTickMark.intervalOffsetTypeChanged)
+			{
+				majorTickMark.IntervalOffsetType = DateTimeIntervalType.NotSet;
+			}
+
+			Invalidate();
 		}
 	}
 
@@ -699,7 +641,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	[
 	SRCategory("CategoryAttributeGridTickMarks"),
 	Bindable(true),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeMinorTickMark"),
 DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	TypeConverter(typeof(NoNameExpandableObjectConverter))
@@ -714,7 +656,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		{
 			minorTickMark = value;
 			minorTickMark.Initialize(this, false);
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -726,21 +668,18 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeLabelsAutoFit"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All)
 	]
 	public bool IsLabelAutoFit
 	{
-		get
-		{
-			return _isLabelAutoFit;
-		}
+		get;
 		set
 		{
-			_isLabelAutoFit = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = true;
 
 
 
@@ -753,14 +692,14 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(6),
 	SRDescription("DescriptionAttributeLabelsAutoFitMinFontSize"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int LabelAutoFitMinFontSize
 	{
 		get
 		{
-			return this.labelAutoFitMinFontSize;
+			return labelAutoFitMinFontSize;
 		}
 		set
 		{
@@ -770,8 +709,8 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				throw (new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMinFontSizeValueInvalid));
 			}
 
-			this.labelAutoFitMinFontSize = value;
-			this.Invalidate();
+			labelAutoFitMinFontSize = value;
+			Invalidate();
 		}
 	}
 
@@ -784,14 +723,14 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(10),
 	SRDescription("DescriptionAttributeLabelsAutoFitMaxFontSize"),
-	NotifyParentPropertyAttribute(true),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	NotifyParentProperty(true),
+	RefreshProperties(RefreshProperties.All)
 	]
 	public int LabelAutoFitMaxFontSize
 	{
 		get
 		{
-			return this.labelAutoFitMaxFontSize;
+			return labelAutoFitMaxFontSize;
 		}
 		set
 		{
@@ -801,8 +740,8 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				throw (new InvalidOperationException(SR.ExceptionAxisLabelsAutoFitMaxFontSizeInvalid));
 			}
 
-			this.labelAutoFitMaxFontSize = value;
-			this.Invalidate();
+			labelAutoFitMaxFontSize = value;
+			Invalidate();
 		}
 	}
 
@@ -817,21 +756,22 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(LabelAutoFitStyles.DecreaseFont | LabelAutoFitStyles.IncreaseFont | LabelAutoFitStyles.LabelsAngleStep30 | LabelAutoFitStyles.StaggeredLabels | LabelAutoFitStyles.WordWrap),
 	SRDescription("DescriptionAttributeLabelsAutoFitStyle"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor))
 	]
 	public LabelAutoFitStyles LabelAutoFitStyle
 	{
-		get
-		{
-			return this._labelAutoFitStyle;
-		}
+		get;
 		set
 		{
-			this._labelAutoFitStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = LabelAutoFitStyles.DecreaseFont |
+														LabelAutoFitStyles.IncreaseFont |
+														LabelAutoFitStyles.LabelsAngleStep30 |
+														LabelAutoFitStyles.StaggeredLabels |
+														LabelAutoFitStyles.WordWrap;
 
 	/// <summary>
 	/// Gets or sets a flag which indicates whether
@@ -843,7 +783,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeMarksNextToAxis"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	virtual public bool IsMarksNextToAxis
 	{
@@ -854,7 +794,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		set
 		{
 			_isMarksNextToAxis = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -866,20 +806,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeTitle6"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public string Title
 	{
-		get
-		{
-			return _title;
-		}
+		get;
 		set
 		{
-			_title = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = "";
 
 	/// <summary>
 	/// Gets or sets the color of the axis title.
@@ -889,22 +826,19 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(typeof(Color), "Black"),
 	SRDescription("DescriptionAttributeTitleColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 	]
 	public Color TitleForeColor
 	{
-		get
-		{
-			return _titleForeColor;
-		}
+		get;
 		set
 		{
-			_titleForeColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the alignment of the axis title.
@@ -914,20 +848,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(typeof(StringAlignment), "Center"),
 	SRDescription("DescriptionAttributeTitleAlignment"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public StringAlignment TitleAlignment
 	{
-		get
-		{
-			return _titleAlignment;
-		}
+		get;
 		set
 		{
-			_titleAlignment = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = StringAlignment.Center;
 
 	/// <summary>
 	/// Gets or sets the font used for the axis title.
@@ -937,7 +868,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
 	SRDescription("DescriptionAttributeTitleFont"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public Font TitleFont
 	{
@@ -948,7 +879,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		set
 		{
 			_titleFont = value;
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -960,22 +891,19 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(typeof(Color), "Black"),
 	SRDescription("DescriptionAttributeLineColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	TypeConverter(typeof(ColorConverter)),
 	Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 	]
 	public Color LineColor
 	{
-		get
-		{
-			return _lineColor;
-		}
+		get;
 		set
 		{
-			_lineColor = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = Color.Black;
 
 	/// <summary>
 	/// Gets or sets the line width of the axis.
@@ -985,25 +913,22 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(1),
 	SRDescription("DescriptionAttributeLineWidth"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public int LineWidth
 	{
-		get
-		{
-			return _lineWidth;
-		}
+		get;
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisWidthIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionAxisWidthIsNegative));
 			}
 
-			_lineWidth = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = 1;
 
 	/// <summary>
 	/// Gets or sets the line style of the axis.
@@ -1013,20 +938,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(ChartDashStyle.Solid),
 	SRDescription("DescriptionAttributeLineDashStyle"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public ChartDashStyle LineDashStyle
 	{
-		get
-		{
-			return _lineDashStyle;
-		}
+		get;
 		set
 		{
-			_lineDashStyle = value;
-			this.Invalidate();
+			field = value;
+			Invalidate();
 		}
-	}
+	} = ChartDashStyle.Solid;
 
 	/// <summary>
 	/// The collection of strip lines of the axis.
@@ -1038,13 +960,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Editor(typeof(ChartCollectionEditor), typeof(UITypeEditor))
 	]
-	public StripLinesCollection StripLines
-	{
-		get
-		{
-			return _stripLines;
-		}
-	}
+	public StripLinesCollection StripLines { get; private set; } = null;
 
 
 	/// <summary>
@@ -1058,23 +974,16 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	DefaultValue(75f),
 	SRDescription("DescriptionAttributeAxis_MaxAutoSize"),
 	]
-	public float MaximumAutoSize
-	{
-		get
-		{
-			return this._maximumAutoSize;
-		}
-		set
+	public float MaximumAutoSize { get; set
 		{
 			if (value < 0f || value > 100f)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionValueMustBeInRange("MaximumAutoSize", "0", "100")));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(MaximumAutoSize), "0", "100")));
 			}
 
-			this._maximumAutoSize = value;
-			this.Invalidate();
-		}
-	}
+			field = value;
+			Invalidate();
+		} } = 75f;
 	#endregion
 
 	#region	IMapAreaAttributes Properties implementation
@@ -1088,17 +997,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	SRDescription("DescriptionAttributeToolTip"),
 	DefaultValue(""),
 	]
-	public string ToolTip
-	{
-		set
-		{
-			this._toolTip = value;
-		}
-		get
-		{
-			return this._toolTip;
-		}
-	}
+	public string ToolTip { set; get; } = string.Empty;
 
 	#endregion
 
@@ -1112,7 +1011,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(0.0),
 	SRDescription("DescriptionAttributeInterval4"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(AxisIntervalValueConverter)),
 	]
 	public double Interval
@@ -1140,7 +1039,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			minorTickMark.interval = tempMinorTickMarkInterval;
 			labelStyle.interval = tempLabelInterval;
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1152,30 +1051,23 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(0.0),
 	SRDescription("DescriptionAttributeIntervalOffset6"),
-	RefreshPropertiesAttribute(RefreshProperties.All),
+	RefreshProperties(RefreshProperties.All),
 	TypeConverter(typeof(AxisIntervalValueConverter))
 	]
-	public double IntervalOffset
-	{
-		get
-		{
-			return _intervalOffset;
-		}
-		set
+	public double IntervalOffset { get; set
 		{
 			// Axis interval properties must be set
 			if (double.IsNaN(value))
 			{
-				_intervalOffset = 0;
+				field = 0;
 			}
 			else
 			{
-				_intervalOffset = value;
+				field = value;
 			}
 
-			this.Invalidate();
-		}
-	}
+			Invalidate();
+		} } = 0;
 
 	/// <summary>
 	/// Axis interval type.
@@ -1185,7 +1077,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(DateTimeIntervalType.Auto),
 	SRDescription("DescriptionAttributeIntervalType4"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public DateTimeIntervalType IntervalType
 	{
@@ -1210,7 +1102,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			majorTickMark.intervalType = tempTickMarkIntervalType;
 			labelStyle.intervalType = tempLabelIntervalType;
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1222,7 +1114,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	Bindable(true),
 	DefaultValue(DateTimeIntervalType.Auto),
 	SRDescription("DescriptionAttributeIntervalOffsetType4"),
-	RefreshPropertiesAttribute(RefreshProperties.All)
+	RefreshProperties(RefreshProperties.All)
 	]
 	public DateTimeIntervalType IntervalOffsetType
 	{
@@ -1242,7 +1134,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				intervalOffsetType = value;
 			}
 
-			this.Invalidate();
+			Invalidate();
 		}
 	}
 
@@ -1259,7 +1151,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	{
 		get
 		{
-			TextOrientation currentTextOrientation = this.GetTextOrientation();
+			TextOrientation currentTextOrientation = GetTextOrientation();
 			return currentTextOrientation == TextOrientation.Rotated90 || currentTextOrientation == TextOrientation.Rotated270;
 		}
 	}
@@ -1271,13 +1163,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// <returns>Current text orientation.</returns>
 	private TextOrientation GetTextOrientation()
 	{
-		if (this.TextOrientation == TextOrientation.Auto)
+		if (TextOrientation == TextOrientation.Auto)
 		{
-			if (this.AxisPosition == AxisPosition.Left)
+			if (AxisPosition == AxisPosition.Left)
 			{
 				return TextOrientation.Rotated270;
 			}
-			else if (this.AxisPosition == AxisPosition.Right)
+			else if (AxisPosition == AxisPosition.Right)
 			{
 				return TextOrientation.Rotated90;
 			}
@@ -1285,7 +1177,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			return TextOrientation.Horizontal;
 		}
 
-		return this.TextOrientation;
+		return TextOrientation;
 	}
 
 	/// <summary>
@@ -1335,7 +1227,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		if (ChartArea != null && ChartArea.chartAreaIsCurcular)
 		{
 			// Y circular axes
-			if (this.axisType == AxisName.Y && enabled != false)
+			if (axisType == AxisName.Y && enabled != false)
 			{
 				ICircularChartType chartType = ChartArea.GetCircularChartType();
 				if (chartType != null)
@@ -1398,7 +1290,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			}
 
 			// X circular axes
-			if (this.axisType == AxisName.X && enabled != false)
+			if (axisType == AxisName.X && enabled != false)
 			{
 				labelStyle.PaintCircular(graph);
 			}
@@ -1436,7 +1328,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// Draw axis title
-		this.DrawAxisTitle(graph);
+		DrawAxisTitle(graph);
 
 #if SUBAXES
 		// Process all sub-axis
@@ -1450,7 +1342,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 #endif // SUBAXES
 
 		// Reset temp axis offset for side-by-side charts like column
-		this.ResetTempAxisOffset();
+		ResetTempAxisOffset();
 	}
 
 
@@ -1500,10 +1392,10 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// Draw axis title
-		this.DrawAxisTitle(graph);
+		DrawAxisTitle(graph);
 
 		// Reset temp axis offset for side-by-side charts like column
-		this.ResetTempAxisOffset();
+		ResetTempAxisOffset();
 
 #if SUBAXES
 		// Process all sub-axis
@@ -1524,11 +1416,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// <param name="graph">Reference to the Chart Graphics object</param>
 	private void DrawAxisTitle(ChartGraphics graph)
 	{
-		if (!this.enabled)
+		if (!enabled)
+		{
 			return;
+		}
 
 		// Draw axis title
-		if (this.Title.Length > 0)
+		if (Title.Length > 0)
 		{
 			Matrix oldTransform = null;
 
@@ -1539,42 +1433,42 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				return;
 			}
 
-			string axisTitle = this.Title;
+			string axisTitle = Title;
 
 			//******************************************************
 			//** Check axis position
 			//******************************************************
-			float axisPosition = (float)this.GetAxisPosition();
-			if (this.AxisPosition == AxisPosition.Bottom)
+			float axisPosition = (float)GetAxisPosition();
+			if (AxisPosition == AxisPosition.Bottom)
 			{
-				if (!this.GetIsMarksNextToAxis())
+				if (!GetIsMarksNextToAxis())
 				{
 					axisPosition = ChartArea.PlotAreaPosition.Bottom;
 				}
 
 				axisPosition = ChartArea.PlotAreaPosition.Bottom - axisPosition;
 			}
-			else if (this.AxisPosition == AxisPosition.Top)
+			else if (AxisPosition == AxisPosition.Top)
 			{
-				if (!this.GetIsMarksNextToAxis())
+				if (!GetIsMarksNextToAxis())
 				{
 					axisPosition = ChartArea.PlotAreaPosition.Y;
 				}
 
 				axisPosition = axisPosition - ChartArea.PlotAreaPosition.Y;
 			}
-			else if (this.AxisPosition == AxisPosition.Right)
+			else if (AxisPosition == AxisPosition.Right)
 			{
-				if (!this.GetIsMarksNextToAxis())
+				if (!GetIsMarksNextToAxis())
 				{
 					axisPosition = ChartArea.PlotAreaPosition.Right;
 				}
 
 				axisPosition = ChartArea.PlotAreaPosition.Right - axisPosition;
 			}
-			else if (this.AxisPosition == AxisPosition.Left)
+			else if (AxisPosition == AxisPosition.Left)
 			{
-				if (!this.GetIsMarksNextToAxis())
+				if (!GetIsMarksNextToAxis())
 				{
 					axisPosition = ChartArea.PlotAreaPosition.X;
 				}
@@ -1586,16 +1480,16 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			//** Adjust axis elements size with axis position
 			//******************************************************
 			// Calculate total size of axis elements
-			float axisSize = this.markSize + this.labelSize;
+			float axisSize = markSize + labelSize;
 			axisSize -= axisPosition;
 			if (axisSize < 0)
 			{
 				axisSize = 0;
 			}
 			// Set title alignment
-			using (StringFormat format = new StringFormat())
+			using (StringFormat format = new())
 			{
-				format.Alignment = this.TitleAlignment;
+				format.Alignment = TitleAlignment;
 				format.Trimming = StringTrimming.EllipsisCharacter;
 				// VSTS #144398
 				// We need to have the StringFormatFlags set to FitBlackBox as othwerwise axis titles using Fonts like 
@@ -1605,24 +1499,24 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 				// Calculate title rectangle
 				_titlePosition = ChartArea.PlotAreaPosition.ToRectangleF();
-				float titleSizeWithoutSpacing = this.titleSize - elementSpacing;
-				if (this.AxisPosition == AxisPosition.Left)
+				float titleSizeWithoutSpacing = titleSize - elementSpacing;
+				if (AxisPosition == AxisPosition.Left)
 				{
 					_titlePosition.X = ChartArea.PlotAreaPosition.X - titleSizeWithoutSpacing - axisSize;
 					_titlePosition.Y = ChartArea.PlotAreaPosition.Y;
 
-					if (!this.IsTextVertical)
+					if (!IsTextVertical)
 					{
-						SizeF axisTitleSize = new SizeF(titleSizeWithoutSpacing, ChartArea.PlotAreaPosition.Height);
+						SizeF axisTitleSize = new(titleSizeWithoutSpacing, ChartArea.PlotAreaPosition.Height);
 						_titlePosition.Width = axisTitleSize.Width;
 						_titlePosition.Height = axisTitleSize.Height;
 
 						format.Alignment = StringAlignment.Center;
-						if (this.TitleAlignment == StringAlignment.Far)
+						if (TitleAlignment == StringAlignment.Far)
 						{
 							format.LineAlignment = StringAlignment.Near;
 						}
-						else if (this.TitleAlignment == StringAlignment.Near)
+						else if (TitleAlignment == StringAlignment.Near)
 						{
 							format.LineAlignment = StringAlignment.Far;
 						}
@@ -1643,29 +1537,29 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						_titlePosition.X += titleSizeWithoutSpacing / 2f - _titlePosition.Width / 2f;
 
 						// Set graphics rotation transformation
-						oldTransform = this.SetRotationTransformation(graph, _titlePosition);
+						oldTransform = SetRotationTransformation(graph, _titlePosition);
 
 						// Set alignment
 						format.LineAlignment = StringAlignment.Center;
 					}
 				}
-				else if (this.AxisPosition == AxisPosition.Right)
+				else if (AxisPosition == AxisPosition.Right)
 				{
 					_titlePosition.X = ChartArea.PlotAreaPosition.Right + axisSize;
 					_titlePosition.Y = ChartArea.PlotAreaPosition.Y;
 
-					if (!this.IsTextVertical)
+					if (!IsTextVertical)
 					{
-						SizeF axisTitleSize = new SizeF(titleSizeWithoutSpacing, ChartArea.PlotAreaPosition.Height);
+						SizeF axisTitleSize = new(titleSizeWithoutSpacing, ChartArea.PlotAreaPosition.Height);
 						_titlePosition.Width = axisTitleSize.Width;
 						_titlePosition.Height = axisTitleSize.Height;
 
 						format.Alignment = StringAlignment.Center;
-						if (this.TitleAlignment == StringAlignment.Far)
+						if (TitleAlignment == StringAlignment.Far)
 						{
 							format.LineAlignment = StringAlignment.Near;
 						}
-						else if (this.TitleAlignment == StringAlignment.Near)
+						else if (TitleAlignment == StringAlignment.Near)
 						{
 							format.LineAlignment = StringAlignment.Far;
 						}
@@ -1686,39 +1580,39 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						_titlePosition.X += titleSizeWithoutSpacing / 2f - _titlePosition.Width / 2f;
 
 						// Set graphics rotation transformation
-						oldTransform = this.SetRotationTransformation(graph, _titlePosition);
+						oldTransform = SetRotationTransformation(graph, _titlePosition);
 
 						// Set alignment
 						format.LineAlignment = StringAlignment.Center;
 					}
 				}
-				else if (this.AxisPosition == AxisPosition.Top)
+				else if (AxisPosition == AxisPosition.Top)
 				{
 					_titlePosition.Y = ChartArea.PlotAreaPosition.Y - titleSizeWithoutSpacing - axisSize;
 					_titlePosition.Height = titleSizeWithoutSpacing;
 					_titlePosition.X = ChartArea.PlotAreaPosition.X;
 					_titlePosition.Width = ChartArea.PlotAreaPosition.Width;
 
-					if (this.IsTextVertical)
+					if (IsTextVertical)
 					{
 						// Set graphics rotation transformation
-						oldTransform = this.SetRotationTransformation(graph, _titlePosition);
+						oldTransform = SetRotationTransformation(graph, _titlePosition);
 					}
 
 					// Set alignment
 					format.LineAlignment = StringAlignment.Center;
 				}
-				else if (this.AxisPosition == AxisPosition.Bottom)
+				else if (AxisPosition == AxisPosition.Bottom)
 				{
 					_titlePosition.Y = ChartArea.PlotAreaPosition.Bottom + axisSize;
 					_titlePosition.Height = titleSizeWithoutSpacing;
 					_titlePosition.X = ChartArea.PlotAreaPosition.X;
 					_titlePosition.Width = ChartArea.PlotAreaPosition.Width;
 
-					if (this.IsTextVertical)
+					if (IsTextVertical)
 					{
 						// Set graphics rotation transformation
-						oldTransform = this.SetRotationTransformation(graph, _titlePosition);
+						oldTransform = SetRotationTransformation(graph, _titlePosition);
 					}
 
 					// Set alignment
@@ -1732,27 +1626,25 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 #endif // DEBUG
 
 				// Draw title
-				using (Brush brush = new SolidBrush(this.TitleForeColor))
-				{
-					graph.DrawStringRel(
-						axisTitle.Replace("\\n", "\n"),
-						this.TitleFont,
-						brush,
-						_titlePosition,
-						format,
-						this.GetTextOrientation());
-				}
+				using Brush brush = new SolidBrush(TitleForeColor);
+				graph.DrawStringRel(
+					axisTitle.Replace("\\n", "\n"),
+					TitleFont,
+					brush,
+					_titlePosition,
+					format,
+					GetTextOrientation());
 			}
 
 			// Process selection regions
-			if (this.Common.ProcessModeRegions)
+			if (Common.ProcessModeRegions)
 			{
 				// NOTE: Solves Issue #4423
 				// Transform title position coordinates using curent Graphics matrix
 				RectangleF transformedTitlePosition = graph.GetAbsoluteRectangle(_titlePosition);
-				PointF[] rectPoints = new PointF[] {
-					new PointF(transformedTitlePosition.X, transformedTitlePosition.Y),
-					new PointF(transformedTitlePosition.Right, transformedTitlePosition.Bottom) };
+				PointF[] rectPoints = [
+					new(transformedTitlePosition.X, transformedTitlePosition.Y),
+					new(transformedTitlePosition.Right, transformedTitlePosition.Bottom) ];
 				graph.Transform.TransformPoints(rectPoints);
 				transformedTitlePosition = new RectangleF(
 					rectPoints[0].X,
@@ -1772,7 +1664,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				}
 
 				// Add hot region 
-				this.Common.HotRegionsList.AddHotRegion(
+				Common.HotRegionsList.AddHotRegion(
 					transformedTitlePosition, this, ChartElementType.AxisTitle, false, false);
 			}
 
@@ -1802,7 +1694,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		center.Y = titlePosition.Y + titlePosition.Height / 2F;
 
 		// Create and set new transformation matrix
-		float angle = (this.GetTextOrientation() == TextOrientation.Rotated90) ? 90f : -90f;
+		float angle = (GetTextOrientation() == TextOrientation.Rotated90) ? 90f : -90f;
 		Matrix newMatrix = graph.Transform.Clone();
 		newMatrix.RotateAt(angle, graph.GetAbsolutePoint(center));
 		graph.Transform = newMatrix;
@@ -1870,32 +1762,28 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		graph.Transform = newMatrix;
 
 		// Draw Line
-		PointF endPoint = new PointF(rect.X + rect.Width / 2f, rect.Y);
+		PointF endPoint = new(rect.X + rect.Width / 2f, rect.Y);
 		graph.DrawLineAbs(color, width, style, centerPoint, endPoint);
 
 		// Process selection regions
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
-			using (GraphicsPath path = new GraphicsPath())
+			using GraphicsPath path = new();
+			path.AddLine(centerPoint, endPoint);
+			path.Transform(newMatrix);
+			try
 			{
-				path.AddLine(centerPoint, endPoint);
-				path.Transform(newMatrix);
-				try
-				{
-					using (Pen pen = new Pen(Color.Black, width + 2))
-					{
-						path.Widen(pen);
-						this.Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.Gridlines, obj);
-					}
-				}
-				catch (OutOfMemoryException)
-				{
-					// GraphicsPath.Widen incorrectly throws OutOfMemoryException
-					// catching here and reacting by not widening
-				}
-				catch (ArgumentException)
-				{
-				}
+				using Pen pen = new(Color.Black, width + 2);
+				path.Widen(pen);
+				Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.Gridlines, obj);
+			}
+			catch (OutOfMemoryException)
+			{
+				// GraphicsPath.Widen incorrectly throws OutOfMemoryException
+				// catching here and reacting by not widening
+			}
+			catch (ArgumentException)
+			{
 			}
 		}
 
@@ -1954,8 +1842,10 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		rect.Inflate(-rectInflate, -rectInflate);
 
 		// Create circle pen
-		Pen circlePen = new Pen(color, width);
-		circlePen.DashStyle = graph.GetPenStyle(style);
+		Pen circlePen = new(color, width)
+		{
+			DashStyle = graph.GetPenStyle(style)
+		};
 
 		// Draw circle
 		if (ChartArea.CircularUsePolygons)
@@ -1969,7 +1859,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// Process selection regions
-		if (this.Common.ProcessModeRegions)
+		if (Common.ProcessModeRegions)
 		{
 			// Bounding rectangle must be more than 1 pixel by 1 pixel
 			if (rect.Width >= 1f && rect.Height > 1)
@@ -1989,7 +1879,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 					circlePen.Width += 2;
 					path.Widen(circlePen);
-					this.Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.Gridlines, obj);
+					Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.Gridlines, obj);
 				}
 				catch (OutOfMemoryException)
 				{
@@ -2015,240 +1905,236 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	private void DrawAxis3DTitle(ChartGraphics graph)
 	{
 		// Do not draw title if axis is not enabled
-		if (!this.enabled)
+		if (!enabled)
 		{
 			return;
 		}
 
-		string axisTitle = this.Title;
+		string axisTitle = Title;
 
 		// Draw axis title
 		PointF rotationCenter = PointF.Empty;
 		int angle = 0;
 
 		// Set title alignment
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.Alignment = TitleAlignment;
+		format.Trimming = StringTrimming.EllipsisCharacter;
+		format.FormatFlags |= StringFormatFlags.LineLimit;
+
+		// Measure title size for non-centered aligment
+		SizeF realTitleSize = graph.MeasureString(axisTitle.Replace("\\n", "\n"), TitleFont, new SizeF(10000f, 10000f), format, GetTextOrientation());
+		SizeF axisTitleSize = SizeF.Empty;
+		if (format.Alignment != StringAlignment.Center)
 		{
-			format.Alignment = this.TitleAlignment;
-			format.Trimming = StringTrimming.EllipsisCharacter;
-			format.FormatFlags |= StringFormatFlags.LineLimit;
-
-			// Measure title size for non-centered aligment
-			SizeF realTitleSize = graph.MeasureString(axisTitle.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), format, this.GetTextOrientation());
-			SizeF axisTitleSize = SizeF.Empty;
-			if (format.Alignment != StringAlignment.Center)
+			axisTitleSize = realTitleSize;
+			if (IsTextVertical)
 			{
-				axisTitleSize = realTitleSize;
-				if (this.IsTextVertical)
-				{
-					// Switch height and width for vertical axis
-					float tempValue = axisTitleSize.Height;
-					axisTitleSize.Height = axisTitleSize.Width;
-					axisTitleSize.Width = tempValue;
-				}
-
-				// Get relative size
-				axisTitleSize = graph.GetRelativeSize(axisTitleSize);
-
-				// Change format aligment for the reversed mode
-				if (ChartArea.ReverseSeriesOrder)
-				{
-					if (format.Alignment == StringAlignment.Near)
-					{
-						format.Alignment = StringAlignment.Far;
-					}
-					else
-					{
-						format.Alignment = StringAlignment.Near;
-					}
-				}
+				// Switch height and width for vertical axis
+				float tempValue = axisTitleSize.Height;
+				axisTitleSize.Height = axisTitleSize.Width;
+				axisTitleSize.Width = tempValue;
 			}
 
-			// Set text rotation angle based on the text orientation
-			if (this.GetTextOrientation() == TextOrientation.Rotated90)
-			{
-				angle = 90;
-			}
-			else if (this.GetTextOrientation() == TextOrientation.Rotated270)
-			{
-				angle = -90;
-			}
+			// Get relative size
+			axisTitleSize = graph.GetRelativeSize(axisTitleSize);
 
-			// Calculate title center point on the axis 
-			if (this.AxisPosition == AxisPosition.Left)
+			// Change format aligment for the reversed mode
+			if (ChartArea.ReverseSeriesOrder)
 			{
-				rotationCenter = new PointF(ChartArea.PlotAreaPosition.X, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
 				if (format.Alignment == StringAlignment.Near)
 				{
-					rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
+					format.Alignment = StringAlignment.Far;
 				}
-				else if (format.Alignment == StringAlignment.Far)
+				else
 				{
-					rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
+					format.Alignment = StringAlignment.Near;
 				}
 			}
-			else if (this.AxisPosition == AxisPosition.Right)
+		}
+
+		// Set text rotation angle based on the text orientation
+		if (GetTextOrientation() == TextOrientation.Rotated90)
+		{
+			angle = 90;
+		}
+		else if (GetTextOrientation() == TextOrientation.Rotated270)
+		{
+			angle = -90;
+		}
+
+		// Calculate title center point on the axis 
+		if (AxisPosition == AxisPosition.Left)
+		{
+			rotationCenter = new PointF(ChartArea.PlotAreaPosition.X, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
+			if (format.Alignment == StringAlignment.Near)
 			{
-				rotationCenter = new PointF(ChartArea.PlotAreaPosition.Right, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
-				if (format.Alignment == StringAlignment.Near)
-				{
-					rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
-				}
-				else if (format.Alignment == StringAlignment.Far)
-				{
-					rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
-				}
+				rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
 			}
-			else if (this.AxisPosition == AxisPosition.Top)
+			else if (format.Alignment == StringAlignment.Far)
 			{
-				rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Y);
-				if (format.Alignment == StringAlignment.Near)
-				{
-					rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
-				}
-				else if (format.Alignment == StringAlignment.Far)
-				{
-					rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
-				}
+				rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
 			}
-			else if (this.AxisPosition == AxisPosition.Bottom)
+		}
+		else if (AxisPosition == AxisPosition.Right)
+		{
+			rotationCenter = new PointF(ChartArea.PlotAreaPosition.Right, ChartArea.PlotAreaPosition.Y + ChartArea.PlotAreaPosition.Height / 2f);
+			if (format.Alignment == StringAlignment.Near)
 			{
-				rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Bottom);
-				if (format.Alignment == StringAlignment.Near)
-				{
-					rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
-				}
-				else if (format.Alignment == StringAlignment.Far)
-				{
-					rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
-				}
+				rotationCenter.Y = ChartArea.PlotAreaPosition.Bottom - axisTitleSize.Height / 2f;
 			}
-
-			// Transform center of title coordinates and calculate axis angle
-			bool isOnEdge = false;
-			float zPosition = this.GetMarksZPosition(out isOnEdge);
-			Point3D[] rotationCenterPoints = null;
-			float angleAxis = 0;
-			if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
+			else if (format.Alignment == StringAlignment.Far)
 			{
-				rotationCenterPoints = new Point3D[] {
-				new Point3D(rotationCenter.X, rotationCenter.Y, zPosition),
-				new Point3D(rotationCenter.X - 20f, rotationCenter.Y, zPosition) };
+				rotationCenter.Y = ChartArea.PlotAreaPosition.Y + axisTitleSize.Height / 2f;
+			}
+		}
+		else if (AxisPosition == AxisPosition.Top)
+		{
+			rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Y);
+			if (format.Alignment == StringAlignment.Near)
+			{
+				rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
+			}
+			else if (format.Alignment == StringAlignment.Far)
+			{
+				rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
+			}
+		}
+		else if (AxisPosition == AxisPosition.Bottom)
+		{
+			rotationCenter = new PointF(ChartArea.PlotAreaPosition.X + ChartArea.PlotAreaPosition.Width / 2f, ChartArea.PlotAreaPosition.Bottom);
+			if (format.Alignment == StringAlignment.Near)
+			{
+				rotationCenter.X = ChartArea.PlotAreaPosition.X + axisTitleSize.Width / 2f;
+			}
+			else if (format.Alignment == StringAlignment.Far)
+			{
+				rotationCenter.X = ChartArea.PlotAreaPosition.Right - axisTitleSize.Width / 2f;
+			}
+		}
 
-				// Transform coordinates of text rotation point
-				ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
-				rotationCenter = rotationCenterPoints[0].PointF;
+		// Transform center of title coordinates and calculate axis angle
+		bool isOnEdge = false;
+		float zPosition = GetMarksZPosition(out isOnEdge);
+		Point3D[] rotationCenterPoints = null;
+		float angleAxis = 0;
+		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+		{
+			rotationCenterPoints = [
+				new(rotationCenter.X, rotationCenter.Y, zPosition),
+				new(rotationCenter.X - 20f, rotationCenter.Y, zPosition) ];
 
-				// Get absolute coordinates 
-				rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
-				rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
+			// Transform coordinates of text rotation point
+			ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
+			rotationCenter = rotationCenterPoints[0].PointF;
 
-				// Calculate X axis angle
-				angleAxis = (float)Math.Atan(
-					(rotationCenterPoints[1].Y - rotationCenterPoints[0].Y) /
-					(rotationCenterPoints[1].X - rotationCenterPoints[0].X));
+			// Get absolute coordinates 
+			rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
+			rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
+
+			// Calculate X axis angle
+			angleAxis = (float)Math.Atan(
+				(rotationCenterPoints[1].Y - rotationCenterPoints[0].Y) /
+				(rotationCenterPoints[1].X - rotationCenterPoints[0].X));
+		}
+		else
+		{
+			rotationCenterPoints = [
+				new(rotationCenter.X, rotationCenter.Y, zPosition),
+				new(rotationCenter.X, rotationCenter.Y - 20f, zPosition) ];
+
+			// Transform coordinates of text rotation point
+			ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
+			rotationCenter = rotationCenterPoints[0].PointF;
+
+			// Get absolute coordinates 
+			rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
+			rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
+
+			// Calculate Y axis angle
+			if (rotationCenterPoints[1].Y != rotationCenterPoints[0].Y)
+			{
+				angleAxis = -(float)Math.Atan(
+					(rotationCenterPoints[1].X - rotationCenterPoints[0].X) /
+					(rotationCenterPoints[1].Y - rotationCenterPoints[0].Y));
+			}
+		}
+
+		angle += (int)Math.Round(angleAxis * 180f / (float)Math.PI);
+
+
+		// Calculate title center offset from the axis line
+		float offset = labelSize + markSize + titleSize / 2f;
+		float dX = 0f, dY = 0f;
+
+
+		// Adjust center of title with labels, marker and title size
+		if (AxisPosition == AxisPosition.Left)
+		{
+			dX = (float)(offset * Math.Cos(angleAxis));
+			rotationCenter.X -= dX;
+		}
+		else if (AxisPosition == AxisPosition.Right)
+		{
+			dX = (float)(offset * Math.Cos(angleAxis));
+			rotationCenter.X += dX;
+		}
+		else if (AxisPosition == AxisPosition.Top)
+		{
+			dY = (float)(offset * Math.Cos(angleAxis));
+			dX = (float)(offset * Math.Sin(angleAxis));
+			rotationCenter.Y -= dY;
+			if (dY > 0)
+			{
+				rotationCenter.X += dX;
 			}
 			else
 			{
-				rotationCenterPoints = new Point3D[] {
-				new Point3D(rotationCenter.X, rotationCenter.Y, zPosition),
-				new Point3D(rotationCenter.X, rotationCenter.Y - 20f, zPosition) };
-
-				// Transform coordinates of text rotation point
-				ChartArea.matrix3D.TransformPoints(rotationCenterPoints);
-				rotationCenter = rotationCenterPoints[0].PointF;
-
-				// Get absolute coordinates 
-				rotationCenterPoints[0].PointF = graph.GetAbsolutePoint(rotationCenterPoints[0].PointF);
-				rotationCenterPoints[1].PointF = graph.GetAbsolutePoint(rotationCenterPoints[1].PointF);
-
-				// Calculate Y axis angle
-				if (rotationCenterPoints[1].Y != rotationCenterPoints[0].Y)
-				{
-					angleAxis = -(float)Math.Atan(
-						(rotationCenterPoints[1].X - rotationCenterPoints[0].X) /
-						(rotationCenterPoints[1].Y - rotationCenterPoints[0].Y));
-				}
-			}
-
-			angle += (int)Math.Round(angleAxis * 180f / (float)Math.PI);
-
-
-			// Calculate title center offset from the axis line
-			float offset = this.labelSize + this.markSize + this.titleSize / 2f;
-			float dX = 0f, dY = 0f;
-
-
-			// Adjust center of title with labels, marker and title size
-			if (this.AxisPosition == AxisPosition.Left)
-			{
-				dX = (float)(offset * Math.Cos(angleAxis));
 				rotationCenter.X -= dX;
 			}
-			else if (this.AxisPosition == AxisPosition.Right)
+		}
+		else if (AxisPosition == AxisPosition.Bottom)
+		{
+			dY = (float)(offset * Math.Cos(angleAxis));
+			dX = (float)(offset * Math.Sin(angleAxis));
+			rotationCenter.Y += dY;
+			if (dY > 0)
 			{
-				dX = (float)(offset * Math.Cos(angleAxis));
+				rotationCenter.X -= dX;
+			}
+			else
+			{
 				rotationCenter.X += dX;
 			}
-			else if (this.AxisPosition == AxisPosition.Top)
-			{
-				dY = (float)(offset * Math.Cos(angleAxis));
-				dX = (float)(offset * Math.Sin(angleAxis));
-				rotationCenter.Y -= dY;
-				if (dY > 0)
-				{
-					rotationCenter.X += dX;
-				}
-				else
-				{
-					rotationCenter.X -= dX;
-				}
-			}
-			else if (this.AxisPosition == AxisPosition.Bottom)
-			{
-				dY = (float)(offset * Math.Cos(angleAxis));
-				dX = (float)(offset * Math.Sin(angleAxis));
-				rotationCenter.Y += dY;
-				if (dY > 0)
-				{
-					rotationCenter.X -= dX;
-				}
-				else
-				{
-					rotationCenter.X += dX;
-				}
-			}
+		}
 
-			// Always align text in the center
-			format.LineAlignment = StringAlignment.Center;
-			format.Alignment = StringAlignment.Center;
-			// SQL VSTS Fix #259954, Dev10: 591135 Windows 7 crashes on empty transformation.
-			if (rotationCenter.IsEmpty || float.IsNaN(rotationCenter.X) || float.IsNaN(rotationCenter.Y))
-			{
-				return;
-			}
+		// Always align text in the center
+		format.LineAlignment = StringAlignment.Center;
+		format.Alignment = StringAlignment.Center;
+		// SQL VSTS Fix #259954, Dev10: 591135 Windows 7 crashes on empty transformation.
+		if (rotationCenter.IsEmpty || float.IsNaN(rotationCenter.X) || float.IsNaN(rotationCenter.Y))
+		{
+			return;
+		}
 
-			// Draw 3D title
-			using (Brush brush = new SolidBrush(this.TitleForeColor))
-			{
-				graph.DrawStringRel(
-					axisTitle.Replace("\\n", "\n"),
-					this.TitleFont,
-					brush,
-					rotationCenter,
-					format,
-					angle,
-					this.GetTextOrientation());
-			}
+		// Draw 3D title
+		using (Brush brush = new SolidBrush(TitleForeColor))
+		{
+			graph.DrawStringRel(
+				axisTitle.Replace("\\n", "\n"),
+				TitleFont,
+				brush,
+				rotationCenter,
+				format,
+				angle,
+				GetTextOrientation());
+		}
 
-			// Add hot region
-			if (Common.ProcessModeRegions)
-			{
-				using (GraphicsPath hotPath = graph.GetTranformedTextRectPath(rotationCenter, realTitleSize, angle))
-				{
-					this.Common.HotRegionsList.AddHotRegion(hotPath, false, ChartElementType.AxisTitle, this);
-				}
-			}
+		// Add hot region
+		if (Common.ProcessModeRegions)
+		{
+			using GraphicsPath hotPath = graph.GetTranformedTextRectPath(rotationCenter, realTitleSize, angle);
+			Common.HotRegionsList.AddHotRegion(hotPath, false, ChartElementType.AxisTitle, this);
 		}
 	}
 
@@ -2275,9 +2161,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				second.X = (float)GetAxisPosition();
 				second.Y = PlotAreaPosition.Y;
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Bottom;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Top;
+				}
 
 				break;
 
@@ -2288,9 +2178,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				second.X = (float)GetAxisPosition();
 				second.Y = PlotAreaPosition.Y;
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Bottom;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Top;
+				}
 
 				break;
 
@@ -2301,9 +2195,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				second.X = PlotAreaPosition.Right;
 				second.Y = (float)GetAxisPosition();
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Left;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Right;
+				}
 
 				break;
 
@@ -2314,9 +2212,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				second.X = PlotAreaPosition.Right;
 				second.Y = (float)GetAxisPosition();
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Left;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Right;
+				}
 
 				break;
 
@@ -2335,10 +2237,10 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 
 				// Start Svg/Flash Selection mode
-				graph.StartHotRegion(this._url, _toolTip);
+				graph.StartHotRegion(_url, ToolTip);
 
 				// Draw the line
-				graph.DrawLineRel(_lineColor, _lineWidth, _lineDashStyle, first, second);
+				graph.DrawLineRel(LineColor, LineWidth, LineDashStyle, first, second);
 
 				// End Svg/Flash Selection mode
 				graph.EndHotRegion();
@@ -2368,16 +2270,20 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				// Draw arrow
 				PointF arrowPosition;
 				if (isReversed)
+				{
 					arrowPosition = first;
+				}
 				else
+				{
 					arrowPosition = second;
+				}
 
 				// Draw Arrow
-				graph.DrawArrowRel(arrowPosition, arrowOrientation, _arrowStyle, _lineColor, _lineWidth, _lineDashStyle, opositeAxis.majorTickMark.Size, _lineWidth);
+				graph.DrawArrowRel(arrowPosition, arrowOrientation, ArrowStyle, LineColor, LineWidth, LineDashStyle, opositeAxis.majorTickMark.Size, LineWidth);
 			}
 			else
 			{
-				Draw3DAxisLine(graph, first, second, (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom), backElements);
+				Draw3DAxisLine(graph, first, second, (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom), backElements);
 			}
 		}
 
@@ -2412,113 +2318,111 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// <param name="graph">The chart graphics instance.</param>
 	private void DrawAxisLineHotRegion(ChartGraphics graph)
 	{
-		using (GraphicsPath path = new GraphicsPath())
+		using GraphicsPath path = new();
+		// Find the topLeft(first) and bottomRight(second) points of the hotregion rectangle
+		PointF first = PointF.Empty;
+		PointF second = PointF.Empty;
+		float axisPosition = (float)GetAxisPosition();
+
+		switch (AxisPosition)
 		{
-			// Find the topLeft(first) and bottomRight(second) points of the hotregion rectangle
-			PointF first = PointF.Empty;
-			PointF second = PointF.Empty;
-			float axisPosition = (float)GetAxisPosition();
+			case AxisPosition.Left:
+				first.X = axisPosition - (labelSize + markSize);
+				first.Y = PlotAreaPosition.Y;
+				second.X = axisPosition;
+				second.Y = PlotAreaPosition.Bottom;
+				break;
 
-			switch (this.AxisPosition)
-			{
-				case AxisPosition.Left:
-					first.X = axisPosition - (labelSize + markSize);
-					first.Y = PlotAreaPosition.Y;
-					second.X = axisPosition;
-					second.Y = PlotAreaPosition.Bottom;
-					break;
+			case AxisPosition.Right:
+				first.X = axisPosition;
+				first.Y = PlotAreaPosition.Y;
+				second.X = axisPosition + labelSize + markSize;
+				second.Y = PlotAreaPosition.Bottom;
+				break;
 
-				case AxisPosition.Right:
-					first.X = axisPosition;
-					first.Y = PlotAreaPosition.Y;
-					second.X = axisPosition + labelSize + markSize;
-					second.Y = PlotAreaPosition.Bottom;
-					break;
+			case AxisPosition.Bottom:
+				first.X = PlotAreaPosition.X;
+				first.Y = axisPosition;
+				second.X = PlotAreaPosition.Right;
+				second.Y = axisPosition + labelSize + markSize;
+				break;
 
-				case AxisPosition.Bottom:
-					first.X = PlotAreaPosition.X;
-					first.Y = axisPosition;
-					second.X = PlotAreaPosition.Right;
-					second.Y = axisPosition + labelSize + markSize;
-					break;
+			case AxisPosition.Top:
+				first.X = PlotAreaPosition.X;
+				first.Y = axisPosition - (labelSize + markSize);
+				second.X = PlotAreaPosition.Right;
+				second.Y = axisPosition;
+				break;
+		}
 
-				case AxisPosition.Top:
-					first.X = PlotAreaPosition.X;
-					first.Y = axisPosition - (labelSize + markSize);
-					second.X = PlotAreaPosition.Right;
-					second.Y = axisPosition;
-					break;
-			}
+		// Update axis line position for circular area
+		if (ChartArea.chartAreaIsCurcular)
+		{
+			second.Y = PlotAreaPosition.Y + PlotAreaPosition.Height / 2f;
+		}
 
-			// Update axis line position for circular area
-			if (ChartArea.chartAreaIsCurcular)
-			{
-				second.Y = PlotAreaPosition.Y + PlotAreaPosition.Height / 2f;
-			}
+		// Create rectangle and inflate it
+		RectangleF rect = new(first.X, first.Y, second.X - first.X, second.Y - first.Y);
+		SizeF size = graph.GetRelativeSize(new SizeF(3, 3));
 
-			// Create rectangle and inflate it
-			RectangleF rect = new RectangleF(first.X, first.Y, second.X - first.X, second.Y - first.Y);
-			SizeF size = graph.GetRelativeSize(new SizeF(3, 3));
+		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
+		{
+			rect.Inflate(2, size.Height);
+		}
+		else
+		{
+			rect.Inflate(size.Width, 2);
+		}
 
-			if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
-			{
-				rect.Inflate(2, size.Height);
-			}
-			else
-			{
-				rect.Inflate(size.Width, 2);
-			}
+		// Get the rectangle points
+		PointF[] points = [
+					new(rect.Left, rect.Top),
+					new(rect.Right, rect.Top),
+					new(rect.Right, rect.Bottom),
+					new(rect.Left, rect.Bottom)];
 
-			// Get the rectangle points
-			PointF[] points = new PointF[] {
-					new PointF(rect.Left, rect.Top),
-					new PointF(rect.Right, rect.Top),
-					new PointF(rect.Right, rect.Bottom),
-					new PointF(rect.Left, rect.Bottom)};
+		// If we are dealing with the 3D - transform the rectangle
+		if (ChartArea.Area3DStyle.Enable3D && !ChartArea.chartAreaIsCurcular)
+		{
+			bool axisOnEdge = false;
+			float zPositon = GetMarksZPosition(out axisOnEdge);
 
-			// If we are dealing with the 3D - transform the rectangle
-			if (ChartArea.Area3DStyle.Enable3D && !ChartArea.chartAreaIsCurcular)
-			{
-				Boolean axisOnEdge = false;
-				float zPositon = GetMarksZPosition(out axisOnEdge);
-
-				// Convert points to 3D
-				Point3D[] points3D = new Point3D[points.Length];
-				for (int i = 0; i < points.Length; i++)
-				{
-					points3D[i] = new Point3D(points[i].X, points[i].Y, zPositon);
-				}
-
-				// Transform
-				ChartArea.matrix3D.TransformPoints(points3D);
-
-				// Convert to 2D
-				for (int i = 0; i < points3D.Length; i++)
-				{
-					points[i] = points3D[i].PointF;
-				}
-			}
-
-			// Transform points to absolute cooordinates
+			// Convert points to 3D
+			Point3D[] points3D = new Point3D[points.Length];
 			for (int i = 0; i < points.Length; i++)
 			{
-				points[i] = graph.GetAbsolutePoint(points[i]);
+				points3D[i] = new Point3D(points[i].X, points[i].Y, zPositon);
 			}
 
-			// Add the points to the path
-			path.AddPolygon(points);
+			// Transform
+			ChartArea.matrix3D.TransformPoints(points3D);
 
-			Common.HotRegionsList.AddHotRegion(
-				graph,
-				path,
-				false,
-				this._toolTip,
-				string.Empty,
-				string.Empty,
-				string.Empty,
-				this,
-				ChartElementType.Axis);
+			// Convert to 2D
+			for (int i = 0; i < points3D.Length; i++)
+			{
+				points[i] = points3D[i].PointF;
+			}
 		}
+
+		// Transform points to absolute cooordinates
+		for (int i = 0; i < points.Length; i++)
+		{
+			points[i] = graph.GetAbsolutePoint(points[i]);
+		}
+
+		// Add the points to the path
+		path.AddPolygon(points);
+
+		Common.HotRegionsList.AddHotRegion(
+			graph,
+			path,
+			false,
+			ToolTip,
+			string.Empty,
+			string.Empty,
+			string.Empty,
+			this,
+			ChartElementType.Axis);
 	}
 
 
@@ -2539,15 +2443,15 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		)
 	{
 		// Check if axis is positioned on the plot area adge
-		bool onEdge = this.IsAxisOnAreaEdge;
+		bool onEdge = IsAxisOnAreaEdge;
 
 		// Check if axis tick marks are drawn inside plotting area
 		bool tickMarksOnEdge = onEdge;
 		if (tickMarksOnEdge &&
-			this.MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
-			this.MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea ||
-			this.MinorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
-			this.MinorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
+			MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
+			MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea ||
+			MinorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis ||
+			MinorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
 		{
 			tickMarksOnEdge = false;
 		}
@@ -2556,7 +2460,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		if ((horizontal && point1.X > point2.X) ||
 			(!horizontal && point1.Y > point2.Y))
 		{
-			PointF tempPoint = new PointF(point1.X, point1.Y);
+			PointF tempPoint = new(point1.X, point1.Y);
 			point1.X = point2.X;
 			point1.Y = point2.Y;
 			point2 = tempPoint;
@@ -2569,12 +2473,12 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		{
 
 			// Start Svg Selection mode
-			graph.StartHotRegion(this._url, _toolTip);
+			graph.StartHotRegion(_url, ToolTip);
 
 			// Draw axis line on the back/front wall
 			graph.Draw3DLine(
 				ChartArea.matrix3D,
-				_lineColor, _lineWidth, _lineDashStyle,
+				LineColor, LineWidth, LineDashStyle,
 				new Point3D(point1.X, point1.Y, zPositon),
 				new Point3D(point2.X, point2.Y, zPositon),
 				Common,
@@ -2594,17 +2498,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		{
 			// Draw axis line on the front wall
 			if (!onEdge ||
-				(this.AxisPosition == AxisPosition.Bottom && ChartArea.IsBottomSceneWallVisible()) ||
-				(this.AxisPosition == AxisPosition.Left && ChartArea.IsSideSceneWallOnLeft()) ||
-				(this.AxisPosition == AxisPosition.Right && !ChartArea.IsSideSceneWallOnLeft()))
+				(AxisPosition == AxisPosition.Bottom && ChartArea.IsBottomSceneWallVisible()) ||
+				(AxisPosition == AxisPosition.Left && ChartArea.IsSideSceneWallOnLeft()) ||
+				(AxisPosition == AxisPosition.Right && !ChartArea.IsSideSceneWallOnLeft()))
 			{
 
 				// Start Svg Selection mode
-				graph.StartHotRegion(this._url, _toolTip);
+				graph.StartHotRegion(_url, ToolTip);
 
 				graph.Draw3DLine(
 					ChartArea.matrix3D,
-					_lineColor, _lineWidth, _lineDashStyle,
+					LineColor, LineWidth, LineDashStyle,
 					new Point3D(point1.X, point1.Y, zPositon),
 					new Point3D(point2.X, point2.Y, zPositon),
 					Common,
@@ -2619,23 +2523,23 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// Check if the left/top wall is on the top drawing layer
-		SurfaceNames surfaceName = (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? SurfaceNames.Top : SurfaceNames.Left;
+		SurfaceNames surfaceName = (AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? SurfaceNames.Top : SurfaceNames.Left;
 		if (ChartArea.ShouldDrawOnSurface(surfaceName, backElements, tickMarksOnEdge))
 		{
 			// Draw axis line on the left/top side walls
 			if (!onEdge ||
-				(this.AxisPosition == AxisPosition.Bottom && (ChartArea.IsBottomSceneWallVisible() || ChartArea.IsSideSceneWallOnLeft())) ||
-				(this.AxisPosition == AxisPosition.Left && ChartArea.IsSideSceneWallOnLeft()) ||
-				(this.AxisPosition == AxisPosition.Right && !ChartArea.IsSideSceneWallOnLeft()) ||
-				(this.AxisPosition == AxisPosition.Top && ChartArea.IsSideSceneWallOnLeft()))
+				(AxisPosition == AxisPosition.Bottom && (ChartArea.IsBottomSceneWallVisible() || ChartArea.IsSideSceneWallOnLeft())) ||
+				(AxisPosition == AxisPosition.Left && ChartArea.IsSideSceneWallOnLeft()) ||
+				(AxisPosition == AxisPosition.Right && !ChartArea.IsSideSceneWallOnLeft()) ||
+				(AxisPosition == AxisPosition.Top && ChartArea.IsSideSceneWallOnLeft()))
 			{
 
 				// Start Svg Selection mode
-				graph.StartHotRegion(this._url, _toolTip);
+				graph.StartHotRegion(_url, ToolTip);
 
 				graph.Draw3DLine(
 					ChartArea.matrix3D,
-					_lineColor, _lineWidth, _lineDashStyle,
+					LineColor, LineWidth, LineDashStyle,
 					new Point3D(point1.X, point1.Y, ChartArea.areaSceneDepth),
 					new Point3D(point1.X, point1.Y, 0f),
 					Common,
@@ -2650,24 +2554,24 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// Check if the right/bottom wall is on the top drawing layer
-		surfaceName = (this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? SurfaceNames.Bottom : SurfaceNames.Right;
+		surfaceName = (AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? SurfaceNames.Bottom : SurfaceNames.Right;
 		if (ChartArea.ShouldDrawOnSurface(surfaceName, backElements, tickMarksOnEdge))
 		{
 			// Draw axis line on the bottom/right side walls
 			if (!onEdge ||
-				(this.AxisPosition == AxisPosition.Bottom && (ChartArea.IsBottomSceneWallVisible() || !ChartArea.IsSideSceneWallOnLeft())) ||
-				(this.AxisPosition == AxisPosition.Left && (ChartArea.IsSideSceneWallOnLeft() || ChartArea.IsBottomSceneWallVisible())) ||
-				(this.AxisPosition == AxisPosition.Right && (!ChartArea.IsSideSceneWallOnLeft() || ChartArea.IsBottomSceneWallVisible())) ||
-				(this.AxisPosition == AxisPosition.Top && !ChartArea.IsSideSceneWallOnLeft())
+				(AxisPosition == AxisPosition.Bottom && (ChartArea.IsBottomSceneWallVisible() || !ChartArea.IsSideSceneWallOnLeft())) ||
+				(AxisPosition == AxisPosition.Left && (ChartArea.IsSideSceneWallOnLeft() || ChartArea.IsBottomSceneWallVisible())) ||
+				(AxisPosition == AxisPosition.Right && (!ChartArea.IsSideSceneWallOnLeft() || ChartArea.IsBottomSceneWallVisible())) ||
+				(AxisPosition == AxisPosition.Top && !ChartArea.IsSideSceneWallOnLeft())
 				)
 			{
 
 				// Start Svg Selection mode
-				graph.StartHotRegion(this._url, _toolTip);
+				graph.StartHotRegion(_url, ToolTip);
 
 				graph.Draw3DLine(
 					ChartArea.matrix3D,
-					_lineColor, _lineWidth, _lineDashStyle,
+					LineColor, LineWidth, LineDashStyle,
 					new Point3D(point2.X, point2.Y, ChartArea.areaSceneDepth),
 					new Point3D(point2.X, point2.Y, 0f),
 					Common,
@@ -2690,30 +2594,30 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// <returns>Marks Z position.</returns>
 	internal float GetMarksZPosition(out bool axisOnEdge)
 	{
-		axisOnEdge = this.IsAxisOnAreaEdge;
-		if (!this.GetIsMarksNextToAxis())
+		axisOnEdge = IsAxisOnAreaEdge;
+		if (!GetIsMarksNextToAxis())
 		{
 			// Marks are forced to be on the area edge
 			axisOnEdge = true;
 		}
 
 		float wallZPosition = 0f;
-		if (this.AxisPosition == AxisPosition.Bottom && (ChartArea.IsBottomSceneWallVisible() || !axisOnEdge))
+		if (AxisPosition == AxisPosition.Bottom && (ChartArea.IsBottomSceneWallVisible() || !axisOnEdge))
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
 		}
 
-		if (this.AxisPosition == AxisPosition.Left && (ChartArea.IsSideSceneWallOnLeft() || !axisOnEdge))
+		if (AxisPosition == AxisPosition.Left && (ChartArea.IsSideSceneWallOnLeft() || !axisOnEdge))
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
 		}
 
-		if (this.AxisPosition == AxisPosition.Right && (!ChartArea.IsSideSceneWallOnLeft() || !axisOnEdge))
+		if (AxisPosition == AxisPosition.Right && (!ChartArea.IsSideSceneWallOnLeft() || !axisOnEdge))
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
 		}
 
-		if (this.AxisPosition == AxisPosition.Top && !axisOnEdge)
+		if (AxisPosition == AxisPosition.Top && !axisOnEdge)
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
 		}
@@ -2764,7 +2668,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 		// Axis is disabled
 		if (enabled == false)
+		{
 			return;
+		}
 
 		// Paint Minor grid lines
 		minorGrid.Paint(graph);
@@ -2794,9 +2700,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// <param name="y">Y coordinate</param>
 	/// <param name="obj">Returns selected grid object</param>
 	/// <param name="drawLinesOnly">Indicates if Lines or Stripes should be drawn.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "y"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "x"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "selectionMode")]
+	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "y"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "x"),
+	SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "selectionMode")]
 	internal void PaintStrips(ChartGraphics graph, bool selectionMode, int x, int y, out object obj, bool drawLinesOnly)
 	{
 		obj = null;
@@ -2814,22 +2720,24 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 		// Axis is disabled
 		if (enabled == false)
+		{
 			return;
+		}
 
 		// Add axis isInterlaced strip lines into the collection
 		bool interlacedStripAdded = AddInterlacedStrip();
 
 		// Draw axis strips and lines
-		foreach (StripLine strip in this.StripLines)
+		foreach (StripLine strip in StripLines)
 		{
-			strip.Paint(graph, this.Common, drawLinesOnly);
+			strip.Paint(graph, Common, drawLinesOnly);
 		}
 
 		// Remove axis isInterlaced strip line from the collection after drawing
 		if (interlacedStripAdded)
 		{
 			// Remove isInterlaced strips which always is the first strip line
-			this.StripLines.RemoveAt(0);
+			StripLines.RemoveAt(0);
 		}
 
 	}
@@ -2841,52 +2749,54 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	private bool AddInterlacedStrip()
 	{
 		bool addStrip = false;
-		if (this.IsInterlaced)
+		if (IsInterlaced)
 		{
-			StripLine stripLine = new StripLine();
-			stripLine.interlaced = true;
-			// VSTS fix of 164115 IsInterlaced StripLines with no border are rendered with black border, regression of VSTS 136763
-			stripLine.BorderColor = Color.Empty;
+			StripLine stripLine = new()
+			{
+				interlaced = true,
+				// VSTS fix of 164115 IsInterlaced StripLines with no border are rendered with black border, regression of VSTS 136763
+				BorderColor = Color.Empty
+			};
 
 			// Get interval from grid lines, tick marks or labels
-			if (this.MajorGrid.Enabled && this.MajorGrid.GetInterval() != 0.0)
+			if (MajorGrid.Enabled && MajorGrid.GetInterval() != 0.0)
 			{
 				addStrip = true;
-				stripLine.Interval = this.MajorGrid.GetInterval() * 2.0;
-				stripLine.IntervalType = this.MajorGrid.GetIntervalType();
-				stripLine.IntervalOffset = this.MajorGrid.GetIntervalOffset();
-				stripLine.IntervalOffsetType = this.MajorGrid.GetIntervalOffsetType();
-				stripLine.StripWidth = this.MajorGrid.GetInterval();
-				stripLine.StripWidthType = this.MajorGrid.GetIntervalType();
+				stripLine.Interval = MajorGrid.GetInterval() * 2.0;
+				stripLine.IntervalType = MajorGrid.GetIntervalType();
+				stripLine.IntervalOffset = MajorGrid.GetIntervalOffset();
+				stripLine.IntervalOffsetType = MajorGrid.GetIntervalOffsetType();
+				stripLine.StripWidth = MajorGrid.GetInterval();
+				stripLine.StripWidthType = MajorGrid.GetIntervalType();
 			}
-			else if (this.MajorTickMark.Enabled && this.MajorTickMark.GetInterval() != 0.0)
+			else if (MajorTickMark.Enabled && MajorTickMark.GetInterval() != 0.0)
 			{
 				addStrip = true;
-				stripLine.Interval = this.MajorTickMark.GetInterval() * 2.0;
-				stripLine.IntervalType = this.MajorTickMark.GetIntervalType();
-				stripLine.IntervalOffset = this.MajorTickMark.GetIntervalOffset();
-				stripLine.IntervalOffsetType = this.MajorTickMark.GetIntervalOffsetType();
-				stripLine.StripWidth = this.MajorTickMark.GetInterval();
-				stripLine.StripWidthType = this.MajorTickMark.GetIntervalType();
+				stripLine.Interval = MajorTickMark.GetInterval() * 2.0;
+				stripLine.IntervalType = MajorTickMark.GetIntervalType();
+				stripLine.IntervalOffset = MajorTickMark.GetIntervalOffset();
+				stripLine.IntervalOffsetType = MajorTickMark.GetIntervalOffsetType();
+				stripLine.StripWidth = MajorTickMark.GetInterval();
+				stripLine.StripWidthType = MajorTickMark.GetIntervalType();
 			}
-			else if (this.LabelStyle.Enabled && this.LabelStyle.GetInterval() != 0.0)
+			else if (LabelStyle.Enabled && LabelStyle.GetInterval() != 0.0)
 			{
 				addStrip = true;
-				stripLine.Interval = this.LabelStyle.GetInterval() * 2.0;
-				stripLine.IntervalType = this.LabelStyle.GetIntervalType();
-				stripLine.IntervalOffset = this.LabelStyle.GetIntervalOffset();
-				stripLine.IntervalOffsetType = this.LabelStyle.GetIntervalOffsetType();
-				stripLine.StripWidth = this.LabelStyle.GetInterval();
-				stripLine.StripWidthType = this.LabelStyle.GetIntervalType();
+				stripLine.Interval = LabelStyle.GetInterval() * 2.0;
+				stripLine.IntervalType = LabelStyle.GetIntervalType();
+				stripLine.IntervalOffset = LabelStyle.GetIntervalOffset();
+				stripLine.IntervalOffsetType = LabelStyle.GetIntervalOffsetType();
+				stripLine.StripWidth = LabelStyle.GetInterval();
+				stripLine.StripWidthType = LabelStyle.GetIntervalType();
 			}
 
 			// Insert item into the strips collection
 			if (addStrip)
 			{
 				// Define stip color
-				if (this.InterlacedColor != Color.Empty)
+				if (InterlacedColor != Color.Empty)
 				{
-					stripLine.BackColor = this.InterlacedColor;
+					stripLine.BackColor = InterlacedColor;
 				}
 				else
 				{
@@ -2913,7 +2823,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				}
 
 				// Insert strip
-				this.StripLines.Insert(0, stripLine);
+				StripLines.Insert(0, stripLine);
 			}
 		}
 
@@ -2932,7 +2842,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// </summary>
 	public void RoundAxisValues()
 	{
-		this.roundedXValues = true;
+		roundedXValues = true;
 	}
 
 	/// <summary>
@@ -2977,8 +2887,8 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			tempMaximum = maximum;
 			tempMinimum = minimum;
 			tempCrossing = crossing;
-			tempAutoMinimum = _autoMinimum;
-			tempAutoMaximum = _autoMaximum;
+			tempAutoMinimum = AutoMinimum;
+			tempAutoMaximum = AutoMaximum;
 
 			tempMajorGridInterval = majorGrid.interval;
 			tempMajorTickMarkInterval = majorTickMark.interval;
@@ -2995,7 +2905,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			tempLabelIntervalType = labelStyle.intervalType;
 
 			// Remember original ScaleView Position
-			this._originalViewPosition = this.ScaleView.Position;
+			_originalViewPosition = ScaleView.Position;
 
 			// This field synchronies the Storing and 
 			// resetting of temporary values
@@ -3082,8 +2992,8 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		maximum = tempMaximum;
 		minimum = tempMinimum;
 		crossing = tempCrossing;
-		_autoMinimum = tempAutoMinimum;
-		_autoMaximum = tempAutoMaximum;
+		AutoMinimum = tempAutoMinimum;
+		AutoMaximum = tempAutoMaximum;
 
 		majorGrid.interval = tempMajorGridInterval;
 		majorTickMark.interval = tempMajorTickMarkInterval;
@@ -3102,7 +3012,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		{
 			if (!Common.Chart.serializing)
 			{
-				this.ScaleView.Position = this._originalViewPosition;
+				ScaleView.Position = _originalViewPosition;
 			}
 		}
 
@@ -3163,25 +3073,25 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		//******************************************************
 		//** Calculate axis title size
 		//******************************************************
-		this.titleSize = 0F;
-		if (this.Title.Length > 0)
+		titleSize = 0F;
+		if (Title.Length > 0)
 		{
 			// Measure axis title
-			SizeF titleStringSize = chartGraph.MeasureStringRel(this.Title.Replace("\\n", "\n"), this.TitleFont, new SizeF(10000f, 10000f), StringFormat.GenericTypographic, this.GetTextOrientation());
+			SizeF titleStringSize = chartGraph.MeasureStringRel(Title.Replace("\\n", "\n"), TitleFont, new SizeF(10000f, 10000f), StringFormat.GenericTypographic, GetTextOrientation());
 
 			// Switch Width & Heigth for vertical axes
 			// If axis is horizontal
 			float maxTitlesize = 0;
-			if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+			if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 			{
-				maxTitlesize = (plotArea.Height / 100F) * (Axis.maxAxisTitleSize / axesNumber);
-				if (this.IsTextVertical)
+				maxTitlesize = (plotArea.Height / 100F) * (maxAxisTitleSize / axesNumber);
+				if (IsTextVertical)
 				{
-					this.titleSize = Math.Min(titleStringSize.Width, maxTitlesize);
+					titleSize = Math.Min(titleStringSize.Width, maxTitlesize);
 				}
 				else
 				{
-					this.titleSize = Math.Min(titleStringSize.Height, maxTitlesize);
+					titleSize = Math.Min(titleStringSize.Height, maxTitlesize);
 				}
 			}
 			// If axis is vertical
@@ -3189,21 +3099,21 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				titleStringSize = chartGraph.GetAbsoluteSize(titleStringSize);
 				titleStringSize = chartGraph.GetRelativeSize(new SizeF(titleStringSize.Height, titleStringSize.Width));
-				maxTitlesize = (plotArea.Width / 100F) * (Axis.maxAxisTitleSize / axesNumber);
-				if (this.IsTextVertical)
+				maxTitlesize = (plotArea.Width / 100F) * (maxAxisTitleSize / axesNumber);
+				if (IsTextVertical)
 				{
-					this.titleSize = Math.Min(titleStringSize.Width, maxTitlesize);
+					titleSize = Math.Min(titleStringSize.Width, maxTitlesize);
 				}
 				else
 				{
-					this.titleSize = Math.Min(titleStringSize.Height, maxTitlesize);
+					titleSize = Math.Min(titleStringSize.Height, maxTitlesize);
 				}
 			}
 		}
 
-		if (this.titleSize > 0)
+		if (titleSize > 0)
 		{
-			this.titleSize += elementSpacing;
+			titleSize += elementSpacing;
 		}
 
 		//*********************************************************
@@ -3213,12 +3123,12 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		SizeF arrowSizePrimary = SizeF.Empty;
 		SizeF arrowSizeSecondary = SizeF.Empty;
 		ArrowOrientation arrowOrientation = ArrowOrientation.Bottom;
-		if (this.axisType == AxisName.X || this.axisType == AxisName.X2)
+		if (axisType == AxisName.X || axisType == AxisName.X2)
 		{
 			if (ChartArea.AxisY.ArrowStyle != AxisArrowStyle.None)
 			{
 				arrowSizePrimary = ChartArea.AxisY.GetArrowSize(out arrowOrientation);
-				if (!IsArrowInAxis(arrowOrientation, this.AxisPosition))
+				if (!IsArrowInAxis(arrowOrientation, AxisPosition))
 				{
 					arrowSizePrimary = SizeF.Empty;
 				}
@@ -3227,7 +3137,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			if (ChartArea.AxisY2.ArrowStyle != AxisArrowStyle.None)
 			{
 				arrowSizeSecondary = ChartArea.AxisY2.GetArrowSize(out arrowOrientation);
-				if (!IsArrowInAxis(arrowOrientation, this.AxisPosition))
+				if (!IsArrowInAxis(arrowOrientation, AxisPosition))
 				{
 					arrowSizeSecondary = SizeF.Empty;
 				}
@@ -3238,7 +3148,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			if (ChartArea.AxisX.ArrowStyle != AxisArrowStyle.None)
 			{
 				arrowSizePrimary = ChartArea.AxisX.GetArrowSize(out arrowOrientation);
-				if (!IsArrowInAxis(arrowOrientation, this.AxisPosition))
+				if (!IsArrowInAxis(arrowOrientation, AxisPosition))
 				{
 					arrowSizePrimary = SizeF.Empty;
 				}
@@ -3247,7 +3157,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			if (ChartArea.AxisX2.ArrowStyle != AxisArrowStyle.None)
 			{
 				arrowSizeSecondary = ChartArea.AxisX2.GetArrowSize(out arrowOrientation);
-				if (!IsArrowInAxis(arrowOrientation, this.AxisPosition))
+				if (!IsArrowInAxis(arrowOrientation, AxisPosition))
 				{
 					arrowSizeSecondary = SizeF.Empty;
 				}
@@ -3255,7 +3165,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// If axis is horizontal
-		if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+		if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 		{
 			arrowSize = Math.Max(arrowSizePrimary.Height, arrowSizeSecondary.Height);
 		}
@@ -3269,75 +3179,75 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		//** Calculate axis tick marks, axis thickness, arrow size
 		//** and scroll bar size
 		//*********************************************************
-		this.markSize = 0F;
+		markSize = 0F;
 
 		// Get major and minor tick marks sizes
 		float majorTickSize = 0;
-		if (this.MajorTickMark.Enabled && this.MajorTickMark.TickMarkStyle != TickMarkStyle.None)
+		if (MajorTickMark.Enabled && MajorTickMark.TickMarkStyle != TickMarkStyle.None)
 		{
-			if (this.MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
+			if (MajorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
 			{
 				majorTickSize = 0F;
 			}
-			else if (this.MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis)
+			else if (MajorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				majorTickSize = this.MajorTickMark.Size / 2F;
+				majorTickSize = MajorTickMark.Size / 2F;
 			}
-			else if (this.MajorTickMark.TickMarkStyle == TickMarkStyle.OutsideArea)
+			else if (MajorTickMark.TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
-				majorTickSize = this.MajorTickMark.Size;
+				majorTickSize = MajorTickMark.Size;
 			}
 		}
 
 		float minorTickSize = 0;
-		if (this.MinorTickMark.Enabled && this.MinorTickMark.TickMarkStyle != TickMarkStyle.None && this.MinorTickMark.GetInterval() != 0)
+		if (MinorTickMark.Enabled && MinorTickMark.TickMarkStyle != TickMarkStyle.None && MinorTickMark.GetInterval() != 0)
 		{
-			if (this.MinorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
+			if (MinorTickMark.TickMarkStyle == TickMarkStyle.InsideArea)
 			{
 				minorTickSize = 0F;
 			}
-			else if (this.MinorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis)
+			else if (MinorTickMark.TickMarkStyle == TickMarkStyle.AcrossAxis)
 			{
-				minorTickSize = this.MinorTickMark.Size / 2F;
+				minorTickSize = MinorTickMark.Size / 2F;
 			}
-			else if (this.MinorTickMark.TickMarkStyle == TickMarkStyle.OutsideArea)
+			else if (MinorTickMark.TickMarkStyle == TickMarkStyle.OutsideArea)
 			{
-				minorTickSize = this.MinorTickMark.Size;
+				minorTickSize = MinorTickMark.Size;
 			}
 		}
 
-		this.markSize += (float)Math.Max(majorTickSize, minorTickSize);
+		markSize += (float)Math.Max(majorTickSize, minorTickSize);
 
 
 		// Add axis line size
-		SizeF borderSize = chartGraph.GetRelativeSize(new SizeF(this.LineWidth, this.LineWidth));
+		SizeF borderSize = chartGraph.GetRelativeSize(new SizeF(LineWidth, LineWidth));
 
 		// If axis is horizontal
-		if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+		if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 		{
-			this.markSize += borderSize.Height / 2f;
-			this.markSize = Math.Min(this.markSize, (plotArea.Height / 100F) * (Axis.maxAxisMarkSize / axesNumber));
+			markSize += borderSize.Height / 2f;
+			markSize = Math.Min(markSize, (plotArea.Height / 100F) * (maxAxisMarkSize / axesNumber));
 		}
 		// If axis is vertical
 		else
 		{
-			this.markSize += borderSize.Width / 2f;
-			this.markSize = Math.Min(this.markSize, (plotArea.Width / 100F) * (Axis.maxAxisMarkSize / axesNumber));
+			markSize += borderSize.Width / 2f;
+			markSize = Math.Min(markSize, (plotArea.Width / 100F) * (maxAxisMarkSize / axesNumber));
 		}
 
 		// Add axis scroll bar size (if it's visible)
-		this.scrollBarSize = 0f;
+		scrollBarSize = 0f;
 
-		if (this.ScrollBar.IsVisible &&
-			(this.IsAxisOnAreaEdge || !this.IsMarksNextToAxis))
+		if (ScrollBar.IsVisible &&
+			(IsAxisOnAreaEdge || !IsMarksNextToAxis))
 		{
-			if (this.ScrollBar.IsPositionedInside)
+			if (ScrollBar.IsPositionedInside)
 			{
-				this.markSize += (float)this.ScrollBar.GetScrollBarRelativeSize();
+				markSize += (float)ScrollBar.GetScrollBarRelativeSize();
 			}
 			else
 			{
-				this.scrollBarSize = (float)this.ScrollBar.GetScrollBarRelativeSize();
+				scrollBarSize = (float)ScrollBar.GetScrollBarRelativeSize();
 			}
 		}
 
@@ -3352,13 +3262,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			ChartArea.Area3DStyle.WallWidth > 0)
 		{
 			SizeF areaWallSize = chartGraph.GetRelativeSize(new SizeF(ChartArea.Area3DStyle.WallWidth, ChartArea.Area3DStyle.WallWidth));
-			if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+			if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 			{
-				this.markSize += areaWallSize.Height;
+				markSize += areaWallSize.Height;
 			}
 			else
 			{
-				this.markSize += areaWallSize.Width;
+				markSize += areaWallSize.Width;
 			}
 
 			// Ignore Max marks size for the 3D wall size.
@@ -3368,10 +3278,10 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		//*********************************************************
 		//** Adjust title size and mark size using arrow size
 		//*********************************************************
-		if (arrowSize > (this.markSize + this.scrollBarSize + this.titleSize))
+		if (arrowSize > (markSize + scrollBarSize + titleSize))
 		{
-			this.markSize = Math.Max(this.markSize, arrowSize - (this.markSize + this.scrollBarSize + this.titleSize));
-			this.markSize = Math.Min(this.markSize, (plotArea.Width / 100F) * (Axis.maxAxisMarkSize / axesNumber));
+			markSize = Math.Max(markSize, arrowSize - (markSize + scrollBarSize + titleSize));
+			markSize = Math.Min(markSize, (plotArea.Width / 100F) * (maxAxisMarkSize / axesNumber));
 		}
 
 		//*********************************************************
@@ -3381,37 +3291,59 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 		if (!autoPlotPosition)
 		{
-			if (this.GetIsMarksNextToAxis())
+			if (GetIsMarksNextToAxis())
 			{
-				if (this.AxisPosition == AxisPosition.Top)
+				if (AxisPosition == AxisPosition.Top)
+				{
 					maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.Y;
-				else if (this.AxisPosition == AxisPosition.Bottom)
+				}
+				else if (AxisPosition == AxisPosition.Bottom)
+				{
 					maxLabelSize = ChartArea.Position.Bottom - (float)GetAxisPosition();
-				if (this.AxisPosition == AxisPosition.Left)
+				}
+
+				if (AxisPosition == AxisPosition.Left)
+				{
 					maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.X;
-				else if (this.AxisPosition == AxisPosition.Right)
+				}
+				else if (AxisPosition == AxisPosition.Right)
+				{
 					maxLabelSize = ChartArea.Position.Right - (float)GetAxisPosition();
+				}
 			}
 			else
 			{
-				if (this.AxisPosition == AxisPosition.Top)
+				if (AxisPosition == AxisPosition.Top)
+				{
 					maxLabelSize = plotArea.Y - ChartArea.Position.Y;
-				else if (this.AxisPosition == AxisPosition.Bottom)
+				}
+				else if (AxisPosition == AxisPosition.Bottom)
+				{
 					maxLabelSize = ChartArea.Position.Bottom - plotArea.Bottom;
-				if (this.AxisPosition == AxisPosition.Left)
+				}
+
+				if (AxisPosition == AxisPosition.Left)
+				{
 					maxLabelSize = plotArea.X - ChartArea.Position.X;
-				else if (this.AxisPosition == AxisPosition.Right)
+				}
+				else if (AxisPosition == AxisPosition.Right)
+				{
 					maxLabelSize = ChartArea.Position.Right - plotArea.Right;
+				}
 			}
 
 			maxLabelSize *= 2F;
 		}
 		else
 		{
-			if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-				maxLabelSize = plotArea.Height * (_maximumAutoSize / 100f);
+			if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
+			{
+				maxLabelSize = plotArea.Height * (MaximumAutoSize / 100f);
+			}
 			else
-				maxLabelSize = plotArea.Width * (_maximumAutoSize / 100f);
+			{
+				maxLabelSize = plotArea.Width * (MaximumAutoSize / 100f);
+			}
 		}
 
 
@@ -3425,21 +3357,21 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 		// Make sure the variable interval mode is enabled and
 		// no custom label interval used.
-		if (this.Enabled != AxisEnabled.False &&
-			this.LabelStyle.Enabled &&
-			this.IsVariableLabelCountModeEnabled())
+		if (Enabled != AxisEnabled.False &&
+			LabelStyle.Enabled &&
+			IsVariableLabelCountModeEnabled())
 		{
 			// Increase font by several points when height of the font is the most important
 			// dimension. Use original size whenwidth is the most important size.
 			float extraSize = 3f;
-			if ((this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) &&
-				(this.LabelStyle.Angle == 90 || this.LabelStyle.Angle == -90))
+			if ((AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) &&
+				(LabelStyle.Angle == 90 || LabelStyle.Angle == -90))
 			{
 				extraSize = 0f;
 			}
 
-			if ((this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom) &&
-				(this.LabelStyle.Angle == 180 || this.LabelStyle.Angle == 0))
+			if ((AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom) &&
+				(LabelStyle.Angle == 180 || LabelStyle.Angle == 0))
 			{
 				extraSize = 0f;
 			}
@@ -3450,17 +3382,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				extraSize += 1f;
 			}
 
-			this.autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(this.LabelStyle.Font.FontFamily,
-				this.LabelStyle.Font.Size + extraSize,
-				this.LabelStyle.Font.Style,
+			autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(LabelStyle.Font.FontFamily,
+				LabelStyle.Font.Size + extraSize,
+				LabelStyle.Font.Style,
 				GraphicsUnit.Point);
 
 			// Reset angle and stagged flag used in the auto-fitting algorithm
-			this.autoLabelAngle = this.LabelStyle.Angle;
-			this.autoLabelOffset = (this.LabelStyle.IsStaggered) ? 1 : 0;
+			autoLabelAngle = LabelStyle.Angle;
+			autoLabelOffset = (LabelStyle.IsStaggered) ? 1 : 0;
 
 			// Adjust interval
-			this.AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, false);
+			AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, false);
 		}
 
 
@@ -3475,8 +3407,8 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		autoLabelOffset = -1;
 
 		// For circular Common.Chart area process auto-fitting for Y Axis only
-		if (this.IsLabelAutoFit &&
-			this.LabelAutoFitStyle != LabelAutoFitStyles.None &&
+		if (IsLabelAutoFit &&
+			LabelAutoFitStyle != LabelAutoFitStyles.None &&
 			!ChartArea.chartAreaIsCurcular)
 		{
 			bool fitDone = false;
@@ -3491,8 +3423,8 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 			// Pick up maximum font size
 			float size = 8f;
-			size = (float)Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize);
-			_minLabelFontSize = Math.Min(this.LabelAutoFitMinFontSize, this.LabelAutoFitMaxFontSize);
+			size = (float)Math.Max(LabelAutoFitMaxFontSize, LabelAutoFitMinFontSize);
+			_minLabelFontSize = Math.Min(LabelAutoFitMinFontSize, LabelAutoFitMaxFontSize);
 			_aveLabelFontSize = _minLabelFontSize + Math.Abs(size - _minLabelFontSize) / 2f;
 
 
@@ -3503,17 +3435,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			}
 
 			//Set new font
-			autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(this.LabelStyle.Font.FontFamily,
+			autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(LabelStyle.Font.FontFamily,
 				size,
-				this.LabelStyle.Font.Style,
+				LabelStyle.Font.Style,
 			GraphicsUnit.Point
 			);
 
 			// Check if we allowed to increase font size while auto-fitting
-			if ((this.LabelAutoFitStyle & LabelAutoFitStyles.IncreaseFont) != LabelAutoFitStyles.IncreaseFont)
+			if ((LabelAutoFitStyle & LabelAutoFitStyles.IncreaseFont) != LabelAutoFitStyles.IncreaseFont)
 			{
 				// Use axis labels font as starting point
-				autoLabelFont = this.LabelStyle.Font;
+				autoLabelFont = LabelStyle.Font;
 			}
 
 			// Loop while labels do not fit
@@ -3526,7 +3458,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 				// Check if grouping labels fit should be checked
 				bool checkLabelsFirstRowOnly = true;
-				if ((this.LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
+				if ((LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
 				{
 					// Only check grouping labels if we can reduce fonts size
 					checkLabelsFirstRowOnly = false;
@@ -3535,7 +3467,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				// Check labels fit
 				fitDone = CheckLabelsFit(
 					chartGraph,
-					this.markSize + this.scrollBarSize + this.titleSize + spacer,
+					markSize + scrollBarSize + titleSize + spacer,
 					autoPlotPosition,
 					checkLabelsFirstRowOnly,
 					false);
@@ -3547,7 +3479,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				{
 					// If font is bigger than average try to make it smaller
 					if (autoLabelFont.SizeInPoints >= _aveLabelFontSize &&
-						(this.LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
+						(LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
 					{
 						//Clean up the old font
 						autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(
@@ -3563,14 +3495,14 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						originalLabels == null &&
 						autoLabelAngle == 0 &&
 						autoLabelOffset == 0 &&
-						(this.LabelAutoFitStyle & LabelAutoFitStyles.StaggeredLabels) == LabelAutoFitStyles.StaggeredLabels)
+						(LabelAutoFitStyle & LabelAutoFitStyles.StaggeredLabels) == LabelAutoFitStyles.StaggeredLabels)
 					{
 						autoLabelOffset = 1;
 					}
 
 					// Try to insert new line characters in labels text
 					else if (!noWordWrap &&
-						(this.LabelAutoFitStyle & LabelAutoFitStyles.WordWrap) == LabelAutoFitStyles.WordWrap)
+						(LabelAutoFitStyle & LabelAutoFitStyles.WordWrap) == LabelAutoFitStyles.WordWrap)
 					{
 						bool changed = false;
 						autoLabelOffset = 0;
@@ -3580,14 +3512,14 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						{
 							// Copy current labels collection
 							originalLabels = new CustomLabelsCollection(this);
-							foreach (CustomLabel label in this.CustomLabels)
+							foreach (CustomLabel label in CustomLabels)
 							{
 								originalLabels.Add(label.Clone());
 							}
 						}
 
 						// Try to insert new line character into the longest label
-						changed = WordWrapLongestLabel(this.CustomLabels);
+						changed = WordWrapLongestLabel(CustomLabels);
 
 						// Word wrapping do not solve the labels overlapping issue
 						if (!changed)
@@ -3597,23 +3529,23 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							// Restore original labels
 							if (originalLabels != null)
 							{
-								this.CustomLabels.Clear();
+								CustomLabels.Clear();
 								foreach (CustomLabel label in originalLabels)
 								{
-									this.CustomLabels.Add(label.Clone());
+									CustomLabels.Add(label.Clone());
 								}
 
 								originalLabels = null;
 							}
 
-							if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+							if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 							{
 								if ((spacer == 0 ||
 									spacer == 30f ||
 									spacer == 20f) &&
-									((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30 ||
-									(this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45 ||
-									(this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90))
+									((LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30 ||
+									(LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45 ||
+									(LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90))
 								{
 									// Try to use 90 degrees angle
 									autoLabelAngle = 90;
@@ -3653,24 +3585,24 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 					// Try to change font angle
 					else if (autoLabelAngle != 90 &&
-						((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30 ||
-						(this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45 ||
-						(this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90))
+						((LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30 ||
+						(LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45 ||
+						(LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90))
 					{
 						spacer = 0f;
 						autoLabelOffset = 0;
 
-						if ((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30)
+						if ((LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30)
 						{
 							// Increase angle by 45 degrees in 2D and 45 in 3D
 							autoLabelAngle += (ChartArea.Area3DStyle.Enable3D) ? 45 : 30;
 						}
-						else if ((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45)
+						else if ((LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45)
 						{
 							// Increase angle by 45 degrees
 							autoLabelAngle += 45;
 						}
-						else if ((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90)
+						else if ((LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90)
 						{
 							// Increase angle by 90 degrees
 							autoLabelAngle += 90;
@@ -3679,7 +3611,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 					// Try to reduce font again
 					else if (autoLabelFont.SizeInPoints > _minLabelFontSize &&
-						(this.LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
+						(LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
 					{
 						//Clean up the old font
 						autoLabelAngle = 0;
@@ -3694,12 +3626,12 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					else
 					{
 						// Use last font
-						if ((this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30 ||
-							(this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45 ||
-							(this.LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90)
+						if ((LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep30) == LabelAutoFitStyles.LabelsAngleStep30 ||
+							(LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep45) == LabelAutoFitStyles.LabelsAngleStep45 ||
+							(LabelAutoFitStyle & LabelAutoFitStyles.LabelsAngleStep90) == LabelAutoFitStyles.LabelsAngleStep90)
 						{
 							// Reset angle
-							if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
+							if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
 							{
 								autoLabelAngle = 90;
 							}
@@ -3709,7 +3641,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							}
 						}
 
-						if ((this.LabelAutoFitStyle & LabelAutoFitStyles.StaggeredLabels) == LabelAutoFitStyles.StaggeredLabels)
+						if ((LabelAutoFitStyle & LabelAutoFitStyles.StaggeredLabels) == LabelAutoFitStyles.StaggeredLabels)
 						{
 							// Reset offset labels
 							autoLabelOffset = 0;
@@ -3732,7 +3664,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			}
 
 			// Change the auto-fit angle for top and bottom axes from 90 to -90
-			if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+			if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 			{
 				if (autoLabelAngle == 90)
 				{
@@ -3744,51 +3676,51 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		//*********************************************************
 		//** Calculate overall labels size
 		//*********************************************************
-		this.labelSize = 0;
+		labelSize = 0;
 
 		// if labels are not enabled their size needs to remain zero
-		if (this.LabelStyle.Enabled)
+		if (LabelStyle.Enabled)
 		{
 			//******************************************************
 			//** Calculate axis second labels row size
 			//******************************************************
-			this.labelSize = (maxAxisElementsSize) - this.markSize - this.scrollBarSize - this.titleSize;
-			if (this.labelSize > 0)
+			labelSize = (maxAxisElementsSize) - markSize - scrollBarSize - titleSize;
+			if (labelSize > 0)
 			{
-				this.groupingLabelSizes = GetRequiredGroupLabelSize(chartGraph, (maxLabelSize / 100F) * maxAxisLabelRow2Size);
-				this.totlaGroupingLabelsSize = GetGroupLablesToatalSize();
+				groupingLabelSizes = GetRequiredGroupLabelSize(chartGraph, (maxLabelSize / 100F) * maxAxisLabelRow2Size);
+				totlaGroupingLabelsSize = GetGroupLablesToatalSize();
 			}
 
 			//******************************************************
 			//** Calculate axis labels size
 			//******************************************************
-			this.labelSize -= this.totlaGroupingLabelsSize;
-			if (this.labelSize > 0)
+			labelSize -= totlaGroupingLabelsSize;
+			if (labelSize > 0)
 			{
 				// If axis is horizontal
-				if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+				if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 				{
-					this.labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
-						(maxLabelSize / 100F) * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
+					labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
+						(maxLabelSize / 100F) * (maxAxisElementsSize - markSize - scrollBarSize - titleSize), out unRotatedLabelSize);
 				}
 				// If axis is horizontal
 				else
 				{
-					this.labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
-						(maxLabelSize / 100F) * (maxAxisElementsSize - this.markSize - this.scrollBarSize - this.titleSize), out this.unRotatedLabelSize);
+					labelSize = elementSpacing + GetRequiredLabelSize(chartGraph,
+						(maxLabelSize / 100F) * (maxAxisElementsSize - markSize - scrollBarSize - titleSize), out unRotatedLabelSize);
 				}
 
-				if (!this.LabelStyle.Enabled)
+				if (!LabelStyle.Enabled)
 				{
-					this.labelSize -= elementSpacing;
+					labelSize -= elementSpacing;
 				}
 			}
 			else
 			{
-				this.labelSize = 0;
+				labelSize = 0;
 			}
 
-			this.labelSize += this.totlaGroupingLabelsSize;
+			labelSize += totlaGroupingLabelsSize;
 		}
 
 #if SUBAXES
@@ -3822,41 +3754,41 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	private void AdjustIntervalToFitLabels(ChartGraphics chartGraph, bool autoPlotPosition, bool onlyIncreaseInterval)
 	{
 		// Calculates axis interval so that labels will fit most efficiently.
-		if (this.ScaleSegments.Count == 0)
+		if (ScaleSegments.Count == 0)
 		{
-			this.AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, null, onlyIncreaseInterval);
+			AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, null, onlyIncreaseInterval);
 		}
 		else
 		{
 			// Allow values to go outside the segment boundary
-			this.ScaleSegments.AllowOutOfScaleValues = true;
+			ScaleSegments.AllowOutOfScaleValues = true;
 
 			// Adjust interval of each segment first
-			foreach (AxisScaleSegment axisScaleSegment in this.ScaleSegments)
+			foreach (AxisScaleSegment axisScaleSegment in ScaleSegments)
 			{
-				this.AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, axisScaleSegment, onlyIncreaseInterval);
+				AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, axisScaleSegment, onlyIncreaseInterval);
 			}
 
 			// Fill labels using new segment intervals
 			bool removeLabels = true;
 			int segmentIndex = 0;
-			ArrayList removedLabels = new ArrayList();
-			ArrayList removedLabelsIndexes = new ArrayList();
-			foreach (AxisScaleSegment scaleSegment in this.ScaleSegments)
+			ArrayList removedLabels = [];
+			ArrayList removedLabelsIndexes = [];
+			foreach (AxisScaleSegment scaleSegment in ScaleSegments)
 			{
 				scaleSegment.SetTempAxisScaleAndInterval();
-				this.FillLabels(removeLabels);
+				FillLabels(removeLabels);
 				removeLabels = false;
 				scaleSegment.RestoreAxisScaleAndInterval();
 
 				// Remove last label of all segmenst except of the last
-				if (segmentIndex < this.ScaleSegments.Count - 1 &&
-					this.CustomLabels.Count > 0)
+				if (segmentIndex < ScaleSegments.Count - 1 &&
+					CustomLabels.Count > 0)
 				{
 					// Remove label and save it in the list
-					removedLabels.Add(this.CustomLabels[this.CustomLabels.Count - 1]);
-					removedLabelsIndexes.Add(this.CustomLabels.Count - 1);
-					this.CustomLabels.RemoveAt(this.CustomLabels.Count - 1);
+					removedLabels.Add(CustomLabels[CustomLabels.Count - 1]);
+					removedLabelsIndexes.Add(CustomLabels.Count - 1);
+					CustomLabels.RemoveAt(CustomLabels.Count - 1);
 				}
 
 				++segmentIndex;
@@ -3870,26 +3802,26 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				// Re-insert the label
 				int labelInsertIndex = (int)removedLabelsIndexes[labelIndex] + reInsertedLabelsCount;
-				if (labelIndex < this.CustomLabels.Count)
+				if (labelIndex < CustomLabels.Count)
 				{
-					this.CustomLabels.Insert(labelInsertIndex, label);
+					CustomLabels.Insert(labelInsertIndex, label);
 				}
 				else
 				{
-					this.CustomLabels.Add(label);
+					CustomLabels.Add(label);
 				}
 
 				// Check labels fit. Only horizontal or vertical fit is checked depending 
 				// on the axis orientation.
-				ArrayList labelPositions = new ArrayList();
+				ArrayList labelPositions = [];
 				bool fitDone = CheckLabelsFit(
 					chartGraph,
-					this.markSize + this.scrollBarSize + this.titleSize,
+					markSize + scrollBarSize + titleSize,
 					autoPlotPosition,
 					true,
 					false,
-					(this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? false : true,
-					(this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? true : false,
+					(AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? false : true,
+					(AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? true : false,
 					labelPositions);
 
 				// If labels fit check if any of the label positions overlap
@@ -3912,7 +3844,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				// If labels do not fit or overlapp - remove completly
 				if (!fitDone)
 				{
-					this.CustomLabels.RemoveAt(labelInsertIndex);
+					CustomLabels.RemoveAt(labelInsertIndex);
 				}
 				else
 				{
@@ -3923,7 +3855,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			}
 
 			// Make sure now values are rounded on segment boundary
-			this.ScaleSegments.AllowOutOfScaleValues = false;
+			ScaleSegments.AllowOutOfScaleValues = false;
 		}
 	}
 
@@ -3935,9 +3867,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	{
 		// Make sure the variable interval mode is enabled and
 		// no custom label interval used.
-		if ((this.IntervalAutoMode == IntervalAutoMode.VariableCount || this.ScaleSegments.Count > 0) &&
-			!this.IsLogarithmic &&
-			(this.tempLabelInterval <= 0.0 || (double.IsNaN(this.tempLabelInterval) && this.Interval <= 0.0)))
+		if ((IntervalAutoMode == IntervalAutoMode.VariableCount || ScaleSegments.Count > 0) &&
+			!IsLogarithmic &&
+			(tempLabelInterval <= 0.0 || (double.IsNaN(tempLabelInterval) && Interval <= 0.0)))
 		{
 			// This feature is not supported for charts that do not
 			// require X and Y axes (Pie, Radar, ...)
@@ -3946,13 +3878,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				return false;
 			}
 			// This feature is not supported if the axis doesn't have data range 
-			if (Double.IsNaN(this.minimum) || Double.IsNaN(this.maximum))
+			if (double.IsNaN(minimum) || double.IsNaN(maximum))
 			{
 				return false;
 			}
 			// Check if custom labels are used in the first row
 			bool customLabels = false;
-			foreach (CustomLabel label in this.CustomLabels)
+			foreach (CustomLabel label in CustomLabels)
 			{
 				if (label.customLabel && label.RowIndex == 0)
 				{
@@ -3988,18 +3920,18 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		if (axisScaleSegment != null)
 		{
 			// Re-fill new axis labels
-			if (this.tempLabels != null)
+			if (tempLabels != null)
 			{
-				this.CustomLabels.Clear();
-				foreach (CustomLabel label in this.tempLabels)
+				CustomLabels.Clear();
+				foreach (CustomLabel label in tempLabels)
 				{
-					this.CustomLabels.Add(label.Clone());
+					CustomLabels.Add(label.Clone());
 				}
 			}
 
 			// Fill labels just for the segment
 			axisScaleSegment.SetTempAxisScaleAndInterval();
-			this.FillLabels(true);
+			FillLabels(true);
 			axisScaleSegment.RestoreAxisScaleAndInterval();
 		}
 
@@ -4008,7 +3940,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		ArrayList axisSeries = AxisScaleBreakStyle.GetAxisSeries(this);
 		foreach (Series series in axisSeries)
 		{
-			if (this.axisType == AxisName.X || this.axisType == AxisName.X2)
+			if (axisType == AxisName.X || axisType == AxisName.X2)
 			{
 				if (ChartHelper.IndexedSeries(series))
 				{
@@ -4040,11 +3972,11 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		// Iterate while interval is not found
 		bool firstIteration = true;
 		bool increaseNumberOfLabels = true;
-		double currentInterval = (axisScaleSegment == null) ? this.labelStyle.GetInterval() : axisScaleSegment.Interval;
-		DateTimeIntervalType currentIntervalType = (axisScaleSegment == null) ? this.labelStyle.GetIntervalType() : axisScaleSegment.IntervalType;
+		double currentInterval = (axisScaleSegment == null) ? labelStyle.GetInterval() : axisScaleSegment.Interval;
+		DateTimeIntervalType currentIntervalType = (axisScaleSegment == null) ? labelStyle.GetIntervalType() : axisScaleSegment.IntervalType;
 		DateTimeIntervalType lastFitIntervalType = currentIntervalType;
 		double lastFitInterval = currentInterval;
-		ArrayList lastFitLabels = new ArrayList();
+		ArrayList lastFitLabels = [];
 		bool intervalFound = false;
 		int iterationNumber = 0;
 		while (!intervalFound && iterationNumber <= 1000)
@@ -4061,12 +3993,12 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			// on the axis orientation.
 			bool fitDone = CheckLabelsFit(
 				chartGraph,
-				this.markSize + this.scrollBarSize + this.titleSize,
+				markSize + scrollBarSize + titleSize,
 				autoPlotPosition,
 				true,
 				false,
-				(this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? false : true,
-				(this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? true : false,
+				(AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? false : true,
+				(AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? true : false,
 				null);
 
 			// Check if we need to increase or reduce number of labels
@@ -4095,13 +4027,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					lastFitInterval = currentInterval;
 					lastFitIntervalType = currentIntervalType;
 					lastFitLabels.Clear();
-					foreach (CustomLabel label in this.CustomLabels)
+					foreach (CustomLabel label in CustomLabels)
 					{
 						lastFitLabels.Add(label);
 					}
 
 					newIntervalType = currentIntervalType;
-					newInterval = this.ReduceLabelInterval(
+					newInterval = ReduceLabelInterval(
 						currentInterval,
 						minIntervalSzie,
 						ref newIntervalType);
@@ -4114,20 +4046,20 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 					// Reuse previously saved labels
 					fillNewLabels = false;
-					this.CustomLabels.Clear();
+					CustomLabels.Clear();
 					foreach (CustomLabel label in lastFitLabels)
 					{
-						this.CustomLabels.Add(label);
+						CustomLabels.Add(label);
 					}
 
 				}
 			}
 			else
 			{
-				if (!fitDone && this.CustomLabels.Count > 1)
+				if (!fitDone && CustomLabels.Count > 1)
 				{
 					newIntervalType = currentIntervalType;
-					newInterval = this.IncreaseLabelInterval(
+					newInterval = IncreaseLabelInterval(
 						currentInterval,
 						ref newIntervalType);
 				}
@@ -4145,7 +4077,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 				if (axisScaleSegment == null)
 				{
-					this.SetIntervalAndType(newInterval, newIntervalType);
+					SetIntervalAndType(newInterval, newIntervalType);
 				}
 				else
 				{
@@ -4156,10 +4088,10 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				// Re-fill new axis labels
 				if (fillNewLabels)
 				{
-					if (this.tempLabels != null)
+					if (tempLabels != null)
 					{
-						this.CustomLabels.Clear();
-						foreach (CustomLabel label in this.tempLabels)
+						CustomLabels.Clear();
+						foreach (CustomLabel label in tempLabels)
 						{
 							CustomLabels.Add(label.Clone());
 						}
@@ -4167,12 +4099,12 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 					if (axisScaleSegment == null)
 					{
-						this.FillLabels(true);
+						FillLabels(true);
 					}
 					else
 					{
 						axisScaleSegment.SetTempAxisScaleAndInterval();
-						this.FillLabels(true);
+						FillLabels(true);
 						axisScaleSegment.RestoreAxisScaleAndInterval();
 					}
 				}
@@ -4201,7 +4133,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		double newInterval = oldInterval;
 
 		// Calculate rounded interval value
-		double range = this.maximum - this.minimum;
+		double range = maximum - minimum;
 		int iterationIndex = 0;
 		if (axisIntervalType == DateTimeIntervalType.Auto ||
 			axisIntervalType == DateTimeIntervalType.NotSet ||
@@ -4326,7 +4258,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		double newInterval = oldInterval;
 
 		// Calculate rounded interval value
-		double range = this.maximum - this.minimum;
+		double range = maximum - minimum;
 		int iterationIndex = 0;
 		if (axisIntervalType == DateTimeIntervalType.Auto ||
 			axisIntervalType == DateTimeIntervalType.NotSet ||
@@ -4432,7 +4364,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 		// Each label may contain several lines of text.
 		// Create a list that contains an array of text for each label.
-		ArrayList labelTextRows = new ArrayList(labels.Count);
+		ArrayList labelTextRows = new(labels.Count);
 		foreach (CustomLabel label in labels)
 		{
 			labelTextRows.Add(label.Text.Split('\n'));
@@ -4528,28 +4460,28 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		float labelsSizeEstimate)
 	{
 		// X axis settings defines if auto-fit font should be calculated
-		if (!this.IsLabelAutoFit ||
-			this.LabelAutoFitStyle == LabelAutoFitStyles.None ||
-			!this.LabelStyle.Enabled)
+		if (!IsLabelAutoFit ||
+			LabelAutoFitStyle == LabelAutoFitStyles.None ||
+			!LabelStyle.Enabled)
 		{
 			return;
 		}
 
 		// Set minimum font size
-		_minLabelFontSize = Math.Min(this.LabelAutoFitMinFontSize, this.LabelAutoFitMaxFontSize);
+		_minLabelFontSize = Math.Min(LabelAutoFitMinFontSize, LabelAutoFitMaxFontSize);
 
 		// Create new auto-fit font
-		this.autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(
-			this.LabelStyle.Font.FontFamily,
-		Math.Max(this.LabelAutoFitMaxFontSize, this.LabelAutoFitMinFontSize),
-			this.LabelStyle.Font.Style,
+		autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(
+			LabelStyle.Font.FontFamily,
+		Math.Max(LabelAutoFitMaxFontSize, LabelAutoFitMinFontSize),
+			LabelStyle.Font.Style,
 		GraphicsUnit.Point);
 
 		// Check if we allowed to increase font size while auto-fitting
-		if ((this.LabelAutoFitStyle & LabelAutoFitStyles.IncreaseFont) != LabelAutoFitStyles.IncreaseFont)
+		if ((LabelAutoFitStyle & LabelAutoFitStyles.IncreaseFont) != LabelAutoFitStyles.IncreaseFont)
 		{
 			// Use axis labels font as starting point
-			this.autoLabelFont = this.LabelStyle.Font;
+			autoLabelFont = LabelStyle.Font;
 		}
 
 		// Loop while labels do not fit
@@ -4574,7 +4506,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				// Try to reduce font size
 				if (autoLabelFont.SizeInPoints > _minLabelFontSize &&
-					(this.LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
+					(LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
 				{
 					autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(
 						autoLabelFont.FontFamily,
@@ -4620,7 +4552,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		PointF areaCenterAbs = graph.GetAbsolutePoint(ChartArea.circularCenter);
 
 		// Get absolute markers size and spacing
-		float spacing = graph.GetAbsolutePoint(new PointF(0, this.markSize + Axis.elementSpacing)).Y;
+		float spacing = graph.GetAbsolutePoint(new PointF(0, markSize + elementSpacing)).Y;
 
 		//*****************************************************************
 		//** Loop through all axis labels
@@ -4634,7 +4566,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			//*****************************************************************
 			SizeF textSize = graph.MeasureString(
 				axis.Title.Replace("\\n", "\n"),
-				this.autoLabelFont);
+				autoLabelFont);
 
 			//*****************************************************************
 			//** Get circular style label position.
@@ -4684,13 +4616,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				//*****************************************************************
 
 				// Find the most outside point of the label
-				PointF outsidePoint = new PointF(areaCenterAbs.X, plotAreaRectAbs.Y);
+				PointF outsidePoint = new(areaCenterAbs.X, plotAreaRectAbs.Y);
 				outsidePoint.Y += labelsSizeEstimate;
 				outsidePoint.Y -= textSize.Height;
 				outsidePoint.Y -= spacing;
 
-				PointF[] rotatedPoint = new PointF[] { outsidePoint };
-				Matrix newMatrix = new Matrix();
+				PointF[] rotatedPoint = [outsidePoint];
+				Matrix newMatrix = new();
 				newMatrix.RotateAt(axis.AxisPosition, areaCenterAbs);
 				newMatrix.TransformPoints(rotatedPoint);
 
@@ -4717,15 +4649,15 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				}
 
 				// Get label rotated position
-				PointF[] labelPosition = new PointF[] { new PointF(areaCenterAbs.X, plotAreaRectAbs.Y) };
+				PointF[] labelPosition = [new(areaCenterAbs.X, plotAreaRectAbs.Y)];
 				labelPosition[0].Y += labelsSizeEstimate;
 				labelPosition[0].Y -= spacing;
-				Matrix newMatrix = new Matrix();
+				Matrix newMatrix = new();
 				newMatrix.RotateAt(textAngle, areaCenterAbs);
 				newMatrix.TransformPoints(labelPosition);
 
 				// Calculate label position
-				RectangleF curLabelPosition = new RectangleF(
+				RectangleF curLabelPosition = new(
 					labelPosition[0].X,
 					labelPosition[0].Y - textSize.Height / 2f,
 					textSize.Width,
@@ -4801,36 +4733,33 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 
 		// Make sure the variable interval mode is enabled
-		if (this.Enabled != AxisEnabled.False &&
-			this.LabelStyle.Enabled &&
-			this.IsVariableLabelCountModeEnabled())
+		if (Enabled != AxisEnabled.False &&
+			LabelStyle.Enabled &&
+			IsVariableLabelCountModeEnabled())
 		{
 			// Set font for labels fitting
-			if (this.autoLabelFont == null)
-			{
-				this.autoLabelFont = this.LabelStyle.Font;
-			}
+			autoLabelFont ??= LabelStyle.Font;
 
 			// Reset angle and stagged flag used in the auto-fitting algorithm
-			if (this.autoLabelAngle < 0)
+			if (autoLabelAngle < 0)
 			{
-				this.autoLabelAngle = this.LabelStyle.Angle;
+				autoLabelAngle = LabelStyle.Angle;
 			}
 
-			if (this.autoLabelOffset < 0)
+			if (autoLabelOffset < 0)
 			{
-				this.autoLabelOffset = (this.LabelStyle.IsStaggered) ? 1 : 0;
+				autoLabelOffset = (LabelStyle.IsStaggered) ? 1 : 0;
 			}
 
 			// Check labels fit
 			bool fitDone = CheckLabelsFit(
 				chartGraph,
-				this.markSize + this.scrollBarSize + this.titleSize,
+				markSize + scrollBarSize + titleSize,
 				autoPlotPosition,
 				true,
 				true,
-				(this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? false : true,
-				(this.AxisPosition == AxisPosition.Left || this.AxisPosition == AxisPosition.Right) ? true : false,
+				(AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? false : true,
+				(AxisPosition == AxisPosition.Left || AxisPosition == AxisPosition.Right) ? true : false,
 				null);
 
 			// If there is a problem fitting labels try to reduce number of labels by
@@ -4838,7 +4767,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			if (!fitDone)
 			{
 				// Adjust interval
-				this.AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, true);
+				AdjustIntervalToFitLabels(chartGraph, autoPlotPosition, true);
 			}
 		}
 
@@ -4850,16 +4779,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		//******************************************************
 
 		totlaGroupingLabelsSizeAdjustment = 0f;
-		if (this.IsLabelAutoFit &&
-			this.LabelAutoFitStyle != LabelAutoFitStyles.None &&
-			this.Enabled != AxisEnabled.False)
+		if (IsLabelAutoFit &&
+			LabelAutoFitStyle != LabelAutoFitStyles.None &&
+			Enabled != AxisEnabled.False)
 		{
 			bool fitDone = false;
 
-			if (autoLabelFont == null)
-			{
-				autoLabelFont = this.LabelStyle.Font;
-			}
+			autoLabelFont ??= LabelStyle.Font;
 
 			// Loop while labels do not fit
 			float oldLabelSecondRowSize = totlaGroupingLabelsSize;
@@ -4870,7 +4796,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				//******************************************************
 				fitDone = CheckLabelsFit(
 					chartGraph,
-					this.markSize + this.scrollBarSize + this.titleSize,
+					markSize + scrollBarSize + titleSize,
 					autoPlotPosition,
 					true,
 					true);
@@ -4899,7 +4825,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 								}
 							}
 						}
-						else if ((this.LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
+						else if ((LabelAutoFitStyle & LabelAutoFitStyles.DecreaseFont) == LabelAutoFitStyles.DecreaseFont)
 						{
 							autoLabelFont = Common.Chart.chartPicture.FontCache.GetFont(
 								autoLabelFont.FontFamily,
@@ -4921,7 +4847,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				}
 			}
 
-			this.totlaGroupingLabelsSizeAdjustment = oldLabelSecondRowSize - totlaGroupingLabelsSize;
+			totlaGroupingLabelsSizeAdjustment = oldLabelSecondRowSize - totlaGroupingLabelsSize;
 		}
 	}
 
@@ -4933,9 +4859,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	internal double GetLogValue(double yValue)
 	{
 		// Check if axis is logarithmic
-		if (this.IsLogarithmic)
+		if (IsLogarithmic)
 		{
-			yValue = Math.Log(yValue, this.logarithmBase);
+			yValue = Math.Log(yValue, logarithmBase);
 		}
 
 		return yValue;
@@ -4957,7 +4883,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		bool checkLabelsFirstRowOnly,
 		bool secondPass)
 	{
-		return this.CheckLabelsFit(
+		return CheckLabelsFit(
 			chartGraph,
 			otherElementsSize,
 			autoPlotPosition,
@@ -4991,416 +4917,433 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		ArrayList labelPositions)
 	{
 		// Reset list of label positions
-		if (labelPositions != null)
-		{
-			labelPositions.Clear();
-		}
+		labelPositions?.Clear();
 
 		// Label string drawing format			
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.FormatFlags |= StringFormatFlags.LineLimit;
+		format.Trimming = StringTrimming.EllipsisCharacter;
+
+		// Initialize all labels position rectangle
+		RectangleF rect = RectangleF.Empty;
+
+		// Calculate max label size
+		float maxLabelSize = 0;
+		if (!autoPlotPosition)
 		{
-			format.FormatFlags |= StringFormatFlags.LineLimit;
-			format.Trimming = StringTrimming.EllipsisCharacter;
-
-			// Initialize all labels position rectangle
-			RectangleF rect = RectangleF.Empty;
-
-			// Calculate max label size
-			float maxLabelSize = 0;
-			if (!autoPlotPosition)
+			if (GetIsMarksNextToAxis())
 			{
-				if (this.GetIsMarksNextToAxis())
+				if (AxisPosition == AxisPosition.Top)
 				{
-					if (this.AxisPosition == AxisPosition.Top)
-						maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.Y;
-					else if (this.AxisPosition == AxisPosition.Bottom)
-						maxLabelSize = ChartArea.Position.Bottom - (float)GetAxisPosition();
-					if (this.AxisPosition == AxisPosition.Left)
-						maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.X;
-					else if (this.AxisPosition == AxisPosition.Right)
-						maxLabelSize = ChartArea.Position.Right - (float)GetAxisPosition();
+					maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.Y;
 				}
-				else
+				else if (AxisPosition == AxisPosition.Bottom)
 				{
-					if (this.AxisPosition == AxisPosition.Top)
-						maxLabelSize = this.PlotAreaPosition.Y - ChartArea.Position.Y;
-					else if (this.AxisPosition == AxisPosition.Bottom)
-						maxLabelSize = ChartArea.Position.Bottom - this.PlotAreaPosition.Bottom;
-					if (this.AxisPosition == AxisPosition.Left)
-						maxLabelSize = this.PlotAreaPosition.X - ChartArea.Position.X;
-					else if (this.AxisPosition == AxisPosition.Right)
-						maxLabelSize = ChartArea.Position.Right - this.PlotAreaPosition.Right;
+					maxLabelSize = ChartArea.Position.Bottom - (float)GetAxisPosition();
 				}
 
-				maxLabelSize *= 2F;
+				if (AxisPosition == AxisPosition.Left)
+				{
+					maxLabelSize = (float)GetAxisPosition() - ChartArea.Position.X;
+				}
+				else if (AxisPosition == AxisPosition.Right)
+				{
+					maxLabelSize = ChartArea.Position.Right - (float)GetAxisPosition();
+				}
 			}
 			else
 			{
-				if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-					maxLabelSize = ChartArea.Position.Height;
-				else
-					maxLabelSize = ChartArea.Position.Width;
+				if (AxisPosition == AxisPosition.Top)
+				{
+					maxLabelSize = PlotAreaPosition.Y - ChartArea.Position.Y;
+				}
+				else if (AxisPosition == AxisPosition.Bottom)
+				{
+					maxLabelSize = ChartArea.Position.Bottom - PlotAreaPosition.Bottom;
+				}
+
+				if (AxisPosition == AxisPosition.Left)
+				{
+					maxLabelSize = PlotAreaPosition.X - ChartArea.Position.X;
+				}
+				else if (AxisPosition == AxisPosition.Right)
+				{
+					maxLabelSize = ChartArea.Position.Right - PlotAreaPosition.Right;
+				}
 			}
 
-			// Loop through all grouping labels (all except first row)
-			this.totlaGroupingLabelsSize = 0;
-
-
-			// Get number of groups
-			int groupLabelLevelCount = GetGroupLabelLevelCount();
-
-			// Check ig grouping labels exist
-			if (groupLabelLevelCount > 0)
+			maxLabelSize *= 2F;
+		}
+		else
+		{
+			if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 			{
-				groupingLabelSizes = new float[groupLabelLevelCount];
-
-				// Loop through each level of grouping labels
-				bool fitResult = true;
-				for (int groupLevelIndex = 1; groupLevelIndex <= groupLabelLevelCount; groupLevelIndex++)
-				{
-					groupingLabelSizes[groupLevelIndex - 1] = 0f;
-
-					// Loop through all labels in the level
-					foreach (CustomLabel label in this.CustomLabels)
-					{
-						// Skip if label middle point is outside current scaleView
-						if (label.RowIndex == 0)
-						{
-							double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
-							if (middlePoint < this.ViewMinimum || middlePoint > this.ViewMaximum)
-							{
-								continue;
-							}
-						}
-
-						if (label.RowIndex == groupLevelIndex)
-						{
-							// Calculate label rect
-							double fromPosition = this.GetLinearPosition(label.FromPosition);
-							double toPosition = this.GetLinearPosition(label.ToPosition);
-							if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-							{
-								rect.Height = (maxLabelSize / 100F) * maxAxisLabelRow2Size / groupLabelLevelCount;
-								rect.X = (float)Math.Min(fromPosition, toPosition);
-								rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
-							}
-							else
-							{
-								rect.Width = (maxLabelSize / 100F) * maxAxisLabelRow2Size / groupLabelLevelCount;
-								rect.Y = (float)Math.Min(fromPosition, toPosition);
-								rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
-							}
-
-							// Measure string
-							SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont);
-
-							// Add image size
-							if (label.Image.Length > 0)
-							{
-								SizeF imageAbsSize = new SizeF();
-
-								if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
-								{
-									SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
-									axisLabelSize.Width += imageRelSize.Width;
-									axisLabelSize.Height = Math.Max(axisLabelSize.Height, imageRelSize.Height);
-								}
-							}
-
-							// Add extra spacing for the box marking of the label
-							if (label.LabelMark == LabelMarkStyle.Box)
-							{
-								// Get relative size from pixels and add it to the label size
-								SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
-								axisLabelSize.Width += spacerSize.Width;
-								axisLabelSize.Height += spacerSize.Height;
-							}
-
-							// Calculate max height of the second row of labels
-							if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-							{
-								groupingLabelSizes[groupLevelIndex - 1] = (float)Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Height);
-							}
-							else
-							{
-								axisLabelSize.Width = chartGraph.GetAbsoluteSize(new SizeF(axisLabelSize.Height, axisLabelSize.Height)).Height;
-								axisLabelSize.Width = chartGraph.GetRelativeSize(new SizeF(axisLabelSize.Width, axisLabelSize.Width)).Width;
-								groupingLabelSizes[groupLevelIndex - 1] = (float)Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Width);
-							}
-
-							// Check if string fits
-							if (Math.Round(axisLabelSize.Width) >= Math.Round(rect.Width) &&
-								checkWidth)
-							{
-								fitResult = false;
-							}
-
-							if (Math.Round(axisLabelSize.Height) >= Math.Round(rect.Height) &&
-								checkHeight)
-							{
-								fitResult = false;
-							}
-						}
-					}
-				}
-
-				this.totlaGroupingLabelsSize = this.GetGroupLablesToatalSize();
-				if (!fitResult && !checkLabelsFirstRowOnly)
-				{
-					return false;
-				}
-
+				maxLabelSize = ChartArea.Position.Height;
 			}
-
-			// Loop through all labels in the first row
-			float angle = autoLabelAngle;
-			int labelIndex = 0;
-			foreach (CustomLabel label in this.CustomLabels)
+			else
 			{
-				// Skip if label middle point is outside current scaleView
-				if (label.RowIndex == 0)
+				maxLabelSize = ChartArea.Position.Width;
+			}
+		}
+
+		// Loop through all grouping labels (all except first row)
+		totlaGroupingLabelsSize = 0;
+
+
+		// Get number of groups
+		int groupLabelLevelCount = GetGroupLabelLevelCount();
+
+		// Check ig grouping labels exist
+		if (groupLabelLevelCount > 0)
+		{
+			groupingLabelSizes = new float[groupLabelLevelCount];
+
+			// Loop through each level of grouping labels
+			bool fitResult = true;
+			for (int groupLevelIndex = 1; groupLevelIndex <= groupLabelLevelCount; groupLevelIndex++)
+			{
+				groupingLabelSizes[groupLevelIndex - 1] = 0f;
+
+				// Loop through all labels in the level
+				foreach (CustomLabel label in CustomLabels)
 				{
-					double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
-					if (middlePoint < this.ViewMinimum || middlePoint > this.ViewMaximum)
+					// Skip if label middle point is outside current scaleView
+					if (label.RowIndex == 0)
 					{
-						continue;
-					}
-				}
-
-				if (label.RowIndex == 0)
-				{
-
-					// Force which scale segment to use when calculating label position
-					if (labelPositions != null)
-					{
-						this.ScaleSegments.EnforceSegment(this.ScaleSegments.FindScaleSegmentForAxisValue((label.FromPosition + label.ToPosition) / 2.0));
-					}
-
-
-					// Set label From and To coordinates
-					double fromPosition = this.GetLinearPosition(label.FromPosition);
-					double toPosition = this.GetLinearPosition(label.ToPosition);
-
-
-					// Reset scale segment to use when calculating label position
-					if (labelPositions != null)
-					{
-						this.ScaleSegments.EnforceSegment(null);
-					}
-
-
-					// Calculate single label position
-					rect.X = this.PlotAreaPosition.X;
-					rect.Y = (float)Math.Min(fromPosition, toPosition);
-					rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
-
-					float maxElementSize = maxAxisElementsSize;
-					if (maxAxisElementsSize - this.totlaGroupingLabelsSize > 55)
-					{
-						maxElementSize = 55 + this.totlaGroupingLabelsSize;
-					}
-
-					if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-					{
-						rect.Width = (maxLabelSize / 100F) *
-							(maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
-					}
-					else
-					{
-						rect.Width = (maxLabelSize / 100F) *
-							(maxElementSize - this.totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
-					}
-
-					// Adjust label From/To position if labels are displayed with offset
-					if (autoLabelOffset == 1)
-					{
-						rect.Y -= rect.Height / 2F;
-						rect.Height *= 2F;
-						rect.Width /= 2F;
-					}
-
-					// If horizontal axis
-					if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-					{
-						// Switch rectangle sizes
-						float val = rect.Height;
-						rect.Height = rect.Width;
-						rect.Width = val;
-
-						// Set vertical font for measuring
-						if (angle != 0)
+						double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
+						if (middlePoint < ViewMinimum || middlePoint > ViewMaximum)
 						{
-							format.FormatFlags |= StringFormatFlags.DirectionVertical;
-						}
-					}
-					else
-					{
-						// Set vertical font for measuring
-						if (angle == 90 || angle == -90)
-						{
-							angle = 0;
-							format.FormatFlags |= StringFormatFlags.DirectionVertical;
+							continue;
 						}
 					}
 
-					// Measure label text size. Add the 'I' character to allow a little bit of spacing between labels.
-					SizeF axisLabelSize = chartGraph.MeasureStringRel(
-						label.Text.Replace("\\n", "\n") + "W",
-						autoLabelFont,
-						(secondPass) ? rect.Size : ChartArea.Position.ToRectangleF().Size,
-						format);
-
-					// Width and height maybe zeros if rect is too small to fit the text and
-					// the LineLimit format flag is set. 
-					if (label.Text.Length > 0 &&
-						(axisLabelSize.Width == 0f ||
-						axisLabelSize.Height == 0f))
+					if (label.RowIndex == groupLevelIndex)
 					{
-						// Measure string without the LineLimit flag
-						format.FormatFlags ^= StringFormatFlags.LineLimit;
-						axisLabelSize = chartGraph.MeasureStringRel(
-							label.Text.Replace("\\n", "\n"),
-							autoLabelFont,
-							(secondPass) ? rect.Size : ChartArea.Position.ToRectangleF().Size,
-							format);
-						format.FormatFlags |= StringFormatFlags.LineLimit;
-					}
-
-
-					// Add image size
-					if (label.Image.Length > 0)
-					{
-						SizeF imageAbsSize = new SizeF();
-
-						if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
+						// Calculate label rect
+						double fromPosition = GetLinearPosition(label.FromPosition);
+						double toPosition = GetLinearPosition(label.ToPosition);
+						if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 						{
-							SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
-							if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
+							rect.Height = (maxLabelSize / 100F) * maxAxisLabelRow2Size / groupLabelLevelCount;
+							rect.X = (float)Math.Min(fromPosition, toPosition);
+							rect.Width = (float)Math.Max(fromPosition, toPosition) - rect.X;
+						}
+						else
+						{
+							rect.Width = (maxLabelSize / 100F) * maxAxisLabelRow2Size / groupLabelLevelCount;
+							rect.Y = (float)Math.Min(fromPosition, toPosition);
+							rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
+						}
+
+						// Measure string
+						SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont);
+
+						// Add image size
+						if (label.Image.Length > 0)
+						{
+							SizeF imageAbsSize = new();
+
+							if (Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
 							{
-								axisLabelSize.Height += imageRelSize.Height;
-								axisLabelSize.Width = Math.Max(axisLabelSize.Width, imageRelSize.Width);
-							}
-							else
-							{
+								SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
 								axisLabelSize.Width += imageRelSize.Width;
 								axisLabelSize.Height = Math.Max(axisLabelSize.Height, imageRelSize.Height);
 							}
 						}
-					}
 
-					// Add extra spacing for the box marking of the label
-					if (label.LabelMark == LabelMarkStyle.Box)
-					{
-						// Get relative size from pixels and add it to the label size
-						SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
-						axisLabelSize.Width += spacerSize.Width;
-						axisLabelSize.Height += spacerSize.Height;
-					}
-
-
-					// Calculate size using label angle
-					float width = axisLabelSize.Width;
-					float height = axisLabelSize.Height;
-					if (angle != 0)
-					{
-						// Decrease label rectangle width by 3%
-						rect.Width *= 0.97f;
-
-						if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+						// Add extra spacing for the box marking of the label
+						if (label.LabelMark == LabelMarkStyle.Box)
 						{
-							width = (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
-							width += (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+							// Get relative size from pixels and add it to the label size
+							SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
+							axisLabelSize.Width += spacerSize.Width;
+							axisLabelSize.Height += spacerSize.Height;
+						}
 
-							height = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
-							height += (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+						// Calculate max height of the second row of labels
+						if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
+						{
+							groupingLabelSizes[groupLevelIndex - 1] = (float)Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Height);
 						}
 						else
 						{
-							width = (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
-							width += (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
-
-							height = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
-							height += (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+							axisLabelSize.Width = chartGraph.GetAbsoluteSize(new SizeF(axisLabelSize.Height, axisLabelSize.Height)).Height;
+							axisLabelSize.Width = chartGraph.GetRelativeSize(new SizeF(axisLabelSize.Width, axisLabelSize.Width)).Width;
+							groupingLabelSizes[groupLevelIndex - 1] = (float)Math.Max(groupingLabelSizes[groupLevelIndex - 1], axisLabelSize.Width);
 						}
-					}
 
-					// Save label position
-					if (labelPositions != null)
-					{
-						RectangleF labelPosition = rect;
-						if (angle == 0F || angle == 90F || angle == -90F)
+						// Check if string fits
+						if (Math.Round(axisLabelSize.Width) >= Math.Round(rect.Width) &&
+							checkWidth)
 						{
-							if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
-							{
-								labelPosition.X = labelPosition.X + labelPosition.Width / 2f - width / 2f;
-								labelPosition.Width = width;
-							}
-							else
-							{
-								labelPosition.Y = labelPosition.Y + labelPosition.Height / 2f - height / 2f;
-								labelPosition.Height = height;
-							}
+							fitResult = false;
 						}
 
-						labelPositions.Add(labelPosition);
+						if (Math.Round(axisLabelSize.Height) >= Math.Round(rect.Height) &&
+							checkHeight)
+						{
+							fitResult = false;
+						}
+					}
+				}
+			}
+
+			totlaGroupingLabelsSize = GetGroupLablesToatalSize();
+			if (!fitResult && !checkLabelsFirstRowOnly)
+			{
+				return false;
+			}
+
+		}
+
+		// Loop through all labels in the first row
+		float angle = autoLabelAngle;
+		int labelIndex = 0;
+		foreach (CustomLabel label in CustomLabels)
+		{
+			// Skip if label middle point is outside current scaleView
+			if (label.RowIndex == 0)
+			{
+				double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
+				if (middlePoint < ViewMinimum || middlePoint > ViewMaximum)
+				{
+					continue;
+				}
+			}
+
+			if (label.RowIndex == 0)
+			{
+
+				// Force which scale segment to use when calculating label position
+				if (labelPositions != null)
+				{
+					ScaleSegments.EnforceSegment(ScaleSegments.FindScaleSegmentForAxisValue((label.FromPosition + label.ToPosition) / 2.0));
+				}
+
+
+				// Set label From and To coordinates
+				double fromPosition = GetLinearPosition(label.FromPosition);
+				double toPosition = GetLinearPosition(label.ToPosition);
+
+
+				// Reset scale segment to use when calculating label position
+				if (labelPositions != null)
+				{
+					ScaleSegments.EnforceSegment(null);
+				}
+
+
+				// Calculate single label position
+				rect.X = PlotAreaPosition.X;
+				rect.Y = (float)Math.Min(fromPosition, toPosition);
+				rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
+
+				float maxElementSize = maxAxisElementsSize;
+				if (maxAxisElementsSize - totlaGroupingLabelsSize > 55)
+				{
+					maxElementSize = 55 + totlaGroupingLabelsSize;
+				}
+
+				if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
+				{
+					rect.Width = (maxLabelSize / 100F) *
+						(maxElementSize - totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
+				}
+				else
+				{
+					rect.Width = (maxLabelSize / 100F) *
+						(maxElementSize - totlaGroupingLabelsSize - otherElementsSize - elementSpacing);
+				}
+
+				// Adjust label From/To position if labels are displayed with offset
+				if (autoLabelOffset == 1)
+				{
+					rect.Y -= rect.Height / 2F;
+					rect.Height *= 2F;
+					rect.Width /= 2F;
+				}
+
+				// If horizontal axis
+				if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
+				{
+					// Switch rectangle sizes
+					float val = rect.Height;
+					rect.Height = rect.Width;
+					rect.Width = val;
+
+					// Set vertical font for measuring
+					if (angle != 0)
+					{
+						format.FormatFlags |= StringFormatFlags.DirectionVertical;
+					}
+				}
+				else
+				{
+					// Set vertical font for measuring
+					if (angle == 90 || angle == -90)
+					{
+						angle = 0;
+						format.FormatFlags |= StringFormatFlags.DirectionVertical;
+					}
+				}
+
+				// Measure label text size. Add the 'I' character to allow a little bit of spacing between labels.
+				SizeF axisLabelSize = chartGraph.MeasureStringRel(
+					label.Text.Replace("\\n", "\n") + "W",
+					autoLabelFont,
+					(secondPass) ? rect.Size : ChartArea.Position.ToRectangleF().Size,
+					format);
+
+				// Width and height maybe zeros if rect is too small to fit the text and
+				// the LineLimit format flag is set. 
+				if (label.Text.Length > 0 &&
+					(axisLabelSize.Width == 0f ||
+					axisLabelSize.Height == 0f))
+				{
+					// Measure string without the LineLimit flag
+					format.FormatFlags ^= StringFormatFlags.LineLimit;
+					axisLabelSize = chartGraph.MeasureStringRel(
+						label.Text.Replace("\\n", "\n"),
+						autoLabelFont,
+						(secondPass) ? rect.Size : ChartArea.Position.ToRectangleF().Size,
+						format);
+					format.FormatFlags |= StringFormatFlags.LineLimit;
+				}
+
+
+				// Add image size
+				if (label.Image.Length > 0)
+				{
+					SizeF imageAbsSize = new();
+
+					if (Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
+					{
+						SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
+						if ((format.FormatFlags & StringFormatFlags.DirectionVertical) == StringFormatFlags.DirectionVertical)
+						{
+							axisLabelSize.Height += imageRelSize.Height;
+							axisLabelSize.Width = Math.Max(axisLabelSize.Width, imageRelSize.Width);
+						}
+						else
+						{
+							axisLabelSize.Width += imageRelSize.Width;
+							axisLabelSize.Height = Math.Max(axisLabelSize.Height, imageRelSize.Height);
+						}
+					}
+				}
+
+				// Add extra spacing for the box marking of the label
+				if (label.LabelMark == LabelMarkStyle.Box)
+				{
+					// Get relative size from pixels and add it to the label size
+					SizeF spacerSize = chartGraph.GetRelativeSize(new SizeF(4, 4));
+					axisLabelSize.Width += spacerSize.Width;
+					axisLabelSize.Height += spacerSize.Height;
+				}
+
+
+				// Calculate size using label angle
+				float width = axisLabelSize.Width;
+				float height = axisLabelSize.Height;
+				if (angle != 0)
+				{
+					// Decrease label rectangle width by 3%
+					rect.Width *= 0.97f;
+
+					if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
+					{
+						width = (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+						width += (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+
+						height = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+						height += (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+					}
+					else
+					{
+						width = (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+						width += (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+
+						height = (float)Math.Sin((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Width;
+						height += (float)Math.Cos((Math.Abs(angle)) / 180F * Math.PI) * axisLabelSize.Height;
+					}
+				}
+
+				// Save label position
+				if (labelPositions != null)
+				{
+					RectangleF labelPosition = rect;
+					if (angle == 0F || angle == 90F || angle == -90F)
+					{
+						if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
+						{
+							labelPosition.X = labelPosition.X + labelPosition.Width / 2f - width / 2f;
+							labelPosition.Width = width;
+						}
+						else
+						{
+							labelPosition.Y = labelPosition.Y + labelPosition.Height / 2f - height / 2f;
+							labelPosition.Height = height;
+						}
 					}
 
-					// Check if string fits
-					if (angle == 0F)
+					labelPositions.Add(labelPosition);
+				}
+
+				// Check if string fits
+				if (angle == 0F)
+				{
+					if (width >= rect.Width && checkWidth)
 					{
-						if (width >= rect.Width && checkWidth)
+						return false;
+					}
+
+					if (height >= rect.Height && checkHeight)
+					{
+						return false;
+					}
+				}
+
+				if (angle == 90F || angle == -90F)
+				{
+					if (width >= rect.Width && checkWidth)
+					{
+						return false;
+					}
+
+					if (height >= rect.Height && checkHeight)
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
+					{
+						if (width >= rect.Width * 2F && checkWidth)
 						{
 							return false;
 						}
 
-						if (height >= rect.Height && checkHeight)
-						{
-							return false;
-						}
-					}
-
-					if (angle == 90F || angle == -90F)
-					{
-						if (width >= rect.Width && checkWidth)
-						{
-							return false;
-						}
-
-						if (height >= rect.Height && checkHeight)
+						if (height >= rect.Height * 2F && checkHeight)
 						{
 							return false;
 						}
 					}
 					else
 					{
-						if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+						if (width >= rect.Width * 2F && checkWidth)
 						{
-							if (width >= rect.Width * 2F && checkWidth)
-							{
-								return false;
-							}
-
-							if (height >= rect.Height * 2F && checkHeight)
-							{
-								return false;
-							}
+							return false;
 						}
-						else
-						{
-							if (width >= rect.Width * 2F && checkWidth)
-							{
-								return false;
-							}
 
-							if (height >= rect.Height * 2F && checkHeight)
-							{
-								return false;
-							}
+						if (height >= rect.Height * 2F && checkHeight)
+						{
+							return false;
 						}
 					}
-
-					++labelIndex;
 				}
+
+				++labelIndex;
 			}
 		}
 
@@ -5417,12 +5360,12 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	{
 		float resultRotatedSize = 0F;
 		resultSize = 0F;
-		float angle = (autoLabelAngle < -90) ? this.LabelStyle.Angle : autoLabelAngle;
+		float angle = (autoLabelAngle < -90) ? LabelStyle.Angle : autoLabelAngle;
 		labelNearOffset = float.MaxValue;
 		labelFarOffset = float.MinValue;
 
 		// Label string drawing format			
-		using (StringFormat format = new StringFormat())
+		using (StringFormat format = new())
 		{
 			format.FormatFlags |= StringFormatFlags.LineLimit;
 			format.Trimming = StringTrimming.EllipsisCharacter;
@@ -5431,13 +5374,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			RectangleF rectLabels = ChartArea.Position.ToRectangleF();
 
 			// Loop through all labels in the first row
-			foreach (CustomLabel label in this.CustomLabels)
+			foreach (CustomLabel label in CustomLabels)
 			{
 				// Skip if label middle point is outside current scaleView
 				if (label.RowIndex == 0)
 				{
 					decimal middlePoint = (decimal)(label.FromPosition + label.ToPosition) / (decimal)2.0;
-					if (middlePoint < (decimal)this.ViewMinimum || middlePoint > (decimal)this.ViewMaximum)
+					if (middlePoint < (decimal)ViewMinimum || middlePoint > (decimal)ViewMaximum)
 					{
 						continue;
 					}
@@ -5450,20 +5393,20 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					rect.Width = maxLabelSize;
 
 					// Set label From and To coordinates
-					double fromPosition = this.GetLinearPosition(label.FromPosition);
-					double toPosition = this.GetLinearPosition(label.ToPosition);
+					double fromPosition = GetLinearPosition(label.FromPosition);
+					double toPosition = GetLinearPosition(label.ToPosition);
 					rect.Y = (float)Math.Min(fromPosition, toPosition);
 					rect.Height = (float)Math.Max(fromPosition, toPosition) - rect.Y;
 
 					// Adjust label From/To position if labels are displayed with offset
-					if ((autoLabelOffset == -1) ? this.LabelStyle.IsStaggered : (autoLabelOffset == 1))
+					if ((autoLabelOffset == -1) ? LabelStyle.IsStaggered : (autoLabelOffset == 1))
 					{
 						rect.Y -= rect.Height / 2F;
 						rect.Height *= 2F;
 					}
 
 					// If horizontal axis
-					if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+					if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 					{
 						// Switch rectangle sizes
 						float val = rect.Height;
@@ -5490,7 +5433,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					rect.Width = (float)Math.Ceiling(rect.Width);
 					rect.Height = (float)Math.Ceiling(rect.Height);
 					SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
-						(autoLabelFont != null) ? autoLabelFont : this.LabelStyle.Font,
+						(autoLabelFont != null) ? autoLabelFont : LabelStyle.Font,
 						rect.Size,
 						format);
 
@@ -5501,7 +5444,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						// Measure string without the LineLimit flag
 						format.FormatFlags ^= StringFormatFlags.LineLimit;
 						axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
-							(autoLabelFont != null) ? autoLabelFont : this.LabelStyle.Font,
+							(autoLabelFont != null) ? autoLabelFont : LabelStyle.Font,
 							rect.Size,
 							format);
 						format.FormatFlags |= StringFormatFlags.LineLimit;
@@ -5511,9 +5454,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					// Add image size
 					if (label.Image.Length > 0)
 					{
-						SizeF imageAbsSize = new SizeF();
+						SizeF imageAbsSize = new();
 
-						if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
+						if (Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
 						{
 							SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
 
@@ -5559,7 +5502,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 
 					// If axis is horizontal
-					if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+					if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 					{
 						if (angle == 90 || angle == -90 || angle == 0)
 						{
@@ -5626,7 +5569,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// Adjust results if labels are displayed with offset
-		if ((autoLabelOffset == -1) ? this.LabelStyle.IsStaggered : (autoLabelOffset == 1))
+		if ((autoLabelOffset == -1) ? LabelStyle.IsStaggered : (autoLabelOffset == 1))
 		{
 			resultSize *= 2F;
 			resultRotatedSize *= 2F;
@@ -5657,9 +5600,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	internal float GetGroupLablesToatalSize()
 	{
 		float size = 0f;
-		if (this.groupingLabelSizes != null && this.groupingLabelSizes.Length > 0)
+		if (groupingLabelSizes != null && groupingLabelSizes.Length > 0)
 		{
-			foreach (float val in this.groupingLabelSizes)
+			foreach (float val in groupingLabelSizes)
 			{
 				size += val;
 			}
@@ -5675,7 +5618,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	internal int GetGroupLabelLevelCount()
 	{
 		int groupLabelLevel = 0;
-		foreach (CustomLabel label in this.CustomLabels)
+		foreach (CustomLabel label in CustomLabels)
 		{
 			if (label.RowIndex > 0)
 			{
@@ -5711,13 +5654,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				resultSize[groupLevelIndex - 1] = 0f;
 
 				// Loop through all labels in the level
-				foreach (CustomLabel label in this.CustomLabels)
+				foreach (CustomLabel label in CustomLabels)
 				{
 					// Skip if label middle point is outside current scaleView
 					if (label.RowIndex == 0)
 					{
 						double middlePoint = (label.FromPosition + label.ToPosition) / 2.0;
-						if (middlePoint < this.ViewMinimum || middlePoint > this.ViewMaximum)
+						if (middlePoint < ViewMinimum || middlePoint > ViewMaximum)
 						{
 							continue;
 						}
@@ -5726,7 +5669,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					if (label.RowIndex == groupLevelIndex)
 					{
 						// Measure label text size
-						SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), (autoLabelFont != null) ? autoLabelFont : this.LabelStyle.Font);
+						SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), (autoLabelFont != null) ? autoLabelFont : LabelStyle.Font);
 						axisLabelSize.Width = (float)Math.Ceiling(axisLabelSize.Width);
 						axisLabelSize.Height = (float)Math.Ceiling(axisLabelSize.Height);
 
@@ -5734,9 +5677,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						// Add image size
 						if (label.Image.Length > 0)
 						{
-							SizeF imageAbsSize = new SizeF();
+							SizeF imageAbsSize = new();
 
-							if (this.Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
+							if (Common.ImageLoader.GetAdjustedImageSize(label.Image, chartGraph.Graphics, ref imageAbsSize))
 							{
 								SizeF imageRelSize = chartGraph.GetRelativeSize(imageAbsSize);
 								axisLabelSize.Width += imageRelSize.Width;
@@ -5756,7 +5699,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 
 						// If axis is horizontal
-						if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
+						if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 						{
 							resultSize[groupLevelIndex - 1] = Math.Max(resultSize[groupLevelIndex - 1], axisLabelSize.Height);
 						}
@@ -5793,7 +5736,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// </summary>
 	/// <param name="subAxisName">Sub axis name or empty string to get the main axis.</param>
 	/// <returns>Main or sub axis of the main axis.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
+	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "subAxisName")]
 	internal Axis GetSubAxis(string subAxisName)
 	{
 #if SUBAXES
@@ -5821,7 +5764,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			return true;
 		}
 
-		return this.IsMarksNextToAxis;
+		return IsMarksNextToAxis;
 	}
 
 	/// <summary>
@@ -5855,9 +5798,9 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		ChartValueType type = ChartValueType.Double;
 
 		// Check all series in this Common.Chart area attached to this axis
-		if (this.Common != null && this.Common.DataManager.Series != null && ChartArea != null)
+		if (Common != null && Common.DataManager.Series != null && ChartArea != null)
 		{
-			foreach (Series series in this.Common.DataManager.Series)
+			foreach (Series series in Common.DataManager.Series)
 			{
 				bool seriesAttached = false;
 
@@ -5865,7 +5808,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				if (series.ChartArea == ChartArea.Name && series.IsVisible())
 				{
 					// Check if axis type of series match
-					if (this.axisType == AxisName.X && series.XAxisType == AxisType.Primary)
+					if (axisType == AxisName.X && series.XAxisType == AxisType.Primary)
 					{
 #if SUBAXES
 						if(((Axis)this).SubAxisName == series.XSubAxisName)
@@ -5874,7 +5817,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							seriesAttached = true;
 						}
 					}
-					else if (this.axisType == AxisName.X2 && series.XAxisType == AxisType.Secondary)
+					else if (axisType == AxisName.X2 && series.XAxisType == AxisType.Secondary)
 					{
 #if SUBAXES
 						if(((Axis)this).SubAxisName == series.XSubAxisName)
@@ -5883,7 +5826,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							seriesAttached = true;
 						}
 					}
-					else if (this.axisType == AxisName.Y && series.YAxisType == AxisType.Primary)
+					else if (axisType == AxisName.Y && series.YAxisType == AxisType.Primary)
 					{
 #if SUBAXES
 						if(((Axis)this).SubAxisName == series.YSubAxisName)
@@ -5892,7 +5835,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							seriesAttached = true;
 						}
 					}
-					else if (this.axisType == AxisName.Y2 && series.YAxisType == AxisType.Secondary)
+					else if (axisType == AxisName.Y2 && series.YAxisType == AxisType.Secondary)
 					{
 #if SUBAXES
 						if(((Axis)this).SubAxisName == series.YSubAxisName)
@@ -5906,11 +5849,11 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				// If series attached to this axes
 				if (seriesAttached)
 				{
-					if (this.axisType == AxisName.X || this.axisType == AxisName.X2)
+					if (axisType == AxisName.X || axisType == AxisName.X2)
 					{
 						type = series.XValueType;
 					}
-					else if (this.axisType == AxisName.Y || this.axisType == AxisName.Y2)
+					else if (axisType == AxisName.Y || axisType == AxisName.Y2)
 					{
 						type = series.YValueType;
 					}
@@ -5941,33 +5884,49 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			case AxisPosition.Left:
 
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Bottom;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Top;
+				}
 
 				break;
 			case AxisPosition.Right:
 
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Bottom;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Top;
+				}
 
 				break;
 			case AxisPosition.Bottom:
 
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Left;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Right;
+				}
 
 				break;
 			case AxisPosition.Top:
 
 				if (isReversed)
+				{
 					arrowOrientation = ArrowOrientation.Left;
+				}
 				else
+				{
 					arrowOrientation = ArrowOrientation.Right;
+				}
 
 				break;
 		}
@@ -5999,36 +5958,46 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		// picture is used only for arrow size.
 		if (arrowOrientation == ArrowOrientation.Top || arrowOrientation == ArrowOrientation.Bottom)
 		{
-			size = _lineWidth;
-			sizeOpposite = (double)(_lineWidth) * Common.Width / Common.Height;
+			size = LineWidth;
+			sizeOpposite = (double)(LineWidth) * Common.Width / Common.Height;
 		}
 		else
 		{
-			size = (double)(_lineWidth) * Common.Width / Common.Height;
-			sizeOpposite = _lineWidth;
+			size = (double)(LineWidth) * Common.Width / Common.Height;
+			sizeOpposite = LineWidth;
 		}
 
 		// Arrow is sharp triangle
-		if (_arrowStyle == AxisArrowStyle.SharpTriangle)
+		if (ArrowStyle == AxisArrowStyle.SharpTriangle)
 		{
 			// Arrow direction is vertical
 			if (arrowOrientation == ArrowOrientation.Top || arrowOrientation == ArrowOrientation.Bottom)
+			{
 				return new SizeF((float)(size * 2), (float)(opositeAxis.MajorTickMark.Size + sizeOpposite * 4));
+			}
 			else
+			{
 				// Arrow direction is horizontal
 				return new SizeF((float)(opositeAxis.MajorTickMark.Size + sizeOpposite * 4), (float)(size * 2));
+			}
 		}
 		// There is no arrow
-		else if (_arrowStyle == AxisArrowStyle.None)
+		else if (ArrowStyle == AxisArrowStyle.None)
+		{
 			return new SizeF(0, 0);
+		}
 		else// Arrow is triangle or line type
 		{
 			// Arrow direction is vertical
 			if (arrowOrientation == ArrowOrientation.Top || arrowOrientation == ArrowOrientation.Bottom)
+			{
 				return new SizeF((float)(size * 2), (float)(opositeAxis.MajorTickMark.Size + sizeOpposite * 2));
+			}
 			else
+			{
 				// Arrow direction is horizontal
 				return new SizeF((float)(opositeAxis.MajorTickMark.Size + sizeOpposite * 2), (float)(size * 2));
+			}
 		}
 	}
 
@@ -6043,13 +6012,22 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	private bool IsArrowInAxis(ArrowOrientation arrowOrientation, AxisPosition axisPosition)
 	{
 		if (axisPosition == AxisPosition.Top && arrowOrientation == ArrowOrientation.Top)
+		{
 			return true;
+		}
 		else if (axisPosition == AxisPosition.Bottom && arrowOrientation == ArrowOrientation.Bottom)
+		{
 			return true;
+		}
+
 		if (axisPosition == AxisPosition.Left && arrowOrientation == ArrowOrientation.Left)
+		{
 			return true;
+		}
 		else if (axisPosition == AxisPosition.Right && arrowOrientation == ArrowOrientation.Right)
+		{
 			return true;
+		}
 
 		return false;
 	}
@@ -6093,19 +6071,19 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		get
 		{
 			double edgePosition = 0;
-			if (this.AxisPosition == AxisPosition.Bottom)
+			if (AxisPosition == AxisPosition.Bottom)
 			{
 				edgePosition = PlotAreaPosition.Bottom;
 			}
-			else if (this.AxisPosition == AxisPosition.Left)
+			else if (AxisPosition == AxisPosition.Left)
 			{
 				edgePosition = PlotAreaPosition.X;
 			}
-			else if (this.AxisPosition == AxisPosition.Right)
+			else if (AxisPosition == AxisPosition.Right)
 			{
 				edgePosition = PlotAreaPosition.Right;
 			}
-			else if (this.AxisPosition == AxisPosition.Top)
+			else if (AxisPosition == AxisPosition.Top)
 			{
 				edgePosition = PlotAreaPosition.Y;
 			}
@@ -6166,13 +6144,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		}
 
 		// Auto crossing enabled
-		if (Double.IsNaN(axisOpposite.crossing) || ignoreCrossing)
+		if (double.IsNaN(axisOpposite.crossing) || ignoreCrossing)
 		{
 			// Primary
 			if (axisType == AxisName.X || axisType == AxisName.Y)
+			{
 				return axisOpposite.GetLinearPosition(axisOpposite.ViewMinimum);
+			}
 			else // Secondary
+			{
 				return axisOpposite.GetLinearPosition(axisOpposite.ViewMaximum);
+			}
 		}
 		else // Auto crossing disabled
 		{
@@ -6210,7 +6192,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 
 		// Create two points on the sides of the axis
 		Point3D[] axisPoints = new Point3D[2];
-		if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
+		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
 		{
 			axisPoints[0] = new Point3D(0f, axisPosition, zPosition);
 			axisPoints[1] = new Point3D(100f, axisPosition, zPosition);
@@ -6231,8 +6213,8 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		axisPoints[1].Y = (float)Math.Round(axisPoints[1].Y, 4);
 
 		// Calculate angle
-		double angle = 0.0;
-		if (this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom)
+		double angle;
+		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
 		{
 			angle = Math.Atan((axisPoints[1].Y - axisPoints[0].Y) / (axisPoints[1].X - axisPoints[0].X));
 		}
@@ -6257,41 +6239,23 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	{
 		if (disposing)
 		{
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			_fontCache?.Dispose();
+			_fontCache = null;
 
-			if (labelStyle != null)
-			{
-				labelStyle.Dispose();
-				labelStyle = null;
-			}
+			labelStyle?.Dispose();
+			labelStyle = null;
 
-			if (_stripLines != null)
-			{
-				_stripLines.Dispose();
-				_stripLines = null;
-			}
+			StripLines?.Dispose();
+			StripLines = null;
 
-			if (_customLabels != null)
-			{
-				_customLabels.Dispose();
-				_customLabels = null;
-			}
+			CustomLabels?.Dispose();
+			CustomLabels = null;
 
-			if (tempLabels != null)
-			{
-				tempLabels.Dispose();
-				tempLabels = null;
-			}
+			tempLabels?.Dispose();
+			tempLabels = null;
 
-			if (this.scrollBar != null)
-			{
-				this.scrollBar.Dispose();
-				this.scrollBar = null;
-			}
+			scrollBar?.Dispose();
+			scrollBar = null;
 		}
 
 		base.Dispose(disposing);

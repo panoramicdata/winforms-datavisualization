@@ -19,7 +19,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	#region Fields
 
 	// Reference to the chart control
-	private Chart _chart = null;
+	private readonly Chart _chart = null;
 
 	// List of chart accessible objects
 	private List<AccessibleObject> _chartAccessibleObjectList = null;
@@ -28,7 +28,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	private Point _chartScreenPosition = Point.Empty;
 
 	// Chart scaleView transformation matrix
-	private PointF _chartScale = new PointF(1f, 1f);
+	private PointF _chartScale = new(1f, 1f);
 
 	#endregion // Fields
 
@@ -40,7 +40,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	/// <param name="chart">Reference to the chart control.</param>
 	public ChartAccessibleObject(Chart chart) : base(chart)
 	{
-		this._chart = chart;
+		_chart = chart;
 	}
 
 	#endregion // Constructors
@@ -54,7 +54,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	{
 		get
 		{
-			return this._chartScreenPosition;
+			return _chartScreenPosition;
 		}
 	}
 
@@ -78,7 +78,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	/// </summary>
 	public void ResetChildren()
 	{
-		this._chartAccessibleObjectList = null;
+		_chartAccessibleObjectList = null;
 	}
 
 	/// <summary>
@@ -88,9 +88,9 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	public override int GetChildCount()
 	{
 		// Fill list of chart accessible child elements
-		if (this._chartAccessibleObjectList == null)
+		if (_chartAccessibleObjectList == null)
 		{
-			this.FillChartAccessibleObjectList();
+			FillChartAccessibleObjectList();
 		}
 
 		return _chartAccessibleObjectList.Count;
@@ -104,15 +104,15 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	public override AccessibleObject GetChild(int index)
 	{
 		// Fill list of chart accessible child elements
-		if (this._chartAccessibleObjectList == null)
+		if (_chartAccessibleObjectList == null)
 		{
-			this.FillChartAccessibleObjectList();
+			FillChartAccessibleObjectList();
 		}
 
 		// Return accessible object by index
-		if (index >= 0 && index < this._chartAccessibleObjectList.Count)
+		if (index >= 0 && index < _chartAccessibleObjectList.Count)
 		{
-			return this._chartAccessibleObjectList[index];
+			return _chartAccessibleObjectList[index];
 		}
 
 		return null;
@@ -125,15 +125,15 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	private void FillChartAccessibleObjectList()
 	{
 		// Create new list
-		this._chartAccessibleObjectList = new List<AccessibleObject>();
+		_chartAccessibleObjectList = [];
 
 		// Chart reference must set first
-		if (this._chart != null)
+		if (_chart != null)
 		{
 			// Add all Titles into the list
-			foreach (Title title in this._chart.Titles)
+			foreach (Title title in _chart.Titles)
 			{
-				this._chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
+				_chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
 					this,
 					this,
 					title,
@@ -144,24 +144,23 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 			}
 
 			// Add all Legends into the list
-			foreach (Legend legend in this._chart.Legends)
+			foreach (Legend legend in _chart.Legends)
 			{
-				this._chartAccessibleObjectList.Add(new ChartChildLegendAccessibleObject(this, legend));
+				_chartAccessibleObjectList.Add(new ChartChildLegendAccessibleObject(this, legend));
 			}
 
 			// Add all Chart Areas into the list
-			foreach (ChartArea chartArea in this._chart.ChartAreas)
+			foreach (ChartArea chartArea in _chart.ChartAreas)
 			{
-				this._chartAccessibleObjectList.Add(new ChartChildChartAreaAccessibleObject(this, chartArea));
+				_chartAccessibleObjectList.Add(new ChartChildChartAreaAccessibleObject(this, chartArea));
 			}
 
 			// Add all annotations into the list
-			foreach (Annotation annotation in this._chart.Annotations)
+			foreach (Annotation annotation in _chart.Annotations)
 			{
-				TextAnnotation textAnnotation = annotation as TextAnnotation;
-				if (textAnnotation != null)
+				if (annotation is TextAnnotation textAnnotation)
 				{
-					this._chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
+					_chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
 						this,
 						this,
 						annotation,
@@ -172,7 +171,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 				}
 				else
 				{
-					this._chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
+					_chartAccessibleObjectList.Add(new ChartChildAccessibleObject(
 						this,
 						this,
 						annotation,
@@ -192,9 +191,9 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	/// <param name="chartElementType">Chart child element type.</param>
 	/// <param name="direction">Navigation direction.</param>
 	/// <returns>Accessibility object we just navigated to.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "direction"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "direction"),
+	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
+	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
 	public AccessibleObject NavigateFromChild(object chartChildElement, ChartElementType chartElementType, AccessibleNavigation direction)
 	{
 		// Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
@@ -207,9 +206,9 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	/// <param name="chartChildElement">Chart child element.</param>
 	/// <param name="chartElementType">Chart child element type.</param>
 	/// <param name="selection">Selection actin.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "selection"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "selection"),
+	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
+	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
 	public void SelectChild(object chartChildElement, ChartElementType chartElementType, AccessibleSelection selection)
 	{
 		// Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
@@ -221,8 +220,8 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	/// <param name="chartChildElement">Chart child element.</param>
 	/// <param name="chartElementType">Chart child element type.</param>
 	/// <returns>True if child is selected.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
-	System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
+	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
 	public bool IsChildSelected(object chartChildElement, ChartElementType chartElementType)
 	{
 		// Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
@@ -241,20 +240,20 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	{
 		// Make sure we have a valid reference on the chart control
 		Rectangle result = Rectangle.Empty;
-		if (this._chart != null &&
-			this._chart.chartPicture != null &&
-			this._chart.chartPicture.Common != null &&
-			this._chart.chartPicture.Common.HotRegionsList != null)
+		if (_chart != null &&
+			_chart.chartPicture != null &&
+			_chart.chartPicture.Common != null &&
+			_chart.chartPicture.Common.HotRegionsList != null)
 		{
 			// Execute chart hit test to initialize list of chart element positions
-			if (this._chart.chartPicture.Common.HotRegionsList.List == null ||
-				this._chart.chartPicture.Common.HotRegionsList.List.Count == 0)
+			if (_chart.chartPicture.Common.HotRegionsList.List == null ||
+				_chart.chartPicture.Common.HotRegionsList.List.Count == 0)
 			{
-				this._chart.HitTest(0, 0);
+				_chart.HitTest(0, 0);
 			}
 
 			// Find specified chart element in the list
-			foreach (HotRegion hotRegion in this._chart.chartPicture.Common.HotRegionsList.List)
+			foreach (HotRegion hotRegion in _chart.chartPicture.Common.HotRegionsList.List)
 			{
 				if (hotRegion.Type == chartElementType)
 				{
@@ -284,34 +283,34 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 						if (hotRegion.RelativeCoordinates)
 						{
 							RectangleF absolute = RectangleF.Empty;
-							absolute.X = bounds.X * (this._chart.Width - 1) / 100F;
-							absolute.Y = bounds.Y * (this._chart.Height - 1) / 100F;
-							absolute.Width = bounds.Width * (this._chart.Width - 1) / 100F;
-							absolute.Height = bounds.Height * (this._chart.Height - 1) / 100F;
+							absolute.X = bounds.X * (_chart.Width - 1) / 100F;
+							absolute.Y = bounds.Y * (_chart.Height - 1) / 100F;
+							absolute.Width = bounds.Width * (_chart.Width - 1) / 100F;
+							absolute.Height = bounds.Height * (_chart.Height - 1) / 100F;
 							bounds = absolute;
 						}
 
 						// Check if chart should be scaled
 						Rectangle rect = Rectangle.Round(bounds);
-						if (this._chartScale.X != 1f || this._chartScale.Y != 1f)
+						if (_chartScale.X != 1f || _chartScale.Y != 1f)
 						{
 							SizeF rectSize = rect.Size;
-							rect.X = (int)(rect.X * this._chartScale.X);
-							rect.Y = (int)(rect.Y * this._chartScale.Y);
+							rect.X = (int)(rect.X * _chartScale.X);
+							rect.Y = (int)(rect.Y * _chartScale.Y);
 
-							rectSize.Width *= this._chartScale.X;
-							rectSize.Height *= this._chartScale.Y;
+							rectSize.Width *= _chartScale.X;
+							rectSize.Height *= _chartScale.Y;
 							rect.Size = Size.Round(rectSize);
 						}
 
 						// Convert to screen coordinates
-						if (!this.ChartScreenPosition.IsEmpty)
+						if (!ChartScreenPosition.IsEmpty)
 						{
-							rect.Offset(this.ChartScreenPosition);
+							rect.Offset(ChartScreenPosition);
 						}
 						else
 						{
-							rect = this._chart.RectangleToScreen(rect);
+							rect = _chart.RectangleToScreen(rect);
 						}
 
 						// If elementd is not gridlines just return the rectangle
@@ -438,7 +437,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 		this.role = role;
 		this.objectValue = objectValue;
 		this.seriesName = seriesName;
-		this.dataPointIndex = pointIndex;
+		dataPointIndex = pointIndex;
 	}
 
 	#endregion // Constructors
@@ -452,7 +451,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	{
 		get
 		{
-			return this.chartAccessibleObject.GetChildBounds(this.chartChildObject, this.chartChildObjectType, this.seriesName, this.dataPointIndex);
+			return chartAccessibleObject.GetChildBounds(chartChildObject, chartChildObjectType, seriesName, dataPointIndex);
 		}
 	}
 
@@ -463,12 +462,12 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	{
 		get
 		{
-			if (this.chartAccessibleParentObject != null)
+			if (chartAccessibleParentObject != null)
 			{
-				return this.chartAccessibleParentObject;
+				return chartAccessibleParentObject;
 			}
 
-			return this.chartAccessibleObject;
+			return chartAccessibleObject;
 		}
 	}
 
@@ -479,11 +478,11 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	{
 		get
 		{
-			return this.objectValue;
+			return objectValue;
 		}
 		set
 		{
-			this.objectValue = value;
+			objectValue = value;
 		}
 	}
 
@@ -494,7 +493,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	{
 		get
 		{
-			return this.role;
+			return role;
 		}
 	}
 
@@ -506,7 +505,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 		get
 		{
 			AccessibleStates state = AccessibleStates.Selectable;
-			if (this.chartAccessibleObject.IsChildSelected(this.chartChildObject, this.chartChildObjectType))
+			if (chartAccessibleObject.IsChildSelected(chartChildObject, chartChildObjectType))
 			{
 				state |= AccessibleStates.Selected;
 			}
@@ -522,11 +521,11 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	{
 		get
 		{
-			return this.name;
+			return name;
 		}
 		set
 		{
-			this.name = value;
+			name = value;
 		}
 	}
 
@@ -541,7 +540,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	/// <returns>Accessibility object to navigate to.</returns>
 	public override AccessibleObject Navigate(AccessibleNavigation direction)
 	{
-		return this.chartAccessibleObject.NavigateFromChild(this.chartChildObject, this.chartChildObjectType, direction);
+		return chartAccessibleObject.NavigateFromChild(chartChildObject, chartChildObjectType, direction);
 	}
 
 	/// <summary>
@@ -550,7 +549,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	/// <param name="selection">Element to select.</param>
 	public override void Select(AccessibleSelection selection)
 	{
-		this.chartAccessibleObject.SelectChild(this.chartChildObject, this.chartChildObjectType, selection);
+		chartAccessibleObject.SelectChild(chartChildObject, chartChildObjectType, selection);
 	}
 
 	#endregion // Methods
@@ -564,7 +563,7 @@ internal class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
 	#region Fields
 
 	// List of child accessible objects
-	private List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+	private readonly List<ChartChildAccessibleObject> _childList = [];
 
 	#endregion // Fields
 
@@ -587,7 +586,7 @@ internal class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
 		// Add legend title as a child element
 		if (legend.Title.Length > 0)
 		{
-			this._childList.Add(new ChartChildAccessibleObject(
+			_childList.Add(new ChartChildAccessibleObject(
 						chartAccessibleObject,
 						this,
 						legend, ChartElementType.LegendTitle,
@@ -610,9 +609,9 @@ internal class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
 	/// <returns>Chart child accessible object.</returns>
 	public override AccessibleObject GetChild(int index)
 	{
-		if (index >= 0 && index < this._childList.Count)
+		if (index >= 0 && index < _childList.Count)
 		{
-			return this._childList[index];
+			return _childList[index];
 		}
 
 		return null;
@@ -624,7 +623,7 @@ internal class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
 	/// <returns>Number of chart accessible objects.</returns>
 	public override int GetChildCount()
 	{
-		return this._childList.Count;
+		return _childList.Count;
 	}
 
 	#endregion // Methods
@@ -638,7 +637,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 	#region Fields
 
 	// List of child accessible objects
-	private List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+	private readonly List<ChartChildAccessibleObject> _childList = [];
 
 	#endregion // Fields
 
@@ -662,14 +661,14 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 		List<Series> areaSeries = chartArea.GetSeries();
 		foreach (Series series in areaSeries)
 		{
-			this._childList.Add(new ChartChildSeriesAccessibleObject(chartAccessibleObject, this, series));
+			_childList.Add(new ChartChildSeriesAccessibleObject(chartAccessibleObject, this, series));
 		}
 
 		// Add all axes
-		this.AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisX);
-		this.AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisY);
-		this.AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisX2);
-		this.AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisY2);
+		AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisX);
+		AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisY);
+		AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisX2);
+		AddAxisAccessibilityObjects(chartAccessibleObject, chartArea.AxisY2);
 	}
 
 	#endregion // Constructor
@@ -686,7 +685,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 		// Y axis plus title
 		if (axis.enabled)
 		{
-			this._childList.Add(new ChartChildAccessibleObject(
+			_childList.Add(new ChartChildAccessibleObject(
 				chartAccessibleObject,
 				this,
 				axis,
@@ -697,7 +696,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 
 			if (axis.Title.Length > 0)
 			{
-				this._childList.Add(new ChartChildAccessibleObject(
+				_childList.Add(new ChartChildAccessibleObject(
 					chartAccessibleObject,
 					this,
 					axis,
@@ -710,7 +709,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 
 			if (axis.MajorGrid.Enabled)
 			{
-				this._childList.Add(new ChartChildAccessibleObject(
+				_childList.Add(new ChartChildAccessibleObject(
 					chartAccessibleObject,
 					this,
 					axis.MajorGrid,
@@ -722,7 +721,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 
 			if (axis.MinorGrid.Enabled)
 			{
-				this._childList.Add(new ChartChildAccessibleObject(
+				_childList.Add(new ChartChildAccessibleObject(
 					chartAccessibleObject,
 					this,
 					axis.MinorGrid,
@@ -741,9 +740,9 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 	/// <returns>Chart child accessible object.</returns>
 	public override AccessibleObject GetChild(int index)
 	{
-		if (index >= 0 && index < this._childList.Count)
+		if (index >= 0 && index < _childList.Count)
 		{
-			return this._childList[index];
+			return _childList[index];
 		}
 
 		return null;
@@ -755,7 +754,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 	/// <returns>Number of chart accessible objects.</returns>
 	public override int GetChildCount()
 	{
-		return this._childList.Count;
+		return _childList.Count;
 	}
 
 	#endregion // Methods
@@ -769,7 +768,7 @@ internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
 	#region Fields
 
 	// List of child accessible objects
-	private List<ChartChildAccessibleObject> _childList = new List<ChartChildAccessibleObject>();
+	private readonly List<ChartChildAccessibleObject> _childList = [];
 
 	#endregion // Fields
 
@@ -793,7 +792,7 @@ internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
 		int index = 1;
 		foreach (DataPoint point in series.Points)
 		{
-			this._childList.Add(new ChartChildAccessibleObject(
+			_childList.Add(new ChartChildAccessibleObject(
 				chartAccessibleObject,
 				this,
 				point,
@@ -806,13 +805,13 @@ internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
 
 			if (point.Label.Length > 0 || point.IsValueShownAsLabel)
 			{
-				this._childList.Add(new ChartChildAccessibleObject(
+				_childList.Add(new ChartChildAccessibleObject(
 					chartAccessibleObject,
 					this,
 					point,
 					ChartElementType.DataPointLabel,
 					SR.AccessibilityDataPointLabelName(index),
-					!String.IsNullOrEmpty(point._lastLabelText) ? point._lastLabelText : point.Label,
+					!string.IsNullOrEmpty(point._lastLabelText) ? point._lastLabelText : point.Label,
 					AccessibleRole.Text,
 					series.Name,
 					index - 1));
@@ -833,9 +832,9 @@ internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
 	/// <returns>Chart child accessible object.</returns>
 	public override AccessibleObject GetChild(int index)
 	{
-		if (index >= 0 && index < this._childList.Count)
+		if (index >= 0 && index < _childList.Count)
 		{
-			return this._childList[index];
+			return _childList[index];
 		}
 
 		return null;
@@ -847,7 +846,7 @@ internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
 	/// <returns>Number of chart accessible objects.</returns>
 	public override int GetChildCount()
 	{
-		return this._childList.Count;
+		return _childList.Count;
 	}
 
 	#endregion // Methods

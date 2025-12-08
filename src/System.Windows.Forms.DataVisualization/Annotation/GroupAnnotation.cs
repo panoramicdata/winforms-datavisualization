@@ -43,8 +43,10 @@ public class AnnotationGroup : Annotation
 	public AnnotationGroup()
 			: base()
 	{
-		annotations = new AnnotationCollection(this);
-		annotations.AnnotationGroup = this;
+		annotations = new AnnotationCollection(this)
+		{
+			AnnotationGroup = this
+		};
 	}
 
 	#endregion
@@ -81,7 +83,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.ClipToChartArea = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.ClipToChartArea = value;
 			}
@@ -156,7 +158,7 @@ public class AnnotationGroup : Annotation
 			base.IsSelected = value;
 
 			// Clear selection for all annotations in the group
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.IsSelected = false;
 			}
@@ -173,7 +175,7 @@ public class AnnotationGroup : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeAnnotationGroup_Visible"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	override public bool Visible
 	{
@@ -213,7 +215,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.Alignment = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.Alignment = value;
 			}
@@ -266,7 +268,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.ForeColor = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.ForeColor = value;
 			}
@@ -295,7 +297,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.Font = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.Font = value;
 			}
@@ -327,7 +329,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.LineColor = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.LineColor = value;
 			}
@@ -357,7 +359,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.LineWidth = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.LineWidth = value;
 			}
@@ -387,7 +389,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.LineDashStyle = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.LineDashStyle = value;
 			}
@@ -407,7 +409,7 @@ public class AnnotationGroup : Annotation
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBackColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
 		Browsable(false),
@@ -421,7 +423,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.BackColor = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.BackColor = value;
 			}
@@ -443,7 +445,7 @@ public class AnnotationGroup : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor)),
 		Browsable(false),
@@ -457,7 +459,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.BackHatchStyle = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.BackHatchStyle = value;
 			}
@@ -479,7 +481,7 @@ public class AnnotationGroup : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor)),
 		Browsable(false),
@@ -493,7 +495,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.BackGradientStyle = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.BackGradientStyle = value;
 			}
@@ -517,7 +519,7 @@ public class AnnotationGroup : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
@@ -532,7 +534,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.BackSecondaryColor = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.BackSecondaryColor = value;
 			}
@@ -563,7 +565,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.ShadowColor = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.ShadowColor = value;
 			}
@@ -592,7 +594,7 @@ public class AnnotationGroup : Annotation
 		set
 		{
 			base.ShadowOffset = value;
-			foreach (Annotation annotation in this.annotations)
+			foreach (Annotation annotation in annotations)
 			{
 				annotation.ShadowOffset = value;
 			}
@@ -789,9 +791,9 @@ public class AnnotationGroup : Annotation
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeAnnotationType"),
 	]
 	public override string AnnotationType
@@ -815,11 +817,11 @@ public class AnnotationGroup : Annotation
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(SelectionPointsStyle.Rectangle),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	EditorBrowsable(EditorBrowsableState.Never),
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 	SRDescription("DescriptionAttributeSelectionPointsStyle"),
 	]
 	override internal SelectionPointsStyle SelectionPointsStyle
@@ -846,23 +848,23 @@ public class AnnotationGroup : Annotation
 	override internal void Paint(Chart chart, ChartGraphics graphics)
 	{
 		// Paint all annotations in the group
-		foreach (Annotation annotation in this.annotations)
+		foreach (Annotation annotation in annotations)
 		{
 			annotation.Paint(chart, graphics);
 		}
 
-		if ((this.Common.ProcessModePaint && this.IsSelected) ||
-			this.Common.ProcessModeRegions)
+		if ((Common.ProcessModePaint && IsSelected) ||
+			Common.ProcessModeRegions)
 		{
 			// Get annotation position in relative coordinates
-			PointF firstPoint = PointF.Empty;
-			PointF anchorPoint = PointF.Empty;
-			SizeF size = SizeF.Empty;
+			PointF firstPoint;
+			PointF anchorPoint;
+			SizeF size;
 			GetRelativePosition(out firstPoint, out size, out anchorPoint);
-			PointF secondPoint = new PointF(firstPoint.X + size.Width, firstPoint.Y + size.Height);
+			PointF secondPoint = new(firstPoint.X + size.Width, firstPoint.Y + size.Height);
 
 			// Create selection rectangle
-			RectangleF selectionRect = new RectangleF(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
+			RectangleF selectionRect = new(firstPoint, new SizeF(secondPoint.X - firstPoint.X, secondPoint.Y - firstPoint.Y));
 
 			// Check rectangle orientation 
 			if (selectionRect.Width < 0)
@@ -887,18 +889,18 @@ public class AnnotationGroup : Annotation
 				return;
 			}
 
-			if (this.Common.ProcessModeRegions)
+			if (Common.ProcessModeRegions)
 			{
 				// Add hot region
-				this.Common.HotRegionsList.AddHotRegion(
+				Common.HotRegionsList.AddHotRegion(
 					selectionRect,
-					ReplaceKeywords(this.ToolTip),
-					String.Empty,
-					String.Empty,
-					String.Empty,
+					ReplaceKeywords(ToolTip),
+					string.Empty,
+					string.Empty,
+					string.Empty,
 					this,
 					ChartElementType.Annotation,
-					String.Empty);
+					string.Empty);
 			}
 
 			// Paint selection handles
@@ -918,11 +920,8 @@ public class AnnotationGroup : Annotation
 		if (disposing)
 		{
 			//Clean up managed resources
-			if (this.annotations != null)
-			{
-				this.annotations.Dispose();
-				this.annotations = null;
-			}
+			annotations?.Dispose();
+			annotations = null;
 		}
 
 		base.Dispose(disposing);

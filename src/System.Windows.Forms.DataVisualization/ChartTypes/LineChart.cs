@@ -32,7 +32,7 @@ internal class SplineChart : LineChart
 	public SplineChart()
 	{
 		// Set default line tension
-		base.lineTension = 0.5f;
+		lineTension = 0.5f;
 	}
 
 	#endregion
@@ -49,9 +49,9 @@ internal class SplineChart : LineChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	#endregion
@@ -80,10 +80,10 @@ internal class SplineChart : LineChart
 		bool indexedSeries)
 	{
 		// Check tension attribute in the series
-		base.lineTension = GetDefaultTension();
+		lineTension = GetDefaultTension();
 		if (IsLineTensionSupported() && series.IsCustomPropertySet(CustomPropertyName.LineTension))
 		{
-			base.lineTension = CommonElements.ParseFloat(series[CustomPropertyName.LineTension]);
+			lineTension = CommonElements.ParseFloat(series[CustomPropertyName.LineTension]);
 		}
 
 		// Call base LineChart class
@@ -141,7 +141,7 @@ internal class LineChart : PointChart
 	protected bool drawShadowOnly = false;
 
 	// Pen used to draw the line chart
-	private Pen _linePen = new Pen(Color.Black);
+	private Pen _linePen = new(Color.Black);
 
 	/// <summary>
 	/// Horizontal axis minimum value
@@ -222,9 +222,9 @@ internal class LineChart : PointChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 
 	/// <summary>
@@ -300,8 +300,8 @@ internal class LineChart : PointChart
 	public override void Paint(ChartGraphics graph, CommonElements common, ChartArea area, Series seriesToDraw)
 	{
 		// Save chart area reference
-		this.Area = area;
-		this.Common = common;
+		Area = area;
+		Common = common;
 		// Draw lines
 		_processBaseChart = false;
 		ProcessChartType(false, graph, common, area, seriesToDraw);
@@ -328,7 +328,7 @@ internal class LineChart : PointChart
 		ChartArea area,
 		Series seriesToDraw)
 	{
-		this.Common = common;
+		Common = common;
 		// Prosess 3D chart type
 		if (area.Area3DStyle.Enable3D)
 		{
@@ -339,10 +339,10 @@ internal class LineChart : PointChart
 
 
 		// All data series from chart area which have Bar chart type
-		List<string> typeSeries = area.GetSeriesFromChartType(this.Name);
+		List<string> typeSeries = area.GetSeriesFromChartType(Name);
 
 		// Check if series are indexed
-		bool indexedSeries = ChartHelper.IndexedSeries(this.Common, typeSeries.ToArray());
+		bool indexedSeries = ChartHelper.IndexedSeries(Common, typeSeries.ToArray());
 
 		//************************************************************
 		//** Loop through all series
@@ -350,7 +350,7 @@ internal class LineChart : PointChart
 		foreach (Series ser in common.DataManager.Series)
 		{
 			// Process non empty series of the area with Line chart type
-			if (String.Compare(ser.ChartTypeName, this.Name, true, System.Globalization.CultureInfo.CurrentCulture) != 0
+			if (string.Compare(ser.ChartTypeName, Name, true, Globalization.CultureInfo.CurrentCulture) != 0
 				|| ser.ChartArea != area.Name || !ser.IsVisible())
 			{
 				continue;
@@ -380,16 +380,16 @@ internal class LineChart : PointChart
 			}
 
 			// Check tension attribute in the series
-			this.lineTension = GetDefaultTension();
+			lineTension = GetDefaultTension();
 			if (IsLineTensionSupported() && ser.IsCustomPropertySet(CustomPropertyName.LineTension))
 			{
-				this.lineTension = CommonElements.ParseFloat(ser[CustomPropertyName.LineTension]);
+				lineTension = CommonElements.ParseFloat(ser[CustomPropertyName.LineTension]);
 			}
 
 			// Fill the array of data points coordinates (absolute)
 			bool dataPointPosFilled = false;
 			PointF[] dataPointPos = null;
-			if (this.lineTension == 0 && !common.ProcessModeRegions)
+			if (lineTension == 0 && !common.ProcessModeRegions)
 			{
 				dataPointPos = new PointF[ser.Points.Count];
 			}
@@ -402,7 +402,7 @@ internal class LineChart : PointChart
 				//** Solution for the "Out of Memory"  exception in the DrawCurve method
 				//** All points in the array should be at least 0.1 pixel apart.
 				//*************************************************************************
-				if (this.lineTension != 0)
+				if (lineTension != 0)
 				{
 					float minDifference = 0.1f;
 					for (int pointIndex = 1; pointIndex < dataPointPos.Length; pointIndex++)
@@ -472,7 +472,7 @@ internal class LineChart : PointChart
 					}
 
 					// Change Y value if line is out of plot area
-					double yValue = GetYValue(common, area, ser, point, index, this.YValueIndex);
+					double yValue = GetYValue(common, area, ser, point, index, YValueIndex);
 
 					// Recalculates x position
 					double xValue = (indexedSeries) ? index + 1 : point.XValue;
@@ -537,7 +537,7 @@ internal class LineChart : PointChart
 
 						// Check if line is partialy in the data scaleView
 						clipRegionSet = false;
-						if (this.lineTension != 0.0 ||
+						if (lineTension != 0.0 ||
 							xValuePrev < hAxisMin || xValuePrev > hAxisMax ||
 							xValue > hAxisMax || xValue < hAxisMin ||
 							yValuePrev < vAxisMin || yValuePrev > vAxisMax ||
@@ -549,7 +549,7 @@ internal class LineChart : PointChart
 						}
 
 
-						if (this.lineTension == 0 && !dataPointPosFilled)
+						if (lineTension == 0 && !dataPointPosFilled)
 						{
 							float yPosition = 0f;
 							float xPosition = 0f;
@@ -601,7 +601,7 @@ internal class LineChart : PointChart
 								ser,
 								dataPointPos,
 								index,
-								this.lineTension);
+								lineTension);
 						}
 						else
 						{
@@ -613,7 +613,7 @@ internal class LineChart : PointChart
 								ser,
 								dataPointPos,
 								index,
-								this.lineTension);
+								lineTension);
 						}
 
 						// End Svg Selection mode
@@ -655,7 +655,7 @@ internal class LineChart : PointChart
 							ser,
 							dataPointPos,
 							index,
-							this.lineTension);
+							lineTension);
 					}
 
 					// Increase data point index
@@ -730,10 +730,12 @@ internal class LineChart : PointChart
 				{
 					if (color != Color.Empty && color != Color.Transparent && pointBorderWidth > 0 && dashStyle != ChartDashStyle.NotSet)
 					{
-						Pen shadowPen = new Pen((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb((useBorderColor) ? point.BorderColor.A / 2 : point.Color.A / 2, series.ShadowColor), pointBorderWidth);
-						shadowPen.DashStyle = graph.GetPenStyle(point.BorderDashStyle);
-						shadowPen.StartCap = LineCap.Round;
-						shadowPen.EndCap = LineCap.Round;
+						Pen shadowPen = new((series.ShadowColor.A != 255) ? series.ShadowColor : Color.FromArgb((useBorderColor) ? point.BorderColor.A / 2 : point.Color.A / 2, series.ShadowColor), pointBorderWidth)
+						{
+							DashStyle = graph.GetPenStyle(point.BorderDashStyle),
+							StartCap = LineCap.Round,
+							EndCap = LineCap.Round
+						};
 
 						// Translate curve
 						GraphicsState graphicsState = graph.Save();
@@ -742,7 +744,7 @@ internal class LineChart : PointChart
 						graph.Transform = transform;
 
 						// Draw shadow
-						if (this.lineTension == 0)
+						if (lineTension == 0)
 						{
 							try
 							{
@@ -750,7 +752,7 @@ internal class LineChart : PointChart
 							}
 							catch (OverflowException)
 							{
-								this.DrawTruncatedLine(graph, shadowPen, points[pointIndex - 1], points[pointIndex]);
+								DrawTruncatedLine(graph, shadowPen, points[pointIndex - 1], points[pointIndex]);
 							}
 						}
 						else
@@ -802,16 +804,21 @@ internal class LineChart : PointChart
 
 					// Set Rounded Cap
 					if (_linePen.StartCap != LineCap.Round)
+					{
 						_linePen.StartCap = LineCap.Round;
+					}
+
 					if (_linePen.EndCap != LineCap.Round)
+					{
 						_linePen.EndCap = LineCap.Round;
+					}
 
 					if (tension == 0)
 					{
 						// VSTS: 9698 - issue: the line start from X = 0 when GDI overflows (before we expected exception)
 						if (IsLinePointsOverflow(points[pointIndex - 1]) || IsLinePointsOverflow(points[pointIndex]))
 						{
-							this.DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
+							DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
 						}
 						else
 						{
@@ -821,7 +828,7 @@ internal class LineChart : PointChart
 							}
 							catch (OverflowException)
 							{
-								this.DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
+								DrawTruncatedLine(graph, _linePen, points[pointIndex - 1], points[pointIndex]);
 							}
 						}
 					}
@@ -842,101 +849,99 @@ internal class LineChart : PointChart
 			int width = pointBorderWidth + 2;
 
 			// Create grapics path object dor the curve
-			using (GraphicsPath path = new GraphicsPath())
-			{
+			using GraphicsPath path = new();
 
-				// If line tension is zero - it's a straight line
-				if (this.lineTension == 0)
+			// If line tension is zero - it's a straight line
+			if (lineTension == 0)
+			{
+				// Add half line segment prior to the data point
+				if (pointIndex > 0)
 				{
-					// Add half line segment prior to the data point
+					PointF first = points[pointIndex - 1];
+					PointF second = points[pointIndex];
+					first.X = (first.X + second.X) / 2f;
+					first.Y = (first.Y + second.Y) / 2f;
+
+					if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
+					{
+						path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
+						path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
+						path.CloseAllFigures();
+					}
+					else
+					{
+						path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
+						path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
+						path.CloseAllFigures();
+
+					}
+				}
+
+				// Add half line segment after the data point
+				if (pointIndex + 1 < points.Length)
+				{
+					PointF first = points[pointIndex];
+					PointF second = points[pointIndex + 1];
+					second.X = (first.X + second.X) / 2f;
+					second.Y = (first.Y + second.Y) / 2f;
+
+					// Set a marker in the path to separate from the first line segment
 					if (pointIndex > 0)
 					{
-						PointF first = points[pointIndex - 1];
-						PointF second = points[pointIndex];
-						first.X = (first.X + second.X) / 2f;
-						first.Y = (first.Y + second.Y) / 2f;
-
-						if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-						{
-							path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
-							path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
-							path.CloseAllFigures();
-						}
-						else
-						{
-							path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
-							path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
-							path.CloseAllFigures();
-
-						}
+						path.SetMarkers();
 					}
 
-					// Add half line segment after the data point
-					if (pointIndex + 1 < points.Length)
+					if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
 					{
-						PointF first = points[pointIndex];
-						PointF second = points[pointIndex + 1];
-						second.X = (first.X + second.X) / 2f;
-						second.Y = (first.Y + second.Y) / 2f;
-
-						// Set a marker in the path to separate from the first line segment
-						if (pointIndex > 0)
-						{
-							path.SetMarkers();
-						}
-
-						if (Math.Abs(first.X - second.X) > Math.Abs(first.Y - second.Y))
-						{
-							path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
-							path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
-							path.CloseAllFigures();
-						}
-						else
-						{
-							path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
-							path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
-							path.CloseAllFigures();
-						}
+						path.AddLine(first.X, first.Y - width, second.X, second.Y - width);
+						path.AddLine(second.X, second.Y + width, first.X, first.Y + width);
+						path.CloseAllFigures();
 					}
-
-				}
-				else if (pointIndex > 0)
-				{
-					try
+					else
 					{
-						path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
-						path.Widen(new Pen(point.Color, pointBorderWidth + 2));
-						path.Flatten();
-					}
-					catch (OutOfMemoryException)
-					{
-						// GraphicsPath.Widen incorrectly throws OutOfMemoryException
-						// catching here and reacting by not widening
-					}
-					catch (ArgumentException)
-					{
+						path.AddLine(first.X - width, first.Y, second.X - width, second.Y);
+						path.AddLine(second.X + width, second.Y, first.X + width, first.Y);
+						path.CloseAllFigures();
 					}
 				}
 
-				// Path is empty
-				if (path.PointCount == 0)
-				{
-					return;
-				}
-
-				// Allocate array of floats
-				PointF pointNew = PointF.Empty;
-				float[] coord = new float[path.PointCount * 2];
-				PointF[] pathPoints = path.PathPoints;
-				for (int i = 0; i < path.PointCount; i++)
-				{
-					pointNew = graph.GetRelativePoint(pathPoints[i]);
-					coord[2 * i] = pointNew.X;
-					coord[2 * i + 1] = pointNew.Y;
-				}
-
-				common.HotRegionsList.AddHotRegion(path, false, coord, point, series.Name, pointIndex);
 			}
+			else if (pointIndex > 0)
+			{
+				try
+				{
+					path.AddCurve(points, pointIndex - 1, 1, lineTension);
+					path.Widen(new Pen(point.Color, pointBorderWidth + 2));
+					path.Flatten();
+				}
+				catch (OutOfMemoryException)
+				{
+					// GraphicsPath.Widen incorrectly throws OutOfMemoryException
+					// catching here and reacting by not widening
+				}
+				catch (ArgumentException)
+				{
+				}
+			}
+
+			// Path is empty
+			if (path.PointCount == 0)
+			{
+				return;
+			}
+
+			// Allocate array of floats
+			PointF pointNew = PointF.Empty;
+			float[] coord = new float[path.PointCount * 2];
+			PointF[] pathPoints = path.PathPoints;
+			for (int i = 0; i < path.PointCount; i++)
+			{
+				pointNew = graph.GetRelativePoint(pathPoints[i]);
+				coord[2 * i] = pointNew.X;
+				coord[2 * i + 1] = pointNew.Y;
+			}
+
+			common.HotRegionsList.AddHotRegion(path, false, coord, point, series.Name, pointIndex);
 		}
 	}
 
@@ -960,12 +965,12 @@ internal class LineChart : PointChart
 	/// <param name="pt2">PointF structure that represents the second point to connect.</param>
 	private void DrawTruncatedLine(ChartGraphics graph, Pen pen, PointF pt1, PointF pt2)
 	{
-		PointF adjustedPoint1 = PointF.Empty;
-		PointF adjustedPoint2 = PointF.Empty;
 
 		// Check line angle. Intersection with vertical or horizontal lines will be done based on the results
 		bool topBottomLine = (Math.Abs(pt2.Y - pt1.Y) > Math.Abs(pt2.X - pt1.X));
-		RectangleF rect = new RectangleF(0, 0, graph.Common.ChartPicture.Width, graph.Common.ChartPicture.Height);
+		RectangleF rect = new(0, 0, graph.Common.ChartPicture.Width, graph.Common.ChartPicture.Height);
+		PointF adjustedPoint1;
+		PointF adjustedPoint2;
 		if (topBottomLine)
 		{
 			// Find the intersection point between the original line and Y = 0 and Y = Height lines
@@ -993,12 +998,14 @@ internal class LineChart : PointChart
 	/// <returns>Intersection point coordinates.</returns>
 	internal static PointF GetIntersectionY(PointF firstPoint, PointF secondPoint, float pointY)
 	{
-		PointF intersectionPoint = new PointF();
-		intersectionPoint.Y = pointY;
-		intersectionPoint.X = (pointY - firstPoint.Y) *
-			(secondPoint.X - firstPoint.X) /
-			(secondPoint.Y - firstPoint.Y) +
-			firstPoint.X;
+		PointF intersectionPoint = new()
+		{
+			Y = pointY,
+			X = (pointY - firstPoint.Y) *
+				(secondPoint.X - firstPoint.X) /
+				(secondPoint.Y - firstPoint.Y) +
+				firstPoint.X
+		};
 		return intersectionPoint;
 	}
 
@@ -1012,12 +1019,14 @@ internal class LineChart : PointChart
 	/// <returns>Intersection point coordinates.</returns>
 	internal static PointF GetIntersectionX(PointF firstPoint, PointF secondPoint, float pointX)
 	{
-		PointF intersectionPoint = new PointF();
-		intersectionPoint.X = pointX;
-		intersectionPoint.Y = (pointX - firstPoint.X) *
-			(secondPoint.Y - firstPoint.Y) /
-			(secondPoint.X - firstPoint.X) +
-			firstPoint.Y;
+		PointF intersectionPoint = new()
+		{
+			X = pointX,
+			Y = (pointX - firstPoint.X) *
+				(secondPoint.Y - firstPoint.Y) /
+				(secondPoint.X - firstPoint.X) +
+				firstPoint.Y
+		};
 		return intersectionPoint;
 	}
 
@@ -1142,7 +1151,7 @@ internal class LineChart : PointChart
 		foreach (DataPoint point in series.Points)
 		{
 			// Change Y value if line is out of plot area
-			double yValue = GetYValue(Common, Area, series, point, index, this.YValueIndex);
+			double yValue = GetYValue(Common, Area, series, point, index, YValueIndex);
 
 			// Recalculates y position
 			double yPosition = VAxis.GetPosition(yValue);
@@ -1193,9 +1202,9 @@ internal class LineChart : PointChart
 		graph.frontLinePoint2 = PointF.Empty;
 
 		// Get list of series to draw
-		List<string> typeSeries = null;
-		if ((area.Area3DStyle.IsClustered && this.SideBySideSeries) ||
-			this.Stacked)
+		List<string> typeSeries;
+		if ((area.Area3DStyle.IsClustered && SideBySideSeries) ||
+			Stacked)
 		{
 			// Draw all series of the same chart type
 			typeSeries = area.GetSeriesFromChartType(Name);
@@ -1203,8 +1212,7 @@ internal class LineChart : PointChart
 		else
 		{
 			// Draw just one chart series
-			typeSeries = new List<string>();
-			typeSeries.Add(seriesToDraw.Name);
+			typeSeries = [seriesToDraw.Name];
 		}
 
 		//***************************************************************
@@ -1275,7 +1283,7 @@ internal class LineChart : PointChart
 			typeSeries,
 			this,
 			selection,
-			this.COPCoordinatesToCheck,
+			COPCoordinatesToCheck,
 			null,
 			0,
 			false);
@@ -1284,13 +1292,13 @@ internal class LineChart : PointChart
 		//************************************************************
 		//** Get line tension attribute
 		//************************************************************
-		this.lineTension = GetDefaultTension();
+		lineTension = GetDefaultTension();
 		if (dataPointDrawingOrder.Count > 0)
 		{
 			Series firstSeries = firstSeries = ((DataPoint3D)dataPointDrawingOrder[0]).dataPoint.series;
 			if (IsLineTensionSupported() && firstSeries.IsCustomPropertySet(CustomPropertyName.LineTension))
 			{
-				this.lineTension = CommonElements.ParseFloat(firstSeries[CustomPropertyName.LineTension]);
+				lineTension = CommonElements.ParseFloat(firstSeries[CustomPropertyName.LineTension]);
 			}
 		}
 
@@ -1305,7 +1313,7 @@ internal class LineChart : PointChart
 		for (int pointsLoop = 0; pointsLoop < allPointsLoopsNumber; pointsLoop++)
 		{
 			int index = 0;
-			this.centerPointIndex = int.MaxValue;
+			centerPointIndex = int.MaxValue;
 			foreach (object obj in dataPointDrawingOrder)
 			{
 				// Get point & series
@@ -1331,7 +1339,7 @@ internal class LineChart : PointChart
 					DataPoint3D prevDataPointEx = ChartGraphics.FindPointByIndex(
 						dataPointDrawingOrder,
 						pointEx.index - 1,
-						(this.multiSeries) ? pointEx : null,
+						(multiSeries) ? pointEx : null,
 						ref pointArrayIndex);
 
 					//************************************************************
@@ -1367,21 +1375,21 @@ internal class LineChart : PointChart
 						}
 
 						// Check if point markers lines should be drawn
-						this.showPointLines = false;
+						showPointLines = false;
 						if (pointAttr.dataPoint.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
 						{
-							if (String.Compare(pointAttr.dataPoint[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
+							if (string.Compare(pointAttr.dataPoint[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
 							{
-								this.showPointLines = true;
+								showPointLines = true;
 							}
 						}
 						else
 						{
 							if (pointAttr.dataPoint.series.IsCustomPropertySet(CustomPropertyName.ShowMarkerLines))
 							{
-								if (String.Compare(pointAttr.dataPoint.series[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
+								if (string.Compare(pointAttr.dataPoint.series[CustomPropertyName.ShowMarkerLines], "TRUE", StringComparison.OrdinalIgnoreCase) == 0)
 								{
-									this.showPointLines = true;
+									showPointLines = true;
 								}
 							}
 						}
@@ -1428,10 +1436,7 @@ internal class LineChart : PointChart
 							pointEx.index - 1);
 					}
 
-					if (rectPath != null)
-					{
-						rectPath.Dispose();
-					}
+					rectPath?.Dispose();
 				}
 
 				// Increase point index
@@ -1495,7 +1500,7 @@ internal class LineChart : PointChart
 		DataPoint3D firstPoint = ChartGraphics.FindPointByIndex(
 			points,
 			secondPoint.index - 1,
-			(this.multiSeries) ? secondPoint : null,
+			(multiSeries) ? secondPoint : null,
 			ref pointArrayIndex);
 
 
@@ -1542,10 +1547,10 @@ internal class LineChart : PointChart
 			tension,
 			operationType,
 			LineSegmentType.Single,
-			(this.showPointLines) ? true : false,
+			(showPointLines) ? true : false,
 			false,
 				area.ReverseSeriesOrder,
-			this.multiSeries,
+			multiSeries,
 			0,
 			true);
 	}
@@ -1777,8 +1782,10 @@ internal class LineChart : PointChart
 			}
 
 			// Get intersection point
-			DataPoint3D intersectionPoint = new DataPoint3D();
-			intersectionPoint.yPosition = (double)plotAreaPositionY;
+			DataPoint3D intersectionPoint = new()
+			{
+				yPosition = (double)plotAreaPositionY
+			};
 			if ((decimal)firstPoint.yPosition > plotAreaPositionBottom ||
 				(decimal)secondPoint.yPosition > plotAreaPositionBottom)
 			{
@@ -1833,9 +1840,11 @@ internal class LineChart : PointChart
 				// Switch intersection points
 				if ((decimal)firstPoint.yPosition > plotAreaPositionBottom)
 				{
-					DataPoint3D tempPoint = new DataPoint3D();
-					tempPoint.xPosition = intersectionPoint.xPosition;
-					tempPoint.yPosition = intersectionPoint.yPosition;
+					DataPoint3D tempPoint = new()
+					{
+						xPosition = intersectionPoint.xPosition,
+						yPosition = intersectionPoint.yPosition
+					};
 					intersectionPoint.xPosition = intersectionPoint2.xPosition;
 					intersectionPoint.yPosition = intersectionPoint2.yPosition;
 					intersectionPoint2.xPosition = tempPoint.xPosition;
@@ -1878,10 +1887,7 @@ internal class LineChart : PointChart
 					segmentIndex == 2 && reversed)
 				{
 					// Draw first segment
-					if (intersectionPoint2 == null)
-					{
-						intersectionPoint2 = intersectionPoint;
-					}
+					intersectionPoint2 ??= intersectionPoint;
 
 					intersectionPoint2.dataPoint = secondPoint.dataPoint;
 					intersectionPoint2.index = secondPoint.index;
@@ -2028,9 +2034,7 @@ internal class LineChart : PointChart
 		decimal plotAreaPositionBottom = Math.Round((decimal)area.PlotAreaPosition.Bottom, decimals);
 
 		// Make area a little bit bigger
-		plotAreaPositionX -= 0.001M;
 		plotAreaPositionY -= 0.001M;
-		plotAreaPositionRight += 0.001M;
 		plotAreaPositionBottom += 0.001M;
 
 
@@ -2058,8 +2062,8 @@ internal class LineChart : PointChart
 			(decimal)fourthPoint.Y > plotAreaPositionBottom)
 		{
 			// Remember previous y positions
-			PointF prevThirdPoint = new PointF(thirdPoint.X, thirdPoint.Y);
-			PointF prevFourthPoint = new PointF(fourthPoint.X, fourthPoint.Y);
+			PointF prevThirdPoint = new(thirdPoint.X, thirdPoint.Y);
+			PointF prevFourthPoint = new(fourthPoint.X, fourthPoint.Y);
 
 			// Check if whole line is outside plotting region
 			bool surfaceCompletlyOutside = false;
@@ -2102,7 +2106,7 @@ internal class LineChart : PointChart
 			}
 
 			// Get intersection point
-			DataPoint3D intersectionPoint = new DataPoint3D();
+			DataPoint3D intersectionPoint = new();
 			bool firstIntersectionOnBottom = false;
 			intersectionPoint.yPosition = (double)plotAreaPositionY;
 			if ((decimal)thirdPoint.Y > plotAreaPositionBottom ||
@@ -2233,16 +2237,15 @@ internal class LineChart : PointChart
 					segmentIndex == 2 && reversed)
 				{
 					// Draw first segment
-					if (intersectionPoint2 == null)
-					{
-						intersectionPoint2 = intersectionPoint;
-					}
+					intersectionPoint2 ??= intersectionPoint;
 
 					if (switchPoints)
 					{
-						DataPoint3D tempPoint = new DataPoint3D();
-						tempPoint.xPosition = intersectionPoint.xPosition;
-						tempPoint.yPosition = intersectionPoint.yPosition;
+						DataPoint3D tempPoint = new()
+						{
+							xPosition = intersectionPoint.xPosition,
+							yPosition = intersectionPoint.yPosition
+						};
 						intersectionPoint.xPosition = intersectionPoint2.xPosition;
 						intersectionPoint.yPosition = intersectionPoint2.yPosition;
 						intersectionPoint2.xPosition = tempPoint.xPosition;
@@ -2267,9 +2270,11 @@ internal class LineChart : PointChart
 
 					if (switchPoints)
 					{
-						DataPoint3D tempPoint = new DataPoint3D();
-						tempPoint.xPosition = intersectionPoint.xPosition;
-						tempPoint.yPosition = intersectionPoint.yPosition;
+						DataPoint3D tempPoint = new()
+						{
+							xPosition = intersectionPoint.xPosition,
+							yPosition = intersectionPoint.yPosition
+						};
 						intersectionPoint.xPosition = intersectionPoint2.xPosition;
 						intersectionPoint.yPosition = intersectionPoint2.yPosition;
 						intersectionPoint2.xPosition = tempPoint.xPosition;
@@ -2282,9 +2287,11 @@ internal class LineChart : PointChart
 				{
 					if (!switchPoints)
 					{
-						DataPoint3D tempPoint = new DataPoint3D();
-						tempPoint.xPosition = intersectionPoint.xPosition;
-						tempPoint.yPosition = intersectionPoint.yPosition;
+						DataPoint3D tempPoint = new()
+						{
+							xPosition = intersectionPoint.xPosition,
+							yPosition = intersectionPoint.yPosition
+						};
 						intersectionPoint.xPosition = intersectionPoint2.xPosition;
 						intersectionPoint.yPosition = intersectionPoint2.yPosition;
 						intersectionPoint2.xPosition = tempPoint.xPosition;
@@ -2312,9 +2319,11 @@ internal class LineChart : PointChart
 
 					if (!switchPoints)
 					{
-						DataPoint3D tempPoint = new DataPoint3D();
-						tempPoint.xPosition = intersectionPoint.xPosition;
-						tempPoint.yPosition = intersectionPoint.yPosition;
+						DataPoint3D tempPoint = new()
+						{
+							xPosition = intersectionPoint.xPosition,
+							yPosition = intersectionPoint.yPosition
+						};
 						intersectionPoint.xPosition = intersectionPoint2.xPosition;
 						intersectionPoint.yPosition = intersectionPoint2.yPosition;
 						intersectionPoint2.xPosition = tempPoint.xPosition;
@@ -2328,9 +2337,11 @@ internal class LineChart : PointChart
 				{
 					if (switchPoints)
 					{
-						DataPoint3D tempPoint = new DataPoint3D();
-						tempPoint.xPosition = intersectionPoint.xPosition;
-						tempPoint.yPosition = intersectionPoint.yPosition;
+						DataPoint3D tempPoint = new()
+						{
+							xPosition = intersectionPoint.xPosition,
+							yPosition = intersectionPoint.yPosition
+						};
 						intersectionPoint.xPosition = intersectionPoint2.xPosition;
 						intersectionPoint.yPosition = intersectionPoint2.yPosition;
 						intersectionPoint2.xPosition = tempPoint.xPosition;
@@ -2361,9 +2372,11 @@ internal class LineChart : PointChart
 
 					if (switchPoints)
 					{
-						DataPoint3D tempPoint = new DataPoint3D();
-						tempPoint.xPosition = intersectionPoint.xPosition;
-						tempPoint.yPosition = intersectionPoint.yPosition;
+						DataPoint3D tempPoint = new()
+						{
+							xPosition = intersectionPoint.xPosition,
+							yPosition = intersectionPoint.yPosition
+						};
 						intersectionPoint.xPosition = intersectionPoint2.xPosition;
 						intersectionPoint.yPosition = intersectionPoint2.yPosition;
 						intersectionPoint2.xPosition = tempPoint.xPosition;
@@ -2456,11 +2469,8 @@ internal class LineChart : PointChart
 		if (disposing)
 		{
 			// Dispose managed resources
-			if (this._linePen != null)
-			{
-				this._linePen.Dispose();
-				this._linePen = null;
-			}
+			_linePen?.Dispose();
+			_linePen = null;
 		}
 
 		base.Dispose(disposing);

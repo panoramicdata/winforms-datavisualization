@@ -85,7 +85,7 @@ internal class PointAndFigureChart : RangeColumnChart
 	internal static void PrepareData(Series series)
 	{
 		// Check series chart type
-		if (String.Compare(series.ChartTypeName, ChartTypeNames.PointAndFigure, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
+		if (string.Compare(series.ChartTypeName, ChartTypeNames.PointAndFigure, StringComparison.OrdinalIgnoreCase) != 0 || !series.IsVisible())
 		{
 			return;
 		}
@@ -121,10 +121,12 @@ internal class PointAndFigureChart : RangeColumnChart
 			return; // the temp series has already been added
 		}
 
-		Series seriesOriginalData = new Series(tempSeriesName, series.YValuesPerPoint);
-		seriesOriginalData.Enabled = false;
-		seriesOriginalData.IsVisibleInLegend = false;
-		seriesOriginalData.YValuesPerPoint = series.YValuesPerPoint;
+		Series seriesOriginalData = new(tempSeriesName, series.YValuesPerPoint)
+		{
+			Enabled = false,
+			IsVisibleInLegend = false,
+			YValuesPerPoint = series.YValuesPerPoint
+		};
 		chart.Series.Add(seriesOriginalData);
 		foreach (DataPoint dp in series.Points)
 		{
@@ -349,7 +351,7 @@ internal class PointAndFigureChart : RangeColumnChart
 				attrValue = attrValue.Substring(0, attrValue.Length - 1);
 			}
 
-			bool parseSucceed = false;
+			bool parseSucceed;
 			if (usePercentage)
 			{
 				double percent;
@@ -362,7 +364,7 @@ internal class PointAndFigureChart : RangeColumnChart
 			}
 			else
 			{
-				double b = 0;
+				double b;
 				parseSucceed = double.TryParse(attrValue, NumberStyles.Any, CultureInfo.InvariantCulture, out b);
 				if (parseSucceed)
 				{
@@ -381,7 +383,6 @@ internal class PointAndFigureChart : RangeColumnChart
 		if (percentOfPriceRange > 0.0)
 		{
 			// Set default box size
-			boxSize = 1.0;
 
 			// Calculate box size as percentage of price difference
 			if (minPrice == maxPrice)
@@ -402,8 +403,7 @@ internal class PointAndFigureChart : RangeColumnChart
 			if (roundBoxSize)
 			{
 
-				double[] availableBoxSizes = new double[]
-					{ 0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 0.25, 0.5, 1.0, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 25.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 5000.0, 10000.0, 50000.0, 100000.0, 1000000.0, 1000000.0};
+				double[] availableBoxSizes = [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 0.25, 0.5, 1.0, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10.0, 15.0, 20.0, 25.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 5000.0, 10000.0, 50000.0, 100000.0, 1000000.0, 1000000.0];
 
 				for (int index = 1; index < availableBoxSizes.Length; index++)
 				{
@@ -503,7 +503,7 @@ internal class PointAndFigureChart : RangeColumnChart
 		{
 			try
 			{
-				ColorConverter colorConverter = new ColorConverter();
+				ColorConverter colorConverter = new();
 				upPriceColor = (Color)colorConverter.ConvertFromString(null, CultureInfo.InvariantCulture, upPriceColorString);
 			}
 			catch
@@ -673,7 +673,7 @@ internal class PointAndFigureChart : RangeColumnChart
 	/// </summary>
 	/// <param name="sender">The source Chart object of this event.</param>
 	/// <param name="e">The EventArgs object that contains the event data.</param>
-	static private void OnCustomize(Object sender, EventArgs e)
+	static private void OnCustomize(object sender, EventArgs e)
 	{
 		bool chartResized = false;
 		Chart chart = (Chart)sender;
@@ -689,7 +689,7 @@ internal class PointAndFigureChart : RangeColumnChart
 				// Check if proportional symbol custom attribute is set
 				bool proportionalSymbols = true;
 				string attrValue = pointAndFigureSeries[CustomPropertyName.ProportionalSymbols];
-				if (attrValue != null && String.Compare(attrValue, "True", StringComparison.OrdinalIgnoreCase) != 0)
+				if (attrValue != null && string.Compare(attrValue, "True", StringComparison.OrdinalIgnoreCase) != 0)
 				{
 					proportionalSymbols = false;
 				}
@@ -739,9 +739,11 @@ internal class PointAndFigureChart : RangeColumnChart
 						}
 
 						// Add empty points
-						DataPoint emptyPoint = new DataPoint(pointAndFigureSeries);
-						emptyPoint.IsEmpty = true;
-						emptyPoint.AxisLabel = " ";
+						DataPoint emptyPoint = new(pointAndFigureSeries)
+						{
+							IsEmpty = true,
+							AxisLabel = " "
+						};
 						while (pointAndFigureSeries.Points.Count < pointCount)
 						{
 							pointAndFigureSeries.Points.Add(emptyPoint);
@@ -801,7 +803,7 @@ internal class PointAndFigureChart : RangeColumnChart
 			position.Height -= 2 * spacing;
 
 			// Calculate shadow position
-			RectangleF shadowPosition = new RectangleF(position.Location, position.Size);
+			RectangleF shadowPosition = new(position.Location, position.Size);
 			shadowPosition.Offset(ser.ShadowOffset, ser.ShadowOffset);
 
 			if (point.IsCustomPropertySet("PriceUpPoint"))
@@ -877,9 +879,9 @@ internal class PointAndFigureChart : RangeColumnChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public System.Drawing.Image GetImage(ChartTypeRegistry registry)
+	override public Image GetImage(ChartTypeRegistry registry)
 	{
-		return (System.Drawing.Image)registry.ResourceManager.GetObject(this.Name + "ChartType");
+		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	}
 	#endregion
 }

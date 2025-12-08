@@ -52,7 +52,7 @@ internal class SeriesAreaNameConverter : StringConverter
 	/// <returns>Standart values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 
 		Chart chart = ConverterHelper.GetChartFromContext(context);
 
@@ -104,7 +104,7 @@ internal class ChartDataSourceConverter : StringConverter
 	/// <returns>Standard values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 
 		if (context != null && context.Container != null)
 		{
@@ -163,7 +163,7 @@ internal class SeriesDataSourceMemberConverter : StringConverter
 	/// <returns>Standart values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 
 		Chart chart = ConverterHelper.GetChartFromContext(context);
 		object dataSource = null;
@@ -232,7 +232,7 @@ internal class SeriesLegendNameConverter : StringConverter
 	/// <returns>Standart values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 
 		Chart chart = ConverterHelper.GetChartFromContext(context);
 
@@ -284,18 +284,17 @@ internal class ChartTypeConverter : StringConverter
 	/// <returns>Standard values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ChartTypeRegistry registry = null;
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 
 		Chart chart = ConverterHelper.GetChartFromContext(context);
 		if (chart != null)
 		{
 			// Get chart type registry service
-			registry = (ChartTypeRegistry)chart.GetService(typeof(ChartTypeRegistry));
+			ChartTypeRegistry registry = (ChartTypeRegistry)chart.GetService(typeof(ChartTypeRegistry));
 			if (registry != null)
 			{
 				// Enumerate all chart types names
-				foreach (Object obj in registry.registeredChartTypes.Keys)
+				foreach (object obj in registry.registeredChartTypes.Keys)
 				{
 					if (obj is string)
 					{
@@ -354,7 +353,7 @@ internal class SeriesNameConverter : StringConverter
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
 		DataManager dataManager = null;
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 
 		if (context != null && context.Instance != null)
 		{
@@ -362,8 +361,7 @@ internal class SeriesNameConverter : StringConverter
 			MethodInfo methodInfo = context.Instance.GetType().GetMethod("GetService");
 			if (methodInfo != null)
 			{
-				object[] parameters = new object[1];
-				parameters[0] = typeof(DataManager);
+				object[] parameters = [typeof(DataManager)];
 				dataManager = (DataManager)methodInfo.Invoke(context.Instance, parameters);
 			}
 
@@ -467,10 +465,9 @@ internal class DoubleArrayConverter : ArrayConverter
 		}
 
 		// Can convert from string where each array element is separated by comma
-		string stringValue = value as string;
-		if (stringValue != null)
+		if (value is string stringValue)
 		{
-			string[] values = stringValue.Split(new char[] { ',' });
+			string[] values = stringValue.Split([',']);
 			double[] array = new double[values.Length];
 			for (int index = 0; index < values.Length; index++)
 			{
@@ -542,11 +539,11 @@ internal class DoubleArrayConverter : ArrayConverter
 			{
 				if (convertToDate)
 				{
-					result += DateTime.FromOADate(d).ToString("g", System.Globalization.CultureInfo.InvariantCulture) + ",";
+					result += DateTime.FromOADate(d).ToString("g", CultureInfo.InvariantCulture) + ",";
 				}
 				else
 				{
-					result += d.ToString(System.Globalization.CultureInfo.InvariantCulture) + ",";
+					result += d.ToString(CultureInfo.InvariantCulture) + ",";
 				}
 			}
 
@@ -584,7 +581,7 @@ internal class DataPointValueConverter : DoubleConverter
 			if (destinationType == typeof(string) && dataPoint.series.IsXValueDateTime())
 			{
 				DateTime valueAsSate = DateTime.FromOADate((double)value);
-				return valueAsSate.ToString("g", System.Globalization.CultureInfo.CurrentCulture);
+				return valueAsSate.ToString("g", CultureInfo.CurrentCulture);
 			}
 		}
 
@@ -602,15 +599,13 @@ internal class DataPointValueConverter : DoubleConverter
 	{
 		if (context != null && context.Instance != null)
 		{
-			string stringValue = value as string;
-
-			if (stringValue != null)
+			if (value is string stringValue)
 			{
 				DataPoint dataPoint = (DataPoint)context.Instance;
 
 				if (dataPoint.series.IsXValueDateTime())
 				{
-					DateTime valueAsSate = DateTime.Parse(stringValue, System.Globalization.CultureInfo.CurrentCulture);
+					DateTime valueAsSate = DateTime.Parse(stringValue, CultureInfo.CurrentCulture);
 					return valueAsSate.ToOADate();
 				}
 			}
@@ -644,7 +639,7 @@ internal class SeriesYValueTypeConverter : EnumConverter
 	/// <returns>Standard values collection.</returns>
 	public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 	{
-		ArrayList values = new ArrayList();
+		ArrayList values = [];
 
 		// Call base class
 		StandardValuesCollection val = base.GetStandardValues(context);
@@ -738,8 +733,7 @@ internal class ColorArrayConverter : TypeConverter
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		// Can convert from string where each array element is separated by comma
-		string stringValue = value as string;
-		if (stringValue != null)
+		if (value is string stringValue)
 		{
 			return StringToColorArray(stringValue);
 		}
@@ -757,7 +751,7 @@ internal class ColorArrayConverter : TypeConverter
 	{
 		if (colors != null && colors.GetLength(0) > 0)
 		{
-			ColorConverter colorConverter = new ColorConverter();
+			ColorConverter colorConverter = new();
 			string result = string.Empty;
 			foreach (Color color in colors)
 			{
@@ -780,10 +774,10 @@ internal class ColorArrayConverter : TypeConverter
 	/// </summary>
 	/// <param name="colorNames">String data.</param>
 	/// <returns>Array of colors.</returns>
-	public static Color[] StringToColorArray(String colorNames)
+	public static Color[] StringToColorArray(string colorNames)
 	{
-		ColorConverter colorConverter = new ColorConverter();
-		Color[] array = new Color[0];
+		ColorConverter colorConverter = new();
+		Color[] array = [];
 		if (colorNames.Length > 0)
 		{
 			string[] colorValues = colorNames.Split(';');
@@ -819,14 +813,12 @@ internal static class ConverterHelper
 			return null;
 		}
 
-		IChartElement element = context.Instance as IChartElement;
-		if (element != null && element.Common != null)
+		if (context.Instance is IChartElement element && element.Common != null)
 		{
 			return element.Common.Chart;
 		}
 
-		IList list = context.Instance as IList;
-		if (list != null && list.Count > 0)
+		if (context.Instance is IList list && list.Count > 0)
 		{
 			element = list[0] as IChartElement;
 			if (element.Common != null)
@@ -836,14 +828,12 @@ internal static class ConverterHelper
 
 		}
 
-		Chart chart = context.Instance as Chart;
-		if (chart != null)
+		if (context.Instance is Chart chart)
 		{
 			return chart;
 		}
 
-		IServiceProvider provider = context.Instance as IServiceProvider;
-		if (provider != null)
+		if (context.Instance is IServiceProvider provider)
 		{
 			chart = provider.GetService(typeof(Chart)) as Chart;
 			if (chart != null)

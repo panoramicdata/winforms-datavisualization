@@ -80,7 +80,7 @@ public class ChartSerializer
 	#region Private fields
 
 	// Reference to the service container
-	private IServiceContainer _serviceContainer = null;
+	private readonly IServiceContainer _serviceContainer = null;
 
 	// Reference to the chart object
 	private Chart _chart = null;
@@ -90,10 +90,8 @@ public class ChartSerializer
 	private SerializerBase _serializer = new XmlFormatSerializer();
 
 	// Format of the serializer in use
-	private SerializationFormat _format = SerializationFormat.Xml;
 
 	// Serialization content 
-	private SerializationContents _content = SerializationContents.Default;
 
 	#endregion
 
@@ -149,19 +147,16 @@ public class ChartSerializer
 	]
 	public SerializationContents Content
 	{
-		get
-		{
-			return _content;
-		}
+		get;
 		set
 		{
 			// Set content value
-			_content = value;
+			field = value;
 
 			// Automatically set SerializableContent and NonSerializableContent properties
 			SetSerializableContent();
 		}
-	}
+	} = SerializationContents.Default;
 
 	/// <summary>
 	/// Gets or sets the format used to serialize the chart data.
@@ -173,20 +168,16 @@ public class ChartSerializer
 	]
 	public SerializationFormat Format
 	{
-		get
-		{
-			return _format;
-		}
+		get;
 		set
 		{
-			if (_format != value)
+			if (field != value)
 			{
-				_format = value;
+				field = value;
 
 				// Create new serializer object
-				SerializerBase newSerializer = null;
-
-				if (_format == SerializationFormat.Binary)
+				SerializerBase newSerializer;
+				if (field == SerializationFormat.Binary)
 				{
 					newSerializer = new BinaryFormatSerializer();
 				}
@@ -202,7 +193,7 @@ public class ChartSerializer
 				_serializer = newSerializer;
 			}
 		}
-	}
+	} = SerializationFormat.Xml;
 
 	/// <summary>
 	/// Gets or sets a flag which indicates whether object properties are reset to default
@@ -353,8 +344,7 @@ public class ChartSerializer
 	public void Save(string fileName)
 	{
 		//Check arguments
-		if (fileName == null)
-			throw new ArgumentNullException("fileName");
+		ArgumentNullException.ThrowIfNull(fileName);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -388,8 +378,7 @@ public class ChartSerializer
 	public void Save(Stream stream)
 	{
 		//Check arguments
-		if (stream == null)
-			throw new ArgumentNullException("stream");
+		ArgumentNullException.ThrowIfNull(stream);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -423,8 +412,7 @@ public class ChartSerializer
 	public void Save(XmlWriter writer)
 	{
 		//Check arguments
-		if (writer == null)
-			throw new ArgumentNullException("writer");
+		ArgumentNullException.ThrowIfNull(writer);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -458,8 +446,7 @@ public class ChartSerializer
 	public void Save(TextWriter writer)
 	{
 		//Check arguments
-		if (writer == null)
-			throw new ArgumentNullException("writer");
+		ArgumentNullException.ThrowIfNull(writer);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -493,8 +480,7 @@ public class ChartSerializer
 	public void Load(string fileName)
 	{
 		//Check arguments
-		if (fileName == null)
-			throw new ArgumentNullException("fileName");
+		ArgumentNullException.ThrowIfNull(fileName);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -523,8 +509,7 @@ public class ChartSerializer
 	public void Load(Stream stream)
 	{
 		//Check arguments
-		if (stream == null)
-			throw new ArgumentNullException("stream");
+		ArgumentNullException.ThrowIfNull(stream);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -552,8 +537,7 @@ public class ChartSerializer
 	public void Load(XmlReader reader)
 	{
 		//Check arguments
-		if (reader == null)
-			throw new ArgumentNullException("reader");
+		ArgumentNullException.ThrowIfNull(reader);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -581,8 +565,7 @@ public class ChartSerializer
 	public void Load(TextReader reader)
 	{
 		//Check arguments
-		if (reader == null)
-			throw new ArgumentNullException("reader");
+		ArgumentNullException.ThrowIfNull(reader);
 
 		// Set serializing flag
 		if (GetChartObject() != null)
@@ -612,8 +595,8 @@ public class ChartSerializer
 	internal void SetSerializableContent()
 	{
 		// Reset content definition strings
-		this.SerializableContent = "";
-		this.NonSerializableContent = "";
+		SerializableContent = "";
+		NonSerializableContent = "";
 
 		// Loop through all enumeration flags
 		Array enumValues = Enum.GetValues(typeof(SerializationContents));
@@ -623,29 +606,29 @@ public class ChartSerializer
 			{
 				// Check if flag currently set
 				SerializationContents flag = (SerializationContents)flagObject;
-				if ((this.Content & flag) == flag &&
+				if ((Content & flag) == flag &&
 					flag != SerializationContents.All &&
-					this.Content != SerializationContents.All)
+					Content != SerializationContents.All)
 				{
 					// Add comma at the end of existing string
-					if (this.NonSerializableContent.Length != 0)
+					if (NonSerializableContent.Length != 0)
 					{
-						this.NonSerializableContent += ", ";
+						NonSerializableContent += ", ";
 					}
 
 					// Add serializable class/properties names
-					this.NonSerializableContent += GetContentString(flag, false);
-					this.NonSerializableContent = this.NonSerializableContent.TrimStart(',');
+					NonSerializableContent += GetContentString(flag, false);
+					NonSerializableContent = NonSerializableContent.TrimStart(',');
 
 					// Add comma at the end of existing string
-					if (this.SerializableContent.Length != 0)
+					if (SerializableContent.Length != 0)
 					{
-						this.SerializableContent += ", ";
+						SerializableContent += ", ";
 					}
 
 					// Add serializable class/properties names
-					this.SerializableContent += GetContentString(flag, true);
-					this.SerializableContent = this.SerializableContent.TrimStart(',');
+					SerializableContent += GetContentString(flag, true);
+					SerializableContent = SerializableContent.TrimStart(',');
 				}
 			}
 		}
@@ -740,10 +723,7 @@ public class ChartSerializer
 	/// <returns>Chart object.</returns>
 	internal Chart GetChartObject()
 	{
-		if (_chart == null)
-		{
-			_chart = (Chart)_serviceContainer.GetService(typeof(Chart));
-		}
+		_chart ??= (Chart)_serviceContainer.GetService(typeof(Chart));
 
 		return _chart;
 	}

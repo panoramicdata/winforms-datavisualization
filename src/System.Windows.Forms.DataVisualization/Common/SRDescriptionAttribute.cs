@@ -23,10 +23,10 @@ internal sealed class SRDescriptionAttribute : DescriptionAttribute
 	{
 		get
 		{
-			if (!this.replaced)
+			if (!replaced)
 			{
-				this.replaced = true;
-				base.DescriptionValue = SR.Keys.GetString(base.Description);
+				replaced = true;
+				DescriptionValue = SR.Keys.GetString(base.Description);
 			}
 
 			return base.Description;

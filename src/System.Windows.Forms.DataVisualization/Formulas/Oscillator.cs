@@ -85,7 +85,7 @@ internal class Oscillators : PriceIndicators
 		// Starting average from the first data point or after period.
 		bool startFromFirst = bool.Parse(extraParameterList[0]);
 
-		VolumeIndicators volume = new VolumeIndicators();
+		VolumeIndicators volume = new();
 
 		double[][] outputDistribution = new double[2][];
 
@@ -129,7 +129,7 @@ internal class Oscillators : PriceIndicators
 			}
 			else
 			{
-				outputValues[1][expIndex] = Double.NaN;
+				outputValues[1][expIndex] = double.NaN;
 			}
 
 			expIndex++;
@@ -168,17 +168,23 @@ internal class Oscillators : PriceIndicators
 		// Short Period for Exp moving average
 		int period;
 		try
-		{ period = int.Parse(parameterList[0], System.Globalization.CultureInfo.InvariantCulture); }
+		{ period = int.Parse(parameterList[0], CultureInfo.InvariantCulture); }
 		catch (Exception e)
 		{
 			if (e.Message == SR.ExceptionObjectReferenceIsNull)
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing);
+			}
 			else
+			{
 				throw new InvalidOperationException(SR.ExceptionPriceIndicatorsPeriodMissing + e.Message);
+			}
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		double[] outputAverage;
 
@@ -253,7 +259,9 @@ internal class Oscillators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionOscillatorNegativePeriodParameter);
+		}
 
 		// Signal Period for Exp moving average
 		int signalPeriod;
@@ -264,7 +272,9 @@ internal class Oscillators : PriceIndicators
 		}
 
 		if (signalPeriod <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionOscillatorNegativeSignalPeriod);
+		}
 
 		double[] outputAverage;
 
@@ -292,10 +302,14 @@ internal class Oscillators : PriceIndicators
 
 			// Set Y values
 			if (outputAverage[index] != 0.0)
+			{
 				outputValues[1][index] = (outputAverage[index + period] - outputAverage[index]) / outputAverage[index] * 100.0;
+			}
 			else
+			{
 				// Div with zero error.
 				outputValues[1][index] = 0.0;
+			}
 		}
 	}
 
@@ -352,7 +366,9 @@ internal class Oscillators : PriceIndicators
 		}
 
 		if (shortPeriod > longPeriod || longPeriod <= 0 || shortPeriod <= 0)
+		{
 			throw new ArgumentException(SR.ExceptionOscillatorObjectInvalidPeriod);
+		}
 
 		// percentage
 		bool percentage;
@@ -390,9 +406,13 @@ internal class Oscillators : PriceIndicators
 			{
 				// Div by zero error.
 				if (longAverage[index] == 0.0)
+				{
 					outputValues[1][index] = 0.0;
+				}
 				else
+				{
 					outputValues[1][index] = outputValues[1][index] / shortAverage[index + shortPeriod] * 100;
+				}
 			}
 		}
 	}
@@ -452,7 +472,9 @@ internal class Oscillators : PriceIndicators
 		}
 
 		if (periodD <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// PeriodK for moving average
 		int periodK;
@@ -463,7 +485,9 @@ internal class Oscillators : PriceIndicators
 		}
 
 		if (periodK <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Output arrays
 		outputValues = new double[3][];
@@ -488,10 +512,14 @@ internal class Oscillators : PriceIndicators
 			for (int indexHL = index - periodK + 1; indexHL <= index; indexHL++)
 			{
 				if (minLow > inputValues[2][indexHL])
+				{
 					minLow = inputValues[2][indexHL];
+				}
 
 				if (maxHi < inputValues[1][indexHL])
+				{
 					maxHi = inputValues[1][indexHL];
+				}
 			}
 			// Find K%
 			K[index - periodK + 1] = (inputValues[3][index] - minLow) / (maxHi - minLow) * 100;
@@ -549,7 +577,9 @@ internal class Oscillators : PriceIndicators
 	{
 		// There is no enough input series
 		if (inputValues.Length != 4)
+		{
 			throw new ArgumentException(SR.ExceptionPriceIndicatorsFormulaRequiresThreeArrays);
+		}
 
 		// Different number of x and y values
 		CheckNumOfValues(inputValues, 3);
@@ -563,7 +593,9 @@ internal class Oscillators : PriceIndicators
 		}
 
 		if (period <= 0)
+		{
 			throw new InvalidOperationException(SR.ExceptionPeriodParameterIsNegative);
+		}
 
 		// Output arrays
 		outputValues = new double[2][];
@@ -583,10 +615,14 @@ internal class Oscillators : PriceIndicators
 			for (int indexHL = index - period + 1; indexHL <= index; indexHL++)
 			{
 				if (minLow > inputValues[2][indexHL])
+				{
 					minLow = inputValues[2][indexHL];
+				}
 
 				if (maxHi < inputValues[1][indexHL])
+				{
 					maxHi = inputValues[1][indexHL];
+				}
 			}
 			// Set X value
 			outputValues[0][index - period + 1] = inputValues[0][index];
@@ -626,7 +662,7 @@ internal class Oscillators : PriceIndicators
 		// Not used for these formulas.
 		outLabels = null;
 
-		name = formulaName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+		name = formulaName.ToUpper(CultureInfo.InvariantCulture);
 		try
 		{
 			switch (name)

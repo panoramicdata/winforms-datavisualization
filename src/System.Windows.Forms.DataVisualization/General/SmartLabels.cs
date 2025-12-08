@@ -169,14 +169,14 @@ public class SmartLabelStyle
 	/// </summary>
 	public SmartLabelStyle()
 	{
-		this.chartElement = null;
+		chartElement = null;
 	}
 
 	/// <summary>
 	/// Constructor.
 	/// </summary>
 	/// <param name="chartElement">Chart element this style belongs to.</param>
-	internal SmartLabelStyle(Object chartElement)
+	internal SmartLabelStyle(object chartElement)
 	{
 		this.chartElement = chartElement;
 	}
@@ -193,7 +193,7 @@ public class SmartLabelStyle
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeEnabled13"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	virtual public bool Enabled
 	{
@@ -564,7 +564,7 @@ internal class SmartLabel
 	internal void Reset()
 	{
 		// Re-initialize list of labels position
-		smartLabelsPositions = new ArrayList();
+		smartLabelsPositions = [];
 	}
 
 	/// <summary>
@@ -638,14 +638,13 @@ internal class SmartLabel
 		// Check if SmartLabelStyle are enabled
 		if (smartLabelStyle.Enabled)
 		{
-			bool labelMovedAway = false;
 
 			// Add series markers positions to avoid their overlapping
-			bool rememberMarkersCount = (this.smartLabelsPositions.Count == 0);
+			bool rememberMarkersCount = (smartLabelsPositions.Count == 0);
 			AddMarkersPosition(common, area);
 			if (rememberMarkersCount)
 			{
-				this.markersCount = this.smartLabelsPositions.Count;
+				markersCount = smartLabelsPositions.Count;
 			}
 
 			// Check label collision
@@ -662,7 +661,7 @@ internal class SmartLabel
 				checkCalloutLineOverlapping))
 			{
 				// Try to find a new position for the SmartLabelStyle
-				labelMovedAway = FindNewPosition(
+				bool labelMovedAway = FindNewPosition(
 					common,
 					graph,
 					area,
@@ -742,7 +741,7 @@ internal class SmartLabel
 		int positionIndex = 0;
 		float labelMovement = 0f;
 		bool labelMovedAway = false;
-		LabelAlignmentStyles[] positions = new LabelAlignmentStyles[] {
+		LabelAlignmentStyles[] positions = [
 									LabelAlignmentStyles.Top,
 									LabelAlignmentStyles.Bottom,
 									LabelAlignmentStyles.Left,
@@ -752,7 +751,7 @@ internal class SmartLabel
 									LabelAlignmentStyles.BottomLeft,
 									LabelAlignmentStyles.BottomRight,
 									LabelAlignmentStyles.Center
-								};
+								];
 
 		// Get relative size of single pixel
 		SizeF pixelSize = graph.GetRelativeSize(new SizeF(1f, 1f));
@@ -874,8 +873,10 @@ internal class SmartLabel
 			GetLabelPosition(graph, labelPosition, labelSize, format, true));
 
 		// Create callout pen
-		Pen calloutPen = new Pen(smartLabelStyle.CalloutLineColor, smartLabelStyle.CalloutLineWidth);
-		calloutPen.DashStyle = graph.GetPenStyle(smartLabelStyle.CalloutLineDashStyle);
+		Pen calloutPen = new(smartLabelStyle.CalloutLineColor, smartLabelStyle.CalloutLineWidth)
+		{
+			DashStyle = graph.GetPenStyle(smartLabelStyle.CalloutLineDashStyle)
+		};
 
 		// Draw callout frame
 		if (smartLabelStyle.CalloutStyle == LabelCalloutStyle.Box)
@@ -883,10 +884,8 @@ internal class SmartLabel
 			// Fill callout box around the label
 			if (smartLabelStyle.CalloutBackColor != Color.Transparent)
 			{
-				using (Brush calloutBrush = new SolidBrush(smartLabelStyle.CalloutBackColor))
-				{
-					graph.FillRectangle(calloutBrush, labelRectAbs);
-				}
+				using Brush calloutBrush = new SolidBrush(smartLabelStyle.CalloutBackColor);
+				graph.FillRectangle(calloutBrush, labelRectAbs);
 			}
 
 			// Draw box border
@@ -1020,44 +1019,42 @@ internal class SmartLabel
 		{
 			if (area.chartAreaIsCurcular)
 			{
-				using (GraphicsPath areaPath = new GraphicsPath())
-				{
-					// Add circular shape of the area into the graphics path
-					areaPath.AddEllipse(area.PlotAreaPosition.ToRectangleF());
+				using GraphicsPath areaPath = new();
+				// Add circular shape of the area into the graphics path
+				areaPath.AddEllipse(area.PlotAreaPosition.ToRectangleF());
 
-					if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.Partial)
+				if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.Partial)
+				{
+					PointF centerPos = new(
+						labelPosition.X + labelPosition.Width / 2f,
+						labelPosition.Y + labelPosition.Height / 2f);
+					if (!areaPath.IsVisible(centerPos))
 					{
-						PointF centerPos = new PointF(
-							labelPosition.X + labelPosition.Width / 2f,
-							labelPosition.Y + labelPosition.Height / 2f);
-						if (!areaPath.IsVisible(centerPos))
-						{
-							// DEBUG: Mark collided labels
+						// DEBUG: Mark collided labels
 #if DEBUG
 							if (graph != null && common.Chart.ShowDebugMarkings)
 							{
 								graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
 							}
 #endif
-							collisionDetected = true;
-						}
+						collisionDetected = true;
 					}
-					else if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.No)
+				}
+				else if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.No)
+				{
+					if (!areaPath.IsVisible(labelPosition.Location) ||
+						!areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Y)) ||
+						!areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Bottom)) ||
+						!areaPath.IsVisible(new PointF(labelPosition.X, labelPosition.Bottom)))
 					{
-						if (!areaPath.IsVisible(labelPosition.Location) ||
-							!areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Y)) ||
-							!areaPath.IsVisible(new PointF(labelPosition.Right, labelPosition.Bottom)) ||
-							!areaPath.IsVisible(new PointF(labelPosition.X, labelPosition.Bottom)))
-						{
-							// DEBUG: Mark collided labels
+						// DEBUG: Mark collided labels
 #if DEBUG
 							if (graph != null && common.Chart.ShowDebugMarkings)
 							{
 								graph.Graphics.DrawRectangle(Pens.Cyan, Rectangle.Round(graph.GetAbsoluteRectangle(labelPosition)));
 							}
 #endif
-							collisionDetected = true;
-						}
+						collisionDetected = true;
 					}
 				}
 			}
@@ -1065,7 +1062,7 @@ internal class SmartLabel
 			{
 				if (smartLabelStyle.AllowOutsidePlotArea == LabelOutsidePlotAreaStyle.Partial)
 				{
-					PointF centerPos = new PointF(
+					PointF centerPos = new(
 						labelPosition.X + labelPosition.Width / 2f,
 						labelPosition.Y + labelPosition.Height / 2f);
 					if (!area.PlotAreaPosition.ToRectangleF().Contains(centerPos))
@@ -1100,17 +1097,17 @@ internal class SmartLabel
 		// Check if 1 collisuion is aceptable in case of cennter alignment
 		bool allowOneCollision =
 			(labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed) ? true : false;
-		if (this.checkAllCollisions)
+		if (checkAllCollisions)
 		{
 			allowOneCollision = false;
 		}
 
 
 		// Loop through all smart label positions
-		if (!collisionDetected && this.smartLabelsPositions != null)
+		if (!collisionDetected && smartLabelsPositions != null)
 		{
 			int index = -1;
-			foreach (RectangleF pos in this.smartLabelsPositions)
+			foreach (RectangleF pos in smartLabelsPositions)
 			{
 				// Increase index
 				++index;
@@ -1124,7 +1121,7 @@ internal class SmartLabel
 					checkCalloutLineOverlapping &&
 					index >= markersCount)
 				{
-					PointF labelCenter = new PointF(
+					PointF labelCenter = new(
 						labelPosition.X + labelPosition.Width / 2f,
 						labelPosition.Y + labelPosition.Height / 2f);
 					if (LineIntersectRectangle(pos, markerPosition, labelCenter))
@@ -1278,7 +1275,7 @@ internal class SmartLabel
 		ChartArea area)
 	{
 		// Proceed only if there is no items in the list yet
-		if (this.smartLabelsPositions.Count == 0 && area != null)
+		if (smartLabelsPositions.Count == 0 && area != null)
 		{
 			// Get chart types registry
 			ChartTypeRegistry registry = common.ChartTypeRegistry;
@@ -1295,7 +1292,7 @@ internal class SmartLabel
 					IChartType chartType = registry.GetChartType(series.ChartTypeName);
 
 					// Add series markers positions into the list
-					chartType.AddSmartLabelMarkerPositions(common, area, series, this.smartLabelsPositions);
+					chartType.AddSmartLabelMarkerPositions(common, area, series, smartLabelsPositions);
 				}
 			}
 
@@ -1315,13 +1312,10 @@ internal class SmartLabel
 						breakPosition = common.graph.GetRelativeRectangle(breakPosition);
 
 						// Create array list if needed
-						if (this.smartLabelsPositions == null)
-						{
-							this.smartLabelsPositions = new ArrayList();
-						}
+						smartLabelsPositions ??= [];
 
 						// Add label position into the list
-						this.smartLabelsPositions.Add(breakPosition);
+						smartLabelsPositions.Add(breakPosition);
 
 					}
 				}
@@ -1347,13 +1341,10 @@ internal class SmartLabel
 		// Calculate label position rectangle
 		RectangleF labelPosition = GetLabelPosition(graph, position, size, format, false);
 
-		if (this.smartLabelsPositions == null)
-		{
-			this.smartLabelsPositions = new ArrayList();
-		}
+		smartLabelsPositions ??= [];
 
 		// Add label position into the list
-		this.smartLabelsPositions.Add(labelPosition);
+		smartLabelsPositions.Add(labelPosition);
 	}
 
 	/// <summary>
@@ -1447,7 +1438,7 @@ internal class SmartLabel
 		format.LineAlignment = StringAlignment.Center;
 
 		// Calculate label position
-		PointF position = new PointF(markerPosition.X, markerPosition.Y);
+		PointF position = new(markerPosition.X, markerPosition.Y);
 		switch (labelAlignment)
 		{
 			case LabelAlignmentStyles.Center:
@@ -1585,13 +1576,13 @@ internal class AnnotationSmartLabel : SmartLabel
 		// Check if 1 collisuion is aceptable in case of cennter alignment
 		bool allowOneCollision =
 			(labelAlignment == LabelAlignmentStyles.Center && !smartLabelStyle.IsMarkerOverlappingAllowed) ? true : false;
-		if (this.checkAllCollisions)
+		if (checkAllCollisions)
 		{
 			allowOneCollision = false;
 		}
 
 		// Check if label collide with other labels or markers.
-		foreach (RectangleF pos in this.smartLabelsPositions)
+		foreach (RectangleF pos in smartLabelsPositions)
 		{
 			if (pos.IntersectsWith(labelPosition))
 			{
@@ -1628,14 +1619,14 @@ internal class AnnotationSmartLabel : SmartLabel
 		ChartArea area)
 	{
 		// Proceed only if there is no items in the list yet
-		if (this.smartLabelsPositions.Count == 0 &&
+		if (smartLabelsPositions.Count == 0 &&
 			common != null &&
 			common.Chart != null)
 		{
 			// Add annotations anchor points
 			foreach (Annotation annotation in common.Chart.Annotations)
 			{
-				annotation.AddSmartLabelMarkerPositions(this.smartLabelsPositions);
+				annotation.AddSmartLabelMarkerPositions(smartLabelsPositions);
 			}
 		}
 	}

@@ -28,7 +28,7 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
-using Size = System.Drawing.Size;
+using Size = Size;
 
 #region Enumerations
 
@@ -45,7 +45,7 @@ public enum ChartImageFormat
 	/// <summary>
 	/// Gets the W3C Portable Network Graphics (PNG) image format.
 	/// </summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Png")]
+	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Png")]
 	Png,
 
 	/// <summary>
@@ -88,8 +88,8 @@ public enum ChartImageFormat
 [SRDescription("DescriptionAttributeChart_Chart")]
 [Designer(typeof(ChartWinDesigner))]
 [DesignerSerializer(typeof(ChartWinDesignerSerializer), typeof(CodeDomSerializer))]
-[DisplayNameAttribute("Chart")]
-public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposable
+[DisplayName("Chart")]
+public class Chart : Control, ISupportInitialize, IDisposable
 {
 	#region Control fields
 
@@ -100,24 +100,21 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 
 	// Chart services components
 	private ChartTypeRegistry _chartTypeRegistry = null;
-	private BorderTypeRegistry _borderTypeRegistry = null;
-	private CustomPropertyRegistry _customAttributeRegistry = null;
+	private readonly BorderTypeRegistry _borderTypeRegistry = null;
+	private readonly CustomPropertyRegistry _customAttributeRegistry = null;
 	private DataManager _dataManager = null;
 	internal ChartImage chartPicture = null;
 	private ImageLoader _imageLoader = null;
 	internal ServiceContainer serviceContainer = null;
-	private ChartSerializer _chartSerializer = null;
-	private PrintingManager _printingManager = null;
 
 	// Selection class
 	internal Selection selection = null;
 
 	// Named images collection
-	private NamedImagesCollection _namedImages = null;
 
 
 	// Formula registry servise component
-	private FormulaRegistry _formulaRegistry = null;
+	private readonly FormulaRegistry _formulaRegistry = null;
 
 
 	// Indicates that control invalidation is temporary disabled
@@ -144,10 +141,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 
 
 	// Chart default cursor
-	internal System.Windows.Forms.Cursor defaultCursor = Cursors.Default;
+	internal Forms.Cursor defaultCursor = Cursors.Default;
 
 	// Keywords registry
-	private KeywordsRegistry _keywordsRegistry = null;
+	private readonly KeywordsRegistry _keywordsRegistry = null;
 
 	// Horizontal rendering resolution.
 	static internal double renderingDpiX = 96.0;
@@ -183,18 +180,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		//*********************************************************
 		//** Set control styles
 		//*********************************************************
-		this.SetStyle(ControlStyles.ResizeRedraw, true);
+		SetStyle(ControlStyles.ResizeRedraw, true);
 		//this.SetStyle(ControlStyles.Opaque, true);
-		this.SetStyle(ControlStyles.UserPaint, true);
-		this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-		this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-		this.SetStyle(ControlStyles.Selectable, true);
+		SetStyle(ControlStyles.UserPaint, true);
+		SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+		SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+		SetStyle(ControlStyles.Selectable, true);
 
 		// NOTE: Fixes issue #4475
-		this.SetStyle(ControlStyles.DoubleBuffer, true);
+		SetStyle(ControlStyles.DoubleBuffer, true);
 
 		// This is necessary to raise focus event on chart mouse click.
-		this.SetStyle(ControlStyles.UserMouse, true);
+		SetStyle(ControlStyles.UserMouse, true);
 
 		//*********************************************************
 		//** Create services
@@ -210,8 +207,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		_imageLoader = new ImageLoader(serviceContainer);
 
 		chartPicture = new ChartImage(serviceContainer);
-		_chartSerializer = new ChartSerializer(serviceContainer);
-		_printingManager = new PrintingManager(serviceContainer);
+		Serializer = new ChartSerializer(serviceContainer);
+		Printing = new PrintingManager(serviceContainer);
 		_formulaRegistry = new FormulaRegistry();
 
 		// Add services to the service container
@@ -222,8 +219,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		serviceContainer.AddService(_dataManager.GetType(), _dataManager);          // Data Manager service
 		serviceContainer.AddService(_imageLoader.GetType(), _imageLoader);          // Image Loader service
 		serviceContainer.AddService(chartPicture.GetType(), chartPicture);          // Chart image service
-		serviceContainer.AddService(_chartSerializer.GetType(), _chartSerializer);  // Chart serializer service
-		serviceContainer.AddService(_printingManager.GetType(), _printingManager);  // Printing manager service
+		serviceContainer.AddService(Serializer.GetType(), Serializer);  // Chart serializer service
+		serviceContainer.AddService(Printing.GetType(), Printing);  // Printing manager service
 		serviceContainer.AddService(_formulaRegistry.GetType(), _formulaRegistry);  // Formula modules service
 		serviceContainer.AddService(_keywordsRegistry.GetType(), _keywordsRegistry);    // Keywords registry
 
@@ -317,13 +314,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		_borderTypeRegistry.Register("FrameTitle8", typeof(FrameTitle8Border));
 
 		// Enable chart invalidating
-		this.disableInvalidates = false;
+		disableInvalidates = false;
 
 		// Create selection object
 		selection = new Selection(serviceContainer);
 
 		// Create named images collection
-		_namedImages = new NamedImagesCollection();
+		Images = [];
 
 		// Hook up event handlers
 		ChartAreas.NameReferenceChanged += new EventHandler<NameReferenceChangedEventArgs>(Series.ChartAreaNameReferenceChanged);
@@ -351,26 +348,26 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		//** Check control license
 
 		// Disable invalidates
-		this.disableInvalidates = true;
+		disableInvalidates = true;
 
 		//*******************************************************
 		//** If chart background is transparent - draw without
 		//** double buffering.
 		//*******************************************************
-		if (this.IsBorderTransparent() ||
-			!this.BackColor.IsEmpty &&
-			(this.BackColor == Color.Transparent || this.BackColor.A != 255))
+		if (IsBorderTransparent() ||
+			!BackColor.IsEmpty &&
+			(BackColor == Color.Transparent || BackColor.A != 255))
 		{
 
 			// Draw chart directly on the graphics
 			try
 			{
-				if (this.paintTopLevelElementOnly)
+				if (paintTopLevelElementOnly)
 				{
 					chartPicture.Paint(e.Graphics, false);
 				}
 
-				chartPicture.Paint(e.Graphics, this.paintTopLevelElementOnly);
+				chartPicture.Paint(e.Graphics, paintTopLevelElementOnly);
 			}
 			catch (Exception)
 			{
@@ -379,7 +376,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 
 
 				// Rethrow exception if not in design-time mode
-				if (!this.DesignMode)
+				if (!DesignMode)
 				{
 					throw;
 				}
@@ -394,7 +391,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			//** If nothing was changed in the chart and last image is stored in the buffer
 			//** there is no need to repaint the chart.
 			//*******************************************************
-			if (this.dirtyFlag || paintBufferBitmap == null)
+			if (dirtyFlag || paintBufferBitmap == null)
 			{
 
 				// Get scaling component from the drawing graphics
@@ -423,7 +420,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 				//*******************************************************
 				try
 				{
-					chartPicture.Paint(paintBufferBitmapGraphics, this.paintTopLevelElementOnly);
+					chartPicture.Paint(paintBufferBitmapGraphics, paintTopLevelElementOnly);
 				}
 				catch (Exception)
 				{
@@ -431,7 +428,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 					DrawException(paintBufferBitmapGraphics);
 
 					// Rethrow exception if not in design-time mode
-					if (!this.DesignMode)
+					if (!DesignMode)
 					{
 						throw;
 					}
@@ -442,8 +439,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			//** Push bitmap buffer forward into the screen
 			//*******************************************************
 			// Set drawing scale 1:1. Only persist the transformation from current matrix
-			System.Drawing.Drawing2D.Matrix drawingMatrix = new System.Drawing.Drawing2D.Matrix();
-			System.Drawing.Drawing2D.Matrix oldMatrix = e.Graphics.Transform;
+			Drawing.Drawing2D.Matrix drawingMatrix = new();
+			Drawing.Drawing2D.Matrix oldMatrix = e.Graphics.Transform;
 			drawingMatrix.Translate(oldMatrix.OffsetX, oldMatrix.OffsetY);
 			e.Graphics.Transform = drawingMatrix;
 
@@ -453,8 +450,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		}
 
 		// Clears control dirty flag
-		this.dirtyFlag = false;
-		this.disableInvalidates = false;
+		dirtyFlag = false;
+		disableInvalidates = false;
 
 		// Call base class
 		base.OnPaint(e);
@@ -470,7 +467,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="pevent">Event arguments.</param>
 	protected override void OnPaintBackground(PaintEventArgs pevent)
 	{
-		this.disableInvalidates = true;
+		disableInvalidates = true;
 
 		//*********************************************************
 		//** Check if chart back ground has a transparent color
@@ -482,7 +479,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		}
 		else if (chartPicture.BackImageTransparentColor.A != 255 &&
 			chartPicture.BackImageTransparentColor != Color.Empty &&
-			!String.IsNullOrEmpty(chartPicture.BackImage))
+			!string.IsNullOrEmpty(chartPicture.BackImage))
 		{
 			transpBack = true;
 		}
@@ -490,7 +487,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		//*********************************************************
 		//** If chart or chart border page colr has transparent color
 		//*********************************************************
-		bool transpBorder = this.IsBorderTransparent();
+		bool transpBorder = IsBorderTransparent();
 		if (transpBorder || transpBack)
 		{
 			Color oldBackColor = chartPicture.BackColor;
@@ -506,7 +503,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			chartPicture.BackColor = oldBackColor;
 		}
 
-		this.disableInvalidates = false;
+		disableInvalidates = false;
 	}
 
 	/// <summary>
@@ -517,7 +514,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	{
 		base.OnSystemColorsChanged(e);
 
-		this.Invalidate();
+		Invalidate();
 	}
 
 	/// <summary>
@@ -541,7 +538,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			}
 			else if (chartPicture.BorderSkin.BackImageTransparentColor.A != 255 &&
 				chartPicture.BorderSkin.BackImageTransparentColor != Color.Empty &&
-				!String.IsNullOrEmpty(chartPicture.BorderSkin.BackImage))
+				!string.IsNullOrEmpty(chartPicture.BorderSkin.BackImage))
 			{
 				transpBorder = true;
 			}
@@ -557,22 +554,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	private void DrawException(Graphics graphics)
 	{
 		// Fill background
-		graphics.FillRectangle(Brushes.White, 0, 0, this.Width, this.Height);
+		graphics.FillRectangle(Brushes.White, 0, 0, Width, Height);
 
 		string addMessage = SR.ExceptionChartPreviewNotAvailable;
 		// Get text rectangle
-		RectangleF rect = new RectangleF(3, 3, this.Width - 6, this.Height - 6);
+		RectangleF rect = new(3, 3, Width - 6, Height - 6);
 
 		// Draw exception text
-		using (StringFormat format = new StringFormat())
-		{
-			format.Alignment = StringAlignment.Center;
-			format.LineAlignment = StringAlignment.Center;
-			using (Font font = new Font(FontCache.DefaultFamilyName, 8))
-			{
-				graphics.DrawString(addMessage, font, Brushes.Black, rect, format);
-			}
-		}
+		using StringFormat format = new();
+		format.Alignment = StringAlignment.Center;
+		format.LineAlignment = StringAlignment.Center;
+		using Font font = new(FontCache.DefaultFamilyName, 8);
+		graphics.DrawString(addMessage, font, Brushes.Black, rect, format);
 	}
 
 	/// <summary>
@@ -586,14 +579,11 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		// Clear bitmap used to improve the performance of elements
 		// like cursors and annotations
 		// NOTE: Fixes issue #4157
-		if (this.chartPicture.nonTopLevelChartBuffer != null)
-		{
-			this.chartPicture.nonTopLevelChartBuffer.Dispose();
-			this.chartPicture.nonTopLevelChartBuffer = null;
-		}
+		chartPicture._nonTopLevelChartBuffer?.Dispose();
+		chartPicture._nonTopLevelChartBuffer = null;
 
-		this.dirtyFlag = true;
-		this.ResetAccessibilityObject();
+		dirtyFlag = true;
+		ResetAccessibilityObject();
 		base.Refresh();
 	}
 
@@ -602,19 +592,19 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </summary>
 	public new void Invalidate()
 	{
-		this.dirtyFlag = true;
-		this.ResetAccessibilityObject();
-		if (!this.disableInvalidates)
+		dirtyFlag = true;
+		ResetAccessibilityObject();
+		if (!disableInvalidates)
 		{
-			base.Invalidate(true);
+			Invalidate(true);
 
 		}
 
 		// NOTE: Code below required for the Diagram integration. -AG
-		if (!this.chartPicture.isSavingAsImage)
+		if (!chartPicture._isSavingAsImage)
 		{
-			InvalidateEventArgs e = new InvalidateEventArgs(Rectangle.Empty);
-			this.OnInvalidated(e);
+			InvalidateEventArgs e = new(Rectangle.Empty);
+			OnInvalidated(e);
 		}
 
 	}
@@ -624,19 +614,19 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </summary>
 	public new void Invalidate(Rectangle rectangle)
 	{
-		this.dirtyFlag = true;
-		this.ResetAccessibilityObject();
-		if (!this.disableInvalidates)
+		dirtyFlag = true;
+		ResetAccessibilityObject();
+		if (!disableInvalidates)
 		{
 			base.Invalidate(rectangle);
 
 		}
 
 		// NOTE: Code below required for the Diagram integration. -AG
-		if (!this.chartPicture.isSavingAsImage)
+		if (!chartPicture._isSavingAsImage)
 		{
-			InvalidateEventArgs e = new InvalidateEventArgs(Rectangle.Empty);
-			this.OnInvalidated(e);
+			InvalidateEventArgs e = new(Rectangle.Empty);
+			OnInvalidated(e);
 		}
 	}
 
@@ -649,13 +639,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void UpdateCursor()
 	{
 		// Set flag to redraw cursor/selection only
-		this.paintTopLevelElementOnly = true;
+		paintTopLevelElementOnly = true;
 
 		// Update chart cursor and range selection
-		base.Update();
+		Update();
 
 		// Clear flag to redraw cursor/selection only
-		this.paintTopLevelElementOnly = false;
+		paintTopLevelElementOnly = false;
 	}
 
 
@@ -666,13 +656,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void UpdateAnnotations()
 	{
 		// Set flag to redraw cursor/selection only
-		this.paintTopLevelElementOnly = true;
+		paintTopLevelElementOnly = true;
 
 		// Update chart cursor and range selection
-		base.Update();
+		Update();
 
 		// Clear flag to redraw cursor/selection only
-		this.paintTopLevelElementOnly = false;
+		paintTopLevelElementOnly = false;
 	}
 
 
@@ -684,11 +674,11 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <summary>
 	/// Returns default control size.
 	/// </summary>
-	protected override System.Drawing.Size DefaultSize
+	protected override Size DefaultSize
 	{
 		get
 		{
-			return new System.Drawing.Size(300, 300);
+			return new Size(300, 300);
 		}
 	}
 
@@ -704,9 +694,9 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			chartPicture.BorderSkin.PageColor.A != 255 &&
 			chartPicture.BorderSkin.PageColor != Color.Empty))
 		{
-			if (!this.disableInvalidates)
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 
@@ -719,10 +709,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">Event arguments.</param>
 	protected override void OnResize(EventArgs e)
 	{
-		chartPicture.Width = this.Size.Width;
-		chartPicture.Height = this.Size.Height;
-		this.dirtyFlag = true;
-		this.ResetAccessibilityObject();
+		chartPicture.Width = Size.Width;
+		chartPicture.Height = Size.Height;
+		dirtyFlag = true;
+		ResetAccessibilityObject();
 		base.OnResize(e);
 	}
 	/// <summary>
@@ -732,7 +722,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	protected override void OnRightToLeftChanged(EventArgs e)
 	{
 		base.OnRightToLeftChanged(e);
-		this.Invalidate();
+		Invalidate();
 	}
 
 	#endregion
@@ -747,11 +737,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void SaveImage(string imageFileName, ChartImageFormat format)
 	{
 		// Check arguments
-		if (imageFileName == null)
-			throw new ArgumentNullException("imageFileName");
+		ArgumentNullException.ThrowIfNull(imageFileName);
 
 		// Create file stream for the specified file name
-		FileStream fileStream = new FileStream(imageFileName, FileMode.Create);
+		FileStream fileStream = new(imageFileName, FileMode.Create);
 
 		// Save into stream
 		try
@@ -773,13 +762,12 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void SaveImage(string imageFileName, ImageFormat format)
 	{
 		// Check arguments
-		if (imageFileName == null)
-			throw new ArgumentNullException("imageFileName");
-		if (format == null)
-			throw new ArgumentNullException("format");
+		ArgumentNullException.ThrowIfNull(imageFileName);
+
+		ArgumentNullException.ThrowIfNull(format);
 
 		// Create file stream for the specified file name
-		FileStream fileStream = new FileStream(imageFileName, FileMode.Create);
+		FileStream fileStream = new(imageFileName, FileMode.Create);
 
 		// Save into stream
 		try
@@ -801,22 +789,21 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void SaveImage(Stream imageStream, ImageFormat format)
 	{
 		// Check arguments
-		if (imageStream == null)
-			throw new ArgumentNullException("imageStream");
-		if (format == null)
-			throw new ArgumentNullException("format");
+		ArgumentNullException.ThrowIfNull(imageStream);
+
+		ArgumentNullException.ThrowIfNull(format);
 
 		// Indicate that chart is saved into the image
-		this.chartPicture.isSavingAsImage = true;
+		chartPicture._isSavingAsImage = true;
 
 		if (format == ImageFormat.Emf || format == ImageFormat.Wmf)
 		{
-			this.chartPicture.SaveIntoMetafile(imageStream, EmfType.EmfOnly);
+			chartPicture.SaveIntoMetafile(imageStream, EmfType.EmfOnly);
 		}
 		else
 		{
 			// Get chart image
-			Image chartImage = this.chartPicture.GetImage();
+			Image chartImage = chartPicture.GetImage();
 
 			// Save image into the file
 			chartImage.Save(imageStream, format);
@@ -826,7 +813,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		}
 
 		// Reset flag
-		this.chartPicture.isSavingAsImage = false;
+		chartPicture._isSavingAsImage = false;
 	}
 
 	/// <summary>
@@ -837,11 +824,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void SaveImage(Stream imageStream, ChartImageFormat format)
 	{
 		// Check arguments
-		if (imageStream == null)
-			throw new ArgumentNullException("imageStream");
+		ArgumentNullException.ThrowIfNull(imageStream);
 
 		// Indicate that chart is saved into the image
-		this.chartPicture.isSavingAsImage = true;
+		chartPicture._isSavingAsImage = true;
 
 		if (format == ChartImageFormat.Emf ||
 			format == ChartImageFormat.EmfPlus ||
@@ -857,12 +843,12 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 				emfType = EmfType.EmfPlusOnly;
 			}
 
-			this.chartPicture.SaveIntoMetafile(imageStream, emfType);
+			chartPicture.SaveIntoMetafile(imageStream, emfType);
 		}
 		else
 		{
 			// Get chart image
-			Image chartImage = this.chartPicture.GetImage();
+			Image chartImage = chartPicture.GetImage();
 
 			ImageFormat standardImageFormat = ImageFormat.Png;
 
@@ -893,7 +879,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		}
 
 		// Reset flag
-		this.chartPicture.isSavingAsImage = false;
+		chartPicture._isSavingAsImage = false;
 	}
 
 
@@ -910,24 +896,24 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	[
 	SRCategory("CategoryAttributeAppearance"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-	SerializationVisibilityAttribute(SerializationVisibility.Attribute),
+	SerializationVisibility(SerializationVisibility.Attribute),
 	SRDescription("DescriptionAttributeChart_PaletteCustomColors"),
 	TypeConverter(typeof(ColorArrayConverter))
 	]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
+	[SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
 	public Color[] PaletteCustomColors
 	{
 		set
 		{
-			this._dataManager.PaletteCustomColors = value;
-			if (!this.disableInvalidates)
+			_dataManager.PaletteCustomColors = value;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 		get
 		{
-			return this._dataManager.PaletteCustomColors;
+			return _dataManager.PaletteCustomColors;
 		}
 	}
 
@@ -937,7 +923,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	internal void ResetPaletteCustomColors()
 	{
-		this.PaletteCustomColors = new Color[0];
+		PaletteCustomColors = [];
 	}
 
 	/// <summary>
@@ -946,8 +932,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	internal bool ShouldSerializePaletteCustomColors()
 	{
-		if (this.PaletteCustomColors == null ||
-			this.PaletteCustomColors.Length == 0)
+		if (PaletteCustomColors == null ||
+			PaletteCustomColors.Length == 0)
 		{
 			return false;
 		}
@@ -967,11 +953,11 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	{
 		set
 		{
-			this.chartPicture.SuppressExceptions = value;
+			chartPicture.SuppressExceptions = value;
 		}
 		get
 		{
-			return this.chartPicture.SuppressExceptions;
+			return chartPicture.SuppressExceptions;
 		}
 	}
 
@@ -984,7 +970,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	Bindable(true),
 	SRDescription("DescriptionAttributeDataSource"),
 	DefaultValue(null),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 		AttributeProvider(typeof(IListSource))
 	]
 	public object DataSource
@@ -1009,13 +995,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	Browsable(false),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	]
-	public NamedImagesCollection Images
-	{
-		get
-		{
-			return _namedImages;
-		}
-	}
+	public NamedImagesCollection Images { get; private set; } = null;
 
 
 	/// <summary>
@@ -1027,15 +1007,9 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRDescription("DescriptionAttributeChart_Printing"),
 	Browsable(false),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
-	public PrintingManager Printing
-	{
-		get
-		{
-			return _printingManager;
-		}
-	}
+	public PrintingManager Printing { get; private set; } = null;
 
 
 	/// <summary>
@@ -1112,8 +1086,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	[
 	Browsable(false),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	EditorBrowsable(EditorBrowsableState.Never),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public override Image BackgroundImage
 	{
@@ -1146,10 +1120,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			_dataManager.Palette = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1165,7 +1139,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRDescription("DescriptionAttributeAntiAlias"),
 		Editor(typeof(FlagsEnumUITypeEditor), typeof(UITypeEditor)),
 		]
-	public System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles AntiAliasing
+	public AntiAliasingStyles AntiAliasing
 	{
 		get
 		{
@@ -1177,10 +1151,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			{
 				chartPicture.AntiAliasing = value;
 
-				this.dirtyFlag = true;
-				if (!this.disableInvalidates)
+				dirtyFlag = true;
+				if (!disableInvalidates)
 				{
-					this.Invalidate();
+					Invalidate();
 				}
 			}
 		}
@@ -1204,10 +1178,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.TextAntiAliasingQuality = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 	}
@@ -1230,10 +1204,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.IsSoftShadows = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1279,14 +1253,14 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			if (chartPicture.BackColor != value)
 			{
 				chartPicture.BackColor = value;
-				this.dirtyFlag = true;
-				if (!this.disableInvalidates)
+				dirtyFlag = true;
+				if (!disableInvalidates)
 				{
-					this.Invalidate();
+					Invalidate();
 				}
 
 				// Call notification event
-				this.OnBackColorChanged(EventArgs.Empty);
+				OnBackColorChanged(EventArgs.Empty);
 			}
 		}
 	}
@@ -1323,7 +1297,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	DefaultValue(typeof(Size), "300, 300"),
 	SRDescription("DescriptionAttributeChart_Size"),
 	]
-	public new System.Drawing.Size Size
+	public new Size Size
 	{
 		get
 		{
@@ -1343,8 +1317,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRCategory("CategoryAttributeData"),
 	SRDescription("DescriptionAttributeDataManipulator"),
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public DataManipulator DataManipulator
 	{
@@ -1361,16 +1335,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRCategory("CategoryAttributeSerializer"),
 	SRDescription("DescriptionAttributeChart_Serializer"),
 	Browsable(false),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
-	public ChartSerializer Serializer
-	{
-		get
-		{
-			return _chartSerializer;
-		}
-	}
+	public ChartSerializer Serializer { get; } = null;
 
 
 	/// <summary>
@@ -1380,10 +1348,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRCategory("CategoryAttributeCharttitle"),
 	Bindable(false),
 	Browsable(false),
-	EditorBrowsableAttribute(EditorBrowsableState.Never),
+	EditorBrowsable(EditorBrowsableState.Never),
 	DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public new Font Font
 	{
@@ -1417,10 +1385,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BackHatchStyle = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1436,7 +1404,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	Bindable(true),
 	DefaultValue(""),
 		SRDescription("DescriptionAttributeBackImage"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
 		]
 	public string BackImage
@@ -1448,10 +1416,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BackImage = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1464,7 +1432,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageWrapMode.Tile),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageWrapMode"),
 	]
 	public ChartImageWrapMode BackImageWrapMode
@@ -1476,10 +1444,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BackImageWrapMode = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1492,7 +1460,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageTransparentColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
@@ -1506,10 +1474,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BackImageTransparentColor = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1522,7 +1490,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageAlignmentStyle.TopLeft),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackImageAlign"),
 	]
 	public ChartImageAlignmentStyle BackImageAlignment
@@ -1534,10 +1502,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BackImageAlignment = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1562,10 +1530,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BackGradientStyle = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1591,10 +1559,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BackSecondaryColor = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1611,7 +1579,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	DefaultValue(typeof(Color), "White"),
 	SRDescription("DescriptionAttributeBorderColor"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
 		]
@@ -1624,10 +1592,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BorderColor = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1644,7 +1612,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	DefaultValue(1),
 	SRDescription("DescriptionAttributeChart_BorderlineWidth"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public int BorderWidth
 	{
@@ -1655,10 +1623,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BorderWidth = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1675,7 +1643,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	DefaultValue(ChartDashStyle.NotSet),
 		SRDescription("DescriptionAttributeBorderDashStyle"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public ChartDashStyle BorderDashStyle
 	{
@@ -1686,10 +1654,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BorderDashStyle = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1715,10 +1683,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BorderColor = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1742,10 +1710,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BorderWidth = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1769,10 +1737,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BorderDashStyle = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1787,8 +1755,8 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	Bindable(true),
 	DefaultValue(BorderSkinStyle.None),
 	SRDescription("DescriptionAttributeBorderSkin"),
-	NotifyParentPropertyAttribute(true),
-	TypeConverterAttribute(typeof(LegendConverter)),
+	NotifyParentProperty(true),
+	TypeConverter(typeof(LegendConverter)),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content)
 	]
 	public BorderSkin BorderSkin
@@ -1800,10 +1768,10 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		set
 		{
 			chartPicture.BorderSkin = value;
-			this.dirtyFlag = true;
-			if (!this.disableInvalidates)
+			dirtyFlag = true;
+			if (!disableInvalidates)
 			{
-				this.Invalidate();
+				Invalidate();
 			}
 
 		}
@@ -1824,7 +1792,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		get
 		{
 			// Get build number from the assembly
-			string buildNumber = String.Empty;
+			string buildNumber = string.Empty;
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			if (assembly != null)
 			{
@@ -1857,18 +1825,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	EditorBrowsable(EditorBrowsableState.Never),
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue(96.0),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public double RenderingDpiY
 	{
 		set
 		{
-			Chart.renderingDpiY = value;
+			renderingDpiY = value;
 		}
 		get
 		{
-			return Chart.renderingDpiY;
+			return renderingDpiY;
 		}
 	}
 
@@ -1883,18 +1851,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	EditorBrowsable(EditorBrowsableState.Never),
 	SRCategory("CategoryAttributeMisc"),
 	DefaultValue(96.0),
-	DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Hidden),
-	SerializationVisibilityAttribute(SerializationVisibility.Hidden)
+	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+	SerializationVisibility(SerializationVisibility.Hidden)
 	]
 	public double RenderingDpiX
 	{
 		set
 		{
-			Chart.renderingDpiX = value;
+			renderingDpiX = value;
 		}
 		get
 		{
-			return Chart.renderingDpiX;
+			return renderingDpiX;
 		}
 	}
 
@@ -1927,20 +1895,20 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void ApplyPaletteColors()
 	{
 		// Apply palette colors to series
-		this._dataManager.ApplyPaletteColors();
+		_dataManager.ApplyPaletteColors();
 
 		// Apply palette colors to data Points in series
-		foreach (Series series in this.Series)
+		foreach (Series series in Series)
 		{
 			// Check if palette colors should be aplied to the points
-			bool applyToPoints = false;
+			bool applyToPoints;
 			if (series.Palette != ChartColorPalette.None)
 			{
 				applyToPoints = true;
 			}
 			else
 			{
-				IChartType chartType = this._chartTypeRegistry.GetChartType(series.ChartType);
+				IChartType chartType = _chartTypeRegistry.GetChartType(series.ChartType);
 				applyToPoints = chartType.ApplyPaletteColorsToPoints;
 			}
 
@@ -1958,7 +1926,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <returns>True if control is in design mode.</returns>
 	internal bool IsDesignMode()
 	{
-		return this.DesignMode;
+		return DesignMode;
 	}
 
 	/// <summary>
@@ -1967,13 +1935,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void ResetAutoValues()
 	{
 		// Reset auto calculated series properties values 
-		foreach (Series series in this.Series)
+		foreach (Series series in Series)
 		{
 			series.ResetAutoValues();
 		}
 
 		// Reset auto calculated axis properties values 
-		foreach (ChartArea chartArea in this.ChartAreas)
+		foreach (ChartArea chartArea in ChartAreas)
 		{
 			chartArea.ResetAutoValues();
 		}
@@ -2062,7 +2030,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		Justification = "X and Y are cartesian coordinates and well understood")]
 	public HitTestResult[] HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElement)
 	{
-		return this.selection.HitTest(x, y, ignoreTransparent, requestedElement);
+		return selection.HitTest(x, y, ignoreTransparent, requestedElement);
 	}
 
 
@@ -2082,7 +2050,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </remarks>
 	public ChartElementOutline GetChartElementOutline(object element, ChartElementType elementType)
 	{
-		return this.selection.GetChartElementOutline(element, elementType);
+		return selection.GetChartElementOutline(element, elementType);
 	}
 
 	#endregion
@@ -2093,33 +2061,27 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	{
 		base.OnGotFocus(e);
 
-		using (Graphics g = Graphics.FromHwndInternal(Handle))
-		{
-			ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
-		}
+		using Graphics g = Graphics.FromHwndInternal(Handle);
+		ControlPaint.DrawFocusRectangle(g, new Rectangle(1, 1, Size.Width - 2, Size.Height - 2));
 	}
 
 	protected override void OnLostFocus(EventArgs e)
 	{
 		base.OnLostFocus(e);
 
-		using (Graphics g = Graphics.FromHwndInternal(Handle))
-		{
-			using (Brush b = new SolidBrush(BackColor))
-			{
-				Rectangle topBorder = new Rectangle(1, 1, Size.Width - 2, 1);
-				g.FillRectangle(b, topBorder);
+		using Graphics g = Graphics.FromHwndInternal(Handle);
+		using Brush b = new SolidBrush(BackColor);
+		Rectangle topBorder = new(1, 1, Size.Width - 2, 1);
+		g.FillRectangle(b, topBorder);
 
-				Rectangle rightBorder = new Rectangle(Size.Width - 2, 1, 1, Size.Height - 2);
-				g.FillRectangle(b, rightBorder);
+		Rectangle rightBorder = new(Size.Width - 2, 1, 1, Size.Height - 2);
+		g.FillRectangle(b, rightBorder);
 
-				Rectangle bottomBorder = new Rectangle(1, Size.Height - 2, Size.Width - 2, 1);
-				g.FillRectangle(b, bottomBorder);
+		Rectangle bottomBorder = new(1, Size.Height - 2, Size.Width - 2, 1);
+		g.FillRectangle(b, bottomBorder);
 
-				Rectangle leftBorder = new Rectangle(1, 1, 1, Size.Height - 2);
-				g.FillRectangle(b, leftBorder);
-			}
-		}
+		Rectangle leftBorder = new(1, 1, 1, Size.Height - 2);
+		g.FillRectangle(b, leftBorder);
 	}
 
 	#endregion
@@ -2144,7 +2106,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		disableInvalidates = false;
 
 		// If control is durty - invalidate it
-		if (this.dirtyFlag)
+		if (dirtyFlag)
 		{
 			base.Invalidate();
 		}
@@ -2161,7 +2123,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
 	protected override void OnCursorChanged(EventArgs e)
 	{
-		this.defaultCursor = this.Cursor;
+		defaultCursor = Cursor;
 		base.OnCursorChanged(e);
 	}
 
@@ -2186,13 +2148,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		if (!handled)
 		{
 			// Notify annotation object collection about the mouse down event
-			this.Annotations.OnMouseDown(e, ref handled);
+			Annotations.OnMouseDown(e, ref handled);
 		}
 
 		// Loop through all areas and notify required object about the event
 		if (!handled)
 		{
-			foreach (ChartArea area in this.ChartAreas)
+			foreach (ChartArea area in ChartAreas)
 			{
 				// No cursor or scroll bar support in 3D
 				if (!area.Area3DStyle.Enable3D &&
@@ -2232,7 +2194,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	internal void OnChartMouseUp(MouseEventArgs e)
 	{
 		// Loop through all areas and notify required object about the event
-		foreach (ChartArea area in this.ChartAreas)
+		foreach (ChartArea area in ChartAreas)
 		{
 			// No cursor or scroll bar support in 3D
 			if (!area.Area3DStyle.Enable3D &&
@@ -2252,7 +2214,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		}
 
 		// Notify annotation object collection about the mouse down event
-		this.Annotations.OnMouseUp(e);
+		Annotations.OnMouseUp(e);
 
 		// Call the base class
 		base.OnMouseUp(e);
@@ -2277,7 +2239,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		bool handled = false;
 
 		// Loop through all areas and notify required object about the event
-		foreach (ChartArea area in this.ChartAreas)
+		foreach (ChartArea area in ChartAreas)
 		{
 			// No cursor or scroll bar support in 3D
 			if (!area.Area3DStyle.Enable3D &&
@@ -2299,13 +2261,13 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		// Notify Selection object for tool tips processing
 		if (!handled)
 		{
-			this.selection.Selection_MouseMove(this, e);
+			selection.Selection_MouseMove(this, e);
 		}
 
 		// Notify annotation object collection about the mouse down event
 		if (!handled)
 		{
-			this.Annotations.OnMouseMove(e);
+			Annotations.OnMouseMove(e);
 		}
 
 		// Call the base class
@@ -2319,7 +2281,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	protected override void OnDoubleClick(EventArgs e)
 	{
 		// Notify annotation object collection about the mouse down event
-		this.Annotations.OnDoubleClick();
+		Annotations.OnDoubleClick();
 
 		// Call the base class
 		base.OnDoubleClick(e);
@@ -2356,10 +2318,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="arguments">Cursor event arguments.</param>
 	internal void OnGetToolTipText(ToolTipEventArgs arguments)
 	{
-		if (GetToolTipText != null)
-		{
-			GetToolTipText(this, arguments);
-		}
+		GetToolTipText?.Invoke(this, arguments);
 	}
 
 	#endregion
@@ -2400,10 +2359,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="arguments">Cursor event arguments.</param>
 	internal void OnCursorPositionChanging(CursorEventArgs arguments)
 	{
-		if (CursorPositionChanging != null)
-		{
-			CursorPositionChanging(this, arguments);
-		}
+		CursorPositionChanging?.Invoke(this, arguments);
 	}
 
 	/// <summary>
@@ -2412,10 +2368,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="arguments">Cursor event arguments.</param>
 	internal void OnCursorPositionChanged(CursorEventArgs arguments)
 	{
-		if (CursorPositionChanged != null)
-		{
-			CursorPositionChanged(this, arguments);
-		}
+		CursorPositionChanged?.Invoke(this, arguments);
 	}
 
 	/// <summary>
@@ -2424,10 +2377,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="arguments">Cursor event arguments.</param>
 	internal void OnSelectionRangeChanging(CursorEventArgs arguments)
 	{
-		if (SelectionRangeChanging != null)
-		{
-			SelectionRangeChanging(this, arguments);
-		}
+		SelectionRangeChanging?.Invoke(this, arguments);
 	}
 
 	/// <summary>
@@ -2437,10 +2387,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	internal void OnSelectionRangeChanged(CursorEventArgs arguments)
 	{
 
-		if (SelectionRangeChanged != null)
-		{
-			SelectionRangeChanged(this, arguments);
-		}
+		SelectionRangeChanged?.Invoke(this, arguments);
 	}
 
 	#endregion
@@ -2468,10 +2415,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="arguments">Axis scaleView event arguments.</param>
 	internal void OnAxisViewChanging(ViewEventArgs arguments)
 	{
-		if (AxisViewChanging != null)
-		{
-			AxisViewChanging(this, arguments);
-		}
+		AxisViewChanging?.Invoke(this, arguments);
 	}
 
 	/// <summary>
@@ -2480,10 +2424,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="arguments">Axis scaleView event arguments.</param>
 	internal void OnAxisViewChanged(ViewEventArgs arguments)
 	{
-		if (AxisViewChanged != null)
-		{
-			AxisViewChanged(this, arguments);
-		}
+		AxisViewChanged?.Invoke(this, arguments);
 	}
 
 	#endregion
@@ -2504,10 +2445,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="arguments">Axis scroll bar event arguments.</param>
 	internal void OnAxisScrollBarClicked(ScrollBarEventArgs arguments)
 	{
-		if (AxisScrollBarClicked != null)
-		{
-			AxisScrollBarClicked(this, arguments);
-		}
+		AxisScrollBarClicked?.Invoke(this, arguments);
 	}
 
 	#endregion
@@ -2535,10 +2473,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">Event arguments.</param>
 	protected virtual void OnPrePaint(ChartPaintEventArgs e)
 	{
-		if (PrePaint != null)
-		{
-			PrePaint(this, e);
-		}
+		PrePaint?.Invoke(this, e);
 	}
 
 	/// <summary>
@@ -2548,7 +2483,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">Event arguments.</param>
 	internal void CallOnPrePaint(ChartPaintEventArgs e)
 	{
-		this.OnPrePaint(e);
+		OnPrePaint(e);
 	}
 
 	/// <summary>
@@ -2558,10 +2493,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">Event arguments.</param>
 	protected virtual void OnPostPaint(ChartPaintEventArgs e)
 	{
-		if (PostPaint != null)
-		{
-			PostPaint(this, e);
-		}
+		PostPaint?.Invoke(this, e);
 	}
 
 	/// <summary>
@@ -2571,7 +2503,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">Event arguments.</param>
 	internal void CallOnPostPaint(ChartPaintEventArgs e)
 	{
-		this.OnPostPaint(e);
+		OnPostPaint(e);
 	}
 
 	#endregion
@@ -2595,10 +2527,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	]
 	protected virtual void OnCustomize()
 	{
-		if (Customize != null)
-		{
-			Customize(this, EventArgs.Empty);
-		}
+		Customize?.Invoke(this, EventArgs.Empty);
 	}
 
 	/// <summary>
@@ -2606,7 +2535,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </summary>
 	internal void CallOnCustomize()
 	{
-		this.OnCustomize();
+		OnCustomize();
 	}
 
 	/// <summary>
@@ -2626,10 +2555,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	]
 	protected virtual void OnCustomizeLegend(LegendItemsCollection legendItems, string legendName)
 	{
-		if (CustomizeLegend != null)
-		{
-			CustomizeLegend(this, new CustomizeLegendEventArgs(legendItems, legendName));
-		}
+		CustomizeLegend?.Invoke(this, new CustomizeLegendEventArgs(legendItems, legendName));
 	}
 
 	/// <summary>
@@ -2637,7 +2563,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </summary>
 	internal void CallOnCustomizeLegend(LegendItemsCollection legendItems, string legendName)
 	{
-		this.OnCustomizeLegend(legendItems, legendName);
+		OnCustomizeLegend(legendItems, legendName);
 	}
 	#endregion
 
@@ -2658,10 +2584,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="annotation">Annotation which text was changed.</param>
 	internal void OnAnnotationTextChanged(Annotation annotation)
 	{
-		if (AnnotationTextChanged != null)
-		{
-			AnnotationTextChanged(annotation, EventArgs.Empty);
-		}
+		AnnotationTextChanged?.Invoke(annotation, EventArgs.Empty);
 	}
 
 	/// <summary>
@@ -2706,11 +2629,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="annotation">Annotation which was placed.</param>
 	internal void OnAnnotationPlaced(Annotation annotation)
 	{
-		if (AnnotationPlaced != null)
-		{
-			AnnotationPlaced(annotation, EventArgs.Empty);
-
-		}
+		AnnotationPlaced?.Invoke(annotation, EventArgs.Empty);
 	}
 
 	/// <summary>
@@ -2719,10 +2638,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="annotation">Annotation which have it's selection changed.</param>
 	internal void OnAnnotationSelectionChanged(Annotation annotation)
 	{
-		if (AnnotationSelectionChanged != null)
-		{
-			AnnotationSelectionChanged(annotation, EventArgs.Empty);
-		}
+		AnnotationSelectionChanged?.Invoke(annotation, EventArgs.Empty);
 	}
 
 	/// <summary>
@@ -2731,10 +2647,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="annotation">Annotation which have it's position changed.</param>
 	internal void OnAnnotationPositionChanged(Annotation annotation)
 	{
-		if (AnnotationPositionChanged != null)
-		{
-			AnnotationPositionChanged(annotation, EventArgs.Empty);
-		}
+		AnnotationPositionChanged?.Invoke(annotation, EventArgs.Empty);
 	}
 
 	/// <summary>
@@ -2762,7 +2675,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </summary>
 	public void DataBind()
 	{
-		this.chartPicture.DataBind();
+		chartPicture.DataBind();
 	}
 
 	/// <summary>
@@ -2770,7 +2683,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </summary>
 	public void AlignDataPointsByAxisLabel()
 	{
-		this.chartPicture.AlignDataPointsByAxisLabel(false, PointSortOrder.Ascending);
+		chartPicture.AlignDataPointsByAxisLabel(false, PointSortOrder.Ascending);
 	}
 
 	/// <summary>
@@ -2780,19 +2693,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void AlignDataPointsByAxisLabel(string series)
 	{
 		//Check arguments
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		// Create list of series
-		ArrayList seriesList = new ArrayList();
+		ArrayList seriesList = [];
 		string[] seriesNames = series.Split(',');
 		foreach (string name in seriesNames)
 		{
-			seriesList.Add(this.Series[name.Trim()]);
+			seriesList.Add(Series[name.Trim()]);
 		}
 
 		// Align series
-		this.chartPicture.AlignDataPointsByAxisLabel(seriesList, false, PointSortOrder.Ascending);
+		chartPicture.AlignDataPointsByAxisLabel(seriesList, false, PointSortOrder.Ascending);
 	}
 
 	/// <summary>
@@ -2803,19 +2715,18 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public void AlignDataPointsByAxisLabel(string series, PointSortOrder sortingOrder)
 	{
 		//Check arguments
-		if (series == null)
-			throw new ArgumentNullException("series");
+		ArgumentNullException.ThrowIfNull(series);
 
 		// Create list of series
-		ArrayList seriesList = new ArrayList();
+		ArrayList seriesList = [];
 		string[] seriesNames = series.Split(',');
 		foreach (string name in seriesNames)
 		{
-			seriesList.Add(this.Series[name.Trim()]);
+			seriesList.Add(Series[name.Trim()]);
 		}
 
 		// Align series
-		this.chartPicture.AlignDataPointsByAxisLabel(seriesList, true, sortingOrder);
+		chartPicture.AlignDataPointsByAxisLabel(seriesList, true, sortingOrder);
 	}
 
 	/// <summary>
@@ -2824,7 +2735,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="sortingOrder">Points sorting order by axis labels.</param>
 	public void AlignDataPointsByAxisLabel(PointSortOrder sortingOrder)
 	{
-		this.chartPicture.AlignDataPointsByAxisLabel(true, sortingOrder);
+		chartPicture.AlignDataPointsByAxisLabel(true, sortingOrder);
 	}
 
 	/// <summary>
@@ -2840,7 +2751,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		IEnumerable dataSource,
 		string xField)
 	{
-		this.chartPicture.DataBindTable(
+		chartPicture.DataBindTable(
 			dataSource,
 			xField);
 	}
@@ -2852,9 +2763,9 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="dataSource">Data source.</param>
 	public void DataBindTable(IEnumerable dataSource)
 	{
-		this.chartPicture.DataBindTable(
+		chartPicture.DataBindTable(
 			dataSource,
-			String.Empty);
+			string.Empty);
 	}
 
 	/// <summary>
@@ -2876,7 +2787,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	string yFields,
 	string otherFields)
 	{
-		this.chartPicture.DataBindCrossTab(
+		chartPicture.DataBindCrossTab(
 			dataSource,
 			seriesGroupByField,
 			xField,
@@ -2907,7 +2818,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	string otherFields,
 	PointSortOrder sortingOrder)
 	{
-		this.chartPicture.DataBindCrossTab(
+		chartPicture.DataBindCrossTab(
 			dataSource,
 			seriesGroupByField,
 			xField,
@@ -2930,8 +2841,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	public new object GetService(Type serviceType)
 	{
 		// Check arguments
-		if (serviceType == null)
-			throw new ArgumentNullException("serviceType");
+		ArgumentNullException.ThrowIfNull(serviceType);
 
 		object service = null;
 		if (serviceContainer != null)
@@ -2962,10 +2872,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">Event arguemtns</param>
 	private void OnFormatNumber(object caller, FormatNumberEventArgs e)
 	{
-		if (FormatNumber != null)
-		{
-			FormatNumber(caller, e);
-		}
+		FormatNumber?.Invoke(caller, e);
 	}
 
 	/// <summary>
@@ -2984,7 +2891,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <param name="e">Event arguments.</param>
 	internal void CallOnFormatNumber(object caller, FormatNumberEventArgs e)
 	{
-		this.OnFormatNumber(caller, e);
+		OnFormatNumber(caller, e);
 	}
 
 	#endregion
@@ -3000,12 +2907,9 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// <returns>Chart accessibility object.</returns>
 	protected override AccessibleObject CreateAccessibilityInstance()
 	{
-		if (this._chartAccessibleObject == null)
-		{
-			this._chartAccessibleObject = new ChartAccessibleObject(this);
-		}
+		_chartAccessibleObject ??= new ChartAccessibleObject(this);
 
-		return this._chartAccessibleObject;
+		return _chartAccessibleObject;
 	}
 
 	/// <summary>
@@ -3013,10 +2917,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 	/// </summary>
 	private void ResetAccessibilityObject()
 	{
-		if (this._chartAccessibleObject != null)
-		{
-			this._chartAccessibleObject.ResetChildren();
-		}
+		_chartAccessibleObject?.ResetChildren();
 	}
 
 	#endregion // Accessibility
@@ -3035,23 +2936,14 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		{
 
 			// Dispose managed objects here
-			if (_imageLoader != null)
-			{
-				_imageLoader.Dispose();
-				_imageLoader = null;
-			}
+			_imageLoader?.Dispose();
+			_imageLoader = null;
 
-			if (_namedImages != null)
-			{
-				_namedImages.Dispose();
-				_namedImages = null;
-			}
+			Images?.Dispose();
+			Images = null;
 
-			if (_chartTypeRegistry != null)
-			{
-				_chartTypeRegistry.Dispose();
-				_chartTypeRegistry = null;
-			}
+			_chartTypeRegistry?.Dispose();
+			_chartTypeRegistry = null;
 
 			if (serviceContainer != null)
 			{
@@ -3061,31 +2953,19 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			}
 
 			// Dispose selection manager
-			if (selection != null)
-			{
-				selection.Dispose();
-				selection = null;
-			}
+			selection?.Dispose();
+			selection = null;
 
 			// Dispose print manager
-			if (_printingManager != null)
-			{
-				_printingManager.Dispose();
-				_printingManager = null;
-			}
+			Printing?.Dispose();
+			Printing = null;
 
 			// Dispoase buffer
-			if (paintBufferBitmap != null)
-			{
-				paintBufferBitmap.Dispose();
-				paintBufferBitmap = null;
-			}
+			paintBufferBitmap?.Dispose();
+			paintBufferBitmap = null;
 
-			if (paintBufferBitmapGraphics != null)
-			{
-				paintBufferBitmapGraphics.Dispose();
-				paintBufferBitmapGraphics = null;
-			}
+			paintBufferBitmapGraphics?.Dispose();
+			paintBufferBitmapGraphics = null;
 		}
 
 		base.Dispose(disposing);
@@ -3093,17 +2973,11 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		//The chart picture and datamanager will be the last to be disposed
 		if (disposing)
 		{
-			if (_dataManager != null)
-			{
-				_dataManager.Dispose();
-				_dataManager = null;
-			}
+			_dataManager?.Dispose();
+			_dataManager = null;
 
-			if (chartPicture != null)
-			{
-				chartPicture.Dispose();
-				chartPicture = null;
-			}
+			chartPicture?.Dispose();
+			chartPicture = null;
 		}
 	}
 	#endregion
@@ -3116,8 +2990,6 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 /// </summary>
 public class CustomizeLegendEventArgs : EventArgs
 {
-	private LegendItemsCollection _legendItems = null;
-	private string _legendName = "";
 
 	/// <summary>
 	/// Default construvtor is not accessible
@@ -3132,7 +3004,7 @@ public class CustomizeLegendEventArgs : EventArgs
 	/// <param name="legendItems">Legend items collection.</param>
 	public CustomizeLegendEventArgs(LegendItemsCollection legendItems)
 	{
-		this._legendItems = legendItems;
+		LegendItems = legendItems;
 	}
 
 	/// <summary>
@@ -3142,31 +3014,19 @@ public class CustomizeLegendEventArgs : EventArgs
 	/// <param name="legendName">Legend name.</param>
 	public CustomizeLegendEventArgs(LegendItemsCollection legendItems, string legendName)
 	{
-		this._legendItems = legendItems;
-		this._legendName = legendName;
+		LegendItems = legendItems;
+		LegendName = legendName;
 	}
 
 	/// <summary>
 	/// Legend name.
 	/// </summary>
-	public string LegendName
-	{
-		get
-		{
-			return _legendName;
-		}
-	}
+	public string LegendName { get; } = "";
 
 	/// <summary>
 	/// Legend items collection.
 	/// </summary>
-	public LegendItemsCollection LegendItems
-	{
-		get
-		{
-			return _legendItems;
-		}
-	}
+	public LegendItemsCollection LegendItems { get; } = null;
 
 }
 

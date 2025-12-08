@@ -58,10 +58,10 @@ public class Cursor : IDisposable
 	internal void Initialize(ChartArea chartArea, AxisName attachedToXAxis)
 	{
 		// Set chart are reference
-		this._chartArea = chartArea;
+		_chartArea = chartArea;
 
 		// Attach cursor to specified axis
-		this._attachedToXAxis = attachedToXAxis;
+		_attachedToXAxis = attachedToXAxis;
 	}
 
 	#endregion
@@ -75,49 +75,36 @@ public class Cursor : IDisposable
 	private AxisName _attachedToXAxis = AxisName.X;
 
 	// Enables/Disables chart area cursor.
-	private bool _isUserEnabled = false;
 
 	// Enables/Disables chart area selection.
-	private bool _isUserSelectionEnabled = false;
 
 	// Indicates that cursor will automatically scroll the area scaleView if necessary.
-	private bool _autoScroll = true;
 
 	// Cursor line color
-	private Color _lineColor = Color.Red;
 
 	// Cursor line width
-	private int _lineWidth = 1;
 
 	// Cursor line style
-	private ChartDashStyle _lineDashStyle = ChartDashStyle.Solid;
 
 	// Chart area selection color
-	private Color _selectionColor = Color.LightGray;
 
 	// AxisName of the axes (primary/secondary) the cursor is attached to
-	private AxisType _axisType = AxisType.Primary;
 
 	// Cursor position
-	private double _position = Double.NaN;
 
 	// Range selection start position.
-	private double _selectionStart = Double.NaN;
+	private double _selectionStart = double.NaN;
 
 	// Range selection end position.
-	private double _selectionEnd = Double.NaN;
+	private double _selectionEnd = double.NaN;
 
 	// Cursor movement interval current & original values
-	private double _interval = 1;
 
 	// Cursor movement interval type
-	private DateTimeIntervalType _intervalType = DateTimeIntervalType.Auto;
 
 	// Cursor movement interval offset current & original values
-	private double _intervalOffset = 0;
 
 	// Cursor movement interval offset type
-	private DateTimeIntervalType _intervalOffsetType = DateTimeIntervalType.Auto;
 
 	// Reference to the axis obhect
 	private Axis _axis = null;
@@ -138,7 +125,7 @@ public class Cursor : IDisposable
 	private MouseEventArgs _mouseMoveArguments = null;
 
 	// Timer used to scroll the data while selecting
-	private System.Windows.Forms.Timer _scrollTimer = new System.Windows.Forms.Timer();
+	private Timer _scrollTimer = new();
 
 	// Indicates that axis data scaleView was scrolled as a result of the mouse move event
 	private bool _viewScrolledOnMouseMove = false;
@@ -153,42 +140,35 @@ public class Cursor : IDisposable
 	[
 	SRCategory("CategoryAttributeBehavior"),
 	Bindable(true),
-	DefaultValue(Double.NaN),
+	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeCursor_Position"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 		TypeConverter(typeof(DoubleDateNanValueConverter)),
 	]
-	public double Position
-	{
-		get
+	public double Position { get; set
 		{
-			return _position;
-		}
-		set
-		{
-			if (_position != value)
+			if (field != value)
 			{
-				_position = value;
+				field = value;
 
 				// Align cursor in connected areas
-				if (this._chartArea != null && this._chartArea.Common != null && this._chartArea.Common.ChartPicture != null)
+				if (_chartArea != null && _chartArea.Common != null && _chartArea.Common.ChartPicture != null)
 				{
-					if (!this._chartArea.alignmentInProcess)
+					if (!_chartArea.alignmentInProcess)
 					{
-						AreaAlignmentOrientations orientation = (this._attachedToXAxis == AxisName.X || this._attachedToXAxis == AxisName.X2) ?
+						AreaAlignmentOrientations orientation = (_attachedToXAxis == AxisName.X || _attachedToXAxis == AxisName.X2) ?
 							AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-						this._chartArea.Common.ChartPicture.AlignChartAreasCursor(this._chartArea, orientation, false);
+						_chartArea.Common.ChartPicture.AlignChartAreasCursor(_chartArea, orientation, false);
 					}
 				}
 
-				if (this._chartArea != null && !this._chartArea.alignmentInProcess)
+				if (_chartArea != null && !_chartArea.alignmentInProcess)
 				{
-					this.Invalidate(false);
+					Invalidate(false);
 				}
 
 			}
-		}
-	}
+		} } = double.NaN;
 
 	/// <summary>
 	/// Gets or sets the starting position of a cursor's selected range. 
@@ -196,7 +176,7 @@ public class Cursor : IDisposable
 	[
 	SRCategory("CategoryAttributeBehavior"),
 	Bindable(true),
-	DefaultValue(Double.NaN),
+	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeCursor_SelectionStart"),
 		TypeConverter(typeof(DoubleDateNanValueConverter)),
 	]
@@ -213,19 +193,19 @@ public class Cursor : IDisposable
 				_selectionStart = value;
 
 				// Align cursor in connected areas
-				if (this._chartArea != null && this._chartArea.Common != null && this._chartArea.Common.ChartPicture != null)
+				if (_chartArea != null && _chartArea.Common != null && _chartArea.Common.ChartPicture != null)
 				{
-					if (!this._chartArea.alignmentInProcess)
+					if (!_chartArea.alignmentInProcess)
 					{
-						AreaAlignmentOrientations orientation = (this._attachedToXAxis == AxisName.X || this._attachedToXAxis == AxisName.X2) ?
+						AreaAlignmentOrientations orientation = (_attachedToXAxis == AxisName.X || _attachedToXAxis == AxisName.X2) ?
 							AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-						this._chartArea.Common.ChartPicture.AlignChartAreasCursor(this._chartArea, orientation, false);
+						_chartArea.Common.ChartPicture.AlignChartAreasCursor(_chartArea, orientation, false);
 					}
 				}
 
-				if (this._chartArea != null && !this._chartArea.alignmentInProcess)
+				if (_chartArea != null && !_chartArea.alignmentInProcess)
 				{
-					this.Invalidate(false);
+					Invalidate(false);
 				}
 
 			}
@@ -238,7 +218,7 @@ public class Cursor : IDisposable
 	[
 	SRCategory("CategoryAttributeBehavior"),
 	Bindable(true),
-	DefaultValue(Double.NaN),
+	DefaultValue(double.NaN),
 	SRDescription("DescriptionAttributeCursor_SelectionEnd"),
 		TypeConverter(typeof(DoubleDateNanValueConverter)),
 	]
@@ -255,19 +235,19 @@ public class Cursor : IDisposable
 				_selectionEnd = value;
 
 				// Align cursor in connected areas
-				if (this._chartArea != null && this._chartArea.Common != null && this._chartArea.Common.ChartPicture != null)
+				if (_chartArea != null && _chartArea.Common != null && _chartArea.Common.ChartPicture != null)
 				{
-					if (!this._chartArea.alignmentInProcess)
+					if (!_chartArea.alignmentInProcess)
 					{
-						AreaAlignmentOrientations orientation = (this._attachedToXAxis == AxisName.X || this._attachedToXAxis == AxisName.X2) ?
+						AreaAlignmentOrientations orientation = (_attachedToXAxis == AxisName.X || _attachedToXAxis == AxisName.X2) ?
 							AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-						this._chartArea.Common.ChartPicture.AlignChartAreasCursor(this._chartArea, orientation, false);
+						_chartArea.Common.ChartPicture.AlignChartAreasCursor(_chartArea, orientation, false);
 					}
 				}
 
-				if (this._chartArea != null && !this._chartArea.alignmentInProcess)
+				if (_chartArea != null && !_chartArea.alignmentInProcess)
 				{
-					this.Invalidate(false);
+					Invalidate(false);
 				}
 			}
 		}
@@ -282,17 +262,7 @@ public class Cursor : IDisposable
 	DefaultValue(false),
 	SRDescription("DescriptionAttributeCursor_UserEnabled"),
 	]
-	public bool IsUserEnabled
-	{
-		get
-		{
-			return _isUserEnabled;
-		}
-		set
-		{
-			_isUserEnabled = value;
-		}
-	}
+	public bool IsUserEnabled { get; set; } = false;
 
 	/// <summary>
 	/// Gets or sets a property that enables or disables the range selection interface.
@@ -303,17 +273,7 @@ public class Cursor : IDisposable
 	DefaultValue(false),
 		SRDescription("DescriptionAttributeCursor_UserSelection"),
 	]
-	public bool IsUserSelectionEnabled
-	{
-		get
-		{
-			return _isUserSelectionEnabled;
-		}
-		set
-		{
-			_isUserSelectionEnabled = value;
-		}
-	}
+	public bool IsUserSelectionEnabled { get; set; } = false;
 
 	/// <summary>
 	/// Determines if scrolling will occur if a range selection operation 
@@ -325,17 +285,7 @@ public class Cursor : IDisposable
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeCursor_AutoScroll"),
 	]
-	public bool AutoScroll
-	{
-		get
-		{
-			return _autoScroll;
-		}
-		set
-		{
-			_autoScroll = value;
-		}
-	}
+	public bool AutoScroll { get; set; } = true;
 
 	/// <summary>
 	///  Gets or sets the type of axis that the cursor is attached to.
@@ -346,22 +296,15 @@ public class Cursor : IDisposable
 	SRDescription("DescriptionAttributeCursor_AxisType"),
 		DefaultValue(AxisType.Primary)
 	]
-	public AxisType AxisType
-	{
-		get
+	public AxisType AxisType { get; set
 		{
-			return _axisType;
-		}
-		set
-		{
-			_axisType = value;
+			field = value;
 
 			// Reset reference to the axis object
 			_axis = null;
 
-			this.Invalidate(true);
-		}
-	}
+			Invalidate(true);
+		} } = AxisType.Primary;
 
 	/// <summary>
 	/// Gets or sets the cursor movement interval.
@@ -372,17 +315,7 @@ public class Cursor : IDisposable
 	DefaultValue(1.0),
 	SRDescription("DescriptionAttributeCursor_Interval"),
 	]
-	public double Interval
-	{
-		get
-		{
-			return _interval;
-		}
-		set
-		{
-			_interval = value;
-		}
-	}
+	public double Interval { get; set; } = 1;
 
 	/// <summary>
 	/// Gets or sets the unit of measurement of the Interval property.
@@ -393,17 +326,10 @@ public class Cursor : IDisposable
 	DefaultValue(DateTimeIntervalType.Auto),
 		SRDescription("DescriptionAttributeCursor_IntervalType")
 	]
-	public DateTimeIntervalType IntervalType
-	{
-		get
+	public DateTimeIntervalType IntervalType { get; set
 		{
-			return _intervalType;
-		}
-		set
-		{
-			_intervalType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-		}
-	}
+			field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+		} } = DateTimeIntervalType.Auto;
 
 
 	/// <summary>
@@ -416,23 +342,16 @@ public class Cursor : IDisposable
 	DefaultValue(0.0),
 		SRDescription("DescriptionAttributeCursor_IntervalOffset"),
 	]
-	public double IntervalOffset
-	{
-		get
-		{
-			return _intervalOffset;
-		}
-		set
+	public double IntervalOffset { get; set
 		{
 			// Validation
 			if (value < 0.0)
 			{
-				throw (new ArgumentException(SR.ExceptionCursorIntervalOffsetIsNegative, "value"));
+				throw (new ArgumentException(SR.ExceptionCursorIntervalOffsetIsNegative, nameof(value)));
 			}
 
-			_intervalOffset = value;
-		}
-	}
+			field = value;
+		} } = 0;
 
 	/// <summary>
 	/// Gets or sets the unit of measurement of the IntervalOffset property.
@@ -443,17 +362,10 @@ public class Cursor : IDisposable
 	DefaultValue(DateTimeIntervalType.Auto),
 		SRDescription("DescriptionAttributeCursor_IntervalOffsetType"),
 	]
-	public DateTimeIntervalType IntervalOffsetType
-	{
-		get
+	public DateTimeIntervalType IntervalOffsetType { get; set
 		{
-			return _intervalOffsetType;
-		}
-		set
-		{
-			_intervalOffsetType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
-		}
-	}
+			field = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+		} } = DateTimeIntervalType.Auto;
 	#endregion
 
 	#region Cursor "Appearance" public properties
@@ -469,18 +381,11 @@ public class Cursor : IDisposable
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor)),
 		]
-	public Color LineColor
-	{
-		get
+	public Color LineColor { get; set
 		{
-			return _lineColor;
-		}
-		set
-		{
-			_lineColor = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = Color.Red;
 
 	/// <summary>
 	/// Gets or sets the style of the cursor line.
@@ -491,18 +396,11 @@ public class Cursor : IDisposable
 	DefaultValue(ChartDashStyle.Solid),
 		SRDescription("DescriptionAttributeLineDashStyle"),
 	]
-	public ChartDashStyle LineDashStyle
-	{
-		get
+	public ChartDashStyle LineDashStyle { get; set
 		{
-			return _lineDashStyle;
-		}
-		set
-		{
-			_lineDashStyle = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = ChartDashStyle.Solid;
 
 	/// <summary>
 	/// Gets or sets the width of the cursor line.
@@ -513,23 +411,16 @@ public class Cursor : IDisposable
 	DefaultValue(1),
 		SRDescription("DescriptionAttributeLineWidth"),
 	]
-	public int LineWidth
-	{
-		get
-		{
-			return _lineWidth;
-		}
-		set
+	public int LineWidth { get; set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionCursorLineWidthIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionCursorLineWidthIsNegative));
 			}
 
-			_lineWidth = value;
-			this.Invalidate(true);
-		}
-	}
+			field = value;
+			Invalidate(true);
+		} } = 1;
 
 	/// <summary>
 	/// Gets or sets a semi-transparent color that highlights a range of data.
@@ -542,18 +433,11 @@ public class Cursor : IDisposable
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
-	public Color SelectionColor
-	{
-		get
+	public Color SelectionColor { get; set
 		{
-			return _selectionColor;
-		}
-		set
-		{
-			_selectionColor = value;
-			this.Invalidate(false);
-		}
-	}
+			field = value;
+			Invalidate(false);
+		} } = Color.LightGray;
 
 	#endregion
 
@@ -570,21 +454,21 @@ public class Cursor : IDisposable
 		//***************************************************
 
 		// Do not proceed with painting if cursor is not attached to the axis
-		if (this.GetAxis() == null ||
-			this._chartArea == null ||
-			this._chartArea.Common == null ||
-			this._chartArea.Common.ChartPicture == null ||
-			this._chartArea.Common.ChartPicture.isPrinting)
+		if (GetAxis() == null ||
+			_chartArea == null ||
+			_chartArea.Common == null ||
+			_chartArea.Common.ChartPicture == null ||
+			_chartArea.Common.ChartPicture._isPrinting)
 		{
 			return;
 		}
 
 		// Get plot area position
-		RectangleF plotAreaPosition = this._chartArea.PlotAreaPosition.ToRectangleF();
+		RectangleF plotAreaPosition = _chartArea.PlotAreaPosition.ToRectangleF();
 
 		// Detect if cursor is horizontal or vertical
 		bool horizontal = true;
-		if (this.GetAxis().AxisPosition == AxisPosition.Bottom || this.GetAxis().AxisPosition == AxisPosition.Top)
+		if (GetAxis().AxisPosition == AxisPosition.Bottom || GetAxis().AxisPosition == AxisPosition.Top)
 		{
 			horizontal = false;
 		}
@@ -594,10 +478,10 @@ public class Cursor : IDisposable
 		//***************************************************
 
 		// Check if selection need to be drawn
-		if (this._drawSelection &&
-			!double.IsNaN(this.SelectionStart) &&
-			!double.IsNaN(this.SelectionEnd) &&
-			this.SelectionColor != Color.Empty)
+		if (_drawSelection &&
+			!double.IsNaN(SelectionStart) &&
+			!double.IsNaN(SelectionEnd) &&
+			SelectionColor != Color.Empty)
 		{
 			// Calculate selection rectangle
 			RectangleF rectSelection = GetSelectionRect(plotAreaPosition);
@@ -628,7 +512,7 @@ public class Cursor : IDisposable
 				if (rectSelection.Width > 0 && rectSelection.Height > 0)
 				{
 					// Add transparency to solid colors
-					Color rangeSelectionColor = this.SelectionColor;
+					Color rangeSelectionColor = SelectionColor;
 					if (rangeSelectionColor.A == 255)
 					{
 						rangeSelectionColor = Color.FromArgb(120, rangeSelectionColor);
@@ -659,10 +543,10 @@ public class Cursor : IDisposable
 		//***************************************************
 
 		// Check if cursor need to be drawn
-		if (!double.IsNaN(this.Position) &&
-			this.LineColor != Color.Empty &&
-			this.LineWidth > 0 &&
-			this.LineDashStyle != ChartDashStyle.NotSet)
+		if (!double.IsNaN(Position) &&
+			LineColor != Color.Empty &&
+			LineWidth > 0 &&
+			LineDashStyle != ChartDashStyle.NotSet)
 		{
 			// Calculate line position
 			bool insideArea = false;
@@ -672,7 +556,7 @@ public class Cursor : IDisposable
 			{
 				// Set cursor coordinates
 				point1.X = plotAreaPosition.X;
-				point1.Y = (float)this.GetAxis().GetLinearPosition(this.Position);
+				point1.Y = (float)GetAxis().GetLinearPosition(Position);
 				point2.X = plotAreaPosition.Right;
 				point2.Y = point1.Y;
 
@@ -685,7 +569,7 @@ public class Cursor : IDisposable
 			else
 			{
 				// Set cursor coordinates
-				point1.X = (float)this.GetAxis().GetLinearPosition(this.Position);
+				point1.X = (float)GetAxis().GetLinearPosition(Position);
 				point1.Y = plotAreaPosition.Y;
 				point2.X = point1.X;
 				point2.Y = plotAreaPosition.Bottom;
@@ -700,11 +584,11 @@ public class Cursor : IDisposable
 			// Draw cursor if it's inside the chart area plotting rectangle
 			if (insideArea)
 			{
-				graph.DrawLineRel(this.LineColor, this.LineWidth, this.LineDashStyle, point1, point2);
+				graph.DrawLineRel(LineColor, LineWidth, LineDashStyle, point1, point2);
 			}
 		}
 		// Reset draw selection flag
-		this._drawSelection = true;
+		_drawSelection = true;
 	}
 
 	#endregion
@@ -718,13 +602,13 @@ public class Cursor : IDisposable
 	public void SetCursorPosition(double newPosition)
 	{
 		// Check if we are setting different value
-		if (this.Position != newPosition)
+		if (Position != newPosition)
 		{
 			double newRoundedPosition = RoundPosition(newPosition);
 			// Send PositionChanging event
 			if (_fireUserChangingEvent && GetChartObject() != null)
 			{
-				CursorEventArgs arguments = new CursorEventArgs(this._chartArea, this.GetAxis(), newRoundedPosition);
+				CursorEventArgs arguments = new(_chartArea, GetAxis(), newRoundedPosition);
 				GetChartObject().OnCursorPositionChanging(arguments);
 
 				// Check if position values were changed in the event
@@ -732,12 +616,12 @@ public class Cursor : IDisposable
 			}
 
 			// Change position
-			this.Position = newRoundedPosition;
+			Position = newRoundedPosition;
 
 			// Send PositionChanged event
 			if (_fireUserChangedEvent && GetChartObject() != null)
 			{
-				CursorEventArgs arguments = new CursorEventArgs(this._chartArea, this.GetAxis(), this.Position);
+				CursorEventArgs arguments = new(_chartArea, GetAxis(), Position);
 				GetChartObject().OnCursorPositionChanged(arguments);
 			}
 		}
@@ -752,7 +636,7 @@ public class Cursor : IDisposable
 	/// when the specified position does not fall within a ChartArea object.</param>
 	public void SetCursorPixelPosition(PointF point, bool roundToBoundary)
 	{
-		if (this._chartArea != null && this._chartArea.Common != null && this.GetAxis() != null)
+		if (_chartArea != null && _chartArea.Common != null && GetAxis() != null)
 		{
 			PointF relativeCoord = GetPositionInPlotArea(point, roundToBoundary);
 			if (!relativeCoord.IsEmpty)
@@ -761,7 +645,7 @@ public class Cursor : IDisposable
 				double newCursorPosition = PositionToCursorPosition(relativeCoord);
 
 				// Set new cursor & selection position
-				this.SetCursorPosition(newCursorPosition);
+				SetCursorPosition(newCursorPosition);
 			}
 		}
 	}
@@ -774,7 +658,7 @@ public class Cursor : IDisposable
 	public void SetSelectionPosition(double newStart, double newEnd)
 	{
 		// Check if we are setting different value
-		if (this.SelectionStart != newStart || this.SelectionEnd != newEnd)
+		if (SelectionStart != newStart || SelectionEnd != newEnd)
 		{
 			// Send PositionChanging event
 			double newRoundedSelectionStart = RoundPosition(newStart);
@@ -783,7 +667,7 @@ public class Cursor : IDisposable
 			// Send SelectionRangeChanging event
 			if (_fireUserChangingEvent && GetChartObject() != null)
 			{
-				CursorEventArgs arguments = new CursorEventArgs(this._chartArea, this.GetAxis(), newRoundedSelectionStart, newRoundedSelectionEnd);
+				CursorEventArgs arguments = new(_chartArea, GetAxis(), newRoundedSelectionStart, newRoundedSelectionEnd);
 				GetChartObject().OnSelectionRangeChanging(arguments);
 
 				// Check if position values were changed in the event
@@ -792,29 +676,29 @@ public class Cursor : IDisposable
 			}
 
 			// Change selection position
-			this._selectionStart = newRoundedSelectionStart;
-			this._selectionEnd = newRoundedSelectionEnd;
+			_selectionStart = newRoundedSelectionStart;
+			_selectionEnd = newRoundedSelectionEnd;
 
 			// Align cursor in connected areas
-			if (this._chartArea != null && this._chartArea.Common != null && this._chartArea.Common.ChartPicture != null)
+			if (_chartArea != null && _chartArea.Common != null && _chartArea.Common.ChartPicture != null)
 			{
-				if (!this._chartArea.alignmentInProcess)
+				if (!_chartArea.alignmentInProcess)
 				{
-					AreaAlignmentOrientations orientation = (this._attachedToXAxis == AxisName.X || this._attachedToXAxis == AxisName.X2) ?
+					AreaAlignmentOrientations orientation = (_attachedToXAxis == AxisName.X || _attachedToXAxis == AxisName.X2) ?
 						AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-					this._chartArea.Common.ChartPicture.AlignChartAreasCursor(this._chartArea, orientation, true);
+					_chartArea.Common.ChartPicture.AlignChartAreasCursor(_chartArea, orientation, true);
 				}
 			}
 
-			if (this._chartArea != null && !this._chartArea.alignmentInProcess)
+			if (_chartArea != null && !_chartArea.alignmentInProcess)
 			{
-				this.Invalidate(false);
+				Invalidate(false);
 			}
 
 			// Send SelectionRangeChanged event
 			if (_fireUserChangedEvent && GetChartObject() != null)
 			{
-				CursorEventArgs arguments = new CursorEventArgs(this._chartArea, this.GetAxis(), this.SelectionStart, this.SelectionEnd);
+				CursorEventArgs arguments = new(_chartArea, GetAxis(), SelectionStart, SelectionEnd);
 				GetChartObject().OnSelectionRangeChanged(arguments);
 			}
 		}
@@ -830,10 +714,10 @@ public class Cursor : IDisposable
 	/// when the specified positions do not fall within a ChartArea object.</param>
 	public void SetSelectionPixelPosition(PointF startPoint, PointF endPoint, bool roundToBoundary)
 	{
-		if (this._chartArea != null && this._chartArea.Common != null && this.GetAxis() != null)
+		if (_chartArea != null && _chartArea.Common != null && GetAxis() != null)
 		{
 			// Calculating the start position
-			double newStart = this.SelectionStart;
+			double newStart = SelectionStart;
 			if (!startPoint.IsEmpty)
 			{
 				PointF relativeCoord = GetPositionInPlotArea(startPoint, roundToBoundary);
@@ -857,7 +741,7 @@ public class Cursor : IDisposable
 			}
 
 			// Set new selection start & end position
-			this.SetSelectionPosition(newStart, newEnd);
+			SetSelectionPosition(newStart, newEnd);
 		}
 	}
 
@@ -877,9 +761,9 @@ public class Cursor : IDisposable
 		if (!double.IsNaN(roundedPosition))
 		{
 			// Check if position rounding is required
-			if (this.GetAxis() != null &&
-				this.Interval != 0 &&
-					!double.IsNaN(this.Interval))
+			if (GetAxis() != null &&
+				Interval != 0 &&
+					!double.IsNaN(Interval))
 			{
 				// Get first series attached to this axis
 				Series axisSeries = null;
@@ -899,31 +783,31 @@ public class Cursor : IDisposable
 
 				// If interval type is not set - use number
 				DateTimeIntervalType intervalType =
-					(this.IntervalType == DateTimeIntervalType.Auto) ?
-					DateTimeIntervalType.Number : this.IntervalType;
+					(IntervalType == DateTimeIntervalType.Auto) ?
+					DateTimeIntervalType.Number : IntervalType;
 
 				// If interval offset type is not set - use interval type
 				DateTimeIntervalType offsetType =
-					(this.IntervalOffsetType == DateTimeIntervalType.Auto) ?
-				intervalType : this.IntervalOffsetType;
+					(IntervalOffsetType == DateTimeIntervalType.Auto) ?
+				intervalType : IntervalOffsetType;
 
 				// Round numbers
 				if (intervalType == DateTimeIntervalType.Number)
 				{
-					double newRoundedPosition = Math.Round(roundedPosition / this.Interval) * this.Interval;
+					double newRoundedPosition = Math.Round(roundedPosition / Interval) * Interval;
 
 					// Add offset number
-					if (this.IntervalOffset != 0 &&
+					if (IntervalOffset != 0 &&
 						!double.IsNaN(IntervalOffset) &&
 						offsetType != DateTimeIntervalType.Auto)
 					{
-						if (this.IntervalOffset > 0)
+						if (IntervalOffset > 0)
 						{
-							newRoundedPosition += ChartHelper.GetIntervalSize(newRoundedPosition, this.IntervalOffset, offsetType);
+							newRoundedPosition += ChartHelper.GetIntervalSize(newRoundedPosition, IntervalOffset, offsetType);
 						}
 						else
 						{
-							newRoundedPosition -= ChartHelper.GetIntervalSize(newRoundedPosition, this.IntervalOffset, offsetType);
+							newRoundedPosition -= ChartHelper.GetIntervalSize(newRoundedPosition, IntervalOffset, offsetType);
 						}
 					}
 
@@ -931,11 +815,11 @@ public class Cursor : IDisposable
 					double nextPosition = newRoundedPosition;
 					if (newRoundedPosition <= cursorPosition)
 					{
-						nextPosition += ChartHelper.GetIntervalSize(newRoundedPosition, this.Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
+						nextPosition += ChartHelper.GetIntervalSize(newRoundedPosition, Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
 					}
 					else
 					{
-						nextPosition -= ChartHelper.GetIntervalSize(newRoundedPosition, this.Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
+						nextPosition -= ChartHelper.GetIntervalSize(newRoundedPosition, Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
 					}
 
 					// Choose closest rounded position
@@ -955,16 +839,16 @@ public class Cursor : IDisposable
 				{
 					// Find one rounded position prior and one after current position
 					// Adjust start position depending on the interval and type
-					double prevPosition = ChartHelper.AlignIntervalStart(cursorPosition, this.Interval, intervalType, axisSeries);
+					double prevPosition = ChartHelper.AlignIntervalStart(cursorPosition, Interval, intervalType, axisSeries);
 
 					// Adjust start position depending on the interval offset and offset type
 					if (IntervalOffset != 0 && axisSeries == null)
 					{
-						if (this.IntervalOffset > 0)
+						if (IntervalOffset > 0)
 						{
 							prevPosition += ChartHelper.GetIntervalSize(
 							prevPosition,
-							this.IntervalOffset,
+							IntervalOffset,
 							offsetType,
 							axisSeries,
 							0,
@@ -975,7 +859,7 @@ public class Cursor : IDisposable
 						{
 							prevPosition += ChartHelper.GetIntervalSize(
 							prevPosition,
-							-this.IntervalOffset,
+							-IntervalOffset,
 							offsetType,
 							axisSeries,
 							0,
@@ -988,11 +872,11 @@ public class Cursor : IDisposable
 					double nextPosition = prevPosition;
 					if (prevPosition <= cursorPosition)
 					{
-						nextPosition += ChartHelper.GetIntervalSize(prevPosition, this.Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
+						nextPosition += ChartHelper.GetIntervalSize(prevPosition, Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
 					}
 					else
 					{
-						nextPosition -= ChartHelper.GetIntervalSize(prevPosition, this.Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
+						nextPosition -= ChartHelper.GetIntervalSize(prevPosition, Interval, intervalType, axisSeries, 0, DateTimeIntervalType.Number, true);
 					}
 
 					// Choose closest rounded position
@@ -1017,7 +901,7 @@ public class Cursor : IDisposable
 	/// <summary>
 	/// Mouse down event handler.
 	/// </summary>
-	internal void Cursor_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+	internal void Cursor_MouseDown(object sender, MouseEventArgs e)
 	{
 		// Set flag to fire position changing events
 		_fireUserChangingEvent = true;
@@ -1027,15 +911,15 @@ public class Cursor : IDisposable
 		if (e.Button == MouseButtons.Left && !GetPositionInPlotArea(new PointF(e.X, e.Y), false).IsEmpty)
 		{
 			// Change cursor position and selection start position when mouse down
-			if (this.IsUserEnabled)
+			if (IsUserEnabled)
 			{
 				SetCursorPixelPosition(new PointF(e.X, e.Y), false);
 			}
 
-			if (this.IsUserSelectionEnabled)
+			if (IsUserSelectionEnabled)
 			{
-				this._userSelectionStart = new PointF(e.X, e.Y);
-				SetSelectionPixelPosition(this._userSelectionStart, PointF.Empty, false);
+				_userSelectionStart = new PointF(e.X, e.Y);
+				SetSelectionPixelPosition(_userSelectionStart, PointF.Empty, false);
 			}
 		}
 
@@ -1047,50 +931,50 @@ public class Cursor : IDisposable
 	/// <summary>
 	/// Mouse up event handler.
 	/// </summary>
-	internal void Cursor_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+	internal void Cursor_MouseUp(object sender, MouseEventArgs e)
 	{
 		// If in range selection mode
-		if (!this._userSelectionStart.IsEmpty)
+		if (!_userSelectionStart.IsEmpty)
 		{
 			// Stop timer
 			_scrollTimer.Stop();
 			_mouseMoveArguments = null;
 
 			// Check if axis data scaleView zooming UI is enabled
-			if (this._axis != null &&
-				this._axis.ScaleView.Zoomable &&
-				!double.IsNaN(this.SelectionStart) &&
-				!double.IsNaN(this.SelectionEnd) &&
-				this.SelectionStart != this.SelectionEnd)
+			if (_axis != null &&
+				_axis.ScaleView.Zoomable &&
+				!double.IsNaN(SelectionStart) &&
+				!double.IsNaN(SelectionEnd) &&
+				SelectionStart != SelectionEnd)
 			{
 				// Zoom data scaleView
-				double start = Math.Min(this.SelectionStart, this.SelectionEnd);
-				double size = (double)Math.Max(this.SelectionStart, this.SelectionEnd) - start;
-				bool zoomed = this._axis.ScaleView.Zoom(start, size, DateTimeIntervalType.Number, true, true);
+				double start = Math.Min(SelectionStart, SelectionEnd);
+				double size = (double)Math.Max(SelectionStart, SelectionEnd) - start;
+				bool zoomed = _axis.ScaleView.Zoom(start, size, DateTimeIntervalType.Number, true, true);
 
 				// Clear image buffer
-				if (this._chartArea.areaBufferBitmap != null && zoomed)
+				if (_chartArea.areaBufferBitmap != null && zoomed)
 				{
-					this._chartArea.areaBufferBitmap.Dispose();
-					this._chartArea.areaBufferBitmap = null;
+					_chartArea.areaBufferBitmap.Dispose();
+					_chartArea.areaBufferBitmap = null;
 				}
 
 				// Clear range selection
-				this.SelectionStart = double.NaN;
-				this.SelectionEnd = double.NaN;
+				SelectionStart = double.NaN;
+				SelectionEnd = double.NaN;
 
 				// NOTE: Fixes issue #6823
 				// Clear cursor position after the zoom in operation
-				this.Position = double.NaN;
+				Position = double.NaN;
 
 				// Align cursor in connected areas
-				if (this._chartArea != null && this._chartArea.Common != null && this._chartArea.Common.ChartPicture != null)
+				if (_chartArea != null && _chartArea.Common != null && _chartArea.Common.ChartPicture != null)
 				{
-					if (!this._chartArea.alignmentInProcess)
+					if (!_chartArea.alignmentInProcess)
 					{
-						AreaAlignmentOrientations orientation = (this._attachedToXAxis == AxisName.X || this._attachedToXAxis == AxisName.X2) ?
+						AreaAlignmentOrientations orientation = (_attachedToXAxis == AxisName.X || _attachedToXAxis == AxisName.X2) ?
 							AreaAlignmentOrientations.Vertical : AreaAlignmentOrientations.Horizontal;
-						this._chartArea.Common.ChartPicture.AlignChartAreasZoomed(this._chartArea, orientation, zoomed);
+						_chartArea.Common.ChartPicture.AlignChartAreasZoomed(_chartArea, orientation, zoomed);
 					}
 				}
 			}
@@ -1098,26 +982,26 @@ public class Cursor : IDisposable
 			// Fire XXXChanged events
 			if (GetChartObject() != null)
 			{
-				CursorEventArgs arguments = new CursorEventArgs(this._chartArea, this.GetAxis(), this.SelectionStart, this.SelectionEnd);
+				CursorEventArgs arguments = new(_chartArea, GetAxis(), SelectionStart, SelectionEnd);
 				GetChartObject().OnSelectionRangeChanged(arguments);
 
-				arguments = new CursorEventArgs(this._chartArea, this.GetAxis(), this.Position);
+				arguments = new CursorEventArgs(_chartArea, GetAxis(), Position);
 				GetChartObject().OnCursorPositionChanged(arguments);
 			}
 
 			// Stop range selection mode
-			this._userSelectionStart = PointF.Empty;
+			_userSelectionStart = PointF.Empty;
 		}
 	}
 
 	/// <summary>
 	/// Mouse move event handler.
 	/// </summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Mobility", "CA1601:DoNotUseTimersThatPreventPowerStateChanges", Justification = "The timer is used for simulating scrolling behavior")]
-	internal void Cursor_MouseMove(System.Windows.Forms.MouseEventArgs e, ref bool handled)
+	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Mobility", "CA1601:DoNotUseTimersThatPreventPowerStateChanges", Justification = "The timer is used for simulating scrolling behavior")]
+	internal void Cursor_MouseMove(MouseEventArgs e, ref bool handled)
 	{
 		// Process range selection
-		if (this._userSelectionStart != PointF.Empty)
+		if (_userSelectionStart != PointF.Empty)
 		{
 			// Mouse move event should not be handled by any other chart elements
 			handled = true;
@@ -1127,50 +1011,50 @@ public class Cursor : IDisposable
 			_fireUserChangedEvent = false;
 
 			// Check if mouse position is outside of the chart area and if not - try scrolling
-			if (this.AutoScroll)
+			if (AutoScroll)
 			{
-				if (this._chartArea != null && this._chartArea.Common != null && this.GetAxis() != null)
+				if (_chartArea != null && _chartArea.Common != null && GetAxis() != null)
 				{
 					// Check if axis data scaleView is enabled
-					if (!double.IsNaN(this._axis.ScaleView.Position) && !double.IsNaN(this._axis.ScaleView.Size))
+					if (!double.IsNaN(_axis.ScaleView.Position) && !double.IsNaN(_axis.ScaleView.Size))
 					{
 						ScrollType scrollType = ScrollType.SmallIncrement;
 						bool insideChartArea = true;
 						double offsetFromBoundary = 0.0;
 
 						// Translate mouse pixel coordinates into the relative chart area coordinates
-						float mouseX = e.X * 100F / ((float)(this._chartArea.Common.Width - 1));
-						float mouseY = e.Y * 100F / ((float)(this._chartArea.Common.Height - 1));
+						float mouseX = e.X * 100F / ((float)(_chartArea.Common.Width - 1));
+						float mouseY = e.Y * 100F / ((float)(_chartArea.Common.Height - 1));
 
 						// Check if coordinate is inside chart plotting area
-						if (this._axis.AxisPosition == AxisPosition.Bottom || this._axis.AxisPosition == AxisPosition.Top)
+						if (_axis.AxisPosition == AxisPosition.Bottom || _axis.AxisPosition == AxisPosition.Top)
 						{
-							if (mouseX < this._chartArea.PlotAreaPosition.X)
+							if (mouseX < _chartArea.PlotAreaPosition.X)
 							{
 								scrollType = ScrollType.SmallDecrement;
 								insideChartArea = false;
-								offsetFromBoundary = this._chartArea.PlotAreaPosition.X - mouseX;
+								offsetFromBoundary = _chartArea.PlotAreaPosition.X - mouseX;
 							}
-							else if (mouseX > this._chartArea.PlotAreaPosition.Right)
+							else if (mouseX > _chartArea.PlotAreaPosition.Right)
 							{
 								scrollType = ScrollType.SmallIncrement;
 								insideChartArea = false;
-								offsetFromBoundary = mouseX - this._chartArea.PlotAreaPosition.Right;
+								offsetFromBoundary = mouseX - _chartArea.PlotAreaPosition.Right;
 							}
 						}
 						else
 						{
-							if (mouseY < this._chartArea.PlotAreaPosition.Y)
+							if (mouseY < _chartArea.PlotAreaPosition.Y)
 							{
 								scrollType = ScrollType.SmallIncrement;
 								insideChartArea = false;
-								offsetFromBoundary = this._chartArea.PlotAreaPosition.Y - mouseY;
+								offsetFromBoundary = _chartArea.PlotAreaPosition.Y - mouseY;
 							}
-							else if (mouseY > this._chartArea.PlotAreaPosition.Bottom)
+							else if (mouseY > _chartArea.PlotAreaPosition.Bottom)
 							{
 								scrollType = ScrollType.SmallDecrement;
 								insideChartArea = false;
-								offsetFromBoundary = mouseY - this._chartArea.PlotAreaPosition.Bottom;
+								offsetFromBoundary = mouseY - _chartArea.PlotAreaPosition.Bottom;
 							}
 						}
 
@@ -1182,9 +1066,9 @@ public class Cursor : IDisposable
 
 							// Get minimum scroll interval
 							double scrollInterval = ChartHelper.GetIntervalSize(
-							this._axis.ScaleView.Position,
-							this._axis.ScaleView.GetScrollingLineSize(),
-							this._axis.ScaleView.GetScrollingLineSizeType());
+							_axis.ScaleView.Position,
+							_axis.ScaleView.GetScrollingLineSize(),
+							_axis.ScaleView.GetScrollingLineSizeType());
 							offsetFromBoundary *= 2;
 							if (offsetFromBoundary > scrollInterval)
 							{
@@ -1192,7 +1076,7 @@ public class Cursor : IDisposable
 							}
 
 							// Scroll axis data scaleView
-							double newDataViewPosition = this._axis.ScaleView.Position;
+							double newDataViewPosition = _axis.ScaleView.Position;
 							if (scrollType == ScrollType.SmallIncrement)
 							{
 								newDataViewPosition += scrollInterval;
@@ -1203,7 +1087,7 @@ public class Cursor : IDisposable
 							}
 
 							// Scroll axis data scaleView
-							this._axis.ScaleView.Scroll(newDataViewPosition);
+							_axis.ScaleView.Scroll(newDataViewPosition);
 
 							// Save last mouse move arguments
 							_mouseMoveArguments = new MouseEventArgs(e.Button, e.Clicks, e.X, e.Y, e.Delta);
@@ -1228,12 +1112,12 @@ public class Cursor : IDisposable
 			}
 
 			// Change cursor position and selection end position when mouse moving
-			if (this.IsUserEnabled)
+			if (IsUserEnabled)
 			{
 				SetCursorPixelPosition(new PointF(e.X, e.Y), true);
 			}
 
-			if (this.IsUserSelectionEnabled)
+			if (IsUserSelectionEnabled)
 			{
 				// Set selection
 				SetSelectionPixelPosition(PointF.Empty, new PointF(e.X, e.Y), true);
@@ -1255,13 +1139,13 @@ public class Cursor : IDisposable
 	/// </summary>
 	/// <param name="myObject"></param>
 	/// <param name="myEventArgs"></param>
-	private void SelectionScrollingTimerEventProcessor(Object myObject, EventArgs myEventArgs)
+	private void SelectionScrollingTimerEventProcessor(object myObject, EventArgs myEventArgs)
 	{
 		// Simulate mouse move events
 		if (_mouseMoveArguments != null)
 		{
 			bool handled = false;
-			this.Cursor_MouseMove(_mouseMoveArguments, ref handled);
+			Cursor_MouseMove(_mouseMoveArguments, ref handled);
 		}
 	}
 
@@ -1275,9 +1159,9 @@ public class Cursor : IDisposable
 	/// <returns>Chart object reference.</returns>
 	private Chart GetChartObject()
 	{
-		if (this._chartArea != null)
+		if (_chartArea != null)
 		{
-			return this._chartArea.Chart;
+			return _chartArea.Chart;
 		}
 
 		return null;
@@ -1293,15 +1177,15 @@ public class Cursor : IDisposable
 	{
 		RectangleF rect = RectangleF.Empty;
 
-		if (this._axis != null &&
-			this.SelectionStart != this.SelectionEnd)
+		if (_axis != null &&
+			SelectionStart != SelectionEnd)
 		{
-			double start = (float)this._axis.GetLinearPosition(this.SelectionStart);
-			double end = (float)this._axis.GetLinearPosition(this.SelectionEnd);
+			double start = (float)_axis.GetLinearPosition(SelectionStart);
+			double end = (float)_axis.GetLinearPosition(SelectionEnd);
 
 			// Detect if cursor is horizontal or vertical
 			bool horizontal = true;
-			if (this.GetAxis().AxisPosition == AxisPosition.Bottom || this.GetAxis().AxisPosition == AxisPosition.Top)
+			if (GetAxis().AxisPosition == AxisPosition.Bottom || GetAxis().AxisPosition == AxisPosition.Top)
 			{
 				horizontal = false;
 			}
@@ -1353,20 +1237,20 @@ public class Cursor : IDisposable
 	{
 		// Detect if cursor is horizontal or vertical
 		bool horizontal = true;
-		if (this.GetAxis().AxisPosition == AxisPosition.Bottom || this.GetAxis().AxisPosition == AxisPosition.Top)
+		if (GetAxis().AxisPosition == AxisPosition.Bottom || GetAxis().AxisPosition == AxisPosition.Top)
 		{
 			horizontal = false;
 		}
 
 		// Convert relative coordinates into axis values
-		double newCursorPosition = double.NaN;
+		double newCursorPosition;
 		if (horizontal)
 		{
-			newCursorPosition = this.GetAxis().PositionToValue(position.Y);
+			newCursorPosition = GetAxis().PositionToValue(position.Y);
 		}
 		else
 		{
-			newCursorPosition = this.GetAxis().PositionToValue(position.X);
+			newCursorPosition = GetAxis().PositionToValue(position.X);
 		}
 
 		// Round new position using Step & StepType properties
@@ -1387,14 +1271,14 @@ public class Cursor : IDisposable
 	{
 		PointF result = PointF.Empty;
 
-		if (this._chartArea != null && this._chartArea.Common != null && this.GetAxis() != null)
+		if (_chartArea != null && _chartArea.Common != null && GetAxis() != null)
 		{
 			// Translate mouse pixel coordinates into the relative chart area coordinates
-			result.X = point.X * 100F / ((float)(this._chartArea.Common.Width - 1));
-			result.Y = point.Y * 100F / ((float)(this._chartArea.Common.Height - 1));
+			result.X = point.X * 100F / ((float)(_chartArea.Common.Width - 1));
+			result.Y = point.Y * 100F / ((float)(_chartArea.Common.Height - 1));
 
 			// Round coordinate if it' outside chart plotting area
-			RectangleF plotAreaPosition = this._chartArea.PlotAreaPosition.ToRectangleF();
+			RectangleF plotAreaPosition = _chartArea.PlotAreaPosition.ToRectangleF();
 			if (roundToBoundary)
 			{
 				if (result.X < plotAreaPosition.X)
@@ -1439,26 +1323,26 @@ public class Cursor : IDisposable
 	/// <param name="invalidateArea">Chart area must be invalidated.</param>
 	private void Invalidate(bool invalidateArea)
 	{
-		if (this.GetChartObject() != null && this._chartArea != null && !this.GetChartObject().disableInvalidates)
+		if (GetChartObject() != null && _chartArea != null && !GetChartObject().disableInvalidates)
 		{
 			// If data scaleView was scrolled - just invalidate the chart area
-			if (_viewScrolledOnMouseMove || invalidateArea || this.GetChartObject().dirtyFlag)
+			if (_viewScrolledOnMouseMove || invalidateArea || GetChartObject().dirtyFlag)
 			{
-				this._chartArea.Invalidate();
+				_chartArea.Invalidate();
 			}
 
 			// If only cursor/selection position was changed - use optimized drawing algorithm
 			else
 			{
 				// Set flag to redraw cursor/selection only
-				this.GetChartObject().paintTopLevelElementOnly = true;
+				GetChartObject().paintTopLevelElementOnly = true;
 
 				// Invalidate and update the chart
-				this._chartArea.Invalidate();
-				this.GetChartObject().Update();
+				_chartArea.Invalidate();
+				GetChartObject().Update();
 
 				// Clear flag to redraw cursor/selection only
-				this.GetChartObject().paintTopLevelElementOnly = false;
+				GetChartObject().paintTopLevelElementOnly = false;
 			}
 		}
 	}
@@ -1473,11 +1357,11 @@ public class Cursor : IDisposable
 		{
 			if (_attachedToXAxis == AxisName.X)
 			{
-				_axis = (_axisType == AxisType.Primary) ? _chartArea.AxisX : _chartArea.AxisX2;
+				_axis = (AxisType == AxisType.Primary) ? _chartArea.AxisX : _chartArea.AxisX2;
 			}
 			else
 			{
-				_axis = (_axisType == AxisType.Primary) ? _chartArea.AxisY : _chartArea.AxisY2;
+				_axis = (AxisType == AxisType.Primary) ? _chartArea.AxisY : _chartArea.AxisY2;
 			}
 		}
 
@@ -1497,11 +1381,8 @@ public class Cursor : IDisposable
 		if (disposing)
 		{
 			// Dispose managed resources
-			if (this._scrollTimer != null)
-			{
-				this._scrollTimer.Dispose();
-				this._scrollTimer = null;
-			}
+			_scrollTimer?.Dispose();
+			_scrollTimer = null;
 		}
 	}
 
@@ -1525,11 +1406,6 @@ public class CursorEventArgs : EventArgs
 	#region Private fields
 
 	// Private fields for properties values storage
-	private ChartArea _chartArea = null;
-	private Axis _axis = null;
-	private double _newPosition = double.NaN;
-	private double _newSelectionStart = double.NaN;
-	private double _newSelectionEnd = double.NaN;
 
 	#endregion
 
@@ -1543,11 +1419,11 @@ public class CursorEventArgs : EventArgs
 	/// <param name="newPosition">New cursor position.</param>
 	public CursorEventArgs(ChartArea chartArea, Axis axis, double newPosition)
 	{
-		this._chartArea = chartArea;
-		this._axis = axis;
-		this._newPosition = newPosition;
-		this._newSelectionStart = double.NaN;
-		this._newSelectionEnd = double.NaN;
+		ChartArea = chartArea;
+		Axis = axis;
+		NewPosition = newPosition;
+		NewSelectionStart = double.NaN;
+		NewSelectionEnd = double.NaN;
 	}
 
 	/// <summary>
@@ -1559,11 +1435,11 @@ public class CursorEventArgs : EventArgs
 	/// <param name="newSelectionEnd">New range selection ending position.</param>
 	public CursorEventArgs(ChartArea chartArea, Axis axis, double newSelectionStart, double newSelectionEnd)
 	{
-		this._chartArea = chartArea;
-		this._axis = axis;
-		this._newPosition = double.NaN;
-		this._newSelectionStart = newSelectionStart;
-		this._newSelectionEnd = newSelectionEnd;
+		ChartArea = chartArea;
+		Axis = axis;
+		NewPosition = double.NaN;
+		NewSelectionStart = newSelectionStart;
+		NewSelectionEnd = newSelectionEnd;
 	}
 
 	#endregion
@@ -1576,13 +1452,7 @@ public class CursorEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeChartArea"),
 	]
-	public ChartArea ChartArea
-	{
-		get
-		{
-			return _chartArea;
-		}
-	}
+	public ChartArea ChartArea { get; } = null;
 
 	/// <summary>
 	/// Axis of the event.
@@ -1590,13 +1460,7 @@ public class CursorEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeAxis"),
 	]
-	public Axis Axis
-	{
-		get
-		{
-			return _axis;
-		}
-	}
+	public Axis Axis { get; } = null;
 
 	/// <summary>
 	/// New cursor position.
@@ -1604,17 +1468,7 @@ public class CursorEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeCursorEventArgs_NewPosition"),
 	]
-	public double NewPosition
-	{
-		get
-		{
-			return _newPosition;
-		}
-		set
-		{
-			_newPosition = value;
-		}
-	}
+	public double NewPosition { get; set; } = double.NaN;
 
 	/// <summary>
 	/// New range selection starting position.
@@ -1622,17 +1476,7 @@ public class CursorEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeCursorEventArgs_NewSelectionStart"),
 	]
-	public double NewSelectionStart
-	{
-		get
-		{
-			return _newSelectionStart;
-		}
-		set
-		{
-			_newSelectionStart = value;
-		}
-	}
+	public double NewSelectionStart { get; set; } = double.NaN;
 
 	/// <summary>
 	/// New range selection ending position.
@@ -1640,17 +1484,7 @@ public class CursorEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeCursorEventArgs_NewSelectionEnd"),
 	]
-	public double NewSelectionEnd
-	{
-		get
-		{
-			return _newSelectionEnd;
-		}
-		set
-		{
-			_newSelectionEnd = value;
-		}
-	}
+	public double NewSelectionEnd { get; set; } = double.NaN;
 
 	#endregion
 }

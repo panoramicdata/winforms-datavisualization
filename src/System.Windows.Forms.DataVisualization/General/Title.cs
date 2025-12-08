@@ -152,50 +152,30 @@ public class Title : ChartNamedElement, IDisposable
 	//***********************************************************
 
 	// Title text
-	private string _text = String.Empty;
+	private string _text = string.Empty;
 
 	// Title drawing style
-	private TextStyle _style = TextStyle.Default;
 
 	// Title position
 	private ElementPosition _position = null;
 
 	// Background properties
 	private bool _visible = true;
-	private Color _backColor = Color.Empty;
-	private ChartHatchStyle _backHatchStyle = ChartHatchStyle.None;
-	private string _backImage = "";
-	private ChartImageWrapMode _backImageWrapMode = ChartImageWrapMode.Tile;
-	private Color _backImageTransparentColor = Color.Empty;
-	private ChartImageAlignmentStyle _backImageAlignment = ChartImageAlignmentStyle.TopLeft;
-	private GradientStyle _backGradientStyle = GradientStyle.None;
-	private Color _backSecondaryColor = Color.Empty;
-	private int _shadowOffset = 0;
-	private Color _shadowColor = Color.FromArgb(128, 0, 0, 0);
 
 	// Border properties
-	private Color _borderColor = Color.Empty;
-	private int _borderWidth = 1;
-	private ChartDashStyle _borderDashStyle = ChartDashStyle.Solid;
 
 	// Font properties
-	private FontCache _fontCache = new FontCache();
+	private FontCache _fontCache = new();
 	private Font _font;
 	private Color _foreColor = Color.Black;
 
 	// Docking and Alignment properties
-	private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
 	private Docking _docking = Docking.Top;
-	private string _dockedToChartArea = Constants.NotSetValue;
-	private bool _isDockedInsideChartArea = true;
-	private int _dockingOffset = 0;
 
 	// Interactive properties
-	private string _toolTip = String.Empty;
 
 
 	// Default text orientation
-	private TextOrientation _textOrientation = TextOrientation.Auto;
 
 	#endregion
 
@@ -250,14 +230,14 @@ public class Title : ChartNamedElement, IDisposable
 	private void Initialize(string text, Docking docking, Font font, Color color)
 	{
 		// Initialize fields
-		this._position = new ElementPosition(this);
-		this._font = _fontCache.DefaultFont;
-		this._text = text;
-		this._docking = docking;
-		this._foreColor = color;
+		_position = new ElementPosition(this);
+		_font = _fontCache.DefaultFont;
+		_text = text;
+		_docking = docking;
+		_foreColor = color;
 		if (font != null)
 		{
-			this._font = font;
+			_font = font;
 		}
 	}
 
@@ -272,7 +252,7 @@ public class Title : ChartNamedElement, IDisposable
 	SRCategory("CategoryAttributeMisc"),
 	Bindable(true),
 	SRDescription("DescriptionAttributeTitle_Name"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public override string Name
 	{
@@ -294,20 +274,17 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(TextOrientation.Auto),
 	SRDescription("DescriptionAttribute_TextOrientation"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public TextOrientation TextOrientation
 	{
-		get
-		{
-			return this._textOrientation;
-		}
+		get;
 		set
 		{
-			this._textOrientation = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = TextOrientation.Auto;
 
 	/// <summary>
 	/// Gets or sets a flag that specifies whether the title is visible.
@@ -319,7 +296,7 @@ public class Title : ChartNamedElement, IDisposable
 	SRCategory("CategoryAttributeAppearance"),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeTitle_Visible"),
-	ParenthesizePropertyNameAttribute(true),
+	ParenthesizePropertyName(true),
 	]
 	virtual public bool Visible
 	{
@@ -330,7 +307,7 @@ public class Title : ChartNamedElement, IDisposable
 		set
 		{
 			_visible = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -343,21 +320,18 @@ public class Title : ChartNamedElement, IDisposable
 		DefaultValue(Constants.NotSetValue),
 	SRDescription("DescriptionAttributeTitle_DockToChartArea"),
 		TypeConverter(typeof(LegendAreaNameConverter)),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public string DockedToChartArea
 	{
-		get
-		{
-			return _dockedToChartArea;
-		}
+		get;
 		set
 		{
-			if (value != _dockedToChartArea)
+			if (value != field)
 			{
 				if (value.Length == 0)
 				{
-					_dockedToChartArea = Constants.NotSetValue;
+					field = Constants.NotSetValue;
 				}
 				else
 				{
@@ -366,13 +340,13 @@ public class Title : ChartNamedElement, IDisposable
 						Chart.ChartAreas.VerifyNameReference(value);
 					}
 
-					_dockedToChartArea = value;
+					field = value;
 				}
 
-				this.Invalidate(false);
+				Invalidate(false);
 			}
 		}
-	}
+	} = Constants.NotSetValue;
 
 	/// <summary>
 	/// Gets or sets a property which indicates whether the title is docked inside chart area. 
@@ -383,23 +357,20 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(true),
 	SRDescription("DescriptionAttributeTitle_DockInsideChartArea"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public bool IsDockedInsideChartArea
 	{
-		get
-		{
-			return _isDockedInsideChartArea;
-		}
+		get;
 		set
 		{
-			if (value != _isDockedInsideChartArea)
+			if (value != field)
 			{
-				_isDockedInsideChartArea = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
 		}
-	}
+	} = true;
 
 	/// <summary>
 	/// Gets or sets the positive or negative offset of the docked title position.
@@ -409,28 +380,25 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(0),
 	SRDescription("DescriptionAttributeTitle_DockOffset"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public int DockingOffset
 	{
-		get
-		{
-			return _dockingOffset;
-		}
+		get;
 		set
 		{
-			if (value != _dockingOffset)
+			if (value != field)
 			{
 				if (value < -100 || value > 100)
 				{
-					throw (new ArgumentOutOfRangeException("value", SR.ExceptionValueMustBeInRange("DockingOffset", (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
+					throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionValueMustBeInRange(nameof(DockingOffset), (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
 				}
 
-				_dockingOffset = value;
-				this.Invalidate(false);
+				field = value;
+				Invalidate(false);
 			}
 		}
-	}
+	} = 0;
 
 	/// <summary>
 	/// Gets or sets the position of the title.
@@ -440,9 +408,9 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	SRDescription("DescriptionAttributeTitle_Position"),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ElementPositionConverter)),
-	SerializationVisibilityAttribute(SerializationVisibility.Element)
+	SerializationVisibility(SerializationVisibility.Element)
 	]
 	public ElementPosition Position
 	{
@@ -457,8 +425,10 @@ public class Title : ChartNamedElement, IDisposable
 				}
 				else
 				{
-					ElementPosition newPosition = new ElementPosition();
-					newPosition.Auto = false;
+					ElementPosition newPosition = new()
+					{
+						Auto = false
+					};
 					newPosition.SetPositionNoAuto(_position.X, _position.Y, _position.Width, _position.Height);
 					return newPosition;
 				}
@@ -470,7 +440,7 @@ public class Title : ChartNamedElement, IDisposable
 		{
 			_position = value;
 			_position.Parent = this;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -480,7 +450,7 @@ public class Title : ChartNamedElement, IDisposable
 	/// <returns></returns>
 	internal bool ShouldSerializePosition()
 	{
-		return !this.Position.Auto;
+		return !Position.Auto;
 	}
 
 
@@ -492,8 +462,8 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(""),
 	SRDescription("DescriptionAttributeTitle_Text"),
-	NotifyParentPropertyAttribute(true),
-	ParenthesizePropertyNameAttribute(true)
+	NotifyParentProperty(true),
+	ParenthesizePropertyName(true)
 	]
 	public string Text
 	{
@@ -504,7 +474,7 @@ public class Title : ChartNamedElement, IDisposable
 		set
 		{
 			_text = (value == null) ? string.Empty : value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -517,20 +487,17 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(TextStyle.Default),
 	SRDescription("DescriptionAttributeTextStyle"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public TextStyle TextStyle
 	{
-		get
-		{
-			return _style;
-		}
+		get;
 		set
 		{
-			_style = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = TextStyle.Default;
 
 	/// <summary>
 	/// Gets or sets the background color of the title.
@@ -540,22 +507,19 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBackColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
 	public Color BackColor
 	{
-		get
-		{
-			return _backColor;
-		}
+		get;
 		set
 		{
-			_backColor = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the border color of the title.
@@ -565,22 +529,19 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
 		SRDescription("DescriptionAttributeBorderColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
 	public Color BorderColor
 	{
-		get
-		{
-			return _borderColor;
-		}
+		get;
 		set
 		{
-			_borderColor = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the border style of the title.
@@ -590,20 +551,17 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(ChartDashStyle.Solid),
 		SRDescription("DescriptionAttributeBorderDashStyle"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public ChartDashStyle BorderDashStyle
 	{
-		get
-		{
-			return _borderDashStyle;
-		}
+		get;
 		set
 		{
-			_borderDashStyle = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = ChartDashStyle.Solid;
 
 	/// <summary>
 	/// Gets or sets the border width of the title.
@@ -613,25 +571,22 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(1),
 		SRDescription("DescriptionAttributeBorderWidth"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public int BorderWidth
 	{
-		get
-		{
-			return _borderWidth;
-		}
+		get;
 		set
 		{
 			if (value < 0)
 			{
-				throw (new ArgumentOutOfRangeException("value", SR.ExceptionTitleBorderWidthIsNegative));
+				throw (new ArgumentOutOfRangeException(nameof(value), SR.ExceptionTitleBorderWidthIsNegative));
 			}
 
-			_borderWidth = value;
-			this.Invalidate(false);
+			field = value;
+			Invalidate(false);
 		}
-	}
+	} = 1;
 
 	/// <summary>
 	/// Gets or sets the background image.
@@ -642,20 +597,17 @@ public class Title : ChartNamedElement, IDisposable
 	DefaultValue(""),
 		SRDescription("DescriptionAttributeBackImage"),
 		Editor(typeof(ImageValueEditor), typeof(UITypeEditor)),
-		NotifyParentPropertyAttribute(true),
+		NotifyParentProperty(true),
 	]
 	public string BackImage
 	{
-		get
-		{
-			return _backImage;
-		}
+		get;
 		set
 		{
-			_backImage = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = "";
 
 	/// <summary>
 	/// Gets or sets the background image drawing mode.
@@ -664,21 +616,18 @@ public class Title : ChartNamedElement, IDisposable
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageWrapMode.Tile),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageWrapMode"),
 	]
 	public ChartImageWrapMode BackImageWrapMode
 	{
-		get
-		{
-			return _backImageWrapMode;
-		}
+		get;
 		set
 		{
-			_backImageWrapMode = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = ChartImageWrapMode.Tile;
 
 	/// <summary>
 	/// Gets or sets a color which will be replaced with a transparent color while drawing the background image.
@@ -687,23 +636,20 @@ public class Title : ChartNamedElement, IDisposable
 		SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeImageTransparentColor"),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
 	public Color BackImageTransparentColor
 	{
-		get
-		{
-			return _backImageTransparentColor;
-		}
+		get;
 		set
 		{
-			_backImageTransparentColor = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the background image alignment used by unscale drawing mode.
@@ -712,21 +658,18 @@ public class Title : ChartNamedElement, IDisposable
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartImageAlignmentStyle.TopLeft),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackImageAlign"),
 	]
 	public ChartImageAlignmentStyle BackImageAlignment
 	{
-		get
-		{
-			return _backImageAlignment;
-		}
+		get;
 		set
 		{
-			_backImageAlignment = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = ChartImageAlignmentStyle.TopLeft;
 
 	/// <summary>
 	/// Gets or sets the background gradient style.
@@ -744,22 +687,19 @@ public class Title : ChartNamedElement, IDisposable
 		SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(GradientStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackGradientStyle"),
 		Editor(typeof(GradientEditor), typeof(UITypeEditor))
 		]
 	public GradientStyle BackGradientStyle
 	{
-		get
-		{
-			return _backGradientStyle;
-		}
+		get;
 		set
 		{
-			_backGradientStyle = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = GradientStyle.None;
 
 	/// <summary>
 	/// Gets or sets the secondary background color.
@@ -779,23 +719,20 @@ public class Title : ChartNamedElement, IDisposable
 		SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(typeof(Color), ""),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackSecondaryColor"),
 		TypeConverter(typeof(ColorConverter)),
 		 Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
 	public Color BackSecondaryColor
 	{
-		get
-		{
-			return _backSecondaryColor;
-		}
+		get;
 		set
 		{
-			_backSecondaryColor = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = Color.Empty;
 
 	/// <summary>
 	/// Gets or sets the background hatch style.
@@ -813,22 +750,19 @@ public class Title : ChartNamedElement, IDisposable
 	SRCategory("CategoryAttributeAppearance"),
 	Bindable(true),
 	DefaultValue(ChartHatchStyle.None),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		SRDescription("DescriptionAttributeBackHatchStyle"),
 		Editor(typeof(HatchStyleEditor), typeof(UITypeEditor))
 		]
 	public ChartHatchStyle BackHatchStyle
 	{
-		get
-		{
-			return _backHatchStyle;
-		}
+		get;
 		set
 		{
-			_backHatchStyle = value;
-			this.Invalidate(true);
+			field = value;
+			Invalidate(true);
 		}
-	}
+	} = ChartHatchStyle.None;
 
 	/// <summary>
 	/// Gets or sets the title font.
@@ -838,7 +772,7 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(typeof(Font), "Microsoft Sans Serif, 8pt"),
 	SRDescription("DescriptionAttributeTitle_Font"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 	]
 	public Font Font
 	{
@@ -849,7 +783,7 @@ public class Title : ChartNamedElement, IDisposable
 		set
 		{
 			_font = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -861,7 +795,7 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(typeof(Color), "Black"),
 	SRDescription("DescriptionAttributeTitle_Color"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
@@ -874,7 +808,7 @@ public class Title : ChartNamedElement, IDisposable
 		set
 		{
 			_foreColor = value;
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 	}
 
@@ -886,20 +820,17 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(ContentAlignment.MiddleCenter),
 	SRDescription("DescriptionAttributeTitle_Alignment"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public ContentAlignment Alignment
 	{
-		get
-		{
-			return _alignment;
-		}
+		get;
 		set
 		{
-			_alignment = value;
-			this.Invalidate(false);
+			field = value;
+			Invalidate(false);
 		}
-	}
+	} = ContentAlignment.MiddleCenter;
 
 	/// <summary>
 	/// Gets or sets the title docking style.
@@ -909,7 +840,7 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(Docking.Top),
 	SRDescription("DescriptionAttributeTitle_Docking"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public Docking Docking
 	{
@@ -920,7 +851,7 @@ public class Title : ChartNamedElement, IDisposable
 		set
 		{
 			_docking = value;
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 	}
 
@@ -932,20 +863,17 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(0),
 		SRDescription("DescriptionAttributeShadowOffset"),
-	NotifyParentPropertyAttribute(true)
+	NotifyParentProperty(true)
 	]
 	public int ShadowOffset
 	{
-		get
-		{
-			return _shadowOffset;
-		}
+		get;
 		set
 		{
-			_shadowOffset = value;
-			this.Invalidate(false);
+			field = value;
+			Invalidate(false);
 		}
-	}
+	} = 0;
 
 	/// <summary>
 	/// Gets or sets the title shadow color.
@@ -955,22 +883,19 @@ public class Title : ChartNamedElement, IDisposable
 	Bindable(true),
 	DefaultValue(typeof(Color), "128, 0, 0, 0"),
 		SRDescription("DescriptionAttributeShadowColor"),
-	NotifyParentPropertyAttribute(true),
+	NotifyParentProperty(true),
 		TypeConverter(typeof(ColorConverter)),
 		Editor(typeof(ChartColorEditor), typeof(UITypeEditor))
 		]
 	public Color ShadowColor
 	{
-		get
-		{
-			return _shadowColor;
-		}
+		get;
 		set
 		{
-			_shadowColor = value;
-			this.Invalidate(false);
+			field = value;
+			Invalidate(false);
 		}
-	}
+	} = Color.FromArgb(128, 0, 0, 0);
 
 	/// <summary>
 	/// Gets or sets the tooltip.
@@ -981,17 +906,7 @@ public class Title : ChartNamedElement, IDisposable
 		SRDescription("DescriptionAttributeToolTip"),
 	DefaultValue("")
 	]
-	public string ToolTip
-	{
-		set
-		{
-			_toolTip = value;
-		}
-		get
-		{
-			return _toolTip;
-		}
-	}
+	public string ToolTip { set; get; } = string.Empty;
 
 	/// <summary>
 	/// True if title background or border is visible
@@ -1000,9 +915,9 @@ public class Title : ChartNamedElement, IDisposable
 	{
 		get
 		{
-			if (!this.BackColor.IsEmpty ||
-				this.BackImage.Length > 0 ||
-				(!this.BorderColor.IsEmpty && this.BorderDashStyle != ChartDashStyle.NotSet))
+			if (!BackColor.IsEmpty ||
+				BackImage.Length > 0 ||
+				(!BorderColor.IsEmpty && BorderDashStyle != ChartDashStyle.NotSet))
 			{
 				return true;
 			}
@@ -1024,7 +939,7 @@ public class Title : ChartNamedElement, IDisposable
 	{
 		get
 		{
-			TextOrientation currentTextOrientation = this.GetTextOrientation();
+			TextOrientation currentTextOrientation = GetTextOrientation();
 			return currentTextOrientation == TextOrientation.Rotated90 || currentTextOrientation == TextOrientation.Rotated270;
 		}
 	}
@@ -1036,17 +951,17 @@ public class Title : ChartNamedElement, IDisposable
 	/// <returns>Current text orientation.</returns>
 	private TextOrientation GetTextOrientation()
 	{
-		if (this.TextOrientation == TextOrientation.Auto)
+		if (TextOrientation == TextOrientation.Auto)
 		{
 			// When chart title is docked to the left or right we automatically 
 			// set vertical text with different rotation angles.
-			if (this.Position.Auto)
+			if (Position.Auto)
 			{
-				if (this.Docking == Docking.Left)
+				if (Docking == Docking.Left)
 				{
 					return TextOrientation.Rotated270;
 				}
-				else if (this.Docking == Docking.Right)
+				else if (Docking == Docking.Right)
 				{
 					return TextOrientation.Rotated90;
 				}
@@ -1055,7 +970,7 @@ public class Title : ChartNamedElement, IDisposable
 			return TextOrientation.Horizontal;
 		}
 
-		return this.TextOrientation;
+		return TextOrientation;
 	}
 
 	/// <summary>
@@ -1064,17 +979,17 @@ public class Title : ChartNamedElement, IDisposable
 	/// <returns>True if title is visible.</returns>
 	internal bool IsVisible()
 	{
-		if (this.Visible)
+		if (Visible)
 		{
 
 			// Check if title is docked to the chart area
-			if (this.DockedToChartArea.Length > 0 &&
-				this.Chart != null)
+			if (DockedToChartArea.Length > 0 &&
+				Chart != null)
 			{
-				if (this.Chart.ChartAreas.IndexOf(this.DockedToChartArea) >= 0)
+				if (Chart.ChartAreas.IndexOf(DockedToChartArea) >= 0)
 				{
 					// Do not show title when it is docked to invisible chart area
-					ChartArea area = this.Chart.ChartAreas[this.DockedToChartArea];
+					ChartArea area = Chart.ChartAreas[DockedToChartArea];
 					if (!area.Visible)
 					{
 						return false;
@@ -1106,16 +1021,16 @@ public class Title : ChartNamedElement, IDisposable
 			{
 				// Calculate the position of the title
 				Rectangle invalRect = Chart.ClientRectangle;
-				if (this.Position.Width != 0 && this.Position.Height != 0)
+				if (Position.Width != 0 && Position.Height != 0)
 				{
 					// Convert relative coordinates to absolute coordinates
-					invalRect.X = (int)(this.Position.X * (Common.ChartPicture.Width - 1) / 100F);
-					invalRect.Y = (int)(this.Position.Y * (Common.ChartPicture.Height - 1) / 100F);
-					invalRect.Width = (int)(this.Position.Width * (Common.ChartPicture.Width - 1) / 100F);
-					invalRect.Height = (int)(this.Position.Height * (Common.ChartPicture.Height - 1) / 100F);
+					invalRect.X = (int)(Position.X * (Common.ChartPicture.Width - 1) / 100F);
+					invalRect.Y = (int)(Position.Y * (Common.ChartPicture.Height - 1) / 100F);
+					invalRect.Width = (int)(Position.Width * (Common.ChartPicture.Width - 1) / 100F);
+					invalRect.Height = (int)(Position.Height * (Common.ChartPicture.Height - 1) / 100F);
 
 					// Inflate rectangle size using border size and shadow size
-					invalRect.Inflate(this.BorderWidth + this.ShadowOffset + 1, this.BorderWidth + this.ShadowOffset + 1);
+					invalRect.Inflate(BorderWidth + ShadowOffset + 1, BorderWidth + ShadowOffset + 1);
 				}
 
 				// Invalidate title rectangle only
@@ -1136,33 +1051,33 @@ public class Title : ChartNamedElement, IDisposable
 	/// Paints title using chart graphics object.
 	/// </summary>
 	/// <param name="chartGraph">The graph provides drawing object to the display device. A Graphics object is associated with a specific device context.</param>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
+	[SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
 	internal void Paint(ChartGraphics chartGraph)
 	{
 		// check if title is visible
-		if (!this.IsVisible())
+		if (!IsVisible())
 		{
 			return;
 		}
 
 		// Title text
-		string titleText = this.Text;
+		string titleText = Text;
 
 		//***************************************************************
 		//** Calculate title relative position
 		//***************************************************************
-		RectangleF titlePosition = this.Position.ToRectangleF();
+		RectangleF titlePosition = Position.ToRectangleF();
 
 		// Auto set the title position if width or height is not set for custom position
-		if (!this.Position.Auto && Common != null && Common.ChartPicture != null)
+		if (!Position.Auto && Common != null && Common.ChartPicture != null)
 		{
 			if (titlePosition.Width == 0 || titlePosition.Height == 0)
 			{
 				// Calculate text layout area
-				SizeF layoutArea = new SizeF(
+				SizeF layoutArea = new(
 						(titlePosition.Width == 0) ? Common.ChartPicture.Width : titlePosition.Width,
 						(titlePosition.Height == 0) ? Common.ChartPicture.Height : titlePosition.Height);
-				if (this.IsTextVertical)
+				if (IsTextVertical)
 				{
 					float tempValue = layoutArea.Width;
 					layoutArea.Width = layoutArea.Height;
@@ -1173,20 +1088,20 @@ public class Title : ChartNamedElement, IDisposable
 				layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
 				SizeF titleSize = chartGraph.MeasureString(
 					"W" + titleText.Replace("\\n", "\n"),
-					this.Font,
+					Font,
 					layoutArea,
 					StringFormat.GenericDefault,
-						this.GetTextOrientation());
+						GetTextOrientation());
 
 				// Increase text size by 4 pixels
-				if (this.BackGroundIsVisible)
+				if (BackGroundIsVisible)
 				{
 					titleSize.Width += titleBorderSpacing;
 					titleSize.Height += titleBorderSpacing;
 				}
 
 				// Switch width and height for vertical text
-				if (this.IsTextVertical)
+				if (IsTextVertical)
 				{
 					float tempValue = titleSize.Width;
 					titleSize.Width = titleSize.Height;
@@ -1200,15 +1115,15 @@ public class Title : ChartNamedElement, IDisposable
 				if (titlePosition.Width == 0)
 				{
 					titlePosition.Width = titleSize.Width;
-					if (this.Alignment == ContentAlignment.BottomRight ||
-						this.Alignment == ContentAlignment.MiddleRight ||
-						this.Alignment == ContentAlignment.TopRight)
+					if (Alignment == ContentAlignment.BottomRight ||
+						Alignment == ContentAlignment.MiddleRight ||
+						Alignment == ContentAlignment.TopRight)
 					{
 						titlePosition.X = titlePosition.X - titlePosition.Width;
 					}
-					else if (this.Alignment == ContentAlignment.BottomCenter ||
-						this.Alignment == ContentAlignment.MiddleCenter ||
-						this.Alignment == ContentAlignment.TopCenter)
+					else if (Alignment == ContentAlignment.BottomCenter ||
+						Alignment == ContentAlignment.MiddleCenter ||
+						Alignment == ContentAlignment.TopCenter)
 					{
 						titlePosition.X = titlePosition.X - titlePosition.Width / 2f;
 					}
@@ -1217,15 +1132,15 @@ public class Title : ChartNamedElement, IDisposable
 				if (titlePosition.Height == 0)
 				{
 					titlePosition.Height = titleSize.Height;
-					if (this.Alignment == ContentAlignment.BottomRight ||
-						this.Alignment == ContentAlignment.BottomCenter ||
-						this.Alignment == ContentAlignment.BottomLeft)
+					if (Alignment == ContentAlignment.BottomRight ||
+						Alignment == ContentAlignment.BottomCenter ||
+						Alignment == ContentAlignment.BottomLeft)
 					{
 						titlePosition.Y = titlePosition.Y - titlePosition.Height;
 					}
-					else if (this.Alignment == ContentAlignment.MiddleCenter ||
-						this.Alignment == ContentAlignment.MiddleLeft ||
-						this.Alignment == ContentAlignment.MiddleRight)
+					else if (Alignment == ContentAlignment.MiddleCenter ||
+						Alignment == ContentAlignment.MiddleLeft ||
+						Alignment == ContentAlignment.MiddleRight)
 					{
 						titlePosition.Y = titlePosition.Y - titlePosition.Height / 2f;
 					}
@@ -1237,13 +1152,13 @@ public class Title : ChartNamedElement, IDisposable
 		//***************************************************************
 		//** Convert title position to absolute coordinates
 		//***************************************************************
-		RectangleF absPosition = new RectangleF(titlePosition.Location, titlePosition.Size);
+		RectangleF absPosition = new(titlePosition.Location, titlePosition.Size);
 		absPosition = chartGraph.GetAbsoluteRectangle(absPosition);
 
 		//***************************************************************
 		//** Draw title background, border and shadow
 		//***************************************************************
-		if (this.BackGroundIsVisible && Common.ProcessModePaint)
+		if (BackGroundIsVisible && Common.ProcessModePaint)
 		{
 			chartGraph.FillRectangleRel(titlePosition,
 				BackColor,
@@ -1267,44 +1182,44 @@ public class Title : ChartNamedElement, IDisposable
 			SizeF titleArea = chartGraph.GetAbsoluteSize(titlePosition.Size);
 			SizeF titleSize = chartGraph.MeasureString(
 					"W" + titleText.Replace("\\n", "\n"),
-				this.Font,
+				Font,
 				titleArea,
 					StringFormat.GenericDefault,
-					this.GetTextOrientation());
+					GetTextOrientation());
 
 			// Convert text size to relative coordinates
 			titleSize = chartGraph.GetRelativeSize(titleSize);
 
 			// Adjust position depending on alignment
-			RectangleF exactTitleRect = new RectangleF(
+			RectangleF exactTitleRect = new(
 				titlePosition.X,
 				titlePosition.Y,
 				titleSize.Width,
 				titleSize.Height);
-			if (this.Alignment == ContentAlignment.BottomCenter ||
-				this.Alignment == ContentAlignment.BottomLeft ||
-				this.Alignment == ContentAlignment.BottomRight)
+			if (Alignment == ContentAlignment.BottomCenter ||
+				Alignment == ContentAlignment.BottomLeft ||
+				Alignment == ContentAlignment.BottomRight)
 			{
 				exactTitleRect.Y = titlePosition.Bottom - exactTitleRect.Height;
 			}
-			else if (this.Alignment == ContentAlignment.MiddleCenter ||
-				this.Alignment == ContentAlignment.MiddleLeft ||
-				this.Alignment == ContentAlignment.MiddleRight)
+			else if (Alignment == ContentAlignment.MiddleCenter ||
+				Alignment == ContentAlignment.MiddleLeft ||
+				Alignment == ContentAlignment.MiddleRight)
 			{
 				exactTitleRect.Y = titlePosition.Y +
 					titlePosition.Height / 2f -
 					exactTitleRect.Height / 2f;
 			}
 
-			if (this.Alignment == ContentAlignment.BottomRight ||
-				this.Alignment == ContentAlignment.MiddleRight ||
-				this.Alignment == ContentAlignment.TopRight)
+			if (Alignment == ContentAlignment.BottomRight ||
+				Alignment == ContentAlignment.MiddleRight ||
+				Alignment == ContentAlignment.TopRight)
 			{
 				exactTitleRect.X = titlePosition.Right - exactTitleRect.Width;
 			}
-			else if (this.Alignment == ContentAlignment.BottomCenter ||
-				this.Alignment == ContentAlignment.MiddleCenter ||
-				this.Alignment == ContentAlignment.TopCenter)
+			else if (Alignment == ContentAlignment.BottomCenter ||
+				Alignment == ContentAlignment.MiddleCenter ||
+				Alignment == ContentAlignment.TopCenter)
 			{
 				exactTitleRect.X = titlePosition.X +
 					titlePosition.Width / 2f -
@@ -1330,7 +1245,7 @@ public class Title : ChartNamedElement, IDisposable
 					exactTitleRect,
 					Color.FromArgb(0, Color.White),
 					ChartHatchStyle.None,
-					String.Empty,
+					string.Empty,
 					ChartImageWrapMode.Tile,
 					BackImageTransparentColor,
 					BackImageAlignment,
@@ -1349,138 +1264,140 @@ public class Title : ChartNamedElement, IDisposable
 		}
 
 		if (Common.ProcessModePaint)
+		{
 			Common.Chart.CallOnPrePaint(new ChartPaintEventArgs(this, chartGraph, Common, Position));
+		}
 
 		//***************************************************************
 		//** Add spacing between text and border
 		//***************************************************************
-		if (this.BackGroundIsVisible)
+		if (BackGroundIsVisible)
 		{
-			absPosition.Width -= this.titleBorderSpacing;
-			absPosition.Height -= this.titleBorderSpacing;
-			absPosition.X += this.titleBorderSpacing / 2f;
-			absPosition.Y += this.titleBorderSpacing / 2f;
+			absPosition.Width -= titleBorderSpacing;
+			absPosition.Height -= titleBorderSpacing;
+			absPosition.X += titleBorderSpacing / 2f;
+			absPosition.Y += titleBorderSpacing / 2f;
 		}
 
 		//***************************************************************
 		//** Create string format
 		//***************************************************************
-		using (StringFormat format = new StringFormat())
+		using StringFormat format = new();
+		format.Alignment = StringAlignment.Center;
+		format.LineAlignment = StringAlignment.Center;
+
+		if (Alignment == ContentAlignment.BottomCenter ||
+			Alignment == ContentAlignment.BottomLeft ||
+			Alignment == ContentAlignment.BottomRight)
 		{
-			format.Alignment = StringAlignment.Center;
-			format.LineAlignment = StringAlignment.Center;
+			format.LineAlignment = StringAlignment.Far;
+		}
+		else if (Alignment == ContentAlignment.TopCenter ||
+			Alignment == ContentAlignment.TopLeft ||
+			Alignment == ContentAlignment.TopRight)
+		{
+			format.LineAlignment = StringAlignment.Near;
+		}
 
-			if (this.Alignment == ContentAlignment.BottomCenter ||
-				this.Alignment == ContentAlignment.BottomLeft ||
-				this.Alignment == ContentAlignment.BottomRight)
+		if (Alignment == ContentAlignment.BottomLeft ||
+			Alignment == ContentAlignment.MiddleLeft ||
+			Alignment == ContentAlignment.TopLeft)
+		{
+			format.Alignment = StringAlignment.Near;
+		}
+		else if (Alignment == ContentAlignment.BottomRight ||
+			Alignment == ContentAlignment.MiddleRight ||
+			Alignment == ContentAlignment.TopRight)
+		{
+			format.Alignment = StringAlignment.Far;
+		}
+
+		//***************************************************************
+		//** Draw text shadow for the default style when background is not drawn anf ShadowOffset is not null
+		//***************************************************************
+		Color textShadowColor = ChartGraphics.GetGradientColor(ForeColor, Color.Black, 0.8);
+		int textShadowOffset = 1;
+		TextStyle textStyle = TextStyle;
+		if ((textStyle == TextStyle.Default || textStyle == TextStyle.Shadow) &&
+			!BackGroundIsVisible &&
+			ShadowOffset != 0)
+		{
+			// Draw shadowed text
+			textStyle = TextStyle.Shadow;
+			textShadowColor = ShadowColor;
+			textShadowOffset = ShadowOffset;
+		}
+
+		if (textStyle == TextStyle.Shadow)
+		{
+			textShadowColor = (textShadowColor.A != 255) ? textShadowColor : Color.FromArgb(textShadowColor.A / 2, textShadowColor);
+		}
+
+		//***************************************************************
+		//** Replace new line characters
+		//***************************************************************
+		titleText = titleText.Replace("\\n", "\n");
+
+		//***************************************************************
+		//** Define text angle depending on the docking
+		//***************************************************************
+		Matrix oldTransform = null;
+		if (IsTextVertical)
+		{
+			if (GetTextOrientation() == TextOrientation.Rotated270)
 			{
-				format.LineAlignment = StringAlignment.Far;
+				// IMPORTANT !
+				// Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
+				format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
+
+				// Save old graphics transformation
+				oldTransform = chartGraph.Transform.Clone();
+
+				// Rotate tile 180 degrees at center
+				PointF center = PointF.Empty;
+
+				center.X = absPosition.X + absPosition.Width / 2F;
+				center.Y = absPosition.Y + absPosition.Height / 2F;
+
+				// Create and set new transformation matrix
+				Matrix newMatrix = chartGraph.Transform.Clone();
+				newMatrix.RotateAt(180, center);
+				chartGraph.Transform = newMatrix;
 			}
-			else if (this.Alignment == ContentAlignment.TopCenter ||
-				this.Alignment == ContentAlignment.TopLeft ||
-				this.Alignment == ContentAlignment.TopRight)
+			else if (GetTextOrientation() == TextOrientation.Rotated90)
 			{
-				format.LineAlignment = StringAlignment.Near;
+				// IMPORTANT !
+				// Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
+				format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
 			}
+		}
 
-			if (this.Alignment == ContentAlignment.BottomLeft ||
-				this.Alignment == ContentAlignment.MiddleLeft ||
-				this.Alignment == ContentAlignment.TopLeft)
-			{
-				format.Alignment = StringAlignment.Near;
-			}
-			else if (this.Alignment == ContentAlignment.BottomRight ||
-				this.Alignment == ContentAlignment.MiddleRight ||
-				this.Alignment == ContentAlignment.TopRight)
-			{
-				format.Alignment = StringAlignment.Far;
-			}
+		try
+		{
+			chartGraph.IsTextClipped = !Position.Auto;
+			DrawStringWithStyle(chartGraph, titleText, textStyle, Font, absPosition, ForeColor, textShadowColor, textShadowOffset, format, GetTextOrientation());
+		}
+		finally
+		{
+			chartGraph.IsTextClipped = false;
+		}
+		// Call Paint event
+		if (Common.ProcessModePaint)
+		{
+			Common.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, chartGraph, Common, Position));
+		}
 
-			//***************************************************************
-			//** Draw text shadow for the default style when background is not drawn anf ShadowOffset is not null
-			//***************************************************************
-			Color textShadowColor = ChartGraphics.GetGradientColor(this.ForeColor, Color.Black, 0.8);
-			int textShadowOffset = 1;
-			TextStyle textStyle = this.TextStyle;
-			if ((textStyle == TextStyle.Default || textStyle == TextStyle.Shadow) &&
-				!this.BackGroundIsVisible &&
-				ShadowOffset != 0)
-			{
-				// Draw shadowed text
-				textStyle = TextStyle.Shadow;
-				textShadowColor = ShadowColor;
-				textShadowOffset = ShadowOffset;
-			}
+		//***************************************************************
+		//** Restore old transformation
+		//***************************************************************
+		if (oldTransform != null)
+		{
+			chartGraph.Transform = oldTransform;
+		}
 
-			if (textStyle == TextStyle.Shadow)
-			{
-				textShadowColor = (textShadowColor.A != 255) ? textShadowColor : Color.FromArgb(textShadowColor.A / 2, textShadowColor);
-			}
-
-			//***************************************************************
-			//** Replace new line characters
-			//***************************************************************
-			titleText = titleText.Replace("\\n", "\n");
-
-			//***************************************************************
-			//** Define text angle depending on the docking
-			//***************************************************************
-			Matrix oldTransform = null;
-			if (this.IsTextVertical)
-			{
-				if (this.GetTextOrientation() == TextOrientation.Rotated270)
-				{
-					// IMPORTANT !
-					// Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
-					format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
-
-					// Save old graphics transformation
-					oldTransform = chartGraph.Transform.Clone();
-
-					// Rotate tile 180 degrees at center
-					PointF center = PointF.Empty;
-
-					center.X = absPosition.X + absPosition.Width / 2F;
-					center.Y = absPosition.Y + absPosition.Height / 2F;
-
-					// Create and set new transformation matrix
-					Matrix newMatrix = chartGraph.Transform.Clone();
-					newMatrix.RotateAt(180, center);
-					chartGraph.Transform = newMatrix;
-				}
-				else if (this.GetTextOrientation() == TextOrientation.Rotated90)
-				{
-					// IMPORTANT !
-					// Right to Left flag has to be used because of bug with .net with multi line vertical text. As soon as .net bug is fixed this flag HAS TO be removed. Bug number 1870.
-					format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
-				}
-			}
-
-			try
-			{
-				chartGraph.IsTextClipped = !Position.Auto;
-				Title.DrawStringWithStyle(chartGraph, titleText, textStyle, this.Font, absPosition, this.ForeColor, textShadowColor, textShadowOffset, format, this.GetTextOrientation());
-			}
-			finally
-			{
-				chartGraph.IsTextClipped = false;
-			}
-			// Call Paint event
-			if (Common.ProcessModePaint)
-				Common.Chart.CallOnPostPaint(new ChartPaintEventArgs(this, chartGraph, Common, Position));
-
-			//***************************************************************
-			//** Restore old transformation
-			//***************************************************************
-			if (oldTransform != null)
-			{
-				chartGraph.Transform = oldTransform;
-			}
-
-			if (Common.ProcessModeRegions)
-			{
-				Common.HotRegionsList.AddHotRegion(titlePosition, this.ToolTip, null, null, null, this, ChartElementType.Title, null);
-			}
+		if (Common.ProcessModeRegions)
+		{
+			Common.HotRegionsList.AddHotRegion(titlePosition, ToolTip, null, null, null, this, ChartElementType.Title, null);
 		}
 	}
 
@@ -1517,38 +1434,32 @@ public class Title : ChartNamedElement, IDisposable
 		{
 			if (textStyle == TextStyle.Default)
 			{
-				using (SolidBrush brush = new SolidBrush(foreColor))
-				{
-					chartGraph.DrawString(titleText, font, brush, absPosition, format, orientation);
-				}
+				using SolidBrush brush = new(foreColor);
+				chartGraph.DrawString(titleText, font, brush, absPosition, format, orientation);
 			}
 			else if (textStyle == TextStyle.Frame)
 			{
-				using (GraphicsPath graphicsPath = new GraphicsPath())
-				{
-					graphicsPath.AddString(
-						titleText,
-						font.FontFamily,
-						(int)font.Style,
-						font.Size * 1.3f,
-						absPosition,
-						format);
-					graphicsPath.CloseAllFigures();
+				using GraphicsPath graphicsPath = new();
+				graphicsPath.AddString(
+					titleText,
+					font.FontFamily,
+					(int)font.Style,
+					font.Size * 1.3f,
+					absPosition,
+					format);
+				graphicsPath.CloseAllFigures();
 
 
-					using (Pen pen = new Pen(foreColor, 1))
-					{
-						chartGraph.DrawPath(pen, graphicsPath);
-					}
-				}
+				using Pen pen = new(foreColor, 1);
+				chartGraph.DrawPath(pen, graphicsPath);
 			}
 			else if (textStyle == TextStyle.Embed)
 			{
 				// Draw shadow
-				RectangleF shadowPosition = new RectangleF(absPosition.Location, absPosition.Size);
+				RectangleF shadowPosition = new(absPosition.Location, absPosition.Size);
 				shadowPosition.X -= 1;
 				shadowPosition.Y -= 1;
-				using (SolidBrush brush = new SolidBrush(shadowColor))
+				using (SolidBrush brush = new(shadowColor))
 				{
 					chartGraph.DrawString(titleText, font, brush, shadowPosition, format, orientation);
 				}
@@ -1556,12 +1467,12 @@ public class Title : ChartNamedElement, IDisposable
 				shadowPosition.X += 2;
 				shadowPosition.Y += 2;
 				Color texthighlightColor = ChartGraphics.GetGradientColor(Color.White, foreColor, 0.3);
-				using (SolidBrush brush = new SolidBrush(texthighlightColor))
+				using (SolidBrush brush = new(texthighlightColor))
 				{
 					chartGraph.DrawString(titleText, font, brush, shadowPosition, format, orientation);
 				}
 
-				using (SolidBrush brush = new SolidBrush(foreColor))
+				using (SolidBrush brush = new(foreColor))
 				{
 					// Draw text
 					chartGraph.DrawString(titleText, font, brush, absPosition, format, orientation);
@@ -1570,10 +1481,10 @@ public class Title : ChartNamedElement, IDisposable
 			else if (textStyle == TextStyle.Emboss)
 			{
 				// Draw shadow
-				RectangleF shadowPosition = new RectangleF(absPosition.Location, absPosition.Size);
+				RectangleF shadowPosition = new(absPosition.Location, absPosition.Size);
 				shadowPosition.X += 1;
 				shadowPosition.Y += 1;
-				using (SolidBrush brush = new SolidBrush(shadowColor))
+				using (SolidBrush brush = new(shadowColor))
 				{
 					chartGraph.DrawString(titleText, font, brush, shadowPosition, format, orientation);
 				}
@@ -1581,12 +1492,12 @@ public class Title : ChartNamedElement, IDisposable
 				shadowPosition.X -= 2;
 				shadowPosition.Y -= 2;
 				Color texthighlightColor = ChartGraphics.GetGradientColor(Color.White, foreColor, 0.3);
-				using (SolidBrush brush = new SolidBrush(texthighlightColor))
+				using (SolidBrush brush = new(texthighlightColor))
 				{
 					chartGraph.DrawString(titleText, font, brush, shadowPosition, format, orientation);
 				}
 				// Draw text
-				using (SolidBrush brush = new SolidBrush(foreColor))
+				using (SolidBrush brush = new(foreColor))
 				{
 					chartGraph.DrawString(titleText, font, brush, absPosition, format, orientation);
 				}
@@ -1595,15 +1506,15 @@ public class Title : ChartNamedElement, IDisposable
 			else if (textStyle == TextStyle.Shadow)
 			{
 				// Draw shadow
-				RectangleF shadowPosition = new RectangleF(absPosition.Location, absPosition.Size);
+				RectangleF shadowPosition = new(absPosition.Location, absPosition.Size);
 				shadowPosition.X += shadowOffset;
 				shadowPosition.Y += shadowOffset;
-				using (SolidBrush brush = new SolidBrush(shadowColor))
+				using (SolidBrush brush = new(shadowColor))
 				{
 					chartGraph.DrawString(titleText, font, brush, shadowPosition, format, orientation);
 				}
 				// Draw text
-				using (SolidBrush brush = new SolidBrush(foreColor))
+				using (SolidBrush brush = new(foreColor))
 				{
 					chartGraph.DrawString(titleText, font, brush, absPosition, format, orientation);
 				}
@@ -1631,11 +1542,11 @@ public class Title : ChartNamedElement, IDisposable
 	{
 		// Special case for the first title docked to the top when the title frame is used
 		if (!frameTitlePosition.IsEmpty &&
-			this.Position.Auto &&
-			this.Docking == Docking.Top &&
-				this.DockedToChartArea == Constants.NotSetValue)
+			Position.Auto &&
+			Docking == Docking.Top &&
+				DockedToChartArea == Constants.NotSetValue)
 		{
-			this.Position.SetPositionNoAuto(
+			Position.SetPositionNoAuto(
 				frameTitlePosition.X + elementSpacing,
 				frameTitlePosition.Y,
 				frameTitlePosition.Width - 2f * elementSpacing,
@@ -1645,11 +1556,11 @@ public class Title : ChartNamedElement, IDisposable
 		}
 
 		// Get title size
-		RectangleF titlePosition = new RectangleF();
-		SizeF layoutArea = new SizeF(chartAreasRectangle.Width, chartAreasRectangle.Height);
+		RectangleF titlePosition = new();
+		SizeF layoutArea = new(chartAreasRectangle.Width, chartAreasRectangle.Height);
 
 		// Switch width and height for vertical text
-		if (this.IsTextVertical)
+		if (IsTextVertical)
 		{
 			float tempValue = layoutArea.Width;
 			layoutArea.Width = layoutArea.Height;
@@ -1661,21 +1572,21 @@ public class Title : ChartNamedElement, IDisposable
 		layoutArea.Height -= 2f * elementSpacing;
 		layoutArea = chartGraph.GetAbsoluteSize(layoutArea);
 		SizeF titleSize = chartGraph.MeasureString(
-				"W" + this.Text.Replace("\\n", "\n"),
-			this.Font,
+				"W" + Text.Replace("\\n", "\n"),
+			Font,
 			layoutArea,
 			StringFormat.GenericDefault,
-				this.GetTextOrientation());
+				GetTextOrientation());
 
 		// Increase text size by 4 pixels
-		if (this.BackGroundIsVisible)
+		if (BackGroundIsVisible)
 		{
 			titleSize.Width += titleBorderSpacing;
 			titleSize.Height += titleBorderSpacing;
 		}
 
 		// Switch width and height for vertical text
-		if (this.IsTextVertical)
+		if (IsTextVertical)
 		{
 			float tempValue = titleSize.Width;
 			titleSize.Width = titleSize.Height;
@@ -1692,7 +1603,7 @@ public class Title : ChartNamedElement, IDisposable
 		}
 
 		// Calculate title position
-		if (this.Docking == Docking.Top)
+		if (Docking == Docking.Top)
 		{
 			titlePosition.Y = chartAreasRectangle.Y + elementSpacing;
 			titlePosition.X = chartAreasRectangle.X + elementSpacing;
@@ -1706,7 +1617,7 @@ public class Title : ChartNamedElement, IDisposable
 			chartAreasRectangle.Height -= titlePosition.Height + elementSpacing;
 			chartAreasRectangle.Y = titlePosition.Bottom;
 		}
-		else if (this.Docking == Docking.Bottom)
+		else if (Docking == Docking.Bottom)
 		{
 			titlePosition.Y = chartAreasRectangle.Bottom - titleSize.Height - elementSpacing;
 			titlePosition.X = chartAreasRectangle.X + elementSpacing;
@@ -1720,7 +1631,7 @@ public class Title : ChartNamedElement, IDisposable
 			chartAreasRectangle.Height -= titlePosition.Height + elementSpacing;
 		}
 
-		if (this.Docking == Docking.Left)
+		if (Docking == Docking.Left)
 		{
 			titlePosition.X = chartAreasRectangle.X + elementSpacing;
 			titlePosition.Y = chartAreasRectangle.Y + elementSpacing;
@@ -1735,7 +1646,7 @@ public class Title : ChartNamedElement, IDisposable
 			chartAreasRectangle.X = titlePosition.Right;
 		}
 
-		if (this.Docking == Docking.Right)
+		if (Docking == Docking.Right)
 		{
 			titlePosition.X = chartAreasRectangle.Right - titleSize.Width - elementSpacing;
 			titlePosition.Y = chartAreasRectangle.Y + elementSpacing;
@@ -1751,19 +1662,19 @@ public class Title : ChartNamedElement, IDisposable
 
 
 		// Offset calculated docking position
-		if (this.DockingOffset != 0)
+		if (DockingOffset != 0)
 		{
-			if (this.Docking == Docking.Top || this.Docking == Docking.Bottom)
+			if (Docking == Docking.Top || Docking == Docking.Bottom)
 			{
-				titlePosition.Y += this.DockingOffset;
+				titlePosition.Y += DockingOffset;
 			}
 			else
 			{
-				titlePosition.X += this.DockingOffset;
+				titlePosition.X += DockingOffset;
 			}
 		}
 
-		this.Position.SetPositionNoAuto(titlePosition.X, titlePosition.Y, titlePosition.Width, titlePosition.Height);
+		Position.SetPositionNoAuto(titlePosition.X, titlePosition.Y, titlePosition.Width, titlePosition.Height);
 	}
 
 	#endregion
@@ -1778,17 +1689,11 @@ public class Title : ChartNamedElement, IDisposable
 	{
 		if (disposing)
 		{
-			if (_fontCache != null)
-			{
-				_fontCache.Dispose();
-				_fontCache = null;
-			}
+			_fontCache?.Dispose();
+			_fontCache = null;
 
-			if (_position != null)
-			{
-				_position.Dispose();
-				_position = null;
-			}
+			_position?.Dispose();
+			_position = null;
 		}
 	}
 
@@ -1829,8 +1734,8 @@ public class TitleCollection : ChartNamedElementCollection<Title>
 	/// <returns>New title</returns>
 	public Title Add(string name)
 	{
-		Title title = new Title(name);
-		this.Add(title);
+		Title title = new(name);
+		Add(title);
 		return title;
 	}
 
@@ -2017,11 +1922,17 @@ public class TitleCollection : ChartNamedElementCollection<Title>
 	{
 		//If all the chart areas are removed and then the first one is added we don't want to dock the titles
 		if (e.OldElement == null)
+		{
 			return;
+		}
 
 		foreach (Title title in this)
+		{
 			if (title.DockedToChartArea == e.OldName)
+			{
 				title.DockedToChartArea = e.NewName;
+			}
+		}
 	}
 	#endregion
 

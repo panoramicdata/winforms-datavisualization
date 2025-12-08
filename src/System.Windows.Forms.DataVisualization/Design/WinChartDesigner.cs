@@ -53,7 +53,7 @@ internal class ChartWinDesigner : ControlDesigner
 		base.Initialize(component);
 
 		// Set reference to the designer
-		ChartWinDesigner.controlDesigner = this;
+		controlDesigner = this;
 
 		SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(SystemEvents_UserPreferenceChanged);
 	}
@@ -61,7 +61,7 @@ internal class ChartWinDesigner : ControlDesigner
 	protected override void OnMouseDragBegin(int x, int y)
 	{
 		base.OnMouseDragBegin(x, y);
-		ChartWinDesigner.controlDesigner = this;
+		controlDesigner = this;
 	}
 
 
@@ -117,7 +117,9 @@ internal class ChartWinDesigner : ControlDesigner
 	{
 		// If user changed system colors, make Chart repaint itself.
 		if (e.Category == UserPreferenceCategory.Color)
+		{
 			Control.Invalidate();
+		}
 	}
 
 
@@ -136,8 +138,8 @@ internal class ChartWinDesigner : ControlDesigner
 			// Clear all value members properies in the series
 			foreach (Series series in chartControl.Series)
 			{
-				series.XValueMember = String.Empty;
-				series.YValueMembers = String.Empty;
+				series.XValueMember = string.Empty;
+				series.YValueMembers = string.Empty;
 			}
 		}
 	}
@@ -148,9 +150,9 @@ internal class ChartWinDesigner : ControlDesigner
 	public object GetControlDataSource()
 	{
 		object selectedDataSource = null;
-		if (this.Control != null && this.Control is Chart)
+		if (Control != null && Control is Chart)
 		{
-			selectedDataSource = this.GetControlDataSource((Chart)this.Control);
+			selectedDataSource = GetControlDataSource((Chart)Control);
 		}
 
 		return selectedDataSource;
@@ -169,11 +171,10 @@ internal class ChartWinDesigner : ControlDesigner
 			if (chart.DataSource != null)
 			{
 				object dataSourceObject = chart.DataSource;
-				string fieldName = dataSourceObject as string;
-				if (fieldName != null && this.Component != null)
+				if (dataSourceObject is string fieldName && Component != null)
 				{
 					dataSourceObject = null;
-					ISite componentSite = this.Component.Site;
+					ISite componentSite = Component.Site;
 					if (componentSite != null)
 					{
 						IContainer container = (IContainer)componentSite.GetService(typeof(IContainer));
