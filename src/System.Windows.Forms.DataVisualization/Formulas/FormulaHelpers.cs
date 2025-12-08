@@ -1524,7 +1524,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 		else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
 		{
 			int id;
-			if (int.TryParse(seriesFieldId.Substring(1), out id))
+			if (int.TryParse(seriesFieldId[1..], out id))
 			{
 				if (id - 1 < seriesFields.Count)
 				{
@@ -1620,7 +1620,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 		else if (seriesFieldId.StartsWith("Y", StringComparison.Ordinal))
 		{
 			int seriesFieldIndex;
-			if (int.TryParse(seriesFieldId.Substring(1), out seriesFieldIndex))
+			if (int.TryParse(seriesFieldId[1..], out seriesFieldIndex))
 			{
 				if (seriesFieldIndex < seriesFields.Count)
 				{

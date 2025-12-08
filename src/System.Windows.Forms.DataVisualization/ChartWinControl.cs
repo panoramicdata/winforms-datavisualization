@@ -1800,13 +1800,13 @@ public class Chart : Control, ISupportInitialize, IDisposable
 				int versionIndex = buildNumber.IndexOf("VERSION=", StringComparison.Ordinal);
 				if (versionIndex >= 0)
 				{
-					buildNumber = buildNumber.Substring(versionIndex + 8);
+					buildNumber = buildNumber[(versionIndex + 8)..];
 				}
 
 				versionIndex = buildNumber.IndexOf(",", StringComparison.Ordinal);
 				if (versionIndex >= 0)
 				{
-					buildNumber = buildNumber.Substring(0, versionIndex);
+					buildNumber = buildNumber[..versionIndex];
 				}
 			}
 

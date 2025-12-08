@@ -4398,17 +4398,17 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				if (newText[(newText.Length) / 2 - index] == ' ')
 				{
 					newText =
-						newText.Substring(0, (newText.Length) / 2 - index) +
+						newText[..((newText.Length) / 2 - index)] +
 						"\n" +
-						newText.Substring((newText.Length) / 2 - index + 1);
+						newText[((newText.Length) / 2 - index + 1)..];
 					changed = true;
 				}
 				else if (newText[(newText.Length) / 2 + index] == ' ')
 				{
 					newText =
-						newText.Substring(0, (newText.Length) / 2 + index) +
+						newText[..((newText.Length) / 2 + index)] +
 						"\n" +
-						newText.Substring((newText.Length) / 2 + index + 1);
+						newText[((newText.Length) / 2 + index + 1)..];
 					changed = true;
 				}
 

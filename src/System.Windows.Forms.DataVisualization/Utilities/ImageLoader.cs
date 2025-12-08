@@ -4,7 +4,7 @@
 
 
 //
-//  Purpose:	ImageLoader utility class loads specified image and 
+//  Purpose:	ImageLoader utility class loads specified image and
 //              caches it in the memory for the future use.
 //
 
@@ -24,10 +24,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities;
 using Size = Size;
 
 /// <summary>
-/// ImageLoader utility class loads and returns specified image 
-/// form the File, URI, Web Request or Chart Resources. 
-/// Loaded images are stored in the internal hashtable which 
-/// allows to improve performance if image need to be used 
+/// ImageLoader utility class loads and returns specified image
+/// form the File, URI, Web Request or Chart Resources.
+/// Loaded images are stored in the internal hashtable which
+/// allows to improve performance if image need to be used
 /// several times.
 /// </summary>
 internal class ImageLoader : IDisposable, IServiceProvider
@@ -57,12 +57,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	/// <param name="container">Service container.</param>
 	public ImageLoader(IServiceContainer container)
 	{
-		if (container == null)
-		{
-			throw (new ArgumentNullException(SR.ExceptionImageLoaderInvalidServiceContainer));
-		}
-
-		_serviceContainer = container;
+		_serviceContainer = container ?? throw new ArgumentNullException(SR.ExceptionImageLoaderInvalidServiceContainer);
 	}
 
 	/// <summary>
@@ -90,9 +85,9 @@ internal class ImageLoader : IDisposable, IServiceProvider
 		{
 			foreach (DictionaryEntry entry in _imageData)
 			{
-				if (entry.Value is IDisposable)
+				if (entry.Value is IDisposable disposable)
 				{
-					((IDisposable)entry.Value).Dispose();
+					disposable.Dispose();
 				}
 			}
 
@@ -160,8 +155,8 @@ internal class ImageLoader : IDisposable, IServiceProvider
 				int columnIndex = imageURL.IndexOf("::", StringComparison.Ordinal);
 				if (columnIndex > 0)
 				{
-					string resourceRootName = imageURL.Substring(0, columnIndex);
-					string resourceName = imageURL.Substring(columnIndex + 2);
+					string resourceRootName = imageURL[..columnIndex];
+					string resourceName = imageURL[(columnIndex + 2)..];
 					ResourceManager resourceManager = new(resourceRootName, Assembly.GetExecutingAssembly());
 					image = (Image)(resourceManager.GetObject(resourceName));
 				}
@@ -171,8 +166,8 @@ internal class ImageLoader : IDisposable, IServiceProvider
 					columnIndex = imageURL.IndexOf(':');
 					if (columnIndex > 0)
 					{
-						string resourceRootName = imageURL.Substring(0, columnIndex);
-						string resourceName = imageURL.Substring(columnIndex + 1);
+						string resourceRootName = imageURL[..columnIndex];
+						string resourceName = imageURL[(columnIndex + 1)..];
 						ResourceManager resourceManager = new(resourceRootName, Assembly.GetEntryAssembly());
 						image = (Image)(resourceManager.GetObject(resourceName));
 					}

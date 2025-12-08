@@ -222,7 +222,7 @@ internal class PointAndFigureChart : RangeColumnChart
 			}
 
 			// Get original PointAndFigure series
-			Series pointAndFigureSeries = chart.Series[series.Name.Substring(29)];
+			Series pointAndFigureSeries = chart.Series[series.Name[29..]];
 			Series.MovePositionMarkers(pointAndFigureSeries, series);
 
 			// Copy data back to original PointAndFigure series
@@ -348,7 +348,7 @@ internal class PointAndFigureChart : RangeColumnChart
 			bool usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
 			if (usePercentage)
 			{
-				attrValue = attrValue.Substring(0, attrValue.Length - 1);
+				attrValue = attrValue[..^1];
 			}
 
 			bool parseSucceed;
@@ -684,7 +684,7 @@ internal class PointAndFigureChart : RangeColumnChart
 			if (series.Name.StartsWith("POINTANDFIGURE_ORIGINAL_DATA_", StringComparison.Ordinal))
 			{
 				// Get original series
-				Series pointAndFigureSeries = chart.Series[series.Name.Substring(29)];
+				Series pointAndFigureSeries = chart.Series[series.Name[29..]];
 
 				// Check if proportional symbol custom attribute is set
 				bool proportionalSymbols = true;

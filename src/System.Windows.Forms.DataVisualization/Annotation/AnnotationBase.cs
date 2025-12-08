@@ -3143,8 +3143,8 @@ public abstract class Annotation : ChartNamedElement
 			int separatorIndex = dataPointName.IndexOf("\\r", StringComparison.Ordinal);
 			if (separatorIndex > 0)
 			{
-				string seriesName = dataPointName.Substring(0, separatorIndex);
-				string pointIndex = dataPointName.Substring(separatorIndex + 2);
+				string seriesName = dataPointName[..separatorIndex];
+				string pointIndex = dataPointName[(separatorIndex + 2)..];
 
 				if (int.TryParse(pointIndex, NumberStyles.Any, CultureInfo.InvariantCulture, out int index))
 				{
@@ -3175,8 +3175,8 @@ public abstract class Annotation : ChartNamedElement
 				int separatorIndex = axisName.IndexOf("\\r", StringComparison.Ordinal);
 				if (separatorIndex > 0)
 				{
-					string areaName = axisName.Substring(0, separatorIndex);
-					string axisType = axisName.Substring(separatorIndex + 2);
+					string areaName = axisName[..separatorIndex];
+					string axisType = axisName[(separatorIndex + 2)..];
 					switch (Enum.Parse<AxisName>(axisType))
 					{
 						case (AxisName.X):

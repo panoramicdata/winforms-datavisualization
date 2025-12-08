@@ -191,7 +191,7 @@ internal class KagiChart : StepLineChart
 			}
 
 			// Get original Kagi series
-			Series kagiSeries = chart.Series[series.Name.Substring(19)];
+			Series kagiSeries = chart.Series[series.Name[19..]];
 			Series.MovePositionMarkers(kagiSeries, series);
 			// Copy data back to original Kagi series
 			kagiSeries.Points.Clear();
@@ -259,7 +259,7 @@ internal class KagiChart : StepLineChart
 			bool usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
 			if (usePercentage)
 			{
-				attrValue = attrValue.Substring(0, attrValue.Length - 1);
+				attrValue = attrValue[..^1];
 			}
 
 			if (usePercentage)

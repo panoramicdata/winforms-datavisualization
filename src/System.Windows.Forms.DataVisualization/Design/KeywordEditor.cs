@@ -497,7 +497,7 @@ internal class KeywordEditor : Form
 										// Get precision
 										if (_comboBoxFormat.SelectedIndex != 8 && format.Length > 0)
 										{
-											_textBoxPrecision.Text = format.Substring(1);
+											_textBoxPrecision.Text = format[1..];
 										}
 									}
 									else

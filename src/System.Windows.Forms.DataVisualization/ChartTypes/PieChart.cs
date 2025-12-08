@@ -461,7 +461,7 @@ internal class PieChart : IChartType
 			}
 
 			// Get original Renko series
-			Series pieSeries = chart.Series[series.Name.Substring(18)];
+			Series pieSeries = chart.Series[series.Name[18..]];
 
 			// Copy data back to original Pie series
 			pieSeries.Points.Clear();

@@ -313,7 +313,7 @@ internal class ErrorBarChart : IChartType
 				int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.Ordinal);
 				if (valueTypeIndex >= 0)
 				{
-					linkedSeriesName = linkedSeriesName.Substring(0, valueTypeIndex);
+					linkedSeriesName = linkedSeriesName[..valueTypeIndex];
 				}
 
 				// All linked data series from chart area which have Error bar chart type
@@ -1105,7 +1105,7 @@ internal class ErrorBarChart : IChartType
 				int valueTypeIndex = attribValue.IndexOf(":", StringComparison.Ordinal);
 				if (valueTypeIndex >= 0)
 				{
-					attribValue = attribValue.Substring(0, valueTypeIndex);
+					attribValue = attribValue[..valueTypeIndex];
 				}
 
 				// All linked data series from chart area which have Error bar chart type
@@ -1646,7 +1646,7 @@ internal class ErrorBarChart : IChartType
 			}
 
 			// Check if parameter is specified
-			typeName = typeName.Substring(errorBarType.ToString().Length);
+			typeName = typeName[errorBarType.ToString().Length..];
 			if (typeName.Length > 0)
 			{
 				// Must be followed by '(' and ends with ')'
@@ -1655,7 +1655,7 @@ internal class ErrorBarChart : IChartType
 					throw (new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType])));
 				}
 
-				typeName = typeName.Substring(1, typeName.Length - 2);
+				typeName = typeName[1..^1];
 
 
 				if (typeName.Length > 0)
@@ -1817,8 +1817,8 @@ internal class ErrorBarChart : IChartType
 		int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.Ordinal);
 		if (valueTypeIndex >= 0)
 		{
-			valueName = linkedSeriesName.Substring(valueTypeIndex + 1);
-			linkedSeriesName = linkedSeriesName.Substring(0, valueTypeIndex);
+			valueName = linkedSeriesName[(valueTypeIndex + 1)..];
+			linkedSeriesName = linkedSeriesName[..valueTypeIndex];
 		}
 
 		// Get reference to the chart control

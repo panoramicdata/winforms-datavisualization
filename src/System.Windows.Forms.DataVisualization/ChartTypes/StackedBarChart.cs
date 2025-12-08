@@ -971,7 +971,7 @@ internal class StackedBarChart : IChartType
 				int index = stackGroupName.IndexOf("__", StringComparison.Ordinal);
 				if (index >= 0)
 				{
-					stackGroupName = stackGroupName.Substring(index + 2);
+					stackGroupName = stackGroupName[(index + 2)..];
 				}
 
 				if (stackGroupName.Length > 0)

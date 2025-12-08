@@ -196,7 +196,7 @@ internal class RenkoChart : IChartType
 			}
 
 			// Get original Renko series
-			Series renkoSeries = chart.Series[series.Name.Substring(20)];
+			Series renkoSeries = chart.Series[series.Name[20..]];
 			Series.MovePositionMarkers(renkoSeries, series);
 			// Copy data back to original Renko series
 			renkoSeries.Points.Clear();
@@ -275,7 +275,7 @@ internal class RenkoChart : IChartType
 			bool usePercentage = attrValue.EndsWith("%", StringComparison.Ordinal);
 			if (usePercentage)
 			{
-				attrValue = attrValue.Substring(0, attrValue.Length - 1);
+				attrValue = attrValue[..^1];
 			}
 
 			try

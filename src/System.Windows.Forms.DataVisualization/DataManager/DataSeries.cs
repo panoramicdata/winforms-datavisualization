@@ -1153,7 +1153,7 @@ public class Series : DataPointCustomProperties
 					throw (new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result)));
 				}
 
-				format = result.Substring(keyEndIndex, formatEnd - keyEndIndex).Trim('{', '}');
+				format = result[keyEndIndex..formatEnd].Trim('{', '}');
 				keyEndIndex = formatEnd + 1;
 			}
 
@@ -1265,7 +1265,7 @@ public class Series : DataPointCustomProperties
 					throw (new InvalidOperationException(SR.ExceptionDataSeriesKeywordFormatInvalid(result)));
 				}
 
-				format = result.Substring(keyEndIndex, formatEnd - keyEndIndex).Trim('{', '}');
+				format = result[keyEndIndex..formatEnd].Trim('{', '}');
 				keyEndIndex = formatEnd + 1;
 			}
 

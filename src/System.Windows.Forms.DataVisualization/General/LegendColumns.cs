@@ -1593,8 +1593,8 @@ public class LegendCell : ChartNamedElement
 					{
 						// Insert new line character in the string
 						lineLength = 0;
-						resultString = resultString.Substring(0, charIndex) + "\n" +
-							resultString.Substring(charIndex + 1).TrimStart();
+						resultString = resultString[..charIndex] + "\n" +
+							resultString[(charIndex + 1)..].TrimStart();
 					}
 				}
 			}

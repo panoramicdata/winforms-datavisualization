@@ -447,11 +447,11 @@ internal abstract class SerializerBase
 		if (charIndex >= 0)
 		{
 			// Read value
-			string val = fontString.Substring(charIndex + 13);
+			string val = fontString[(charIndex + 13)..];
 			int commaIndex = val.IndexOf(",", StringComparison.Ordinal);
 			if (commaIndex >= 0)
 			{
-				val = val.Substring(0, commaIndex);
+				val = val[..commaIndex];
 			}
 
 			gdiCharSet = (byte)int.Parse(val, CultureInfo.InvariantCulture);
@@ -459,7 +459,7 @@ internal abstract class SerializerBase
 			// Truncate standard data string
 			if (standardData.Length > charIndex)
 			{
-				standardData = standardData.Substring(0, charIndex);
+				standardData = standardData[..charIndex];
 			}
 		}
 
@@ -471,7 +471,7 @@ internal abstract class SerializerBase
 			// Truncate standard data string
 			if (standardData.Length > charIndex)
 			{
-				standardData = standardData.Substring(0, charIndex);
+				standardData = standardData[..charIndex];
 			}
 		}
 
@@ -628,7 +628,7 @@ internal abstract class SerializerBase
 	internal string GetObjectName(object obj)
 	{
 		string name = obj.GetType().ToString();
-		return name.Substring(name.LastIndexOf('.') + 1);
+		return name[(name.LastIndexOf('.') + 1)..];
 	}
 
 	/// <summary>
@@ -934,7 +934,7 @@ internal abstract class SerializerBase
 		{
 			if (itemInfo.name.Length <= objectName.Length)
 			{
-				if (objectName.Substring(0, itemInfo.name.Length) == itemInfo.name)
+				if (objectName[..itemInfo.name.Length] == itemInfo.name)
 				{
 					type = 2;
 					return true;
@@ -1167,8 +1167,8 @@ internal abstract class SerializerBase
 					throw (new ArgumentException(SR.ExceptionChartSerializerContentStringFormatInvalid));
 				}
 
-				classInfo.name = item.Substring(0, pointIndex).Trim();
-				propertyInfo.name = item.Substring(pointIndex + 1).Trim();
+				classInfo.name = item[..pointIndex].Trim();
+				propertyInfo.name = item[(pointIndex + 1)..].Trim();
 				if (classInfo.name.Length == 0)
 				{
 					throw (new ArgumentException(SR.ExceptionChartSerializerClassNameUndefined));

@@ -50,12 +50,7 @@ public class PrintingManager : IDisposable
 	/// <param name="container">Service container reference.</param>
 	public PrintingManager(IServiceContainer container)
 	{
-		if (container == null)
-		{
-			throw (new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
-		}
-
-		_serviceContainer = container;
+		_serviceContainer = container ?? throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
 	}
 
 	/// <summary>

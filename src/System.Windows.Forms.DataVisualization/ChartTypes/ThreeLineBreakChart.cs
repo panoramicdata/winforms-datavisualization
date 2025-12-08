@@ -199,7 +199,7 @@ internal class ThreeLineBreakChart : IChartType
 			}
 
 			// Get original ThreeLineBreak series
-			Series threeLineBreakSeries = chart.Series[series.Name.Substring(29)];
+			Series threeLineBreakSeries = chart.Series[series.Name[29..]];
 			Series.MovePositionMarkers(threeLineBreakSeries, series);
 			// Copy data back to original ThreeLineBreak series
 			threeLineBreakSeries.Points.Clear();

@@ -139,7 +139,7 @@ public class DataPointComparer : IComparer<DataPoint>
 				sortBy.StartsWith("Y", StringComparison.Ordinal) &&
 				char.IsDigit(sortBy[1]))
 		{
-			_sortingValueIndex = int.Parse(sortBy.Substring(1), CultureInfo.InvariantCulture) - 1;
+			_sortingValueIndex = int.Parse(sortBy[1..], CultureInfo.InvariantCulture) - 1;
 		}
 		else
 		{
@@ -305,8 +305,8 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 				int equalSignIndex = otherAttributeNames[index].IndexOf('=');
 				if (equalSignIndex > 0)
 				{
-					otherFieldNames[index] = otherAttributeNames[index].Substring(equalSignIndex + 1);
-					otherAttributeNames[index] = otherAttributeNames[index].Substring(0, equalSignIndex);
+					otherFieldNames[index] = otherAttributeNames[index][(equalSignIndex + 1)..];
+					otherAttributeNames[index] = otherAttributeNames[index][..equalSignIndex];
 				}
 				else
 				{
@@ -317,9 +317,9 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 				int bracketIndex = otherFieldNames[index].IndexOf('{');
 				if (bracketIndex > 0 && otherFieldNames[index][^1] == '}')
 				{
-					otherValueFormat[index] = otherFieldNames[index].Substring(bracketIndex + 1);
+					otherValueFormat[index] = otherFieldNames[index][(bracketIndex + 1)..];
 					otherValueFormat[index] = otherValueFormat[index].Trim('{', '}');
-					otherFieldNames[index] = otherFieldNames[index].Substring(0, bracketIndex);
+					otherFieldNames[index] = otherFieldNames[index][..bracketIndex];
 				}
 
 				// Trim and replace new line character
@@ -2394,7 +2394,7 @@ public class DataPoint : DataPointCustomProperties
 				int yIndex;
 				try
 				{
-					yIndex = int.Parse(valueName.Substring(1), CultureInfo.InvariantCulture) - 1;
+					yIndex = int.Parse(valueName[1..], CultureInfo.InvariantCulture) - 1;
 				}
 				catch (Exception)
 				{

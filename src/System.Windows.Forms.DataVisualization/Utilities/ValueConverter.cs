@@ -54,7 +54,7 @@ internal static class ValueConverter
 				while (bracketIndex >= 0)
 				{
 					// If format is not followed by the value index
-					if (!convertionFormat.Substring(bracketIndex).StartsWith("{0:", StringComparison.Ordinal))
+					if (!convertionFormat[bracketIndex..].StartsWith("{0:", StringComparison.Ordinal))
 					{
 						// Check charcter prior to the bracket
 						if (bracketIndex >= 1 && convertionFormat.Substring(bracketIndex - 1, 1) == "{")

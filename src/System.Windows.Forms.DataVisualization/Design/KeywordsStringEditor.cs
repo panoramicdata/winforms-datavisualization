@@ -400,9 +400,9 @@ internal class KeywordsStringEditorForm : Form
 			int length = _selectedKeywordLength;
 
 			// Update currently selected kyword
-			_richTextBox.Text = _richTextBox.Text.Substring(0, start) +
+			_richTextBox.Text = _richTextBox.Text[..start] +
 				keywordEditor.Keyword +
-				_richTextBox.Text.Substring(start + length);
+				_richTextBox.Text[(start + length)..];
 			_richTextBox.SelectionStart = start + keywordEditor.Keyword.Length;
 		}
 
@@ -508,8 +508,8 @@ internal class KeywordsStringEditorForm : Form
 			int newSelectionPosition = _selectedKeywordStart;
 
 			// Remove keyword
-			string newText = _richTextBox.Text.Substring(0, _selectedKeywordStart);
-			newText += _richTextBox.Text.Substring(_selectedKeywordStart + _selectedKeywordLength);
+			string newText = _richTextBox.Text[.._selectedKeywordStart];
+			newText += _richTextBox.Text[(_selectedKeywordStart + _selectedKeywordLength)..];
 			_richTextBox.Text = newText;
 
 			// Restore cursor (selection) position
@@ -676,7 +676,7 @@ internal class KeywordsStringEditorForm : Form
 							selectionStart <= (startIndex + keywordLength));
 
 						// Show Keyword with different color
-						string tempText = resultText.Substring(0, startIndex);
+						string tempText = resultText[..startIndex];
 						string formattedKeyword = string.Empty;
 						formattedKeyword += @"\cf1";
 						if (isKeywordSelected)
@@ -703,7 +703,7 @@ internal class KeywordsStringEditorForm : Form
 
 						formattedKeyword += @"\ul0 ";
 						tempText += formattedKeyword;
-						tempText += resultText.Substring(startIndex + keywordLength);
+						tempText += resultText[(startIndex + keywordLength)..];
 						resultText = tempText;
 
 						// Adjust selection position

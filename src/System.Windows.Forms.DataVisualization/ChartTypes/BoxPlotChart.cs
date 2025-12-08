@@ -1580,8 +1580,8 @@ internal class BoxPlotChart : IChartType
 				int valueTypeIndex = linkedSeriesName.IndexOf(":", StringComparison.OrdinalIgnoreCase);
 				if (valueTypeIndex >= 0)
 				{
-					valueName = linkedSeriesName.Substring(valueTypeIndex + 1);
-					linkedSeriesName = linkedSeriesName.Substring(0, valueTypeIndex);
+					valueName = linkedSeriesName[(valueTypeIndex + 1)..];
+					linkedSeriesName = linkedSeriesName[..valueTypeIndex];
 				}
 
 				// Get reference to the chart control

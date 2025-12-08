@@ -41,12 +41,7 @@ internal class DataManager : ChartElement, IServiceProvider
 	/// <param name="container">Service container object.</param>
 	public DataManager(IServiceContainer container)
 	{
-		if (container == null)
-		{
-			throw (new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
-		}
-
-		serviceContainer = container;
+		serviceContainer = container ?? throw new ArgumentNullException(SR.ExceptionInvalidServiceContainer);
 		Common = new CommonElements(container);
 		Series = new SeriesCollection(this);
 	}
