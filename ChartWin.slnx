@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ChartSamples/ChartSamples.csproj" />
+  <Project Path="System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj" />
+</Solution>
