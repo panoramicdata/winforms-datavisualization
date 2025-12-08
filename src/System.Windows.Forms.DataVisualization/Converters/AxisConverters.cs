@@ -205,20 +205,14 @@ internal class AxisCrossingValueConverter : AxisMinMaxValueConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of standart values.
@@ -419,20 +413,14 @@ internal class AxisMinMaxAutoValueConverter : AxisMinMaxValueConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of data series names.
@@ -502,20 +490,14 @@ internal class StripLineTitleAngleConverter : Int32Converter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Fill in the list of data series names.
@@ -548,20 +530,14 @@ internal class AxisIntervalValueConverter : DoubleConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of standart values.

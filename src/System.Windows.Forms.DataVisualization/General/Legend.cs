@@ -1569,10 +1569,7 @@ public class Legend : ChartNamedElement
 	/// <summary>
 	/// Checks if legend background is selected.
 	/// </summary>
-	internal void SelectLegendBackground()
-	{
-		Common.HotRegionsList.AddHotRegion(Position.ToRectangleF(), this, ChartElementType.LegendArea, true);
-	}
+	internal void SelectLegendBackground() => Common.HotRegionsList.AddHotRegion(Position.ToRectangleF(), this, ChartElementType.LegendArea, true);
 
 	#endregion Legend position & size methods
 
@@ -1582,10 +1579,7 @@ public class Legend : ChartNamedElement
 	/// Gets maximum number of rows in all columns.
 	/// </summary>
 	/// <returns>Maximum number of rows.</returns>
-	private int GetMaximumNumberOfRows()
-	{
-		return GetMaximumNumberOfRows(_numberOfRowsPerColumn);
-	}
+	private int GetMaximumNumberOfRows() => GetMaximumNumberOfRows(_numberOfRowsPerColumn);
 
 	/// <summary>
 	/// Gets maximum number of rows in all columns.
@@ -2621,10 +2615,7 @@ public class Legend : ChartNamedElement
 	/// Determoines if this position should be serialized.
 	/// </summary>
 	/// <returns></returns>
-	internal bool ShouldSerializePosition()
-	{
-		return !Position.Auto;
-	}
+	internal bool ShouldSerializePosition() => !Position.Auto;
 
 
 	/// <summary>
@@ -5571,11 +5562,9 @@ public class LegendItem : ChartNamedElement
 	/// Invalidate chart (or just legend )when collection is changed
 	/// </summary>
 	[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "This parameter is used when compiling for the WinForms version of Chart")]
-	private void Invalidate(bool invalidateLegendOnly)
-	{
+	private void Invalidate(bool invalidateLegendOnly) =>
 		// Invalidate control
 		Legend?.Invalidate(invalidateLegendOnly);
-	}
 
 	#endregion
 

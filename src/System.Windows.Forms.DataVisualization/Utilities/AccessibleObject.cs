@@ -70,10 +70,7 @@ internal class ChartAccessibleObject(Chart chart) : Control.ControlAccessibleObj
 	/// <summary>
 	/// Indicates if chart child accessibility objects should be reset
 	/// </summary>
-	public void ResetChildren()
-	{
-		_chartAccessibleObjectList = null;
-	}
+	public void ResetChildren() => _chartAccessibleObjectList = null;
 
 	/// <summary>
 	/// Chart child count.
@@ -188,11 +185,9 @@ internal class ChartAccessibleObject(Chart chart) : Control.ControlAccessibleObj
 	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "direction"),
 	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
 	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
-	public AccessibleObject NavigateFromChild(object chartChildElement, ChartElementType chartElementType, AccessibleNavigation direction)
-	{
+	public AccessibleObject NavigateFromChild(object chartChildElement, ChartElementType chartElementType, AccessibleNavigation direction) =>
 		// Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
-		return null;
-	}
+		null;
 
 	/// <summary>
 	/// Selects child chart element.
@@ -216,11 +211,9 @@ internal class ChartAccessibleObject(Chart chart) : Control.ControlAccessibleObj
 	/// <returns>True if child is selected.</returns>
 	[Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartElementType"),
 	Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "chartChildElement")]
-	public bool IsChildSelected(object chartChildElement, ChartElementType chartElementType)
-	{
+	public bool IsChildSelected(object chartChildElement, ChartElementType chartElementType) =>
 		// Not Implemented. Requires Selection Manager code changes. Remove CodeAnalysis.SuppressMessageAttributes
-		return false;
-	}
+		false;
 
 	/// <summary>
 	/// Gets chart child element bounds position in screen coordinates
@@ -532,19 +525,13 @@ internal class ChartChildAccessibleObject : AccessibleObject
 	/// </summary>
 	/// <param name="direction">Navigation direction.</param>
 	/// <returns>Accessibility object to navigate to.</returns>
-	public override AccessibleObject Navigate(AccessibleNavigation direction)
-	{
-		return chartAccessibleObject.NavigateFromChild(chartChildObject, chartChildObjectType, direction);
-	}
+	public override AccessibleObject Navigate(AccessibleNavigation direction) => chartAccessibleObject.NavigateFromChild(chartChildObject, chartChildObjectType, direction);
 
 	/// <summary>
 	/// Selects chart child element.
 	/// </summary>
 	/// <param name="selection">Element to select.</param>
-	public override void Select(AccessibleSelection selection)
-	{
-		chartAccessibleObject.SelectChild(chartChildObject, chartChildObjectType, selection);
-	}
+	public override void Select(AccessibleSelection selection) => chartAccessibleObject.SelectChild(chartChildObject, chartChildObjectType, selection);
 
 	#endregion // Methods
 }
@@ -615,10 +602,7 @@ internal class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
 	/// Get number of chart accessible objects.
 	/// </summary>
 	/// <returns>Number of chart accessible objects.</returns>
-	public override int GetChildCount()
-	{
-		return _childList.Count;
-	}
+	public override int GetChildCount() => _childList.Count;
 
 	#endregion // Methods
 }
@@ -746,10 +730,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 	/// Get number of chart accessible objects.
 	/// </summary>
 	/// <returns>Number of chart accessible objects.</returns>
-	public override int GetChildCount()
-	{
-		return _childList.Count;
-	}
+	public override int GetChildCount() => _childList.Count;
 
 	#endregion // Methods
 }
@@ -838,10 +819,7 @@ internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
 	/// Get number of chart accessible objects.
 	/// </summary>
 	/// <returns>Number of chart accessible objects.</returns>
-	public override int GetChildCount()
-	{
-		return _childList.Count;
-	}
+	public override int GetChildCount() => _childList.Count;
 
 	#endregion // Methods
 }

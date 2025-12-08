@@ -448,10 +448,7 @@ public class Title : ChartNamedElement, IDisposable
 	/// Determoines if this position should be serialized.
 	/// </summary>
 	/// <returns></returns>
-	internal bool ShouldSerializePosition()
-	{
-		return !Position.Auto;
-	}
+	internal bool ShouldSerializePosition() => !Position.Auto;
 
 
 	/// <summary>

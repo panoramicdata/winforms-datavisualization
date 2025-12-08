@@ -64,10 +64,7 @@ internal class EmbossBorder : IBorderType
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public virtual RectangleF GetTitlePositionInBorder()
-	{
-		return RectangleF.Empty;
-	}
+	public virtual RectangleF GetTitlePositionInBorder() => RectangleF.Empty;
 
 	/// <summary>
 	/// Adjust areas rectangle coordinate to fit the 3D border.

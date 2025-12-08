@@ -150,10 +150,7 @@ public class ElementPosition : ChartElement
 	/// Convert element position into RectangleF
 	/// </summary>
 	/// <returns>RectangleF structure.</returns>
-	public RectangleF ToRectangleF()
-	{
-		return new RectangleF(_x, _y, _width, _height);
-	}
+	public RectangleF ToRectangleF() => new(_x, _y, _width, _height);
 
 	/// <summary>
 	/// Initializes ElementPosition from RectangleF

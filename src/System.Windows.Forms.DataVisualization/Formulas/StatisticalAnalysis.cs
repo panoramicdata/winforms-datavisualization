@@ -1462,10 +1462,7 @@ internal class StatisticalAnalysis : IFormula
 	/// <param name="m">First parameter for beta function</param>
 	/// <param name="n">Second parameter for beta function</param>
 	/// <returns>returns beta function</returns>
-	private double BetaFunction(double m, double n)
-	{
-		return Math.Exp(GammLn(m) + GammLn(n) - GammLn(m + n));
-	}
+	private double BetaFunction(double m, double n) => Math.Exp(GammLn(m) + GammLn(n) - GammLn(m + n));
 
 	/// <summary>
 	/// Used by betai: Evaluates continued fraction for 
@@ -1564,10 +1561,7 @@ internal class StatisticalAnalysis : IFormula
 	/// </summary>
 	/// <param name="t">T Value</param>
 	/// <returns>Standard normal density</returns>
-	private double NormalDistributionFunction(double t)
-	{
-		return 0.398942280401433 * Math.Exp(-t * t / 2);
-	}
+	private double NormalDistributionFunction(double t) => 0.398942280401433 * Math.Exp(-t * t / 2);
 
 	/// <summary>
 	/// Returns the incomplete beta function Ix(a, b).

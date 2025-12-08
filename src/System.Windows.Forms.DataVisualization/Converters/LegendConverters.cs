@@ -26,20 +26,14 @@ internal class LegendAreaNameConverter : StringConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of data series names.
@@ -175,20 +169,14 @@ internal class SizeEmptyValueConverter : Drawing.SizeConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standard values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of predefined values.
@@ -370,20 +358,14 @@ internal class IntNanValueConverter : Int32Converter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standard values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of predefined values.

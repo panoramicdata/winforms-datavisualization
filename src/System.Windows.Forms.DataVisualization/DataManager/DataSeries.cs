@@ -954,10 +954,7 @@ public class Series : DataPointCustomProperties
 	/// Returns total of the Y values.
 	/// </summary>
 	/// <returns>Y values total.</returns>
-	internal double GetTotalYValue()
-	{
-		return GetTotalYValue(0);
-	}
+	internal double GetTotalYValue() => GetTotalYValue(0);
 
 	/// <summary>
 	/// Returns total of the Y values.
@@ -1307,10 +1304,7 @@ public class Series : DataPointCustomProperties
 	/// Sorts the points in the series.
 	/// </summary>
 	/// <param name="pointSortOrder">Sorting order.</param>
-	public void Sort(PointSortOrder pointSortOrder)
-	{
-		Sort(pointSortOrder, "Y");
-	}
+	public void Sort(PointSortOrder pointSortOrder) => Sort(pointSortOrder, "Y");
 
 	/// <summary>
 	/// Sorts the points in the series using IComparer interface.
@@ -1418,10 +1412,7 @@ public class Series : DataPointCustomProperties
 	/// <summary>
 	/// Reset auto calculated series values.
 	/// </summary>
-	internal void ResetAutoValues()
-	{
-		ResetAutoValues(true);
-	}
+	internal void ResetAutoValues() => ResetAutoValues(true);
 
 	/// <summary>
 	/// Reset auto calculated series values.

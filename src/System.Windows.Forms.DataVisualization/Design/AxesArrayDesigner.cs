@@ -47,10 +47,7 @@ internal class AxesArrayEditor : ArrayEditor
 	/// </summary>
 	/// <param name="value">Value.</param>
 	/// <returns>False if can't remove.</returns>
-	protected override bool CanRemoveInstance(object value)
-	{
-		return false;
-	}
+	protected override bool CanRemoveInstance(object value) => false;
 
 	/// <summary>
 	/// Ovveride the HelpTopic property to provide different topics,
@@ -215,10 +212,7 @@ internal class DataPointCustomPropertiesConverter : TypeConverter
 	/// <returns>
 	/// true if <see cref="M:System.ComponentModel.TypeConverter.GetProperties(System.Object)"/> should be called to find the properties of this object; otherwise, false.
 	/// </returns>
-	public override bool GetPropertiesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetPropertiesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Returns a collection of properties for the type of array specified by the value parameter, using the specified context and attributes.

@@ -888,10 +888,7 @@ public partial class Axis
 	/// </summary>
 	/// <param name="axisValue">Axis value.</param>
 	/// <returns>Relative position (0-100%).</returns>
-	public double ValueToPosition(double axisValue)
-	{
-		return GetPosition(axisValue);
-	}
+	public double ValueToPosition(double axisValue) => GetPosition(axisValue);
 
 	/// <summary>
 	/// This function converts an axis value to a pixel position. 
@@ -923,10 +920,7 @@ public partial class Axis
 	/// </summary>
 	/// <param name="position">Relative position (0-100%).</param>
 	/// <returns>Axis value.</returns>
-	public double PositionToValue(double position)
-	{
-		return PositionToValue(position, true);
-	}
+	public double PositionToValue(double position) => PositionToValue(position, true);
 
 	/// <summary>
 	/// This function converts a relative position to an axis value.
@@ -1294,11 +1288,9 @@ public partial class Axis
 	/// <param name="min">Minimum</param>
 	/// <param name="max">Maximum</param>
 	/// <returns>Auto Interval</returns>
-	private double CalcInterval(double min, double max)
-	{
+	private double CalcInterval(double min, double max) =>
 		// Approximated interval value
-		return CalcInterval((max - min) / 5);
-	}
+		CalcInterval((max - min) / 5);
 
 
 	/// <summary>

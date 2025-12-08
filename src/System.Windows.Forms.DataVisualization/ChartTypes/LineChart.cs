@@ -49,10 +49,7 @@ internal class SplineChart : LineChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	#endregion
 
@@ -62,10 +59,7 @@ internal class SplineChart : LineChart
 	/// Checks if line tension is supported by the chart type.
 	/// </summary>
 	/// <returns>True if line tension is supported.</returns>
-	protected override bool IsLineTensionSupported()
-	{
-		return true;
-	}
+	protected override bool IsLineTensionSupported() => true;
 
 	/// <summary>
 	/// Fills a PointF array of data points positions.
@@ -94,10 +88,7 @@ internal class SplineChart : LineChart
 	/// Gets default line tension.
 	/// </summary>
 	/// <returns>Default line tension.</returns>
-	override protected float GetDefaultTension()
-	{
-		return 0.5f;
-	}
+	override protected float GetDefaultTension() => 0.5f;
 
 	#endregion
 }
@@ -222,10 +213,7 @@ internal class LineChart : PointChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	/// <summary>
 	/// True if chart type is stacked
@@ -276,10 +264,7 @@ internal class LineChart : PointChart
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	override public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Line;
-	}
+	override public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Line;
 
 	/// <summary>
 	/// Number of supported Y value(s) per point 
@@ -948,10 +933,7 @@ internal class LineChart : PointChart
 
 	private const long maxGDIRange = 0x800000;
 	// VSTS: 9698 - issue: the line start from X = 0 when GDI overflows (before we expected exception)
-	private static bool IsLinePointsOverflow(PointF point)
-	{
-		return point.X <= -maxGDIRange || point.X >= maxGDIRange || point.Y <= -maxGDIRange || point.Y >= maxGDIRange;
-	}
+	private static bool IsLinePointsOverflow(PointF point) => point.X <= -maxGDIRange || point.X >= maxGDIRange || point.Y <= -maxGDIRange || point.Y >= maxGDIRange;
 
 	/// <summary>
 	/// During zooming there are scenarios when the line coordinates are extremly large and
@@ -1043,19 +1025,13 @@ internal class LineChart : PointChart
 		DataPoint point,
 		Series series,
 		PointF firstPoint,
-		PointF secondPoint)
-	{
-		graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle, firstPoint, secondPoint, series.ShadowColor, series.ShadowOffset);
-	}
+		PointF secondPoint) => graph.DrawLineRel(point.Color, point.BorderWidth, point.BorderDashStyle, firstPoint, secondPoint, series.ShadowColor, series.ShadowOffset);
 
 	/// <summary>
 	/// Checks if line tension is supported by the chart type.
 	/// </summary>
 	/// <returns>True if line tension is supported.</returns>
-	protected virtual bool IsLineTensionSupported()
-	{
-		return false;
-	}
+	protected virtual bool IsLineTensionSupported() => false;
 
 	#endregion
 
@@ -1065,10 +1041,7 @@ internal class LineChart : PointChart
 	/// Gets default line tension.
 	/// </summary>
 	/// <returns>Default line tension.</returns>
-	virtual protected float GetDefaultTension()
-	{
-		return 0f;
-	}
+	virtual protected float GetDefaultTension() => 0f;
 
 	/// <summary>
 	/// Gets label position depending on the prev/next point values.
@@ -1581,10 +1554,7 @@ internal class LineChart : PointChart
 	/// <param name="selection">Selection indicator.</param>
 	/// <param name="pointsArray">Points array list.</param>
 	/// <returns>Number of loops (1 or 2).</returns>
-	virtual protected int GetPointLoopNumber(bool selection, ArrayList pointsArray)
-	{
-		return 1;
-	}
+	virtual protected int GetPointLoopNumber(bool selection, ArrayList pointsArray) => 1;
 
 	/// <summary>
 	/// Clips the top (left and right) points of the segment to plotting area.
@@ -2452,11 +2422,9 @@ internal class LineChart : PointChart
 		PointF fourthPointPosition,
 		bool clippedSegment,
 		bool clipOnTop,
-		bool clipOnBottom)
-	{
+		bool clipOnBottom) =>
 		// Implemented in area and range chart
-		return null;
-	}
+		null;
 	#endregion
 
 	#region IDisposable overrides

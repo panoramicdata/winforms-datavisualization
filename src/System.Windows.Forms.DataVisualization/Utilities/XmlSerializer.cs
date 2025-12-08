@@ -228,11 +228,9 @@ internal abstract class SerializerBase
 	/// Reset properties of the object to default values.
 	/// </summary>
 	/// <param name="objectToReset">Object to be reset.</param>
-	virtual internal void ResetObjectProperties(object objectToReset)
-	{
+	virtual internal void ResetObjectProperties(object objectToReset) =>
 		// Reset object properties
 		ResetObjectProperties(objectToReset, null, GetObjectName(objectToReset));
-	}
 
 	/// <summary>
 	/// Reset properties of the object to default values.
@@ -502,21 +500,16 @@ internal abstract class SerializerBase
 	/// </summary>
 	/// <param name="str">String to get the hash code for.</param>
 	/// <returns>String hash code.</returns>
-	internal static short GetStringHashCode(string str)
-	{
-		return (short)(hashCodeProvider.GetHashCode(str) + str.Length * 2);
-	}
+	internal static short GetStringHashCode(string str) => (short)(hashCodeProvider.GetHashCode(str) + str.Length * 2);
 
 	/// <summary>
 	/// Reads hash ID from the specified binary reader.
 	/// </summary>
 	/// <param name="reader">Binary reader to get the data from.</param>
 	/// <returns>Property name or collection member type ID.</returns>
-	internal short ReadHashID(BinaryReader reader)
-	{
+	internal short ReadHashID(BinaryReader reader) =>
 		// For later versions return ID without transformations
-		return reader.ReadInt16();
-	}
+		reader.ReadInt16();
 
 	/// <summary>
 	/// Checks if property belongs to the base class of the chart "Control".
@@ -1244,10 +1237,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="stream">The stream used to write the XML document.</param>
 
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Serialize(object objectToSerialize, Stream stream)
-	{
-		Serialize(objectToSerialize, (object)stream);
-	}
+	internal void Serialize(object objectToSerialize, Stream stream) => Serialize(objectToSerialize, (object)stream);
 
 	/// <summary>
 	/// Serialize specified object into the XML writer.
@@ -1255,10 +1245,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="xmlWriter">The XmlWriter used to write the XML document.</param>
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Serialize(object objectToSerialize, XmlWriter xmlWriter)
-	{
-		Serialize(objectToSerialize, (object)xmlWriter);
-	}
+	internal void Serialize(object objectToSerialize, XmlWriter xmlWriter) => Serialize(objectToSerialize, (object)xmlWriter);
 
 	/// <summary>
 	/// Serialize specified object into the text writer.
@@ -1266,10 +1253,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="textWriter">The TextWriter used to write the XML document.</param>
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Serialize(object objectToSerialize, TextWriter textWriter)
-	{
-		Serialize(objectToSerialize, (object)textWriter);
-	}
+	internal void Serialize(object objectToSerialize, TextWriter textWriter) => Serialize(objectToSerialize, (object)textWriter);
 
 	/// <summary>
 	/// Serialize specified object into the file.
@@ -1277,10 +1261,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="fileName">The file name used to write the XML document.</param>
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Serialize(object objectToSerialize, string fileName)
-	{
-		Serialize(objectToSerialize, (object)fileName);
-	}
+	internal void Serialize(object objectToSerialize, string fileName) => Serialize(objectToSerialize, (object)fileName);
 
 	#endregion
 
@@ -1783,10 +1764,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="stream">The stream used to read the XML document from.</param>
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Deserialize(object objectToDeserialize, Stream stream)
-	{
-		Deserialize(objectToDeserialize, (object)stream);
-	}
+	internal void Deserialize(object objectToDeserialize, Stream stream) => Deserialize(objectToDeserialize, (object)stream);
 
 	/// <summary>
 	/// Deserialize specified object from the XML reader.
@@ -1794,10 +1772,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="xmlReader">The XmlReader used to read the XML document from.</param>
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Deserialize(object objectToDeserialize, XmlReader xmlReader)
-	{
-		Deserialize(objectToDeserialize, (object)xmlReader);
-	}
+	internal void Deserialize(object objectToDeserialize, XmlReader xmlReader) => Deserialize(objectToDeserialize, (object)xmlReader);
 
 	/// <summary>
 	/// Deserialize specified object from the text reader.
@@ -1805,10 +1780,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="textReader">The TextReader used to write the XML document from.</param>
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Deserialize(object objectToDeserialize, TextReader textReader)
-	{
-		Deserialize(objectToDeserialize, (object)textReader);
-	}
+	internal void Deserialize(object objectToDeserialize, TextReader textReader) => Deserialize(objectToDeserialize, (object)textReader);
 
 	/// <summary>
 	/// Deserialize specified object from the file.
@@ -1816,10 +1788,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="fileName">The file name used to read the XML document from.</param>
 	[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal void Deserialize(object objectToDeserialize, string fileName)
-	{
-		Deserialize(objectToDeserialize, (object)fileName);
-	}
+	internal void Deserialize(object objectToDeserialize, string fileName) => Deserialize(objectToDeserialize, (object)fileName);
 
 	#endregion
 
@@ -2177,10 +2146,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToSerialize">Object to be serialized.</param>
 	/// <param name="stream">Defines the serialization destination.</param>
-	internal void Serialize(object objectToSerialize, Stream stream)
-	{
-		Serialize(objectToSerialize, new BinaryWriter(stream));
-	}
+	internal void Serialize(object objectToSerialize, Stream stream) => Serialize(objectToSerialize, new BinaryWriter(stream));
 
 	/// <summary>
 	/// Serialize specified object into different types of writers using binary format.
@@ -2762,10 +2728,7 @@ internal class BinaryFormatSerializer : SerializerBase
 	/// </summary>
 	/// <param name="objectToDeserialize">Object to be deserialized.</param>
 	/// <param name="stream">Stream to read the data from.</param>
-	public void Deserialize(object objectToDeserialize, Stream stream)
-	{
-		Deserialize(objectToDeserialize, new BinaryReader(stream));
-	}
+	public void Deserialize(object objectToDeserialize, Stream stream) => Deserialize(objectToDeserialize, new BinaryReader(stream));
 
 	/// <summary>
 	/// Deserialize object from different types of readers using binary format.

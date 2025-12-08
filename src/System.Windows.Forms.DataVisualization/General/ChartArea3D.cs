@@ -93,10 +93,7 @@ public class ChartArea3DStyle
 	/// Initialize Chart area and axes
 	/// </summary>
 	/// <param name="chartArea">Chart area object.</param>
-	internal void Initialize(ChartArea chartArea)
-	{
-		_chartArea = chartArea;
-	}
+	internal void Initialize(ChartArea chartArea) => _chartArea = chartArea;
 
 	#endregion
 
@@ -672,31 +669,23 @@ public partial class ChartArea
 	/// chart area scene is visible.
 	/// </summary>
 	/// <returns>True if bottom wall is visible.</returns>
-	internal bool IsBottomSceneWallVisible()
-	{
-		return (Area3DStyle.Inclination >= 0);
-	}
+	internal bool IsBottomSceneWallVisible() => (Area3DStyle.Inclination >= 0);
 
 	/// <summary>
 	/// Helper method which return True if main wall of the 
 	/// chart area scene is displayed on the front side.
 	/// </summary>
 	/// <returns>True if front wall is visible.</returns>
-	internal bool IsMainSceneWallOnFront()
-	{
+	internal bool IsMainSceneWallOnFront() =>
 		// Note: Not used in this version!
-		return false;
-	}
+		false;
 
 	/// <summary>
 	/// Helper method which return True if side wall of the 
 	/// chart area scene is displayed on the left side.
 	/// </summary>
 	/// <returns>True if bottom wall is visible.</returns>
-	internal bool IsSideSceneWallOnLeft()
-	{
-		return (Area3DStyle.Rotation > 0);
-	}
+	internal bool IsSideSceneWallOnLeft() => (Area3DStyle.Rotation > 0);
 
 	#endregion
 
@@ -1359,10 +1348,7 @@ public partial class ChartArea
 	/// chart area should be drawn in reversed order.
 	/// </summary>
 	/// <returns>True if series points should be drawn in reversed order.</returns>
-	internal bool DrawPointsInReverseOrder()
-	{
-		return (Area3DStyle.Rotation <= 0);
-	}
+	internal bool DrawPointsInReverseOrder() => (Area3DStyle.Rotation <= 0);
 
 	/// <summary>
 	/// Checks if points should be drawn from sides to center.

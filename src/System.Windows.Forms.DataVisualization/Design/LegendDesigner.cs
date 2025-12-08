@@ -34,10 +34,7 @@ internal class LegendItemCollectionEditor : ChartCollectionEditor
 	/// <param name="provider">Service provider.</param>
 	/// <param name="value">Calue.</param>
 	/// <returns>Object.</returns>
-	public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-	{
-		return base.EditValue(context, provider, value);
-	}
+	public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value) => base.EditValue(context, provider, value);
 
 	#endregion
 }

@@ -216,10 +216,7 @@ internal class CommonElements
 	/// </summary>
 	/// <param name="stringToParse">String to convert.</param>
 	/// <returns>Double result.</returns>
-	internal static double ParseDouble(string stringToParse)
-	{
-		return ParseDouble(stringToParse, false);
-	}
+	internal static double ParseDouble(string stringToParse) => ParseDouble(stringToParse, false);
 	/// <summary>
 	/// Converts string to double.
 	/// </summary>

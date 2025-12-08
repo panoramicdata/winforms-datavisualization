@@ -1165,17 +1165,11 @@ public class Grid
 	/// Gets axes to which this object attached to
 	/// </summary>
 	/// <returns>Axis object.</returns>
-	internal Axis GetAxis()
-	{
-		return Axis;
-	}
+	internal Axis GetAxis() => Axis;
 	/// <summary>
 	/// Invalidate chart area the axis belong to.
 	/// </summary>
-	internal void Invalidate()
-	{
-		Axis?.Invalidate();
-	}
+	internal void Invalidate() => Axis?.Invalidate();
 
 	#endregion
 

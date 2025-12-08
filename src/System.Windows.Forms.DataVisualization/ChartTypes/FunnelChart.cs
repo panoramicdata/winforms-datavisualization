@@ -347,10 +347,7 @@ internal class FunnelChart : IChartType
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	virtual public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Rectangle;
-	}
+	virtual public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Rectangle;
 
 	/// <summary>
 	/// Number of supported Y value(s) per point 
@@ -362,10 +359,7 @@ internal class FunnelChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	virtual public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	#endregion
 
@@ -599,10 +593,7 @@ internal class FunnelChart : IChartType
 	/// data point is not drawn.
 	/// </summary>
 	/// <returns>True if first point in the series should be drawn.</returns>
-	protected virtual bool ShouldDrawFirstPoint()
-	{
-		return (_funnelStyle == FunnelStyle.YIsHeight || isPyramid);
-	}
+	protected virtual bool ShouldDrawFirstPoint() => (_funnelStyle == FunnelStyle.YIsHeight || isPyramid);
 
 	/// <summary>
 	/// Draws funnel 3D square segment.
@@ -2824,10 +2815,7 @@ internal class FunnelChart : IChartType
 		Series series,
 		DataPoint point,
 		int pointIndex,
-		int yValueIndex)
-	{
-		return point.YValues[yValueIndex];
-	}
+		int yValueIndex) => point.YValues[yValueIndex];
 
 	#endregion // Y & X values related methods
 

@@ -757,10 +757,7 @@ public class VerticalLineAnnotation : LineAnnotation
 	/// Gets text annotation content size based on the text and font.
 	/// </summary>
 	/// <returns>Annotation content position.</returns>
-	override internal RectangleF GetContentPosition()
-	{
-		return new RectangleF(float.NaN, float.NaN, 0f, float.NaN);
-	}
+	override internal RectangleF GetContentPosition() => new(float.NaN, float.NaN, 0f, float.NaN);
 
 	#endregion // Content Size
 
@@ -842,10 +839,7 @@ public class HorizontalLineAnnotation : LineAnnotation
 	/// Gets text annotation content size based on the text and font.
 	/// </summary>
 	/// <returns>Annotation content position.</returns>
-	override internal RectangleF GetContentPosition()
-	{
-		return new RectangleF(float.NaN, float.NaN, float.NaN, 0f);
-	}
+	override internal RectangleF GetContentPosition() => new(float.NaN, float.NaN, float.NaN, 0f);
 
 	#endregion // Content Size
 

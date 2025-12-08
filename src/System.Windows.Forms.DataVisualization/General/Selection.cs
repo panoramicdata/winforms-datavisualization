@@ -741,10 +741,7 @@ internal class HotRegionsList : IDisposable
 	/// <param name="selectedObject">Object which present hot region</param>
 	/// <param name="type">AxisName of the object which present hot region</param>
 	/// <param name="relativeCoordinates">Coordinates for rectangle are relative</param>
-	internal void AddHotRegion(RectangleF rectArea, object selectedObject, ChartElementType type, bool relativeCoordinates)
-	{
-		AddHotRegion(rectArea, selectedObject, type, relativeCoordinates, false);
-	}
+	internal void AddHotRegion(RectangleF rectArea, object selectedObject, ChartElementType type, bool relativeCoordinates) => AddHotRegion(rectArea, selectedObject, type, relativeCoordinates, false);
 
 	/// <summary>
 	/// Add Hot region to the collection.
@@ -1700,10 +1697,7 @@ internal class Selection : IServiceProvider
 	/// <returns>Hit test result object</returns>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	internal HitTestResult HitTest(int x, int y)
-	{
-		return HitTest(x, y, false, [])[0];
-	}
+	internal HitTestResult HitTest(int x, int y) => HitTest(x, y, false, [])[0];
 
 	/// <summary>
 	/// This method performs the hit test and returns a HitTestResult object.
@@ -1714,10 +1708,7 @@ internal class Selection : IServiceProvider
 	/// <returns>Hit test result object</returns>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	public HitTestResult HitTest(int x, int y, bool ignoreTransparent)
-	{
-		return HitTest(x, y, ignoreTransparent, [])[0];
-	}
+	public HitTestResult HitTest(int x, int y, bool ignoreTransparent) => HitTest(x, y, ignoreTransparent, [])[0];
 
 	/// <summary>
 	/// This method performs the hit test and returns a HitTestResult object.
@@ -1728,10 +1719,7 @@ internal class Selection : IServiceProvider
 	/// <returns>Hit test result object</returns>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	public HitTestResult HitTest(int x, int y, ChartElementType requestedElement)
-	{
-		return HitTest(x, y, false, requestedElement)[0];
-	}
+	public HitTestResult HitTest(int x, int y, ChartElementType requestedElement) => HitTest(x, y, false, requestedElement)[0];
 
 	/// <summary>
 	/// Checks if chart element associated with hot region has transparent background.
@@ -2521,10 +2509,7 @@ internal class Selection : IServiceProvider
 	/// <returns>
 	/// 	<c>true</c> if the chart area is in 3D mode; otherwise, <c>false</c>.
 	/// </returns>
-	private bool IsArea3D(ChartArea area)
-	{
-		return area.Area3DStyle.Enable3D && !IsChartAreaCircular(area) && area.matrix3D != null && area.matrix3D.IsInitialized();
-	}
+	private bool IsArea3D(ChartArea area) => area.Area3DStyle.Enable3D && !IsChartAreaCircular(area) && area.matrix3D != null && area.matrix3D.IsInitialized();
 
 	/// <summary>
 	/// Gets the series markers.
@@ -2846,10 +2831,7 @@ internal class Selection : IServiceProvider
 	/// </summary>
 	/// <param name="path">The path.</param>
 	/// <returns>List of PointF.</returns>
-	private ArrayList GetRegionMarkers(GraphicsPath path)
-	{
-		return new ArrayList(path.PathPoints);
-	}
+	private ArrayList GetRegionMarkers(GraphicsPath path) => new(path.PathPoints);
 
 	/// <summary>
 	/// Calculates a DataPoint of 3D area into PointF to draw.

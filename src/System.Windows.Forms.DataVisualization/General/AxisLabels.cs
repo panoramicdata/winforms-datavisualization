@@ -167,14 +167,11 @@ public partial class Axis
 	/// Gets the other (primary/secondary) axis.
 	/// </summary>
 	/// <returns></returns>
-	internal Axis GetOtherTypeAxis()
-	{
-		return ChartArea.GetAxis(
+	internal Axis GetOtherTypeAxis() => ChartArea.GetAxis(
 				axisType,
 				GetAxisType() == AxisType.Primary ? AxisType.Secondary : AxisType.Primary,
 				string.Empty
 			);
-	}
 
 	/// <summary>
 	/// Checks if the other (primary/secondary) axis has custom labels labels.

@@ -336,10 +336,7 @@ internal class StackedAreaChart : AreaChart
 	/// Gets default line tension.
 	/// </summary>
 	/// <returns>Line tension.</returns>
-	override protected float GetDefaultTension()
-	{
-		return 0f;
-	}
+	override protected float GetDefaultTension() => 0f;
 
 	#endregion
 
@@ -360,10 +357,7 @@ internal class StackedAreaChart : AreaChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	#endregion
 

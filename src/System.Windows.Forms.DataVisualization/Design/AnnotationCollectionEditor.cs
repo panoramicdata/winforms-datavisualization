@@ -35,9 +35,7 @@ internal class AnnotationCollectionEditor : ChartCollectionEditor
 	/// Gets the data types that this collection editor can contain.
 	/// </summary>
 	/// <returns>An array of data types that this collection can contain.</returns>
-	protected override Type[] CreateNewItemTypes()
-	{
-		return [
+	protected override Type[] CreateNewItemTypes() => [
 				typeof(LineAnnotation),
 				typeof(VerticalLineAnnotation),
 				typeof(HorizontalLineAnnotation),
@@ -52,7 +50,6 @@ internal class AnnotationCollectionEditor : ChartCollectionEditor
 				typeof(ImageAnnotation),
 				typeof(AnnotationGroup)
 			];
-	}
 
 	/// <summary>
 	/// Create annotation instance in the editor 

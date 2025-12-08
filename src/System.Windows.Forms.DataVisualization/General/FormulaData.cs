@@ -658,10 +658,7 @@ public class DataFormula
 	/// <param name="inputSeries">Array of Data Series</param>
 	/// <param name="valueIndex">Array with indexes which represent value from data point: 0 = X, 1 = Y, 2 = Y2, 3 = Y3</param>
 	/// <param name="output">Jagged Arrays of doubles</param>
-	private void GetDoubleArray(Series[] inputSeries, int[] valueIndex, out double[][] output)
-	{
-		GetDoubleArray(inputSeries, valueIndex, out output, false);
-	}
+	private void GetDoubleArray(Series[] inputSeries, int[] valueIndex, out double[][] output) => GetDoubleArray(inputSeries, valueIndex, out output, false);
 
 	/// <summary>
 	/// Returns Jagged Arrays of doubles from array of series. 
@@ -1139,10 +1136,7 @@ public class DataFormula
 	/// <param name="formulaName">Formula Name</param>
 	/// <param name="inputSeries">Input series</param>
 	[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-	public void FinancialFormula(FinancialFormula formulaName, Series inputSeries)
-	{
-		FinancialFormula(formulaName, inputSeries, inputSeries);
-	}
+	public void FinancialFormula(FinancialFormula formulaName, Series inputSeries) => FinancialFormula(formulaName, inputSeries, inputSeries);
 
 	/// <summary>
 	/// This method calls a method from a formula module with 
@@ -1152,10 +1146,7 @@ public class DataFormula
 	/// <param name="inputSeries">Input series</param>
 	/// <param name="outputSeries">Output series</param>
 	[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-	public void FinancialFormula(FinancialFormula formulaName, Series inputSeries, Series outputSeries)
-	{
-		FinancialFormula(formulaName, "", inputSeries, outputSeries);
-	}
+	public void FinancialFormula(FinancialFormula formulaName, Series inputSeries, Series outputSeries) => FinancialFormula(formulaName, "", inputSeries, outputSeries);
 
 
 	/// <summary>
@@ -1184,10 +1175,7 @@ public class DataFormula
 	/// <param name="formulaName">Formula Name</param>
 	/// <param name="inputSeries">Comma separated list of input series names and optional X and Y values names.</param>
 	[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-	public void FinancialFormula(FinancialFormula formulaName, string inputSeries)
-	{
-		FinancialFormula(formulaName, inputSeries, inputSeries);
-	}
+	public void FinancialFormula(FinancialFormula formulaName, string inputSeries) => FinancialFormula(formulaName, inputSeries, inputSeries);
 
 
 	/// <summary>
@@ -1198,10 +1186,7 @@ public class DataFormula
 	/// <param name="inputSeries">Comma separated list of input series names and optional X and Y values names.</param>
 	/// <param name="outputSeries">Comma separated list of output series names and optional X and Y values names.</param>
 	[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-	public void FinancialFormula(FinancialFormula formulaName, string inputSeries, string outputSeries)
-	{
-		FinancialFormula(formulaName, "", inputSeries, outputSeries);
-	}
+	public void FinancialFormula(FinancialFormula formulaName, string inputSeries, string outputSeries) => FinancialFormula(formulaName, "", inputSeries, outputSeries);
 
 	/// <summary>
 	/// This method calls a method from a formula module with 

@@ -778,10 +778,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// <returns>
 	/// Index of the newly added object.
 	/// </returns>
-	public int Add(AxisScaleSegment segment)
-	{
-		return List.Add(segment);
-	}
+	public int Add(AxisScaleSegment segment) => List.Add(segment);
 
 
 	#endregion // Collection Add and Insert methods
@@ -796,10 +793,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// <remarks>
 	/// This is an internal method and should not be part of the documentation.
 	/// </remarks>
-	protected override void OnInsertComplete(int index, object value)
-	{
-		((AxisScaleSegment)value).axis = _axis;
-	}
+	protected override void OnInsertComplete(int index, object value) => ((AxisScaleSegment)value).axis = _axis;
 
 	/// <summary>
 	/// After items is set.
@@ -810,10 +804,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// <remarks>
 	/// This is an internal method and should not be part of the documentation.
 	/// </remarks>
-	protected override void OnSetComplete(int index, object oldValue, object newValue)
-	{
-		((AxisScaleSegment)newValue).axis = _axis;
-	}
+	protected override void OnSetComplete(int index, object oldValue, object newValue) => ((AxisScaleSegment)newValue).axis = _axis;
 
 	#endregion
 
@@ -824,10 +815,7 @@ internal class AxisScaleSegmentCollection : CollectionBase
 	/// Set tot NULL to reset.
 	/// </summary>
 	/// <param name="segment"></param>
-	internal void EnforceSegment(AxisScaleSegment segment)
-	{
-		_enforcedSegment = segment;
-	}
+	internal void EnforceSegment(AxisScaleSegment segment) => _enforcedSegment = segment;
 
 	/// <summary>
 	/// Find axis scale segment that should be used to translate axis value to relative coordinates.

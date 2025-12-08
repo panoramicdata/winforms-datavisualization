@@ -80,10 +80,7 @@ public partial class ChartGraphics
 		Pen pen,
 		PointF pt1,
 		PointF pt2
-		)
-	{
-		RenderingObject.DrawLine(pen, pt1, pt2);
-	}
+		) => RenderingObject.DrawLine(pen, pt1, pt2);
 
 	/// <summary>
 	/// Draws a line connecting the two points specified by coordinate pairs.
@@ -99,10 +96,7 @@ public partial class ChartGraphics
 		float y1,
 		float x2,
 		float y2
-		)
-	{
-		RenderingObject.DrawLine(pen, x1, y1, x2, y2);
-	}
+		) => RenderingObject.DrawLine(pen, x1, y1, x2, y2);
 
 	/// <summary>
 	/// Draws the specified portion of the specified Image object at the specified location and with the specified size.
@@ -124,9 +118,7 @@ public partial class ChartGraphics
 		int srcHeight,
 		GraphicsUnit srcUnit,
 		ImageAttributes imageAttr
-		)
-	{
-		RenderingObject.DrawImage(
+		) => RenderingObject.DrawImage(
 			image,
 			destRect,
 			srcX,
@@ -136,7 +128,6 @@ public partial class ChartGraphics
 			srcUnit,
 			imageAttr
 			);
-	}
 
 	/// <summary>
 	/// Draws an ellipse defined by a bounding rectangle specified by 
@@ -153,10 +144,7 @@ public partial class ChartGraphics
 		float y,
 		float width,
 		float height
-		)
-	{
-		RenderingObject.DrawEllipse(pen, x, y, width, height);
-	}
+		) => RenderingObject.DrawEllipse(pen, x, y, width, height);
 
 	/// <summary>
 	/// Draws a cardinal spline through a specified array of PointF structures 
@@ -247,10 +235,7 @@ public partial class ChartGraphics
 		int y,
 		int width,
 		int height
-		)
-	{
-		RenderingObject.DrawRectangle(pen, x, y, width, height);
-	}
+		) => RenderingObject.DrawRectangle(pen, x, y, width, height);
 
 	/// <summary>
 	/// Draws a polygon defined by an array of PointF structures.
@@ -260,10 +245,7 @@ public partial class ChartGraphics
 	internal void DrawPolygon(
 		Pen pen,
 		PointF[] points
-		)
-	{
-		RenderingObject.DrawPolygon(pen, points);
-	}
+		) => RenderingObject.DrawPolygon(pen, points);
 
 	/// <summary>
 	/// Draws the specified text string in the specified rectangle with the specified Brush and Font objects using the formatting properties of the specified StringFormat object.
@@ -352,10 +334,7 @@ public partial class ChartGraphics
 		float srcHeight,
 		GraphicsUnit srcUnit,
 		ImageAttributes imageAttrs
-		)
-	{
-		RenderingObject.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttrs);
-	}
+		) => RenderingObject.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttrs);
 
 	/// <summary>
 	/// Draws a rectangle specified by a coordinate pair, a width, and a height.
@@ -371,10 +350,7 @@ public partial class ChartGraphics
 		float y,
 		float width,
 		float height
-		)
-	{
-		RenderingObject.DrawRectangle(pen, x, y, width, height);
-	}
+		) => RenderingObject.DrawRectangle(pen, x, y, width, height);
 
 	/// <summary>
 	/// Draws a GraphicsPath object.
@@ -414,10 +390,7 @@ public partial class ChartGraphics
 		float height,
 		float startAngle,
 		float sweepAngle
-		)
-	{
-		RenderingObject.DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
-	}
+		) => RenderingObject.DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
 
 	/// <summary>
 	/// Draws an ellipse defined by a bounding RectangleF.
@@ -427,10 +400,7 @@ public partial class ChartGraphics
 	internal void DrawEllipse(
 		Pen pen,
 		RectangleF rect
-		)
-	{
-		RenderingObject.DrawEllipse(pen, rect);
-	}
+		) => RenderingObject.DrawEllipse(pen, rect);
 
 	/// <summary>
 	/// Draws a series of line segments that connect an array of PointF structures.
@@ -440,10 +410,7 @@ public partial class ChartGraphics
 	internal void DrawLines(
 		Pen pen,
 		PointF[] points
-		)
-	{
-		RenderingObject.DrawLines(pen, points);
-	}
+		) => RenderingObject.DrawLines(pen, points);
 
 	#endregion // Drawing Methods
 
@@ -458,10 +425,7 @@ public partial class ChartGraphics
 	internal void FillEllipse(
 		Brush brush,
 		RectangleF rect
-		)
-	{
-		RenderingObject.FillEllipse(brush, rect);
-	}
+		) => RenderingObject.FillEllipse(brush, rect);
 
 	/// <summary>
 	/// Fills the interior of a GraphicsPath object.
@@ -491,10 +455,7 @@ public partial class ChartGraphics
 	internal void FillRegion(
 		Brush brush,
 		Region region
-		)
-	{
-		RenderingObject.FillRegion(brush, region);
-	}
+		) => RenderingObject.FillRegion(brush, region);
 
 	/// <summary>
 	/// Fills the interior of a rectangle specified by a RectangleF structure.
@@ -504,10 +465,7 @@ public partial class ChartGraphics
 	internal void FillRectangle(
 		Brush brush,
 		RectangleF rect
-		)
-	{
-		RenderingObject.FillRectangle(brush, rect);
-	}
+		) => RenderingObject.FillRectangle(brush, rect);
 
 	/// <summary>
 	/// Fills the interior of a rectangle specified by a pair of coordinates, a width, and a height.
@@ -523,10 +481,7 @@ public partial class ChartGraphics
 		float y,
 		float width,
 		float height
-		)
-	{
-		RenderingObject.FillRectangle(brush, x, y, width, height);
-	}
+		) => RenderingObject.FillRectangle(brush, x, y, width, height);
 
 	/// <summary>
 	/// Fills the interior of a polygon defined by an array of points specified by PointF structures .
@@ -536,10 +491,7 @@ public partial class ChartGraphics
 	internal void FillPolygon(
 		Brush brush,
 		PointF[] points
-		)
-	{
-		RenderingObject.FillPolygon(brush, points);
-	}
+		) => RenderingObject.FillPolygon(brush, points);
 
 	/// <summary>
 	/// Fills the interior of a pie section defined by an ellipse 
@@ -561,10 +513,7 @@ public partial class ChartGraphics
 		float height,
 		float startAngle,
 		float sweepAngle
-		)
-	{
-		RenderingObject.FillPie(brush, x, y, width, height, startAngle, sweepAngle);
-	}
+		) => RenderingObject.FillPie(brush, x, y, width, height, startAngle, sweepAngle);
 
 	#endregion // Filling Methods
 
@@ -575,19 +524,13 @@ public partial class ChartGraphics
 	/// </summary>
 	/// <param name="url">The location of the referenced object, expressed as a URI reference.</param>
 	/// <param name="title">Title which could be used for tooltips.</param>
-	internal void StartHotRegion(string url, string title)
-	{
-		RenderingObject.BeginSelection(url, title);
-	}
+	internal void StartHotRegion(string url, string title) => RenderingObject.BeginSelection(url, title);
 
 	/// <summary>
 	/// This method starts SVG Selection mode
 	/// </summary>
 	/// <param name="point">Data Point which properties are used for SVG selection</param>
-	internal void StartHotRegion(DataPoint point)
-	{
-		StartHotRegion(point, false);
-	}
+	internal void StartHotRegion(DataPoint point) => StartHotRegion(point, false);
 
 	/// <summary>
 	/// This method starts SVG Selection mode
@@ -610,10 +553,7 @@ public partial class ChartGraphics
 	/// <summary>
 	/// This method stops SVG Selection mode
 	/// </summary>
-	internal void EndHotRegion()
-	{
-		RenderingObject.EndSelection();
-	}
+	internal void EndHotRegion() => RenderingObject.EndSelection();
 
 	/// <summary>
 	/// Measures the specified string when drawn with the specified 
@@ -629,10 +569,7 @@ public partial class ChartGraphics
 		Font font,
 		SizeF layoutArea,
 		StringFormat stringFormat
-		)
-	{
-		return RenderingObject.MeasureString(text, font, layoutArea, stringFormat);
-	}
+		) => RenderingObject.MeasureString(text, font, layoutArea, stringFormat);
 
 	/// <summary>
 	/// Measures the specified string when drawn with the specified 
@@ -644,19 +581,13 @@ public partial class ChartGraphics
 	internal SizeF MeasureString(
 		string text,
 		Font font
-		)
-	{
-		return RenderingObject.MeasureString(text, font);
-	}
+		) => RenderingObject.MeasureString(text, font);
 
 	/// <summary>
 	/// Saves the current state of this Graphics object and identifies the saved state with a GraphicsState object.
 	/// </summary>
 	/// <returns>This method returns a GraphicsState object that represents the saved state of this Graphics object.</returns>
-	internal GraphicsState Save()
-	{
-		return RenderingObject.Save();
-	}
+	internal GraphicsState Save() => RenderingObject.Save();
 
 	/// <summary>
 	/// Restores the state of this Graphics object to the state represented by a GraphicsState object.
@@ -664,27 +595,18 @@ public partial class ChartGraphics
 	/// <param name="gstate">GraphicsState object that represents the state to which to restore this Graphics object.</param>
 	internal void Restore(
 		GraphicsState gstate
-		)
-	{
-		RenderingObject.Restore(gstate);
-	}
+		) => RenderingObject.Restore(gstate);
 
 	/// <summary>
 	/// Resets the clip region of this Graphics object to an infinite region.
 	/// </summary>
-	internal void ResetClip()
-	{
-		RenderingObject.ResetClip();
-	}
+	internal void ResetClip() => RenderingObject.ResetClip();
 
 	/// <summary>
 	/// Sets the clipping region of this Graphics object to the rectangle specified by a RectangleF structure.
 	/// </summary>
 	/// <param name="rect">RectangleF structure that represents the new clip region.</param>
-	internal void SetClipAbs(RectangleF rect)
-	{
-		RenderingObject.SetClip(rect);
-	}
+	internal void SetClipAbs(RectangleF rect) => RenderingObject.SetClip(rect);
 
 	/// <summary>
 	/// Prepends the specified translation to the transformation matrix of this Graphics object.
@@ -694,10 +616,7 @@ public partial class ChartGraphics
 	internal void TranslateTransform(
 		float dx,
 		float dy
-		)
-	{
-		RenderingObject.TranslateTransform(dx, dy);
-	}
+		) => RenderingObject.TranslateTransform(dx, dy);
 
 	#endregion // Other Methods
 

@@ -949,10 +949,7 @@ internal class KagiChart : StepLineChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	#endregion
 
 	#region Painting and selection methods

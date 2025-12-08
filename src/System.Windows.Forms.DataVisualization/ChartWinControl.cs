@@ -921,10 +921,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Method resets custom colors array. Internal use only.
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	internal void ResetPaletteCustomColors()
-	{
-		PaletteCustomColors = [];
-	}
+	internal void ResetPaletteCustomColors() => PaletteCustomColors = [];
 
 	/// <summary>
 	/// Method resets custom colors array. Internal use only.
@@ -1875,19 +1872,13 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Loads chart appearance template from file.
 	/// </summary>
 	/// <param name="name">Template file name to load from.</param>
-	public void LoadTemplate(string name)
-	{
-		chartPicture.LoadTemplate(name);
-	}
+	public void LoadTemplate(string name) => chartPicture.LoadTemplate(name);
 
 	/// <summary>
 	/// Loads chart appearance template from stream.
 	/// </summary>
 	/// <param name="stream">Template stream to load from.</param>
-	public void LoadTemplate(Stream stream)
-	{
-		chartPicture.LoadTemplate(stream);
-	}
+	public void LoadTemplate(Stream stream) => chartPicture.LoadTemplate(stream);
 
 	/// <summary>
 	/// Applies palette colors to series or data points.
@@ -1924,10 +1915,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Checks if control is in design mode.
 	/// </summary>
 	/// <returns>True if control is in design mode.</returns>
-	internal bool IsDesignMode()
-	{
-		return DesignMode;
-	}
+	internal bool IsDesignMode() => DesignMode;
 
 	/// <summary>
 	/// Reset auto calculated chart properties values to "Auto".
@@ -1956,10 +1944,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// <returns>Hit test result object</returns>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	public HitTestResult HitTest(int x, int y)
-	{
-		return selection.HitTest(x, y);
-	}
+	public HitTestResult HitTest(int x, int y) => selection.HitTest(x, y);
 
 	/// <summary>
 	/// This method performs the hit test and returns a HitTestResult object.
@@ -1970,10 +1955,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// <returns>Hit test result object</returns>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	public HitTestResult HitTest(int x, int y, bool ignoreTransparent)
-	{
-		return selection.HitTest(x, y, ignoreTransparent);
-	}
+	public HitTestResult HitTest(int x, int y, bool ignoreTransparent) => selection.HitTest(x, y, ignoreTransparent);
 
 	/// <summary>
 	/// This method performs the hit test and returns a HitTestResult object.
@@ -1984,10 +1966,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// <returns>Hit test result object</returns>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	public HitTestResult HitTest(int x, int y, ChartElementType requestedElement)
-	{
-		return selection.HitTest(x, y, requestedElement);
-	}
+	public HitTestResult HitTest(int x, int y, ChartElementType requestedElement) => selection.HitTest(x, y, requestedElement);
 
 	/// <summary>
 	/// Call this method to determine the  chart element,
@@ -2028,10 +2007,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// any).</remarks>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	public HitTestResult[] HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElement)
-	{
-		return selection.HitTest(x, y, ignoreTransparent, requestedElement);
-	}
+	public HitTestResult[] HitTest(int x, int y, bool ignoreTransparent, params ChartElementType[] requestedElement) => selection.HitTest(x, y, ignoreTransparent, requestedElement);
 
 
 	/// <summary>
@@ -2048,10 +2024,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// with <paramref name="element"/> then the result will contain empty array of marker points. 
 	/// The marker points are sorted clockwize.
 	/// </remarks>
-	public ChartElementOutline GetChartElementOutline(object element, ChartElementType elementType)
-	{
-		return selection.GetChartElementOutline(element, elementType);
-	}
+	public ChartElementOutline GetChartElementOutline(object element, ChartElementType elementType) => selection.GetChartElementOutline(element, elementType);
 
 	#endregion
 
@@ -2091,11 +2064,9 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// <summary>
 	/// Signals the object that initialization is starting.
 	/// </summary>
-	public void BeginInit()
-	{
+	public void BeginInit() =>
 		// Disable control invalidation
 		disableInvalidates = true;
-	}
 
 	/// <summary>
 	/// Signals the object that initialization is complete.
@@ -2132,10 +2103,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Mouse button pressed in the control.
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected override void OnMouseDown(MouseEventArgs e)
-	{
-		OnChartMouseDown(e);
-	}
+	protected override void OnMouseDown(MouseEventArgs e) => OnChartMouseDown(e);
 
 	/// <summary>
 	/// Mouse button pressed in the control.
@@ -2182,10 +2150,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Mouse button up in the control.
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected override void OnMouseUp(MouseEventArgs e)
-	{
-		OnChartMouseUp(e);
-	}
+	protected override void OnMouseUp(MouseEventArgs e) => OnChartMouseUp(e);
 
 	/// <summary>
 	/// Mouse button up in the control.
@@ -2224,10 +2189,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Mouse moved in the control.
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected override void OnMouseMove(MouseEventArgs e)
-	{
-		OnChartMouseMove(e);
-	}
+	protected override void OnMouseMove(MouseEventArgs e) => OnChartMouseMove(e);
 
 	/// <summary>
 	/// Mouse moved in the control.
@@ -2316,10 +2278,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Cursor event arguments.</param>
-	internal void OnGetToolTipText(ToolTipEventArgs arguments)
-	{
-		GetToolTipText?.Invoke(this, arguments);
-	}
+	internal void OnGetToolTipText(ToolTipEventArgs arguments) => GetToolTipText?.Invoke(this, arguments);
 
 	#endregion
 
@@ -2357,38 +2316,25 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Cursor event arguments.</param>
-	internal void OnCursorPositionChanging(CursorEventArgs arguments)
-	{
-		CursorPositionChanging?.Invoke(this, arguments);
-	}
+	internal void OnCursorPositionChanging(CursorEventArgs arguments) => CursorPositionChanging?.Invoke(this, arguments);
 
 	/// <summary>
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Cursor event arguments.</param>
-	internal void OnCursorPositionChanged(CursorEventArgs arguments)
-	{
-		CursorPositionChanged?.Invoke(this, arguments);
-	}
+	internal void OnCursorPositionChanged(CursorEventArgs arguments) => CursorPositionChanged?.Invoke(this, arguments);
 
 	/// <summary>
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Cursor event arguments.</param>
-	internal void OnSelectionRangeChanging(CursorEventArgs arguments)
-	{
-		SelectionRangeChanging?.Invoke(this, arguments);
-	}
+	internal void OnSelectionRangeChanging(CursorEventArgs arguments) => SelectionRangeChanging?.Invoke(this, arguments);
 
 	/// <summary>
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Cursor event arguments.</param>
-	internal void OnSelectionRangeChanged(CursorEventArgs arguments)
-	{
-
-		SelectionRangeChanged?.Invoke(this, arguments);
-	}
+	internal void OnSelectionRangeChanged(CursorEventArgs arguments) => SelectionRangeChanged?.Invoke(this, arguments);
 
 	#endregion
 
@@ -2413,19 +2359,13 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Axis scaleView event arguments.</param>
-	internal void OnAxisViewChanging(ViewEventArgs arguments)
-	{
-		AxisViewChanging?.Invoke(this, arguments);
-	}
+	internal void OnAxisViewChanging(ViewEventArgs arguments) => AxisViewChanging?.Invoke(this, arguments);
 
 	/// <summary>
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Axis scaleView event arguments.</param>
-	internal void OnAxisViewChanged(ViewEventArgs arguments)
-	{
-		AxisViewChanged?.Invoke(this, arguments);
-	}
+	internal void OnAxisViewChanged(ViewEventArgs arguments) => AxisViewChanged?.Invoke(this, arguments);
 
 	#endregion
 
@@ -2443,10 +2383,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Calls event delegate.
 	/// </summary>
 	/// <param name="arguments">Axis scroll bar event arguments.</param>
-	internal void OnAxisScrollBarClicked(ScrollBarEventArgs arguments)
-	{
-		AxisScrollBarClicked?.Invoke(this, arguments);
-	}
+	internal void OnAxisScrollBarClicked(ScrollBarEventArgs arguments) => AxisScrollBarClicked?.Invoke(this, arguments);
 
 	#endregion
 
@@ -2471,40 +2408,28 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// This event is fired for elements like: ChartPicture, ChartArea and Legend
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected virtual void OnPrePaint(ChartPaintEventArgs e)
-	{
-		PrePaint?.Invoke(this, e);
-	}
+	protected virtual void OnPrePaint(ChartPaintEventArgs e) => PrePaint?.Invoke(this, e);
 
 	/// <summary>
 	/// Fires when chart element backround must be drawn. 
 	/// This event is fired for elements like: ChartPicture, ChartArea and Legend
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	internal void CallOnPrePaint(ChartPaintEventArgs e)
-	{
-		OnPrePaint(e);
-	}
+	internal void CallOnPrePaint(ChartPaintEventArgs e) => OnPrePaint(e);
 
 	/// <summary>
 	/// Fires when chart element must be drawn. 
 	/// This event is fired for elements like: ChartPicture, ChartArea and Legend
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected virtual void OnPostPaint(ChartPaintEventArgs e)
-	{
-		PostPaint?.Invoke(this, e);
-	}
+	protected virtual void OnPostPaint(ChartPaintEventArgs e) => PostPaint?.Invoke(this, e);
 
 	/// <summary>
 	/// Fires when chart element must be drawn. 
 	/// This event is fired for elements like: ChartPicture, ChartArea and Legend
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	internal void CallOnPostPaint(ChartPaintEventArgs e)
-	{
-		OnPostPaint(e);
-	}
+	internal void CallOnPostPaint(ChartPaintEventArgs e) => OnPostPaint(e);
 
 	#endregion
 
@@ -2525,18 +2450,12 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	[
 	SRDescription("DescriptionAttributeChart_OnCustomize")
 	]
-	protected virtual void OnCustomize()
-	{
-		Customize?.Invoke(this, EventArgs.Empty);
-	}
+	protected virtual void OnCustomize() => Customize?.Invoke(this, EventArgs.Empty);
 
 	/// <summary>
 	/// Fires when all chart data is prepared to be customized before drawing. 
 	/// </summary>
-	internal void CallOnCustomize()
-	{
-		OnCustomize();
-	}
+	internal void CallOnCustomize() => OnCustomize();
 
 	/// <summary>
 	/// Use this event to customize chart legend.
@@ -2553,18 +2472,12 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	[
 		SRDescription("DescriptionAttributeChart_OnCustomizeLegend")
 	]
-	protected virtual void OnCustomizeLegend(LegendItemsCollection legendItems, string legendName)
-	{
-		CustomizeLegend?.Invoke(this, new CustomizeLegendEventArgs(legendItems, legendName));
-	}
+	protected virtual void OnCustomizeLegend(LegendItemsCollection legendItems, string legendName) => CustomizeLegend?.Invoke(this, new CustomizeLegendEventArgs(legendItems, legendName));
 
 	/// <summary>
 	/// Fires when all chart data is prepared to be customized before drawing. 
 	/// </summary>
-	internal void CallOnCustomizeLegend(LegendItemsCollection legendItems, string legendName)
-	{
-		OnCustomizeLegend(legendItems, legendName);
-	}
+	internal void CallOnCustomizeLegend(LegendItemsCollection legendItems, string legendName) => OnCustomizeLegend(legendItems, legendName);
 	#endregion
 
 	#region Annotation events
@@ -2582,10 +2495,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Fires when annotation text is changed.
 	/// </summary>
 	/// <param name="annotation">Annotation which text was changed.</param>
-	internal void OnAnnotationTextChanged(Annotation annotation)
-	{
-		AnnotationTextChanged?.Invoke(annotation, EventArgs.Empty);
-	}
+	internal void OnAnnotationTextChanged(Annotation annotation) => AnnotationTextChanged?.Invoke(annotation, EventArgs.Empty);
 
 	/// <summary>
 	/// Fires when selected annotation changes. 
@@ -2627,28 +2537,19 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Fires when annotation is placed by the user on the chart.
 	/// </summary>
 	/// <param name="annotation">Annotation which was placed.</param>
-	internal void OnAnnotationPlaced(Annotation annotation)
-	{
-		AnnotationPlaced?.Invoke(annotation, EventArgs.Empty);
-	}
+	internal void OnAnnotationPlaced(Annotation annotation) => AnnotationPlaced?.Invoke(annotation, EventArgs.Empty);
 
 	/// <summary>
 	/// Fires when selected annotation changes. 
 	/// </summary>
 	/// <param name="annotation">Annotation which have it's selection changed.</param>
-	internal void OnAnnotationSelectionChanged(Annotation annotation)
-	{
-		AnnotationSelectionChanged?.Invoke(annotation, EventArgs.Empty);
-	}
+	internal void OnAnnotationSelectionChanged(Annotation annotation) => AnnotationSelectionChanged?.Invoke(annotation, EventArgs.Empty);
 
 	/// <summary>
 	/// Fires when annotation position was changed.
 	/// </summary>
 	/// <param name="annotation">Annotation which have it's position changed.</param>
-	internal void OnAnnotationPositionChanged(Annotation annotation)
-	{
-		AnnotationPositionChanged?.Invoke(annotation, EventArgs.Empty);
-	}
+	internal void OnAnnotationPositionChanged(Annotation annotation) => AnnotationPositionChanged?.Invoke(annotation, EventArgs.Empty);
 
 	/// <summary>
 	/// Fires when annotation position is changing.
@@ -2673,18 +2574,12 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// <summary>
 	/// Data binds control to the selected data source.
 	/// </summary>
-	public void DataBind()
-	{
-		chartPicture.DataBind();
-	}
+	public void DataBind() => chartPicture.DataBind();
 
 	/// <summary>
 	/// Aligns data points using their axis labels.
 	/// </summary>
-	public void AlignDataPointsByAxisLabel()
-	{
-		chartPicture.AlignDataPointsByAxisLabel(false, PointSortOrder.Ascending);
-	}
+	public void AlignDataPointsByAxisLabel() => chartPicture.AlignDataPointsByAxisLabel(false, PointSortOrder.Ascending);
 
 	/// <summary>
 	/// Aligns data points using their axis labels.
@@ -2733,10 +2628,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// Aligns data points using their axis labels.
 	/// </summary>
 	/// <param name="sortingOrder">Points sorting order by axis labels.</param>
-	public void AlignDataPointsByAxisLabel(PointSortOrder sortingOrder)
-	{
-		chartPicture.AlignDataPointsByAxisLabel(true, sortingOrder);
-	}
+	public void AlignDataPointsByAxisLabel(PointSortOrder sortingOrder) => chartPicture.AlignDataPointsByAxisLabel(true, sortingOrder);
 
 	/// <summary>
 	/// Automatically creates and binds series to specified data table. 
@@ -2749,24 +2641,18 @@ public class Chart : Control, ISupportInitialize, IDisposable
 		Justification = "X is a cartesian coordinate and well understood")]
 	public void DataBindTable(
 		IEnumerable dataSource,
-		string xField)
-	{
-		chartPicture.DataBindTable(
+		string xField) => chartPicture.DataBindTable(
 			dataSource,
 			xField);
-	}
 
 	/// <summary>
 	/// Automatically creates and binds series to specified data table. 
 	/// Each column of the table becomes a Y value in a separate series.
 	/// </summary>
 	/// <param name="dataSource">Data source.</param>
-	public void DataBindTable(IEnumerable dataSource)
-	{
-		chartPicture.DataBindTable(
+	public void DataBindTable(IEnumerable dataSource) => chartPicture.DataBindTable(
 			dataSource,
 			string.Empty);
-	}
 
 	/// <summary>
 	/// Data bind chart to the table. Series will be automatically added to the chart depending ont
@@ -2785,9 +2671,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	string seriesGroupByField,
 	string xField,
 	string yFields,
-	string otherFields)
-	{
-		chartPicture.DataBindCrossTab(
+	string otherFields) => chartPicture.DataBindCrossTab(
 			dataSource,
 			seriesGroupByField,
 			xField,
@@ -2795,7 +2679,6 @@ public class Chart : Control, ISupportInitialize, IDisposable
 			otherFields,
 			false,
 			PointSortOrder.Ascending);
-	}
 
 	/// <summary>
 	/// Data bind chart to the table. Series will be automatically added to the chart depending ont
@@ -2816,9 +2699,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	string xField,
 	string yFields,
 	string otherFields,
-	PointSortOrder sortingOrder)
-	{
-		chartPicture.DataBindCrossTab(
+	PointSortOrder sortingOrder) => chartPicture.DataBindCrossTab(
 			dataSource,
 			seriesGroupByField,
 			xField,
@@ -2826,7 +2707,6 @@ public class Chart : Control, ISupportInitialize, IDisposable
 			otherFields,
 			true,
 			sortingOrder);
-	}
 
 	#endregion
 
@@ -2870,29 +2750,20 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// </summary>
 	/// <param name="caller">Event caller. Can be ChartPicture, ChartArea or Legend objects.</param>
 	/// <param name="e">Event arguemtns</param>
-	private void OnFormatNumber(object caller, FormatNumberEventArgs e)
-	{
-		FormatNumber?.Invoke(caller, e);
-	}
+	private void OnFormatNumber(object caller, FormatNumberEventArgs e) => FormatNumber?.Invoke(caller, e);
 
 	/// <summary>
 	/// Called when a numeric value has to be converted to a string.
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected virtual void OnFormatNumber(FormatNumberEventArgs e)
-	{
-		OnFormatNumber(this, e);
-	}
+	protected virtual void OnFormatNumber(FormatNumberEventArgs e) => OnFormatNumber(this, e);
 
 	/// <summary>
 	/// Called when a numeric value has to be converted to a string.
 	/// </summary>
 	/// <param name="caller">Event caller. Can be ChartPicture, ChartArea or Legend objects.</param>
 	/// <param name="e">Event arguments.</param>
-	internal void CallOnFormatNumber(object caller, FormatNumberEventArgs e)
-	{
-		OnFormatNumber(caller, e);
-	}
+	internal void CallOnFormatNumber(object caller, FormatNumberEventArgs e) => OnFormatNumber(caller, e);
 
 	#endregion
 
@@ -2915,10 +2786,7 @@ public class Chart : Control, ISupportInitialize, IDisposable
 	/// <summary>
 	/// Reset accessibility object children.
 	/// </summary>
-	private void ResetAccessibilityObject()
-	{
-		_chartAccessibleObject?.ResetChildren();
-	}
+	private void ResetAccessibilityObject() => _chartAccessibleObject?.ResetChildren();
 
 	#endregion // Accessibility
 

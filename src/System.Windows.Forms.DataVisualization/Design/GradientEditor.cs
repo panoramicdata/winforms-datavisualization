@@ -34,10 +34,7 @@ internal class GradientEditor : UITypeEditor, IDisposable
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Can paint values.</returns>
-	public override bool GetPaintValueSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetPaintValueSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Override this function to support palette colors drawing

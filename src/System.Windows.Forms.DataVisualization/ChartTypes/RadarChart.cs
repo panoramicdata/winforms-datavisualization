@@ -206,10 +206,7 @@ internal class RadarChart : IChartType, ICircularChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	virtual public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	#endregion
 
@@ -219,37 +216,25 @@ internal class RadarChart : IChartType, ICircularChartType
 	/// Checks if closed figure should be drawn even in Line drawing mode.
 	/// </summary>
 	/// <returns>True if closed figure should be drawn even in Line drawing mode.</returns>
-	public virtual bool RequireClosedFigure()
-	{
-		return true;
-	}
+	public virtual bool RequireClosedFigure() => true;
 
 	/// <summary>
 	/// Checks if Y axis position may be changed using X axis Crossing property.
 	/// </summary>
 	/// <returns>True if Y axis position may be changed using X axis Crossing property.</returns>
-	public virtual bool XAxisCrossingSupported()
-	{
-		return false;
-	}
+	public virtual bool XAxisCrossingSupported() => false;
 
 	/// <summary>
 	/// Checks if automatic X axis labels are supported.
 	/// </summary>
 	/// <returns>True if automatic X axis labels are supported.</returns>
-	public virtual bool XAxisLabelsSupported()
-	{
-		return false;
-	}
+	public virtual bool XAxisLabelsSupported() => false;
 
 	/// <summary>
 	/// Checks if radial grid lines (X axis) are supported by the chart type.
 	/// </summary>
 	/// <returns>True if radial grid lines are supported.</returns>
-	public virtual bool RadialGridLinesSupported()
-	{
-		return false;
-	}
+	public virtual bool RadialGridLinesSupported() => false;
 
 	/// <summary>
 	/// Gets number of sectors in the circular chart area.

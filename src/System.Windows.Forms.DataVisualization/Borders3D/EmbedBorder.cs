@@ -47,14 +47,11 @@ internal class FrameTitle1Border : FrameThin1Border
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public override RectangleF GetTitlePositionInBorder()
-	{
-		return new RectangleF(
+	public override RectangleF GetTitlePositionInBorder() => new(
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 1.6f);
-	}
 
 	#endregion
 }
@@ -94,14 +91,11 @@ internal class FrameTitle2Border : FrameThin2Border
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public override RectangleF GetTitlePositionInBorder()
-	{
-		return new RectangleF(
+	public override RectangleF GetTitlePositionInBorder() => new(
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 1.6f);
-	}
 
 	#endregion
 }
@@ -141,14 +135,11 @@ internal class FrameTitle3Border : FrameThin3Border
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public override RectangleF GetTitlePositionInBorder()
-	{
-		return new RectangleF(
+	public override RectangleF GetTitlePositionInBorder() => new(
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 1.6f);
-	}
 	#endregion
 }
 
@@ -187,14 +178,11 @@ internal class FrameTitle4Border : FrameThin4Border
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public override RectangleF GetTitlePositionInBorder()
-	{
-		return new RectangleF(
+	public override RectangleF GetTitlePositionInBorder() => new(
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 1.6f);
-	}
 
 	#endregion
 }
@@ -235,14 +223,11 @@ internal class FrameTitle5Border : FrameThin5Border
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public override RectangleF GetTitlePositionInBorder()
-	{
-		return new RectangleF(
+	public override RectangleF GetTitlePositionInBorder() => new(
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 1.6f);
-	}
 
 	#endregion
 }
@@ -281,14 +266,11 @@ internal class FrameTitle6Border : FrameThin6Border
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public override RectangleF GetTitlePositionInBorder()
-	{
-		return new RectangleF(
+	public override RectangleF GetTitlePositionInBorder() => new(
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 0.25f,
 			defaultRadiusSize * 1.6f);
-	}
 
 	#endregion
 }
@@ -789,10 +771,7 @@ internal class SunkenBorder : IBorderType
 	/// title should be displayed. Returns empty rect if title can't be shown in the border.
 	/// </summary>
 	/// <returns>Title position in border.</returns>
-	public virtual RectangleF GetTitlePositionInBorder()
-	{
-		return RectangleF.Empty;
-	}
+	public virtual RectangleF GetTitlePositionInBorder() => RectangleF.Empty;
 
 	/// <summary>
 	/// Adjust areas rectangle coordinate to fit the 3D border

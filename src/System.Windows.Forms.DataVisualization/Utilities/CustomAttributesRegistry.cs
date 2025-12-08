@@ -1899,11 +1899,9 @@ internal class CustomPropertyRegistry : IServiceProvider
 	/// Adds custom attribute information into the registry.
 	/// </summary>
 	/// <param name="customPropertyInfo">Custom attribute information.</param>
-	public void Register(CustomPropertyInfo customPropertyInfo)
-	{
+	public void Register(CustomPropertyInfo customPropertyInfo) =>
 		// Add custom attribute information to the hash table
 		registeredCustomProperties.Add(customPropertyInfo);
-	}
 
 	#endregion
 }

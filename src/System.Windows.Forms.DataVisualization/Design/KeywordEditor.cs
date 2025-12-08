@@ -581,11 +581,9 @@ internal class KeywordEditor : Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void listBoxKeywords_DoubleClick(object sender, EventArgs e)
-	{
+	private void listBoxKeywords_DoubleClick(object sender, EventArgs e) =>
 		// Simulate accept button click when user double clicks in the list
 		AcceptButton.PerformClick();
-	}
 
 	/// <summary>
 	/// Precision text changed event handler.
@@ -619,10 +617,7 @@ internal class KeywordEditor : Form
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void textBoxCustomFormat_TextChanged(object sender, EventArgs e)
-	{
-		UpdateNumericSample();
-	}
+	private void textBoxCustomFormat_TextChanged(object sender, EventArgs e) => UpdateNumericSample();
 
 	/// <summary>
 	/// Ok button click event handler.

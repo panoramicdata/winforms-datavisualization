@@ -25,10 +25,7 @@ internal class SeriesDataSourceMemberValueAxisUITypeEditor : UITypeEditor
 {
 	#region Editor methods and properties
 
-	internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(Chart chart, ITypeDescriptorContext context, object value, bool flag)
-	{
-		return new SeriesDataSourceMemberYCheckedListBox(chart, value, flag);
-	}
+	internal virtual SeriesDataSourceMemberYCheckedListBox GetDropDownControl(Chart chart, ITypeDescriptorContext context, object value, bool flag) => new(chart, value, flag);
 
 	/// <summary>
 	/// Display a drop down list with check boxes.
@@ -140,10 +137,7 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 
 	#region Control methods
 
-	protected override void OnCreateControl()
-	{
-		FillList();
-	}
+	protected override void OnCreateControl() => FillList();
 
 	internal virtual ArrayList GetMemberNames()
 	{
@@ -620,11 +614,9 @@ internal class ChartCollectionEditor(Type type) : CollectionEditor(type)
 	/// <summary>
 	/// Update design-time HTML when OK button is clicked in the collection editor
 	/// </summary>
-	private void OnOkClicked(object sender, EventArgs e)
-	{
+	private void OnOkClicked(object sender, EventArgs e) =>
 		// Clear the help topic
 		_helpTopic = "";
-	}
 
 	/// <summary>
 	/// Update design-time HTML when propery is added or removed

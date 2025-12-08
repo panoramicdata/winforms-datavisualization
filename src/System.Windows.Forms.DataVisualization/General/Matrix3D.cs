@@ -158,10 +158,7 @@ internal class Matrix3D
 	/// Checks if 3D matrix was initialized.
 	/// </summary>
 	/// <returns>True if matrix was initialized.</returns>
-	public bool IsInitialized()
-	{
-		return (_mainMatrix != null);
-	}
+	public bool IsInitialized() => (_mainMatrix != null);
 
 	/// <summary>
 	/// Initialize Matrix 3D. This method calculates how much a chart area 
@@ -340,10 +337,7 @@ internal class Matrix3D
 	/// by Y-axis, perspective and same scaling for all axes.
 	/// </summary>
 	/// <param name="points">3D Points array.</param>
-	public void TransformPoints(Point3D[] points)
-	{
-		TransformPoints(points, true);
-	}
+	public void TransformPoints(Point3D[] points) => TransformPoints(points, true);
 #if RS_DEADCODE
 	/// <summary>
 	/// This Method returns scale factor

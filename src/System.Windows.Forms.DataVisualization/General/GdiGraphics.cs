@@ -48,10 +48,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		Pen pen,
 		PointF pt1,
 		PointF pt2
-		)
-	{
-		Graphics.DrawLine(pen, pt1, pt2);
-	}
+		) => Graphics.DrawLine(pen, pt1, pt2);
 
 	/// <summary>
 	/// Draws a line connecting the two points specified by coordinate pairs.
@@ -67,10 +64,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float y1,
 		float x2,
 		float y2
-		)
-	{
-		Graphics.DrawLine(pen, x1, y1, x2, y2);
-	}
+		) => Graphics.DrawLine(pen, x1, y1, x2, y2);
 
 	/// <summary>
 	/// Draws the specified portion of the specified Image object at the specified location and with the specified size.
@@ -92,9 +86,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		int srcHeight,
 		GraphicsUnit srcUnit,
 		ImageAttributes imageAttr
-		)
-	{
-		Graphics.DrawImage(
+		) => Graphics.DrawImage(
 				image,
 				destRect,
 				srcX,
@@ -104,7 +96,6 @@ internal class GdiGraphics : IChartRenderingEngine
 				srcUnit,
 				imageAttr
 			);
-	}
 
 	/// <summary>
 	/// Draws an ellipse defined by a bounding rectangle specified by 
@@ -121,10 +112,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float y,
 		float width,
 		float height
-		)
-	{
-		Graphics.DrawEllipse(pen, x, y, width, height);
-	}
+		) => Graphics.DrawEllipse(pen, x, y, width, height);
 
 	/// <summary>
 	/// Draws a cardinal spline through a specified array of PointF structures 
@@ -142,10 +130,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		int offset,
 		int numberOfSegments,
 		float tension
-		)
-	{
-		Graphics.DrawCurve(pen, points, offset, numberOfSegments, tension);
-	}
+		) => Graphics.DrawCurve(pen, points, offset, numberOfSegments, tension);
 
 	/// <summary>
 	/// Draws a rectangle specified by a coordinate pair: a width, and a height.
@@ -161,10 +146,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		int y,
 		int width,
 		int height
-		)
-	{
-		Graphics.DrawRectangle(pen, x, y, width, height);
-	}
+		) => Graphics.DrawRectangle(pen, x, y, width, height);
 
 	/// <summary>
 	/// Draws a polygon defined by an array of PointF structures.
@@ -174,10 +156,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void DrawPolygon(
 		Pen pen,
 		PointF[] points
-		)
-	{
-		Graphics.DrawPolygon(pen, points);
-	}
+		) => Graphics.DrawPolygon(pen, points);
 
 	/// <summary>
 	/// Draws the specified text string in the specified rectangle with the specified Brush and Font objects using the formatting properties of the specified StringFormat object.
@@ -193,10 +172,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		Brush brush,
 		RectangleF layoutRectangle,
 		StringFormat format
-		)
-	{
-		Graphics.DrawString(s, font, brush, layoutRectangle, format);
-	}
+		) => Graphics.DrawString(s, font, brush, layoutRectangle, format);
 
 	/// <summary>
 	/// Draws the specified text string at the specified location with the specified Brush and Font objects using the formatting properties of the specified StringFormat object.
@@ -212,10 +188,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		Brush brush,
 		PointF point,
 		StringFormat format
-		)
-	{
-		Graphics.DrawString(s, font, brush, point, format);
-	}
+		) => Graphics.DrawString(s, font, brush, point, format);
 
 	/// <summary>
 	/// Draws the specified portion of the specified Image object at the specified location and with the specified size.
@@ -237,10 +210,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float srcHeight,
 		GraphicsUnit srcUnit,
 		ImageAttributes imageAttrs
-		)
-	{
-		Graphics.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttrs);
-	}
+		) => Graphics.DrawImage(image, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttrs);
 
 	/// <summary>
 	/// Draws a rectangle specified by a coordinate pair: a width, and a height.
@@ -256,10 +226,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float y,
 		float width,
 		float height
-		)
-	{
-		Graphics.DrawRectangle(pen, x, y, width, height);
-	}
+		) => Graphics.DrawRectangle(pen, x, y, width, height);
 
 	/// <summary>
 	/// Draws a GraphicsPath object.
@@ -269,10 +236,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void DrawPath(
 		Pen pen,
 		GraphicsPath path
-		)
-	{
-		Graphics.DrawPath(pen, path);
-	}
+		) => Graphics.DrawPath(pen, path);
 
 	/// <summary>
 	/// Draws a pie shape defined by an ellipse specified by a coordinate pair: a width, a height and two radial lines.
@@ -292,10 +256,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float height,
 		float startAngle,
 		float sweepAngle
-		)
-	{
-		Graphics.DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
-	}
+		) => Graphics.DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
 
 	/// <summary>
 	/// Draws an arc representing a portion of an ellipse specified by a pair of coordinates: a width, and a height.
@@ -315,10 +276,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float height,
 		float startAngle,
 		float sweepAngle
-		)
-	{
-		Graphics.DrawArc(pen, x, y, width, height, startAngle, sweepAngle);
-	}
+		) => Graphics.DrawArc(pen, x, y, width, height, startAngle, sweepAngle);
 
 	/// <summary>
 	/// Draws the specified Image object at the specified location and with the specified size.
@@ -328,10 +286,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void DrawImage(
 			Image image,
 		RectangleF rect
-		)
-	{
-		Graphics.DrawImage(image, rect);
-	}
+		) => Graphics.DrawImage(image, rect);
 
 	/// <summary>
 	/// Draws an ellipse defined by a bounding RectangleF.
@@ -341,10 +296,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void DrawEllipse(
 		Pen pen,
 		RectangleF rect
-		)
-	{
-		Graphics.DrawEllipse(pen, rect);
-	}
+		) => Graphics.DrawEllipse(pen, rect);
 
 	/// <summary>
 	/// Draws a series of line segments that connect an array of PointF structures.
@@ -354,10 +306,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void DrawLines(
 		Pen pen,
 		PointF[] points
-		)
-	{
-		Graphics.DrawLines(pen, points);
-	}
+		) => Graphics.DrawLines(pen, points);
 
 	#endregion // Drawing Methods
 
@@ -372,10 +321,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void FillEllipse(
 		Brush brush,
 		RectangleF rect
-		)
-	{
-		Graphics.FillEllipse(brush, rect);
-	}
+		) => Graphics.FillEllipse(brush, rect);
 
 	/// <summary>
 	/// Fills the interior of a GraphicsPath object.
@@ -385,10 +331,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void FillPath(
 		Brush brush,
 		GraphicsPath path
-		)
-	{
-		Graphics.FillPath(brush, path);
-	}
+		) => Graphics.FillPath(brush, path);
 
 	/// <summary>
 	/// Fills the interior of a Region object.
@@ -398,10 +341,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void FillRegion(
 		Brush brush,
 		Region region
-		)
-	{
-		Graphics.FillRegion(brush, region);
-	}
+		) => Graphics.FillRegion(brush, region);
 
 	/// <summary>
 	/// Fills the interior of a rectangle specified by a RectangleF structure.
@@ -411,10 +351,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void FillRectangle(
 		Brush brush,
 		RectangleF rect
-		)
-	{
-		Graphics.FillRectangle(brush, rect);
-	}
+		) => Graphics.FillRectangle(brush, rect);
 
 	/// <summary>
 	/// Fills the interior of a rectangle specified by a pair of coordinates, a width, and a height.
@@ -430,10 +367,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float y,
 		float width,
 		float height
-		)
-	{
-		Graphics.FillRectangle(brush, x, y, width, height);
-	}
+		) => Graphics.FillRectangle(brush, x, y, width, height);
 
 	/// <summary>
 	/// Fills the interior of a polygon defined by an array of points specified by PointF structures .
@@ -443,10 +377,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void FillPolygon(
 		Brush brush,
 		PointF[] points
-		)
-	{
-		Graphics.FillPolygon(brush, points);
-	}
+		) => Graphics.FillPolygon(brush, points);
 
 	/// <summary>
 	/// Fills the interior of a pie section defined by an ellipse 
@@ -468,10 +399,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		float height,
 		float startAngle,
 		float sweepAngle
-		)
-	{
-		Graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle);
-	}
+		) => Graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle);
 
 	#endregion // Filling Methods
 
@@ -491,10 +419,7 @@ internal class GdiGraphics : IChartRenderingEngine
 		Font font,
 		SizeF layoutArea,
 		StringFormat stringFormat
-		)
-	{
-		return Graphics.MeasureString(text, font, layoutArea, stringFormat);
-	}
+		) => Graphics.MeasureString(text, font, layoutArea, stringFormat);
 
 	/// <summary>
 	/// Measures the specified string when drawn with the specified 
@@ -506,19 +431,13 @@ internal class GdiGraphics : IChartRenderingEngine
 	public SizeF MeasureString(
 		string text,
 		Font font
-		)
-	{
-		return Graphics.MeasureString(text, font);
-	}
+		) => Graphics.MeasureString(text, font);
 
 	/// <summary>
 	/// Saves the current state of this Graphics object and identifies the saved state with a GraphicsState object.
 	/// </summary>
 	/// <returns>This method returns a GraphicsState object that represents the saved state of this Graphics object.</returns>
-	public GraphicsState Save()
-	{
-		return Graphics.Save();
-	}
+	public GraphicsState Save() => Graphics.Save();
 
 	/// <summary>
 	/// Restores the state of this Graphics object to the state represented by a GraphicsState object.
@@ -526,18 +445,12 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// <param name="gstate">GraphicsState object that represents the state to which to restore this Graphics object.</param>
 	public void Restore(
 		GraphicsState gstate
-		)
-	{
-		Graphics.Restore(gstate);
-	}
+		) => Graphics.Restore(gstate);
 
 	/// <summary>
 	/// Resets the clip region of this Graphics object to an infinite region.
 	/// </summary>
-	public void ResetClip()
-	{
-		Graphics.ResetClip();
-	}
+	public void ResetClip() => Graphics.ResetClip();
 
 	/// <summary>
 	/// Sets the clipping region of this Graphics object to the rectangle specified by a RectangleF structure.
@@ -545,10 +458,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	/// <param name="rect">RectangleF structure that represents the new clip region.</param>
 	public void SetClip(
 		RectangleF rect
-		)
-	{
-		Graphics.SetClip(rect);
-	}
+		) => Graphics.SetClip(rect);
 
 	/// <summary>
 	/// Sets the clipping region of this Graphics object to the result of the 
@@ -560,10 +470,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void SetClip(
 		GraphicsPath path,
 		CombineMode combineMode
-		)
-	{
-		Graphics.SetClip(path, combineMode);
-	}
+		) => Graphics.SetClip(path, combineMode);
 
 	/// <summary>
 	/// Prepends the specified translation to the transformation matrix of this Graphics object.
@@ -573,10 +480,7 @@ internal class GdiGraphics : IChartRenderingEngine
 	public void TranslateTransform(
 		float dx,
 		float dy
-		)
-	{
-		Graphics.TranslateTransform(dx, dy);
-	}
+		) => Graphics.TranslateTransform(dx, dy);
 
 	/// <summary>
 	/// This method starts Selection mode

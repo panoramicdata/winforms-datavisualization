@@ -167,10 +167,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 	/// </summary>
 	/// <param name="chartType">Chart type.</param>
 	/// <returns>Chart type object derived from IChartType.</returns>
-	public IChartType GetChartType(SeriesChartType chartType)
-	{
-		return GetChartType(Series.GetChartTypeName(chartType));
-	}
+	public IChartType GetChartType(SeriesChartType chartType) => GetChartType(Series.GetChartTypeName(chartType));
 
 	/// <summary>
 	/// Returns chart type object by name.

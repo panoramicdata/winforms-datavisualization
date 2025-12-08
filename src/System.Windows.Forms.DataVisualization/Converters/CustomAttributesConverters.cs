@@ -142,10 +142,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 	/// </summary>
 	/// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
 	/// <returns>true if GetProperties should be called to find the properties of this object; otherwise, false.</returns>
-	public override bool GetPropertiesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetPropertiesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Returns a collection of properties for the type of array specified by the value parameter,
@@ -412,10 +409,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		/// <returns>
 		/// true if <see cref="M:System.ComponentModel.TypeConverter.GetStandardValues"/> should be called to find a common set of values the object supports; otherwise, false.
 		/// </returns>
-		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-		{
-			return true;
-		}
+		public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 		/// <summary>
 		/// Returns whether the collection of standard values returned from <see cref="M:System.ComponentModel.TypeConverter.GetStandardValues"/> is an exclusive list of possible values, using the specified context.
@@ -424,10 +418,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		/// <returns>
 		/// true if the <see cref="T:System.ComponentModel.TypeConverter.StandardValuesCollection"/> returned from <see cref="M:System.ComponentModel.TypeConverter.GetStandardValues"/> is an exhaustive list of possible values; false if other values are possible.
 		/// </returns>
-		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-		{
-			return false;
-		}
+		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 		/// <summary>
 		/// Returns a collection of standard values for the data type this type converter is designed for when provided with a format context.
@@ -899,49 +890,34 @@ internal class DynamicPropertyDescriptor(
 	/// </summary>
 	/// <param name="component">The component to test for reset capability.</param>
 	/// <returns>true if resetting the component changes its value; otherwise, false.</returns>
-	public override bool CanResetValue(object component)
-	{
-		return _basePropertyDescriptor.CanResetValue(component);
-	}
+	public override bool CanResetValue(object component) => _basePropertyDescriptor.CanResetValue(component);
 
 	/// <summary>
 	/// Gets the current value of the property on a component.
 	/// </summary>
 	/// <param name="component">The component with the property for which to retrieve the value.</param>
 	/// <returns>The value of a property for a given component.</returns>
-	public override object GetValue(object component)
-	{
-		return _basePropertyDescriptor.GetValue(component);
-	}
+	public override object GetValue(object component) => _basePropertyDescriptor.GetValue(component);
 
 	/// <summary>
 	/// Resets the value for this property of the component to the default value.
 	/// </summary>
 	/// <param name="component">The component with the property value that is to be reset to the default value.</param>
-	public override void ResetValue(object component)
-	{
-		_basePropertyDescriptor.ResetValue(component);
-	}
+	public override void ResetValue(object component) => _basePropertyDescriptor.ResetValue(component);
 
 	/// <summary>
 	/// Determines a value indicating whether the value of this property needs to be persisted.
 	/// </summary>
 	/// <param name="component">The component with the property to be examined for persistence.</param>
 	/// <returns>True if the property should be persisted; otherwise, false.</returns>
-	public override bool ShouldSerializeValue(object component)
-	{
-		return _basePropertyDescriptor.ShouldSerializeValue(component);
-	}
+	public override bool ShouldSerializeValue(object component) => _basePropertyDescriptor.ShouldSerializeValue(component);
 
 	/// <summary>
 	/// Sets the value of the component to a different value.
 	/// </summary>
 	/// <param name="component">The component with the property value that is to be set.</param>
 	/// <param name="value">The new value.</param>
-	public override void SetValue(object component, object value)
-	{
-		_basePropertyDescriptor.SetValue(component, value);
-	}
+	public override void SetValue(object component, object value) => _basePropertyDescriptor.SetValue(component, value);
 
 	#endregion // Methods
 }

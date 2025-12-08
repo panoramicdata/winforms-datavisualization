@@ -1258,10 +1258,7 @@ public class StripLine : ChartElement
 	/// <summary>
 	/// Invalidate chart area
 	/// </summary>
-	private new void Invalidate()
-	{
-		Axis?.Invalidate();
-	}
+	private new void Invalidate() => Axis?.Invalidate();
 
 	#endregion
 

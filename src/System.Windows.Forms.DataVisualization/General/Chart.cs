@@ -166,10 +166,7 @@ internal class ChartImage : ChartPicture
 		}
 	}
 
-	public Bitmap GetImage()
-	{
-		return GetImage(96);
-	}
+	public Bitmap GetImage() => GetImage(96);
 	/// <summary>
 	/// Create Image and draw chart picture
 	/// </summary>
@@ -1405,10 +1402,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 		return result;
 	}
 
-	internal bool GetBorderSkinVisibility()
-	{
-		return BorderSkin.SkinStyle != BorderSkinStyle.None && Width > 20 && Height > 20;
-	}
+	internal bool GetBorderSkinVisibility() => BorderSkin.SkinStyle != BorderSkinStyle.None && Width > 20 && Height > 20;
 
 	/// <summary>
 	/// This function paints a chart.
@@ -1728,21 +1722,17 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// Invoke before paint delegates.
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected virtual void OnBeforePaint(ChartPaintEventArgs e)
-	{
+	protected virtual void OnBeforePaint(ChartPaintEventArgs e) =>
 		//Invokes the delegates.
 		BeforePaint?.Invoke(this, e);
-	}
 
 	/// <summary>
 	/// Invoke after paint delegates.
 	/// </summary>
 	/// <param name="e">Event arguments.</param>
-	protected virtual void OnAfterPaint(ChartPaintEventArgs e)
-	{
+	protected virtual void OnAfterPaint(ChartPaintEventArgs e) =>
 		//Invokes the delegates.
 		AfterPaint?.Invoke(this, e);
-	}
 
 	internal override void Invalidate()
 	{
@@ -1758,10 +1748,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 	/// Resize the chart picture.
 	/// </summary>
 	/// <param name="chartGraph">Chart graphics.</param>
-	public void Resize(ChartGraphics chartGraph)
-	{
-		Resize(chartGraph, false);
-	}
+	public void Resize(ChartGraphics chartGraph) => Resize(chartGraph, false);
 
 	/// <summary>
 	/// Resize the chart picture.
@@ -3411,15 +3398,11 @@ internal class FontCache : IDisposable
 			/// <returns>
 			/// true if the specified objects are equal; otherwise, false.
 			/// </returns>
-			public bool Equals(KeyInfo x, KeyInfo y)
-			{
-				return
-					x._size == y._size &&
+			public bool Equals(KeyInfo x, KeyInfo y) => x._size == y._size &&
 					x._familyName == y._familyName &&
 					x._unit == y._unit &&
 					x._style == y._style &&
 					x._gdiCharSet == y._gdiCharSet;
-			}
 
 			/// <summary>
 			/// Returns a hash code for the specified object.
@@ -3427,10 +3410,7 @@ internal class FontCache : IDisposable
 			/// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param>
 			/// <returns>A hash code for the specified object.</returns>
 			/// <exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
-			public int GetHashCode(KeyInfo obj)
-			{
-				return obj._familyName.GetHashCode() ^ obj._size.GetHashCode();
-			}
+			public int GetHashCode(KeyInfo obj) => obj._familyName.GetHashCode() ^ obj._size.GetHashCode();
 		}
 		#endregion
 	}

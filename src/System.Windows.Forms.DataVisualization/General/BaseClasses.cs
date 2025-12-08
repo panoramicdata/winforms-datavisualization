@@ -109,10 +109,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// <summary>
 	/// Invalidates this chart element.
 	/// </summary>
-	internal virtual void Invalidate()
-	{
-		_parent?.Invalidate();
-	}
+	internal virtual void Invalidate() => _parent?.Invalidate();
 
 	#endregion
 
@@ -125,10 +122,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 		set { Parent = value; }
 	}
 
-	void IChartElement.Invalidate()
-	{
-		Invalidate();
-	}
+	void IChartElement.Invalidate() => Invalidate();
 
 	CommonElements IChartElement.Common
 	{
@@ -168,10 +162,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 	/// </returns>
 	/// <remarks>For internal use.</remarks>
-	internal virtual string ToStringInternal()
-	{
-		return GetType().Name;
-	}
+	internal virtual string ToStringInternal() => GetType().Name;
 
 	/// <summary>
 	/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
@@ -180,10 +171,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 	/// </returns>
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-	public override string ToString()
-	{
-		return ToStringInternal();
-	}
+	public override string ToString() => ToStringInternal();
 
 	/// <summary>
 	/// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
@@ -194,10 +182,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// </returns>
 	/// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
 	/// <remarks>For internal use.</remarks>
-	internal virtual bool EqualsInternal(object obj)
-	{
-		return base.Equals(obj);
-	}
+	internal virtual bool EqualsInternal(object obj) => base.Equals(obj);
 
 	/// <summary>
 	/// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
@@ -208,10 +193,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// </returns>
 	/// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-	public override bool Equals(object obj)
-	{
-		return EqualsInternal(obj);
-	}
+	public override bool Equals(object obj) => EqualsInternal(obj);
 
 	/// <summary>
 	/// Serves as a hash function for a particular type.
@@ -220,10 +202,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 	/// A hash code for the current <see cref="T:System.Object"/>.
 	/// </returns>
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-	public override int GetHashCode()
-	{
-		return base.GetHashCode();
-	}
+	public override int GetHashCode() => base.GetHashCode();
 
 	#endregion
 

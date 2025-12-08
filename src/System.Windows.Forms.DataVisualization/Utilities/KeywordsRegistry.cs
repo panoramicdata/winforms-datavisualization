@@ -418,10 +418,7 @@ internal class KeywordInfo(
 	/// Returns a String that represents the current keyword Information.
 	/// </summary>
 	/// <returns>Returns keyword name.</returns>
-	public override string ToString()
-	{
-		return Name;
-	}
+	public override string ToString() => Name;
 	/// <summary>
 	/// Gets an array of keywords names including the aliases.
 	/// </summary>

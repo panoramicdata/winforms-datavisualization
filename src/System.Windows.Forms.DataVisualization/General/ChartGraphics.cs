@@ -157,15 +157,12 @@ public partial class ChartGraphics : ChartElement
 		ChartDashStyle style,
 		PointF firstPointF,
 		PointF secondPointF
-		)
-	{
-		DrawLineAbs(
+		) => DrawLineAbs(
 			color,
 			width,
 			style,
 			GetAbsolutePoint(firstPointF),
 			GetAbsolutePoint(secondPointF));
-	}
 
 	/// <summary>
 	/// Draws a line connecting the two specified points using absolute coordinates.
@@ -250,9 +247,7 @@ public partial class ChartGraphics : ChartElement
 		PointF secondPoint,
 		Color shadowColor,
 		int shadowOffset
-		)
-	{
-		DrawLineAbs(
+		) => DrawLineAbs(
 			color,
 			width,
 			style,
@@ -260,7 +255,6 @@ public partial class ChartGraphics : ChartElement
 			GetAbsolutePoint(secondPoint),
 			shadowColor,
 			shadowOffset);
-	}
 
 	/// <summary>
 	/// Draws a line with shadow connecting the two specified points.
@@ -622,10 +616,7 @@ public partial class ChartGraphics : ChartElement
 		int shadowSize,
 		Color shadowColor,
 		RectangleF imageScaleRect
-		)
-	{
-		DrawMarkerAbs(GetAbsolutePoint(point), markerStyle, markerSize, markerColor, markerBorderColor, markerBorderSize, markerImage, markerImageTransparentColor, shadowSize, shadowColor, imageScaleRect, false);
-	}
+		) => DrawMarkerAbs(GetAbsolutePoint(point), markerStyle, markerSize, markerColor, markerBorderColor, markerBorderSize, markerImage, markerImageTransparentColor, shadowSize, shadowColor, imageScaleRect, false);
 
 	/// <summary>
 	/// Draw marker using absolute coordinates of the center.
@@ -1577,16 +1568,13 @@ public partial class ChartGraphics : ChartElement
 		PointF position,
 		StringFormat format,
 		int angle
-		)
-	{
-		DrawStringAbs(
+		) => DrawStringAbs(
 			text,
 			font,
 			brush,
 			GetAbsolutePoint(position),
 			format,
 			angle);
-	}
 
 	/// <summary>
 	/// Draw a string.
@@ -3119,9 +3107,7 @@ public partial class ChartGraphics : ChartElement
 		int shadowOffset,
 		PenAlignment penAlignment,
 		BarDrawingStyle barDrawingStyle,
-		bool isVertical)
-	{
-		FillRectangleRel(
+		bool isVertical) => FillRectangleRel(
 			rectF,
 			backColor,
 			backHatchStyle,
@@ -3142,7 +3128,6 @@ public partial class ChartGraphics : ChartElement
 			false,
 			barDrawingStyle,
 			isVertical);
-	}
 
 	/// <summary>
 	/// Draw a bar with shadow.
@@ -3176,9 +3161,7 @@ public partial class ChartGraphics : ChartElement
 		ChartDashStyle borderDashStyle,
 		Color shadowColor,
 		int shadowOffset,
-		PenAlignment penAlignment)
-	{
-		FillRectangleRel(
+		PenAlignment penAlignment) => FillRectangleRel(
 			rectF,
 			backColor,
 			backHatchStyle,
@@ -3199,7 +3182,6 @@ public partial class ChartGraphics : ChartElement
 			false,
 			BarDrawingStyle.Default,
 			true);
-	}
 
 	/// <summary>
 	/// Draws rectangle or circle (inside rectangle) with shadow.
@@ -3239,9 +3221,7 @@ public partial class ChartGraphics : ChartElement
 		PenAlignment penAlignment,
 		bool circular,
 		int circularSectorsCount,
-		bool circle3D)
-	{
-		FillRectangleRel(
+		bool circle3D) => FillRectangleRel(
 			rectF,
 			backColor,
 			backHatchStyle,
@@ -3262,7 +3242,6 @@ public partial class ChartGraphics : ChartElement
 				circle3D,
 			BarDrawingStyle.Default,
 			true);
-	}
 
 
 	/// <summary>
@@ -3620,16 +3599,13 @@ public partial class ChartGraphics : ChartElement
 	RectangleF rect,
 	Color shadowColor,
 	float shadowOffset,
-	Color backColor)
-	{
-		FillRectangleShadowAbs(
+	Color backColor) => FillRectangleShadowAbs(
 			rect,
 			shadowColor,
 			shadowOffset,
 			backColor,
 			false,
 			0);
-	}
 
 	/// <summary>
 	/// Draw Shadow for a bar
@@ -4801,12 +4777,9 @@ public partial class ChartGraphics : ChartElement
 		Color backSecondaryColor,
 		Color borderColor,
 		int borderWidth,
-		ChartDashStyle borderDashStyle)
-	{
-		Draw3DBorderAbs(borderSkin, GetAbsoluteRectangle(rect), backColor, backHatchStyle,
+		ChartDashStyle borderDashStyle) => Draw3DBorderAbs(borderSkin, GetAbsoluteRectangle(rect), backColor, backHatchStyle,
 			backImage, backImageWrapMode, backImageTransparentColor, backImageAlign, backGradientStyle,
 			backSecondaryColor, borderColor, borderWidth, borderDashStyle);
-	}
 
 
 	/// <summary>
@@ -5618,10 +5591,7 @@ public partial class ChartGraphics : ChartElement
 	/// to the rectangle specified by a RectangleF structure.
 	/// </summary>
 	/// <param name="region">Region rectangle</param>
-	internal void SetClip(RectangleF region)
-	{
-		SetClipAbs(GetAbsoluteRectangle(region));
-	}
+	internal void SetClip(RectangleF region) => SetClipAbs(GetAbsoluteRectangle(region));
 
 	#endregion
 

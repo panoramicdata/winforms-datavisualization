@@ -9,8 +9,5 @@ namespace System.Windows.Forms.DataVisualization.Charting;
 [AttributeUsage(AttributeTargets.All)]
 internal sealed class SRCategoryAttribute(string category) : CategoryAttribute(category)
 {
-	protected override string GetLocalizedString(string value)
-	{
-		return SR.Keys.GetString(value);
-	}
+	protected override string GetLocalizedString(string value) => SR.Keys.GetString(value);
 }

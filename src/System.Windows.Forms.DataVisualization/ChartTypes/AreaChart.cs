@@ -48,10 +48,7 @@ internal class SplineAreaChart : AreaChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	#endregion
 
 	#region Default tension method
@@ -60,19 +57,13 @@ internal class SplineAreaChart : AreaChart
 	/// Gets default line tension. For spline charts it's always 0.5.
 	/// </summary>
 	/// <returns>Line tension.</returns>
-	override protected float GetDefaultTension()
-	{
-		return 0.5f;
-	}
+	override protected float GetDefaultTension() => 0.5f;
 
 	/// <summary>
 	/// Checks if line tension is supported by the chart type.
 	/// </summary>
 	/// <returns>True if line tension is supported.</returns>
-	protected override bool IsLineTensionSupported()
-	{
-		return true;
-	}
+	protected override bool IsLineTensionSupported() => true;
 
 	#endregion
 }
@@ -137,10 +128,7 @@ internal class AreaChart : SplineChart
 	/// Gets default line tension.
 	/// </summary>
 	/// <returns>Line tension.</returns>
-	override protected float GetDefaultTension()
-	{
-		return 0f;
-	}
+	override protected float GetDefaultTension() => 0f;
 
 	#endregion
 
@@ -164,20 +152,14 @@ internal class AreaChart : SplineChart
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	override public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Rectangle;
-	}
+	override public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Rectangle;
 
 	/// <summary>
 	/// Gets chart type image.
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	#endregion
 
@@ -591,10 +573,7 @@ internal class AreaChart : SplineChart
 	/// Checks if line tension is supported by the chart type.
 	/// </summary>
 	/// <returns>True if line tension is supported.</returns>
-	protected override bool IsLineTensionSupported()
-	{
-		return false;
-	}
+	protected override bool IsLineTensionSupported() => false;
 
 	#endregion
 

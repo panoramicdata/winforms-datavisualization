@@ -30,20 +30,14 @@ internal class SeriesAreaNameConverter : StringConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of the chart areas for the series.
@@ -82,20 +76,14 @@ internal class ChartDataSourceConverter : StringConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Fill in the list of chart type names.
@@ -141,20 +129,14 @@ internal class SeriesDataSourceMemberConverter : StringConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of the data source members.
@@ -210,20 +192,14 @@ internal class SeriesLegendNameConverter : StringConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of the chart legend for the series.
@@ -262,20 +238,14 @@ internal class ChartTypeConverter : StringConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Fill in the list of chart type names.
@@ -330,20 +300,14 @@ internal class SeriesNameConverter : StringConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Standard values supported.</returns>
-	public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-	{
-		return true;
-	}
+	public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 	/// <summary>
 	/// Standart values are not exclusive - return false
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Non exclusive standard values.</returns>
-	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Fill in the list of data series names.

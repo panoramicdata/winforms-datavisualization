@@ -721,10 +721,7 @@ public class TextAnnotation : Annotation
 	/// </summary>
 	/// <param name="sender">Event sender.</param>
 	/// <param name="e">Event arguments.</param>
-	private void OnTextBoxLostFocus(object sender, EventArgs e)
-	{
-		StopTextEditing();
-	}
+	private void OnTextBoxLostFocus(object sender, EventArgs e) => StopTextEditing();
 
 	/// <summary>
 	/// Handles event when key is pressed in the text editing control.

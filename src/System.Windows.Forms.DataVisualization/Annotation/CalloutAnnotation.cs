@@ -1610,10 +1610,7 @@ public class CalloutAnnotation : TextAnnotation
 	/// Checks if annotation draw anything in the anchor position (except selection handle)
 	/// </summary>
 	/// <returns>True if annotation "connects" itself and anchor point visually.</returns>
-	override internal bool IsAnchorDrawn()
-	{
-		return true;
-	}
+	override internal bool IsAnchorDrawn() => true;
 
 	#endregion // Anchor Methods
 

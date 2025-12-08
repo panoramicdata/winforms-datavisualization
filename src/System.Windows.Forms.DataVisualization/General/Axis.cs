@@ -2838,10 +2838,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// data points and border of the Common.Chart area.
 	/// Note that this method can only be called for primary or secondary X axes.
 	/// </summary>
-	public void RoundAxisValues()
-	{
-		roundedXValues = true;
-	}
+	public void RoundAxisValues() => roundedXValues = true;
 
 	/// <summary>
 	/// RecalculateAxesScale axis.
@@ -4877,9 +4874,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		float otherElementsSize,
 		bool autoPlotPosition,
 		bool checkLabelsFirstRowOnly,
-		bool secondPass)
-	{
-		return CheckLabelsFit(
+		bool secondPass) => CheckLabelsFit(
 			chartGraph,
 			otherElementsSize,
 			autoPlotPosition,
@@ -4888,7 +4883,6 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			true,
 			true,
 			null);
-	}
 
 	/// <summary>
 	/// Checks if labels fit using current auto fit properties
@@ -6094,10 +6088,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 	/// Find axis position using crossing value.
 	/// </summary>
 	/// <returns>Relative position</returns>
-	internal double GetAxisPosition()
-	{
-		return GetAxisPosition(false);
-	}
+	internal double GetAxisPosition() => GetAxisPosition(false);
 
 	/// <summary>
 	/// Find axis position using crossing value.

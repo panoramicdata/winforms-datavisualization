@@ -126,10 +126,7 @@ internal class FormulaRegistry : IServiceProvider
 	/// </summary>
 	/// <param name="index">Module index.</param>
 	/// <returns>Module Name.</returns>
-	public string GetModuleName(int index)
-	{
-		return (string)_modulesNames[index];
-	}
+	public string GetModuleName(int index) => (string)_modulesNames[index];
 
 	#endregion
 

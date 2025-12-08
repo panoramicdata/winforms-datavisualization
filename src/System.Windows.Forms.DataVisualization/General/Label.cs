@@ -332,10 +332,7 @@ public class CustomLabelsCollection : ChartElementCollection<CustomLabel>
 	/// </summary>
 	/// <param name="labelsStep">The label step determines how often the custom labels will be drawn.</param>
 	/// <param name="intervalType">Unit of measurement of the label step.</param>
-	public void Add(double labelsStep, DateTimeIntervalType intervalType)
-	{
-		Add(labelsStep, intervalType, 0, 0, "", 0, LabelMarkStyle.None);
-	}
+	public void Add(double labelsStep, DateTimeIntervalType intervalType) => Add(labelsStep, intervalType, 0, 0, "", 0, LabelMarkStyle.None);
 
 	/// <summary>
 	/// Adds multiple custom labels to the collection.
@@ -345,10 +342,7 @@ public class CustomLabelsCollection : ChartElementCollection<CustomLabel>
 	/// <param name="labelsStep">The label step determines how often the custom labels will be drawn.</param>
 	/// <param name="intervalType">Unit of measurement of the label step.</param>
 	/// <param name="format">Label text format.</param>
-	public void Add(double labelsStep, DateTimeIntervalType intervalType, string format)
-	{
-		Add(labelsStep, intervalType, 0, 0, format, 0, LabelMarkStyle.None);
-	}
+	public void Add(double labelsStep, DateTimeIntervalType intervalType, string format) => Add(labelsStep, intervalType, 0, 0, format, 0, LabelMarkStyle.None);
 
 	/// <summary>
 	/// Adds multiple custom labels to the collection.
@@ -360,10 +354,7 @@ public class CustomLabelsCollection : ChartElementCollection<CustomLabel>
 	/// <param name="format">Label text format.</param>
 	/// <param name="rowIndex">Label row index.</param>
 	/// <param name="markStyle">Label marking style.</param>
-	public void Add(double labelsStep, DateTimeIntervalType intervalType, string format, int rowIndex, LabelMarkStyle markStyle)
-	{
-		Add(labelsStep, intervalType, 0, 0, format, rowIndex, markStyle);
-	}
+	public void Add(double labelsStep, DateTimeIntervalType intervalType, string format, int rowIndex, LabelMarkStyle markStyle) => Add(labelsStep, intervalType, 0, 0, format, rowIndex, markStyle);
 
 	#endregion
 

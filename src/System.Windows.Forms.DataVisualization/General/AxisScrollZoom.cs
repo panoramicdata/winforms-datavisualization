@@ -543,10 +543,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// Call this method to scroll to a specified position along an axis.
 		/// </summary>
 		/// <param name="scrollType">Direction and size to scroll.</param>
-		public void Scroll(ScrollType scrollType)
-		{
-			Scroll(scrollType, false);
-		}
+		public void Scroll(ScrollType scrollType) => Scroll(scrollType, false);
 
 		/// <summary>
 		/// Scrolls axis data scaleView from current position.
@@ -606,19 +603,13 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// Call this method to scroll to a specified position along an axis.
 		/// </summary>
 		/// <param name="newPosition">New position.</param>
-		public void Scroll(double newPosition)
-		{
-			Scroll(newPosition, false);
-		}
+		public void Scroll(double newPosition) => Scroll(newPosition, false);
 
 		/// <summary>
 		/// Call this method to scroll to a specified position along an axis.
 		/// </summary>
 		/// <param name="newPosition">New position.</param>
-		public void Scroll(DateTime newPosition)
-		{
-			Scroll(newPosition.ToOADate(), false);
-		}
+		public void Scroll(DateTime newPosition) => Scroll(newPosition.ToOADate(), false);
 
 		/// <summary>
 		/// Internal helper method for scrolling into specified position.
@@ -675,20 +666,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="viewSize">New size for the axis scale view.</param>
 		/// <param name="viewSizeType">New unit of measurement of the size.</param>
 		/// <param name="saveState">Indicates whether the current size/position needs to be saved.</param>
-		public void Zoom(double viewPosition, double viewSize, DateTimeIntervalType viewSizeType, bool saveState)
-		{
-			Zoom(viewPosition, viewSize, viewSizeType, false, saveState);
-		}
+		public void Zoom(double viewPosition, double viewSize, DateTimeIntervalType viewSizeType, bool saveState) => Zoom(viewPosition, viewSize, viewSizeType, false, saveState);
 
 		/// <summary>
 		/// Sets a new axis data view/position based on the specified start and end values.
 		/// </summary>
 		/// <param name="viewStart">New start position for the axis scale view.</param>
 		/// <param name="viewEnd">New end position for the axis scale view.</param>
-		public void Zoom(double viewStart, double viewEnd)
-		{
-			Zoom(viewStart, viewEnd - viewStart, DateTimeIntervalType.Number, false, false);
-		}
+		public void Zoom(double viewStart, double viewEnd) => Zoom(viewStart, viewEnd - viewStart, DateTimeIntervalType.Number, false, false);
 
 		/// <summary>
 		/// Sets a new axis data view/position based on the start and end dates specified. 
@@ -696,37 +681,25 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// <param name="viewPosition">New start position for the axis scale view.</param>
 		/// <param name="viewSize">New size for the axis scale view.</param>
 		/// <param name="viewSizeType">New unit of measurement of the size.</param>
-		public void Zoom(double viewPosition, double viewSize, DateTimeIntervalType viewSizeType)
-		{
-			Zoom(viewPosition, viewSize, viewSizeType, false, false);
-		}
+		public void Zoom(double viewPosition, double viewSize, DateTimeIntervalType viewSizeType) => Zoom(viewPosition, viewSize, viewSizeType, false, false);
 
 		/// <summary>
 		/// Reset the specified number of zooming operations by restoring axis data view. 
 		/// </summary>
 		/// <param name="numberOfViews">Number of zoom operations to reset. Zero for all.</param>
-		public void ZoomReset(int numberOfViews)
-		{
-			LoadDataViewState(numberOfViews, false);
-		}
+		public void ZoomReset(int numberOfViews) => LoadDataViewState(numberOfViews, false);
 
 		/// <summary>
 		/// Reset one zooming operation by restoring axis data view.
 		/// </summary>
-		public void ZoomReset()
-		{
-			LoadDataViewState(1, false);
-		}
+		public void ZoomReset() => LoadDataViewState(1, false);
 
 		/// <summary>
 		/// Reset several zooming operation by restoring data scaleView size/position.
 		/// </summary>
 		/// <param name="numberOfViews">How many scaleView zoom operations to reset. Zero for all.</param>
 		/// <param name="fireChangeEvents">Fire scaleView position events from this method.</param>
-		internal void ZoomReset(int numberOfViews, bool fireChangeEvents)
-		{
-			LoadDataViewState(numberOfViews, fireChangeEvents);
-		}
+		internal void ZoomReset(int numberOfViews, bool fireChangeEvents) => LoadDataViewState(numberOfViews, fireChangeEvents);
 
 		/// <summary>
 		/// Internal helper zooming method.
@@ -1299,20 +1272,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <returns>True.</returns>
-		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-		{
-			return true;
-		}
+		public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 		/// <summary>
 		/// Standard values are not exclusive.  This method always return false.
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <returns>False.</returns>
-		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-		{
-			return false;
-		}
+		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 		/// <summary>
 		/// Get in the collection of standard values.
@@ -1383,20 +1350,14 @@ namespace System.Windows.Forms.DataVisualization.Charting
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <returns>Standard values supported.</returns>
-		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-		{
-			return true;
-		}
+		public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
 		/// <summary>
 		/// Standard values are not exclusive - return false
 		/// </summary>
 		/// <param name="context">Descriptor context.</param>
 		/// <returns>Non exclusive standard values.</returns>
-		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-		{
-			return false;
-		}
+		public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
 
 		/// <summary>
 		/// Fill in the list of predefined values.

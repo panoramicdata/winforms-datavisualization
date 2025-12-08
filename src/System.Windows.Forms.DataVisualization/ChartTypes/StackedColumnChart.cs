@@ -325,10 +325,7 @@ internal class StackedColumnChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	virtual public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	/// <summary>
 	/// True if chart type is stacked
@@ -412,10 +409,7 @@ internal class StackedColumnChart : IChartType
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	virtual public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Rectangle;
-	}
+	virtual public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Rectangle;
 
 	/// <summary>
 	/// Number of supported Y value(s) per point 

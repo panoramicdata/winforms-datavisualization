@@ -229,10 +229,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 	/// Initialize data point series and name.
 	/// </summary>
 	/// <param name="dataPoint">Reference to the data point object to initialize.</param>
-	internal void DataPointInit(ref DataPoint dataPoint)
-	{
-		DataPointInit(series, ref dataPoint);
-	}
+	internal void DataPointInit(ref DataPoint dataPoint) => DataPointInit(series, ref dataPoint);
 
 	/// <summary>
 	/// Initialize data point series and name.
@@ -533,10 +530,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 	/// <param name="yValue">One or more enumerable objects with Y values.</param>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "Y is a cartesian coordinate and well understood")]
-	public void DataBindY(params IEnumerable[] yValue)
-	{
-		DataBindXY(null, yValue);
-	}
+	public void DataBindY(params IEnumerable[] yValue) => DataBindXY(null, yValue);
 
 	/// <summary>
 	/// Data bind X and Y values of the data points to the data source.
@@ -723,10 +717,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 	/// <param name="yFields">Name of the fields for Y values.</param>
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
 		Justification = "X and Y are cartesian coordinates and well understood")]
-	public void DataBindY(IEnumerable yValue, string yFields)
-	{
-		DataBindXY(null, null, yValue, yFields);
-	}
+	public void DataBindY(IEnumerable yValue, string yFields) => DataBindXY(null, null, yValue, yFields);
 
 	/// <summary>
 	/// Data bind X and Y values of the data points to the data source.
@@ -1587,10 +1578,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 	/// </summary>
 	/// <param name="valueToFind">Point value to find.</param>
 	/// <returns>Enumerator of datapoints.</returns>
-	public IEnumerable<DataPoint> FindAllByValue(double valueToFind)
-	{
-		return FindAllByValue(valueToFind, "Y");
-	}
+	public IEnumerable<DataPoint> FindAllByValue(double valueToFind) => FindAllByValue(valueToFind, "Y");
 
 	/// <summary>
 	/// Find the first point that equals to the specified value starting from the specified index.
@@ -1629,20 +1617,14 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 	/// <param name="valueToFind">Point value to find.</param>
 	/// <param name="useValue">Which point value to use (X, Y1, Y2,...).</param>
 	/// <returns>Datapoint which matches the value.  Null if there is no match.</returns>
-	public DataPoint FindByValue(double valueToFind, string useValue)
-	{
-		return FindByValue(valueToFind, useValue, 0);
-	}
+	public DataPoint FindByValue(double valueToFind, string useValue) => FindByValue(valueToFind, useValue, 0);
 
 	/// <summary>
 	/// Find the first point that equals to the specified value.
 	/// </summary>
 	/// <param name="valueToFind">Point value to find.</param>
 	/// <returns>Datapoint which matches the value.  Null if there is no match.</returns>
-	public DataPoint FindByValue(double valueToFind)
-	{
-		return FindByValue(valueToFind, "Y");
-	}
+	public DataPoint FindByValue(double valueToFind) => FindByValue(valueToFind, "Y");
 
 	/// <summary>
 	/// Find point with the maximum value starting from specified index.
@@ -1691,19 +1673,13 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 	/// </summary>
 	/// <param name="useValue">Which point value to use (X, Y1, Y2,...).</param>
 	/// <returns>Datapoint with the maximum value.</returns>
-	public DataPoint FindMaxByValue(string useValue)
-	{
-		return FindMaxByValue(useValue, 0);
-	}
+	public DataPoint FindMaxByValue(string useValue) => FindMaxByValue(useValue, 0);
 
 	/// <summary>
 	/// Find data point with the maximum value.
 	/// </summary>
 	/// <returns>Datapoint with the maximum value.</returns>
-	public DataPoint FindMaxByValue()
-	{
-		return FindMaxByValue("Y");
-	}
+	public DataPoint FindMaxByValue() => FindMaxByValue("Y");
 
 	/// <summary>
 	/// Find point with the Min value starting from specified index.
@@ -1751,19 +1727,13 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 	/// </summary>
 	/// <param name="useValue">Which point value to use (X, Y1, Y2,...).</param>
 	/// <returns>Datapoint with the Min value.</returns>
-	public DataPoint FindMinByValue(string useValue)
-	{
-		return FindMinByValue(useValue, 0);
-	}
+	public DataPoint FindMinByValue(string useValue) => FindMinByValue(useValue, 0);
 
 	/// <summary>
 	/// Find point with the Min value
 	/// </summary>
 	/// <returns>Datapoint with the Min value.</returns>
-	public DataPoint FindMinByValue()
-	{
-		return FindMinByValue("Y");
-	}
+	public DataPoint FindMinByValue() => FindMinByValue("Y");
 
 	#endregion
 
@@ -2850,20 +2820,14 @@ public class DataPointCustomProperties : ChartNamedElement
 	/// </summary>
 	/// <param name="name">Name of the custom property to check.</param>
 	/// <returns>True if custom property was set.</returns>
-	virtual public bool IsCustomPropertySet(string name)
-	{
-		return properties.ContainsKey(name);
-	}
+	virtual public bool IsCustomPropertySet(string name) => properties.ContainsKey(name);
 
 	/// <summary>
 	/// Checks if the custom property with specified name was set.
 	/// </summary>
 	/// <param name="property">The CommonCustomProperties object to check for.</param>
 	/// <returns>True if attribute was set.</returns>
-	internal bool IsCustomPropertySet(CommonCustomProperties property)
-	{
-		return properties.ContainsKey((int)property);
-	}
+	internal bool IsCustomPropertySet(CommonCustomProperties property) => properties.ContainsKey((int)property);
 
 	/// <summary>
 	/// Delete the data point custom property with the specified name.
@@ -3020,20 +2984,14 @@ public class DataPointCustomProperties : ChartNamedElement
 	/// </summary>
 	/// <param name="name">Property name.</param>
 	/// <param name="propertyValue">Property value.</param>
-	virtual public void SetCustomProperty(string name, string propertyValue)
-	{
-		properties[name] = propertyValue;
-	}
+	virtual public void SetCustomProperty(string name, string propertyValue) => properties[name] = propertyValue;
 
 	/// <summary>
 	/// Sets an attribute of the Data Point as an object. 
 	/// </summary>
 	/// <param name="attrib">Attribute name ID.</param>
 	/// <param name="attributeValue">Attribute new value.</param>
-	internal void SetAttributeObject(CommonCustomProperties attrib, object attributeValue)
-	{
-		properties[(int)attrib] = attributeValue;
-	}
+	internal void SetAttributeObject(CommonCustomProperties attrib, object attributeValue) => properties[(int)attrib] = attributeValue;
 
 	/// <summary>
 	/// Set the default properties of the data point.
@@ -5003,10 +4961,7 @@ public class DataPointCustomProperties : ChartNamedElement
 	/// </summary>
 	/// <param name="strOriginal">Original string with keywords.</param>
 	/// <returns>Modified string.</returns>
-	internal virtual string ReplaceKeywords(string strOriginal)
-	{
-		return strOriginal;
-	}
+	internal virtual string ReplaceKeywords(string strOriginal) => strOriginal;
 
 	#endregion
 
@@ -6713,10 +6668,7 @@ public class CustomProperties
 	/// Gets a comma separated string of user defined custom properties.
 	/// </summary>
 	/// <returns>Comma separated string of user defined custom properties.</returns>
-	internal virtual string GetUserDefinedCustomProperties()
-	{
-		return GetUserDefinedCustomProperties(true);
-	}
+	internal virtual string GetUserDefinedCustomProperties() => GetUserDefinedCustomProperties(true);
 
 	/// <summary>
 	/// Gets a comma separated string of user defined or non-user defined custom properties.

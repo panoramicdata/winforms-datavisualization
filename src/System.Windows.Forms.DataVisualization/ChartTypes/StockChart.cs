@@ -83,10 +83,7 @@ internal class CandleStickChart : StockChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	#endregion
 }
@@ -237,10 +234,7 @@ internal class StockChart : IChartType
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	virtual public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Line;
-	}
+	virtual public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Line;
 
 	/// <summary>
 	/// Number of supported Y value(s) per point 
@@ -252,10 +246,7 @@ internal class StockChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	virtual public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	#endregion
 
 	#region Painting and Selection methods
@@ -267,10 +258,7 @@ internal class StockChart : IChartType
 	/// <param name="common">The Common elements object.</param>
 	/// <param name="area">Chart area for this chart.</param>
 	/// <param name="seriesToDraw">Chart series to draw.</param>
-	virtual public void Paint(ChartGraphics graph, CommonElements common, ChartArea area, Series seriesToDraw)
-	{
-		ProcessChartType(false, graph, common, area, seriesToDraw);
-	}
+	virtual public void Paint(ChartGraphics graph, CommonElements common, ChartArea area, Series seriesToDraw) => ProcessChartType(false, graph, common, area, seriesToDraw);
 
 	/// <summary>
 	/// This method recalculates size of the bars. This method is used 
@@ -1786,10 +1774,7 @@ internal class StockChart : IChartType
 		Series series,
 		DataPoint point,
 		int pointIndex,
-		int yValueIndex)
-	{
-		return point.YValues[yValueIndex];
-	}
+		int yValueIndex) => point.YValues[yValueIndex];
 
 	#endregion
 

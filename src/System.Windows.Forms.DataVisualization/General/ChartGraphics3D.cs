@@ -2794,9 +2794,7 @@ public partial class ChartGraphics
 		Color borderColor,
 		int borderWidth,
 		ChartDashStyle borderDashStyle,
-		DrawingOperationTypes operationType)
-	{
-		return Fill3DRectangle(
+		DrawingOperationTypes operationType) => Fill3DRectangle(
 			position,
 			positionZ,
 			depth,
@@ -2811,7 +2809,6 @@ public partial class ChartGraphics
 			BarDrawingStyle.Default,
 			false,
 			operationType);
-	}
 
 	/// <summary>
 	/// Function is used to calculate the coordinates of the 2D rectangle in 3D space

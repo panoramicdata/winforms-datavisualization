@@ -204,10 +204,7 @@ internal class PointChart : IChartType
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	virtual public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Marker;
-	}
+	virtual public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Marker;
 
 	/// <summary>
 	/// Number of supported Y value(s) per point 
@@ -219,10 +216,7 @@ internal class PointChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	virtual public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	#endregion
 
@@ -553,8 +547,7 @@ internal class PointChart : IChartType
 		int shadowSize,
 		Color shadowColor,
 		RectangleF imageScaleRect
-		)
-	{
+		) =>
 		// Draw marker using relative coordinates
 		graph.DrawMarkerRel(
 			point,
@@ -568,7 +561,6 @@ internal class PointChart : IChartType
 			shadowSize,
 			shadowColor,
 			imageScaleRect);
-	}
 
 	/// <summary>
 	/// Inserts Hot Regions used for image maps, tool tips and 
@@ -1327,20 +1319,14 @@ internal class PointChart : IChartType
 	/// Indicates that markers are drawnd on the X edge of the data scaleView.
 	/// </summary>
 	/// <returns>True. Point chart always draws markers on the edge.</returns>
-	virtual protected bool ShouldDrawMarkerOnViewEdgeX()
-	{
-		return true;
-	}
+	virtual protected bool ShouldDrawMarkerOnViewEdgeX() => true;
 
 	/// <summary>
 	/// Gets marker border size.
 	/// </summary>
 	/// <param name="point">Data point.</param>
 	/// <returns>Marker border size.</returns>
-	virtual protected int GetMarkerBorderSize(DataPointCustomProperties point)
-	{
-		return point.MarkerBorderWidth;
-	}
+	virtual protected int GetMarkerBorderSize(DataPointCustomProperties point) => point.MarkerBorderWidth;
 
 	/// <summary>
 	/// Gets label position. For point chart this function always returns 'Top'.
@@ -1348,10 +1334,7 @@ internal class PointChart : IChartType
 	/// <param name="series">Series.</param>
 	/// <param name="pointIndex">Data point index in series.</param>
 	/// <returns>Return automaticly detected label position.</returns>
-	virtual protected LabelAlignmentStyles GetAutoLabelPosition(Series series, int pointIndex)
-	{
-		return LabelAlignmentStyles.Top;
-	}
+	virtual protected LabelAlignmentStyles GetAutoLabelPosition(Series series, int pointIndex) => LabelAlignmentStyles.Top;
 
 	/// <summary>
 	/// Returns marker size.

@@ -1502,10 +1502,7 @@ public class LegendCell : ChartNamedElement
 	/// tooltip always has a higher priority.
 	/// </remarks>
 	/// <returns>Returns cell text.</returns>
-	private string GetCellUrl()
-	{
-		return string.Empty;
-	}
+	private string GetCellUrl() => string.Empty;
 
 	/// <summary>
 	/// Helper function that returns cell url.
@@ -1515,10 +1512,7 @@ public class LegendCell : ChartNamedElement
 	/// tooltip always has a higher priority.
 	/// </remarks>
 	/// <returns>Returns cell text.</returns>
-	private string GetCellMapAreaAttributes()
-	{
-		return string.Empty;
-	}
+	private string GetCellMapAreaAttributes() => string.Empty;
 
 	/// <summary>
 	/// Helper function that returns cell url.
@@ -1528,10 +1522,7 @@ public class LegendCell : ChartNamedElement
 	/// tooltip always has a higher priority.
 	/// </remarks>
 	/// <returns>Returns cell text.</returns>
-	private string GetCellPostBackValue()
-	{
-		return string.Empty;
-	}
+	private string GetCellPostBackValue() => string.Empty;
 
 	/// <summary>
 	/// Helper function that returns the exact text presented in the cell.
@@ -2437,16 +2428,13 @@ public class Margins
 	/// </summary>
 	/// <returns>A string that represents the margins object.</returns>
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-	public override string ToString()
-	{
-		return string.Format(
+	public override string ToString() => string.Format(
 			CultureInfo.InvariantCulture,
 			"{0:D}, {1:D}, {2:D}, {3:D}",
 			Top,
 			Bottom,
 			Left,
 			Right);
-	}
 
 	/// <summary>
 	/// Determines whether the specified Object is equal to the current Object.
@@ -2479,10 +2467,7 @@ public class Margins
 	/// </summary>
 	/// <returns>Margins object hash value.</returns>
 	[SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-	public override int GetHashCode()
-	{
-		return Top.GetHashCode() + Bottom.GetHashCode() + Left.GetHashCode() + Right.GetHashCode();
-	}
+	public override int GetHashCode() => Top.GetHashCode() + Bottom.GetHashCode() + Left.GetHashCode() + Right.GetHashCode();
 
 	/// <summary>
 	/// Checks if there is no margin.
@@ -2490,19 +2475,13 @@ public class Margins
 	/// <returns>
 	/// <b>True</b> if all margins values are zeros.
 	/// </returns>
-	public bool IsEmpty()
-	{
-		return (Top == 0 && Bottom == 0 && Left == 0 && Right == 0);
-	}
+	public bool IsEmpty() => (Top == 0 && Bottom == 0 && Left == 0 && Right == 0);
 
 	/// <summary>
 	/// Converts Margins class to RectangleF class.
 	/// </summary>
 	/// <returns>A RectangleF class that contains the values of the margins.</returns>
-	public RectangleF ToRectangleF()
-	{
-		return new RectangleF(Left, Top, Right, Bottom);
-	}
+	public RectangleF ToRectangleF() => new(Left, Top, Right, Bottom);
 
 	/// <summary>
 	/// Invalidates chart.
@@ -2581,10 +2560,7 @@ public class LegendCellCollection : ChartNamedElementCollection<LegendCell>
 	/// <param name="alignment">
 	/// A <see cref="ContentAlignment"/> value representing cell content alignment.
 	/// </param>
-	public void Insert(int index, LegendCellType cellType, string text, ContentAlignment alignment)
-	{
-		Insert(index, new LegendCell(cellType, text, alignment));
-	}
+	public void Insert(int index, LegendCellType cellType, string text, ContentAlignment alignment) => Insert(index, new LegendCell(cellType, text, alignment));
 
 	#endregion
 

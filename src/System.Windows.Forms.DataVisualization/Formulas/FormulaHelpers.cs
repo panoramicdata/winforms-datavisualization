@@ -1000,10 +1000,7 @@ internal class ForecastingFormulaInfo(TimeSeriesAndForecasting.RegressionType re
 	/// Loads the formula parameters from string.
 	/// </summary>
 	/// <param name="parameters">Csv string with parameters.</param>
-	internal override void LoadParametersFromString(string parameters)
-	{
-		_parameters = parameters;
-	}
+	internal override void LoadParametersFromString(string parameters) => _parameters = parameters;
 
 	/// <summary>
 	/// Checks the formula parameter string.

@@ -72,10 +72,7 @@ internal class ColumnChart : PointChart
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	override public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	override public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 
 	/// <summary>
 	/// True if chart type is stacked
@@ -124,10 +121,7 @@ internal class ColumnChart : PointChart
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	override public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Rectangle;
-	}
+	override public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Rectangle;
 
 	/// <summary>
 	/// Number of supported Y value(s) per point 
@@ -567,9 +561,7 @@ internal class ColumnChart : PointChart
 		Axis vAxis,
 		RectangleF rectSize,
 		DataPoint point,
-		Series ser)
-	{
-		graph.FillRectangleRel(
+		Series ser) => graph.FillRectangleRel(
 			rectSize,
 			point.Color,
 			point.BackHatchStyle,
@@ -587,7 +579,6 @@ internal class ColumnChart : PointChart
 			PenAlignment.Inset,
 			ChartGraphics.GetBarDrawingStyle(point),
 			true);
-	}
 
 	/// <summary>
 	/// Gets label position for the column depending on the Y value.
@@ -612,10 +603,7 @@ internal class ColumnChart : PointChart
 	/// Indicates that markers are drawnd on the X edge of the data scaleView.
 	/// </summary>
 	/// <returns>False. Column chart never draws markers on the edge.</returns>
-	override protected bool ShouldDrawMarkerOnViewEdgeX()
-	{
-		return false;
-	}
+	override protected bool ShouldDrawMarkerOnViewEdgeX() => false;
 
 	#endregion
 
@@ -954,8 +942,7 @@ internal class ColumnChart : PointChart
 		ChartArea area,
 		RectangleF columnPosition,
 		int pointIndex
-		)
-	{
+		) =>
 		// Draw Labels & markers for each data point
 		ProcessSinglePoint3D(
 			pointEx,
@@ -963,7 +950,6 @@ internal class ColumnChart : PointChart
 			common,
 			area
 			);
-	}
 
 	#endregion
 }

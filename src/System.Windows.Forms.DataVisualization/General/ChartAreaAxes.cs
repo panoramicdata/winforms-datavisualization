@@ -1361,10 +1361,7 @@ public partial class ChartArea
 	/// this chart area to collection and sets a list of all 
 	/// different chart types.
 	/// </summary>
-	internal void SetData()
-	{
-		SetData(true, true);
-	}
+	internal void SetData() => SetData(true, true);
 
 	/// <summary>
 	/// Sets the names of all data series which belong to

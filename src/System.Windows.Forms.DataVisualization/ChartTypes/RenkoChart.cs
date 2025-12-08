@@ -606,10 +606,7 @@ internal class RenkoChart : IChartType
 	/// </summary>
 	/// <param name="series">Legend item series.</param>
 	/// <returns>Legend item style.</returns>
-	virtual public LegendImageStyle GetLegendImageStyle(Series series)
-	{
-		return LegendImageStyle.Rectangle;
-	}
+	virtual public LegendImageStyle GetLegendImageStyle(Series series) => LegendImageStyle.Rectangle;
 
 	/// <summary>
 	/// Number of supported Y value(s) per point 
@@ -621,10 +618,7 @@ internal class RenkoChart : IChartType
 	/// </summary>
 	/// <param name="registry">Chart types registry object.</param>
 	/// <returns>Chart type image.</returns>
-	virtual public Image GetImage(ChartTypeRegistry registry)
-	{
-		return (Image)registry.ResourceManager.GetObject(Name + "ChartType");
-	}
+	virtual public Image GetImage(ChartTypeRegistry registry) => (Image)registry.ResourceManager.GetObject(Name + "ChartType");
 	#endregion
 
 	#region Y values related methods
@@ -645,10 +639,7 @@ internal class RenkoChart : IChartType
 		Series series,
 		DataPoint point,
 		int pointIndex,
-		int yValueIndex)
-	{
-		return point.YValues[yValueIndex];
-	}
+		int yValueIndex) => point.YValues[yValueIndex];
 
 	#endregion
 

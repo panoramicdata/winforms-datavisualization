@@ -353,10 +353,7 @@ public partial class ChartArea : ChartNamedElement
 	/// Avoid serialization of the axes array
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	internal static bool ShouldSerializeAxes()
-	{
-		return false;
-	}
+	internal static bool ShouldSerializeAxes() => false;
 
 	/// <summary>
 	/// Gets or sets an Axis object that represents the primary Y-axis. 
@@ -511,10 +508,7 @@ public partial class ChartArea : ChartNamedElement
 	/// Determoines if this position should be serialized.
 	/// </summary>
 	/// <returns></returns>
-	internal bool ShouldSerializePosition()
-	{
-		return !Position.Auto;
-	}
+	internal bool ShouldSerializePosition() => !Position.Auto;
 
 	/// <summary>
 	/// Gets or sets an ElementPosition object, which defines the inner plot position of a chart area object.  
@@ -564,10 +558,7 @@ public partial class ChartArea : ChartNamedElement
 	/// Determoines if this position should be serialized.
 	/// </summary>
 	/// <returns></returns>
-	internal bool ShouldSerializeInnerPlotPosition()
-	{
-		return !InnerPlotPosition.Auto;
-	}
+	internal bool ShouldSerializeInnerPlotPosition() => !InnerPlotPosition.Auto;
 
 	/// <summary>
 	/// Gets or sets the background color of a ChartArea object. 

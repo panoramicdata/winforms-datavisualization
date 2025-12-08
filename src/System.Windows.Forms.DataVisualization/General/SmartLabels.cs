@@ -561,11 +561,9 @@ internal class SmartLabel
 	/// <summary>
 	/// Reset SmartLabelStyle object.
 	/// </summary>
-	internal void Reset()
-	{
+	internal void Reset() =>
 		// Re-initialize list of labels position
 		smartLabelsPositions = [];
-	}
 
 	/// <summary>
 	/// Process single SmartLabelStyle by adjusting it's position in case of collision.
@@ -591,9 +589,7 @@ internal class SmartLabel
 		StringFormat format,
 		PointF markerPosition,
 		SizeF markerSize,
-		LabelAlignmentStyles labelAlignment)
-	{
-		return AdjustSmartLabelPosition(
+		LabelAlignmentStyles labelAlignment) => AdjustSmartLabelPosition(
 			common,
 			graph,
 			area,
@@ -605,7 +601,6 @@ internal class SmartLabel
 			markerSize,
 			labelAlignment,
 			false);
-	}
 
 	/// <summary>
 	/// Process single SmartLabelStyle by adjusting it's position in case of collision.

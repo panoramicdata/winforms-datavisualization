@@ -9178,730 +9178,295 @@ internal class SR
 		}
 	}
 
-	public static string ExceptionImageLoaderUnsupportedType(string typeName)
-	{
-		return Keys.GetString(Keys.ExceptionImageLoaderUnsupportedType, typeName);
-	}
-
-	public static string ExceptionImageLoaderIncorrectImageUrl(string url)
-	{
-		return Keys.GetString(Keys.ExceptionImageLoaderIncorrectImageUrl, url);
-	}
-
-	public static string ExceptionImageLoaderIncorrectImageLocation(string location)
-	{
-		return Keys.GetString(Keys.ExceptionImageLoaderIncorrectImageLocation, location);
-	}
-
-	public static string ExceptionAnnotationNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionAnnotationNameIsNotUnique, name);
-	}
-
-	public static string ExceptionAnnotationNameAlreadyExistsInCollection(string name)
-	{
-		return Keys.GetString(Keys.ExceptionAnnotationNameAlreadyExistsInCollection, name);
-	}
-
-	public static string ExceptionAnnotationNameNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionAnnotationNameNotFound, name);
-	}
-
-	public static string ExceptionTitleNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionTitleNameIsNotUnique, name);
-	}
-
-	public static string ExceptionTitleNameAddedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionTitleNameAddedIsNotUnique, name);
-	}
-
-	public static string ExceptionTitleNameNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionTitleNameNotFound, name);
-	}
-
-	public static string ExceptionDataSeriesNameNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionDataSeriesNameNotFound, name);
-	}
-
-	public static string ExceptionDataSeriesPointTypeUnsupported(string type)
-	{
-		return Keys.GetString(Keys.ExceptionDataSeriesPointTypeUnsupported, type);
-	}
-
-	public static string ExceptionDataSeriesYValueIndexNotExists(string yValueIndex, string seriesName)
-	{
-		return Keys.GetString(Keys.ExceptionDataSeriesYValueIndexNotExists, yValueIndex, seriesName);
-	}
-
-	public static string ExceptionDataSeriesKeywordFormatInvalid(string format)
-	{
-		return Keys.GetString(Keys.ExceptionDataSeriesKeywordFormatInvalid, format);
-	}
-
-	public static string ExceptionDataSeriesChartAreaInvalid(string chartArea, string seriesName)
-	{
-		return Keys.GetString(Keys.ExceptionDataSeriesChartAreaInvalid, chartArea, seriesName);
-	}
-
-	public static string ExceptionSeriesNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionSeriesNameIsNotUnique, name);
-	}
-
-	public static string ExceptionSeriesNameAddedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionSeriesNameAddedIsNotUnique, name);
-	}
-
-	public static string ExceptionEditorChartTypeRegistryServiceInObjectInaccessible(string objectName)
-	{
-		return Keys.GetString(Keys.ExceptionEditorChartTypeRegistryServiceInObjectInaccessible, objectName);
-	}
-
-	public static string ExceptionLegendDesignerMarginObjectInvalid(string @string)
-	{
-		return Keys.GetString(Keys.ExceptionLegendDesignerMarginObjectInvalid, @string);
-	}
-
-	public static string ExceptionChartAreaAddedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartAreaAddedIsNotUnique, name);
-	}
-
-	public static string ExceptionChartAreaInsertedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartAreaInsertedIsNotUnique, name);
-	}
-
-	public static string ExceptionChartAreaAlreadyExistsInCollection(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartAreaAlreadyExistsInCollection, name);
-	}
-
-	public static string ExceptionAxisLabelsIntervalTypeUnsupported(string type)
-	{
-		return Keys.GetString(Keys.ExceptionAxisLabelsIntervalTypeUnsupported, type);
-	}
-
-	public static string ExceptionSubAxisNameNotFoundShort(string name)
-	{
-		return Keys.GetString(Keys.ExceptionSubAxisNameNotFoundShort, name);
-	}
-
-	public static string ExceptionSubAxisNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionSubAxisNameIsNotUnique, name);
-	}
-
-	public static string ExceptionEnumInvalid(string name)
-	{
-		return Keys.GetString(Keys.ExceptionEnumInvalid, name);
-	}
-
-	public static string ExceptionNamedImageNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionNamedImageNotFound, name);
-	}
-
-	public static string ExceptionNamedImageAddedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionNamedImageAddedIsNotUnique, name);
-	}
-
-	public static string ExceptionNamedImageInsertedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionNamedImageInsertedIsNotUnique, name);
-	}
-
-	public static string ExceptionLegendNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendNameIsNotUnique, name);
-	}
-
-	public static string ExceptionLegendNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendNotFound, name);
-	}
-
-	public static string ExceptionLegendAddedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendAddedIsNotUnique, name);
-	}
-
-	public static string ExceptionLegendDockedChartAreaIsMissing(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendDockedChartAreaIsMissing, name);
-	}
-
-	public static string ExceptionLegendReferencedInSeriesNotFound(string seriesName, string legendName)
-	{
-		return Keys.GetString(Keys.ExceptionLegendReferencedInSeriesNotFound, seriesName, legendName);
-	}
-
-	public static string ExceptionLegendSeparatorTypeUnknown(string type)
-	{
-		return Keys.GetString(Keys.ExceptionLegendSeparatorTypeUnknown, type);
-	}
-
-	public static string ExceptionLegendCellTypeUnknown(string type)
-	{
-		return Keys.GetString(Keys.ExceptionLegendCellTypeUnknown, type);
-	}
-
-	public static string ExceptionLegendColumnAlreadyExistsInCollection(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendColumnAlreadyExistsInCollection, name);
-	}
-
-	public static string ExceptionLegendCellNameAlreadyExistsInCollection(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendCellNameAlreadyExistsInCollection, name);
-	}
-
-	public static string ExceptionLegendCellNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendCellNotFound, name);
-	}
-
-	public static string ExceptionLegendCellColumnNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendCellColumnNotFound, name);
-	}
-
-	public static string ExceptionLegendCellColumnAlreadyExistsInCollection(string name)
-	{
-		return Keys.GetString(Keys.ExceptionLegendCellColumnAlreadyExistsInCollection, name);
-	}
-
-	public static string ExceptionChartAreaNameReferenceInvalid(string chartArea1, string chartArea2)
-	{
-		return Keys.GetString(Keys.ExceptionChartAreaNameReferenceInvalid, chartArea1, chartArea2);
-	}
-
-	public static string ExceptionTraceManagerUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionTraceManagerUnsupportedType, name);
-	}
-
-	public static string ExceptionChartTypeRegistryUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTypeRegistryUnsupportedType, name);
-	}
-
-	public static string ExceptionChartTypeNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTypeNameIsNotUnique, name);
-	}
-
-	public static string ExceptionChartTypeUnknown(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTypeUnknown, name);
-	}
-
-	public static string ExceptionChartTypeRequiresYValues(string name, string yValues)
-	{
-		return Keys.GetString(Keys.ExceptionChartTypeRequiresYValues, name, yValues);
-	}
-
-	public static string ExceptionChartTypeSecondaryYAxisUnsupported(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTypeSecondaryYAxisUnsupported, name);
-	}
-
-	public static string ExceptionChartTypeSecondaryXAxisUnsupported(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTypeSecondaryXAxisUnsupported, name);
-	}
-
-	public static string ExceptionChartTypeCanNotCombine(string type1, string type2)
-	{
-		return Keys.GetString(Keys.ExceptionChartTypeCanNotCombine, type1, type2);
-	}
-
-	public static string ExceptionBorderTypeRegistryUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionBorderTypeRegistryUnsupportedType, name);
-	}
-
-	public static string ExceptionBorderTypeNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionBorderTypeNameIsNotUnique, name);
-	}
-
-	public static string ExceptionBorderTypeUnknown(string name)
-	{
-		return Keys.GetString(Keys.ExceptionBorderTypeUnknown, name);
-	}
-
-	public static string ExceptionChartSerializerUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartSerializerUnsupportedType, name);
-	}
-
-	public static string ExceptionChartSerializerDefaultConstructorUndefined(string property)
-	{
-		return Keys.GetString(Keys.ExceptionChartSerializerDefaultConstructorUndefined, property);
-	}
-
-	public static string ExceptionChartSerializerTypeUnsupported(string type)
-	{
-		return Keys.GetString(Keys.ExceptionChartSerializerTypeUnsupported, type);
-	}
-
-	public static string ExceptionChartSerializerPropertyNameUnknown(string property, string @object)
-	{
-		return Keys.GetString(Keys.ExceptionChartSerializerPropertyNameUnknown, property, @object);
-	}
-
-	public static string ExceptionChartSerializerBinaryTypeUnsupported(string type)
-	{
-		return Keys.GetString(Keys.ExceptionChartSerializerBinaryTypeUnsupported, type);
-	}
-
-	public static string ExceptionChartSerializerBinaryHashCodeDuplicate(string anem1, string name2)
-	{
-		return Keys.GetString(Keys.ExceptionChartSerializerBinaryHashCodeDuplicate, anem1, name2);
-	}
-
-	public static string ExceptionDataManipulatorYValuesIndexExceeded(string formula)
-	{
-		return Keys.GetString(Keys.ExceptionDataManipulatorYValuesIndexExceeded, formula);
-	}
-
-	public static string ExceptionDataManipulatorGroupingFormulaAlreadyDefined(string formulaName)
-	{
-		return Keys.GetString(Keys.ExceptionDataManipulatorGroupingFormulaAlreadyDefined, formulaName);
-	}
-
-	public static string ExceptionDataManipulatorGroupingFormulaFormatInvalid(string formula)
-	{
-		return Keys.GetString(Keys.ExceptionDataManipulatorGroupingFormulaFormatInvalid, formula);
-	}
-
-	public static string ExceptionDataManipulatorGroupingFormulaNameInvalid(string name)
-	{
-		return Keys.GetString(Keys.ExceptionDataManipulatorGroupingFormulaNameInvalid, name);
-	}
-
-	public static string ExceptionChartPictureUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartPictureUnsupportedType, name);
-	}
-
-	public static string ExceptionSubAxisNameNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionSubAxisNameNotFound, name);
-	}
-
-	public static string ExceptionSubAxisNameAlreadyExistsInCollection(string name)
-	{
-		return Keys.GetString(Keys.ExceptionSubAxisNameAlreadyExistsInCollection, name);
-	}
-
-	public static string ExceptionChartTitleSetIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTitleSetIsNotUnique, name);
-	}
-
-	public static string ExceptionChartTitleAddedIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTitleAddedIsNotUnique, name);
-	}
-
-	public static string ExceptionChartTitleDockedChartAreaIsMissing(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartTitleDockedChartAreaIsMissing, name);
-	}
-
-	public static string ExceptionDataManagerUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionDataManagerUnsupportedType, name);
-	}
-
-	public static string ExceptionKeywordsRegistryUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionKeywordsRegistryUnsupportedType, name);
-	}
-
-	public static string ExceptionCustomAttributesRegistryUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributesRegistryUnsupportedType, name);
-	}
-
-	public static string ExceptionFormulaModuleNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaModuleNameIsNotUnique, name);
-	}
-
-	public static string ExceptionFormulaModuleRegistryUnsupportedType(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaModuleRegistryUnsupportedType, name);
-	}
-
-	public static string ExceptionFormulaModuleNameUnknown(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaModuleNameUnknown, name);
-	}
-
-	public static string ExceptionColumnNameNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionColumnNameNotFound, name);
-	}
-
-	public static string ExceptionDataPointConverterUnavailableSorting(string value, string count)
-	{
-		return Keys.GetString(Keys.ExceptionDataPointConverterUnavailableSorting, value, count);
-	}
-
-	public static string ExceptionDataPointYValuesCountMismatch(string count)
-	{
-		return Keys.GetString(Keys.ExceptionDataPointYValuesCountMismatch, count);
-	}
-
-	public static string ExceptionDataPointYValuesBindingCountMismatch(string count)
-	{
-		return Keys.GetString(Keys.ExceptionDataPointYValuesBindingCountMismatch, count);
-	}
-
-	public static string ExceptionDataPointYValuesSettingCountMismatch(string count)
-	{
-		return Keys.GetString(Keys.ExceptionDataPointYValuesSettingCountMismatch, count);
-	}
-
-	public static string ExceptionAttributeNameIsNotUnique(string name)
-	{
-		return Keys.GetString(Keys.ExceptionAttributeNameIsNotUnique, name);
-	}
-
-	public static string ExceptionFormulaInvalidPeriod(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaInvalidPeriod, name);
-	}
-
-	public static string ExceptionFormulaNotEnoughDataPoints(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaNotEnoughDataPoints, name);
-	}
-
-	public static string ExceptionKagiAttributeFormatInvalid(string attribute)
-	{
-		return Keys.GetString(Keys.ExceptionKagiAttributeFormatInvalid, attribute);
-	}
-
-	public static string ExceptionKagiAttributeOutOfRange(string name)
-	{
-		return Keys.GetString(Keys.ExceptionKagiAttributeOutOfRange, name);
-	}
-
-	public static string ExceptionFunnelStyleUnknown(string style)
-	{
-		return Keys.GetString(Keys.ExceptionFunnelStyleUnknown, style);
-	}
-
-	public static string ExceptionErrorBarTypeInvalid(string type)
-	{
-		return Keys.GetString(Keys.ExceptionErrorBarTypeInvalid, type);
-	}
-
-	public static string ExceptionErrorBarTypeFormatInvalid(string format)
-	{
-		return Keys.GetString(Keys.ExceptionErrorBarTypeFormatInvalid, format);
-	}
-
-	public static string ExceptionChartCanNotCombine(string name)
-	{
-		return Keys.GetString(Keys.ExceptionChartCanNotCombine, name);
-	}
-
-	public static string ExceptionCustomAttributeValueInvalid(string value, string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeValueInvalid, value, name);
-	}
-
-	public static string ExceptionCustomAttributeValueInvalid2(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeValueInvalid2, name);
-	}
-
-	public static string ExceptionCustomAttributeAngleOutOfRange(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeAngleOutOfRange, name);
-	}
-
-	public static string ExceptionCustomAttributeIsNotInRange0to1(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeIsNotInRange0to1, name);
-	}
-
-	public static string ExceptionCustomAttributeIsNotInRange0to100(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeIsNotInRange0to100, name);
-	}
-
-	public static string ExceptionCustomAttributeIsNotLargerThenZiro(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeIsNotLargerThenZiro, name);
-	}
-
-	public static string ExceptionCustomAttributeIsNotInRange0to50(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeIsNotInRange0to50, name);
-	}
-
-	public static string ExceptionCustomAttributeSeriesNameNotFound(string attributeName, string seriesName)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeSeriesNameNotFound, attributeName, seriesName);
-	}
-
-	public static string ExceptionCustomAttributeMustBeMoreThenValue(string attributeName, string value)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeMustBeMoreThenValue, attributeName, value);
-	}
-
-	public static string ExceptionCustomAttributeMustBeBiggerThenValue(string attributeName, string value)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeMustBeBiggerThenValue, attributeName, value);
-	}
-
-	public static string ExceptionCustomAttributeMustBeInRange(string attributeName, string fromValue, string toValue)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeMustBeInRange, attributeName, fromValue, toValue);
-	}
-
-	public static string ExceptionCustomAttributeTypeUnsupported(string type)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeTypeUnsupported, type);
-	}
-
-	public static string ExceptionCustomAttributeTypeOrMaximumPossibleValueInvalid(string attributeName)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeTypeOrMaximumPossibleValueInvalid, attributeName);
-	}
-
-	public static string ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported(string name)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported, name);
-	}
-
-	public static string ExceptionCustomAttributeTypeOrMinimumPossibleValueInvalid(string attributeName)
-	{
-		return Keys.GetString(Keys.ExceptionCustomAttributeTypeOrMinimumPossibleValueInvalid, attributeName);
-	}
-
-	public static string ExceptionFormulaDataSeriesNameNotFoundInCollection(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaDataSeriesNameNotFoundInCollection, name);
-	}
-
-	public static string ExceptionFormulaDataSeriesNameNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaDataSeriesNameNotFound, name);
-	}
-
-	public static string ExceptionFormulaDataFormatInvalid(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaDataFormatInvalid, name);
-	}
-
-	public static string ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues(string series1, string series2)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues, series1, series2);
-	}
-
-	public static string ExceptionFormulaDataSeriesAreNotAlignedDifferentDataPoints(string series1, string series2)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaDataSeriesAreNotAlignedDifferentDataPoints, series1, series2);
-	}
-
-	public static string ExceptionFormulaNotFound(string name)
-	{
-		return Keys.GetString(Keys.ExceptionFormulaNotFound, name);
-	}
-
-	public static string ExceptionForecastingNotEnoughDataPoints(string minimum)
-	{
-		return Keys.GetString(Keys.ExceptionForecastingNotEnoughDataPoints, minimum);
-	}
-
-	public static string ExceptionValueMustBeGreaterThan(string propertyName, string value)
-	{
-		return Keys.GetString(Keys.ExceptionValueMustBeGreaterThan, propertyName, value);
-	}
-
-	public static string ExceptionValueMustBeLessThan(string propertyName, string value)
-	{
-		return Keys.GetString(Keys.ExceptionValueMustBeLessThan, propertyName, value);
-	}
-
-	public static string ExceptionValueMustBeInRange(string propertyName, string fromValue, string toValue)
-	{
-		return Keys.GetString(Keys.ExceptionValueMustBeInRange, propertyName, fromValue, toValue);
-	}
-
-	public static string ExceptionHttpHandlerCanNotLoadType(string type)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerCanNotLoadType, type);
-	}
-
-	public static string ExceptionHttpHandlerImageHandlerInterfaceUnsupported(string name)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerImageHandlerInterfaceUnsupported, name);
-	}
-
-	public static string ExceptionHttpHandlerParameterUnknown(string name, string value)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerParameterUnknown, name, value);
-	}
-
-	public static string ExceptionHttpHandlerParameterInvalid(string name, string value)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerParameterInvalid, name, value);
-	}
-
-	public static string ExceptionHttpHandlerPrivacyKeyInvalid(string name, string value)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerPrivacyKeyInvalid, name, value);
-	}
-
-	public static string ExceptionHttpHandlerTempDirectoryInvalid(string directory)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerTempDirectoryInvalid, directory);
-	}
-
-	public static string ExceptionHttpHandlerTempDirectoryUnaccesible(string directory)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerTempDirectoryUnaccesible, directory);
-	}
-
-	public static string ExceptionHttpHandlerStorageTypeUnsupported(string type)
-	{
-		return Keys.GetString(Keys.ExceptionHttpHandlerStorageTypeUnsupported, type);
-	}
-
-	public static string ExceptionWebConfigUpdateFailed(string message)
-	{
-		return Keys.GetString(Keys.ExceptionWebConfigUpdateFailed, message);
-	}
-
-	public static string EvenLogMessageChartImageFileTimeToLive(string minutes)
-	{
-		return Keys.GetString(Keys.EvenLogMessageChartImageFileTimeToLive, minutes);
-	}
-
-	public static string MessageYValueIndexInvalid(string maxIndex)
-	{
-		return Keys.GetString(Keys.MessageYValueIndexInvalid, maxIndex);
-	}
-
-	public static string AccessibilityTitleName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityTitleName, name);
-	}
-
-	public static string AccessibilityAnnotationName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityAnnotationName, name);
-	}
-
-	public static string AccessibilityLegendName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityLegendName, name);
-	}
-
-	public static string AccessibilitySeriesName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilitySeriesName, name);
-	}
-
-	public static string AccessibilityDataPointName(int index)
-	{
-		return Keys.GetString(Keys.AccessibilityDataPointName, index);
-	}
-
-	public static string AccessibilityDataPointLabelName(int index)
-	{
-		return Keys.GetString(Keys.AccessibilityDataPointLabelName, index);
-	}
-
-	public static string AccessibilityLegendTitleName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityLegendTitleName, name);
-	}
-
-	public static string AccessibilityChartAreaName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityChartAreaName, name);
-	}
-
-	public static string AccessibilityChartAxisTitleName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityChartAxisTitleName, name);
-	}
-
-	public static string AccessibilityChartAxisMajorGridlinesName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityChartAxisMajorGridlinesName, name);
-	}
-
-	public static string AccessibilityChartAxisMinorGridlinesName(string name)
-	{
-		return Keys.GetString(Keys.AccessibilityChartAxisMinorGridlinesName, name);
-	}
-
-	public static string ExceptionNameAlreadyExistsInCollection(string name, string collection)
-	{
-		return Keys.GetString(Keys.ExceptionNameAlreadyExistsInCollection, name, collection);
-	}
-
-	public static string ExceptionNameNotFound(string name, string collection)
-	{
-		return Keys.GetString(Keys.ExceptionNameNotFound, name, collection);
-	}
-
-	public static string ActionListSeriesDataGroup(string name)
-	{
-		return Keys.GetString(Keys.ActionListSeriesDataGroup, name);
-	}
-
-	public static string DiagnosticSettingsConfig(string s)
-	{
-		return Keys.GetString(Keys.DiagnosticSettingsConfig, s);
-	}
-
-	public static string DiagnosticChartImageSaved(string name)
-	{
-		return Keys.GetString(Keys.DiagnosticChartImageSaved, name);
-	}
-
-	public static string DiagnosticChartImageSavedPrivate(string name, string keyType)
-	{
-		return Keys.GetString(Keys.DiagnosticChartImageSavedPrivate, name, keyType);
-	}
-
-	public static string DiagnosticChartImageDeleted(string name)
-	{
-		return Keys.GetString(Keys.DiagnosticChartImageDeleted, name);
-	}
-
-	public static string DiagnosticChartImageServed(string name)
-	{
-		return Keys.GetString(Keys.DiagnosticChartImageServed, name);
-	}
-
-	public static string DiagnosticChartImageServedFail(string name, string reason)
-	{
-		return Keys.GetString(Keys.DiagnosticChartImageServedFail, name, reason);
-	}
-
-	public static string DiagnosticChartImageServedFailPrivacyFail(string keyType)
-	{
-		return Keys.GetString(Keys.DiagnosticChartImageServedFailPrivacyFail, keyType);
-	}
+	public static string ExceptionImageLoaderUnsupportedType(string typeName) => Keys.GetString(Keys.ExceptionImageLoaderUnsupportedType, typeName);
+
+	public static string ExceptionImageLoaderIncorrectImageUrl(string url) => Keys.GetString(Keys.ExceptionImageLoaderIncorrectImageUrl, url);
+
+	public static string ExceptionImageLoaderIncorrectImageLocation(string location) => Keys.GetString(Keys.ExceptionImageLoaderIncorrectImageLocation, location);
+
+	public static string ExceptionAnnotationNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionAnnotationNameIsNotUnique, name);
+
+	public static string ExceptionAnnotationNameAlreadyExistsInCollection(string name) => Keys.GetString(Keys.ExceptionAnnotationNameAlreadyExistsInCollection, name);
+
+	public static string ExceptionAnnotationNameNotFound(string name) => Keys.GetString(Keys.ExceptionAnnotationNameNotFound, name);
+
+	public static string ExceptionTitleNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionTitleNameIsNotUnique, name);
+
+	public static string ExceptionTitleNameAddedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionTitleNameAddedIsNotUnique, name);
+
+	public static string ExceptionTitleNameNotFound(string name) => Keys.GetString(Keys.ExceptionTitleNameNotFound, name);
+
+	public static string ExceptionDataSeriesNameNotFound(string name) => Keys.GetString(Keys.ExceptionDataSeriesNameNotFound, name);
+
+	public static string ExceptionDataSeriesPointTypeUnsupported(string type) => Keys.GetString(Keys.ExceptionDataSeriesPointTypeUnsupported, type);
+
+	public static string ExceptionDataSeriesYValueIndexNotExists(string yValueIndex, string seriesName) => Keys.GetString(Keys.ExceptionDataSeriesYValueIndexNotExists, yValueIndex, seriesName);
+
+	public static string ExceptionDataSeriesKeywordFormatInvalid(string format) => Keys.GetString(Keys.ExceptionDataSeriesKeywordFormatInvalid, format);
+
+	public static string ExceptionDataSeriesChartAreaInvalid(string chartArea, string seriesName) => Keys.GetString(Keys.ExceptionDataSeriesChartAreaInvalid, chartArea, seriesName);
+
+	public static string ExceptionSeriesNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionSeriesNameIsNotUnique, name);
+
+	public static string ExceptionSeriesNameAddedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionSeriesNameAddedIsNotUnique, name);
+
+	public static string ExceptionEditorChartTypeRegistryServiceInObjectInaccessible(string objectName) => Keys.GetString(Keys.ExceptionEditorChartTypeRegistryServiceInObjectInaccessible, objectName);
+
+	public static string ExceptionLegendDesignerMarginObjectInvalid(string @string) => Keys.GetString(Keys.ExceptionLegendDesignerMarginObjectInvalid, @string);
+
+	public static string ExceptionChartAreaAddedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionChartAreaAddedIsNotUnique, name);
+
+	public static string ExceptionChartAreaInsertedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionChartAreaInsertedIsNotUnique, name);
+
+	public static string ExceptionChartAreaAlreadyExistsInCollection(string name) => Keys.GetString(Keys.ExceptionChartAreaAlreadyExistsInCollection, name);
+
+	public static string ExceptionAxisLabelsIntervalTypeUnsupported(string type) => Keys.GetString(Keys.ExceptionAxisLabelsIntervalTypeUnsupported, type);
+
+	public static string ExceptionSubAxisNameNotFoundShort(string name) => Keys.GetString(Keys.ExceptionSubAxisNameNotFoundShort, name);
+
+	public static string ExceptionSubAxisNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionSubAxisNameIsNotUnique, name);
+
+	public static string ExceptionEnumInvalid(string name) => Keys.GetString(Keys.ExceptionEnumInvalid, name);
+
+	public static string ExceptionNamedImageNotFound(string name) => Keys.GetString(Keys.ExceptionNamedImageNotFound, name);
+
+	public static string ExceptionNamedImageAddedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionNamedImageAddedIsNotUnique, name);
+
+	public static string ExceptionNamedImageInsertedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionNamedImageInsertedIsNotUnique, name);
+
+	public static string ExceptionLegendNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionLegendNameIsNotUnique, name);
+
+	public static string ExceptionLegendNotFound(string name) => Keys.GetString(Keys.ExceptionLegendNotFound, name);
+
+	public static string ExceptionLegendAddedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionLegendAddedIsNotUnique, name);
+
+	public static string ExceptionLegendDockedChartAreaIsMissing(string name) => Keys.GetString(Keys.ExceptionLegendDockedChartAreaIsMissing, name);
+
+	public static string ExceptionLegendReferencedInSeriesNotFound(string seriesName, string legendName) => Keys.GetString(Keys.ExceptionLegendReferencedInSeriesNotFound, seriesName, legendName);
+
+	public static string ExceptionLegendSeparatorTypeUnknown(string type) => Keys.GetString(Keys.ExceptionLegendSeparatorTypeUnknown, type);
+
+	public static string ExceptionLegendCellTypeUnknown(string type) => Keys.GetString(Keys.ExceptionLegendCellTypeUnknown, type);
+
+	public static string ExceptionLegendColumnAlreadyExistsInCollection(string name) => Keys.GetString(Keys.ExceptionLegendColumnAlreadyExistsInCollection, name);
+
+	public static string ExceptionLegendCellNameAlreadyExistsInCollection(string name) => Keys.GetString(Keys.ExceptionLegendCellNameAlreadyExistsInCollection, name);
+
+	public static string ExceptionLegendCellNotFound(string name) => Keys.GetString(Keys.ExceptionLegendCellNotFound, name);
+
+	public static string ExceptionLegendCellColumnNotFound(string name) => Keys.GetString(Keys.ExceptionLegendCellColumnNotFound, name);
+
+	public static string ExceptionLegendCellColumnAlreadyExistsInCollection(string name) => Keys.GetString(Keys.ExceptionLegendCellColumnAlreadyExistsInCollection, name);
+
+	public static string ExceptionChartAreaNameReferenceInvalid(string chartArea1, string chartArea2) => Keys.GetString(Keys.ExceptionChartAreaNameReferenceInvalid, chartArea1, chartArea2);
+
+	public static string ExceptionTraceManagerUnsupportedType(string name) => Keys.GetString(Keys.ExceptionTraceManagerUnsupportedType, name);
+
+	public static string ExceptionChartTypeRegistryUnsupportedType(string name) => Keys.GetString(Keys.ExceptionChartTypeRegistryUnsupportedType, name);
+
+	public static string ExceptionChartTypeNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionChartTypeNameIsNotUnique, name);
+
+	public static string ExceptionChartTypeUnknown(string name) => Keys.GetString(Keys.ExceptionChartTypeUnknown, name);
+
+	public static string ExceptionChartTypeRequiresYValues(string name, string yValues) => Keys.GetString(Keys.ExceptionChartTypeRequiresYValues, name, yValues);
+
+	public static string ExceptionChartTypeSecondaryYAxisUnsupported(string name) => Keys.GetString(Keys.ExceptionChartTypeSecondaryYAxisUnsupported, name);
+
+	public static string ExceptionChartTypeSecondaryXAxisUnsupported(string name) => Keys.GetString(Keys.ExceptionChartTypeSecondaryXAxisUnsupported, name);
+
+	public static string ExceptionChartTypeCanNotCombine(string type1, string type2) => Keys.GetString(Keys.ExceptionChartTypeCanNotCombine, type1, type2);
+
+	public static string ExceptionBorderTypeRegistryUnsupportedType(string name) => Keys.GetString(Keys.ExceptionBorderTypeRegistryUnsupportedType, name);
+
+	public static string ExceptionBorderTypeNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionBorderTypeNameIsNotUnique, name);
+
+	public static string ExceptionBorderTypeUnknown(string name) => Keys.GetString(Keys.ExceptionBorderTypeUnknown, name);
+
+	public static string ExceptionChartSerializerUnsupportedType(string name) => Keys.GetString(Keys.ExceptionChartSerializerUnsupportedType, name);
+
+	public static string ExceptionChartSerializerDefaultConstructorUndefined(string property) => Keys.GetString(Keys.ExceptionChartSerializerDefaultConstructorUndefined, property);
+
+	public static string ExceptionChartSerializerTypeUnsupported(string type) => Keys.GetString(Keys.ExceptionChartSerializerTypeUnsupported, type);
+
+	public static string ExceptionChartSerializerPropertyNameUnknown(string property, string @object) => Keys.GetString(Keys.ExceptionChartSerializerPropertyNameUnknown, property, @object);
+
+	public static string ExceptionChartSerializerBinaryTypeUnsupported(string type) => Keys.GetString(Keys.ExceptionChartSerializerBinaryTypeUnsupported, type);
+
+	public static string ExceptionChartSerializerBinaryHashCodeDuplicate(string anem1, string name2) => Keys.GetString(Keys.ExceptionChartSerializerBinaryHashCodeDuplicate, anem1, name2);
+
+	public static string ExceptionDataManipulatorYValuesIndexExceeded(string formula) => Keys.GetString(Keys.ExceptionDataManipulatorYValuesIndexExceeded, formula);
+
+	public static string ExceptionDataManipulatorGroupingFormulaAlreadyDefined(string formulaName) => Keys.GetString(Keys.ExceptionDataManipulatorGroupingFormulaAlreadyDefined, formulaName);
+
+	public static string ExceptionDataManipulatorGroupingFormulaFormatInvalid(string formula) => Keys.GetString(Keys.ExceptionDataManipulatorGroupingFormulaFormatInvalid, formula);
+
+	public static string ExceptionDataManipulatorGroupingFormulaNameInvalid(string name) => Keys.GetString(Keys.ExceptionDataManipulatorGroupingFormulaNameInvalid, name);
+
+	public static string ExceptionChartPictureUnsupportedType(string name) => Keys.GetString(Keys.ExceptionChartPictureUnsupportedType, name);
+
+	public static string ExceptionSubAxisNameNotFound(string name) => Keys.GetString(Keys.ExceptionSubAxisNameNotFound, name);
+
+	public static string ExceptionSubAxisNameAlreadyExistsInCollection(string name) => Keys.GetString(Keys.ExceptionSubAxisNameAlreadyExistsInCollection, name);
+
+	public static string ExceptionChartTitleSetIsNotUnique(string name) => Keys.GetString(Keys.ExceptionChartTitleSetIsNotUnique, name);
+
+	public static string ExceptionChartTitleAddedIsNotUnique(string name) => Keys.GetString(Keys.ExceptionChartTitleAddedIsNotUnique, name);
+
+	public static string ExceptionChartTitleDockedChartAreaIsMissing(string name) => Keys.GetString(Keys.ExceptionChartTitleDockedChartAreaIsMissing, name);
+
+	public static string ExceptionDataManagerUnsupportedType(string name) => Keys.GetString(Keys.ExceptionDataManagerUnsupportedType, name);
+
+	public static string ExceptionKeywordsRegistryUnsupportedType(string name) => Keys.GetString(Keys.ExceptionKeywordsRegistryUnsupportedType, name);
+
+	public static string ExceptionCustomAttributesRegistryUnsupportedType(string name) => Keys.GetString(Keys.ExceptionCustomAttributesRegistryUnsupportedType, name);
+
+	public static string ExceptionFormulaModuleNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionFormulaModuleNameIsNotUnique, name);
+
+	public static string ExceptionFormulaModuleRegistryUnsupportedType(string name) => Keys.GetString(Keys.ExceptionFormulaModuleRegistryUnsupportedType, name);
+
+	public static string ExceptionFormulaModuleNameUnknown(string name) => Keys.GetString(Keys.ExceptionFormulaModuleNameUnknown, name);
+
+	public static string ExceptionColumnNameNotFound(string name) => Keys.GetString(Keys.ExceptionColumnNameNotFound, name);
+
+	public static string ExceptionDataPointConverterUnavailableSorting(string value, string count) => Keys.GetString(Keys.ExceptionDataPointConverterUnavailableSorting, value, count);
+
+	public static string ExceptionDataPointYValuesCountMismatch(string count) => Keys.GetString(Keys.ExceptionDataPointYValuesCountMismatch, count);
+
+	public static string ExceptionDataPointYValuesBindingCountMismatch(string count) => Keys.GetString(Keys.ExceptionDataPointYValuesBindingCountMismatch, count);
+
+	public static string ExceptionDataPointYValuesSettingCountMismatch(string count) => Keys.GetString(Keys.ExceptionDataPointYValuesSettingCountMismatch, count);
+
+	public static string ExceptionAttributeNameIsNotUnique(string name) => Keys.GetString(Keys.ExceptionAttributeNameIsNotUnique, name);
+
+	public static string ExceptionFormulaInvalidPeriod(string name) => Keys.GetString(Keys.ExceptionFormulaInvalidPeriod, name);
+
+	public static string ExceptionFormulaNotEnoughDataPoints(string name) => Keys.GetString(Keys.ExceptionFormulaNotEnoughDataPoints, name);
+
+	public static string ExceptionKagiAttributeFormatInvalid(string attribute) => Keys.GetString(Keys.ExceptionKagiAttributeFormatInvalid, attribute);
+
+	public static string ExceptionKagiAttributeOutOfRange(string name) => Keys.GetString(Keys.ExceptionKagiAttributeOutOfRange, name);
+
+	public static string ExceptionFunnelStyleUnknown(string style) => Keys.GetString(Keys.ExceptionFunnelStyleUnknown, style);
+
+	public static string ExceptionErrorBarTypeInvalid(string type) => Keys.GetString(Keys.ExceptionErrorBarTypeInvalid, type);
+
+	public static string ExceptionErrorBarTypeFormatInvalid(string format) => Keys.GetString(Keys.ExceptionErrorBarTypeFormatInvalid, format);
+
+	public static string ExceptionChartCanNotCombine(string name) => Keys.GetString(Keys.ExceptionChartCanNotCombine, name);
+
+	public static string ExceptionCustomAttributeValueInvalid(string value, string name) => Keys.GetString(Keys.ExceptionCustomAttributeValueInvalid, value, name);
+
+	public static string ExceptionCustomAttributeValueInvalid2(string name) => Keys.GetString(Keys.ExceptionCustomAttributeValueInvalid2, name);
+
+	public static string ExceptionCustomAttributeAngleOutOfRange(string name) => Keys.GetString(Keys.ExceptionCustomAttributeAngleOutOfRange, name);
+
+	public static string ExceptionCustomAttributeIsNotInRange0to1(string name) => Keys.GetString(Keys.ExceptionCustomAttributeIsNotInRange0to1, name);
+
+	public static string ExceptionCustomAttributeIsNotInRange0to100(string name) => Keys.GetString(Keys.ExceptionCustomAttributeIsNotInRange0to100, name);
+
+	public static string ExceptionCustomAttributeIsNotLargerThenZiro(string name) => Keys.GetString(Keys.ExceptionCustomAttributeIsNotLargerThenZiro, name);
+
+	public static string ExceptionCustomAttributeIsNotInRange0to50(string name) => Keys.GetString(Keys.ExceptionCustomAttributeIsNotInRange0to50, name);
+
+	public static string ExceptionCustomAttributeSeriesNameNotFound(string attributeName, string seriesName) => Keys.GetString(Keys.ExceptionCustomAttributeSeriesNameNotFound, attributeName, seriesName);
+
+	public static string ExceptionCustomAttributeMustBeMoreThenValue(string attributeName, string value) => Keys.GetString(Keys.ExceptionCustomAttributeMustBeMoreThenValue, attributeName, value);
+
+	public static string ExceptionCustomAttributeMustBeBiggerThenValue(string attributeName, string value) => Keys.GetString(Keys.ExceptionCustomAttributeMustBeBiggerThenValue, attributeName, value);
+
+	public static string ExceptionCustomAttributeMustBeInRange(string attributeName, string fromValue, string toValue) => Keys.GetString(Keys.ExceptionCustomAttributeMustBeInRange, attributeName, fromValue, toValue);
+
+	public static string ExceptionCustomAttributeTypeUnsupported(string type) => Keys.GetString(Keys.ExceptionCustomAttributeTypeUnsupported, type);
+
+	public static string ExceptionCustomAttributeTypeOrMaximumPossibleValueInvalid(string attributeName) => Keys.GetString(Keys.ExceptionCustomAttributeTypeOrMaximumPossibleValueInvalid, attributeName);
+
+	public static string ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported(string name) => Keys.GetString(Keys.ExceptionCustomAttributeTypeOrMinimumPossibleValueUnsupported, name);
+
+	public static string ExceptionCustomAttributeTypeOrMinimumPossibleValueInvalid(string attributeName) => Keys.GetString(Keys.ExceptionCustomAttributeTypeOrMinimumPossibleValueInvalid, attributeName);
+
+	public static string ExceptionFormulaDataSeriesNameNotFoundInCollection(string name) => Keys.GetString(Keys.ExceptionFormulaDataSeriesNameNotFoundInCollection, name);
+
+	public static string ExceptionFormulaDataSeriesNameNotFound(string name) => Keys.GetString(Keys.ExceptionFormulaDataSeriesNameNotFound, name);
+
+	public static string ExceptionFormulaDataFormatInvalid(string name) => Keys.GetString(Keys.ExceptionFormulaDataFormatInvalid, name);
+
+	public static string ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues(string series1, string series2) => Keys.GetString(Keys.ExceptionFormulaDataSeriesAreNotAlignedDifferentXValues, series1, series2);
+
+	public static string ExceptionFormulaDataSeriesAreNotAlignedDifferentDataPoints(string series1, string series2) => Keys.GetString(Keys.ExceptionFormulaDataSeriesAreNotAlignedDifferentDataPoints, series1, series2);
+
+	public static string ExceptionFormulaNotFound(string name) => Keys.GetString(Keys.ExceptionFormulaNotFound, name);
+
+	public static string ExceptionForecastingNotEnoughDataPoints(string minimum) => Keys.GetString(Keys.ExceptionForecastingNotEnoughDataPoints, minimum);
+
+	public static string ExceptionValueMustBeGreaterThan(string propertyName, string value) => Keys.GetString(Keys.ExceptionValueMustBeGreaterThan, propertyName, value);
+
+	public static string ExceptionValueMustBeLessThan(string propertyName, string value) => Keys.GetString(Keys.ExceptionValueMustBeLessThan, propertyName, value);
+
+	public static string ExceptionValueMustBeInRange(string propertyName, string fromValue, string toValue) => Keys.GetString(Keys.ExceptionValueMustBeInRange, propertyName, fromValue, toValue);
+
+	public static string ExceptionHttpHandlerCanNotLoadType(string type) => Keys.GetString(Keys.ExceptionHttpHandlerCanNotLoadType, type);
+
+	public static string ExceptionHttpHandlerImageHandlerInterfaceUnsupported(string name) => Keys.GetString(Keys.ExceptionHttpHandlerImageHandlerInterfaceUnsupported, name);
+
+	public static string ExceptionHttpHandlerParameterUnknown(string name, string value) => Keys.GetString(Keys.ExceptionHttpHandlerParameterUnknown, name, value);
+
+	public static string ExceptionHttpHandlerParameterInvalid(string name, string value) => Keys.GetString(Keys.ExceptionHttpHandlerParameterInvalid, name, value);
+
+	public static string ExceptionHttpHandlerPrivacyKeyInvalid(string name, string value) => Keys.GetString(Keys.ExceptionHttpHandlerPrivacyKeyInvalid, name, value);
+
+	public static string ExceptionHttpHandlerTempDirectoryInvalid(string directory) => Keys.GetString(Keys.ExceptionHttpHandlerTempDirectoryInvalid, directory);
+
+	public static string ExceptionHttpHandlerTempDirectoryUnaccesible(string directory) => Keys.GetString(Keys.ExceptionHttpHandlerTempDirectoryUnaccesible, directory);
+
+	public static string ExceptionHttpHandlerStorageTypeUnsupported(string type) => Keys.GetString(Keys.ExceptionHttpHandlerStorageTypeUnsupported, type);
+
+	public static string ExceptionWebConfigUpdateFailed(string message) => Keys.GetString(Keys.ExceptionWebConfigUpdateFailed, message);
+
+	public static string EvenLogMessageChartImageFileTimeToLive(string minutes) => Keys.GetString(Keys.EvenLogMessageChartImageFileTimeToLive, minutes);
+
+	public static string MessageYValueIndexInvalid(string maxIndex) => Keys.GetString(Keys.MessageYValueIndexInvalid, maxIndex);
+
+	public static string AccessibilityTitleName(string name) => Keys.GetString(Keys.AccessibilityTitleName, name);
+
+	public static string AccessibilityAnnotationName(string name) => Keys.GetString(Keys.AccessibilityAnnotationName, name);
+
+	public static string AccessibilityLegendName(string name) => Keys.GetString(Keys.AccessibilityLegendName, name);
+
+	public static string AccessibilitySeriesName(string name) => Keys.GetString(Keys.AccessibilitySeriesName, name);
+
+	public static string AccessibilityDataPointName(int index) => Keys.GetString(Keys.AccessibilityDataPointName, index);
+
+	public static string AccessibilityDataPointLabelName(int index) => Keys.GetString(Keys.AccessibilityDataPointLabelName, index);
+
+	public static string AccessibilityLegendTitleName(string name) => Keys.GetString(Keys.AccessibilityLegendTitleName, name);
+
+	public static string AccessibilityChartAreaName(string name) => Keys.GetString(Keys.AccessibilityChartAreaName, name);
+
+	public static string AccessibilityChartAxisTitleName(string name) => Keys.GetString(Keys.AccessibilityChartAxisTitleName, name);
+
+	public static string AccessibilityChartAxisMajorGridlinesName(string name) => Keys.GetString(Keys.AccessibilityChartAxisMajorGridlinesName, name);
+
+	public static string AccessibilityChartAxisMinorGridlinesName(string name) => Keys.GetString(Keys.AccessibilityChartAxisMinorGridlinesName, name);
+
+	public static string ExceptionNameAlreadyExistsInCollection(string name, string collection) => Keys.GetString(Keys.ExceptionNameAlreadyExistsInCollection, name, collection);
+
+	public static string ExceptionNameNotFound(string name, string collection) => Keys.GetString(Keys.ExceptionNameNotFound, name, collection);
+
+	public static string ActionListSeriesDataGroup(string name) => Keys.GetString(Keys.ActionListSeriesDataGroup, name);
+
+	public static string DiagnosticSettingsConfig(string s) => Keys.GetString(Keys.DiagnosticSettingsConfig, s);
+
+	public static string DiagnosticChartImageSaved(string name) => Keys.GetString(Keys.DiagnosticChartImageSaved, name);
+
+	public static string DiagnosticChartImageSavedPrivate(string name, string keyType) => Keys.GetString(Keys.DiagnosticChartImageSavedPrivate, name, keyType);
+
+	public static string DiagnosticChartImageDeleted(string name) => Keys.GetString(Keys.DiagnosticChartImageDeleted, name);
+
+	public static string DiagnosticChartImageServed(string name) => Keys.GetString(Keys.DiagnosticChartImageServed, name);
+
+	public static string DiagnosticChartImageServedFail(string name, string reason) => Keys.GetString(Keys.DiagnosticChartImageServedFail, name, reason);
+
+	public static string DiagnosticChartImageServedFailPrivacyFail(string keyType) => Keys.GetString(Keys.DiagnosticChartImageServedFailPrivacyFail, keyType);
 
 	[Runtime.CompilerServices.CompilerGenerated()]
 	public class Keys
@@ -12491,24 +12056,12 @@ internal class SR
 
 		public static CultureInfo Culture { get; set; } = null;
 
-		public static string GetString(string key)
-		{
-			return resourceManager.GetString(key, Culture);
-		}
+		public static string GetString(string key) => resourceManager.GetString(key, Culture);
 
-		public static string GetString(string key, object arg0)
-		{
-			return string.Format(CultureInfo.CurrentCulture, resourceManager.GetString(key, Culture), arg0);
-		}
+		public static string GetString(string key, object arg0) => string.Format(CultureInfo.CurrentCulture, resourceManager.GetString(key, Culture), arg0);
 
-		public static string GetString(string key, object arg0, object arg1)
-		{
-			return string.Format(CultureInfo.CurrentCulture, resourceManager.GetString(key, Culture), arg0, arg1);
-		}
+		public static string GetString(string key, object arg0, object arg1) => string.Format(CultureInfo.CurrentCulture, resourceManager.GetString(key, Culture), arg0, arg1);
 
-		public static string GetString(string key, object arg0, object arg1, object arg2)
-		{
-			return string.Format(CultureInfo.CurrentCulture, resourceManager.GetString(key, Culture), arg0, arg1, arg2);
-		}
+		public static string GetString(string key, object arg0, object arg1, object arg2) => string.Format(CultureInfo.CurrentCulture, resourceManager.GetString(key, Culture), arg0, arg1, arg2);
 	}
 }

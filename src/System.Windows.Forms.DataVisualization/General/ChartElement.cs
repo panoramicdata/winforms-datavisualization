@@ -889,10 +889,7 @@ internal class ChartHelper
 	/// <param name="intervalSize">Interval size.</param>
 	/// <param name="type">AxisName of the interval (Month, Year, ...).</param>
 	/// <returns>Adjusted interval start position as double.</returns>
-	internal static double AlignIntervalStart(double start, double intervalSize, DateTimeIntervalType type)
-	{
-		return AlignIntervalStart(start, intervalSize, type, null);
-	}
+	internal static double AlignIntervalStart(double start, double intervalSize, DateTimeIntervalType type) => AlignIntervalStart(start, intervalSize, type, null);
 
 	/// <summary>
 	/// Adjust the beginnin of the first interval depending on the type and size.
@@ -902,10 +899,7 @@ internal class ChartHelper
 	/// <param name="type">AxisName of the interval (Month, Year, ...).</param>
 	/// <param name="series">First series connected to the axis.</param>
 	/// <returns>Adjusted interval start position as double.</returns>
-	internal static double AlignIntervalStart(double start, double intervalSize, DateTimeIntervalType type, Series series)
-	{
-		return AlignIntervalStart(start, intervalSize, type, series, true);
-	}
+	internal static double AlignIntervalStart(double start, double intervalSize, DateTimeIntervalType type, Series series) => AlignIntervalStart(start, intervalSize, type, series, true);
 
 	/// <summary>
 	/// Adjust the beginnin of the first interval depending on the type and size.
@@ -1068,9 +1062,7 @@ internal class ChartHelper
 	/// <param name="interval">Interval size.</param>
 	/// <param name="type">AxisName of the interval (Month, Year, ...).</param>
 	/// <returns>Interval size as double.</returns>
-	internal static double GetIntervalSize(double current, double interval, DateTimeIntervalType type)
-	{
-		return GetIntervalSize(
+	internal static double GetIntervalSize(double current, double interval, DateTimeIntervalType type) => GetIntervalSize(
 			current,
 			interval,
 			type,
@@ -1079,7 +1071,6 @@ internal class ChartHelper
 			DateTimeIntervalType.Number,
 			true,
 			true);
-	}
 
 	/// <summary>
 	/// Gets interval size as double number.
@@ -1099,9 +1090,7 @@ internal class ChartHelper
 	Series series,
 	double intervalOffset,
 	DateTimeIntervalType intervalOffsetType,
-	bool forceIntIndex)
-	{
-		return GetIntervalSize(
+	bool forceIntIndex) => GetIntervalSize(
 			current,
 			interval,
 			type,
@@ -1110,7 +1099,6 @@ internal class ChartHelper
 			intervalOffsetType,
 			forceIntIndex,
 			true);
-	}
 
 	/// <summary>
 	/// Gets interval size as double number.

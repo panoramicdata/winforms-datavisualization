@@ -447,10 +447,7 @@ public class AxisScaleBreakStyle
 	/// <summary>
 	/// Invalidate chart control.
 	/// </summary>
-	private void Invalidate()
-	{
-		axis?.Invalidate();
-	}
+	private void Invalidate() => axis?.Invalidate();
 
 	#endregion // Helper Methods
 

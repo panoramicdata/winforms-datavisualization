@@ -743,10 +743,7 @@ public class DataManipulator : DataFormula
 	public void InsertEmptyPoints(
 		double interval,
 		IntervalType intervalType,
-		Series series)
-	{
-		InsertEmptyPoints(interval, intervalType, 0, IntervalType.Number, series);
-	}
+		Series series) => InsertEmptyPoints(interval, intervalType, 0, IntervalType.Number, series);
 
 	/// <summary>
 	/// Insert empty data points using the specified interval.
@@ -757,10 +754,7 @@ public class DataManipulator : DataFormula
 	public void InsertEmptyPoints(
 		double interval,
 		IntervalType intervalType,
-		string seriesName)
-	{
-		InsertEmptyPoints(interval, intervalType, 0, IntervalType.Number, seriesName);
-	}
+		string seriesName) => InsertEmptyPoints(interval, intervalType, 0, IntervalType.Number, seriesName);
 
 	/// <summary>
 	/// Insert empty data points using the specified interval.
@@ -775,10 +769,7 @@ public class DataManipulator : DataFormula
 		IntervalType intervalType,
 		double intervalOffset,
 		IntervalType intervalOffsetType,
-		string seriesName)
-	{
-		InsertEmptyPoints(interval, intervalType, intervalOffset, intervalOffsetType, double.NaN, double.NaN, seriesName);
-	}
+		string seriesName) => InsertEmptyPoints(interval, intervalType, intervalOffset, intervalOffsetType, double.NaN, double.NaN, seriesName);
 
 	/// <summary>
 	/// Insert empty data points using the specified interval.
@@ -793,10 +784,7 @@ public class DataManipulator : DataFormula
 		IntervalType intervalType,
 		double intervalOffset,
 		IntervalType intervalOffsetType,
-		Series series)
-	{
-		InsertEmptyPoints(interval, intervalType, intervalOffset, intervalOffsetType, double.NaN, double.NaN, series);
-	}
+		Series series) => InsertEmptyPoints(interval, intervalType, intervalOffset, intervalOffsetType, double.NaN, double.NaN, series);
 
 	/// <summary>
 	/// Insert empty data points using the specified interval.
@@ -1055,10 +1043,7 @@ public class DataManipulator : DataFormula
 	/// Export all series from the collection into the DataSet object.
 	/// </summary>
 	/// <returns>Dataset object with series data.</returns>
-	public DataSet ExportSeriesValues()
-	{
-		return ExportSeriesValues("*");
-	}
+	public DataSet ExportSeriesValues() => ExportSeriesValues("*");
 
 	/// <summary>
 	/// Export series data into the DataSet object.
@@ -1384,13 +1369,10 @@ public class DataManipulator : DataFormula
 		/// <param name="series">Data point series.</param>
 		/// <param name="pointIndex">Data point index.</param>
 		/// <returns>Indicates that point should be filtered.</returns>
-		public bool FilterDataPoint(DataPoint point, Series series, int pointIndex)
-		{
-			return _dataManipulator.CheckFilterElementCriteria(
+		public bool FilterDataPoint(DataPoint point, Series series, int pointIndex) => _dataManipulator.CheckFilterElementCriteria(
 				_dateRange,
 				_rangeElements,
 				point);
-		}
 	}
 
 	/// <summary>

@@ -66,37 +66,25 @@ internal class PolarChart : RadarChart
 	/// Checks if closed figure should be drawn even in Line drawing mode.
 	/// </summary>
 	/// <returns>True if closed figure should be drawn even in Line drawing mode.</returns>
-	public override bool RequireClosedFigure()
-	{
-		return false;
-	}
+	public override bool RequireClosedFigure() => false;
 
 	/// <summary>
 	/// Checks if Y axis position may be changed using X axis Crossing property.
 	/// </summary>
 	/// <returns>True if Y axis position may be changed using X axis Crossing property.</returns>
-	public override bool XAxisCrossingSupported()
-	{
-		return true;
-	}
+	public override bool XAxisCrossingSupported() => true;
 
 	/// <summary>
 	/// Checks if automatic X axis labels are supported.
 	/// </summary>
 	/// <returns>True if automatic X axis labels are supported.</returns>
-	public override bool XAxisLabelsSupported()
-	{
-		return true;
-	}
+	public override bool XAxisLabelsSupported() => true;
 
 	/// <summary>
 	/// Checks if radial grid lines (X axis) are supported by the chart type.
 	/// </summary>
 	/// <returns>True if radial grid lines are supported.</returns>
-	public override bool RadialGridLinesSupported()
-	{
-		return true;
-	}
+	public override bool RadialGridLinesSupported() => true;
 
 	/// <summary>
 	/// Gets number of sectors in the circular chart area.

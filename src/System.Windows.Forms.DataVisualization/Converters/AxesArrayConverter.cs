@@ -26,10 +26,7 @@ internal class AxesArrayConverter : TypeConverter
 	/// </summary>
 	/// <param name="context">Descriptor context.</param>
 	/// <returns>Always false.</returns>
-	public override bool GetPropertiesSupported(ITypeDescriptorContext context)
-	{
-		return false;
-	}
+	public override bool GetPropertiesSupported(ITypeDescriptorContext context) => false;
 
 	/// <summary>
 	/// Overrides the ConvertTo method of TypeConverter.

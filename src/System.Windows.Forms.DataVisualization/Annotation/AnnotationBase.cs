@@ -2171,10 +2171,7 @@ public abstract class Annotation : ChartNamedElement
 	/// Gets an annotation's content position.
 	/// </summary>
 	/// <returns>Annotation's content size.</returns>
-	virtual internal RectangleF GetContentPosition()
-	{
-		return new RectangleF(float.NaN, float.NaN, float.NaN, float.NaN);
-	}
+	virtual internal RectangleF GetContentPosition() => new(float.NaN, float.NaN, float.NaN, float.NaN);
 
 	/// <summary>
 	/// Gets an annotation's anchor point location.
@@ -2745,10 +2742,7 @@ public abstract class Annotation : ChartNamedElement
 	/// </summary>
 	/// <param name="position">Position in relative coordinates.</param>
 	/// <param name="anchorPoint">Anchor location in relative coordinates.</param>
-	internal void SetPositionRelative(RectangleF position, PointF anchorPoint)
-	{
-		SetPositionRelative(position, anchorPoint, false);
-	}
+	internal void SetPositionRelative(RectangleF position, PointF anchorPoint) => SetPositionRelative(position, anchorPoint, false);
 
 	/// <summary>
 	/// Set annotation object position using rectangle in relative coordinates.
@@ -2962,10 +2956,7 @@ public abstract class Annotation : ChartNamedElement
 	/// </summary>
 	/// <param name="movingDistance">Distance to resize/move the annotation.</param>
 	/// <param name="resizeMode">Resizing mode.</param>
-	virtual internal void AdjustLocationSize(SizeF movingDistance, ResizingMode resizeMode)
-	{
-		AdjustLocationSize(movingDistance, resizeMode, true);
-	}
+	virtual internal void AdjustLocationSize(SizeF movingDistance, ResizingMode resizeMode) => AdjustLocationSize(movingDistance, resizeMode, true);
 
 	/// <summary>
 	/// Adjust annotation location and\or size as a result of user action.
@@ -2973,10 +2964,7 @@ public abstract class Annotation : ChartNamedElement
 	/// <param name="movingDistance">Distance to resize/move the annotation.</param>
 	/// <param name="resizeMode">Resizing mode.</param>
 	/// <param name="pixelCoord">Distance is in pixels, otherwise relative.</param>
-	virtual internal void AdjustLocationSize(SizeF movingDistance, ResizingMode resizeMode, bool pixelCoord)
-	{
-		AdjustLocationSize(movingDistance, resizeMode, pixelCoord, false);
-	}
+	virtual internal void AdjustLocationSize(SizeF movingDistance, ResizingMode resizeMode, bool pixelCoord) => AdjustLocationSize(movingDistance, resizeMode, pixelCoord, false);
 
 	/// <summary>
 	/// Adjust annotation location and\or size as a result of user action.
@@ -3123,10 +3111,7 @@ public abstract class Annotation : ChartNamedElement
 	/// Checks if annotation draw anything in the anchor position (except selection handle)
 	/// </summary>
 	/// <returns>True if annotation "connects" itself and anchor point visually.</returns>
-	virtual internal bool IsAnchorDrawn()
-	{
-		return false;
-	}
+	virtual internal bool IsAnchorDrawn() => false;
 
 	/// <summary>
 	/// Gets data point by name.
@@ -3433,10 +3418,7 @@ public abstract class Annotation : ChartNamedElement
 	/// <remarks>
 	/// Anchors an annotation to the specified data point.
 	/// </remarks>
-	public void SetAnchor(DataPoint dataPoint)
-	{
-		SetAnchor(dataPoint, null);
-	}
+	public void SetAnchor(DataPoint dataPoint) => SetAnchor(dataPoint, null);
 
 	/// <summary>
 	/// Anchors an annotation to two data points.

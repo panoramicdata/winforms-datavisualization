@@ -114,10 +114,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 	/// <summary>
 	/// Suspends invalidation
 	/// </summary>
-	public virtual void SuspendUpdates()
-	{
-		_suspendUpdates++;
-	}
+	public virtual void SuspendUpdates() => _suspendUpdates++;
 
 	/// <summary>
 	/// Resumes invalidation.
@@ -219,10 +216,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 		set { Parent = value; }
 	}
 
-	void IChartElement.Invalidate()
-	{
-		Invalidate();
-	}
+	void IChartElement.Invalidate() => Invalidate();
 
 	CommonElements IChartElement.Common
 	{
@@ -358,10 +352,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	/// <returns>
 	/// 	<c>true</c> if new chart element name is unique; otherwise, <c>false</c>.
 	/// </returns>
-	public virtual bool IsUniqueName(string name)
-	{
-		return FindByName(name) == null;
-	}
+	public virtual bool IsUniqueName(string name) => FindByName(name) == null;
 
 	/// <summary>
 	/// Finds the unique name for a new element being added to the collection
@@ -422,12 +413,9 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	/// Verifies the name reference to a chart named element stored in this collection.
 	/// </summary>
 	/// <param name="name">Chart element name.</param>
-	internal bool IsNameReferenceValid(string name)
-	{
-		return string.IsNullOrEmpty(name) ||
+	internal bool IsNameReferenceValid(string name) => string.IsNullOrEmpty(name) ||
 				name == Constants.NotSetValue ||
 				IndexOf(name) >= 0;
-	}
 
 	/// <summary>
 	/// Finds the chart element by the name.
@@ -545,10 +533,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 	/// <returns>
 	/// 	<c>true</c> if is the name us unique; otherwise, <c>false</c>.
 	/// </returns>
-	bool INameController.IsUniqueName(string name)
-	{
-		return IsUniqueName(name);
-	}
+	bool INameController.IsUniqueName(string name) => IsUniqueName(name);
 
 	/// <summary>
 	/// Gets or sets a value indicating whether this instance is in edit mode by collecrtion editor.

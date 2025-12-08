@@ -105,10 +105,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	/// </summary>
 	/// <param name="imageURL">Image name (FileName, URL, Resource).</param>
 	/// <returns>Image object.</returns>
-	public Image LoadImage(string imageURL)
-	{
-		return LoadImage(imageURL, true);
-	}
+	public Image LoadImage(string imageURL) => LoadImage(imageURL, true);
 
 	/// <summary>
 	/// Loads image from URL. Checks if image already loaded (cached).
@@ -325,10 +322,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 	/// <param name="image">Image to be checked.</param>
 	/// <param name="graphics">Graphics object to be used.</param>
 	/// <returns>true if they match, otherwise false.</returns>
-	internal static bool DoDpisMatch(Image image, Graphics graphics)
-	{
-		return graphics.DpiX == image.HorizontalResolution && graphics.DpiY == image.VerticalResolution;
-	}
+	internal static bool DoDpisMatch(Image image, Graphics graphics) => graphics.DpiX == image.HorizontalResolution && graphics.DpiY == image.VerticalResolution;
 
 	internal static Image GetScaledImage(Image image, Graphics graphics)
 	{
