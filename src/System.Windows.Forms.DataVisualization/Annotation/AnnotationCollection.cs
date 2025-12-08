@@ -88,6 +88,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 
 			item.ResetCurrentRelativePosition();
 		}
+
 		base.Initialize(item);
 	}
 
@@ -102,6 +103,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 			item.annotationGroup = null;
 			item.ResetCurrentRelativePosition();
 		}
+
 		base.Deinitialize(item);
 	}
 
@@ -339,6 +341,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 				}
 			}
 		}
+
 		return annotation;
 	}
 
@@ -358,6 +361,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 				// Stop annotation text editing
 				textAnnotation.StopTextEditing();
 			}
+
 			lastClickedAnnotation = null;
 		}
 
@@ -428,6 +432,7 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 					// Select annotation group when click on any child annotations
 					selectableAnnotation = annotation.AnnotationGroup;
 				}
+
 				if (!selectableAnnotation.IsSelected && selectableAnnotation.AllowSelecting)
 				{
 					selectableAnnotation.IsSelected = true;
@@ -469,11 +474,13 @@ public class AnnotationCollection : ChartNamedElementCollection<Annotation>
 					{
 						this._resizingMode = ResizingMode.None;
 					}
+
 					if (!annotation.AllowAnchorMoving &&
 						this._resizingMode == ResizingMode.AnchorHandle)
 					{
 						this._resizingMode = ResizingMode.None;
 					}
+
 					if (this._resizingMode == ResizingMode.None && annotation.AllowMoving)
 					{
 						// Annotation moving mode

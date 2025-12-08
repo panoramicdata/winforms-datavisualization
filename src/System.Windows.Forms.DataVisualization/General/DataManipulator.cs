@@ -577,6 +577,7 @@ public class DataManipulator : DataFormula
 						toX = Math.Max(toX, ser.Points[ser.Points.Count - 1].XValue);
 					}
 				}
+
 				if (fromIsNaN)
 				{
 					if (double.IsNaN(fromX))
@@ -588,6 +589,7 @@ public class DataManipulator : DataFormula
 						fromX = Math.Min(fromX, ser.Points[0].XValue);
 					}
 				}
+
 				if (fromX > toX)
 				{
 					double tempValue = fromX;
@@ -934,6 +936,7 @@ public class DataManipulator : DataFormula
 				{
 					columnType = typeof(string);
 				}
+
 				seriesTable.Columns.Add("X", columnType);
 
 
@@ -949,6 +952,7 @@ public class DataManipulator : DataFormula
 				{
 					columnType = typeof(string);
 				}
+
 				for (int yIndex = 0; yIndex < ser.YValuesPerPoint; yIndex++)
 				{
 					if (yIndex == 0)
@@ -985,6 +989,7 @@ public class DataManipulator : DataFormula
 						{
 							xValue = point.AxisLabel;
 						}
+
 						dataRow["X"] = (zeroXValues) ? pointIndex : xValue;
 
 						// Set row Y value(s)
@@ -2230,6 +2235,7 @@ public class DataManipulator : DataFormula
 					dp.IsEmpty = point.IsEmpty;
 					inputTemp.Points.Add(dp);
 				}
+
 				input = inputTemp;
 			}
 
@@ -2328,6 +2334,7 @@ public class DataManipulator : DataFormula
 						pointTempValues[0] =
 							inputSeries[seriesIndex].Points[intervalFirstIndex].XValue;
 					}
+
 					if (functions[0].function == GroupingFunction.Last)
 					{
 						pointTempValues[0] =
@@ -2512,6 +2519,7 @@ public class DataManipulator : DataFormula
 						interval,
 						ConvertIntervalType(intervalType));
 					}
+
 					intervalTo = offsetFrom;
 
 				}
@@ -2576,6 +2584,7 @@ public class DataManipulator : DataFormula
 					{
 						continue;
 					}
+
 					intervalLastIndex = pointIndex - 1;
 					endOfInterval = true;
 				}
@@ -2611,6 +2620,7 @@ public class DataManipulator : DataFormula
 						{
 							pointTempValues[0] = intervalFrom;
 						}
+
 						if (functions[0].function == GroupingFunction.Last)
 						{
 							pointTempValues[0] = intervalTo;

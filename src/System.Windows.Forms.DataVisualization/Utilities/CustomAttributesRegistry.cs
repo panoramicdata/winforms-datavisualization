@@ -404,6 +404,7 @@ internal class CustomPropertyRegistry : IServiceProvider
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionCustomAttributesRegistryUnsupportedType(serviceType.ToString())));
 	}
 

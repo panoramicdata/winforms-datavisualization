@@ -237,6 +237,7 @@ internal class TimeSeriesAndForecasting : IFormula
 		{
 			error += (outputErrorEst[1][index] - inputValues[1][index]) * (outputErrorEst[1][index] - inputValues[1][index]);
 		}
+
 		error /= inputValues[0].Length - inputValues[0].Length / 2;
 		error = Math.Sqrt(error);
 		error /= (inputValues[0].Length / 4);
@@ -247,6 +248,7 @@ internal class TimeSeriesAndForecasting : IFormula
 		{
 			dev += (tempOut[1][index] - inputValues[1][index]) * (tempOut[1][index] - inputValues[1][index]);
 		}
+
 		dev /= inputValues[0].Length;
 		dev = Math.Sqrt(dev);
 
@@ -267,6 +269,7 @@ internal class TimeSeriesAndForecasting : IFormula
 			outputValues[2][index] = tempOut[1][index] + 2 * dev;
 			outputValues[3][index] = tempOut[1][index] - 2 * dev;
 		}
+
 		double sumError = 0;
 		for (int index = inputValues[0].Length; index < tempOut[0].Length; index++)
 		{
@@ -300,6 +303,7 @@ internal class TimeSeriesAndForecasting : IFormula
 				{
 					throw new InvalidOperationException(SR.ExceptionForecastingExponentialRegressionHasZeroYValues);
 				}
+
 				inputValues[1][index] = Math.Log(inputValues[1][index]);
 			}
 
@@ -442,6 +446,7 @@ internal class TimeSeriesAndForecasting : IFormula
 				}
 			}
 		}
+
 		double mainValue = Determinant(mainDeterminant);
 
 		// Coefficient determinant
@@ -456,6 +461,7 @@ internal class TimeSeriesAndForecasting : IFormula
 					coeffDeterminant[i][k] += (double)inputValues[1][j] * (double)Math.Pow(inputValues[0][j], k);
 				}
 			}
+
 			coefficients[i] = Determinant(coeffDeterminant) / mainValue;
 		}
 
@@ -550,6 +556,7 @@ internal class TimeSeriesAndForecasting : IFormula
 			sum += sign * Determinant(newDeterminant) * inputDeterminant[column][0];
 			sign *= -1.0;
 		}
+
 		return sum;
 	}
 

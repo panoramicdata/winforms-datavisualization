@@ -293,6 +293,7 @@ internal class PointChart : IChartType
 				{
 					continue;
 				}
+
 				breakSeriesLoop = true;
 			}
 
@@ -682,6 +683,7 @@ internal class PointChart : IChartType
 				{
 					attrib = ser[CustomPropertyName.LabelStyle];
 				}
+
 				this.autoLabelPosition = true;
 				if (attrib != null && attrib.Length > 0)
 				{
@@ -1287,6 +1289,7 @@ internal class PointChart : IChartType
 					);
 			}
 		}
+
 		if (rectPath != null)
 		{
 			rectPath.Dispose();
@@ -1545,6 +1548,7 @@ internal class PointChart : IChartType
 				prevIndx = indx;
 				break;
 			}
+
 			previousPoint = Double.NaN;
 		}
 
@@ -1557,6 +1561,7 @@ internal class PointChart : IChartType
 				nextIndx = indx;
 				break;
 			}
+
 			nextPoint = Double.NaN;
 		}
 

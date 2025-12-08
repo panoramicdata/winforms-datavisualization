@@ -109,6 +109,7 @@ internal class RenkoChart : IChartType
 		{
 			seriesOriginalData.Points.Add(dp);
 		}
+
 		series.Points.Clear();
 		if (series.IsCustomPropertySet("TempDesignData"))
 		{
@@ -146,10 +147,12 @@ internal class RenkoChart : IChartType
 						{
 							nonZeroXValues = true;
 						}
+
 						if (dp.XValue > maxX)
 						{
 							maxX = dp.XValue;
 						}
+
 						if (dp.XValue < minX)
 						{
 							minX = dp.XValue;
@@ -309,6 +312,7 @@ internal class RenkoChart : IChartType
 					{
 						highest = dp.YValues[yValueIndex];
 					}
+
 					if (dp.YValues[yValueIndex] < lowest)
 					{
 						lowest = dp.YValues[yValueIndex];
@@ -411,6 +415,7 @@ internal class RenkoChart : IChartType
 				{
 					upBrickColorString = series[CustomPropertyName.PriceUpColor];
 				}
+
 				if (upBrickColorString != null)
 				{
 					try
@@ -459,10 +464,12 @@ internal class RenkoChart : IChartType
 						{
 							newDataPoint.BorderWidth = 1;
 						}
+
 						if (newDataPoint.BorderDashStyle == ChartDashStyle.NotSet)
 						{
 							newDataPoint.BorderDashStyle = ChartDashStyle.Solid;
 						}
+
 						if ((newDataPoint.BorderColor == Color.Empty || newDataPoint.BorderColor == Color.Transparent) &&
 							(newDataPoint.Color == Color.Empty || newDataPoint.Color == Color.Transparent))
 						{
@@ -482,6 +489,7 @@ internal class RenkoChart : IChartType
 					--numberOfBricks;
 				}
 			}
+
 			++pointIndex;
 		}
 	}

@@ -293,8 +293,10 @@ public partial class ChartArea : ChartNamedElement
 					{
 						Chart.ChartAreas.VerifyNameReference(value);
 					}
+
 					_alignWithChartArea = value;
 				}
+
 				Invalidate();
 			}
 		}
@@ -520,6 +522,7 @@ public partial class ChartArea : ChartNamedElement
 					return newPosition;
 				}
 			}
+
 			return _areaPosition;
 		}
 		set
@@ -571,6 +574,7 @@ public partial class ChartArea : ChartNamedElement
 					return newPosition;
 				}
 			}
+
 			return _innerPlotPosition;
 		}
 		set
@@ -893,6 +897,7 @@ public partial class ChartArea : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNegative));
 			}
+
 			_borderWidth = value;
 			Invalidate();
 		}
@@ -1335,10 +1340,12 @@ public partial class ChartArea : ChartNamedElement
 				}
 			}
 		}
+
 		if (horizontalAxes <= 0)
 		{
 			horizontalAxes = 1;
 		}
+
 		if (verticalAxes <= 0)
 		{
 			verticalAxes = 1;
@@ -1442,6 +1449,7 @@ public partial class ChartArea : ChartNamedElement
 				{
 					axisPosition = plottingRect.Bottom;
 				}
+
 				axisPosition = plottingRect.Bottom - axisPosition;
 			}
 			else if (axis.AxisPosition == AxisPosition.Top)
@@ -1450,6 +1458,7 @@ public partial class ChartArea : ChartNamedElement
 				{
 					axisPosition = plottingRect.Y;
 				}
+
 				axisPosition = axisPosition - plottingRect.Top;
 			}
 			else if (axis.AxisPosition == AxisPosition.Right)
@@ -1458,6 +1467,7 @@ public partial class ChartArea : ChartNamedElement
 				{
 					axisPosition = plottingRect.Right;
 				}
+
 				axisPosition = plottingRect.Right - axisPosition;
 			}
 			else if (axis.AxisPosition == AxisPosition.Left)
@@ -1466,6 +1476,7 @@ public partial class ChartArea : ChartNamedElement
 				{
 					axisPosition = plottingRect.X;
 				}
+
 				axisPosition = axisPosition - plottingRect.Left;
 			}
 
@@ -1606,16 +1617,19 @@ public partial class ChartArea : ChartNamedElement
 				plottingRect.Y -= delta;
 				plottingRect.Height += delta;
 			}
+
 			if (rectLabelSideSpacing.X > 0 && rectLabelSideSpacing.X > plottingRect.X - Position.X)
 			{
 				float delta = (plottingRect.X - Position.X) - rectLabelSideSpacing.X;
 				plottingRect.X -= delta;
 				plottingRect.Width += delta;
 			}
+
 			if (rectLabelSideSpacing.Height > 0 && rectLabelSideSpacing.Height > Position.Bottom - plottingRect.Bottom)
 			{
 				plottingRect.Height += (Position.Bottom - plottingRect.Bottom) - rectLabelSideSpacing.Height;
 			}
+
 			if (rectLabelSideSpacing.Width > 0 && rectLabelSideSpacing.Width > Position.Right - plottingRect.Right)
 			{
 				plottingRect.Width += (Position.Right - plottingRect.Right) - rectLabelSideSpacing.Width;
@@ -1635,6 +1649,7 @@ public partial class ChartArea : ChartNamedElement
 				plottingRect.X += xTitleSize;
 				plottingRect.Width -= 2f * xTitleSize;
 			}
+
 			float yTitleSize = (float)Math.Max(this.AxisX.titleSize, this.AxisX2.titleSize);
 			if (yTitleSize > 0)
 			{
@@ -1654,6 +1669,7 @@ public partial class ChartArea : ChartNamedElement
 				rect.Y += (rect.Height - rect.Width) / 2f;
 				rect.Height = rect.Width;
 			}
+
 			plottingRect = chartGraph.GetRelativeRectangle(rect);
 
 			// Remember circular chart area center
@@ -1670,10 +1686,12 @@ public partial class ChartArea : ChartNamedElement
 		{
 			plottingRect.Width = 0f;
 		}
+
 		if (plottingRect.Height < 0f)
 		{
 			plottingRect.Height = 0f;
 		}
+
 		PlotAreaPosition.FromRectangleF(plottingRect);
 		InnerPlotPosition.SetPositionNoAuto(
 			(float)Math.Round((plottingRect.X - Position.X) / (Position.Width / 100F), 5),
@@ -1711,6 +1729,7 @@ public partial class ChartArea : ChartNamedElement
 				return axis;
 			}
 		}
+
 		return null;
 	}
 
@@ -1989,6 +2008,7 @@ public partial class ChartArea : ChartNamedElement
 				currentAxis.paintAreaPosition.Width /= 2.0f;
 				currentAxis.paintAreaPosition.Height /= 2.0f;
 			}
+
 			currentAxis.paintAreaPositionBottom = currentAxis.paintAreaPosition.Y + currentAxis.paintAreaPosition.Height;
 			currentAxis.paintAreaPositionRight = currentAxis.paintAreaPosition.X + currentAxis.paintAreaPosition.Width;
 			if (currentAxis.AxisPosition == AxisPosition.Top || currentAxis.AxisPosition == AxisPosition.Bottom)
@@ -2234,6 +2254,7 @@ public partial class ChartArea : ChartNamedElement
 				}
 			}
 		}
+
 		return result;
 	}
 
@@ -2315,6 +2336,7 @@ public partial class ChartArea : ChartNamedElement
 						areaBufferBitmap.Dispose();
 						areaBufferBitmap = null;
 					}
+
 					if (chartPicture.nonTopLevelChartBuffer != null)
 					{
 						chartPicture.nonTopLevelChartBuffer.Dispose();
@@ -2379,6 +2401,7 @@ public partial class ChartArea : ChartNamedElement
 				}
 			}
 		}
+
 		return null;
 	}
 
@@ -2461,6 +2484,7 @@ public partial class ChartArea : ChartNamedElement
 		{
 			plotAreaRectAbs.Width = 1.0f;
 		}
+
 		if (plotAreaRectAbs.Height < 1.0f)
 		{
 			plotAreaRectAbs.Height = 1.0f;
@@ -2622,6 +2646,7 @@ public partial class ChartArea : ChartNamedElement
 							{
 								throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(series[CustomPropertyName.AreaDrawingStyle], "AreaDrawingStyle")));
 							}
+
 							break;
 						}
 					}
@@ -2712,6 +2737,7 @@ public partial class ChartArea : ChartNamedElement
 		{
 			return type.GetNumerOfSectors(this, this.Common.DataManager.Series);
 		}
+
 		return 0;
 	}
 
@@ -2763,6 +2789,7 @@ public partial class ChartArea : ChartNamedElement
 			}
 
 		}
+
 		return _circularAxisList;
 	}
 
@@ -2959,39 +2986,47 @@ public partial class ChartArea : ChartNamedElement
 				{
 					axis.Dispose();
 				}
+
 				this._axisArray = null;
 			}
+
 			if (this._areaPosition != null)
 			{
 				this._areaPosition.Dispose();
 				this._areaPosition = null;
 			}
+
 			if (this._innerPlotPosition != null)
 			{
 				this._innerPlotPosition.Dispose();
 				this._innerPlotPosition = null;
 			}
+
 			if (this.PlotAreaPosition != null)
 			{
 				this.PlotAreaPosition.Dispose();
 				this.PlotAreaPosition = null;
 			}
+
 			if (this.areaBufferBitmap != null)
 			{
 				this.areaBufferBitmap.Dispose();
 				this.areaBufferBitmap = null;
 			}
+
 			if (this._cursorX != null)
 			{
 				this._cursorX.Dispose();
 				this._cursorX = null;
 			}
+
 			if (this._cursorY != null)
 			{
 				this._cursorY.Dispose();
 				this._cursorY = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

@@ -369,6 +369,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 				{
 					chartPicture.Paint(e.Graphics, false);
 				}
+
 				chartPicture.Paint(e.Graphics, this.paintTopLevelElementOnly);
 			}
 			catch (Exception)
@@ -533,6 +534,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			{
 				transpBorder = true;
 			}
+
 			if (chartPicture.BorderSkin.BackColor.A != 255 && chartPicture.BorderSkin.BackColor != Color.Empty)
 			{
 				transpBorder = true;
@@ -707,6 +709,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 				this.Invalidate();
 			}
 		}
+
 		base.OnLocationChanged(e);
 	}
 
@@ -948,6 +951,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -1830,12 +1834,14 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 				{
 					buildNumber = buildNumber.Substring(versionIndex + 8);
 				}
+
 				versionIndex = buildNumber.IndexOf(",", StringComparison.Ordinal);
 				if (versionIndex >= 0)
 				{
 					buildNumber = buildNumber.Substring(0, versionIndex);
 				}
 			}
+
 			return buildNumber;
 		}
 	}
@@ -2743,6 +2749,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 			AnnotationPositionChanging(args.Annotation, args);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -2997,6 +3004,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 		{
 			this._chartAccessibleObject = new ChartAccessibleObject(this);
 		}
+
 		return this._chartAccessibleObject;
 	}
 
@@ -3090,6 +3098,7 @@ public class Chart : System.Windows.Forms.Control, ISupportInitialize, IDisposab
 				_dataManager.Dispose();
 				_dataManager = null;
 			}
+
 			if (chartPicture != null)
 			{
 				chartPicture.Dispose();

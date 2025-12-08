@@ -49,6 +49,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 			{
 				_common = _parent.Common;
 			}
+
 			return _common;
 		}
 	}
@@ -136,6 +137,7 @@ public abstract class ChartElementCollection<T> : Collection<T>, IChartElement, 
 		{
 			this.RemoveItem(0);
 		}
+
 		ResumeUpdates();
 	}
 
@@ -288,6 +290,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 			{
 				return this[index];
 			}
+
 			throw new ArgumentException(SR.ExceptionNameNotFound(name, this.GetType().Name));
 		}
 		set
@@ -365,6 +368,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 				break;
 			}
 		}
+
 		return result;
 	}
 
@@ -382,6 +386,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 				return i;
 			i++;
 		}
+
 		return -1;
 	}
 
@@ -418,6 +423,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 			if (namedObj.Name == name)
 				return namedObj;
 		}
+
 		return null;
 	}
 
@@ -481,6 +487,7 @@ public abstract class ChartNamedElementCollection<T> : ChartElementCollection<T>
 		{
 			((INameController)this).OnNameReferenceChanged(new NameReferenceChangedEventArgs(removedElement, null));
 		}
+
 		base.RemoveItem(index);
 		if (_disableDeleteCount == 0)
 		{

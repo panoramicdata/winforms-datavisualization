@@ -513,6 +513,7 @@ internal class BarChart : IChartType
 				{
 					barSize = barStartPosition - pixelRelSize.Width;
 				}
+
 				if (barSize > barStartPosition &&
 					(barSize - barStartPosition) < pixelRelSize.Width)
 				{
@@ -750,6 +751,7 @@ internal class BarChart : IChartType
 				{
 					markerPosition.X = rectSize.X;
 				}
+
 				markerPosition.Y = rectSize.Y + rectSize.Height / 2F;
 
 				if (common.ProcessModePaint)
@@ -768,6 +770,7 @@ internal class BarChart : IChartType
 						(point.series != null) ? point.series.ShadowColor : Color.Empty,
 						RectangleF.Empty);
 				}
+
 				if (common.ProcessModeRegions)
 				{
 					SetHotRegions(
@@ -1212,6 +1215,7 @@ internal class BarChart : IChartType
 				prevIndx = indx;
 				break;
 			}
+
 			previousPoint = Double.NaN;
 		}
 
@@ -1224,6 +1228,7 @@ internal class BarChart : IChartType
 				nextIndx = indx;
 				break;
 			}
+
 			nextPoint = Double.NaN;
 		}
 
@@ -1422,6 +1427,7 @@ internal class BarChart : IChartType
 			{
 				barSize = barStartPosition - pixelRelSize.Width;
 			}
+
 			if (barSize > barStartPosition &&
 				(barSize - barStartPosition) < pixelRelSize.Width)
 			{
@@ -1484,19 +1490,23 @@ internal class BarChart : IChartType
 				{
 					continue;
 				}
+
 				if (rectSize.Y < area.PlotAreaPosition.Y)
 				{
 					rectSize.Height -= area.PlotAreaPosition.Y - rectSize.Y;
 					rectSize.Y = area.PlotAreaPosition.Y;
 				}
+
 				if (rectSize.Bottom > area.PlotAreaPosition.Bottom)
 				{
 					rectSize.Height -= rectSize.Bottom - area.PlotAreaPosition.Bottom;
 				}
+
 				if (rectSize.Height < 0)
 				{
 					rectSize.Height = 0;
 				}
+
 				if (rectSize.Height == 0f || rectSize.Width == 0f)
 				{
 					continue;
@@ -1563,6 +1573,7 @@ internal class BarChart : IChartType
 					ser.Name,
 					pointEx.index - 1);
 			}
+
 			if (rectPath != null)
 			{
 				rectPath.Dispose();
@@ -1733,6 +1744,7 @@ internal class BarChart : IChartType
 				{
 					markerPosition.X = rectSize.X;
 				}
+
 				markerPosition.Y = rectSize.Y + rectSize.Height / 2F;
 
 				//************************************************************

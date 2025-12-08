@@ -328,6 +328,7 @@ internal class ErrorBarChart : IChartType
 					{
 						break;
 					}
+
 					++indexOfLinkedSeries;
 				}
 
@@ -339,6 +340,7 @@ internal class ErrorBarChart : IChartType
 				{
 					currentDrawSeriesSideBySide = true;
 				}
+
 				foreach (string seriesName in typeLinkedSeries)
 				{
 					if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
@@ -503,20 +505,24 @@ internal class ErrorBarChart : IChartType
 				{
 					high = vAxis.ViewMaximum;
 				}
+
 				if (high < vAxis.ViewMinimum)
 				{
 					high = vAxis.ViewMinimum;
 				}
+
 				high = (float)vAxis.GetLinearPosition(high);
 
 				if (low > vAxis.ViewMaximum)
 				{
 					low = vAxis.ViewMaximum;
 				}
+
 				if (low < vAxis.ViewMinimum)
 				{
 					low = vAxis.ViewMinimum;
 				}
+
 				low = vAxis.GetLinearPosition(low);
 
 				// Remeber pre-calculated point position
@@ -572,6 +578,7 @@ internal class ErrorBarChart : IChartType
 					// Add area
 					common.HotRegionsList.AddHotRegion(areaRect, point, ser.Name, index - 1);
 				}
+
 				++index;
 			}
 
@@ -626,6 +633,7 @@ internal class ErrorBarChart : IChartType
 						{
 							errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
 						}
+
 						if (String.Compare(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
@@ -651,20 +659,24 @@ internal class ErrorBarChart : IChartType
 					{
 						high = vAxis.ViewMaximum;
 					}
+
 					if (high < vAxis.ViewMinimum)
 					{
 						high = vAxis.ViewMinimum;
 					}
+
 					high = (float)vAxis.GetLinearPosition(high);
 
 					if (low > vAxis.ViewMaximum)
 					{
 						low = vAxis.ViewMaximum;
 					}
+
 					if (low < vAxis.ViewMinimum)
 					{
 						low = vAxis.ViewMinimum;
 					}
+
 					low = vAxis.GetLinearPosition(low);
 
 					// Start Svg Selection mode
@@ -758,6 +770,7 @@ internal class ErrorBarChart : IChartType
 			{
 				markerStyle = point[CustomPropertyName.ErrorBarCenterMarkerStyle];
 			}
+
 			markerStyle = markerStyle.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 
 			// Draw marker
@@ -796,6 +809,7 @@ internal class ErrorBarChart : IChartType
 			{
 				return;
 			}
+
 			yPosition = (float)vAxis.GetLinearPosition(yPosition);
 
 			// 3D Transform coordinates
@@ -1109,6 +1123,7 @@ internal class ErrorBarChart : IChartType
 					{
 						break;
 					}
+
 					++indexOfLinkedSeries;
 				}
 
@@ -1119,6 +1134,7 @@ internal class ErrorBarChart : IChartType
 				{
 					currentDrawSeriesSideBySide = true;
 				}
+
 				foreach (string seriesName in typeLinkedSeries)
 				{
 					if (common.DataManager.Series[seriesName].IsCustomPropertySet(CustomPropertyName.DrawSideBySide))
@@ -1228,6 +1244,7 @@ internal class ErrorBarChart : IChartType
 					{
 						errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
 					}
+
 					if (String.Compare(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						// default - do nothing
@@ -1254,20 +1271,24 @@ internal class ErrorBarChart : IChartType
 				{
 					high = vAxis.ViewMaximum;
 				}
+
 				if (high < vAxis.ViewMinimum)
 				{
 					high = vAxis.ViewMinimum;
 				}
+
 				high = (float)vAxis.GetLinearPosition(high);
 
 				if (low > vAxis.ViewMaximum)
 				{
 					low = vAxis.ViewMaximum;
 				}
+
 				if (low < vAxis.ViewMinimum)
 				{
 					low = vAxis.ViewMinimum;
 				}
+
 				low = vAxis.GetLinearPosition(low);
 
 				// Remeber pre-calculated point position
@@ -1396,6 +1417,7 @@ internal class ErrorBarChart : IChartType
 						{
 							errorBarStyle = point[CustomPropertyName.ErrorBarStyle];
 						}
+
 						if (String.Compare(errorBarStyle, "Both", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
@@ -1420,20 +1442,24 @@ internal class ErrorBarChart : IChartType
 					{
 						high = vAxis.ViewMaximum;
 					}
+
 					if (high < vAxis.ViewMinimum)
 					{
 						high = vAxis.ViewMinimum;
 					}
+
 					high = (float)vAxis.GetLinearPosition(high);
 
 					if (low > vAxis.ViewMaximum)
 					{
 						low = vAxis.ViewMaximum;
 					}
+
 					if (low < vAxis.ViewMinimum)
 					{
 						low = vAxis.ViewMinimum;
 					}
+
 					low = vAxis.GetLinearPosition(low);
 
 
@@ -1533,6 +1559,7 @@ internal class ErrorBarChart : IChartType
 			{
 				markerStyle = point[CustomPropertyName.ErrorBarCenterMarkerStyle];
 			}
+
 			markerStyle = markerStyle.ToUpper(CultureInfo.InvariantCulture);
 
 			// Draw marker
@@ -1628,6 +1655,7 @@ internal class ErrorBarChart : IChartType
 				{
 					throw (new InvalidOperationException(SR.ExceptionErrorBarTypeFormatInvalid(errorBarSeries[CustomPropertyName.ErrorBarType])));
 				}
+
 				typeName = typeName.Substring(1, typeName.Length - 2);
 
 
@@ -1685,6 +1713,7 @@ internal class ErrorBarChart : IChartType
 				{
 					mean += point.YValues[0];
 				}
+
 				mean /= pointNumber;
 
 				// Calculate series variance
@@ -1760,6 +1789,7 @@ internal class ErrorBarChart : IChartType
 				System.Diagnostics.Debug.Fail("Unknown ErrorBarType=" + errorBarType.ToString());
 				break;
 		}
+
 		return 10.0;
 	}
 
@@ -1801,6 +1831,7 @@ internal class ErrorBarChart : IChartType
 			{
 				throw (new InvalidOperationException(SR.ExceptionDataSeriesNameNotFound(linkedSeriesName)));
 			}
+
 			Series linkedSeries = control.Series[linkedSeriesName];
 
 			// Make sure we use the same X and Y axis as the linked series

@@ -54,6 +54,7 @@ internal class MarkerStyleEditor : UITypeEditor, IDisposable
 			{
 				_chartGraph = new ChartGraphics(null);
 			}
+
 			_chartGraph.Graphics = e.Graphics;
 
 			// Get marker properties
@@ -103,6 +104,7 @@ internal class MarkerStyleEditor : UITypeEditor, IDisposable
 				{
 					size = e.Bounds.Height - 4;
 				}
+
 				_chartGraph.DrawMarkerAbs(
 					point,
 					(MarkerStyle)e.Value,

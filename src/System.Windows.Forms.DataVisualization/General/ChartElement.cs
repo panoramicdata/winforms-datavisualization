@@ -979,6 +979,7 @@ internal class ChartHelper
 					{
 						year = 1;
 					}
+
 					newStartDate = new DateTime(year,
 						1, 1, 0, 0, 0);
 					break;
@@ -989,6 +990,7 @@ internal class ChartHelper
 					{
 						month = 1;
 					}
+
 					newStartDate = new DateTime(newStartDate.Year,
 						month, 1, 0, 0, 0);
 					break;
@@ -999,6 +1001,7 @@ internal class ChartHelper
 					{
 						day = 1;
 					}
+
 					newStartDate = new DateTime(newStartDate.Year,
 						newStartDate.Month, day, 0, 0, 0);
 					break;
@@ -1146,6 +1149,7 @@ internal class ChartHelper
 			{
 				pointIndex = 0;
 			}
+
 			if (pointIndex >= series.Points.Count || series.Points.Count <= 1)
 			{
 				return interval;
@@ -1235,6 +1239,7 @@ internal class ChartHelper
 					{
 						adjuster = -0.5;
 					}
+
 					break;
 				}
 
@@ -1316,6 +1321,7 @@ internal class ChartHelper
 			{
 				result = Math.Abs(result);
 			}
+
 			return result;
 		}
 	}
@@ -1371,6 +1377,7 @@ internal class ChartHelper
 				break;
 			}
 		}
+
 		return series.xValuesZeros;
 	}
 
@@ -1422,6 +1429,7 @@ internal class ChartHelper
 				return false;
 			}
 		}
+
 		return true;
 	}
 

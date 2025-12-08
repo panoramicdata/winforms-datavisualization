@@ -70,6 +70,7 @@ internal class FormulaRegistry : IServiceProvider
 				break;
 			}
 		}
+
 		if (!found)
 		{
 			throw (new ArgumentException(SR.ExceptionFormulaModuleHasNoInterface));
@@ -91,6 +92,7 @@ internal class FormulaRegistry : IServiceProvider
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionFormulaModuleRegistryUnsupportedType(serviceType.ToString())));
 	}
 

@@ -317,6 +317,7 @@ public class AxisScrollBar : IDisposable
 				{
 					throw (new ArgumentOutOfRangeException("value", SR.ExceptionScrollBarSizeInvalid));
 				}
+
 				_scrollBarSize = value;
 				if (axis != null)
 				{
@@ -499,6 +500,7 @@ public class AxisScrollBar : IDisposable
 				_buttonCurrentColor = Color.DarkGray;
 			}
 		}
+
 		if (_backCurrentColor == Color.Empty)
 		{
 			_backCurrentColor = this.axis.ChartArea.BackColor;
@@ -507,6 +509,7 @@ public class AxisScrollBar : IDisposable
 				_backCurrentColor = Color.LightGray;
 			}
 		}
+
 		if (_lineCurrentColor == Color.Empty)
 		{
 			_lineCurrentColor = this.axis.LineColor;
@@ -598,6 +601,7 @@ public class AxisScrollBar : IDisposable
 			{
 				leftSize = (float)a.ScrollBar.GetScrollBarRelativeSize();
 			}
+
 			if (a.AxisPosition == AxisPosition.Right && a.ScrollBar.IsVisible && a.ScrollBar.IsPositionedInside == this.axis.ScrollBar.IsPositionedInside)
 			{
 				rightSize = (float)a.ScrollBar.GetScrollBarRelativeSize();
@@ -798,6 +802,7 @@ public class AxisScrollBar : IDisposable
 					{
 						graph.FillPolygon(brush, points);
 					}
+
 					break;
 				}
 			case (ScrollBarButtonType.SmallIncrement):
@@ -827,6 +832,7 @@ public class AxisScrollBar : IDisposable
 					{
 						graph.FillPolygon(brush, points);
 					}
+
 					break;
 				}
 			case (ScrollBarButtonType.ZoomReset):
@@ -837,6 +843,7 @@ public class AxisScrollBar : IDisposable
 						graph.DrawEllipse(pen, buttonAbsRect.X + imageOffset - 0.5f, buttonAbsRect.Y + imageOffset - 0.5f, buttonAbsRect.Width - 2f * imageOffset, buttonAbsRect.Height - 2f * imageOffset);
 						graph.DrawLine(pen, buttonAbsRect.X + imageOffset + 1.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f, buttonAbsRect.Right - imageOffset - 2.5f, buttonAbsRect.Y + buttonAbsRect.Height / 2f - 0.5f);
 					}
+
 					break;
 				}
 		}
@@ -1032,6 +1039,7 @@ public class AxisScrollBar : IDisposable
 							{
 								buttonSize.Width = buttonSize.Height;
 							}
+
 							buttonSize = this.GetRelativeSize(buttonSize);
 
 							// Calculate the distance in percentages the mouse was moved 
@@ -1079,6 +1087,7 @@ public class AxisScrollBar : IDisposable
 							// Scroll scaleView into the new position
 							this.axis.ScaleView.Scroll(this._lastClickViewPosition + ((this.axis.IsReversed) ? -1 : 1) * distance, true);
 						}
+
 						break;
 					}
 			}
@@ -1271,6 +1280,7 @@ public class AxisScrollBar : IDisposable
 		{
 			buttonSize.Width = buttonSize.Height;
 		}
+
 		buttonSize = this.GetRelativeSize(buttonSize);
 
 		// Set common position sizes
@@ -1418,6 +1428,7 @@ public class AxisScrollBar : IDisposable
 				{
 					buttonRect = RectangleF.Empty;
 				}
+
 				break;
 
 			case (ScrollBarButtonType.SmallIncrement):
@@ -1438,6 +1449,7 @@ public class AxisScrollBar : IDisposable
 				{
 					buttonRect = RectangleF.Empty;
 				}
+
 				break;
 
 			case (ScrollBarButtonType.ZoomReset):
@@ -1457,6 +1469,7 @@ public class AxisScrollBar : IDisposable
 				{
 					buttonRect = RectangleF.Empty;
 				}
+
 				break;
 		}
 
@@ -1609,10 +1622,12 @@ public class AxisScrollBar : IDisposable
 			{
 				minimum = this.axis.ScaleView.Position;
 			}
+
 			if ((this.axis.ScaleView.Position + dataViewSize) > maximum)
 			{
 				maximum = this.axis.ScaleView.Position + dataViewSize;
 			}
+
 			double axisScaleSize = Math.Abs(minimum - maximum);
 
 			// Check if data scaleView is smaller than axis scale and if it is find the pecentage
@@ -1652,10 +1667,12 @@ public class AxisScrollBar : IDisposable
 			{
 				minimum = this.axis.ScaleView.Position;
 			}
+
 			if ((this.axis.ScaleView.Position + dataViewSize) > maximum)
 			{
 				maximum = this.axis.ScaleView.Position + dataViewSize;
 			}
+
 			double axisScaleSize = Math.Abs(minimum - maximum);
 
 			// Calculate data scaleView position in percentage
@@ -1676,6 +1693,7 @@ public class AxisScrollBar : IDisposable
 		{
 			buttonNumber += 1;
 		}
+
 		if ((this._scrollBarButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
 		{
 			buttonNumber += 2;
@@ -1695,6 +1713,7 @@ public class AxisScrollBar : IDisposable
 		{
 			buttonNumber += 1;
 		}
+
 		if ((this._scrollBarButtonStyle & ScrollBarButtonStyles.SmallScroll) == ScrollBarButtonStyles.SmallScroll)
 		{
 			buttonNumber += 1;

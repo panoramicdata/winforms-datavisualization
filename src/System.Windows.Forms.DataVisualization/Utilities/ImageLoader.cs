@@ -61,6 +61,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 		{
 			throw (new ArgumentNullException(SR.ExceptionImageLoaderInvalidServiceContainer));
 		}
+
 		_serviceContainer = container;
 	}
 
@@ -76,6 +77,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionImageLoaderUnsupportedType(serviceType.ToString())));
 	}
 
@@ -93,6 +95,7 @@ internal class ImageLoader : IDisposable, IServiceProvider
 					((IDisposable)entry.Value).Dispose();
 				}
 			}
+
 			_imageData = null;
 			GC.SuppressFinalize(this);
 		}

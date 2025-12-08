@@ -363,6 +363,7 @@ internal class ColumnChart : PointChart
 				{
 					yValue = verticalViewMax;
 				}
+
 				if (yValue < verticalViewMin)
 				{
 					yValue = verticalViewMin;
@@ -429,6 +430,7 @@ internal class ColumnChart : PointChart
 				{
 					height = columnStartPosition - pixelRelSize.Height;
 				}
+
 				if (height > columnStartPosition &&
 					(height - columnStartPosition) < pixelRelSize.Height)
 				{
@@ -709,6 +711,7 @@ internal class ColumnChart : PointChart
 				topDarkening = 0.5f;
 				yValue = vAxis.ViewMaximum;
 			}
+
 			if (yValue < vAxis.ViewMinimum)
 			{
 				topDarkening = 0.5f;
@@ -749,6 +752,7 @@ internal class ColumnChart : PointChart
 			{
 				pointEx.xPosition = pointEx.xCenterVal;
 			}
+
 			ShiftedX = pointEx.xPosition - pointEx.xCenterVal;
 
 			// Make sure that points with small values are still visible
@@ -757,6 +761,7 @@ internal class ColumnChart : PointChart
 			{
 				height = columnStartPosition - pixelRelSize.Height;
 			}
+
 			if (height > columnStartPosition &&
 				(height - columnStartPosition) < pixelRelSize.Height)
 			{
@@ -819,10 +824,12 @@ internal class ColumnChart : PointChart
 				rectSize.Width -= area.PlotAreaPosition.X - rectSize.X;
 				rectSize.X = area.PlotAreaPosition.X;
 			}
+
 			if (rectSize.Right > area.PlotAreaPosition.Right)
 			{
 				rectSize.Width -= rectSize.Right - area.PlotAreaPosition.Right;
 			}
+
 			if (rectSize.Width < 0)
 			{
 				rectSize.Width = 0;
@@ -877,6 +884,7 @@ internal class ColumnChart : PointChart
 						pointEx.index - 1
 						);
 				}
+
 				if (rectPath != null)
 				{
 					rectPath.Dispose();

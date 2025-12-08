@@ -167,6 +167,7 @@ internal class HundredPercentStackedBarChart : StackedBarChart
 			{
 				return 0.0;
 			}
+
 			return (point.YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
 		}
 
@@ -235,10 +236,12 @@ internal class HundredPercentStackedBarChart : StackedBarChart
 					{
 						yValue = (ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
 					}
+
 					if (yValue >= 0.0 && !double.IsNaN(prevPosY))
 					{
 						yValue += prevPosY;
 					}
+
 					if (yValue < 0.0 && !double.IsNaN(prevNegY))
 					{
 						yValue += prevNegY;
@@ -740,6 +743,7 @@ internal class StackedBarChart : IChartType
 						//from the grid line or nPoints position.
 						xValue = (double)pointIndx + 1;
 					}
+
 					double xPosition = vAxis.GetPosition(xValue);
 
 					// Adjust X position of each stack group
@@ -775,6 +779,7 @@ internal class StackedBarChart : IChartType
 					{
 						barZeroValue = PreviousNegY;
 					}
+
 					double zero = hAxis.GetPosition(barZeroValue);
 
 					// Calculate bar position
@@ -972,6 +977,7 @@ internal class StackedBarChart : IChartType
 				{
 					stackGroupName = stackGroupName.Substring(index + 2);
 				}
+
 				if (stackGroupName.Length > 0)
 				{
 					ser[CustomPropertyName.StackedGroupName] = stackGroupName;
@@ -1280,6 +1286,7 @@ internal class StackedBarChart : IChartType
 					{
 						yValue += prevPosY;
 					}
+
 					if (yValue < 0.0 && !double.IsNaN(prevNegY))
 					{
 						yValue += prevNegY;
@@ -1297,6 +1304,7 @@ internal class StackedBarChart : IChartType
 				{
 					prevPosY = yValue;
 				}
+
 				if (yValue < 0.0)
 				{
 					prevNegY = yValue;
@@ -1506,6 +1514,7 @@ internal class StackedBarChart : IChartType
 					rightDarkening = 0.5f;
 					barZeroValue = hAxis.ViewMinimum;
 				}
+
 				if (yValue > hAxis.ViewMaximum)
 				{
 					leftDarkening = 0.5f;
@@ -1582,19 +1591,23 @@ internal class StackedBarChart : IChartType
 				{
 					continue;
 				}
+
 				if (rectSize.Y < area.PlotAreaPosition.Y)
 				{
 					rectSize.Height -= area.PlotAreaPosition.Y - rectSize.Y;
 					rectSize.Y = area.PlotAreaPosition.Y;
 				}
+
 				if (rectSize.Bottom > area.PlotAreaPosition.Bottom)
 				{
 					rectSize.Height -= rectSize.Bottom - area.PlotAreaPosition.Bottom;
 				}
+
 				if (rectSize.Height < 0)
 				{
 					rectSize.Height = 0;
 				}
+
 				if (rectSize.Height == 0f || rectSize.Width == 0f)
 				{
 					continue;
@@ -1649,6 +1662,7 @@ internal class StackedBarChart : IChartType
 						pointEx.index - 1
 						);
 				}
+
 				if (rectPath != null)
 				{
 					rectPath.Dispose();

@@ -618,6 +618,7 @@ public class CalloutAnnotation : TextAnnotation
 			rectanglePosition.X = rectanglePosition.Right;
 			rectanglePosition.Width = -rectanglePosition.Width;
 		}
+
 		if (rectanglePosition.Height < 0)
 		{
 			rectanglePosition.Y = rectanglePosition.Bottom;
@@ -807,6 +808,7 @@ public class CalloutAnnotation : TextAnnotation
 						currentDistance = distance;
 						closestPointIndex = index;
 					}
+
 					++index;
 				}
 
@@ -1364,6 +1366,7 @@ public class CalloutAnnotation : TextAnnotation
 								hotRegion.SetMarkers();
 								hotRegion.AddPath(path, false);
 							}
+
 							++index;
 						}
 					}

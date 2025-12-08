@@ -120,6 +120,7 @@ internal class PointAndFigureChart : RangeColumnChart
 		{
 			return; // the temp series has already been added
 		}
+
 		Series seriesOriginalData = new Series(tempSeriesName, series.YValuesPerPoint);
 		seriesOriginalData.Enabled = false;
 		seriesOriginalData.IsVisibleInLegend = false;
@@ -129,6 +130,7 @@ internal class PointAndFigureChart : RangeColumnChart
 		{
 			seriesOriginalData.Points.Add(dp);
 		}
+
 		series.Points.Clear();
 		if (series.IsCustomPropertySet("TempDesignData"))
 		{
@@ -164,10 +166,12 @@ internal class PointAndFigureChart : RangeColumnChart
 						{
 							nonZeroXValues = true;
 						}
+
 						if (dp.XValue > maxX)
 						{
 							maxX = dp.XValue;
 						}
+
 						if (dp.XValue < minX)
 						{
 							minX = dp.XValue;
@@ -366,6 +370,7 @@ internal class PointAndFigureChart : RangeColumnChart
 					percentOfPriceRange = 0.0;
 				}
 			}
+
 			if (!parseSucceed)
 			{
 				throw (new InvalidOperationException(SR.ExceptionRenkoBoxSizeFormatInvalid));
@@ -472,6 +477,7 @@ internal class PointAndFigureChart : RangeColumnChart
 				throw (new InvalidOperationException(SR.ExceptionPointAndFigureUsedYValueHighOutOfRange));
 			}
 		}
+
 		int yValueLowIndex = 1;
 		if (series.IsCustomPropertySet(CustomPropertyName.UsedYValueLow))
 		{
@@ -567,10 +573,12 @@ internal class PointAndFigureChart : RangeColumnChart
 						{
 							series.Points[series.Points.Count - 1].YValues[0] -= numberOfBricks * boxSize;
 						}
+
 						prevLow -= numberOfBricks * boxSize;
 					}
 
 				}
+
 				if (direction == 0 &&
 					(prevDirection == -1 || prevDirection == 0))
 				{
@@ -597,6 +605,7 @@ internal class PointAndFigureChart : RangeColumnChart
 						{
 							series.Points[series.Points.Count - 1].YValues[1] += numberOfBricks * boxSize;
 						}
+
 						prevHigh += numberOfBricks * boxSize;
 					}
 
@@ -652,6 +661,7 @@ internal class PointAndFigureChart : RangeColumnChart
 					prevDirection = direction;
 				}
 			}
+
 			++pointIndex;
 		}
 

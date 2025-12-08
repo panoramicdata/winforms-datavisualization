@@ -89,6 +89,7 @@ internal class ChartWinDesigner : ControlDesigner
 				chart.Legends.Add(new Legend());
 			}
 		}
+
 		base.InitializeNewComponent(defaultValues);
 	}
 
@@ -103,6 +104,7 @@ internal class ChartWinDesigner : ControlDesigner
 			//Free managed resources
 			SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
 		}
+
 		base.Dispose(disposing);
 	}
 
@@ -181,6 +183,7 @@ internal class ChartWinDesigner : ControlDesigner
 						}
 					}
 				}
+
 				if (dataSourceObject != null && ChartImage.IsValidDataSource(dataSourceObject))
 				{
 					selectedDataSource = dataSourceObject;

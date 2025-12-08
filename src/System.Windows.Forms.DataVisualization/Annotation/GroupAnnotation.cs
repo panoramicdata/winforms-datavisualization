@@ -870,6 +870,7 @@ public class AnnotationGroup : Annotation
 				selectionRect.X = selectionRect.Right;
 				selectionRect.Width = -selectionRect.Width;
 			}
+
 			if (selectionRect.Height < 0)
 			{
 				selectionRect.Y = selectionRect.Bottom;
@@ -923,6 +924,7 @@ public class AnnotationGroup : Annotation
 				this.annotations = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 	#endregion

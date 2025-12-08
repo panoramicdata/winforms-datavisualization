@@ -382,6 +382,7 @@ internal class HotRegion : IDisposable
 		{
 			objectType = this.SeriesName;
 		}
+
 		return String.Format(CultureInfo.CurrentCulture, "{0} of {1}", this.Type, objectType);
 	}
 
@@ -734,6 +735,7 @@ internal class HotRegionsList : IDisposable
 			{
 				region.SeriesName = series;
 			}
+
 			_regionList.Add(region);
 		}
 	}
@@ -783,6 +785,7 @@ internal class HotRegionsList : IDisposable
 			{
 				region.SeriesName = series;
 			}
+
 			_regionList.Add(region);
 		}
 	}
@@ -1129,6 +1132,7 @@ public class ChartElementOutline : IDisposable
 				this.OutlinePath.Dispose();
 				this.OutlinePath = null;
 			}
+
 			this.Markers = null;
 		}
 	}
@@ -1250,6 +1254,7 @@ internal class Selection : IServiceProvider
 					this._chartControl = this.ChartPicture.Chart;
 				}
 			}
+
 			return this._chartControl;
 		}
 	}
@@ -1270,6 +1275,7 @@ internal class Selection : IServiceProvider
 					this._chartPicture = ((IServiceProvider)this).GetService(typeof(ChartPicture)) as ChartPicture;
 				}
 			}
+
 			return this._chartPicture;
 		}
 	}
@@ -1286,6 +1292,7 @@ internal class Selection : IServiceProvider
 			{
 				this._dataManager = ((IServiceProvider)this).GetService(typeof(Data.DataManager)) as Data.DataManager;
 			}
+
 			return this._dataManager;
 		}
 	}
@@ -1301,6 +1308,7 @@ internal class Selection : IServiceProvider
 			{
 				return this.ChartPicture.Common.graph;
 			}
+
 			return null;
 		}
 	}
@@ -1731,6 +1739,7 @@ internal class Selection : IServiceProvider
 			{
 				builder.Append(elementType.ToString() + ";");
 			}
+
 			alowedElements = builder.ToString();
 		}
 
@@ -1809,6 +1818,7 @@ internal class Selection : IServiceProvider
 							{
 								pointVisible = true;
 							}
+
 							subPath.Reset();
 						}
 					}
@@ -1849,6 +1859,7 @@ internal class Selection : IServiceProvider
 									{
 										return true;
 									}
+
 									return false;
 								}
 							);
@@ -1860,10 +1871,12 @@ internal class Selection : IServiceProvider
 				}
 			}
 		}
+
 		if (result.Count == 0)
 		{
 			result.Add(this.GetHitTestResult(String.Empty, 0, ChartElementType.Nothing, null, null));
 		}
+
 		return result.ToArray();
 	}
 
@@ -1926,6 +1939,7 @@ internal class Selection : IServiceProvider
 				{
 					dataPoint = this.ChartControl.Series[region.SeriesName].Points[region.PointIndex];
 				}
+
 				if (dataPoint != null && dataPoint.Color == Color.Transparent)
 				{
 					isTransparent = true;
@@ -2033,6 +2047,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.DataPoint:
 				{
@@ -2044,6 +2059,7 @@ internal class Selection : IServiceProvider
 						result.ChartArea = chart.ChartAreas[dataPoint.series.ChartArea];
 						result.Object = dataPoint;
 					}
+
 					break;
 				}
 
@@ -2057,6 +2073,7 @@ internal class Selection : IServiceProvider
 						result.ChartArea = chart.ChartAreas[dataPoint.series.ChartArea];
 						result.Object = dataPoint;
 					}
+
 					break;
 				}
 
@@ -2067,6 +2084,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = gridLines.Axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.LegendArea:
 				result.Axis = null;
@@ -2089,6 +2107,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = stripLines.Axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.TickMarks:
 				TickMark tickMarks = (TickMark)obj;
@@ -2097,6 +2116,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = tickMarks.Axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.Title:
 				result.Axis = null;
@@ -2109,6 +2129,7 @@ internal class Selection : IServiceProvider
 					result.Axis = label.Axis;
 					result.ChartArea = label.Axis != null ? label.Axis.ChartArea : null;
 				}
+
 				break;
 			case ChartElementType.AxisLabelImage:
 				if (obj is CustomLabel)
@@ -2117,6 +2138,7 @@ internal class Selection : IServiceProvider
 					result.Axis = label.Axis;
 					result.ChartArea = label.Axis != null ? label.Axis.ChartArea : null;
 				}
+
 				break;
 			case ChartElementType.AxisTitle:
 				if (obj is Axis)
@@ -2124,6 +2146,7 @@ internal class Selection : IServiceProvider
 					result.Axis = (Axis)obj;
 					result.ChartArea = result.Axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.ScrollBarLargeDecrement:
 				scrollBar = (AxisScrollBar)obj;
@@ -2132,6 +2155,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = scrollBar.axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.ScrollBarLargeIncrement:
 				scrollBar = (AxisScrollBar)obj;
@@ -2140,6 +2164,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = scrollBar.axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.ScrollBarSmallDecrement:
 				scrollBar = (AxisScrollBar)obj;
@@ -2148,6 +2173,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = scrollBar.axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.ScrollBarSmallIncrement:
 				scrollBar = (AxisScrollBar)obj;
@@ -2156,6 +2182,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = scrollBar.axis.ChartArea;
 				}
+
 				break;
 			case ChartElementType.ScrollBarThumbTracker:
 				scrollBar = (AxisScrollBar)obj;
@@ -2164,6 +2191,7 @@ internal class Selection : IServiceProvider
 				{
 					result.ChartArea = scrollBar.axis.ChartArea;
 				}
+
 				break;
 
 			case ChartElementType.Annotation:
@@ -2171,6 +2199,7 @@ internal class Selection : IServiceProvider
 				result.ChartArea = null;
 				break;
 		}
+
 		return result;
 	}
 
@@ -2218,6 +2247,7 @@ internal class Selection : IServiceProvider
 		{
 			chartArea3D = IsArea3D(chartArea);
 		}
+
 		if (elementType != ChartElementType.DataPoint &&
 			elementType != ChartElementType.Gridlines &&
 			elementType != ChartElementType.StripLines &&
@@ -2248,6 +2278,7 @@ internal class Selection : IServiceProvider
 						{
 							pointsAlligned[i] = Point.Round(points[i]);
 						}
+
 						path.AddPolygon(pointsAlligned);
 					}
 					else
@@ -2256,8 +2287,10 @@ internal class Selection : IServiceProvider
 					}
 				}
 			}
+
 			return path;
 		}
+
 		return null;
 	}
 
@@ -2273,6 +2306,7 @@ internal class Selection : IServiceProvider
 					return -1;
 			}
 		}
+
 		return pointIndex;
 	}
 
@@ -2297,6 +2331,7 @@ internal class Selection : IServiceProvider
 					{
 						return chartObject;
 					}
+
 					if (pointIndex >= 0)
 					{
 						if (series.Points.Count > pointIndex)
@@ -2315,11 +2350,13 @@ internal class Selection : IServiceProvider
 			{
 				return chartObject;
 			}
+
 			if (this.ChartControl.Series.IndexOf(asSeries.Name) != -1)
 			{
 				return this.ChartControl.Series[asSeries.Name];
 			}
 		}
+
 		return chartObject;
 	}
 
@@ -2352,6 +2389,7 @@ internal class Selection : IServiceProvider
 								result.Add(rgn);
 							}
 						}
+
 						break;
 					case ChartElementType.AxisLabelImage:
 					case ChartElementType.AxisLabels:
@@ -2389,6 +2427,7 @@ internal class Selection : IServiceProvider
 								}
 							}
 						}
+
 						break;
 					case ChartElementType.DataPointLabel:
 					case ChartElementType.DataPoint:
@@ -2400,6 +2439,7 @@ internal class Selection : IServiceProvider
 								dataPointSeries = dataPoint.series.Name;
 								dataPointIndex = GetDataPointIndex(dataPoint);
 							}
+
 							if (rgn.PointIndex == dataPointIndex && rgn.SeriesName == dataPointSeries)
 							{
 								result.Add(rgn);
@@ -2412,6 +2452,7 @@ internal class Selection : IServiceProvider
 							{
 								cntxObj = dataPointCollection.series;
 							}
+
 							Series series = cntxObj as Series;
 							if (series != null)
 							{
@@ -2419,12 +2460,14 @@ internal class Selection : IServiceProvider
 								{
 									dataPointSeries = series.Name;
 								}
+
 								if (rgn.SeriesName == dataPointSeries)
 								{
 									result.Add(rgn);
 								}
 							}
 						}
+
 						break;
 
 					default:
@@ -2432,10 +2475,12 @@ internal class Selection : IServiceProvider
 						{
 							result.Add(rgn);
 						}
+
 						break;
 				}
 			}
 		}
+
 		return (HotRegion[])result.ToArray(typeof(HotRegion));
 	}
 
@@ -2499,6 +2544,7 @@ internal class Selection : IServiceProvider
 								rect.Height = 0;
 							}
 						}
+
 						list.AddRange(this.GetMarkers(rect, false));
 					}
 				}
@@ -2517,6 +2563,7 @@ internal class Selection : IServiceProvider
 					}
 				}
 			}
+
 			return list;
 		}
 
@@ -2529,12 +2576,14 @@ internal class Selection : IServiceProvider
 			{
 				return list;
 			}
+
 			ChartArea area = this.ChartControl.ChartAreas[series.ChartArea];
 			PointF pp = this.Transform3D(area, dataPoint);
 			if (!(float.IsNaN(pp.X) || float.IsNaN(pp.Y)))
 			{
 				list.Add(graph.GetAbsolutePoint(pp));
 			}
+
 			return list;
 		}
 
@@ -2554,6 +2603,7 @@ internal class Selection : IServiceProvider
 					list.AddRange(points);
 				}
 			}
+
 			return list;
 		}
 
@@ -2565,10 +2615,12 @@ internal class Selection : IServiceProvider
 			{
 				rect = this.GetHotRegionRectangle(rgn, rect, elementType);
 			}
+
 			if (!rect.IsEmpty)
 			{
 				list.AddRange(this.GetMarkers(rect, elementType));
 			}
+
 			return list;
 		}
 		else if (chartObject is Annotation)
@@ -2578,17 +2630,21 @@ internal class Selection : IServiceProvider
 			{
 				rect = this.GetHotRegionRectangle(rgn, rect, elementType);
 			}
+
 			if (!rect.IsEmpty)
 			{
 				list.AddRange(this.GetMarkers(rect, elementType));
 			}
+
 			return list;
 		}
+
 		foreach (HotRegion rgn in regions)
 		{
 			rect = this.GetHotRegionRectangle(rgn, RectangleF.Empty, elementType);
 			list.AddRange(this.GetMarkers(rect, elementType));
 		}
+
 		return list;
 
 	}
@@ -2620,6 +2676,7 @@ internal class Selection : IServiceProvider
 			{
 				return this.GetMarkersFromRegions(chartObject, elementType);
 			}
+
 			return this.GetAxisMarkers(this.Graph, axis);
 		}
 
@@ -2636,6 +2693,7 @@ internal class Selection : IServiceProvider
 			{
 				return this.GetMarkersFromRegions(chartObject, elementType);
 			}
+
 			return this.GetSeriesMarkers(series);
 		}
 
@@ -2659,6 +2717,7 @@ internal class Selection : IServiceProvider
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -2715,10 +2774,12 @@ internal class Selection : IServiceProvider
 					{
 						continue;
 					}
+
 					list.Add(this.Graph.GetAbsolutePoint(pp));
 				}
 			}
 		}
+
 		return list;
 	}
 
@@ -2735,6 +2796,7 @@ internal class Selection : IServiceProvider
 		{
 			return list;
 		}
+
 		PointF first = PointF.Empty;
 		PointF second = PointF.Empty;
 
@@ -2796,6 +2858,7 @@ internal class Selection : IServiceProvider
 		{
 			rect1.Inflate(size.Width, 2);
 		}
+
 		IList list1 = this.GetMarkers(rect1, ChartElementType.Axis);
 		ChartArea area = axis.ChartArea;
 		if (this.IsArea3D(area))
@@ -2810,16 +2873,19 @@ internal class Selection : IServiceProvider
 			{
 				points[i] = new Point3D(((PointF)list1[i]).X, ((PointF)list1[i]).Y, zPositon);
 			}
+
 			axis.ChartArea.matrix3D.TransformPoints(points);
 			for (int i = 0; i < list1.Count; i++)
 			{
 				list1[i] = points[i].PointF;
 			}
 		}
+
 		foreach (PointF p in list1)
 		{
 			list.Add(graph.GetAbsolutePoint(p));
 		}
+
 		return list;
 	}
 
@@ -2836,11 +2902,13 @@ internal class Selection : IServiceProvider
 		{
 			return list;
 		}
+
 		IList list1 = this.GetMarkers(area.PlotAreaPosition.ToRectangleF(), ChartElementType.PlottingArea);
 		if (this.IsChartAreaCircular(area))
 		{
 			list1 = this.GetMarkers(area.lastAreaPosition, ChartElementType.PlottingArea);
 		}
+
 		if (IsArea3D(area))
 		{
 			float zPositon = 0; // area.areaSceneDepth;
@@ -2850,16 +2918,19 @@ internal class Selection : IServiceProvider
 			{
 				points[i] = new Point3D(((PointF)list1[i]).X, ((PointF)list1[i]).Y, zPositon);
 			}
+
 			area.matrix3D.TransformPoints(points);
 			for (int i = 0; i < list1.Count; i++)
 			{
 				list1[i] = points[i].PointF;
 			}
 		}
+
 		foreach (PointF p in list1)
 		{
 			list.Add(graph.GetAbsolutePoint(p));
 		}
+
 		return list;
 	}
 
@@ -2875,6 +2946,7 @@ internal class Selection : IServiceProvider
 		{
 			rect.Inflate(4f, 4f);
 		}
+
 		if (elementType.ToString().StartsWith("PlottingArea", StringComparison.Ordinal))
 		{
 			SizeF relSize = this.Graph.GetRelativeSize(new SizeF(4f, 4f));
@@ -2885,6 +2957,7 @@ internal class Selection : IServiceProvider
 		{
 			return this.GetMarkers(rect, false);
 		}
+
 		return this.GetMarkers(rect, true);
 	}
 
@@ -2967,9 +3040,11 @@ internal class Selection : IServiceProvider
 				{
 					list.Add(new PointF(rect.Left, rect.Top + rect.Height / 2));
 				}
+
 				list.Add(new PointF(rect.Left, rect.Top));
 			}
 		}
+
 		return list;
 	}
 
@@ -3016,6 +3091,7 @@ internal class Selection : IServiceProvider
 
 			return annot3DPoints[0].PointF;
 		}
+
 		return point.positionRel;
 	}
 
@@ -3037,10 +3113,12 @@ internal class Selection : IServiceProvider
 		{
 			rect = rgn.BoundingRectangle;
 		}
+
 		if (rgn.RelativeCoordinates)
 		{
 			rect = this.Graph.GetAbsoluteRectangle(rect);
 		}
+
 		if (elementType == ChartElementType.AxisLabels)
 		{
 			if (rect.Width > rect.Height)
@@ -3052,10 +3130,12 @@ internal class Selection : IServiceProvider
 				rect.Inflate(-2, -5);
 			}
 		}
+
 		if (!unionWith.IsEmpty)
 		{
 			return RectangleF.Union(unionWith, rect);
 		}
+
 		return rect;
 	}
 
@@ -3079,10 +3159,12 @@ internal class Selection : IServiceProvider
 		{
 			return this;
 		}
+
 		if (_service != null)
 		{
 			return _service.GetService(serviceType);
 		}
+
 		return null;
 	}
 

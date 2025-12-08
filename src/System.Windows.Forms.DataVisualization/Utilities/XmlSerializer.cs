@@ -456,6 +456,7 @@ internal abstract class SerializerBase
 				}
 			}
 		}
+
 		return;
 	}
 
@@ -497,6 +498,7 @@ internal abstract class SerializerBase
 		{
 			fontData += ", GdiCharSet=" + font.GdiCharSet.ToString(System.Globalization.CultureInfo.InvariantCulture);
 		}
+
 		if (font.GdiVerticalFont)
 		{
 			fontData += ", GdiVerticalFont";
@@ -535,6 +537,7 @@ internal abstract class SerializerBase
 				standardData = standardData.Substring(0, charIndex);
 			}
 		}
+
 		charIndex = fontString.IndexOf(", GdiVerticalFont", StringComparison.Ordinal);
 		if (charIndex >= 0)
 		{
@@ -676,6 +679,7 @@ internal abstract class SerializerBase
 		{
 			imageStream.Write(buffer, 0, bytesRead);
 		}
+
 		textReader.Read();
 
 		// Create image from stream
@@ -741,6 +745,7 @@ internal abstract class SerializerBase
 							index = (int)oindex;
 							itemChecked = true;
 						}
+
 						if (index != -1)
 						{
 							object objByName = list[index];
@@ -765,6 +770,7 @@ internal abstract class SerializerBase
 					{
 					}
 				}
+
 				if (!itemChecked)
 				{
 					object objByName = null;
@@ -801,6 +807,7 @@ internal abstract class SerializerBase
 						return objByName;
 					}
 				}
+
 				itemName = null;
 			}
 
@@ -814,10 +821,12 @@ internal abstract class SerializerBase
 		{
 			ci = pi.PropertyType.GetConstructor(Type.EmptyTypes);
 		}
+
 		if (ci == null)
 		{
 			throw (new InvalidOperationException(SR.ExceptionChartSerializerDefaultConstructorUndefined(pi.PropertyType.ToString())));
 		}
+
 		return ci.Invoke(null);
 	}
 
@@ -893,6 +902,7 @@ internal abstract class SerializerBase
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -1048,6 +1058,7 @@ internal abstract class SerializerBase
 			{
 				return result;
 			}
+
 			try
 			{
 				return pd.Converter;
@@ -1059,6 +1070,7 @@ internal abstract class SerializerBase
 			{
 			}
 		}
+
 		return TypeDescriptor.GetConverter(pd.PropertyType);
 	}
 
@@ -1076,6 +1088,7 @@ internal abstract class SerializerBase
 		{
 			return (TypeConverter)_converterDict[attr.ConverterTypeName];
 		}
+
 		String typeStr = attr.ConverterTypeName;
 
 		if (attr.ConverterTypeName.Contains(","))
@@ -1227,12 +1240,14 @@ internal abstract class SerializerBase
 				{
 					throw (new ArgumentException(SR.ExceptionChartSerializerContentStringFormatInvalid));
 				}
+
 				classInfo.name = item.Substring(0, pointIndex).Trim();
 				propertyInfo.name = item.Substring(pointIndex + 1).Trim();
 				if (classInfo.name.Length == 0)
 				{
 					throw (new ArgumentException(SR.ExceptionChartSerializerClassNameUndefined));
 				}
+
 				if (propertyInfo.name.Length == 0)
 				{
 					throw (new ArgumentException(SR.ExceptionChartSerializerPropertyNameUndefined));
@@ -1367,10 +1382,12 @@ internal class XmlFormatSerializer : SerializerBase
 		{
 			throw (new ArgumentNullException("objectToSerialize"));
 		}
+
 		if (writer == null)
 		{
 			throw (new ArgumentNullException("writer"));
 		}
+
 		if (stream == null && textWriter == null && xmlWriter == null && writerStr == null)
 		{
 			throw (new ArgumentException(SR.ExceptionChartSerializerWriterObjectInvalid, "writer"));
@@ -1582,6 +1599,7 @@ internal class XmlFormatSerializer : SerializerBase
 				}
 			}
 		}
+
 		return;
 	}
 
@@ -1605,18 +1623,21 @@ internal class XmlFormatSerializer : SerializerBase
 			attrib.Value = GetXmlValue(dataPoint.XValue, dataPoint, "XValue");
 			xmlNode.Attributes.Append(attrib);
 		}
+
 		if (dataPoint.YValues.Length > 0 && IsSerializableContent("YValues", objectToSerialize))
 		{
 			XmlAttribute attrib = xmlDocument.CreateAttribute("YValues");
 			attrib.Value = GetXmlValue(dataPoint.YValues, dataPoint, "YValues");
 			xmlNode.Attributes.Append(attrib);
 		}
+
 		if (dataPoint.IsEmpty && IsSerializableContent("IsEmpty", objectToSerialize))
 		{
 			XmlAttribute attrib = xmlDocument.CreateAttribute("IsEmpty");
 			attrib.Value = GetXmlValue(dataPoint.isEmptyPoint, dataPoint, "IsEmpty");
 			xmlNode.Attributes.Append(attrib);
 		}
+
 		bool hasCustomProperties = false;
 		foreach (DictionaryEntry entry in dataPoint.properties)
 		{
@@ -1908,10 +1929,12 @@ internal class XmlFormatSerializer : SerializerBase
 		{
 			throw (new ArgumentNullException("objectToDeserialize"));
 		}
+
 		if (reader == null)
 		{
 			throw (new ArgumentNullException("reader"));
 		}
+
 		if (stream == null && textReader == null && xmlReader == null && readerStr == null)
 		{
 			throw (new ArgumentException(SR.ExceptionChartSerializerReaderObjectInvalid, "reader"));
@@ -1935,14 +1958,17 @@ internal class XmlFormatSerializer : SerializerBase
 			{
 				xmlBaseReader = XmlReader.Create(stream, settings);
 			}
+
 			if (readerStr != null)
 			{
 				xmlBaseReader = XmlReader.Create(readerStr, settings);
 			}
+
 			if (xmlReader != null)
 			{
 				xmlBaseReader = XmlReader.Create(xmlReader, settings);
 			}
+
 			if (textReader != null)
 			{
 				xmlBaseReader = XmlReader.Create(textReader, settings);
@@ -2204,6 +2230,7 @@ internal class BinaryFormatSerializer : SerializerBase
 		{
 			throw (new ArgumentNullException("objectToSerialize"));
 		}
+
 		if (destination == null)
 		{
 			throw (new ArgumentNullException("destination"));
@@ -2271,6 +2298,7 @@ internal class BinaryFormatSerializer : SerializerBase
 		{
 			throw (new ArgumentNullException("objectToSerialize"));
 		}
+
 		if (writer == null)
 		{
 			throw (new ArgumentNullException("writer"));
@@ -2418,6 +2446,7 @@ internal class BinaryFormatSerializer : SerializerBase
 							SerializeObject(pi.GetValue(objectToSerialize, null), objectToSerialize, pi.Name, writer);
 						}
 					}
+
 					propNamesList.Add(pi.Name);
 				}
 			}
@@ -2464,14 +2493,17 @@ internal class BinaryFormatSerializer : SerializerBase
 		{
 			SerializeProperty(dataPoint.XValue, dataPoint, "XValue", writer);
 		}
+
 		if (dataPoint.YValues.Length > 0 && IsSerializableContent("YValues", objectToSerialize))
 		{
 			SerializeProperty(dataPoint.YValues, dataPoint, "YValues", writer);
 		}
+
 		if (dataPoint.IsEmpty && IsSerializableContent("IsEmpty", objectToSerialize))
 		{
 			SerializeProperty(dataPoint.IsEmpty, dataPoint, "IsEmpty", writer);
 		}
+
 		bool hasCustomProperties = false;
 		foreach (DictionaryEntry entry in dataPoint.properties)
 		{
@@ -2801,6 +2833,7 @@ internal class BinaryFormatSerializer : SerializerBase
 		{
 			throw (new ArgumentNullException("objectToDeserialize"));
 		}
+
 		if (source == null)
 		{
 			throw (new ArgumentNullException("source"));
@@ -2864,6 +2897,7 @@ internal class BinaryFormatSerializer : SerializerBase
 		{
 			throw (new ArgumentNullException("objectToDeserialize"));
 		}
+
 		if (reader == null)
 		{
 			throw (new ArgumentNullException("reader"));
@@ -2946,6 +2980,7 @@ internal class BinaryFormatSerializer : SerializerBase
 							{
 								assemblyTypes = assembly.GetExportedTypes();
 							}
+
 							foreach (Type type in assemblyTypes)
 							{
 								if (type.IsSubclassOf(listItemPI.PropertyType))

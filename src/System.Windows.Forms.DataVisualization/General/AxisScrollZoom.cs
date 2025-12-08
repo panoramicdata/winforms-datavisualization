@@ -169,6 +169,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					return Double.NaN;
 				}
+
 				return _position;
 			}
 			set
@@ -653,6 +654,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 					{
 						newPosition = (axis.maximum - axis.marginView);
 					}
+
 					break;
 				case (ScrollType.Last):
 					{
@@ -665,6 +667,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						{
 							newPosition = (axis.minimum + axis.marginView + viewSize);
 						}
+
 						break;
 					}
 			}
@@ -924,6 +927,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					itemsToRemove = dataViewStates.Count - dataStartIndex;
 				}
+
 				dataViewStates.RemoveRange(dataStartIndex, itemsToRemove);
 
 
@@ -932,6 +936,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					dataViewStates.Clear();
 				}
+
 				if (Double.IsNaN(this.Position) || Double.IsNaN(this.Size))
 				{
 					this.Position = Double.NaN;
@@ -1022,6 +1027,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 						{
 							rounder = 1;
 						}
+
 						newSize = rounder * this.SmallScrollMinSize;
 					}
 
@@ -1113,6 +1119,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					viewSize -= (axis.minimum + axis.marginView) - viewPosition;
 				}
+
 				viewPosition = (axis.minimum + axis.marginView);
 			}
 			else if (viewPosition > (axis.maximum - axis.marginView))
@@ -1121,6 +1128,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					viewSize -= viewPosition - (axis.maximum - axis.marginView);
 				}
+
 				viewPosition = (axis.maximum - axis.marginView);
 			}
 
@@ -1554,6 +1562,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				}
 
 			}
+
 			return base.ConvertTo(context, culture, value, destinationType);
 		}
 

@@ -122,6 +122,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 						attributes.CustomProperties = stringValue;
 					}
 				}
+
 				if (attributes != null)
 				{
 					CustomProperties newAttributes = new CustomProperties(attributes);
@@ -129,6 +130,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 				}
 			}
 		}
+
 		return base.ConvertFrom(context, culture, value);
 	}
 
@@ -275,6 +277,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -398,6 +401,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		{
 			propAttributes[index++] = attr;
 		}
+
 		return propAttributes;
 	}
 
@@ -445,6 +449,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 				string itemStr = String.Format(CultureInfo.InvariantCulture, "{0}({1:N0})", item, ChartTypes.ErrorBarChart.DefaultErrorBarTypeValue(item));
 				result.Add(itemStr);
 			}
+
 			return new StandardValuesCollection(result);
 		}
 	}
@@ -578,6 +583,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 					customAttr.DataPointCustomProperties[this._name] = stringValue;
 				}
 			}
+
 			customAttr.DataPointCustomProperties.CustomProperties = customAttr.DataPointCustomProperties.CustomProperties;
 
 			IChangeTracking changeTracking = component as IChangeTracking;
@@ -654,6 +660,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 
 				}
 			}
+
 			return result;
 		}
 
@@ -860,6 +867,7 @@ internal class DynamicPropertyDescriptor : PropertyDescriptor
 			{
 				return this._displayName;
 			}
+
 			return this._basePropertyDescriptor.DisplayName;
 		}
 	}

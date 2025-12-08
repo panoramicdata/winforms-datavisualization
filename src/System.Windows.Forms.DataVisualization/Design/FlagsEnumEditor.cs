@@ -85,6 +85,7 @@ internal class FlagsEnumUITypeEditor : System.Drawing.Design.UITypeEditor
 		{
 			return UITypeEditorEditStyle.DropDown;
 		}
+
 		return base.GetEditStyle(context);
 	}
 

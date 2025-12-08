@@ -56,6 +56,7 @@ internal class ColorPaletteEditor : UITypeEditor
 			{
 				numberOfcolors = 6;
 			}
+
 			int colorStep = paletteColors.Length / numberOfcolors;
 			RectangleF rect = e.Bounds;
 			rect.Width = (float)(e.Bounds.Width) / (float)(numberOfcolors);
@@ -65,6 +66,7 @@ internal class ColorPaletteEditor : UITypeEditor
 				{
 					rect.Width = e.Bounds.Right - rect.X;
 				}
+
 				e.Graphics.FillRectangle(new SolidBrush(paletteColors[i * colorStep]), rect);
 				rect.X = rect.Right;
 				rect.Width = ((float)(e.Bounds.Width) / (float)(numberOfcolors));

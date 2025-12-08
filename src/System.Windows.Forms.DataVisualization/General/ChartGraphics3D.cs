@@ -421,6 +421,7 @@ public partial class ChartGraphics
 					path.CloseAllFigures();
 
 				}
+
 				common.HotRegionsList.AddHotRegion(path, true, type, obj);
 			}
 		}
@@ -500,6 +501,7 @@ public partial class ChartGraphics
 			{
 				startSide = true;
 			}
+
 			if (endAngle >= -180 && endAngle < -90 || endAngle > 90 && endAngle < 270 || endAngle > 450 && endAngle <= 540)
 			{
 				endSide = true;
@@ -513,6 +515,7 @@ public partial class ChartGraphics
 				startSide = true;
 
 			}
+
 			if (endAngle > -90 && endAngle < 90 || endAngle > 270 && endAngle < 450)
 			{
 				endSide = true;
@@ -749,6 +752,7 @@ public partial class ChartGraphics
 				}
 
 			}
+
 			if (common.ProcessModeRegions)
 			{
 
@@ -1116,6 +1120,7 @@ public partial class ChartGraphics
 			angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
 			angle = angle + 540;
 		}
+
 		return angle;
 	}
 
@@ -1352,6 +1357,7 @@ public partial class ChartGraphics
 		{
 			--firtsSplinePointIndex;
 		}
+
 		if (firtsSplinePointIndex < 1)
 		{
 			firtsSplinePointIndex = 1;
@@ -1374,6 +1380,7 @@ public partial class ChartGraphics
 			{
 				break;
 			}
+
 			++splineSegmentOffset;
 		}
 
@@ -1410,6 +1417,7 @@ public partial class ChartGraphics
 				secondYValue = (float)vAxis.GetPosition(splineDataPoints[2].dataPoint.YValues[yValueIndex]);
 				polygonPointsFront[2] = new PointF((float)splineDataPoints[2].xPosition, secondYValue);
 			}
+
 			if (nonNullPoints > 3)
 			{
 				secondYValue = (float)vAxis.GetPosition(splineDataPoints[3].dataPoint.YValues[yValueIndex]);
@@ -1813,6 +1821,7 @@ public partial class ChartGraphics
 						secondPoint.yPosition;
 					firstPoint.xPosition = (double)plotAreaPositionRight;
 				}
+
 				if ((decimal)secondPoint.xPosition < plotAreaPositionX)
 				{
 					secondPoint.yPosition = ((double)plotAreaPositionX - secondPoint.xPosition) /
@@ -1850,6 +1859,7 @@ public partial class ChartGraphics
 					firstPoint.yPosition = (double)plotAreaPositionY;
 					secondPoint.yPosition = (double)plotAreaPositionY;
 				}
+
 				if ((decimal)firstPoint.yPosition > plotAreaPositionBottom &&
 					(decimal)secondPoint.yPosition > plotAreaPositionBottom)
 				{
@@ -1888,6 +1898,7 @@ public partial class ChartGraphics
 				{
 					intersectionPoint.yPosition = (double)plotAreaPositionBottom;
 				}
+
 				intersectionPoint.xPosition = (intersectionPoint.yPosition - secondPoint.yPosition) *
 					(firstPoint.xPosition - secondPoint.xPosition) /
 					(firstPoint.yPosition - secondPoint.yPosition) +
@@ -1911,6 +1922,7 @@ public partial class ChartGraphics
 					{
 						intersectionPoint2.yPosition = (double)plotAreaPositionY;
 					}
+
 					intersectionPoint2.xPosition = (intersectionPoint2.yPosition - secondPoint.yPosition) *
 						(firstPoint.xPosition - secondPoint.xPosition) /
 						(firstPoint.yPosition - secondPoint.yPosition) +
@@ -1942,6 +1954,7 @@ public partial class ChartGraphics
 					firstSegmentVisible = false;
 					firstPoint.yPosition = (double)plotAreaPositionBottom;
 				}
+
 				if ((decimal)secondPoint.yPosition < plotAreaPositionY)
 				{
 					secondPoint.yPosition = (double)plotAreaPositionY;
@@ -1974,6 +1987,7 @@ public partial class ChartGraphics
 						{
 							intersectionPoint2 = intersectionPoint;
 						}
+
 						intersectionPoint2.dataPoint = secondPoint.dataPoint;
 						intersectionPoint2.index = secondPoint.index;
 
@@ -2231,6 +2245,7 @@ public partial class ChartGraphics
 			{
 				thickBorderOnLeft = false;
 			}
+
 			if (lineSegmentType != LineSegmentType.Last && lineSegmentType != LineSegmentType.Single)
 			{
 				thickBorderOnRight = false;
@@ -2458,6 +2473,7 @@ public partial class ChartGraphics
 				leftPoint = ChartGraphics.FindPointByIndex(points, Math.Max(firstPoint.index, secondPoint.index) + 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
 				leftPointAttr = leftPoint;
 			}
+
 			if (leftPoint != null)
 			{
 				if (leftPointAttr.dataPoint.IsEmpty)
@@ -2490,6 +2506,7 @@ public partial class ChartGraphics
 					{
 						currentPoint = (firstPoint.index < secondPoint.index) ? firstPoint : secondPoint;
 					}
+
 					double currentXValue = (currentPoint.indexedSeries) ? currentPoint.index : currentPoint.dataPoint.XValue;
 					if (currentXValue > hAxisMax || currentXValue < hAxisMin)
 					{
@@ -2514,6 +2531,7 @@ public partial class ChartGraphics
 				rightPoint = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index) - 1, (multiSeries) ? secondPoint : null, ref pointArrayIndex);
 				rightPointAttr = ChartGraphics.FindPointByIndex(points, Math.Min(firstPoint.index, secondPoint.index), (multiSeries) ? secondPoint : null, ref pointArrayIndex);
 			}
+
 			if (rightPoint != null)
 			{
 				if (rightPointAttr.dataPoint.IsEmpty)
@@ -2546,6 +2564,7 @@ public partial class ChartGraphics
 					{
 						currentPoint = (firstPoint.index < secondPoint.index) ? firstPoint : secondPoint;
 					}
+
 					double currentXValue = (currentPoint.indexedSeries) ? currentPoint.index : currentPoint.dataPoint.XValue;
 					if (currentXValue > hAxisMax || currentXValue < hAxisMin)
 					{
@@ -2569,6 +2588,7 @@ public partial class ChartGraphics
 				lineSegmentType = LineSegmentType.Single;
 			}
 		}
+
 		if (surfaceName == SurfaceNames.Right && !rightPointVisible)
 		{
 			if (lineSegmentType == LineSegmentType.Middle)
@@ -2589,6 +2609,7 @@ public partial class ChartGraphics
 		{
 			result = ((boundaryRectVisibleSurfaces & SurfaceNames.Top) == SurfaceNames.Top) ? 2 : 1;
 		}
+
 		if (surfaceName == SurfaceNames.Bottom)
 		{
 			result = ((boundaryRectVisibleSurfaces & SurfaceNames.Bottom) == SurfaceNames.Bottom) ? 2 : 1;
@@ -2598,6 +2619,7 @@ public partial class ChartGraphics
 				result = 0;
 			}
 		}
+
 		if (surfaceName == SurfaceNames.Front)
 		{
 			result = ((boundaryRectVisibleSurfaces & SurfaceNames.Front) == SurfaceNames.Front) ? 2 : 1;
@@ -2607,6 +2629,7 @@ public partial class ChartGraphics
 				result = 0;
 			}
 		}
+
 		if (surfaceName == SurfaceNames.Back)
 		{
 			result = ((boundaryRectVisibleSurfaces & SurfaceNames.Back) == SurfaceNames.Back) ? 2 : 1;
@@ -2616,6 +2639,7 @@ public partial class ChartGraphics
 				result = 0;
 			}
 		}
+
 		if (surfaceName == SurfaceNames.Left)
 		{
 			result = ((boundaryRectVisibleSurfaces & SurfaceNames.Left) == SurfaceNames.Left) ? 2 : 1;
@@ -2625,6 +2649,7 @@ public partial class ChartGraphics
 				result = 0;
 			}
 		}
+
 		if (surfaceName == SurfaceNames.Right)
 		{
 			result = ((boundaryRectVisibleSurfaces & SurfaceNames.Right) == SurfaceNames.Right) ? 2 : 1;
@@ -2858,6 +2883,7 @@ public partial class ChartGraphics
 				rightLightColor = ChartGraphics.GetGradientColor(rightLightColor, Color.Black, topRightDarkening);
 			}
 		}
+
 		if (bottomLeftDarkening != 0f)
 		{
 			if (veticalOrientation)
@@ -2894,10 +2920,12 @@ public partial class ChartGraphics
 				{
 					continue;
 				}
+
 				if (position.Width == 0.0 && currentSurface != SurfaceNames.Left && currentSurface != SurfaceNames.Right)
 				{
 					continue;
 				}
+
 				if (position.Height == 0.0 && currentSurface != SurfaceNames.Top && currentSurface != SurfaceNames.Bottom)
 				{
 					continue;
@@ -3050,10 +3078,12 @@ public partial class ChartGraphics
 			{
 				size = positionAbs.Height / 2f;
 			}
+
 			if (!isVertical && 2f * size > positionAbs.Width)
 			{
 				size = positionAbs.Width / 2f;
 			}
+
 			SizeF sizeRel = GetRelativeSize(new SizeF(size, size));
 
 			// Make 3D convertion of the key points
@@ -3099,6 +3129,7 @@ public partial class ChartGraphics
 					path.AddLine(gradientPointsAbs[5], gradientPointsAbs[2]);
 					path.AddLine(gradientPointsAbs[2], gradientPointsAbs[1]);
 				}
+
 				path.CloseAllFigures();
 
 				// Create brush and fill path
@@ -3175,6 +3206,7 @@ public partial class ChartGraphics
 					{
 						this.DrawPath(penDark, path);
 					}
+
 					using (Pen pen = new Pen(Color.FromArgb(40, Color.White), 1))
 					{
 						this.DrawPath(pen, path);
@@ -3197,6 +3229,7 @@ public partial class ChartGraphics
 			{
 				shadowSizeAbs = 3f;
 			}
+
 			SizeF shadowSizeRel = GetRelativeSize(new SizeF(shadowSizeAbs, shadowSizeAbs));
 
 			// Calculate gradient position
@@ -3323,6 +3356,7 @@ public partial class ChartGraphics
 			{
 				shadowSizeAbs = 3f;
 			}
+
 			SizeF shadowSizeRel = GetRelativeSize(new SizeF(shadowSizeAbs, shadowSizeAbs));
 
 			// Left/top Side
@@ -3537,10 +3571,12 @@ public partial class ChartGraphics
 												{
 													focusScale.X = 0;
 												}
+
 												if (focusScale.Y < 0)
 												{
 													focusScale.Y = 0;
 												}
+
 												shadowBrush.FocusScales = focusScale;
 
 												// Draw shadow
@@ -3993,6 +4029,7 @@ public partial class ChartGraphics
 				rightLightColor = ChartGraphics.GetGradientColor(rightLightColor, Color.Black, topRightDarkening);
 			}
 		}
+
 		if (bottomLeftDarkening != 0f)
 		{
 			if (veticalOrientation)
@@ -4209,6 +4246,7 @@ public partial class ChartGraphics
 								surfaceColor = topLightColor;
 								pathToDraw = topRigthSide;
 							}
+
 							break;
 						case (SurfaceNames.Bottom):
 							if (veticalOrientation)
@@ -4216,6 +4254,7 @@ public partial class ChartGraphics
 								surfaceColor = bottomLightColor;
 								pathToDraw = bottomLeftSide;
 							}
+
 							break;
 						case (SurfaceNames.Right):
 							if (!veticalOrientation)
@@ -4223,6 +4262,7 @@ public partial class ChartGraphics
 								surfaceColor = rightLightColor;
 								pathToDraw = topRigthSide;
 							}
+
 							break;
 						case (SurfaceNames.Left):
 							if (!veticalOrientation)
@@ -4230,6 +4270,7 @@ public partial class ChartGraphics
 								surfaceColor = leftLightColor;
 								pathToDraw = bottomLeftSide;
 							}
+
 							break;
 					}
 
@@ -4328,6 +4369,7 @@ public partial class ChartGraphics
 				{
 					leftBottomPoint = pointIndex;
 				}
+
 				if (ellipsePoints[rigthTopPoint].X < ellipsePoints[pointIndex].X)
 				{
 					rigthTopPoint = pointIndex;
@@ -4392,10 +4434,12 @@ public partial class ChartGraphics
 								{
 									pointsOnLeft = true;
 								}
+
 								if (x < ellipsePoints[innerPointIndex].X)
 								{
 									pointsOnRight = true;
 								}
+
 								if (pointsOnLeft && pointsOnRight)
 								{
 									break;
@@ -4420,10 +4464,12 @@ public partial class ChartGraphics
 									{
 										pointsOnLeft = true;
 									}
+
 									if (x < oppositeEllipsePoints[innerPointIndex].X)
 									{
 										pointsOnRight = true;
 									}
+
 									if (pointsOnLeft && pointsOnRight)
 									{
 										break;
@@ -4458,10 +4504,12 @@ public partial class ChartGraphics
 								{
 									pointsOnLeft = true;
 								}
+
 								if (y < ellipsePoints[innerPointIndex].Y)
 								{
 									pointsOnRight = true;
 								}
+
 								if (pointsOnLeft && pointsOnRight)
 								{
 									break;
@@ -4486,10 +4534,12 @@ public partial class ChartGraphics
 									{
 										pointsOnLeft = true;
 									}
+
 									if (y < oppositeEllipsePoints[innerPointIndex].Y)
 									{
 										pointsOnRight = true;
 									}
+
 									if (pointsOnLeft && pointsOnRight)
 									{
 										break;
@@ -4503,6 +4553,7 @@ public partial class ChartGraphics
 							leftBottomPoint = pointIndex;
 							this._oppLeftBottomPoint = pointOppositeIndex;
 						}
+
 						if (!pointsOnRight && rigthTopPoint == -1)
 						{
 							rigthTopPoint = pointIndex;
@@ -4554,6 +4605,7 @@ public partial class ChartGraphics
 				pointIndex = 0;
 				continue;
 			}
+
 			resultPath.AddLine(ellipsePoints[pointIndex - 1], ellipsePoints[pointIndex]);
 		}
 	}

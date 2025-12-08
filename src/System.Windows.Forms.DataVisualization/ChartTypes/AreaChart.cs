@@ -310,6 +310,7 @@ internal class AreaChart : SplineChart
 		{
 			path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
 		}
+
 		path.AddLine(point2.X, point2.Y, point2.X, axisPos.Y);
 
 		// Draw shadow
@@ -331,6 +332,7 @@ internal class AreaChart : SplineChart
 						clipRegion.Translate(series.ShadowOffset, series.ShadowOffset);
 						graph.Clip = clipRegion;
 					}
+
 					graph.TranslateTransform(series.ShadowOffset, series.ShadowOffset);
 
 					// Draw top and bottom lines
@@ -468,6 +470,7 @@ internal class AreaChart : SplineChart
 				mapAreaPath.AddCurve(points, pointIndex - 1, 1, this.lineTension);
 				mapAreaPath.Flatten();
 			}
+
 			mapAreaPath.AddLine(point2.X, point2.Y, point2.X, axisPos.Y);
 			mapAreaPath.AddLine(point2.X, axisPos.Y, point1.X, axisPos.Y);
 
@@ -551,6 +554,7 @@ internal class AreaChart : SplineChart
 					pointIndex);
 
 			}
+
 			mapAreaPath.Dispose();
 		}
 	}
@@ -584,6 +588,7 @@ internal class AreaChart : SplineChart
 			// Reset clip region
 			graph.ResetClip();
 		}
+
 		if (areaPath != null)
 		{
 			areaPath.Dispose();
@@ -730,6 +735,7 @@ internal class AreaChart : SplineChart
 				{
 					reversed = true;
 				}
+
 				break;
 			}
 
@@ -754,6 +760,7 @@ internal class AreaChart : SplineChart
 			{
 				splineSurfacePath.Reverse();
 			}
+
 			splinePoints = splineSurfacePath.PathPoints;
 
 			// Loop through all segment lines the spline consist off
@@ -927,6 +934,7 @@ internal class AreaChart : SplineChart
 		{
 			color = Color.Gray;
 		}
+
 		if (pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.BorderDashStyle == ChartDashStyle.NotSet)
 		{
 			dashStyle = ChartDashStyle.Solid;
@@ -966,6 +974,7 @@ internal class AreaChart : SplineChart
 			{
 				visibleSurfaces |= SurfaceNames.Bottom;
 			}
+
 			if (bottomVisible)
 			{
 				visibleSurfaces |= SurfaceNames.Top;
@@ -1003,6 +1012,7 @@ internal class AreaChart : SplineChart
 		{
 			thirdPoint.Y = thirdPointPosition.Y;
 		}
+
 		if (!float.IsNaN(fourthPointPosition.Y))
 		{
 			fourthPoint.Y = fourthPointPosition.Y;
@@ -1173,6 +1183,7 @@ internal class AreaChart : SplineChart
 							continue;
 						}
 					}
+
 					if (pointLoopIndex == 1)
 					{
 						if (currentSurface == SurfaceNames.Back ||
@@ -1299,6 +1310,7 @@ internal class AreaChart : SplineChart
 										0f, operationType, LineSegmentType.Single, true, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
 
 							}
+
 							break;
 						}
 					case (SurfaceNames.Right):
@@ -1605,6 +1617,7 @@ internal class AreaChart : SplineChart
 				this.areaPath = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 	#endregion

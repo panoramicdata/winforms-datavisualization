@@ -753,6 +753,7 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 			{
 				sum += Math.Abs(movingAverage[index] - typicalPrice[indexSum]);
 			}
+
 			meanDeviation[index] = sum / period;
 		}
 

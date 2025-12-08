@@ -54,6 +54,7 @@ public class PrintingManager : IDisposable
 		{
 			throw (new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
 		}
+
 		_serviceContainer = container;
 	}
 
@@ -68,6 +69,7 @@ public class PrintingManager : IDisposable
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionChartSerializerUnsupportedType(serviceType.ToString())));
 	}
 	#endregion
@@ -99,6 +101,7 @@ public class PrintingManager : IDisposable
 				// Hook up to the PrintPage event of the document
 				this.PrintDocument.PrintPage += new PrintPageEventHandler(pd_PrintPage);
 			}
+
 			return _printDocument;
 		}
 	}

@@ -109,6 +109,7 @@ internal class KeywordEditor : System.Windows.Forms.Form
 				_components.Dispose();
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 
@@ -376,6 +377,7 @@ internal class KeywordEditor : System.Windows.Forms.Form
 		{
 			this._numericUpDownYValue.Maximum = this._maxYValueIndex;
 		}
+
 		this._numericUpDownYValue.Enabled = this._maxYValueIndex > 0;
 		this._labelYValue.Enabled = this._maxYValueIndex > 0;
 
@@ -431,6 +433,7 @@ internal class KeywordEditor : System.Windows.Forms.Form
 									{
 										yValueIndex = 0;
 									}
+
 									_numericUpDownYValue.Value = yValueIndex;
 									++keywordLength;
 								}
@@ -646,6 +649,7 @@ internal class KeywordEditor : System.Windows.Forms.Form
 			{
 				this.Keyword += "Y" + ((int)_numericUpDownYValue.Value).ToString(CultureInfo.InvariantCulture);
 			}
+
 			if (keywordInfo.SupportsFormatting &&
 				_comboBoxFormat.SelectedIndex > 0 &&
 				this.GetFormatString().Length > 0)

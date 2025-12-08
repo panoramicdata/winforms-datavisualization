@@ -92,6 +92,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 		{
 			this.FillChartAccessibleObjectList();
 		}
+
 		return _chartAccessibleObjectList.Count;
 	}
 
@@ -113,6 +114,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 		{
 			return this._chartAccessibleObjectList[index];
 		}
+
 		return null;
 	}
 
@@ -332,6 +334,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 				}
 			}
 		}
+
 		return result;
 	}
 
@@ -464,6 +467,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 			{
 				return this.chartAccessibleParentObject;
 			}
+
 			return this.chartAccessibleObject;
 		}
 	}
@@ -506,6 +510,7 @@ internal class ChartChildAccessibleObject : AccessibleObject
 			{
 				state |= AccessibleStates.Selected;
 			}
+
 			return state;
 		}
 	}
@@ -609,6 +614,7 @@ internal class ChartChildLegendAccessibleObject : ChartChildAccessibleObject
 		{
 			return this._childList[index];
 		}
+
 		return null;
 	}
 
@@ -739,6 +745,7 @@ internal class ChartChildChartAreaAccessibleObject : ChartChildAccessibleObject
 		{
 			return this._childList[index];
 		}
+
 		return null;
 	}
 
@@ -830,6 +837,7 @@ internal class ChartChildSeriesAccessibleObject : ChartChildAccessibleObject
 		{
 			return this._childList[index];
 		}
+
 		return null;
 	}
 

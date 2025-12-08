@@ -832,6 +832,7 @@ internal class SunkenBorder : IBorderType
 			else
 				areasRect.X -= 100f - areasRect.Right;
 		}
+
 		if (areasRect.Bottom > 100f)
 		{
 			if (areasRect.Height > 100f - areasRect.Bottom)

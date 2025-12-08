@@ -357,6 +357,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 				case (ChartColorPalette.BrightPastel):
 					return _colorsBrightPastel;
 			}
+
 			return null;
 		}
 

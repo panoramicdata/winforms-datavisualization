@@ -187,6 +187,7 @@ public class AxisScaleBreakStyle
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksNumberInvalid));
 			}
+
 			this._maximumNumberOfBreaks = value;
 			this.Invalidate();
 		}
@@ -213,6 +214,7 @@ public class AxisScaleBreakStyle
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksCollapsibleSpaceInvalid));
 			}
+
 			this._minimumNumberOfEmptySegments = value;
 			this.Invalidate();
 		}
@@ -281,6 +283,7 @@ public class AxisScaleBreakStyle
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksSpacingInvalid));
 			}
+
 			this._segmentSpacing = value;
 			this.Invalidate();
 		}
@@ -329,6 +332,7 @@ public class AxisScaleBreakStyle
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleBreaksLineWidthInvalid));
 			}
+
 			this._breakLineWidth = value;
 			this.Invalidate();
 		}
@@ -371,6 +375,7 @@ public class AxisScaleBreakStyle
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -471,6 +476,7 @@ public class AxisScaleBreakStyle
 				}
 			}
 		}
+
 		return seriesList;
 	}
 
@@ -530,6 +536,7 @@ public class AxisScaleBreakStyle
 					{
 						axisScaleSegment.ScaleMinimum = this.axis.Minimum;
 					}
+
 					if (axisScaleSegment.ScaleMaximum > this.axis.Maximum)
 					{
 						axisScaleSegment.ScaleMaximum = this.axis.Maximum;
@@ -616,6 +623,7 @@ public class AxisScaleBreakStyle
 				++index;
 			}
 		}
+
 		return -1;
 	}
 
@@ -889,6 +897,7 @@ public class AxisScaleBreakStyle
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -943,6 +952,7 @@ public class AxisScaleBreakStyle
 			segmentMaxValue[index] = double.NaN;
 			segmentMinValue[index] = double.NaN;
 		}
+
 		foreach (Series series in axisSeries)
 		{
 			// Get number of Y values to process
@@ -970,6 +980,7 @@ public class AxisScaleBreakStyle
 						{
 							segmentIndex = 0;
 						}
+
 						if (segmentIndex > segmentCount - 1)
 						{
 							segmentIndex = segmentCount - 1;
@@ -1039,6 +1050,7 @@ public class AxisScaleBreakStyle
 					startSegment = currentSegmentStart;
 					numberOfSegments = currentNumberOfSegments;
 				}
+
 				currentSegmentStart = -1;
 				currentNumberOfSegments = 0;
 			}

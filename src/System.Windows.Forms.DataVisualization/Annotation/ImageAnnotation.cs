@@ -492,6 +492,7 @@ public class ImageAnnotation : Annotation
 			rectanglePosition.X = rectanglePosition.Right;
 			rectanglePosition.Width = -rectanglePosition.Width;
 		}
+
 		if (rectanglePosition.Height < 0)
 		{
 			rectanglePosition.Y = rectanglePosition.Bottom;
@@ -626,6 +627,7 @@ public class ImageAnnotation : Annotation
 		{
 			return ChartImageAlignmentStyle.Left;
 		}
+
 		return ChartImageAlignmentStyle.Center;
 	}
 

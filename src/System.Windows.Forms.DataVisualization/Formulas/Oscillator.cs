@@ -131,6 +131,7 @@ internal class Oscillators : PriceIndicators
 			{
 				outputValues[1][expIndex] = Double.NaN;
 			}
+
 			expIndex++;
 		}
 	}

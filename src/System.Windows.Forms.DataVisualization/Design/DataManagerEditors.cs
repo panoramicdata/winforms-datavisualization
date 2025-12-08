@@ -92,6 +92,7 @@ internal class SeriesDataSourceMemberValueAxisUITypeEditor : System.Drawing.Desi
 
 			return (yValuesNumber == 1) ? UITypeEditorEditStyle.None : UITypeEditorEditStyle.DropDown;
 		}
+
 		return base.GetEditStyle(context);
 	}
 
@@ -160,6 +161,7 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 		{
 			return ChartImage.GetDataSourceMemberNames(dataSource, this.usedForYValue);
 		}
+
 		return new ArrayList();
 	}
 
@@ -213,6 +215,7 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 			{
 				result += ", ";
 			}
+
 			result += (string)checkedItem;
 		}
 
@@ -327,6 +330,7 @@ internal class DataPointCollectionEditor : ChartCollectionEditor
 				throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
 			}
 		}
+
 		return base.EditValue(context, provider, value);
 	}
 
@@ -395,6 +399,7 @@ internal class ChartCollectionEditor : CollectionEditor
 			// Save current control type descriptor context
 			_chart = context.Instance as Chart;
 		}
+
 		INameController controller = value as INameController;
 		bool isReferenceCollection = controller != null && (value is ChartAreaCollection || value is LegendCollection);
 		try
@@ -407,6 +412,7 @@ internal class ChartCollectionEditor : CollectionEditor
 					);
 				controller.IsColectionEditing = true;
 			}
+
 			return base.EditValue(context, provider, value);
 			;
 		}
@@ -477,6 +483,7 @@ internal class ChartCollectionEditor : CollectionEditor
 					elementsRemoved = true;
 				}
 			}
+
 			if (elementsRemoved)
 			{
 				svc.OnComponentChanging(this._chart, null);
@@ -488,9 +495,11 @@ internal class ChartCollectionEditor : CollectionEditor
 						controller.OnNameReferenceChanged(new NameReferenceChangedEventArgs(element, defaultElement));
 					}
 				}
+
 				svc.OnComponentChanged(this._chart, null, null, null);
 			}
 		}
+
 		return result;
 	}
 
@@ -547,6 +556,7 @@ internal class ChartCollectionEditor : CollectionEditor
 			{
 				return grid;
 			}
+
 			if (control.Controls.Count > 0)
 			{
 				grid = GetPropertyGrid(control.Controls);
@@ -556,6 +566,7 @@ internal class ChartCollectionEditor : CollectionEditor
 				}
 			}
 		}
+
 		return null;
 	}
 
@@ -572,6 +583,7 @@ internal class ChartCollectionEditor : CollectionEditor
 			{
 				buttons.Add(control);
 			}
+
 			if (control.Controls.Count > 0)
 			{
 				CollectButtons(buttons, control.Controls);

@@ -525,6 +525,7 @@ public class Cursor : IDisposable
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionCursorLineWidthIsNegative));
 			}
+
 			_lineWidth = value;
 			this.Invalidate(true);
 		}
@@ -1030,6 +1031,7 @@ public class Cursor : IDisposable
 			{
 				SetCursorPixelPosition(new PointF(e.X, e.Y), false);
 			}
+
 			if (this.IsUserSelectionEnabled)
 			{
 				this._userSelectionStart = new PointF(e.X, e.Y);
@@ -1230,6 +1232,7 @@ public class Cursor : IDisposable
 			{
 				SetCursorPixelPosition(new PointF(e.X, e.Y), true);
 			}
+
 			if (this.IsUserSelectionEnabled)
 			{
 				// Set selection
@@ -1398,14 +1401,17 @@ public class Cursor : IDisposable
 				{
 					result.X = plotAreaPosition.X;
 				}
+
 				if (result.X > plotAreaPosition.Right)
 				{
 					result.X = plotAreaPosition.Right;
 				}
+
 				if (result.Y < plotAreaPosition.Y)
 				{
 					result.Y = plotAreaPosition.Y;
 				}
+
 				if (result.Y > plotAreaPosition.Bottom)
 				{
 					result.Y = plotAreaPosition.Bottom;

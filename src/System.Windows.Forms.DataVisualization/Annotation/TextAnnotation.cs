@@ -383,6 +383,7 @@ public class TextAnnotation : Annotation
 			textPosition.X = textPosition.Right;
 			textPosition.Width = -textPosition.Width;
 		}
+
 		if (textPosition.Height < 0)
 		{
 			textPosition.Y = textPosition.Bottom;
@@ -468,6 +469,7 @@ public class TextAnnotation : Annotation
 				spacingScaleX = textPosition.Width / 50f;
 				spacingScaleX = Math.Max(1f, spacingScaleX);
 			}
+
 			if (textPosition.Height > 25f)
 			{
 				spacingScaleY = textPosition.Height / 50f;
@@ -503,6 +505,7 @@ public class TextAnnotation : Annotation
 				textPositionWithSpacing.Height -= textSpacing.Height / 2f + textSpacing.Y / 2f;
 				textPositionWithSpacing.Y += textSpacing.Y / 2f;
 			}
+
 			if (this.Alignment == ContentAlignment.BottomCenter ||
 				this.Alignment == ContentAlignment.MiddleCenter ||
 				this.Alignment == ContentAlignment.TopCenter)
@@ -530,18 +533,21 @@ public class TextAnnotation : Annotation
 				{
 					format.Alignment = StringAlignment.Far;
 				}
+
 				if (this.Alignment == ContentAlignment.BottomCenter ||
 					this.Alignment == ContentAlignment.MiddleCenter ||
 					this.Alignment == ContentAlignment.TopCenter)
 				{
 					format.Alignment = StringAlignment.Center;
 				}
+
 				if (this.Alignment == ContentAlignment.BottomCenter ||
 					this.Alignment == ContentAlignment.BottomLeft ||
 					this.Alignment == ContentAlignment.BottomRight)
 				{
 					format.LineAlignment = StringAlignment.Far;
 				}
+
 				if (this.Alignment == ContentAlignment.MiddleCenter ||
 					this.Alignment == ContentAlignment.MiddleLeft ||
 					this.Alignment == ContentAlignment.MiddleRight)
@@ -588,18 +594,21 @@ public class TextAnnotation : Annotation
 					{
 						textActualPosition.X += textPositionWithSpacing.Width - textSize.Width;
 					}
+
 					if (this.Alignment == ContentAlignment.BottomCenter ||
 						this.Alignment == ContentAlignment.MiddleCenter ||
 						this.Alignment == ContentAlignment.TopCenter)
 					{
 						textActualPosition.X += (textPositionWithSpacing.Width - textSize.Width) / 2f;
 					}
+
 					if (this.Alignment == ContentAlignment.BottomCenter ||
 						this.Alignment == ContentAlignment.BottomLeft ||
 						this.Alignment == ContentAlignment.BottomRight)
 					{
 						textActualPosition.Y += textPositionWithSpacing.Height - textSize.Height;
 					}
+
 					if (this.Alignment == ContentAlignment.MiddleCenter ||
 						this.Alignment == ContentAlignment.MiddleLeft ||
 						this.Alignment == ContentAlignment.MiddleRight)
@@ -773,6 +782,7 @@ public class TextAnnotation : Annotation
 				{
 					this.Chart.Controls.Remove(_editTextBox);
 				}
+
 				_editTextBox.Dispose();
 				_editTextBox = null;
 			}
@@ -798,6 +808,7 @@ public class TextAnnotation : Annotation
 				textPosition.X = textPosition.Right;
 				textPosition.Width = -textPosition.Width;
 			}
+
 			if (textPosition.Height < 0)
 			{
 				textPosition.Y = textPosition.Bottom;
@@ -823,6 +834,7 @@ public class TextAnnotation : Annotation
 			{
 				textPosition.Y += textPosition.Height / 2f - _editTextBox.Size.Height / 2f;
 			}
+
 			_editTextBox.Location = Point.Round(textPosition.Location);
 			_editTextBox.Size = Size.Round(textPosition.Size);
 
@@ -911,6 +923,7 @@ public class TextAnnotation : Annotation
 					spacingScaleX = contentSize.Width / 25f;
 					spacingScaleX = Math.Max(1f, spacingScaleX);
 				}
+
 				if (contentSize.Height > 25f)
 				{
 					spacingScaleY = contentSize.Height / 25f;
@@ -949,6 +962,7 @@ public class TextAnnotation : Annotation
 		{
 			rect = GetGraphics().GetRelativeRectangle(rect);
 		}
+
 		return rect;
 	}
 

@@ -104,6 +104,7 @@ public partial class ChartArea
 			{
 				return false;
 			}
+
 			return true;
 		}
 	}
@@ -156,6 +157,7 @@ public partial class ChartArea
 			{
 				return ((ChartArea)this).AxisX.GetSubAxis(subAxisName);
 			}
+
 			return ((ChartArea)this).AxisX2.GetSubAxis(subAxisName);
 		}
 		else
@@ -164,6 +166,7 @@ public partial class ChartArea
 			{
 				return ((ChartArea)this).AxisY.GetSubAxis(subAxisName);
 			}
+
 			return ((ChartArea)this).AxisY2.GetSubAxis(subAxisName);
 		}
 	}
@@ -329,6 +332,7 @@ public partial class ChartArea
 				{
 					currentAxis.minimum = currentAxis.ScaleSegments[0].ScaleMinimum;
 				}
+
 				if (currentAxis.minimum > currentAxis.ScaleSegments[currentAxis.ScaleSegments.Count - 1].ScaleMaximum)
 				{
 					currentAxis.minimum = currentAxis.ScaleSegments[currentAxis.ScaleSegments.Count - 1].ScaleMaximum;
@@ -377,6 +381,7 @@ public partial class ChartArea
 			}
 
 		}
+
 		foreach (Axis currentAxis in axesArray)
 		{
 			currentAxis.PostFillLabels();
@@ -605,6 +610,7 @@ public partial class ChartArea
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -896,6 +902,7 @@ public partial class ChartArea
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -1001,6 +1008,7 @@ public partial class ChartArea
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -1234,6 +1242,7 @@ public partial class ChartArea
 				{
 					stringArray[index++] = str;
 				}
+
 				result.Add(stringArray);
 			}
 		}
@@ -1479,6 +1488,7 @@ public partial class ChartArea
 				}
 			}
 		}
+
 		if (initializeAxes)
 		{
 			// Set default min, max etc.
@@ -1581,6 +1591,7 @@ public partial class ChartArea
 			{
 				return GetXAxesSeries(AxisType.Primary, string.Empty);
 			}
+
 			return GetXAxesSeries(AxisType.Secondary, string.Empty);
 		}
 
@@ -1775,6 +1786,7 @@ public partial class ChartArea
 					prevXValue = dataSeries.Points[0].XValue;
 				}
 			}
+
 			foreach (DataPoint point in dataSeries.Points)
 			{
 				if (isLogarithmic)

@@ -301,6 +301,7 @@ public class SmartLabelStyle
 			{
 				throw (new InvalidOperationException(SR.ExceptionSmartLabelsMinMovingDistanceIsNegative));
 			}
+
 			_minMovingDistance = value;
 			Invalidate();
 		}
@@ -327,6 +328,7 @@ public class SmartLabelStyle
 			{
 				throw (new InvalidOperationException(SR.ExceptionSmartLabelsMaxMovingDistanceIsNegative));
 			}
+
 			_maxMovingDistance = value;
 			Invalidate();
 		}
@@ -1179,12 +1181,15 @@ internal class SmartLabel
 				{
 					return false;
 				}
+
 				if (point1.Y > rect.Bottom && point2.Y > rect.Bottom)
 				{
 					return false;
 				}
+
 				return true;
 			}
+
 			return false;
 		}
 
@@ -1197,12 +1202,15 @@ internal class SmartLabel
 				{
 					return false;
 				}
+
 				if (point1.X > rect.Right && point2.X > rect.Right)
 				{
 					return false;
 				}
+
 				return true;
 			}
+
 			return false;
 
 		}
@@ -1238,16 +1246,19 @@ internal class SmartLabel
 		{
 			return true;
 		}
+
 		intersection = CalloutAnnotation.GetIntersectionY(point1, point2, rect.Bottom);
 		if (rect.Contains(intersection))
 		{
 			return true;
 		}
+
 		intersection = CalloutAnnotation.GetIntersectionX(point1, point2, rect.X);
 		if (rect.Contains(intersection))
 		{
 			return true;
 		}
+
 		intersection = CalloutAnnotation.GetIntersectionX(point1, point2, rect.Right);
 		if (rect.Contains(intersection))
 		{
@@ -1560,6 +1571,7 @@ internal class AnnotationSmartLabel : SmartLabel
 				area.smartLabels.checkAllCollisions = false;
 				return true;
 			}
+
 			area.smartLabels.checkAllCollisions = false;
 		}
 

@@ -112,6 +112,7 @@ internal class ThreeLineBreakChart : IChartType
 		{
 			seriesOriginalData.Points.Add(dp);
 		}
+
 		series.Points.Clear();
 		if (series.IsCustomPropertySet("TempDesignData"))
 		{
@@ -149,10 +150,12 @@ internal class ThreeLineBreakChart : IChartType
 						{
 							nonZeroXValues = true;
 						}
+
 						if (dp.XValue > maxX)
 						{
 							maxX = dp.XValue;
 						}
+
 						if (dp.XValue < minX)
 						{
 							minX = dp.XValue;
@@ -331,6 +334,7 @@ internal class ThreeLineBreakChart : IChartType
 			{
 				priceUpColorString = series[CustomPropertyName.PriceUpColor];
 			}
+
 			if (priceUpColorString != null)
 			{
 				try
@@ -439,10 +443,12 @@ internal class ThreeLineBreakChart : IChartType
 						{
 							newDataPoint.BorderWidth = 1;
 						}
+
 						if (newDataPoint.BorderDashStyle == ChartDashStyle.NotSet)
 						{
 							newDataPoint.BorderDashStyle = ChartDashStyle.Solid;
 						}
+
 						if ((newDataPoint.BorderColor == Color.Empty || newDataPoint.BorderColor == Color.Transparent) &&
 							(newDataPoint.Color == Color.Empty || newDataPoint.Color == Color.Transparent))
 						{

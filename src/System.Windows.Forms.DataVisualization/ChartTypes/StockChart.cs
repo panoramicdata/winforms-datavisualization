@@ -353,6 +353,7 @@ internal class StockChart : IChartType
 				{
 					xValue = (double)index;
 				}
+
 				float xPosition = (float)HAxis.GetPosition(xValue);
 
 				double yValue0 = VAxis.GetLogValue(point.YValues[0]);
@@ -377,20 +378,24 @@ internal class StockChart : IChartType
 				{
 					high = VAxis.ViewMaximum;
 				}
+
 				if (high < VAxis.ViewMinimum)
 				{
 					high = VAxis.ViewMinimum;
 				}
+
 				high = (float)VAxis.GetLinearPosition(high);
 
 				if (low > VAxis.ViewMaximum)
 				{
 					low = VAxis.ViewMaximum;
 				}
+
 				if (low < VAxis.ViewMinimum)
 				{
 					low = VAxis.ViewMinimum;
 				}
+
 				low = VAxis.GetLinearPosition(low);
 
 				// Remeber pre-calculated point position
@@ -450,6 +455,7 @@ internal class StockChart : IChartType
 						index - 1);
 
 				}
+
 				++index;
 			}
 
@@ -468,6 +474,7 @@ internal class StockChart : IChartType
 				{
 					xValue = (double)index;
 				}
+
 				float xPosition = (float)HAxis.GetPosition(xValue);
 
 				double yValue0 = VAxis.GetLogValue(point.YValues[0]);
@@ -492,20 +499,24 @@ internal class StockChart : IChartType
 				{
 					high = VAxis.ViewMaximum;
 				}
+
 				if (high < VAxis.ViewMinimum)
 				{
 					high = VAxis.ViewMinimum;
 				}
+
 				high = (float)VAxis.GetLinearPosition(high);
 
 				if (low > VAxis.ViewMaximum)
 				{
 					low = VAxis.ViewMaximum;
 				}
+
 				if (low < VAxis.ViewMinimum)
 				{
 					low = VAxis.ViewMinimum;
 				}
+
 				low = VAxis.GetLinearPosition(low);
 
 				// Draw marker
@@ -1162,6 +1173,7 @@ internal class StockChart : IChartType
 				{
 					xValue = (double)index;
 				}
+
 				float xPosition = (float)HAxis.GetPosition(xValue);
 
 				double yValue0 = VAxis.GetLogValue(point.YValues[0]);
@@ -1195,20 +1207,24 @@ internal class StockChart : IChartType
 				{
 					high = VAxis.ViewMaximum;
 				}
+
 				if (high < VAxis.ViewMinimum)
 				{
 					high = VAxis.ViewMinimum;
 				}
+
 				high = (float)VAxis.GetLinearPosition(high);
 
 				if (low > VAxis.ViewMaximum)
 				{
 					low = VAxis.ViewMaximum;
 				}
+
 				if (low < VAxis.ViewMinimum)
 				{
 					low = VAxis.ViewMinimum;
 				}
+
 				low = VAxis.GetLinearPosition(low);
 
 				// Remeber pre-calculated point position
@@ -1282,6 +1298,7 @@ internal class StockChart : IChartType
 				{
 					xValue = (double)index;
 				}
+
 				float xPosition = (float)HAxis.GetPosition(xValue);
 
 				double yValue0 = VAxis.GetLogValue(point.YValues[0]);
@@ -1306,20 +1323,24 @@ internal class StockChart : IChartType
 				{
 					high = VAxis.ViewMaximum;
 				}
+
 				if (high < VAxis.ViewMinimum)
 				{
 					high = VAxis.ViewMinimum;
 				}
+
 				high = (float)VAxis.GetLinearPosition(high);
 
 				if (low > VAxis.ViewMaximum)
 				{
 					low = VAxis.ViewMaximum;
 				}
+
 				if (low < VAxis.ViewMinimum)
 				{
 					low = VAxis.ViewMinimum;
 				}
+
 				low = VAxis.GetLinearPosition(low);
 
 
@@ -1419,6 +1440,7 @@ internal class StockChart : IChartType
 						markerIndex = 0;
 					}
 				}
+
 				++index;
 			}
 

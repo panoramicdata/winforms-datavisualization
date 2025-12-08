@@ -475,6 +475,7 @@ public partial class ChartGraphics : ChartElement
 			{
 				gradientBrush = new LinearGradientBrush(rectangle, firstColor, secondColor, angle);
 			}
+
 			return gradientBrush;
 		}
 
@@ -832,10 +833,12 @@ public partial class ChartGraphics : ChartElement
 											{
 												focusScale.X = 0;
 											}
+
 											if (focusScale.Y < 0)
 											{
 												focusScale.Y = 0;
 											}
+
 											shadowBrush.FocusScales = focusScale;
 
 											// Draw shadow
@@ -943,10 +946,12 @@ public partial class ChartGraphics : ChartElement
 											{
 												focusScale.X = 0;
 											}
+
 											if (focusScale.Y < 0)
 											{
 												focusScale.Y = 0;
 											}
+
 											shadowBrush.FocusScales = focusScale;
 
 											// Draw shadow
@@ -1072,10 +1077,12 @@ public partial class ChartGraphics : ChartElement
 									{
 										focusScale.X = 0;
 									}
+
 									if (focusScale.Y < 0)
 									{
 										focusScale.Y = 0;
 									}
+
 									shadowBrush.FocusScales = focusScale;
 
 									// Draw shadow
@@ -1134,6 +1141,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			text = GetStackedText(text);
 		}
+
 		return this.MeasureString(text, font, layoutArea, stringFormat);
 	}
 
@@ -1163,6 +1171,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			text = GetStackedText(text);
 		}
+
 		return this.MeasureStringRel(text, font, layoutArea, stringFormat);
 	}
 
@@ -1192,6 +1201,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			text = GetStackedText(text);
 		}
+
 		this.DrawString(text, font, brush, rect, format);
 	}
 
@@ -1274,6 +1284,7 @@ public partial class ChartGraphics : ChartElement
 				result += '\n';
 			}
 		}
+
 		return result;
 	}
 
@@ -1347,6 +1358,7 @@ public partial class ChartGraphics : ChartElement
 				{
 					fmt.Alignment = StringAlignment.Far;
 				}
+
 				DrawStringRel(text, font, brush, position, fmt, angle);
 			}
 		}
@@ -1424,6 +1436,7 @@ public partial class ChartGraphics : ChartElement
 				{
 					fmt.Alignment = StringAlignment.Far;
 				}
+
 				DrawStringRel(text, font, brush, position, fmt, angle);
 			}
 		}
@@ -1739,6 +1752,7 @@ public partial class ChartGraphics : ChartElement
 			{
 				absPosition.Width = 1f;
 			}
+
 			if (absPosition.Height < 1f)
 			{
 				absPosition.Height = 1f;
@@ -1839,6 +1853,7 @@ public partial class ChartGraphics : ChartElement
 					{
 						drawingFormat.Alignment = StringAlignment.Far;
 					}
+
 					drawingFormat.LineAlignment = StringAlignment.Center;
 				}
 
@@ -1857,6 +1872,7 @@ public partial class ChartGraphics : ChartElement
 					{
 						drawingFormat.Alignment = StringAlignment.Near;
 					}
+
 					drawingFormat.LineAlignment = StringAlignment.Center;
 				}
 
@@ -1893,6 +1909,7 @@ public partial class ChartGraphics : ChartElement
 					else if (drawingFormat.LineAlignment == StringAlignment.Near)
 						drawingFormat.LineAlignment = StringAlignment.Far;
 				}
+
 				if (angle == -90)
 				{
 					if (drawingFormat.Alignment == StringAlignment.Far)
@@ -2177,6 +2194,7 @@ public partial class ChartGraphics : ChartElement
 					{
 						fmt.Alignment = StringAlignment.Far;
 					}
+
 					this.DrawString(text.Replace("\\n", "\n"), font, brush,
 					absPositionWithoutImage,
 					fmt);
@@ -2532,6 +2550,7 @@ public partial class ChartGraphics : ChartElement
 			{
 				leftLine[0] = leftLine[1];
 			}
+
 			if (truncatedRight)
 			{
 				rightLine[0] = rightLine[1];
@@ -2786,6 +2805,7 @@ public partial class ChartGraphics : ChartElement
 					{
 						gradientRect.Height *= 0.3f;
 					}
+
 					if (gradientRect.Width > 0 && gradientRect.Height > 0)
 					{
 						this.FillRectangleAbs(
@@ -2912,6 +2932,7 @@ public partial class ChartGraphics : ChartElement
 						gradientRect.X = gradientRect.Right - (float)Math.Floor(gradientRect.Width / 3f);
 						gradientRect.Width = (float)Math.Floor(gradientRect.Width / 3f);
 					}
+
 					if (gradientRect.Width > 0 && gradientRect.Height > 0)
 					{
 						this.FillRectangleAbs(
@@ -2967,6 +2988,7 @@ public partial class ChartGraphics : ChartElement
 					{
 						size = rect.Height / 2f;
 					}
+
 					if (!isVertical && 2f * size > rect.Width)
 					{
 						size = rect.Width / 2f;
@@ -2988,6 +3010,7 @@ public partial class ChartGraphics : ChartElement
 							path.AddLine(gradientRect.Right - size, gradientRect.Y + gradientRect.Height / 2f, gradientRect.Right, gradientRect.Bottom);
 							path.AddLine(gradientRect.Right, gradientRect.Bottom, gradientRect.Left, gradientRect.Bottom);
 						}
+
 						path.CloseAllFigures();
 
 						// Create brush and fill path
@@ -3092,6 +3115,7 @@ public partial class ChartGraphics : ChartElement
 							{
 								this.DrawPath(penDark, path);
 							}
+
 							using (Pen pen = new Pen(Color.FromArgb(40, Color.White), 1))
 							{
 								this.DrawPath(pen, path);
@@ -3416,6 +3440,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			fillRect.Width = 2f * this._width;
 		}
+
 		if (fillRect.Height > 2f * this._height)
 		{
 			fillRect.Height = 2f * this._height;
@@ -3499,6 +3524,7 @@ public partial class ChartGraphics : ChartElement
 						imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width) / 2;
 					}
 				}
+
 				if (imageRect.Height < fillRect.Height)
 				{
 					if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
@@ -3858,6 +3884,7 @@ public partial class ChartGraphics : ChartElement
 			{
 				this.FillEllipse(brush, position);
 			}
+
 			if (pen != null)
 			{
 				this.DrawEllipse(pen, position);
@@ -3919,6 +3946,7 @@ public partial class ChartGraphics : ChartElement
 							{
 								this.FillPath(sectorBrush, path);
 							}
+
 							path.Reset();
 						}
 					}
@@ -3939,6 +3967,7 @@ public partial class ChartGraphics : ChartElement
 					{
 						this.FillPath(sectorBrush, path);
 					}
+
 					path.Reset();
 				}
 
@@ -3952,6 +3981,7 @@ public partial class ChartGraphics : ChartElement
 				{
 					this.FillPath(brush, path);
 				}
+
 				if (pen != null)
 				{
 					this.DrawPath(pen, path);
@@ -4005,6 +4035,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			curentSector = 360f - curentSector;
 		}
+
 		curentSector = curentSector / 180F;
 
 		// Get brush
@@ -4180,6 +4211,7 @@ public partial class ChartGraphics : ChartElement
 						imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width) / 2;
 					}
 				}
+
 				if (imageRect.Height < fillRect.Height)
 				{
 					if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
@@ -4216,6 +4248,7 @@ public partial class ChartGraphics : ChartElement
 				// Fill background with brush
 				this.FillRectangle(backBrush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
 			}
+
 			this.FillRectangle(brush, rect.X, rect.Y, rect.Width + 1, rect.Height + 1);
 		}
 
@@ -4233,10 +4266,12 @@ public partial class ChartGraphics : ChartElement
 		{
 			brush.Dispose();
 		}
+
 		if (backImage.Length > 0 && backImageWrapMode != ChartImageWrapMode.Unscaled && backImageWrapMode != ChartImageWrapMode.Scaled)
 		{
 			brush.Dispose();
 		}
+
 		if (backHatchStyle != ChartHatchStyle.None)
 		{
 			brush.Dispose();
@@ -4476,6 +4511,7 @@ public partial class ChartGraphics : ChartElement
 						imageRect.X = fillRect.X + (fillRect.Width - imageRect.Width) / 2;
 					}
 				}
+
 				if (imageRect.Height < fillRect.Height)
 				{
 					if (backImageAlign == ChartImageAlignmentStyle.BottomRight ||
@@ -4516,6 +4552,7 @@ public partial class ChartGraphics : ChartElement
 				// Fill background with brush
 				this.FillPath(backBrush, path);
 			}
+
 			this.FillPath(brush, path);
 		}
 
@@ -4891,6 +4928,7 @@ public partial class ChartGraphics : ChartElement
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "PieDrawingStyle")));
 			}
 		}
+
 		return pieDrawingStyle;
 	}
 
@@ -5492,6 +5530,7 @@ public partial class ChartGraphics : ChartElement
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(styleName, "DrawingStyle")));
 			}
 		}
+
 		return barDrawingStyle;
 	}
 
@@ -5675,6 +5714,7 @@ public partial class ChartGraphics : ChartElement
 			{
 				return false;
 			}
+
 			return Common.ChartPicture.RightToLeft == RightToLeft.Yes;
 		}
 	}
@@ -5696,17 +5736,20 @@ public partial class ChartGraphics : ChartElement
 				_pen.Dispose();
 				_pen = null;
 			}
+
 			if (_solidBrush != null)
 			{
 				_solidBrush.Dispose();
 				_solidBrush = null;
 			}
+
 			if (_myMatrix != null)
 			{
 				_myMatrix.Dispose();
 				_myMatrix = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

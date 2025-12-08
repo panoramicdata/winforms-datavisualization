@@ -226,6 +226,7 @@ public class CustomLabelsCollection : ChartElementCollection<CustomLabel>
 			min = this.Axis.Minimum;
 			max = this.Axis.Maximum;
 		}
+
 		double fromX = Math.Min(min, max);
 		double toX = Math.Max(min, max);
 
@@ -280,6 +281,7 @@ public class CustomLabelsCollection : ChartElementCollection<CustomLabel>
 					// Unsupported step type
 					throw (new ArgumentException(SR.ExceptionAxisLabelsIntervalTypeUnsupported(intervalType.ToString())));
 				}
+
 				if (labelEnd > toX)
 				{
 					labelEnd = toX;
@@ -294,6 +296,7 @@ public class CustomLabelsCollection : ChartElementCollection<CustomLabel>
 					else
 						valueType = ChartValueType.DateTime;
 				}
+
 				string text = ValueConverter.FormatValue(
 					this.Common.Chart,
 					this.Axis,
@@ -955,11 +958,13 @@ public class LabelStyle : ChartElement
 							format.Alignment = StringAlignment.Center;
 							format.LineAlignment = StringAlignment.Far;
 						}
+
 						if (labelAngle < 185f && labelAngle > 175f)
 						{
 							format.Alignment = StringAlignment.Center;
 							format.LineAlignment = StringAlignment.Near;
 						}
+
 						if (labelAngle > 185f && labelAngle < 355f)
 						{
 							format.Alignment = StringAlignment.Far;
@@ -1253,6 +1258,7 @@ public class LabelStyle : ChartElement
 								continue;
 							}
 						}
+
 						if (lastFrame)
 						{
 							if ((decimal)label.ToPosition > (decimal)_axis.Maximum)
@@ -1362,6 +1368,7 @@ public class LabelStyle : ChartElement
 							truncatedLeft = true;
 							labelFrom = _axis.ViewMinimum;
 						}
+
 						if (label.ToPosition > _axis.ViewMaximum)
 						{
 							truncatedRight = true;
@@ -1449,6 +1456,7 @@ public class LabelStyle : ChartElement
 						{
 							rect.X += _axis.groupingLabelSizes[index - 1];
 						}
+
 						rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
 					}
 					else if (_axis.AxisPosition == AxisPosition.Right)
@@ -1458,6 +1466,7 @@ public class LabelStyle : ChartElement
 						{
 							rect.X += _axis.groupingLabelSizes[index - 1];
 						}
+
 						rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
 					}
 					else if (_axis.AxisPosition == AxisPosition.Top)
@@ -1467,8 +1476,10 @@ public class LabelStyle : ChartElement
 						{
 							rect.Y += _axis.groupingLabelSizes[index - 1];
 						}
+
 						rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
 					}
+
 					if (_axis.AxisPosition == AxisPosition.Bottom)
 					{
 						rect.Y = rect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;
@@ -1476,6 +1487,7 @@ public class LabelStyle : ChartElement
 						{
 							rect.Y += _axis.groupingLabelSizes[index - 1];
 						}
+
 						rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
 					}
 				}
@@ -1665,6 +1677,7 @@ public class LabelStyle : ChartElement
 			{
 				rectLabels.Y = labelsAxis.PlotAreaPosition.Bottom;
 			}
+
 			rectLabels.Y += labelsAxis.markSize;
 
 			// Set label text alignment
@@ -1742,11 +1755,13 @@ public class LabelStyle : ChartElement
 			{
 				adjustForWallWidth = true;
 			}
+
 			if (this._axis.AxisPosition == AxisPosition.Left &&
 				!this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Left, backElements, false))
 			{
 				adjustForWallWidth = true;
 			}
+
 			if (this._axis.AxisPosition == AxisPosition.Right &&
 				!this._axis.ChartArea.ShouldDrawOnSurface(SurfaceNames.Right, backElements, false))
 			{
@@ -1861,6 +1876,7 @@ public class LabelStyle : ChartElement
 								truncatedLeft = true;
 								labelFrom = _axis.ViewMinimum;
 							}
+
 							if (label.ToPosition > _axis.ViewMaximum)
 							{
 								truncatedRight = true;
@@ -1968,6 +1984,7 @@ public class LabelStyle : ChartElement
 							{
 								rect.X += _axis.groupingLabelSizes[index - 1];
 							}
+
 							rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
 						}
 						else if (_axis.AxisPosition == AxisPosition.Right)
@@ -1977,6 +1994,7 @@ public class LabelStyle : ChartElement
 							{
 								rect.X += _axis.groupingLabelSizes[index - 1];
 							}
+
 							rect.Width = _axis.groupingLabelSizes[label.RowIndex - 1];
 						}
 						else if (_axis.AxisPosition == AxisPosition.Top)
@@ -1986,8 +2004,10 @@ public class LabelStyle : ChartElement
 							{
 								rect.Y += _axis.groupingLabelSizes[index - 1];
 							}
+
 							rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
 						}
+
 						if (_axis.AxisPosition == AxisPosition.Bottom)
 						{
 							rect.Y = rect.Bottom - _axis.totlaGroupingLabelsSize - _axis.totlaGroupingLabelsSizeAdjustment;
@@ -1995,6 +2015,7 @@ public class LabelStyle : ChartElement
 							{
 								rect.Y += _axis.groupingLabelSizes[index - 1];
 							}
+
 							rect.Height = _axis.groupingLabelSizes[label.RowIndex - 1];
 						}
 					}
@@ -2296,6 +2317,7 @@ public class LabelStyle : ChartElement
 		{
 			this._axis.Invalidate();
 		}
+
 		base.Invalidate();
 	}
 
@@ -2339,6 +2361,7 @@ public class LabelStyle : ChartElement
 		{
 			return this._axis.IntervalOffset;
 		}
+
 		return intervalOffset;
 	}
 
@@ -2376,6 +2399,7 @@ public class LabelStyle : ChartElement
 		{
 			return this._axis.IntervalOffsetType;
 		}
+
 		return intervalOffsetType;
 	}
 
@@ -2420,6 +2444,7 @@ public class LabelStyle : ChartElement
 		{
 			return this._axis.Interval;
 		}
+
 		return interval;
 	}
 
@@ -2464,6 +2489,7 @@ public class LabelStyle : ChartElement
 		{
 			return this._axis.IntervalType;
 		}
+
 		return intervalType;
 	}
 

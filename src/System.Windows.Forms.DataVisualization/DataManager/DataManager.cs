@@ -47,6 +47,7 @@ internal class DataManager : ChartElement, IServiceProvider
 		{
 			throw (new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
 		}
+
 		serviceContainer = container;
 		Common = new CommonElements(container);
 		_series = new SeriesCollection(this);
@@ -64,6 +65,7 @@ internal class DataManager : ChartElement, IServiceProvider
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionDataManagerUnsupportedType(serviceType.ToString())));
 	}
 
@@ -265,6 +267,7 @@ internal class DataManager : ChartElement, IServiceProvider
 		{
 			numberOfPoints = Math.Max(numberOfPoints, this._series[seriesName].Points.Count);
 		}
+
 		return numberOfPoints;
 	}
 
@@ -293,6 +296,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -328,6 +332,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -363,6 +368,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -398,6 +404,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -428,6 +435,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -446,6 +454,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				returnValue = Math.Max(returnValue, seriesPoint.XValue);
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -605,9 +614,11 @@ internal class DataManager : ChartElement, IServiceProvider
 					}
 				}
 			}
+
 			stackedMax = Math.Max(stackedMax, noStackedMax);
 			returnValue = Math.Max(returnValue, stackedMax);
 		}
+
 		return returnValue;
 	}
 
@@ -653,9 +664,11 @@ internal class DataManager : ChartElement, IServiceProvider
 					}
 				}
 			}
+
 			maxValue = Math.Max(maxValue, noStackedMax);
 			returnValue = Math.Max(returnValue, maxValue);
 		}
+
 		return returnValue;
 	}
 
@@ -681,8 +694,10 @@ internal class DataManager : ChartElement, IServiceProvider
 					}
 				}
 			}
+
 			returnValue = Math.Max(returnValue, doubleIndexValue);
 		}
+
 		return returnValue;
 	}
 
@@ -711,6 +726,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -746,6 +762,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -776,6 +793,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				}
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -794,6 +812,7 @@ internal class DataManager : ChartElement, IServiceProvider
 				returnValue = Math.Min(returnValue, seriesPoint.XValue);
 			}
 		}
+
 		return returnValue;
 	}
 
@@ -836,13 +855,16 @@ internal class DataManager : ChartElement, IServiceProvider
 					}
 				}
 			}
+
 			stackedMin = Math.Min(stackedMin, noStackedMin);
 			if (stackedMin == 0)
 			{
 				stackedMin = this._series[series[0]].Points[this._series[series[0]].Points.Count - 1].YValues[valueIndex];
 			}
+
 			returnValue = Math.Min(returnValue, stackedMin);
 		}
+
 		return returnValue;
 	}
 
@@ -891,9 +913,11 @@ internal class DataManager : ChartElement, IServiceProvider
 					}
 				}
 			}
+
 			minValue = Math.Min(noStackedMin, minValue);
 			returnValue = Math.Min(returnValue, minValue);
 		}
+
 		return returnValue;
 	}
 
@@ -916,8 +940,10 @@ internal class DataManager : ChartElement, IServiceProvider
 					doubleIndexValue += this._series[seriesName].Points[pointIndex].XValue;
 				}
 			}
+
 			returnValue = Math.Min(returnValue, doubleIndexValue);
 		}
+
 		return returnValue;
 	}
 
@@ -964,6 +990,7 @@ internal class DataManager : ChartElement, IServiceProvider
 						positiveTotalPerPoint += ser.Points[pointIndex].YValues[0];
 					}
 				}
+
 				totalPerPoint = Math.Abs(totalPerPoint);
 
 				// Calculate percentage of total

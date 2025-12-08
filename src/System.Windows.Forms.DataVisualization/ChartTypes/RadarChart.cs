@@ -192,6 +192,7 @@ internal class RadarChart : IChartType, ICircularChartType
 				return LegendImageStyle.Marker;
 			}
 		}
+
 		return LegendImageStyle.Rectangle;
 	}
 
@@ -268,6 +269,7 @@ internal class RadarChart : IChartType, ICircularChartType
 				sectorNumber = (int)Math.Max(series.Points.Count, sectorNumber);
 			}
 		}
+
 		return sectorNumber;
 	}
 
@@ -284,6 +286,7 @@ internal class RadarChart : IChartType, ICircularChartType
 		{
 			axesLocation[index] = sectorSize * index;
 		}
+
 		return axesLocation;
 	}
 
@@ -552,6 +555,7 @@ internal class RadarChart : IChartType, ICircularChartType
 								ser.Name,
 								index);
 						}
+
 						break;
 					}
 
@@ -866,6 +870,7 @@ internal class RadarChart : IChartType, ICircularChartType
 			{
 				linePath.AddLine(leftSidePoint, dataPointPos[firstPointIndex]);
 			}
+
 			linePath.AddLine(dataPointPos[firstPointIndex], rightSidePoint);
 
 			// Widen path
@@ -1048,6 +1053,7 @@ internal class RadarChart : IChartType, ICircularChartType
 				{
 					attrib = ser[CustomPropertyName.LabelStyle];
 				}
+
 				if (attrib != null && attrib.Length > 0)
 				{
 					this._autoLabelPosition = false;
@@ -1191,6 +1197,7 @@ internal class RadarChart : IChartType, ICircularChartType
 						{
 							position = graph.GetAbsolutePoint(position);
 						}
+
 						sizeFont = graph.GetAbsoluteSize(sizeFont);
 
 						// Smart labels always use 0 degrees text angle
@@ -1329,6 +1336,7 @@ internal class RadarChart : IChartType, ICircularChartType
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "RadarDrawingStyle")));
 			}
 		}
+
 		return drawingStyle;
 	}
 
@@ -1386,6 +1394,7 @@ internal class RadarChart : IChartType, ICircularChartType
 
 			return result;
 		}
+
 		return point.YValues[yValueIndex];
 	}
 
@@ -1439,6 +1448,7 @@ internal class RadarChart : IChartType, ICircularChartType
 				prevIndx = indx;
 				break;
 			}
+
 			previousPoint = Double.NaN;
 		}
 
@@ -1451,6 +1461,7 @@ internal class RadarChart : IChartType, ICircularChartType
 				nextIndx = indx;
 				break;
 			}
+
 			nextPoint = Double.NaN;
 		}
 

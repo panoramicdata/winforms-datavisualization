@@ -114,6 +114,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionChartTypeRegistryUnsupportedType(serviceType.ToString())));
 	}
 
@@ -152,6 +153,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 				break;
 			}
 		}
+
 		if (!found)
 		{
 			throw (new ArgumentException(SR.ExceptionChartTypeHasNoInterface));
@@ -208,6 +210,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 			{
 				_resourceManager = new ResourceManager(typeof(Chart).Namespace + ".Design", Assembly.GetExecutingAssembly());
 			}
+
 			return _resourceManager;
 		}
 	}
@@ -230,6 +233,7 @@ internal class ChartTypeRegistry : IServiceProvider, IDisposable
 				IChartType chartType = (IChartType)_createdChartTypes[name];
 				chartType.Dispose();
 			}
+
 			this._createdChartTypes.Clear();
 		}
 	}

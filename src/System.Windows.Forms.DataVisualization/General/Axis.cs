@@ -284,15 +284,18 @@ public partial class Axis : ChartNamedElement
 		{
 			labelStyle = new LabelStyle(this);
 		}
+
 		if (_customLabels == null)
 		{
 			_customLabels = new CustomLabelsCollection(this);
 		}
+
 		if (_scaleView == null)
 		{
 			// Create axis data scaleView object
 			_scaleView = new AxisScaleView(this);
 		}
+
 		if (scrollBar == null)
 		{
 			// Create axis croll bar class
@@ -306,6 +309,7 @@ public partial class Axis : ChartNamedElement
 		{
 			minorTickMark = new TickMark(this, false);
 		}
+
 		if (majorTickMark == null)
 		{
 			majorTickMark = new TickMark(this, true);
@@ -314,10 +318,12 @@ public partial class Axis : ChartNamedElement
 			majorTickMark.IntervalType = DateTimeIntervalType.NotSet;
 			majorTickMark.IntervalOffsetType = DateTimeIntervalType.NotSet;
 		}
+
 		if (minorGrid == null)
 		{
 			minorGrid = new Grid(this, false);
 		}
+
 		if (majorGrid == null)
 		{
 			majorGrid = new Grid(this, true);
@@ -326,6 +332,7 @@ public partial class Axis : ChartNamedElement
 			majorGrid.IntervalType = DateTimeIntervalType.NotSet;
 			majorGrid.IntervalOffsetType = DateTimeIntervalType.NotSet;
 		}
+
 		if (this._stripLines == null)
 		{
 			this._stripLines = new StripLinesCollection(this);
@@ -391,6 +398,7 @@ public partial class Axis : ChartNamedElement
 			case (AxisName.Y2):
 				return "Secondary Y (Value) axis";
 		}
+
 		return null;
 	}
 
@@ -991,6 +999,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisWidthIsNegative));
 			}
+
 			_lineWidth = value;
 			this.Invalidate();
 		}
@@ -1061,6 +1070,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionValueMustBeInRange("MaximumAutoSize", "0", "100")));
 			}
+
 			this._maximumAutoSize = value;
 			this.Invalidate();
 		}
@@ -1271,8 +1281,10 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				return TextOrientation.Rotated90;
 			}
+
 			return TextOrientation.Horizontal;
 		}
+
 		return this.TextOrientation;
 	}
 
@@ -1539,6 +1551,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				{
 					axisPosition = ChartArea.PlotAreaPosition.Bottom;
 				}
+
 				axisPosition = ChartArea.PlotAreaPosition.Bottom - axisPosition;
 			}
 			else if (this.AxisPosition == AxisPosition.Top)
@@ -1547,6 +1560,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				{
 					axisPosition = ChartArea.PlotAreaPosition.Y;
 				}
+
 				axisPosition = axisPosition - ChartArea.PlotAreaPosition.Y;
 			}
 			else if (this.AxisPosition == AxisPosition.Right)
@@ -1555,6 +1569,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				{
 					axisPosition = ChartArea.PlotAreaPosition.Right;
 				}
+
 				axisPosition = ChartArea.PlotAreaPosition.Right - axisPosition;
 			}
 			else if (this.AxisPosition == AxisPosition.Left)
@@ -1563,6 +1578,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				{
 					axisPosition = ChartArea.PlotAreaPosition.X;
 				}
+
 				axisPosition = axisPosition - ChartArea.PlotAreaPosition.X;
 			}
 
@@ -1748,6 +1764,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					transformedTitlePosition.Width = Math.Abs(transformedTitlePosition.Width);
 					transformedTitlePosition.X -= transformedTitlePosition.Width;
 				}
+
 				if (transformedTitlePosition.Height < 0)
 				{
 					transformedTitlePosition.Height = Math.Abs(transformedTitlePosition.Height);
@@ -1969,6 +1986,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						path = new GraphicsPath();
 						path.AddEllipse(rect);
 					}
+
 					circlePen.Width += 2;
 					path.Widen(circlePen);
 					this.Common.HotRegionsList.AddHotRegion(path, false, ChartElementType.Gridlines, obj);
@@ -2152,6 +2170,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						(rotationCenterPoints[1].Y - rotationCenterPoints[0].Y));
 				}
 			}
+
 			angle += (int)Math.Round(angleAxis * 180f / (float)Math.PI);
 
 
@@ -2677,19 +2696,23 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			// Marks are forced to be on the area edge
 			axisOnEdge = true;
 		}
+
 		float wallZPosition = 0f;
 		if (this.AxisPosition == AxisPosition.Bottom && (ChartArea.IsBottomSceneWallVisible() || !axisOnEdge))
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
 		}
+
 		if (this.AxisPosition == AxisPosition.Left && (ChartArea.IsSideSceneWallOnLeft() || !axisOnEdge))
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
 		}
+
 		if (this.AxisPosition == AxisPosition.Right && (!ChartArea.IsSideSceneWallOnLeft() || !axisOnEdge))
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
 		}
+
 		if (this.AxisPosition == AxisPosition.Top && !axisOnEdge)
 		{
 			wallZPosition = ChartArea.areaSceneDepth;
@@ -3018,6 +3041,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			}
 #endif // SUBAXES
 		}
+
 		if (Common.Chart != null && Common.Chart.Site != null && Common.Chart.Site.DesignMode)
 		{
 			ResetAutoValues();
@@ -3176,6 +3200,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				}
 			}
 		}
+
 		if (this.titleSize > 0)
 		{
 			this.titleSize += elementSpacing;
@@ -3412,6 +3437,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				extraSize = 0f;
 			}
+
 			if ((this.AxisPosition == AxisPosition.Top || this.AxisPosition == AxisPosition.Bottom) &&
 				(this.LabelStyle.Angle == 180 || this.LabelStyle.Angle == 0))
 			{
@@ -3682,11 +3708,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 								autoLabelAngle = 0;
 							}
 						}
+
 						if ((this.LabelAutoFitStyle & LabelAutoFitStyles.StaggeredLabels) == LabelAutoFitStyles.StaggeredLabels)
 						{
 							// Reset offset labels
 							autoLabelOffset = 0;
 						}
+
 						fitDone = true;
 					}
 				}
@@ -4228,11 +4256,13 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				{
 					newInterval = Math.Round(oldInterval / 2.0);
 				}
+
 				if (newInterval < 1.0)
 				{
 					newInterval = 1.0;
 				}
 			}
+
 			if (oldInterval == 1.0)
 			{
 				if (axisIntervalType == DateTimeIntervalType.Years)
@@ -4318,6 +4348,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				{
 					devider *= 2.0;
 				}
+
 				++iterationIndex;
 			} while (newInterval == oldInterval && iterationIndex <= 100);
 		}
@@ -4423,6 +4454,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					longestLabelRowIndex = rowIndex;
 				}
 			}
+
 			++index;
 		}
 
@@ -4469,6 +4501,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					{
 						label.Text += "\n";
 					}
+
 					label.Text += ((string[])labelTextRows[longestLabelIndex])[rowIndex];
 				}
 			}
@@ -4702,6 +4735,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					curLabelPosition.X = labelPosition[0].X - textSize.Width / 2f;
 					curLabelPosition.Y = labelPosition[0].Y - textSize.Height;
 				}
+
 				if (textAngle > 175f)
 				{
 					curLabelPosition.X = labelPosition[0].X - textSize.Width / 2f;
@@ -4782,6 +4816,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			{
 				this.autoLabelAngle = this.LabelStyle.Angle;
 			}
+
 			if (this.autoLabelOffset < 0)
 			{
 				this.autoLabelOffset = (this.LabelStyle.IsStaggered) ? 1 : 0;
@@ -4996,6 +5031,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					else if (this.AxisPosition == AxisPosition.Right)
 						maxLabelSize = ChartArea.Position.Right - this.PlotAreaPosition.Right;
 				}
+
 				maxLabelSize *= 2F;
 			}
 			else
@@ -5098,6 +5134,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							{
 								fitResult = false;
 							}
+
 							if (Math.Round(axisLabelSize.Height) >= Math.Round(rect.Height) &&
 								checkHeight)
 							{
@@ -5162,6 +5199,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					{
 						maxElementSize = 55 + this.totlaGroupingLabelsSize;
 					}
+
 					if (this.AxisPosition == AxisPosition.Bottom || this.AxisPosition == AxisPosition.Top)
 					{
 						rect.Width = (maxLabelSize / 100F) *
@@ -5303,6 +5341,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 								labelPosition.Height = height;
 							}
 						}
+
 						labelPositions.Add(labelPosition);
 					}
 
@@ -5313,17 +5352,20 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						{
 							return false;
 						}
+
 						if (height >= rect.Height && checkHeight)
 						{
 							return false;
 						}
 					}
+
 					if (angle == 90F || angle == -90F)
 					{
 						if (width >= rect.Width && checkWidth)
 						{
 							return false;
 						}
+
 						if (height >= rect.Height && checkHeight)
 						{
 							return false;
@@ -5337,6 +5379,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							{
 								return false;
 							}
+
 							if (height >= rect.Height * 2F && checkHeight)
 							{
 								return false;
@@ -5348,6 +5391,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 							{
 								return false;
 							}
+
 							if (height >= rect.Height * 2F && checkHeight)
 							{
 								return false;
@@ -5398,6 +5442,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						continue;
 					}
 				}
+
 				if (label.RowIndex == 0)
 				{
 					// Calculate single label position
@@ -5775,6 +5820,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		{
 			return true;
 		}
+
 		return this.IsMarksNextToAxis;
 	}
 
@@ -5868,10 +5914,12 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					{
 						type = series.YValueType;
 					}
+
 					break;
 				}
 			}
 		}
+
 		return type;
 	}
 
@@ -6226,22 +6274,26 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				_stripLines.Dispose();
 				_stripLines = null;
 			}
+
 			if (_customLabels != null)
 			{
 				_customLabels.Dispose();
 				_customLabels = null;
 			}
+
 			if (tempLabels != null)
 			{
 				tempLabels.Dispose();
 				tempLabels = null;
 			}
+
 			if (this.scrollBar != null)
 			{
 				this.scrollBar.Dispose();
 				this.scrollBar = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

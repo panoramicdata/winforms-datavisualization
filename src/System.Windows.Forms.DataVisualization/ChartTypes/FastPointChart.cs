@@ -293,6 +293,7 @@ internal class FastPointChart : IChartType
 			{
 				borderPen = new Pen(series.MarkerBorderColor, series.MarkerBorderWidth);
 			}
+
 			if (!series.EmptyPointStyle.MarkerBorderColor.IsEmpty && series.EmptyPointStyle.MarkerBorderWidth > 0)
 			{
 				emptyBorderPen = new Pen(series.EmptyPointStyle.MarkerBorderColor, series.EmptyPointStyle.MarkerBorderWidth);
@@ -389,6 +390,7 @@ internal class FastPointChart : IChartType
 			{
 				borderPen.Dispose();
 			}
+
 			if (emptyBorderPen != null)
 			{
 				emptyBorderPen.Dispose();
@@ -467,6 +469,7 @@ internal class FastPointChart : IChartType
 					{
 						graph.DrawPolygon(borderPen, points);
 					}
+
 					break;
 				}
 			case (MarkerStyle.Circle):
@@ -548,6 +551,7 @@ internal class FastPointChart : IChartType
 					{
 						graph.DrawPolygon(borderPen, points);
 					}
+
 					break;
 				}
 			case (MarkerStyle.Diamond):
@@ -569,6 +573,7 @@ internal class FastPointChart : IChartType
 					{
 						graph.DrawPolygon(borderPen, points);
 					}
+
 					break;
 				}
 			case (MarkerStyle.Triangle):
@@ -588,6 +593,7 @@ internal class FastPointChart : IChartType
 					{
 						graph.DrawPolygon(borderPen, points);
 					}
+
 					break;
 				}
 			default:

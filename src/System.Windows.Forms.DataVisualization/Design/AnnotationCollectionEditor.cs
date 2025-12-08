@@ -98,6 +98,7 @@ internal class AnnotationCollectionEditor : ChartCollectionEditor
 				break;
 			}
 		}
+
 		return result;
 	}
 
@@ -159,6 +160,7 @@ internal class AnchorPointUITypeEditor : System.Drawing.Design.UITypeEditor
 		{
 			return UITypeEditorEditStyle.DropDown;
 		}
+
 		return base.GetEditStyle(context);
 	}
 
@@ -278,6 +280,7 @@ internal class AnchorPointNameTreeView : TreeView
 		{
 			return (DataPoint)this.SelectedNode.Tag;
 		}
+
 		return null;
 	}
 
@@ -366,6 +369,7 @@ internal class AnnotationAxisUITypeEditor : System.Drawing.Design.UITypeEditor
 		{
 			return UITypeEditorEditStyle.DropDown;
 		}
+
 		return base.GetEditStyle(context);
 	}
 
@@ -454,6 +458,7 @@ internal class AnnotationAxisNameTreeView : TreeView
 							continue;
 						}
 					}
+
 					if (curAxis.AxisName == AxisName.X || curAxis.AxisName == AxisName.X2)
 					{
 						if (!_showXAxes)
@@ -498,6 +503,7 @@ internal class AnnotationAxisNameTreeView : TreeView
 		{
 			return (Axis)this.SelectedNode.Tag;
 		}
+
 		return null;
 	}
 

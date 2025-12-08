@@ -255,6 +255,7 @@ internal class RangeChart : SplineChart
 			// Reset clip region
 			graph.ResetClip();
 		}
+
 		if (areaPath != null)
 		{
 			areaPath.Dispose();
@@ -501,6 +502,7 @@ internal class RangeChart : SplineChart
 						{
 							graph.DrawLine(areaLinePen, highPoint1.X, lowPoint1.Y, highPoint1.X, highPoint1.Y);
 						}
+
 						if (pointIndex == series.Points.Count - 1)
 						{
 							graph.DrawLine(areaLinePen, highPoint2.X, highPoint2.Y, highPoint2.X, lowPoint2.Y);
@@ -556,6 +558,7 @@ internal class RangeChart : SplineChart
 				{
 					graph.DrawLine(areaLinePen, highPoint1.X, lowPoint1.Y, highPoint1.X, highPoint1.Y);
 				}
+
 				if (pointIndex == series.Points.Count - 1)
 				{
 					graph.DrawLine(areaLinePen, highPoint2.X, highPoint2.Y, highPoint2.X, lowPoint2.Y);
@@ -638,6 +641,7 @@ internal class RangeChart : SplineChart
 			{
 				path.AddCurve(points, pointIndex - 1, 1, this.lineTension);
 			}
+
 			path.AddLine(highPoint2.X, highPoint2.Y, highPoint2.X, lowPoint2.Y);
 			if (this.lineTension == 0)
 			{
@@ -660,6 +664,7 @@ internal class RangeChart : SplineChart
 				mapAreaPath.AddCurve(points, pointIndex - 1, 1, this.lineTension);
 				mapAreaPath.Flatten();
 			}
+
 			mapAreaPath.AddLine(highPoint2.X, highPoint2.Y, highPoint2.X, lowPoint2.Y);
 			if (this.lineTension == 0)
 			{
@@ -907,6 +912,7 @@ internal class RangeChart : SplineChart
 		{
 			color = Color.Gray;
 		}
+
 		if (pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.BorderDashStyle == ChartDashStyle.NotSet)
 		{
 			dashStyle = ChartDashStyle.Solid;
@@ -936,6 +942,7 @@ internal class RangeChart : SplineChart
 		{
 			thirdPoint.Y = thirdPointPosition.Y;
 		}
+
 		if (!float.IsNaN(fourthPointPosition.Y))
 		{
 			fourthPoint.Y = fourthPointPosition.Y;
@@ -981,6 +988,7 @@ internal class RangeChart : SplineChart
 				{
 					splitDraw = false;
 				}
+
 				if ((decimal)intersectionCoordinates.X == (decimal)secondPoint.xPosition &&
 					(decimal)intersectionCoordinates.Y == (decimal)secondPoint.yPosition)
 				{
@@ -1089,6 +1097,7 @@ internal class RangeChart : SplineChart
 			{
 				visibleSurfaces |= SurfaceNames.Bottom;
 			}
+
 			if (bottomVisible)
 			{
 				visibleSurfaces |= SurfaceNames.Top;
@@ -1106,6 +1115,7 @@ internal class RangeChart : SplineChart
 			{
 				bottomFirst = false;
 			}
+
 			if ((visibleSurfaces & SurfaceNames.Bottom) == 0 &&
 				(visibleSurfaces & SurfaceNames.Top) == 0)
 			{
@@ -1283,6 +1293,7 @@ internal class RangeChart : SplineChart
 										0f, operationType, LineSegmentType.Single, false, true, area.ReverseSeriesOrder, this.multiSeries, 0, true);
 
 							}
+
 							break;
 						}
 					case (SurfaceNames.Right):
@@ -1369,6 +1380,7 @@ internal class RangeChart : SplineChart
 								{
 									lineSegmentType = LineSegmentType.Middle;
 								}
+
 								if (reversed)
 								{
 									if (lineSegmentType == LineSegmentType.First)
@@ -1576,6 +1588,7 @@ internal class RangeChart : SplineChart
 			thirdPoint.Y = _thirdPointY2Value;
 
 		}
+
 		if (!float.IsNaN(_fourthPointY2Value))
 		{
 			fourthPoint.Y = _fourthPointY2Value;
@@ -1770,12 +1783,14 @@ internal class RangeChart : SplineChart
 				this.areaBottomPath.Dispose();
 				this.areaBottomPath = null;
 			}
+
 			if (this.areaPath != null)
 			{
 				this.areaPath.Dispose();
 				this.areaPath = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 	#endregion

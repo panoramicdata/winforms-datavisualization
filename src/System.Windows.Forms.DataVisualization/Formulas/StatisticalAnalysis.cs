@@ -1981,6 +1981,7 @@ internal class StatisticalAnalysis : IFormula
 			if (zValue <= 0.0)
 				result = 1.0 - result;
 		}
+
 		return result;
 	}
 
@@ -2090,6 +2091,7 @@ internal class StatisticalAnalysis : IFormula
 			r = x * (((a[3] * r + a[2]) * r + a[1]) * r + a[0]) / ((((b[3] * r + b[2]) * r + b[1]) * r + b[0]) * r + 1.0);
 			return (r);
 		}
+
 		r = probability;
 		if (x > 0.0)
 		{

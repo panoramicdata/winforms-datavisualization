@@ -36,6 +36,7 @@ internal class AnchorPointValueConverter : TypeConverter
 			{
 				return Constants.NotSetValue;
 			}
+
 			DataPoint dataPoint = value as DataPoint;
 
 			if (dataPoint != null)

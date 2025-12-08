@@ -90,11 +90,13 @@ internal class AxisLabelDateValueConverter : DoubleConverter
 						{
 							return DateTime.FromOADate((double)value).ToShortDateString();
 						}
+
 						return DateTime.FromOADate((double)value).ToString("g", System.Globalization.CultureInfo.CurrentCulture);
 					}
 				}
 			}
 		}
+
 		return base.ConvertTo(context, culture, value, destinationType);
 	}
 
@@ -329,6 +331,7 @@ internal class AxisMinMaxValueConverter : DoubleConverter
 					return strValue;
 			}
 		}
+
 		return base.ConvertTo(context, culture, value, destinationType);
 	}
 
@@ -580,6 +583,7 @@ internal class AxisIntervalValueConverter : DoubleConverter
 		{
 			values.Add(Double.NaN);
 		}
+
 		values.Add(0.0);
 
 		return new StandardValuesCollection(values);

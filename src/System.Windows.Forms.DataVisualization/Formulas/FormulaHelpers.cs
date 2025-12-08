@@ -352,6 +352,7 @@ internal abstract class FormulaInfo
 				sb.Append(',');
 			sb.AppendFormat(CultureInfo.InvariantCulture, "{0}", _parameters[i]);
 		}
+
 		return sb.ToString();
 	}
 
@@ -397,6 +398,7 @@ internal abstract class FormulaInfo
 		{
 			return Convert.ToDouble(newParamValue, CultureInfo.InvariantCulture);
 		}
+
 		return null;
 	}
 
@@ -1397,6 +1399,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 			else
 				sb.AppendFormat(CultureInfo.InvariantCulture, "{0}:Y{1}", info.SeriesName, dataFieldIndex + 1); //The string field descriptor is 1 based ;-(
 		}
+
 		return sb.ToString();
 	}
 
@@ -1460,6 +1463,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 				}
 			}
 		}
+
 		return result;
 	}
 

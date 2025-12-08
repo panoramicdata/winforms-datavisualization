@@ -96,6 +96,7 @@ internal class EmbossBorder : IBorderType
 		{
 			areasRect.X -= 100f - areasRect.Width;
 		}
+
 		if (areasRect.Y + areasRect.Height > 100f)
 		{
 			areasRect.Y -= 100f - areasRect.Height;

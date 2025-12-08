@@ -105,6 +105,7 @@ public class SeriesCollection : ChartNamedElementCollection<Series>
 			{
 				item.ChartArea = Chart.ChartAreas.DefaultNameReference;
 			}
+
 			if (String.IsNullOrEmpty(item.Legend) && Chart.Legends != null)
 			{
 				item.Legend = Chart.Legends.DefaultNameReference;
@@ -458,6 +459,7 @@ public class Series : DataPointCustomProperties
 		{
 			throw (new ArgumentNullException("name", SR.ExceptionDataSeriesNameIsEmpty));
 		}
+
 		if (YValuesPerPoint < 1)
 		{
 			throw (new ArgumentOutOfRangeException("yValues", SR.ExceptionDataSeriesYValuesPerPointIsZero));
@@ -485,10 +487,12 @@ public class Series : DataPointCustomProperties
 		{
 			base.Name = name;
 		}
+
 		if (YValuesPerPoint != 0)
 		{
 			_yValuesPerPoint = YValuesPerPoint;
 		}
+
 		base.SetDefault(true);
 		_emptyPointCustomProperties.SetDefault(true);
 		_emptyPointCustomProperties.pointCustomProperties = true;
@@ -521,6 +525,7 @@ public class Series : DataPointCustomProperties
 		{
 			return this["SeriesCaption"];
 		}
+
 		return this.Name;
 	}
 
@@ -556,6 +561,7 @@ public class Series : DataPointCustomProperties
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointDepth")));
 			}
+
 			if (pointDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointDepth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
@@ -586,6 +592,7 @@ public class Series : DataPointCustomProperties
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointGapDepth")));
 			}
+
 			if (pointGapDepth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointGapDepth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
@@ -651,10 +658,12 @@ public class Series : DataPointCustomProperties
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("MinPixelPointWidth")));
 			}
+
 			if (minPixelPointWidth <= 0.0)
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("MinPixelPointWidth")));
 			}
+
 			if (minPixelPointWidth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("MinPixelPointWidth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
@@ -680,6 +689,7 @@ public class Series : DataPointCustomProperties
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("MaxPixelPointWidth")));
 			}
+
 			if (maxPixelPointWidth <= 0)
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("MaxPixelPointWidth")));
@@ -706,10 +716,12 @@ public class Series : DataPointCustomProperties
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid2("PixelPointWidth")));
 			}
+
 			if (pixelPointWidth <= 0)
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotLargerThenZiro("PixelPointWidth")));
 			}
+
 			if (pixelPointWidth > CustomPropertyRegistry.MaxValueOfPixelAttribute)
 			{
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeMustBeInRange("PixelPointWidth", (0).ToString(CultureInfo.CurrentCulture), CustomPropertyRegistry.MaxValueOfPixelAttribute.ToString(CultureInfo.CurrentCulture))));
@@ -759,6 +771,7 @@ public class Series : DataPointCustomProperties
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -775,6 +788,7 @@ public class Series : DataPointCustomProperties
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -789,6 +803,7 @@ public class Series : DataPointCustomProperties
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -931,6 +946,7 @@ public class Series : DataPointCustomProperties
 		{
 			return stringValues;
 		}
+
 		return _dummyDoubleValues;
 	}
 
@@ -1153,6 +1169,7 @@ public class Series : DataPointCustomProperties
 						{
 							keywordValue = totalValue / this.Points.Count;
 						}
+
 						break;
 					}
 				case (SeriesValuesFormulaType.First):
@@ -1161,6 +1178,7 @@ public class Series : DataPointCustomProperties
 						{
 							keywordValue = this.Points[0].YValues[yValueIndex];
 						}
+
 						break;
 					}
 				case (SeriesValuesFormulaType.Last):
@@ -1169,6 +1187,7 @@ public class Series : DataPointCustomProperties
 						{
 							keywordValue = this.Points[this.Points.Count - 1].YValues[yValueIndex];
 						}
+
 						break;
 					}
 				case (SeriesValuesFormulaType.Maximum):
@@ -1181,6 +1200,7 @@ public class Series : DataPointCustomProperties
 								keywordValue = Math.Max(keywordValue, point.YValues[yValueIndex]);
 							}
 						}
+
 						break;
 					}
 				case (SeriesValuesFormulaType.Minimum):
@@ -1193,6 +1213,7 @@ public class Series : DataPointCustomProperties
 								keywordValue = Math.Min(keywordValue, point.YValues[yValueIndex]);
 							}
 						}
+
 						break;
 					}
 				case (SeriesValuesFormulaType.Total):
@@ -1419,6 +1440,7 @@ public class Series : DataPointCustomProperties
 			{
 				savePoints = false;
 			}
+
 			if (savePoints)
 			{
 				fakeDataPoints.Clear();
@@ -1464,6 +1486,7 @@ public class Series : DataPointCustomProperties
 					_xValueType = ChartValueType.Auto;
 					autoXValueType = false;
 				}
+
 				if (autoYValueType)
 				{
 					_yValueType = ChartValueType.Auto;
@@ -1533,6 +1556,7 @@ public class Series : DataPointCustomProperties
 				{
 					xValues = new double[] { 0.0, 45.0, 115.0, 145.0, 180.0, 220.0 };
 				}
+
 				this.Points.DataBindXY(xValues, GetDummyData(_yValueType));
 			}
 
@@ -1576,6 +1600,7 @@ public class Series : DataPointCustomProperties
 			_xValueType = ChartValueType.Double;
 			autoXValueType = true;
 		}
+
 		if (_yValueType == ChartValueType.Auto)
 		{
 			_yValueType = ChartValueType.Double;
@@ -1772,6 +1797,7 @@ public class Series : DataPointCustomProperties
 				{
 					Chart.Legends.VerifyNameReference(value);
 				}
+
 				_legend = value;
 				this.Invalidate(false, true);
 			}
@@ -1949,6 +1975,7 @@ public class Series : DataPointCustomProperties
 			{
 				value.series = _emptyPointCustomProperties.series;
 			}
+
 			_emptyPointCustomProperties = value;
 			_emptyPointCustomProperties.pointCustomProperties = false;
 			_emptyPointCustomProperties.SetDefault(false);
@@ -2002,6 +2029,7 @@ public class Series : DataPointCustomProperties
 			{
 				throw (new ArgumentException(SR.ExceptionMarkerStepNegativeValue, "value"));
 			}
+
 			_markersStep = value;
 			this.Invalidate(true, false);
 		}
@@ -2347,6 +2375,7 @@ public class Series : DataPointCustomProperties
 				{
 					Chart.ChartAreas.VerifyNameReference(value);
 				}
+
 				_chartArea = value;
 				this.Invalidate(false, true);
 			}
@@ -2510,22 +2539,26 @@ public class Series : DataPointCustomProperties
 				_fontCache.Dispose();
 				_fontCache = null;
 			}
+
 			if (this._emptyPointCustomProperties != null)
 			{
 				this._emptyPointCustomProperties.Dispose();
 				this._emptyPointCustomProperties = null;
 			}
+
 			if (this._points != null)
 			{
 				this._points.Dispose();
 				this._points = null;
 			}
+
 			if (this.fakeDataPoints != null)
 			{
 				this.fakeDataPoints.Dispose();
 				this.fakeDataPoints = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

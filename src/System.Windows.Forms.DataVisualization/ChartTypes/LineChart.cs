@@ -418,6 +418,7 @@ internal class LineChart : PointChart
 								dataPointPos[pointIndex].X = dataPointPos[pointIndex - 1].X - minDifference;
 							}
 						}
+
 						if (Math.Abs(dataPointPos[pointIndex - 1].Y - dataPointPos[pointIndex].Y) < minDifference)
 						{
 							if (dataPointPos[pointIndex].Y > dataPointPos[pointIndex - 1].Y)
@@ -756,6 +757,7 @@ internal class LineChart : PointChart
 						{
 							graph.DrawCurve(shadowPen, points, pointIndex - 1, 1, tension);
 						}
+
 						graph.Restore(graphicsState);
 					}
 				}
@@ -787,10 +789,12 @@ internal class LineChart : PointChart
 					{
 						_linePen.Color = color;
 					}
+
 					if (_linePen.Width != pointBorderWidth)
 					{
 						_linePen.Width = pointBorderWidth;
 					}
+
 					if (_linePen.DashStyle != graph.GetPenStyle(dashStyle))
 					{
 						_linePen.DashStyle = graph.GetPenStyle(dashStyle);
@@ -1228,6 +1232,7 @@ internal class LineChart : PointChart
 				{
 					continue;
 				}
+
 				allZeros = false;
 
 				// Check X values order
@@ -1245,6 +1250,7 @@ internal class LineChart : PointChart
 					{
 						validOrder = false;
 					}
+
 					if (dp.XValue < prevValue && order == 0)
 					{
 						validOrder = false;
@@ -1421,6 +1427,7 @@ internal class LineChart : PointChart
 							ser.Name,
 							pointEx.index - 1);
 					}
+
 					if (rectPath != null)
 					{
 						rectPath.Dispose();
@@ -1510,6 +1517,7 @@ internal class LineChart : PointChart
 		{
 			color = Color.Gray;
 		}
+
 		if (pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.BorderDashStyle == ChartDashStyle.NotSet)
 		{
 			dashStyle = ChartDashStyle.Solid;
@@ -1558,6 +1566,7 @@ internal class LineChart : PointChart
 				return pointIndex - 1;
 			}
 		}
+
 		return int.MaxValue;
 	}
 
@@ -1698,6 +1707,7 @@ internal class LineChart : PointChart
 					secondPoint.yPosition;
 				firstPoint.xPosition = (double)plotAreaPositionRight;
 			}
+
 			if ((decimal)secondPoint.xPosition < plotAreaPositionX)
 			{
 				secondPoint.yPosition = ((double)plotAreaPositionX - secondPoint.xPosition) /
@@ -1736,6 +1746,7 @@ internal class LineChart : PointChart
 				firstPoint.yPosition = (double)plotAreaPositionY;
 				secondPoint.yPosition = (double)plotAreaPositionY;
 			}
+
 			if ((decimal)firstPoint.yPosition > plotAreaPositionBottom &&
 				(decimal)secondPoint.yPosition > plotAreaPositionBottom)
 			{
@@ -1773,6 +1784,7 @@ internal class LineChart : PointChart
 			{
 				intersectionPoint.yPosition = (double)plotAreaPositionBottom;
 			}
+
 			intersectionPoint.xPosition = (intersectionPoint.yPosition - secondPoint.yPosition) *
 				(firstPoint.xPosition - secondPoint.xPosition) /
 				(firstPoint.yPosition - secondPoint.yPosition) +
@@ -1804,6 +1816,7 @@ internal class LineChart : PointChart
 				{
 					intersectionPoint2.yPosition = (double)plotAreaPositionY;
 				}
+
 				intersectionPoint2.xPosition = (intersectionPoint2.yPosition - secondPoint.yPosition) *
 					(firstPoint.xPosition - secondPoint.xPosition) /
 					(firstPoint.yPosition - secondPoint.yPosition) +
@@ -1846,6 +1859,7 @@ internal class LineChart : PointChart
 				firstSegmentVisible = false;
 				firstPoint.yPosition = (double)plotAreaPositionBottom;
 			}
+
 			if ((decimal)secondPoint.yPosition < plotAreaPositionY)
 			{
 				secondPoint.yPosition = (double)plotAreaPositionY;
@@ -1868,6 +1882,7 @@ internal class LineChart : PointChart
 					{
 						intersectionPoint2 = intersectionPoint;
 					}
+
 					intersectionPoint2.dataPoint = secondPoint.dataPoint;
 					intersectionPoint2.index = secondPoint.index;
 					intersectionPoint2.xCenterVal = secondPoint.xCenterVal;
@@ -1942,6 +1957,7 @@ internal class LineChart : PointChart
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -2056,6 +2072,7 @@ internal class LineChart : PointChart
 				thirdPoint.Y = area.PlotAreaPosition.Y;
 				fourthPoint.Y = area.PlotAreaPosition.Y;
 			}
+
 			if ((decimal)thirdPoint.Y > plotAreaPositionBottom &&
 				(decimal)fourthPoint.Y > plotAreaPositionBottom)
 			{
@@ -2094,6 +2111,7 @@ internal class LineChart : PointChart
 				intersectionPoint.yPosition = (double)area.PlotAreaPosition.Bottom;
 				firstIntersectionOnBottom = true;
 			}
+
 			intersectionPoint.xPosition = (intersectionPoint.yPosition - fourthPoint.Y) *
 				(thirdPoint.X - fourthPoint.X) /
 				(thirdPoint.Y - fourthPoint.Y) +
@@ -2132,6 +2150,7 @@ internal class LineChart : PointChart
 				{
 					intersectionPoint2.yPosition = (double)area.PlotAreaPosition.Y;
 				}
+
 				intersectionPoint2.xPosition = (intersectionPoint2.yPosition - fourthPoint.Y) *
 					(thirdPoint.X - fourthPoint.X) /
 					(thirdPoint.Y - fourthPoint.Y) +
@@ -2190,6 +2209,7 @@ internal class LineChart : PointChart
 					bottomDarken = 0.5f;
 				}
 			}
+
 			if ((decimal)fourthPoint.Y < plotAreaPositionY)
 			{
 				secondSegmentOutsideTop = true;
@@ -2364,6 +2384,7 @@ internal class LineChart : PointChart
 			fourthPoint = new PointF(prevFourthPoint.X, prevFourthPoint.Y);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -2441,6 +2462,7 @@ internal class LineChart : PointChart
 				this._linePen = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 	#endregion

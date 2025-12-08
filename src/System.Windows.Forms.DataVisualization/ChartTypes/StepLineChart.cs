@@ -250,6 +250,7 @@ internal class StepLineChart : LineChart
 		{
 			color = Color.Gray;
 		}
+
 		if (pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.BorderDashStyle == ChartDashStyle.NotSet)
 		{
 			dashStyle = ChartDashStyle.Solid;
@@ -366,6 +367,7 @@ internal class StepLineChart : LineChart
 				resultPath.AddPath(resultPathLine2, true);
 			}
 		}
+
 		return resultPath;
 	}
 

@@ -1112,6 +1112,7 @@ public class Grid
 					}
 				}
 			}
+
 			if (this.intervalType != DateTimeIntervalType.Auto)
 			{
 				if (tickMark != null)
@@ -1446,6 +1447,7 @@ public class Grid
 						path.CloseAllFigures();
 
 					}
+
 					common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
 				}
 			}
@@ -1460,6 +1462,7 @@ public class Grid
 				{
 					_axis.DrawCircularLine(this, graph, borderColor, borderWidth, borderDashStyle, first.Y);
 				}
+
 				if (_axis.axisType == AxisName.X)
 				{
 					ICircularChartType chartType = this._axis.ChartArea.GetCircularChartType();
@@ -1541,6 +1544,7 @@ public class Grid
 									path.CloseAllFigures();
 
 								}
+
 								common.HotRegionsList.AddHotRegion(path, true, ChartElementType.Gridlines, this);
 							}
 						}
@@ -1603,6 +1607,7 @@ public class Grid
 		{
 			return !double.IsNaN(intervalOffset);
 		}
+
 		return intervalOffset != 0d;
 	}
 
@@ -1618,6 +1623,7 @@ public class Grid
 
 			return this._axis.IntervalOffset;
 		}
+
 		return intervalOffset;
 	}
 
@@ -1655,6 +1661,7 @@ public class Grid
 		{
 			return intervalOffsetType != DateTimeIntervalType.NotSet;
 		}
+
 		return intervalOffsetType != DateTimeIntervalType.Auto;
 	}
 
@@ -1668,6 +1675,7 @@ public class Grid
 		{
 			return this._axis.IntervalOffsetType;
 		}
+
 		return intervalOffsetType;
 	}
 
@@ -1751,6 +1759,7 @@ public class Grid
 		{
 			return !double.IsNaN(interval);
 		}
+
 		return interval != 0d;
 	}
 
@@ -1764,6 +1773,7 @@ public class Grid
 		{
 			return this._axis.Interval;
 		}
+
 		return interval;
 	}
 
@@ -1814,6 +1824,7 @@ public class Grid
 		{
 			return intervalType != DateTimeIntervalType.NotSet;
 		}
+
 		return intervalType != DateTimeIntervalType.Auto;
 	}
 
@@ -1829,6 +1840,7 @@ public class Grid
 			// Return default value during serialization
 			return this._axis.IntervalType;
 		}
+
 		return intervalType;
 	}
 
@@ -1943,6 +1955,7 @@ public class Grid
 		{
 			return !this.Enabled;
 		}
+
 		return this.Enabled;
 	}
 

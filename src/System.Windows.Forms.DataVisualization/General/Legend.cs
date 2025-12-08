@@ -516,6 +516,7 @@ public class Legend : ChartNamedElement
 		{
 			itemsFit += this._numberOfRowsPerColumn[index];
 		}
+
 		if (itemsFit < this._numberOfLegendItemsToProcess)
 		{
 			autoFitDone = false;
@@ -567,6 +568,7 @@ public class Legend : ChartNamedElement
 					{
 						itemsFit += this._numberOfRowsPerColumn[index];
 					}
+
 					if (itemsFit < this._numberOfLegendItemsToProcess)
 					{
 						autoFitDone = false;
@@ -663,6 +665,7 @@ public class Legend : ChartNamedElement
 		{
 			itemHalfSpacing.Height = (int)(this._verticalSpaceLeft / this.GetMaximumNumberOfRows() / 2);
 		}
+
 		if (this._horizontalSpaceLeft > 0)
 		{
 			itemHalfSpacing.Width = (int)(_horizontalSpaceLeft / 2);
@@ -675,6 +678,7 @@ public class Legend : ChartNamedElement
 		{
 			this._numberOfLegendItemsToProcess = this.legendItems.Count;
 		}
+
 		for (int legendItemIndex = 0; legendItemIndex < this._numberOfLegendItemsToProcess; legendItemIndex++)
 		{
 			LegendItem legendItem = this.legendItems[legendItemIndex];
@@ -766,6 +770,7 @@ public class Legend : ChartNamedElement
 		{
 			cellPosition.Y += this._cellHeights[columnIndex, index];
 		}
+
 		if (itemHalfSpacing.Height > 0)
 		{
 			cellPosition.Y += itemHalfSpacing.Height * rowIndex * 2 + itemHalfSpacing.Height;
@@ -945,6 +950,7 @@ public class Legend : ChartNamedElement
 					{
 						itemsFit += this._numberOfRowsPerColumn[index];
 					}
+
 					autoFit = (horizSpaceLeft >= 0 && vertSpaceLeft >= 0 && itemsFit >= this.legendItems.Count);
 
 					// Check if items fit
@@ -1006,14 +1012,17 @@ public class Legend : ChartNamedElement
 				{
 					optimalSize.Width = maxSize.Width;
 				}
+
 				if (optimalSize.Height > maxSize.Height)
 				{
 					optimalSize.Height = maxSize.Height;
 				}
+
 				if (optimalSize.Width < 0)
 				{
 					optimalSize.Width = 0;
 				}
+
 				if (optimalSize.Height < 0)
 				{
 					optimalSize.Height = 0;
@@ -1110,6 +1119,7 @@ public class Legend : ChartNamedElement
 			// Adjust position of the chart area(s)
 			chartAreasRectangle.Height -= legendPosition.Height + elementSpacing;
 		}
+
 		if (this.Docking == Docking.Left)
 		{
 			legendPosition.X = chartAreasRectangle.X + elementSpacing;
@@ -1130,6 +1140,7 @@ public class Legend : ChartNamedElement
 			chartAreasRectangle.Width -= legendPosition.Width + elementSpacing;
 			chartAreasRectangle.X = legendPosition.Right;
 		}
+
 		if (this.Docking == Docking.Right)
 		{
 			legendPosition.X = chartAreasRectangle.Right - legendSize.Width - elementSpacing;
@@ -1299,6 +1310,7 @@ public class Legend : ChartNamedElement
 							{
 								numberOfRowsPerColumn[index] = tempArray[index];
 							}
+
 							numberOfRowsPerColumn[columnNumber - 1] = 1;
 
 							// If last legend item is moved into a new column
@@ -1429,6 +1441,7 @@ public class Legend : ChartNamedElement
 					{
 						numberOfRowsPerColumn[index] = tempArray[index];
 					}
+
 					numberOfRowsPerColumn[columnNumber - 1] = 1;
 
 					// Check if legend items fit into the legend area
@@ -1490,6 +1503,7 @@ public class Legend : ChartNamedElement
 									{
 										nextColumnFirstItemHeight = this._cellHeights[columnIndex + 1, 0];
 									}
+
 									if (columnHeight < columnMinHeight &&
 										(columnHeight + nextColumnFirstItemHeight) < legendSize.Height)
 									{
@@ -1533,6 +1547,7 @@ public class Legend : ChartNamedElement
 										{
 											numberOfRowsPerColumn[index] = tempArray[index + 1];
 										}
+
 										numberOfRowsPerColumn[columnNumber - 1] = 1;
 									}
 								}
@@ -1634,6 +1649,7 @@ public class Legend : ChartNamedElement
 				maxNumberOfColumns = Math.Max(maxNumberOfColumns, rowsPerColumn[columnIndex]);
 			}
 		}
+
 		return maxNumberOfColumns;
 	}
 
@@ -1749,6 +1765,7 @@ public class Legend : ChartNamedElement
 					{
 						cellSize.Width = (int)Math.Max(cellSize.Width, legendColumn.MinimumWidth * singleWCharacterSize.Width / 100f);
 					}
+
 					if (legendColumn.MaximumWidth >= 0)
 					{
 						cellSize.Width = (int)Math.Min(cellSize.Width, legendColumn.MaximumWidth * singleWCharacterSize.Width / 100f);
@@ -1782,6 +1799,7 @@ public class Legend : ChartNamedElement
 					{
 						fitFlag = false;
 					}
+
 					break;
 				}
 			}
@@ -1810,6 +1828,7 @@ public class Legend : ChartNamedElement
 						secondIterationRequired = true;
 						continue;
 					}
+
 					if (currentSubColumn + 1 < numberOfSubColumns)
 					{
 						int nextCellWidth = cellWidths[currentColumn, currentRow, currentSubColumn + 1];
@@ -1855,6 +1874,7 @@ public class Legend : ChartNamedElement
 								subColumnSizes[currentColumn, currentSubColumn] =
 									(int)Math.Max(subColumnSizes[currentColumn, currentSubColumn], legendColumn.MinimumWidth * singleWCharacterSize.Width / 100f);
 							}
+
 							if (legendColumn.MaximumWidth >= 0)
 							{
 								subColumnSizes[currentColumn, currentSubColumn] =
@@ -1892,6 +1912,7 @@ public class Legend : ChartNamedElement
 							{
 								break;
 							}
+
 							++cellSpan;
 						}
 
@@ -2010,6 +2031,7 @@ public class Legend : ChartNamedElement
 				this._numberOfCells = Math.Max(this._numberOfCells, legendItem.Cells.Count);
 			}
 		}
+
 		return this._numberOfCells;
 	}
 
@@ -2366,6 +2388,7 @@ public class Legend : ChartNamedElement
 		{
 			this._numberOfLegendItemsToProcess = this.legendItems.Count;
 		}
+
 		for (int itemIndex = 0; itemIndex < this._numberOfLegendItemsToProcess; itemIndex++)
 		{
 			LegendItem legendItem = this.legendItems[itemIndex];
@@ -2402,6 +2425,7 @@ public class Legend : ChartNamedElement
 						break;
 					}
 				}
+
 				separatorPosition.Width = right - separatorPosition.X;
 				separatorPosition.Y = legendItem.Cells[0].cellPosition.Bottom;
 				separatorPosition.Height = this.GetSeparatorSize(legendItem.SeparatorType).Height;
@@ -2573,8 +2597,10 @@ public class Legend : ChartNamedElement
 					{
 						Chart.ChartAreas.VerifyNameReference(value);
 					}
+
 					_dockedToChartArea = value;
 				}
+
 				this.Invalidate(false);
 			}
 		}
@@ -2639,6 +2665,7 @@ public class Legend : ChartNamedElement
 					return newPosition;
 				}
 			}
+
 			return _position;
 		}
 		set
@@ -2821,6 +2848,7 @@ public class Legend : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendMaximumAutoSizeInvalid));
 			}
+
 			this._maximumLegendAutoSize = value;
 			this.Invalidate(false);
 		}
@@ -2990,6 +3018,7 @@ public class Legend : ChartNamedElement
 				{
 					throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendColumnSpacingInvalid));
 				}
+
 				this._itemColumnSpacing = value;
 				this.Invalidate(false);
 			}
@@ -3095,6 +3124,7 @@ public class Legend : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendBorderWidthIsNegative));
 			}
+
 			_borderWidth = value;
 			this.Invalidate(false);
 		}
@@ -3470,6 +3500,7 @@ public class Legend : ChartNamedElement
 			{
 				return "NotSet";
 			}
+
 			return this.DockedToChartArea;
 		}
 		set
@@ -3482,6 +3513,7 @@ public class Legend : ChartNamedElement
 			{
 				this.DockedToChartArea = value;
 			}
+
 			this.Invalidate(false);
 		}
 	}
@@ -3535,6 +3567,7 @@ public class Legend : ChartNamedElement
 				{
 					throw (new ArgumentException(SR.ExceptionTextThresholdIsNegative, "value"));
 				}
+
 				this._textWrapThreshold = value;
 				this.Invalidate(false);
 			}
@@ -3917,10 +3950,12 @@ public class Legend : ChartNamedElement
 					{
 						rect.X += (int)(this._horizontalSpaceLeft / 2f);
 					}
+
 					if (prevRightLocation != -1)
 					{
 						rect.X = prevRightLocation;
 					}
+
 					rect.Width = this._subColumnSizes[columnIndex, subColumnIndex];
 					prevRightLocation = rect.Right;
 
@@ -3929,6 +3964,7 @@ public class Legend : ChartNamedElement
 					{
 						columnStart = rect.Left;
 					}
+
 					columnWidth += rect.Width;
 
 					// Make sure header position do not go outside of the legend
@@ -4003,11 +4039,13 @@ public class Legend : ChartNamedElement
 								{
 									fillRect.Width -= (legendPosition.Right - fillRect.Right);
 								}
+
 								if (fillRect.X < legendPosition.X)
 								{
 									fillRect.X += legendPosition.X - fillRect.X;
 									fillRect.Width -= (legendPosition.X - fillRect.X);
 								}
+
 								fillRect.Intersect(legendPosition);
 								chartGraph.FillRectangleRel(
 									chartGraph.GetRelativeRectangle(fillRect),
@@ -4062,6 +4100,7 @@ public class Legend : ChartNamedElement
 					// any other line. Reduce width to solve the issue.
 					legendPosition.Width -= 1;
 				}
+
 				separatorRect.Intersect(legendPosition);
 				this.DrawSeparator(chartGraph, this.HeaderSeparator, this.HeaderSeparatorColor, true, separatorRect);
 
@@ -4179,6 +4218,7 @@ public class Legend : ChartNamedElement
 				// any other line. Reduce width to solve the issue.
 				legendPosition.Width -= 1;
 			}
+
 			separatorPosition.Intersect(legendPosition);
 			this.DrawSeparator(chartGraph, this.TitleSeparator, this.TitleSeparatorColor, true, separatorPosition);
 
@@ -4285,6 +4325,7 @@ public class Legend : ChartNamedElement
 			rect.X += (int)(_itemColumnSpacingRel / 2f);
 			rect.Width -= _itemColumnSpacingRel;
 		}
+
 		if (separatorType == LegendSeparatorStyle.Line)
 		{
 			if (horizontal)
@@ -4515,6 +4556,7 @@ public class Legend : ChartNamedElement
 		{
 			return this.BorderWidth;
 		}
+
 		return 0;
 	}
 
@@ -4591,6 +4633,7 @@ public class Legend : ChartNamedElement
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -4648,21 +4691,25 @@ public class Legend : ChartNamedElement
 				_fontCache.Dispose();
 				_fontCache = null;
 			}
+
 			if (legendItems != null)
 			{
 				legendItems.Dispose();
 				legendItems = null;
 			}
+
 			if (_cellColumns != null)
 			{
 				_cellColumns.Dispose();
 				_cellColumns = null;
 			}
+
 			if (_customLegends != null)
 			{
 				_customLegends.Dispose();
 				_customLegends = null;
 			}
+
 			if (_position != null)
 			{
 				_position.Dispose();
@@ -4799,6 +4846,7 @@ public class LegendCollection : ChartNamedElementCollection<Legend>
 							legendPosition.Y = area.Position.Bottom + areaSpacing;
 						}
 					}
+
 					if (legend.Docking == Docking.Left)
 					{
 						legendPosition.X -= areaSpacing;
@@ -4807,6 +4855,7 @@ public class LegendCollection : ChartNamedElementCollection<Legend>
 							legendPosition.X -= legendPosition.Width;
 						}
 					}
+
 					if (legend.Docking == Docking.Right)
 					{
 						legendPosition.X += areaSpacing;
@@ -5356,6 +5405,7 @@ public class LegendItem : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsZero));
 			}
+
 			borderWidth = value;
 			this.Invalidate(false);
 		}
@@ -5405,6 +5455,7 @@ public class LegendItem : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionLegendMarkerBorderWidthIsNegative));
 			}
+
 			this._markerBorderWidth = value;
 			this.Invalidate(false);
 		}
@@ -5945,6 +5996,7 @@ public class LegendItem : ChartNamedElement
 				_cells = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

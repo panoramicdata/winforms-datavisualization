@@ -139,6 +139,7 @@ public class ElementPosition : ChartElement
 								{
 									this.SetPositionNoAuto(0f, 0f, 0f, 0f);
 								}
+
 								area.Position._auto = autoValue;
 							}
 
@@ -228,6 +229,7 @@ public class ElementPosition : ChartElement
 			}
 
 		}
+
 		return false;
 	}
 
@@ -246,6 +248,7 @@ public class ElementPosition : ChartElement
 				this._width.ToString(System.Globalization.CultureInfo.CurrentCulture) + ", " +
 				this._height.ToString(System.Globalization.CultureInfo.CurrentCulture);
 		}
+
 		return posString;
 	}
 
@@ -294,6 +297,7 @@ public class ElementPosition : ChartElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
 			}
+
 			_x = value;
 			Auto = false;
 
@@ -331,6 +335,7 @@ public class ElementPosition : ChartElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
 			}
+
 			_y = value;
 			Auto = false;
 
@@ -367,6 +372,7 @@ public class ElementPosition : ChartElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
 			}
+
 			_width = value;
 			Auto = false;
 
@@ -403,6 +409,7 @@ public class ElementPosition : ChartElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionElementPositionArgumentOutOfRange));
 			}
+
 			_height = value;
 			Auto = false;
 
@@ -447,6 +454,7 @@ public class ElementPosition : ChartElement
 					this._width = 0;
 					this._height = 0;
 				}
+
 				_auto = value;
 
 				this.Invalidate();

@@ -115,6 +115,7 @@ internal class PolarChart : RadarChart
 		{
 			interval = area.AxisX.LabelStyle.GetInterval();
 		}
+
 		if (interval != 0)
 		{
 			// Get X axis scale size
@@ -185,6 +186,7 @@ internal class PolarChart : RadarChart
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attributeValue, "PolarDrawingStyle")));
 			}
 		}
+
 		return drawingStyle;
 	}
 

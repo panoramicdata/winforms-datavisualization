@@ -365,8 +365,10 @@ public class Title : ChartNamedElement, IDisposable
 					{
 						Chart.ChartAreas.VerifyNameReference(value);
 					}
+
 					_dockedToChartArea = value;
 				}
+
 				this.Invalidate(false);
 			}
 		}
@@ -423,6 +425,7 @@ public class Title : ChartNamedElement, IDisposable
 				{
 					throw (new ArgumentOutOfRangeException("value", SR.ExceptionValueMustBeInRange("DockingOffset", (-100).ToString(CultureInfo.CurrentCulture), (100).ToString(CultureInfo.CurrentCulture))));
 				}
+
 				_dockingOffset = value;
 				this.Invalidate(false);
 			}
@@ -460,6 +463,7 @@ public class Title : ChartNamedElement, IDisposable
 					return newPosition;
 				}
 			}
+
 			return _position;
 		}
 		set
@@ -623,6 +627,7 @@ public class Title : ChartNamedElement, IDisposable
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionTitleBorderWidthIsNegative));
 			}
+
 			_borderWidth = value;
 			this.Invalidate(false);
 		}
@@ -1046,8 +1051,10 @@ public class Title : ChartNamedElement, IDisposable
 					return TextOrientation.Rotated90;
 				}
 			}
+
 			return TextOrientation.Horizontal;
 		}
+
 		return this.TextOrientation;
 	}
 
@@ -1078,6 +1085,7 @@ public class Title : ChartNamedElement, IDisposable
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -1205,6 +1213,7 @@ public class Title : ChartNamedElement, IDisposable
 						titlePosition.X = titlePosition.X - titlePosition.Width / 2f;
 					}
 				}
+
 				if (titlePosition.Height == 0)
 				{
 					titlePosition.Height = titleSize.Height;
@@ -1446,6 +1455,7 @@ public class Title : ChartNamedElement, IDisposable
 					format.FormatFlags |= StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft;
 				}
 			}
+
 			try
 			{
 				chartGraph.IsTextClipped = !Position.Auto;
@@ -1550,6 +1560,7 @@ public class Title : ChartNamedElement, IDisposable
 				{
 					chartGraph.DrawString(titleText, font, brush, shadowPosition, format, orientation);
 				}
+
 				using (SolidBrush brush = new SolidBrush(foreColor))
 				{
 					// Draw text
@@ -1708,6 +1719,7 @@ public class Title : ChartNamedElement, IDisposable
 			// Adjust position of the chart area(s)
 			chartAreasRectangle.Height -= titlePosition.Height + elementSpacing;
 		}
+
 		if (this.Docking == Docking.Left)
 		{
 			titlePosition.X = chartAreasRectangle.X + elementSpacing;
@@ -1722,6 +1734,7 @@ public class Title : ChartNamedElement, IDisposable
 			chartAreasRectangle.Width -= titlePosition.Width + elementSpacing;
 			chartAreasRectangle.X = titlePosition.Right;
 		}
+
 		if (this.Docking == Docking.Right)
 		{
 			titlePosition.X = chartAreasRectangle.Right - titleSize.Width - elementSpacing;
@@ -1770,6 +1783,7 @@ public class Title : ChartNamedElement, IDisposable
 				_fontCache.Dispose();
 				_fontCache = null;
 			}
+
 			if (_position != null)
 			{
 				_position.Dispose();
@@ -1890,6 +1904,7 @@ public class TitleCollection : ChartNamedElementCollection<Title>
 							prevChartAreasRectangle.Height += titlePosition.Height + areaSpacing;
 						}
 					}
+
 					if (title.Docking == Docking.Left)
 					{
 						titlePosition.X -= areaSpacing;
@@ -1900,6 +1915,7 @@ public class TitleCollection : ChartNamedElementCollection<Title>
 							prevChartAreasRectangle.Width += titlePosition.Width + areaSpacing;
 						}
 					}
+
 					if (title.Docking == Docking.Right)
 					{
 						titlePosition.X += areaSpacing;

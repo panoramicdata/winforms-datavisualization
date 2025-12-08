@@ -135,10 +135,12 @@ public class ArrowAnnotation : Annotation
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationArrowSizeIsZero));
 			}
+
 			if (value > 100)
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationArrowSizeMustBeLessThen100));
 			}
+
 			_arrowSize = value;
 			Invalidate();
 		}

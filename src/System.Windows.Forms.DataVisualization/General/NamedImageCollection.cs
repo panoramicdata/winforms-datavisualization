@@ -136,6 +136,7 @@ public class NamedImage : ChartNamedElement
 				_image = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

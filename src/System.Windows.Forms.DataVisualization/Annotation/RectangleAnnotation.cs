@@ -355,6 +355,7 @@ public class RectangleAnnotation : TextAnnotation
 			rectanglePosition.X = rectanglePosition.Right;
 			rectanglePosition.Width = -rectanglePosition.Width;
 		}
+
 		if (rectanglePosition.Height < 0)
 		{
 			rectanglePosition.Y = rectanglePosition.Bottom;
@@ -585,6 +586,7 @@ public class Border3DAnnotation : RectangleAnnotation
 			rectanglePosition.X = rectanglePosition.Right;
 			rectanglePosition.Width = -rectanglePosition.Width;
 		}
+
 		if (rectanglePosition.Height < 0)
 		{
 			rectanglePosition.Y = rectanglePosition.Bottom;

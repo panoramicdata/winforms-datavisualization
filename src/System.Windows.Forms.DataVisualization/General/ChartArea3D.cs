@@ -329,6 +329,7 @@ public class ChartArea3DStyle
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DInclinationInvalid));
 			}
+
 			_inclination = value;
 
 			if (this._chartArea != null)
@@ -360,6 +361,7 @@ public class ChartArea3DStyle
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionChartArea3DRotationInvalid));
 			}
+
 			_rotation = value;
 
 			if (this._chartArea != null)
@@ -711,6 +713,7 @@ public partial class ChartArea
 			// Wall is on the right side
 			wallRect2D.X = position.Right - areaSceneWallWidth.Width;
 		}
+
 		graph.Fill3DRectangle(
 			wallRect2D,
 			0f,
@@ -953,6 +956,7 @@ public partial class ChartArea
 						}
 					}
 				}
+
 				seriesNumber = stackGroupNames.Count;
 			}
 		}
@@ -973,6 +977,7 @@ public partial class ChartArea
 			0.8) / seriesNumber;
 			_pointsDepth *= this.Area3DStyle.PointDepth / 100.0;
 		}
+
 		_pointsGapDepth = (_pointsDepth * 0.8) * this.Area3DStyle.PointGapDepth / 100.0;
 
 		// Get point depth and gap from series
@@ -1155,10 +1160,12 @@ public partial class ChartArea
 					{
 						clusterIndex = (this.seriesClusters.Count - 1) - clusterIndex;
 					}
+
 					return clusterIndex;
 				}
 			}
 		}
+
 		return 0;
 	}
 
@@ -1454,8 +1461,10 @@ public partial class ChartArea
 				{
 					result = true;
 				}
+
 				resultCoordinates = resultCoordinates | COPCoordinates.X;
 			}
+
 			if ((coord & COPCoordinates.Y) == COPCoordinates.Y)
 			{
 				// Only when Top & Bottom sides of plotting area are invisible
@@ -1464,8 +1473,10 @@ public partial class ChartArea
 				{
 					result = true;
 				}
+
 				resultCoordinates = resultCoordinates | COPCoordinates.Y;
 			}
+
 			if ((coord & COPCoordinates.Z) == COPCoordinates.Z)
 			{
 				// Only when Front & Back sides of plotting area are invisible
@@ -1474,6 +1485,7 @@ public partial class ChartArea
 				{
 					result = true;
 				}
+
 				resultCoordinates = resultCoordinates | COPCoordinates.Z;
 			}
 		}
@@ -1546,6 +1558,7 @@ public partial class ChartArea
 				return seriesNames;
 			}
 		}
+
 		return new List<string>();
 	}
 
@@ -1665,8 +1678,10 @@ public partial class ChartArea
 			{
 				stackGroupName = series[CustomPropertyName.StackedGroupName];
 			}
+
 			return this._stackGroupNames.IndexOf(stackGroupName);
 		}
+
 		return 0;
 	}
 
@@ -1835,6 +1850,7 @@ public partial class ChartArea
 				{
 					yValue = 0.0;
 				}
+
 				pointEx.yPosition = vAxis.GetPosition(yValue);
 				pointEx.height = vAxis.GetPosition(yValue - chartType.GetYValue(Common, area, ser, point, index - 1, -1));
 
@@ -1856,6 +1872,7 @@ public partial class ChartArea
 		{
 			comparer = new PointsDrawingOrderComparer((ChartArea)this, selection, coord);
 		}
+
 		pointsList.Sort(comparer);
 
 		return pointsList;
@@ -2079,11 +2096,13 @@ public partial class ChartArea
 			{
 				doneFlag = false;
 			}
+
 			if ((coord & COPCoordinates.Y) == COPCoordinates.Y &&
 				Math.Abs(points[1].Y - points[0].Y) >= interval.Height)
 			{
 				doneFlag = false;
 			}
+
 			if ((coord & COPCoordinates.Z) == COPCoordinates.Z &&
 				Math.Abs(points[1].Z - points[0].Z) >= interval.Width)
 			{

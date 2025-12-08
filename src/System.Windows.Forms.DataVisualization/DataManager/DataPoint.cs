@@ -487,6 +487,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 						{
 							newDataPoint.SetValueXY(0, yValuesObj);
 						}
+
 						DataPointInit(ref newDataPoint);
 						newDataPoint.IsEmpty = true;
 						this.Add(newDataPoint);
@@ -501,6 +502,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 						{
 							newDataPoint.SetValueXY(0, yValuesObj);
 						}
+
 						DataPointInit(ref newDataPoint);
 						this.Add(newDataPoint);
 					}
@@ -580,6 +582,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 				xEnumerator.Reset();
 			}
 		}
+
 		for (int i = 0; i < yValues.Length; i++)
 		{
 			// Get and reset Y values enumerators
@@ -611,6 +614,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 						yValueExsist = yEnumerator[i].MoveNext();
 					}
 				}
+
 				if (xValue != null)
 				{
 					xValueExsist = xEnumerator.MoveNext();
@@ -666,6 +670,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 						{
 							newDataPoint.SetValueXY(0, yValuesObj);
 						}
+
 						DataPointInit(ref newDataPoint);
 						newDataPoint.IsEmpty = true;
 						this.Add(newDataPoint);
@@ -680,6 +685,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 						{
 							newDataPoint.SetValueXY(0, yValuesObj);
 						}
+
 						DataPointInit(ref newDataPoint);
 						this.Add(newDataPoint);
 					}
@@ -737,6 +743,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 		{
 			yFieldNames[index] = yFieldNames[index].Replace("\n", ",");
 		}
+
 		if (yFieldNames.GetLength(0) > series.YValuesPerPoint)
 			throw new ArgumentOutOfRangeException("yFields", SR.ExceptionDataPointYValuesCountMismatch(series.YValuesPerPoint.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
@@ -785,6 +792,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 				{
 					yValueExsist = yEnumerator.MoveNext();
 				}
+
 				if (xValue != null)
 				{
 					if (xValue != yValue)
@@ -859,6 +867,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 						{
 							newDataPoint.SetValueXY(0, yValuesObj);
 						}
+
 						DataPointInit(ref newDataPoint);
 						newDataPoint.IsEmpty = true;
 						this.Add(newDataPoint);
@@ -873,6 +882,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 						{
 							newDataPoint.SetValueXY(0, yValuesObj);
 						}
+
 						DataPointInit(ref newDataPoint);
 						this.Add(newDataPoint);
 					}
@@ -898,10 +908,12 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 		{
 			return true;
 		}
+
 		if (val is double && double.IsNaN((double)val))
 		{
 			return true;
 		}
+
 		if (val is Single && Single.IsNaN((Single)val))
 		{
 			return true;
@@ -1002,10 +1014,12 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 			{
 				this.series.XValueType = ChartValueType.DateTime;
 			}
+
 			if (xValue is DateTimeOffset)
 			{
 				this.series.XValueType = ChartValueType.DateTimeOffset;
 			}
+
 			if (xValue is string)
 			{
 				this.series.XValueType = ChartValueType.String;
@@ -1081,6 +1095,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 		{
 			return dataView.GetEnumerator();
 		}
+
 		DataSet dataSet = dataSource as DataSet;
 		if (dataSet != null)
 		{
@@ -1274,6 +1289,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 				series.autoXValueType = true;
 			}
 		}
+
 		if (series.YValueType == ChartValueType.Auto)
 		{
 			series.YValueType = GetValueType(yEnumerator, yField);
@@ -1444,6 +1460,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 					columnDataType = descriptor.PropertyType;
 				}
 			}
+
 			if (columnDataType == null)
 			{
 				columnDataType = enumerator.Current.GetType();
@@ -2488,6 +2505,7 @@ public class DataPoint : DataPointCustomProperties
 				result = result.Insert(keyIndex, strToReplace);
 			}
 		}
+
 		return result;
 	}
 
@@ -2578,6 +2596,7 @@ public class DataPoint : DataPointCustomProperties
 					sb.AppendFormat(CultureInfo.CurrentCulture, ", {0}", YValues[i]);
 			sb.Append("}");
 		}
+
 		sb.Append("}");
 		return sb.ToString();
 	}
@@ -2644,6 +2663,7 @@ public class DataPoint : DataPointCustomProperties
 			{
 				_yValue = value;
 			}
+
 			this.Invalidate(false);
 		}
 	}
@@ -2925,6 +2945,7 @@ public class DataPointCustomProperties : ChartNamedElement
 				return Series.defaultCustomProperties.properties[(int)attrib];
 			}
 		}
+
 		return properties[(int)attrib];
 	}
 
@@ -3090,8 +3111,10 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Enum.GetName(typeof(CommonCustomProperties), key);
 					}
+
 					return key.ToString();
 				}
+
 				++currentIndex;
 			}
 			// we can't throw IndexOutOfRangeException here, it is reserved
@@ -3118,6 +3141,7 @@ public class DataPointCustomProperties : ChartNamedElement
 
 				return (string)series.properties[name];
 			}
+
 			return (string)properties[name];
 		}
 		set
@@ -3152,6 +3176,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.Label);
@@ -3207,6 +3232,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.AxisLabel);
@@ -3269,6 +3295,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelFormat);
@@ -3323,6 +3350,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return false;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (bool)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.IsValueShownAsLabel);
@@ -3373,6 +3401,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.Color);
@@ -3432,6 +3461,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BorderColor);
@@ -3479,6 +3509,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return ChartDashStyle.Solid;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (ChartDashStyle)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BorderDashStyle);
@@ -3527,6 +3558,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return 1;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (int)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BorderWidth);
@@ -3547,6 +3579,7 @@ public class DataPointCustomProperties : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
 			}
+
 			if (this.pointCustomProperties)
 				SetAttributeObject(CommonCustomProperties.BorderWidth, value);
 			else
@@ -3580,6 +3613,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BackImage);
@@ -3637,6 +3671,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return ChartImageWrapMode.Tile;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (ChartImageWrapMode)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BackImageWrapMode);
@@ -3691,6 +3726,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BackImageTransparentColor);
@@ -3740,6 +3776,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return ChartImageAlignmentStyle.TopLeft;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (ChartImageAlignmentStyle)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BackImageAlignment);
@@ -3789,6 +3826,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return GradientStyle.None;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (GradientStyle)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BackGradientStyle);
@@ -3839,6 +3877,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BackSecondaryColor);
@@ -3888,6 +3927,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return ChartHatchStyle.None;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (ChartHatchStyle)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.BackHatchStyle);
@@ -3987,10 +4027,12 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Black;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelForeColor);
 					}
+
 					if (SystemInformation.HighContrast)
 					{
 						return Drawing.SystemColors.WindowText;
@@ -4039,6 +4081,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return 0;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (int)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelAngle);
@@ -4059,6 +4102,7 @@ public class DataPointCustomProperties : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAngleRangeInvalid));
 			}
+
 			if (this.pointCustomProperties)
 				SetAttributeObject(CommonCustomProperties.LabelAngle, value);
 			else
@@ -4093,6 +4137,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return MarkerStyle.None;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (MarkerStyle)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.MarkerStyle);
@@ -4119,6 +4164,7 @@ public class DataPointCustomProperties : ChartNamedElement
 			{
 				thisSeries.tempMarkerStyleIsSet = false;
 			}
+
 			this.Invalidate(true);
 		}
 	}
@@ -4148,6 +4194,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return 5;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (int)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.MarkerSize);
@@ -4198,6 +4245,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.MarkerImage);
@@ -4255,6 +4303,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.MarkerImageTransparentColor);
@@ -4306,6 +4355,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.MarkerColor);
@@ -4357,6 +4407,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.MarkerBorderColor);
@@ -4408,6 +4459,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return 1;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (int)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.MarkerBorderWidth);
@@ -4428,6 +4480,7 @@ public class DataPointCustomProperties : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
 			}
+
 			if (this.pointCustomProperties)
 				SetAttributeObject(CommonCustomProperties.MarkerBorderWidth, value);
 			else
@@ -4511,6 +4564,7 @@ public class DataPointCustomProperties : ChartNamedElement
 						{
 							result += ", ";
 						}
+
 						string attributeValue = properties[attributeName].ToString().Replace(",", "\\,");
 						attributeValue = attributeValue.Replace("=", "\\=");
 
@@ -4584,6 +4638,7 @@ public class DataPointCustomProperties : ChartNamedElement
 
 				}
 			}
+
 			properties = newAttributes;
 			this.Invalidate(true);
 		}
@@ -4630,6 +4685,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.ToolTip);
@@ -4684,6 +4740,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return true;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (bool)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.IsVisibleInLegend);
@@ -4740,6 +4797,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LegendText);
@@ -4792,6 +4850,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LegendToolTip);
@@ -4837,10 +4896,12 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelBackColor);
 					}
+
 					if (SystemInformation.HighContrast)
 					{
 						return Drawing.SystemColors.Window;
@@ -4891,10 +4952,12 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return Color.Empty;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (Color)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelBorderColor);
 					}
+
 					if (SystemInformation.HighContrast)
 					{
 						return Drawing.SystemColors.ActiveBorder;
@@ -4942,6 +5005,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return ChartDashStyle.Solid;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (ChartDashStyle)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelBorderDashStyle);
@@ -4990,6 +5054,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return 1;
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (int)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelBorderWidth);
@@ -5010,6 +5075,7 @@ public class DataPointCustomProperties : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionLabelBorderIsNotPositive));
 			}
+
 			if (this.pointCustomProperties)
 				SetAttributeObject(CommonCustomProperties.LabelBorderWidth, value);
 			else
@@ -5055,6 +5121,7 @@ public class DataPointCustomProperties : ChartNamedElement
 					{
 						return "";
 					}
+
 					if (this.isEmptyPoint)
 					{
 						return (string)series.EmptyPointStyle.GetAttributeObject(CommonCustomProperties.LabelToolTip);
@@ -5091,6 +5158,7 @@ public class DataPointCustomProperties : ChartNamedElement
 			{
 				return false;
 			}
+
 			return !attr1.Equals(attr2);
 		}
 	}

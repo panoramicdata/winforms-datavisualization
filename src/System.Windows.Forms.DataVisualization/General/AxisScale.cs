@@ -1094,6 +1094,7 @@ public partial class Axis
 				_stripLineOffsets.Add(strip.IntervalOffset);
 				strip.IntervalOffset -= contraOffset;
 			}
+
 			offsetTempSet = true;
 		}
 	}
@@ -1119,8 +1120,10 @@ public partial class Axis
 				{
 					strip.IntervalOffset = (double)_stripLineOffsets[index];
 				}
+
 				index++;
 			}
+
 			_stripLineOffsets.Clear();
 			offsetTempSet = false;
 			margin = marginTemp;
@@ -1175,6 +1178,7 @@ public partial class Axis
 				min = 0.0;
 			}
 		}
+
 		if (autoMax)
 		{// Set maximum value
 			if (max <= 0.0 && shouldStartFromZero)
@@ -1186,6 +1190,7 @@ public partial class Axis
 				max = (double)(((decimal)Math.Floor(max / inter) + 1m) * (decimal)inter);
 			}
 		}
+
 		return inter;
 	}
 
@@ -1300,16 +1305,19 @@ public partial class Axis
 					type = DateTimeIntervalType.Milliseconds;
 					return 1;
 				}
+
 				if (mlSeconds <= 50)
 				{
 					type = DateTimeIntervalType.Milliseconds;
 					return 4;
 				}
+
 				if (mlSeconds <= 200)
 				{
 					type = DateTimeIntervalType.Milliseconds;
 					return 20;
 				}
+
 				if (mlSeconds <= 500)
 				{
 					type = DateTimeIntervalType.Milliseconds;
@@ -1711,6 +1719,7 @@ public partial class Axis
 					oppositeAxis = ChartArea.AxisX2.GetSubAxis(Common.DataManager.Series[list[0]].XSubAxisName);
 				break;
 		}
+
 		return oppositeAxis;
 	}
 
@@ -1994,10 +2003,12 @@ public partial class Axis
 			{
 				minimumValue = 1.0;
 			}
+
 			if (maximumValue <= 0.0)
 			{
 				maximumValue = 1.0;
 			}
+
 			if (crossingValue <= 0.0 && crossingValue != Double.MinValue)
 			{
 				crossingValue = 1.0;

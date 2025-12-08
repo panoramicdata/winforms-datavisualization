@@ -159,6 +159,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 				_components.Dispose();
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 
@@ -580,6 +581,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 			else
 				result.Append(Convert.ToString(c));
 		}
+
 		return result.ToString();
 	}
 
@@ -613,6 +615,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 				++slashCountre;
 			}
 		}
+
 		selectionStart += slashCountre;
 		resultText = resultText.Replace(@"\", @"\\");
 
@@ -687,6 +690,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 
 							formattedKeyword += @"\b";
 						}
+
 						formattedKeyword += @"\ul";
 						// Replace keyword start symbol '#' with "#_" to avoid duplicate processing
 						formattedKeyword += "#_";
@@ -696,6 +700,7 @@ internal class KeywordsStringEditorForm : System.Windows.Forms.Form
 						{
 							formattedKeyword += @"\b0";
 						}
+
 						formattedKeyword += @"\ul0 ";
 						tempText += formattedKeyword;
 						tempText += resultText.Substring(startIndex + keywordLength);
@@ -939,6 +944,7 @@ internal class KeywordsStringEditor : System.Drawing.Design.UITypeEditor
 				{
 					form.KeywordsRegistry = (KeywordsRegistry)chart.GetService(typeof(KeywordsRegistry));
 				}
+
 				_edSvc.ShowDialog(form);
 				value = form.ResultString;
 			}
@@ -958,6 +964,7 @@ internal class KeywordsStringEditor : System.Drawing.Design.UITypeEditor
 		{
 			return UITypeEditorEditStyle.Modal;
 		}
+
 		return base.GetEditStyle(context);
 	}
 

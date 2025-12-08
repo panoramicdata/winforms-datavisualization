@@ -66,6 +66,7 @@ public abstract class ChartElement : IChartElement, IDisposable
 			{
 				_common = _parent.Common;
 			}
+
 			return _common;
 		}
 		set
@@ -279,6 +280,7 @@ public abstract class ChartNamedElement : ChartElement
 				{
 					_name = value;
 				}
+
 				Invalidate();
 			}
 		}

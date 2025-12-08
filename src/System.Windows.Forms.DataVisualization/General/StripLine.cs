@@ -168,8 +168,10 @@ public class StripLine : ChartElement
 			{
 				return TextOrientation.Rotated270;
 			}
+
 			return TextOrientation.Horizontal;
 		}
+
 		return this.TextOrientation;
 	}
 
@@ -234,6 +236,7 @@ public class StripLine : ChartElement
 				// Automaticly generated isInterlaced strips have interval twice as big as major grids
 				intervalToUse /= 2.0;
 			}
+
 			currentPosition = ChartHelper.AlignIntervalStart(currentPosition, intervalToUse, this.IntervalType, axisSeries);
 		}
 
@@ -475,6 +478,7 @@ public class StripLine : ChartElement
 			{
 				rect.X = rect.Right;
 			}
+
 			rect.Width = 0f;
 
 			path = graph.Fill3DRectangle(
@@ -588,6 +592,7 @@ public class StripLine : ChartElement
 						{
 							angle = 270;
 						}
+
 						break;
 				}
 
@@ -860,6 +865,7 @@ public class StripLine : ChartElement
 			{
 				throw (new ArgumentException(SR.ExceptionStripLineWidthIsNegative, "value"));
 			}
+
 			_stripWidth = value;
 			this.Invalidate();
 		}
@@ -1369,6 +1375,7 @@ public class StripLine : ChartElement
 				_fontCache = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

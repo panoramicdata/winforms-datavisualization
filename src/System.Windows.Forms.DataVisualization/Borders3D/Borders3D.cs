@@ -461,6 +461,7 @@ namespace System.Windows.Forms.DataVisualization.Charting
 				{
 					throw (new ArgumentOutOfRangeException("value", SR.ExceptionBorderWidthIsNotPositive));
 				}
+
 				_borderWidth = value;
 				this.Invalidate();
 			}
@@ -534,6 +535,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 			{
 				return this;
 			}
+
 			throw (new ArgumentException(SR.ExceptionBorderTypeRegistryUnsupportedType(serviceType.ToString())));
 		}
 
@@ -572,6 +574,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 					break;
 				}
 			}
+
 			if (!found)
 			{
 				throw (new ArgumentException(SR.ExceptionBorderTypeHasNoInterface));
@@ -618,6 +621,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Borders3D
 				{
 					_resourceManager = new ResourceManager("System.Web.UI.DataVisualization.Charting", Assembly.GetExecutingAssembly());
 				}
+
 				return _resourceManager;
 			}
 		}

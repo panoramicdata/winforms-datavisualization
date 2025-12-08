@@ -116,6 +116,7 @@ public class ChartSerializer
 		{
 			throw (new ArgumentNullException(SR.ExceptionInvalidServiceContainer));
 		}
+
 		_serviceContainer = container;
 	}
 
@@ -130,6 +131,7 @@ public class ChartSerializer
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionChartSerializerUnsupportedType(serviceType.ToString())));
 	}
 
@@ -684,6 +686,7 @@ public class ChartSerializer
 						"Series.XValueType, " +
 						"Series.YValueType";
 				}
+
 				return "";
 			case (SerializationContents.Appearance):
 				if (serializable)
@@ -723,6 +726,7 @@ public class ChartSerializer
 						"*.PointGapDepth, " +
 						"*.WallWidth";
 				}
+
 				return "";
 
 			default:
@@ -740,6 +744,7 @@ public class ChartSerializer
 		{
 			_chart = (Chart)_serviceContainer.GetService(typeof(Chart));
 		}
+
 		return _chart;
 	}
 

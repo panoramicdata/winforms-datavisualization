@@ -104,6 +104,7 @@ internal class ElementPositionConverter : ExpandableObjectConverter
 				}
 			}
 		}
+
 		return base.ConvertFrom(context, culture, value);
 	}
 

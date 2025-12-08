@@ -100,8 +100,10 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 					++seriesCount;
 				}
 			}
+
 			_seriesCount = seriesCount;
 		}
+
 		return _seriesCount;
 	}
 
@@ -168,6 +170,7 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 				int seriesCount = GetSeriesCount(common, area);
 				return 100.0 / seriesCount;
 			}
+
 			return (point.YValues[0] / _totalPerPoint[pointIndex]) * 100.0;
 		}
 
@@ -183,6 +186,7 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 				// No negative values support in 3D stacked area chart
 				yValue = -yValue;
 			}
+
 			if (yValue >= 0)
 			{
 				if (!double.IsNaN(prevPosY))
@@ -227,11 +231,13 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 						// No negative values support in 3D stacked area chart
 						yValue = -yValue;
 					}
+
 				{
 					if (yValue >= 0.0 && !double.IsNaN(prevPosY))
 					{
 						yValue += prevPosY;
 					}
+
 					if (yValue < 0.0 && !double.IsNaN(prevNegY))
 					{
 						yValue += prevNegY;
@@ -253,6 +259,7 @@ internal class HundredPercentStackedAreaChart : StackedAreaChart
 				{
 					prevNegY = yValue;
 				}
+
 				prevPositionX = ser.Points[pointIndex].XValue;
 				if (prevPositionX == 0.0 && ChartHelper.IndexedSeries(series))
 				{
@@ -437,6 +444,7 @@ internal class StackedAreaChart : AreaChart
 				areaPath.Dispose();
 				areaPath = null;
 			}
+
 			areaBottomPath.Reset();
 
 			// Check that all seres has the same number of points
@@ -500,6 +508,7 @@ internal class StackedAreaChart : AreaChart
 				{
 					yValue += (double)prevPointsArray[index];
 				}
+
 				curentPointsArray.Insert(index, yValue);
 
 				// Get point position
@@ -522,6 +531,7 @@ internal class StackedAreaChart : AreaChart
 						prevYValue1 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
 						prevYValue1 = graph.GetAbsolutePoint(new PointF(prevYValue1, prevYValue1)).Y;
 					}
+
 					firstPoint = graph.GetAbsolutePoint(firstPoint);
 
 					++index;
@@ -536,6 +546,7 @@ internal class StackedAreaChart : AreaChart
 						prevYValue2 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
 						prevYValue2 = graph.GetAbsolutePoint(new PointF(prevYValue2, prevYValue2)).Y;
 					}
+
 					secondPoint = graph.GetAbsolutePoint(secondPoint);
 				}
 
@@ -629,6 +640,7 @@ internal class StackedAreaChart : AreaChart
 							{
 								graph.DrawLine(areaLinePen, firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
 							}
+
 							if (!(firstPoint.X == secondPoint.X || prevYValue2 == prevYValue1))
 							{
 								graph.DrawLine(areaLinePen, secondPoint.X, prevYValue2, firstPoint.X, prevYValue1);
@@ -642,6 +654,7 @@ internal class StackedAreaChart : AreaChart
 						{
 							areaPath = new GraphicsPath();
 						}
+
 						areaPath.AddLine(firstPoint.X, firstPoint.Y, secondPoint.X, secondPoint.Y);
 						areaBottomPath.AddLine(firstPoint.X, prevYValue1, secondPoint.X, prevYValue2);
 
@@ -751,6 +764,7 @@ internal class StackedAreaChart : AreaChart
 				areaPath = null;
 				gradientFill = false;
 			}
+
 			areaBottomPath.Reset();
 
 			// Call Paint event
@@ -813,6 +827,7 @@ internal class StackedAreaChart : AreaChart
 					{
 						yValue += (double)prevPointsArray[index];
 					}
+
 					curentPointsArray.Insert(index, yValue);
 
 					// Get point position
@@ -830,6 +845,7 @@ internal class StackedAreaChart : AreaChart
 							prevYValue1 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
 							prevYValue1 = graph.GetAbsolutePoint(new PointF(prevYValue1, prevYValue1)).Y;
 						}
+
 						firstPoint = graph.GetAbsolutePoint(firstPoint);
 						secondPoint = firstPoint;
 						prevYValue2 = prevYValue1;
@@ -843,6 +859,7 @@ internal class StackedAreaChart : AreaChart
 							prevYValue2 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
 							prevYValue2 = graph.GetAbsolutePoint(new PointF(prevYValue2, prevYValue2)).Y;
 						}
+
 						secondPoint = graph.GetAbsolutePoint(secondPoint);
 					}
 
@@ -919,6 +936,7 @@ internal class StackedAreaChart : AreaChart
 					{
 						yValue += (double)prevPointsArray[index];
 					}
+
 					curentPointsArray.Insert(index, yValue);
 
 					// Get point position
@@ -936,6 +954,7 @@ internal class StackedAreaChart : AreaChart
 							prevYValue1 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
 							prevYValue1 = graph.GetAbsolutePoint(new PointF(prevYValue1, prevYValue1)).Y;
 						}
+
 						firstPoint = graph.GetAbsolutePoint(firstPoint);
 						secondPoint = firstPoint;
 						prevYValue2 = prevYValue1;
@@ -949,6 +968,7 @@ internal class StackedAreaChart : AreaChart
 							prevYValue2 = (float)VAxis.GetPosition((double)prevPointsArray[index]);
 							prevYValue2 = graph.GetAbsolutePoint(new PointF(prevYValue2, prevYValue2)).Y;
 						}
+
 						secondPoint = graph.GetAbsolutePoint(secondPoint);
 					}
 
@@ -970,6 +990,7 @@ internal class StackedAreaChart : AreaChart
 								{
 									pointLabelValue = Math.Round(pointLabelValue, 2);
 								}
+
 								text = ValueConverter.FormatValue(
 									ser.Chart,
 									point,
@@ -1198,10 +1219,12 @@ internal class StackedAreaChart : AreaChart
 						{
 							pointProperties = ser.EmptyPointStyle;
 						}
+
 						if (pointProperties.Color.A == 255)
 						{
 							visibleSurfaces ^= SurfaceNames.Top;
 						}
+
 						break;
 					}
 
@@ -1230,6 +1253,7 @@ internal class StackedAreaChart : AreaChart
 						{
 							visibleSurfaces |= SurfaceNames.Bottom;
 						}
+
 						break;
 					}
 
@@ -1299,6 +1323,7 @@ internal class StackedAreaChart : AreaChart
 				xValue = hAxis.GetPosition(this.prevPositionX);
 			}
 		}
+
 		thirdPoint = new PointF((float)xValue, (float)yValue);
 
 
@@ -1328,6 +1353,7 @@ internal class StackedAreaChart : AreaChart
 				xValue = hAxis.GetPosition(this.prevPositionX);
 			}
 		}
+
 		fourthPoint = new PointF((float)xValue, (float)yValue);
 
 		// Check if position of the third and/or fourth point(s) should be adjusted
@@ -1345,6 +1371,7 @@ internal class StackedAreaChart : AreaChart
 			// Set new X value
 			thirdPoint.X = thirdPointPosition.X;
 		}
+
 		if (!float.IsNaN(thirdPointPosition.Y))
 		{
 			thirdPoint.Y = thirdPointPosition.Y;
@@ -1364,6 +1391,7 @@ internal class StackedAreaChart : AreaChart
 			// Set new X value
 			fourthPoint.X = fourthPointPosition.X;
 		}
+
 		if (!float.IsNaN(fourthPointPosition.Y))
 		{
 			fourthPoint.Y = fourthPointPosition.Y;
@@ -1560,6 +1588,7 @@ internal class StackedAreaChart : AreaChart
 				// No negative values support in 3D stacked area chart
 				yValue = -yValue;
 			}
+
 			if (yValue >= 0)
 			{
 				if (!double.IsNaN(prevPosY))
@@ -1596,12 +1625,14 @@ internal class StackedAreaChart : AreaChart
 					// No negative values support in 3D stacked area chart
 					yValue = -yValue;
 				}
+
 				if (!double.IsNaN(yValue))
 				{
 					if (yValue >= 0.0 && !double.IsNaN(prevPosY))
 					{
 						yValue += prevPosY;
 					}
+
 					if (yValue < 0.0 && !double.IsNaN(prevNegY))
 					{
 						yValue += prevNegY;
@@ -1619,10 +1650,12 @@ internal class StackedAreaChart : AreaChart
 				{
 					prevPosY = yValue;
 				}
+
 				if (yValue < 0.0)
 				{
 					prevNegY = yValue;
 				}
+
 				prevPositionX = ser.Points[pointIndex].XValue;
 				if (prevPositionX == 0.0 && ChartHelper.IndexedSeries(series))
 				{
@@ -1652,6 +1685,7 @@ internal class StackedAreaChart : AreaChart
 				this.areaBottomPath = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 	#endregion

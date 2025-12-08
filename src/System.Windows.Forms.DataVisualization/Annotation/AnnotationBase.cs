@@ -325,8 +325,10 @@ public abstract class Annotation : ChartNamedElement
 					{
 						Chart.ChartAreas.VerifyNameReference(value);
 					}
+
 					_clipToChartArea = value;
 				}
+
 				this.Invalidate();
 			}
 		}
@@ -361,6 +363,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				this._smartLabelStyle = new AnnotationSmartLabelStyle(this);
 			}
+
 			return _smartLabelStyle;
 		}
 		set
@@ -560,6 +563,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				throw new ArgumentException(SR.ExceptionValueMustBeInRange("Width", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
 			}
+
 			_width = value;
 			this.ResetCurrentRelativePosition();
 			Invalidate();
@@ -612,6 +616,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				throw new ArgumentException(SR.ExceptionValueMustBeInRange("Height", (-WidthHightLimit).ToString(CultureInfo.CurrentCulture), WidthHightLimit.ToString(CultureInfo.CurrentCulture)));
 			}
+
 			_height = value;
 			this.ResetCurrentRelativePosition();
 			Invalidate();
@@ -937,6 +942,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationLineWidthIsNegative));
 			}
+
 			_lineWidth = value;
 			Invalidate();
 		}
@@ -1178,6 +1184,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				_axisXName = GetAxisName(_axisX);
 			}
+
 			return _axisXName;
 		}
 		set
@@ -1251,6 +1258,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				_axisYName = GetAxisName(_axisY);
 			}
+
 			return _axisYName;
 		}
 		set
@@ -1295,6 +1303,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				_axisX = GetAxisByName(_axisXName);
 			}
+
 			return _axisX;
 		}
 		set
@@ -1339,6 +1348,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				_axisY = GetAxisByName(_axisYName);
 			}
+
 			return _axisY;
 		}
 		set
@@ -1380,6 +1390,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				_anchorDataPointName = GetDataPointName(_anchorDataPoint);
 			}
+
 			return _anchorDataPointName;
 		}
 		set
@@ -1439,6 +1450,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				_anchorDataPoint = GetDataPointByName(_anchorDataPointName);
 			}
+
 			return _anchorDataPoint;
 		}
 		set
@@ -1581,6 +1593,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
 			}
+
 			anchorOffsetX = value;
 			this.ResetCurrentRelativePosition();
 			Invalidate();
@@ -1620,6 +1633,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAnnotationAnchorOffsetInvalid));
 			}
+
 			anchorOffsetY = value;
 			this.ResetCurrentRelativePosition();
 			Invalidate();
@@ -2016,6 +2030,7 @@ public abstract class Annotation : ChartNamedElement
 					{
 						anchorX = horizAxis.ValueToPosition(anchorX);
 					}
+
 					if (!relativeY && vertAxis != null)
 					{
 						anchorY = vertAxis.ValueToPosition(anchorY);
@@ -2027,10 +2042,12 @@ public abstract class Annotation : ChartNamedElement
 					{
 						chartArea = horizAxis.ChartArea;
 					}
+
 					if (vertAxis != null && vertAxis.ChartArea != null)
 					{
 						chartArea = vertAxis.ChartArea;
 					}
+
 					if (chartArea != null &&
 						chartArea.Area3DStyle.Enable3D == true &&
 						!chartArea.chartAreaIsCurcular &&
@@ -2097,6 +2114,7 @@ public abstract class Annotation : ChartNamedElement
 					{
 						newSelectionRects[index] = this.selectionRects[index];
 					}
+
 					this.selectionRects = newSelectionRects;
 
 					// Loop through all points
@@ -2150,6 +2168,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			this.Width = position.Width;
 		}
+
 		if (!double.IsNaN(position.Height))
 		{
 			this.Height = position.Height;
@@ -2317,6 +2336,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			relativeWidth *= groupScaleX;
 		}
+
 		if (double.IsNaN(relativeHeight))
 		{
 			relativeHeight = contentPosition.Height;
@@ -2340,6 +2360,7 @@ public abstract class Annotation : ChartNamedElement
 					relativeWidth = 20.0;
 					saveCurrentPosition = false;
 				}
+
 				if (double.IsNaN(relativeHeight))
 				{
 					relativeHeight = 20.0;
@@ -2363,6 +2384,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				relativeAnchorY = vertAxis.ValueToPosition(anchorY);
 			}
+
 			if (this.AnchorAlignment == ContentAlignment.TopCenter ||
 				this.AnchorAlignment == ContentAlignment.TopLeft ||
 				this.AnchorAlignment == ContentAlignment.TopRight)
@@ -2423,6 +2445,7 @@ public abstract class Annotation : ChartNamedElement
 			{
 				relativeAnchorX = horizAxis.ValueToPosition(anchorX);
 			}
+
 			if (this.AnchorAlignment == ContentAlignment.BottomLeft ||
 				this.AnchorAlignment == ContentAlignment.MiddleLeft ||
 				this.AnchorAlignment == ContentAlignment.TopLeft)
@@ -2486,6 +2509,7 @@ public abstract class Annotation : ChartNamedElement
 			relativeX = contentPosition.X * groupScaleX;
 			inRelativeX = true;
 		}
+
 		if (double.IsNaN(relativeY))
 		{
 			relativeY = contentPosition.Y * groupScaleY;
@@ -2503,32 +2527,38 @@ public abstract class Annotation : ChartNamedElement
 			{
 				relativeX = horizAxis.ValueToPosition(relativeX);
 			}
+
 			if (!inRelativeAnchorX)
 			{
 				anchorX = horizAxis.ValueToPosition(anchorX);
 			}
+
 			if (!inRelativeWidth)
 			{
 				relativeWidth = horizAxis.ValueToPosition(
 					horizAxis.PositionToValue(relativeX, false) + relativeWidth) - relativeX;
 			}
 		}
+
 		if (vertAxis != null)
 		{
 			if (!inRelativeY)
 			{
 				relativeY = vertAxis.ValueToPosition(relativeY);
 			}
+
 			if (!inRelativeAnchorY)
 			{
 				anchorY = vertAxis.ValueToPosition(anchorY);
 			}
+
 			if (!inRelativeHeight)
 			{
 				relativeHeight = vertAxis.ValueToPosition(
 					vertAxis.PositionToValue(relativeY, false) + relativeHeight) - relativeY;
 			}
 		}
+
 		bool isTextAnnotation = this is TextAnnotation;
 		//***********************************************************************
 		//** Apply 3D transforamtion if required
@@ -2538,10 +2568,12 @@ public abstract class Annotation : ChartNamedElement
 		{
 			chartArea = horizAxis.ChartArea;
 		}
+
 		if (vertAxis != null && vertAxis.ChartArea != null)
 		{
 			chartArea = vertAxis.ChartArea;
 		}
+
 		if (chartArea != null &&
 			chartArea.Area3DStyle.Enable3D == true &&
 			!chartArea.chartAreaIsCurcular &&
@@ -2593,16 +2625,19 @@ public abstract class Annotation : ChartNamedElement
 				relativeX = groupLocation.X;
 				saveCurrentPosition = false;
 			}
+
 			if (double.IsNaN(relativeY))
 			{
 				relativeY = groupLocation.Y;
 				saveCurrentPosition = false;
 			}
+
 			if (double.IsNaN(relativeWidth))
 			{
 				relativeWidth = 20.0 * groupScaleX;
 				saveCurrentPosition = false;
 			}
+
 			if (double.IsNaN(relativeHeight))
 			{
 				relativeHeight = 20.0 * groupScaleY;
@@ -2763,10 +2798,12 @@ public abstract class Annotation : ChartNamedElement
 		{
 			chartArea = horizAxis.ChartArea;
 		}
+
 		if (vertAxis != null && vertAxis.ChartArea != null)
 		{
 			chartArea = vertAxis.ChartArea;
 		}
+
 		if (chartArea != null && chartArea.Area3DStyle.Enable3D == true)
 		{
 			// If anchor point was set - get its relative position and use it as an anchor point
@@ -2820,6 +2857,7 @@ public abstract class Annotation : ChartNamedElement
 					{
 						newRight = Math.Pow(horizAxis.logarithmBase, newRight);
 					}
+
 					newWidth = newRight - newAnchorX;
 				}
 				else
@@ -2829,10 +2867,12 @@ public abstract class Annotation : ChartNamedElement
 					{
 						newRight = Math.Pow(horizAxis.logarithmBase, newRight);
 					}
+
 					newWidth = newRight - newX;
 				}
 			}
 		}
+
 		if (vertAxis != null)
 		{
 			newY = vertAxis.PositionToValue(newY, false);
@@ -2863,6 +2903,7 @@ public abstract class Annotation : ChartNamedElement
 					{
 						newBottom = Math.Pow(vertAxis.logarithmBase, newBottom);
 					}
+
 					newHeight = newBottom - newAnchorY;
 				}
 				else
@@ -2872,6 +2913,7 @@ public abstract class Annotation : ChartNamedElement
 					{
 						newBottom = Math.Pow(vertAxis.logarithmBase, newBottom);
 					}
+
 					newHeight = newBottom - newY;
 				}
 			}
@@ -2974,6 +3016,7 @@ public abstract class Annotation : ChartNamedElement
 					this.startMovePositionRel = new RectangleF(firstPoint, size);
 					this.startMoveAnchorLocationRel = new PointF(anchorPoint.X, anchorPoint.Y);
 				}
+
 				firstPoint = this.startMovePositionRel.Location;
 				size = this.startMovePositionRel.Size;
 				anchorPoint = this.startMoveAnchorLocationRel;
@@ -3043,6 +3086,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					size.Width = float.NaN;
 				}
+
 				if (double.IsNaN(this.Height))
 				{
 					size.Height = float.NaN;
@@ -3056,6 +3100,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					firstPoint.X = float.NaN;
 				}
+
 				if (double.IsNaN(this.Y))
 				{
 					firstPoint.Y = float.NaN;
@@ -3069,6 +3114,7 @@ public abstract class Annotation : ChartNamedElement
 			// Set annotation position from rectangle in relative coordinates
 			SetPositionRelative(new RectangleF(firstPoint, size), anchorPoint, userInput);
 		}
+
 		return;
 	}
 
@@ -3182,6 +3228,7 @@ public abstract class Annotation : ChartNamedElement
 					pointIndex.ToString(CultureInfo.InvariantCulture);
 			}
 		}
+
 		return name;
 	}
 
@@ -3199,6 +3246,7 @@ public abstract class Annotation : ChartNamedElement
 				"\\r" +
 				axis.AxisName.ToString();
 		}
+
 		return name;
 	}
 
@@ -3308,6 +3356,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					anchorX = horizAxis.ValueToPosition(anchorX);
 				}
+
 				if (!relativeY && vertAxis != null)
 				{
 					anchorY = vertAxis.ValueToPosition(anchorY);
@@ -3319,10 +3368,12 @@ public abstract class Annotation : ChartNamedElement
 				{
 					chartArea = horizAxis.ChartArea;
 				}
+
 				if (vertAxis != null && vertAxis.ChartArea != null)
 				{
 					chartArea = vertAxis.ChartArea;
 				}
+
 				if (chartArea != null &&
 					chartArea.Area3DStyle.Enable3D == true &&
 					!chartArea.chartAreaIsCurcular &&
@@ -3510,6 +3561,7 @@ public abstract class Annotation : ChartNamedElement
 			// Stop any pacement
 			this.EndPlacement();
 		}
+
 		if (buttons == MouseButtons.Left &&
 			IsValidPlacementPosition(point.X, point.Y))
 		{
@@ -3534,6 +3586,7 @@ public abstract class Annotation : ChartNamedElement
 					{
 						anchorPoint.X = float.NaN;
 					}
+
 					if (double.IsNaN(this.AnchorY))
 					{
 						anchorPoint.Y = float.NaN;
@@ -3549,6 +3602,7 @@ public abstract class Annotation : ChartNamedElement
 					{
 						firstPoint.X = float.NaN;
 					}
+
 					if (double.IsNaN(this.Y))
 					{
 						firstPoint.Y = float.NaN;
@@ -3560,6 +3614,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					size.Width = float.NaN;
 				}
+
 				if (double.IsNaN(this.Height))
 				{
 					size.Height = float.NaN;
@@ -3613,6 +3668,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					size.Width = float.NaN;
 				}
+
 				if (double.IsNaN(this.Height))
 				{
 					size.Height = float.NaN;
@@ -3624,14 +3680,17 @@ public abstract class Annotation : ChartNamedElement
 			{
 				firstPoint.X = float.NaN;
 			}
+
 			if (double.IsNaN(this.Y))
 			{
 				firstPoint.Y = float.NaN;
 			}
+
 			if (double.IsNaN(this.AnchorX))
 			{
 				anchorPoint.X = float.NaN;
 			}
+
 			if (double.IsNaN(this.AnchorY))
 			{
 				anchorPoint.Y = float.NaN;
@@ -3691,14 +3750,17 @@ public abstract class Annotation : ChartNamedElement
 			{
 				firstPoint.X = float.NaN;
 			}
+
 			if (double.IsNaN(this.Y))
 			{
 				firstPoint.Y = float.NaN;
 			}
+
 			if (double.IsNaN(this.AnchorX))
 			{
 				anchorPoint.X = float.NaN;
 			}
+
 			if (double.IsNaN(this.AnchorY))
 			{
 				anchorPoint.Y = float.NaN;
@@ -3740,12 +3802,14 @@ public abstract class Annotation : ChartNamedElement
 				ChartArea area = Chart.ChartAreas[this.ClipToChartArea];
 				placementRect = area.PlotAreaPosition.ToRectangleF();
 			}
+
 			placementRect = this.GetGraphics().GetAbsoluteRectangle(placementRect);
 			if (placementRect.Contains(x, y))
 			{
 				return true;
 			}
 		}
+
 		return false;
 	}
 	#endregion // Placement Methods
@@ -3772,6 +3836,7 @@ public abstract class Annotation : ChartNamedElement
 						area = this.Chart.ChartAreas[this.AnchorDataPoint.series.ChartArea];
 					}
 				}
+
 				if (area == null &&
 					this._anchorDataPoint2 != null &&
 					this._anchorDataPoint2.series != null)
@@ -3787,6 +3852,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					area = this.AxisX.ChartArea;
 				}
+
 				if (area == null && this.AxisY != null)
 				{
 					area = this.AxisY.ChartArea;
@@ -3803,6 +3869,7 @@ public abstract class Annotation : ChartNamedElement
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -3827,6 +3894,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			return this.AnchorDataPoint.ReplaceKeywords(strOriginal);
 		}
+
 		return strOriginal;
 	}
 
@@ -3861,6 +3929,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					anchorX = horizAxis.ValueToPosition(anchorX);
 				}
+
 				if (!inRelativeAnchorY && vertAxis != null)
 				{
 					anchorY = vertAxis.ValueToPosition(anchorY);
@@ -3872,6 +3941,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					chartArea = horizAxis.ChartArea;
 				}
+
 				if (chartArea == null && vertAxis != null)
 				{
 					chartArea = vertAxis.ChartArea;
@@ -3935,6 +4005,7 @@ public abstract class Annotation : ChartNamedElement
 		{
 			return this.Common.graph;
 		}
+
 		return null;
 	}
 
@@ -4003,6 +4074,7 @@ public abstract class Annotation : ChartNamedElement
 				return chartArea.GetAxis(axisName, dataPoint.series.YAxisType, dataPoint.series.YSubAxisName);
 			}
 		}
+
 		return null;
 	}
 
@@ -4027,6 +4099,7 @@ public abstract class Annotation : ChartNamedElement
 				horizAxis = this.AxisX;
 			}
 		}
+
 		if (this.AxisY != null && this.AxisY.ChartArea != null)
 		{
 			if (this.AxisY.ChartArea.switchValueAxes)
@@ -4052,6 +4125,7 @@ public abstract class Annotation : ChartNamedElement
 					horizAxis = GetDataPointAxis(this.AnchorDataPoint, AxisName.Y);
 				}
 			}
+
 			if (vertAxis == null)
 			{
 				vertAxis = GetDataPointAxis(this.AnchorDataPoint, AxisName.Y);
@@ -4095,6 +4169,7 @@ public abstract class Annotation : ChartNamedElement
 				_fontCache = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

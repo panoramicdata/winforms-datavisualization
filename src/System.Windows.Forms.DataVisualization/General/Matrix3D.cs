@@ -1138,6 +1138,7 @@ internal class Matrix3D
 					break;
 				}
 		}
+
 		return color;
 
 	}

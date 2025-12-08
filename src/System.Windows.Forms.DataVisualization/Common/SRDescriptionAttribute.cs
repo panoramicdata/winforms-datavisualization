@@ -28,6 +28,7 @@ internal sealed class SRDescriptionAttribute : DescriptionAttribute
 				this.replaced = true;
 				base.DescriptionValue = SR.Keys.GetString(base.Description);
 			}
+
 			return base.Description;
 		}
 	}

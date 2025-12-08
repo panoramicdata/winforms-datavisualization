@@ -214,6 +214,7 @@ public partial class ChartGraphics
 					{
 						pointsExact[index] = points[offset + index - 1];
 					}
+
 					offset = 1;
 				}
 				else if (offset > 0 && (offset + numberOfSegments) < points.Length - 1)
@@ -224,6 +225,7 @@ public partial class ChartGraphics
 					{
 						pointsExact[index] = points[offset + index - 1];
 					}
+
 					offset = 1;
 				}
 
@@ -320,6 +322,7 @@ public partial class ChartGraphics
 				{
 					fmt.Alignment = StringAlignment.Far;
 				}
+
 				RenderingObject.DrawString(s, font, brush, point, fmt);
 			}
 		}

@@ -348,6 +348,7 @@ public class LegendCellColumn : ChartNamedElement
 			{
 				throw (new ArgumentException(SR.ExceptionSeriesSymbolSizeIsNegative, "value"));
 			}
+
 			this._seriesSymbolSize = value;
 			this.Invalidate();
 		}
@@ -419,6 +420,7 @@ public class LegendCellColumn : ChartNamedElement
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -608,6 +610,7 @@ public class LegendCellColumn : ChartNamedElement
 			{
 				throw (new ArgumentException(SR.ExceptionMaximumCellWidthIsWrong, "value"));
 			}
+
 			this._maximumCellWidth = value;
 			this.Invalidate();
 		}
@@ -791,6 +794,7 @@ public class LegendCell : ChartNamedElement
 		{
 			this._text = text;
 		}
+
 		this._alignment = alignment;
 	}
 
@@ -1038,6 +1042,7 @@ public class LegendCell : ChartNamedElement
 			{
 				throw (new ArgumentException(SR.ExceptionLegendCellImageSizeIsNegative, "value"));
 			}
+
 			this._imageSize = value;
 			this.Invalidate();
 		}
@@ -1064,6 +1069,7 @@ public class LegendCell : ChartNamedElement
 			{
 				throw (new ArgumentException(SR.ExceptionLegendCellSeriesSymbolSizeIsNegative, "value"));
 			}
+
 			this._seriesSymbolSize = value;
 			this.Invalidate();
 		}
@@ -1110,6 +1116,7 @@ public class LegendCell : ChartNamedElement
 			{
 				throw (new ArgumentException(SR.ExceptionLegendCellSpanIsLessThenOne, "value"));
 			}
+
 			this._cellSpan = value;
 			this.Invalidate();
 		}
@@ -1157,6 +1164,7 @@ public class LegendCell : ChartNamedElement
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -1391,6 +1399,7 @@ public class LegendCell : ChartNamedElement
 				}
 			}
 		}
+
 		return resultColor;
 	}
 
@@ -1760,6 +1769,7 @@ public class LegendCell : ChartNamedElement
 				{
 					format.Alignment = StringAlignment.Far;
 				}
+
 				format.LineAlignment = StringAlignment.Center;
 				if (this.Alignment == ContentAlignment.BottomCenter ||
 					this.Alignment == ContentAlignment.BottomLeft ||
@@ -1845,8 +1855,10 @@ public class LegendCell : ChartNamedElement
 					{
 						newWidth = this.cellPosition.Width;
 					}
+
 					imageCellPosition.Width = newWidth;
 				}
+
 				if (this.ImageSize.Height > 0)
 				{
 					int newHeight = (int)(this.ImageSize.Height * singleWCharacterSize.Height / 100f);
@@ -1854,6 +1866,7 @@ public class LegendCell : ChartNamedElement
 					{
 						newHeight = this.cellPosition.Height;
 					}
+
 					imageCellPosition.Height = newHeight;
 				}
 			}
@@ -1864,6 +1877,7 @@ public class LegendCell : ChartNamedElement
 			{
 				scaleValue = (float)imagePosition.Height / (float)imageCellPosition.Height;
 			}
+
 			if (imagePosition.Width > imageCellPosition.Width)
 			{
 				scaleValue = Math.Max(scaleValue, (float)imagePosition.Width / (float)imageCellPosition.Width);
@@ -1960,8 +1974,10 @@ public class LegendCell : ChartNamedElement
 			{
 				newWidth = this.cellPosition.Width;
 			}
+
 			seriesMarkerPosition.Width = newWidth;
 		}
+
 		if (this.SeriesSymbolSize.Height >= 0)
 		{
 			int newHeight = (int)(this.SeriesSymbolSize.Height * singleWCharacterSize.Height / 100f);
@@ -1969,6 +1985,7 @@ public class LegendCell : ChartNamedElement
 			{
 				newHeight = this.cellPosition.Height;
 			}
+
 			seriesMarkerPosition.Height = newHeight;
 		}
 
@@ -2034,6 +2051,7 @@ public class LegendCell : ChartNamedElement
 				{
 					scaleValue = (float)imageScale.Height / (float)seriesMarkerPosition.Height;
 				}
+
 				if (imageScale.Width > seriesMarkerPosition.Width)
 				{
 					scaleValue = Math.Max(scaleValue, (float)imageScale.Width / (float)seriesMarkerPosition.Width);
@@ -2093,6 +2111,7 @@ public class LegendCell : ChartNamedElement
 					(legendItem.ShadowOffset > maxShadowOffset) ? maxShadowOffset : legendItem.ShadowOffset,
 					PenAlignment.Inset);
 			}
+
 			if (legendItem.ImageStyle == LegendImageStyle.Line)
 			{
 				// Prepare line coordinates
@@ -2175,6 +2194,7 @@ public class LegendCell : ChartNamedElement
 						{
 							scaleValue = (float)imageScale.Height / (float)seriesMarkerPosition.Height;
 						}
+
 						if (imageScale.Width > seriesMarkerPosition.Width)
 						{
 							scaleValue = Math.Max(scaleValue, (float)imageScale.Width / (float)seriesMarkerPosition.Width);
@@ -2233,6 +2253,7 @@ public class LegendCell : ChartNamedElement
 				_fontCache = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 
@@ -2319,6 +2340,7 @@ public class Margins
 			{
 				throw (new ArgumentException(SR.ExceptionMarginTopIsNegative, "value"));
 			}
+
 			this._top = value;
 			this.Invalidate();
 		}
@@ -2346,6 +2368,7 @@ public class Margins
 			{
 				throw (new ArgumentException(SR.ExceptionMarginBottomIsNegative, "value"));
 			}
+
 			this._bottom = value;
 			this.Invalidate();
 		}
@@ -2373,6 +2396,7 @@ public class Margins
 			{
 				throw (new ArgumentException(SR.ExceptionMarginLeftIsNegative, "value"));
 			}
+
 			this._left = value;
 			this.Invalidate();
 		}
@@ -2400,6 +2424,7 @@ public class Margins
 			{
 				throw (new ArgumentException(SR.ExceptionMarginRightIsNegative, "value"));
 			}
+
 			this._right = value;
 			this.Invalidate();
 		}
@@ -2448,6 +2473,7 @@ public class Margins
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -2610,8 +2636,10 @@ public class LegendCellColumnCollection : ChartNamedElementCollection<LegendCell
 			{
 				item.Dispose();
 			}
+
 			this.ClearItems();
 		}
+
 		base.Dispose(disposing);
 	}
 

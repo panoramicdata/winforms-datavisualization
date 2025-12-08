@@ -1,36 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
-    <AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <CLSCompliant>false</CLSCompliant>
-    <NoWarn>$(NoWarn);618</NoWarn>
-    <DefineConstants>$(DefineConstants);WINFORMS_CONTROL</DefineConstants>
-    <UseWindowsForms>true</UseWindowsForms>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <IncludeSymbols>True</IncludeSymbols>
-    <!-- <Win32Manifest>Resources\System\Windows\Forms\XPThemes.manifest</Win32Manifest> -->
+	<TargetFramework>net10.0-windows</TargetFramework>
+	<AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<CLSCompliant>false</CLSCompliant>
+	<NoWarn>$(NoWarn);618</NoWarn>
+	<DefineConstants>$(DefineConstants);WINFORMS_CONTROL</DefineConstants>
+	<UseWindowsForms>true</UseWindowsForms>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<IncludeSymbols>True</IncludeSymbols>
+	<!-- <Win32Manifest>Resources\System\Windows\Forms\XPThemes.manifest</Win32Manifest> -->
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Annotation\AnnotationDesign.cs" />
-    <Compile Remove="Common\EditorNames.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- Versions are defined in eng\Versions.props -->
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
+	<Compile Remove="Annotation\AnnotationDesign.cs" />
+	<Compile Remove="Common\EditorNames.cs" />
   </ItemGroup>
 
   <ItemGroup Label="Embedded Resources">
-    <EmbeddedResource Update="Common\SR.resx">
-      <LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Update="SR.resx">
-      <GenerateSource>true</GenerateSource>
-      <Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace> <!-- I think you want System here -->
-    </EmbeddedResource>
+	<EmbeddedResource Update="Common\SR.resx">
+	  <LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
+	</EmbeddedResource>
+	<EmbeddedResource Update="SR.resx">
+	  <GenerateSource>true</GenerateSource>
+	  <Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace>
+	  <!-- I think you want System here -->
+	</EmbeddedResource>
   </ItemGroup>
 
   <!--<ItemGroup>

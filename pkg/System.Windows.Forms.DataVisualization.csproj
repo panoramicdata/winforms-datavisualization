@@ -15,60 +15,60 @@
   -->
 
   <PropertyGroup>
-    <!-- Don't include this project in the build output -->
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <PublishWindowsPdb>false</PublishWindowsPdb>
+	<!-- Don't include this project in the build output -->
+	<IncludeBuildOutput>false</IncludeBuildOutput>
+	<PublishWindowsPdb>false</PublishWindowsPdb>
 
-    <IncludeSymbols>false</IncludeSymbols>
+	<IncludeSymbols>false</IncludeSymbols>
 
-    <TargetFramework>net7.0-windows7.0</TargetFramework>
-    <IsPackable>true</IsPackable>
-    <NoWarn>$(NoWarn);NU5125</NoWarn>
+	<TargetFramework>net10.0-windows</TargetFramework>
+	<IsPackable>true</IsPackable>
+	<NoWarn>$(NoWarn);NU5125</NoWarn>
 
-    <!-- Disable a VS-specific target that is failing when building this csproj -->
-    <GenerateDependencyFile>false</GenerateDependencyFile>
+	<!-- Disable a VS-specific target that is failing when building this csproj -->
+	<GenerateDependencyFile>false</GenerateDependencyFile>
 
   </PropertyGroup>
 
   <!-- nuspec properties -->
   <PropertyGroup>
-    <PackageId>PanoramicData.System.Windows.Forms.DataVisualization</PackageId>
-    <Description>This package contains the charting controls for Windows Forms for .NET Core.</Description>
-    <Authors>Microsoft</Authors>
-    <RepositoryUrl>https://github.com/dotnet/winforms-datavisualization</RepositoryUrl>
-    <PackageTags>WinForms Windows Forms DataVisualization DataVisualisation Data Visualization Visualisation</PackageTags>
+	<PackageId>PanoramicData.System.Windows.Forms.DataVisualization</PackageId>
+	<Description>This package contains the charting controls for Windows Forms for .NET Core.</Description>
+	<Authors>Microsoft</Authors>
+	<RepositoryUrl>https://github.com/dotnet/winforms-datavisualization</RepositoryUrl>
+	<PackageTags>WinForms Windows Forms DataVisualization DataVisualisation Data Visualization Visualisation</PackageTags>
   </PropertyGroup>
 
   <!-- Force project references to avoid packaging their dependencies -->
   <ItemDefinitionGroup>
-    <ProjectReference>
-      <PrivateAssets>All</PrivateAssets>
-    </ProjectReference>
+	<ProjectReference>
+	  <PrivateAssets>All</PrivateAssets>
+	</ProjectReference>
   </ItemDefinitionGroup>
 
   <!-- Any projects referenced here will have their outputs automatically put into the package -->
   <!-- If you add a new csproj, and you want the outputs in the package, you must add it here -->
   <ItemGroup>
-    <!-- ChartWin -->
-    <ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+	<!-- ChartWin -->
+	<ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
-    <!-- Supress creation of contentFiles directory -->
-    <ContentTargetFolders>.\</ContentTargetFolders>
+	<!-- Supress creation of contentFiles directory -->
+	<ContentTargetFolders>.\</ContentTargetFolders>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\LICENSE.TXT;..\THIRD-PARTY-NOTICES.TXT" />
-    <Content Update="@(Content)">
-      <!-- Supress creation of content directory -->
-      <PackagePath>.\</PackagePath>
-    </Content>
+	<Content Include="..\LICENSE.TXT;..\THIRD-PARTY-NOTICES.TXT" />
+	<Content Update="@(Content)">
+	  <!-- Supress creation of content directory -->
+	  <PackagePath>.\</PackagePath>
+	</Content>
   </ItemGroup>
 
   <!-- Call custom targets (defined below) when creating the package -->
   <PropertyGroup>
-    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificBuildOutput);ResolveReferences</TargetsForTfmSpecificContentInPackage>
+	<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificBuildOutput);ResolveReferences</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
 
 </Project>

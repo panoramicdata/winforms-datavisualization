@@ -473,8 +473,10 @@ public class PolylineAnnotation : Annotation
 						_pathPoints.Add(new AnnotationPathPoint(points[index].X, points[index].Y, types[index]));
 					}
 				}
+
 				_pathPoints.annotation = this;
 			}
+
 			return _pathPoints;
 		}
 	}
@@ -521,6 +523,7 @@ public class PolylineAnnotation : Annotation
 			rectanglePosition.X = rectanglePosition.Right;
 			rectanglePosition.Width = -rectanglePosition.Width;
 		}
+
 		if (rectanglePosition.Height < 0)
 		{
 			rectanglePosition.Y = rectanglePosition.Bottom;
@@ -598,6 +601,7 @@ public class PolylineAnnotation : Annotation
 					{
 						graphics.Pen.StartCap = LineCap.SquareAnchor;
 					}
+
 					if (this._endCap == LineAnchorCapStyle.Arrow)
 					{
 						// Adjust arrow size for small line width
@@ -814,6 +818,7 @@ public class PolylineAnnotation : Annotation
 		{
 			movingDistance = this.GetGraphics().GetRelativeSize(movingDistance);
 		}
+
 		movingDistance.Width /= startMovePositionRel.Width / 100.0f;
 		movingDistance.Height /= startMovePositionRel.Height / 100.0f;
 
@@ -939,6 +944,7 @@ public class PolylineAnnotation : Annotation
 			// Stop pacement
 			this.EndPlacement();
 		}
+
 		if (buttons == MouseButtons.Left &&
 			IsValidPlacementPosition(point.X, point.Y))
 		{
@@ -974,6 +980,7 @@ public class PolylineAnnotation : Annotation
 				{
 					firstPoint = _graphicsPath.GetLastPoint();
 				}
+
 				tmpPath.AddLine(firstPoint, newPoint);
 				_graphicsPath.AddPath(tmpPath, true);
 			}
@@ -1045,6 +1052,7 @@ public class PolylineAnnotation : Annotation
 					{
 						firstPoint = _graphicsPath.GetLastPoint();
 					}
+
 					tmpPath.AddLine(firstPoint, newPoint);
 					_graphicsPath.AddPath(tmpPath, true);
 				}
@@ -1093,6 +1101,7 @@ public class PolylineAnnotation : Annotation
 				_defaultGraphicsPath.Dispose();
 				_defaultGraphicsPath = null;
 			}
+
 			if (_pathPoints != null)
 			{
 				_pathPoints.Dispose();
@@ -1100,6 +1109,7 @@ public class PolylineAnnotation : Annotation
 			}
 
 		}
+
 		base.Dispose(disposing);
 	}
 	#endregion
@@ -1436,6 +1446,7 @@ public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPa
 					points[index] = new PointF(this[index].X, this[index].Y);
 					types[index] = this[index].PointType;
 				}
+
 				this._graphicsPath = new GraphicsPath(points, types);
 			}
 			else
@@ -1447,6 +1458,7 @@ public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPa
 			this.annotation.GraphicsPath = this._graphicsPath;
 			this.annotation.Invalidate();
 		}
+
 		base.Invalidate();
 	}
 
@@ -1468,6 +1480,7 @@ public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPa
 				this._graphicsPath = null;
 			}
 		}
+
 		base.Dispose(disposing);
 	}
 

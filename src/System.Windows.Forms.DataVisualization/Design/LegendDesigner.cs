@@ -158,6 +158,7 @@ internal class LegendCellColumnCollectionEditor : ChartCollectionEditor
 				return legendColumn;
 			}
 		}
+
 		return base.CreateInstance(itemType);
 	}
 
@@ -219,6 +220,7 @@ internal class LegendCellCollectionEditor : ChartCollectionEditor
 				return legendCell;
 			}
 		}
+
 		return base.CreateInstance(itemType);
 	}
 

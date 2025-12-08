@@ -646,6 +646,7 @@ internal class FunnelChart : IChartType
 			{
 				startWidth = this._funnelNeckSize.Width;
 			}
+
 			if (endWidth < this._funnelNeckSize.Width)
 			{
 				endWidth = this._funnelNeckSize.Width;
@@ -727,6 +728,7 @@ internal class FunnelChart : IChartType
 				point.series.Name,
 				pointIndex);
 		}
+
 		segmentPath.Dispose();
 
 
@@ -791,6 +793,7 @@ internal class FunnelChart : IChartType
 				point.series.Name,
 				pointIndex);
 		}
+
 		segmentPath.Dispose();
 
 
@@ -840,6 +843,7 @@ internal class FunnelChart : IChartType
 						point.series.Name,
 						pointIndex);
 				}
+
 				topCurve.Dispose();
 			}
 		}
@@ -890,6 +894,7 @@ internal class FunnelChart : IChartType
 						point.series.Name,
 						pointIndex);
 				}
+
 				topCurve.Dispose();
 
 			}
@@ -959,6 +964,7 @@ internal class FunnelChart : IChartType
 			{
 				startWidth = this._funnelNeckSize.Width;
 			}
+
 			if (endWidth < this._funnelNeckSize.Width)
 			{
 				endWidth = this._funnelNeckSize.Width;
@@ -1136,10 +1142,12 @@ internal class FunnelChart : IChartType
 				{
 					boundsRect.Width = 1f;
 				}
+
 				if (boundsRect.Height == 0f)
 				{
 					boundsRect.Height = 1f;
 				}
+
 				using (LinearGradientBrush brush = new LinearGradientBrush(
 						   boundsRect,
 						   lightColor,
@@ -1217,6 +1225,7 @@ internal class FunnelChart : IChartType
 				point.series.Name,
 				pointIndex);
 		}
+
 		segmentPath.Dispose();
 
 
@@ -1265,6 +1274,7 @@ internal class FunnelChart : IChartType
 						point.series.Name,
 						pointIndex);
 				}
+
 				topCurve.Dispose();
 			}
 		}
@@ -1314,6 +1324,7 @@ internal class FunnelChart : IChartType
 						point.series.Name,
 						pointIndex);
 				}
+
 				topCurve.Dispose();
 
 			}
@@ -1357,6 +1368,7 @@ internal class FunnelChart : IChartType
 				// Pyramid is drawn in reversed order. 
 				currentLocation = this.Graph.GetAbsoluteRectangle(this.PlotAreaPosition).Bottom;
 			}
+
 			for (int pointIndex = 0; pointIndex >= 0 && pointIndex < series.Points.Count; pointIndex += 1)
 			{
 				DataPoint point = series.Points[pointIndex];
@@ -1416,6 +1428,7 @@ internal class FunnelChart : IChartType
 								}
 							}
 						}
+
 						if (pointIndex == series.Points.Count - 1)
 						{
 							if (this.isPyramid)
@@ -1655,9 +1668,11 @@ internal class FunnelChart : IChartType
 						}
 					}
 				}
+
 				++pointIndex;
 			}
 		}
+
 		return list;
 	}
 
@@ -1773,6 +1788,7 @@ internal class FunnelChart : IChartType
 				pointIndex = this.segmentList.Count;
 				lastLabel = true;
 			}
+
 			FunnelSegmentInfo segmentInfo = null;
 			foreach (FunnelSegmentInfo info in this.segmentList)
 			{
@@ -1808,6 +1824,7 @@ internal class FunnelChart : IChartType
 							{
 								topDiameter = this._funnelNeckSize.Width;
 							}
+
 							if (bottomDiameter < this._funnelNeckSize.Width)
 							{
 								bottomDiameter = this._funnelNeckSize.Width;
@@ -1844,6 +1861,7 @@ internal class FunnelChart : IChartType
 									labelInfo.CalloutPoint1.X = plotAreaCenterXAbs +
 										(topDiameter + bottomDiameter) / 4f;
 								}
+
 								labelInfo.CalloutPoint2.X = labelInfo.Position.X;
 							}
 							else
@@ -1863,6 +1881,7 @@ internal class FunnelChart : IChartType
 									labelInfo.CalloutPoint1.X = plotAreaCenterXAbs -
 										(topDiameter + bottomDiameter) / 4f;
 								}
+
 								labelInfo.CalloutPoint2.X = labelInfo.Position.Right;
 							}
 
@@ -1905,6 +1924,7 @@ internal class FunnelChart : IChartType
 									segmentInfo.EndWidth / 2f -
 									4f * labelSpacing.Width;
 							}
+
 							labelInfo.Position.Y = segmentInfo.Location +
 								segmentInfo.Height -
 								labelInfo.Size.Height / 2f;
@@ -1924,6 +1944,7 @@ internal class FunnelChart : IChartType
 									segmentInfo.StartWidth / 2f -
 									4f * labelSpacing.Width;
 							}
+
 							labelInfo.Position.Y = segmentInfo.Location -
 								labelInfo.Size.Height / 2f;
 						}
@@ -1959,6 +1980,7 @@ internal class FunnelChart : IChartType
 							{
 								labelInfo.CalloutPoint1.Y += segmentInfo.Height;
 							}
+
 							labelInfo.CalloutPoint2.Y = labelInfo.CalloutPoint1.Y;
 
 						}
@@ -2098,6 +2120,7 @@ internal class FunnelChart : IChartType
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(labelStyle.ToString(), this.funnelLabelStyleAttributeName)));
 			}
 		}
+
 		return labelStyle;
 	}
 
@@ -2156,6 +2179,7 @@ internal class FunnelChart : IChartType
 		{
 			plotAreaSpacing.Y = plotAreaPosition.Height / 2f;
 		}
+
 		if (plotAreaSpacing.Height > plotAreaPosition.Height / 2f)
 		{
 			plotAreaSpacing.Height = plotAreaPosition.Height / 2f;
@@ -2397,6 +2421,7 @@ internal class FunnelChart : IChartType
 		{
 			neckSize.Height = this.PlotAreaPosition.Height / 2f;
 		}
+
 		if (neckSize.Width > this.PlotAreaPosition.Width / 2f)
 		{
 			neckSize.Width = this.PlotAreaPosition.Width / 2f;
@@ -2438,6 +2463,7 @@ internal class FunnelChart : IChartType
 			{
 				gapSize = maxGapSize;
 			}
+
 			if (gapSize < 0)
 			{
 				gapSize = 0;
@@ -2476,6 +2502,7 @@ internal class FunnelChart : IChartType
 				}
 			}
 		}
+
 		return drawingStyle;
 	}
 
@@ -2502,6 +2529,7 @@ internal class FunnelChart : IChartType
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelOutsideLabelPlacementAttributeName)));
 			}
 		}
+
 		return placement;
 	}
 
@@ -2528,6 +2556,7 @@ internal class FunnelChart : IChartType
 				throw (new InvalidOperationException(SR.ExceptionCustomAttributeValueInvalid(attrValue, this.funnelInsideLabelAlignmentAttributeName)));
 			}
 		}
+
 		return alignment;
 	}
 
@@ -2594,6 +2623,7 @@ internal class FunnelChart : IChartType
 						// Get Y value
 						triangleArea += GetYValue(point, pointIndex);
 					}
+
 					++pointIndex;
 				}
 
@@ -2613,6 +2643,7 @@ internal class FunnelChart : IChartType
 					sumArea += yValue;
 					percentages[loop] = Math.Sqrt((2 * sumArea) / baseRatio);
 				}
+
 				this._valuePercentages = percentages;
 			}
 
@@ -2705,6 +2736,7 @@ internal class FunnelChart : IChartType
 				}
 			}
 		}
+
 		return valueType;
 	}
 
@@ -2746,6 +2778,7 @@ internal class FunnelChart : IChartType
 				}
 			}
 		}
+
 		return yValue;
 	}
 
@@ -2760,6 +2793,7 @@ internal class FunnelChart : IChartType
 		{
 			return Math.Abs(Math.Log(point.XValue, this.Area.AxisX.LogarithmBase));
 		}
+
 		return Math.Abs(point.XValue);
 	}
 

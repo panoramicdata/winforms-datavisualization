@@ -1022,10 +1022,12 @@ internal class PriceIndicators : IFormula
 				{
 					startSum = index - period + 1;
 				}
+
 				for (int indexDev = startSum; indexDev <= index; indexDev++)
 				{
 					sum += (inputValues[indexDev] - movingOut[outIndex]) * (inputValues[indexDev] - movingOut[outIndex]);
 				}
+
 				outputValues[outIndex] = Math.Sqrt(sum / period);
 				outIndex++;
 			}
@@ -1044,6 +1046,7 @@ internal class PriceIndicators : IFormula
 				{
 					sum += (inputValues[indexDev] - movingOut[outIndex]) * (inputValues[indexDev] - movingOut[outIndex]);
 				}
+
 				outputValues[outIndex] = Math.Sqrt(sum / period);
 				outIndex++;
 			}

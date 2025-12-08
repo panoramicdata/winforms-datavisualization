@@ -583,6 +583,7 @@ public class LineAnnotation : Annotation
 			{
 				graphics.Pen.StartCap = LineCap.SquareAnchor;
 			}
+
 			if (this._endCap == LineAnchorCapStyle.Arrow)
 			{
 				// Adjust arrow size for small line width

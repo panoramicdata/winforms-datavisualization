@@ -97,6 +97,7 @@ internal class KagiChart : StepLineChart
 		{
 			return; // the temp series has already been added
 		}
+
 		Series seriesOriginalData = new Series(tempSeriesName, series.YValuesPerPoint);
 		seriesOriginalData.Enabled = false;
 		seriesOriginalData.IsVisibleInLegend = false;
@@ -105,6 +106,7 @@ internal class KagiChart : StepLineChart
 		{
 			seriesOriginalData.Points.Add(dp);
 		}
+
 		series.Points.Clear();
 		if (series.IsCustomPropertySet("TempDesignData"))
 		{
@@ -140,10 +142,12 @@ internal class KagiChart : StepLineChart
 						{
 							nonZeroXValues = true;
 						}
+
 						if (dp.XValue > maxX)
 						{
 							maxX = dp.XValue;
 						}
+
 						if (dp.XValue < minX)
 						{
 							minX = dp.XValue;
@@ -401,6 +405,7 @@ internal class KagiChart : StepLineChart
 				prevClose = dataPoint.YValues[yValueIndex];
 				prevDirection = direction;
 			}
+
 			++pointIndex;
 		}
 	}
@@ -711,6 +716,7 @@ internal class KagiChart : StepLineChart
 		{
 			color = Color.Gray;
 		}
+
 		if (pointAttr.dataPoint.IsEmpty && pointAttr.dataPoint.BorderDashStyle == ChartDashStyle.NotSet)
 		{
 			dashStyle = ChartDashStyle.Solid;
@@ -913,6 +919,7 @@ internal class KagiChart : StepLineChart
 			if (resultPathLine[2] != null)
 				resultPath.AddPath(resultPathLine[2], true);
 		}
+
 		return resultPath;
 	}
 

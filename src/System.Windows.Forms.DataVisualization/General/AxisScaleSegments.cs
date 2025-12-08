@@ -92,6 +92,7 @@ internal class AxisScaleSegment
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsPositionInvalid));
 			}
+
 			this._position = value;
 		}
 	}
@@ -116,6 +117,7 @@ internal class AxisScaleSegment
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSizeInvalid));
 			}
+
 			this._size = value;
 		}
 	}
@@ -140,6 +142,7 @@ internal class AxisScaleSegment
 			{
 				throw (new ArgumentOutOfRangeException("value", SR.ExceptionAxisScaleSegmentsSpacingInvalid));
 			}
+
 			this._spacing = value;
 		}
 	}
@@ -355,6 +358,7 @@ internal class AxisScaleSegment
 							shadowPartRect.Y = shadowPartRect.Bottom - 1;
 							shadowPartRect.Height = this.axis.ChartArea.ShadowOffset + 2;
 						}
+
 						graph.FillRectangle(fillBrush, shadowPartRect);
 
 						// Draw new shadow
@@ -389,6 +393,7 @@ internal class AxisScaleSegment
 								clipRegion.Y += this.axis.ChartArea.ShadowOffset;
 								clipRegion.Height += this.axis.ChartArea.ShadowOffset;
 							}
+
 							graph.SetClip(graph.GetRelativeRectangle(clipRegion));
 
 							// Draw several lines to form shadow
@@ -405,6 +410,7 @@ internal class AxisScaleSegment
 									{
 										newMatrix.Translate(1f, 0f);
 									}
+
 									shadowPath.Transform(newMatrix);
 								}
 
@@ -514,6 +520,7 @@ internal class AxisScaleSegment
 				{
 					pointNumber = 2;
 				}
+
 				float step = (endX - startX) / pointNumber;
 				points = new PointF[pointNumber + 1];
 				for (int pointIndex = 1; pointIndex < pointNumber + 1; pointIndex++)
@@ -536,6 +543,7 @@ internal class AxisScaleSegment
 				{
 					pointNumber = 2;
 				}
+
 				float step = (endY - startY) / pointNumber;
 				points = new PointF[pointNumber + 1];
 				for (int pointIndex = 1; pointIndex < pointNumber + 1; pointIndex++)
@@ -566,6 +574,7 @@ internal class AxisScaleSegment
 				{
 					pointNumber = 2;
 				}
+
 				points = new PointF[pointNumber];
 
 				for (int pointIndex = 1; pointIndex < pointNumber - 1; pointIndex++)
@@ -589,6 +598,7 @@ internal class AxisScaleSegment
 				{
 					pointNumber = 2;
 				}
+
 				points = new PointF[pointNumber];
 
 				for (int pointIndex = 1; pointIndex < pointNumber - 1; pointIndex++)
@@ -629,6 +639,7 @@ internal class AxisScaleSegment
 				}
 			}
 		}
+
 		return path;
 	}
 

@@ -111,6 +111,7 @@ internal class KeywordsRegistry : IServiceProvider
 		{
 			return this;
 		}
+
 		throw (new ArgumentException(SR.ExceptionKeywordsRegistryUnsupportedType(serviceType.ToString())));
 	}
 

@@ -78,6 +78,7 @@ internal class AxesArrayEditor : ArrayEditor
 			{
 				return grid;
 			}
+
 			if (control.Controls.Count > 0)
 			{
 				grid = GetPropertyGrid(control.Controls);
@@ -87,6 +88,7 @@ internal class AxesArrayEditor : ArrayEditor
 				}
 			}
 		}
+
 		return null;
 	}
 
@@ -103,6 +105,7 @@ internal class AxesArrayEditor : ArrayEditor
 			{
 				buttons.Add(control);
 			}
+
 			if (control.Controls.Count > 0)
 			{
 				CollectButtons(buttons, control.Controls);
@@ -168,6 +171,7 @@ internal class AxesArrayEditor : ArrayEditor
 				button.EnabledChanged += new EventHandler(Button_EnabledChanged);
 			}
 		}
+
 		return _form;
 	}
 
@@ -252,6 +256,7 @@ internal class DataPointCustomPropertiesConverter : TypeConverter
 					newPropDescriptors.Add(propertyDescriptor);
 				}
 			}
+
 			return newPropDescriptors;
 		}
 
@@ -281,6 +286,7 @@ internal class DataPointCustomPropertiesConverter : TypeConverter
 				return "";
 			}
 		}                // Always call base, even if you can't convert.
+
 		return base.ConvertTo(context, culture, value, destinationType);
 	}
 }

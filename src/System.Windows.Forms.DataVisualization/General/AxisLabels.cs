@@ -166,6 +166,7 @@ public partial class Axis
 				}
 			}
 		}
+
 		return dataSeries;
 	}
 
@@ -214,6 +215,7 @@ public partial class Axis
 		{
 			return;
 		}
+
 		this.CustomLabels.Clear();
 		foreach (CustomLabel label in this.GetOtherTypeAxis().CustomLabels)
 		{
@@ -631,6 +633,7 @@ public partial class Axis
 							pointLabel,
 							false);
 					}
+
 					position += dateInterval;
 				}
 			}
@@ -887,8 +890,10 @@ public partial class Axis
 					return point.ReplaceKeywords(point.AxisLabel);
 				}
 			}
+
 			pointIndx++;
 		}
+
 		return "";
 	}
 

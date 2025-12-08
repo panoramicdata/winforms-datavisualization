@@ -267,6 +267,7 @@ internal class CommonElements
 				double.TryParse(stringToParse, NumberStyles.Any, CultureInfo.CurrentCulture, out result);
 			}
 		}
+
 		return result;
 	}
 

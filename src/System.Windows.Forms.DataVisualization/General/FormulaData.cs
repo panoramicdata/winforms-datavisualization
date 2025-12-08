@@ -446,10 +446,12 @@ public class DataFormula
 									outputPoint.AxisLabel = inputPoint.AxisLabel;
 									break;
 								}
+
 								outIndex++;
 							}
 						}
 					}
+
 					outIndex++;
 				}
 			}
@@ -545,6 +547,7 @@ public class DataFormula
 					}
 				}
 			}
+
 			seriesIndex++;
 		}
 	}
@@ -637,6 +640,7 @@ public class DataFormula
 				else
 					throw (new ArgumentException(SR.ExceptionFormulaDataSeriesNameNotFoundInCollection(str)));
 			}
+
 			index++;
 		}
 	}
@@ -1076,6 +1080,7 @@ public class DataFormula
 				return true;
 			}
 		}
+
 		return false;
 	}
 

@@ -475,6 +475,7 @@ internal class PieChart : IChartType
 			chart.Series.Remove(series);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -757,6 +758,7 @@ internal class PieChart : IChartType
 			{
 				rectangle = new RectangleF(area.PlotAreaPosition.ToRectangleF().X, area.PlotAreaPosition.ToRectangleF().Y, area.PlotAreaPosition.ToRectangleF().Width, area.PlotAreaPosition.ToRectangleF().Height);
 			}
+
 			if (rectangle.Width < 0f || rectangle.Height < 0f)
 			{
 				return;
@@ -1196,6 +1198,7 @@ internal class PieChart : IChartType
 				{
 					throw (new InvalidOperationException(SR.ExceptionCustomAttributeIsNotInRange0to100("InsideLabelOffset")));
 				}
+
 				positionRatio = 4f / (1f + positionRatio / 100f);
 			}
 
@@ -1765,6 +1768,7 @@ internal class PieChart : IChartType
 			}
 
 		}
+
 		return true;
 	}
 
@@ -2368,6 +2372,7 @@ internal class PieChart : IChartType
 				{
 					angle = -(360 - angle);
 				}
+
 				area.Area3DStyle.Rotation = angle;
 			}
 
@@ -2431,6 +2436,7 @@ internal class PieChart : IChartType
 				throw (new ArgumentException(SR.ExceptionPie3DLabelLineSizeInvalid));
 
 		}
+
 		labelLineSize = labelLineSize * 0.1F / 100F;
 
 		//************************************************************
@@ -2595,6 +2601,7 @@ internal class PieChart : IChartType
 						FillPieLabelOutside(graph, area, rectangle, pieWidth, point, startAngle, sweepAngle, pointIndx, doughnutRadius, exploded);
 					}
 				}
+
 				if (turn == 2)
 				{
 
@@ -2847,6 +2854,7 @@ internal class PieChart : IChartType
 							DrawDoughnutCurves(graph, area, point, startAngle, sweepAngle, points, brush, penCurve, false, true, pointIndex);
 						}
 					}
+
 					DrawPieCurves(graph, area, point, startAngle, sweepAngle, points, brush, penCurve, true, true, pointIndex);
 				}
 			}
@@ -3235,6 +3243,7 @@ internal class PieChart : IChartType
 			{
 				result[pointIndx] = graph.GetAbsolutePoint(result[pointIndx]);
 			}
+
 			pointIndx++;
 		}
 
@@ -4467,6 +4476,7 @@ internal class PieChart : IChartType
 
 					listIndx++;
 				}
+
 				pointIndx++;
 			}
 
@@ -4497,8 +4507,10 @@ internal class PieChart : IChartType
 					newPointIndexList[listIndx] = pointIndexList[pointIndx];
 					listIndx++;
 				}
+
 				pointIndx++;
 			}
+
 			if (rightSidePoints)
 			{
 				SwitchPoints(numOfPoints, ref points, ref newStartAngleList, ref newSweepAngleList, ref newPointIndexList, backPoint == frontPoint);
@@ -4911,6 +4923,7 @@ internal class PieChart : IChartType
 					position.Y = GetLabelPosition(pointIndex);
 					break;
 				}
+
 				pointIndex++;
 			}
 
@@ -5458,6 +5471,7 @@ internal class PieChart : IChartType
 				labelPosition.Y = labelPoint.Y - labelVertSize / 2;
 				labelPosition.Height = labelVertSize;
 			}
+
 			format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.LineLimit;
 			format.Trimming = StringTrimming.EllipsisWord;
 

@@ -190,6 +190,7 @@ internal class BubbleChart : PointChart
 					{
 						_minAll = Math.Min(_minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
 					}
+
 					if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMax))
 					{
 						_maxAll = Math.Max(_maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
@@ -254,10 +255,12 @@ internal class BubbleChart : PointChart
 						}
 					}
 				}
+
 				if (_minAll == double.MaxValue)
 				{
 					_minAll = minSer;
 				}
+
 				if (_maxAll == double.MinValue)
 				{
 					_maxAll = maxSer;
@@ -289,6 +292,7 @@ internal class BubbleChart : PointChart
 		{
 			return 0F;
 		}
+
 		if (value < _minAll)
 		{
 			return 0F;
@@ -329,6 +333,7 @@ internal class BubbleChart : PointChart
 				{
 					minAll = Math.Min(minAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMin]));
 				}
+
 				if (ser.IsCustomPropertySet(CustomPropertyName.BubbleScaleMax))
 				{
 					maxAll = Math.Max(maxAll, CommonElements.ParseDouble(ser[CustomPropertyName.BubbleScaleMax]));
@@ -387,10 +392,12 @@ internal class BubbleChart : PointChart
 				}
 			}
 		}
+
 		if (minAll == double.MaxValue)
 		{
 			minAll = minSer;
 		}
+
 		if (maxAll == double.MinValue)
 		{
 			maxAll = maxSer;
@@ -418,6 +425,7 @@ internal class BubbleChart : PointChart
 		{
 			return 0F;
 		}
+
 		if (value < minAll)
 		{
 			return 0F;

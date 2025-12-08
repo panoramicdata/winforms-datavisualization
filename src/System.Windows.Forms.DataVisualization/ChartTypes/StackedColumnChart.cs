@@ -167,6 +167,7 @@ internal class HundredPercentStackedColumnChart : StackedColumnChart
 			{
 				return 0.0;
 			}
+
 			return (point.YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
 		}
 
@@ -236,10 +237,12 @@ internal class HundredPercentStackedColumnChart : StackedColumnChart
 					{
 						yValue = (ser.Points[pointIndex].YValues[0] / currentGroupTotalPerPoint[pointIndex]) * 100.0;
 					}
+
 					if (yValue >= 0.0 && !double.IsNaN(prevPosY))
 					{
 						yValue += prevPosY;
 					}
+
 					if (yValue < 0.0 && !double.IsNaN(prevNegY))
 					{
 						yValue += prevNegY;
@@ -748,6 +751,7 @@ internal class StackedColumnChart : IChartType
 						{
 							yValue = vAxis.ViewMaximum;
 						}
+
 						if (yValue < vAxis.ViewMinimum)
 						{
 							yValue = vAxis.ViewMinimum;
@@ -781,6 +785,7 @@ internal class StackedColumnChart : IChartType
 					{
 						barZeroValue = PreviousNegY;
 					}
+
 					double zero = vAxis.GetPosition(barZeroValue);
 
 					// Set x position
@@ -984,6 +989,7 @@ internal class StackedColumnChart : IChartType
 				{
 					stackGroupName = stackGroupName.Substring(index + 2);
 				}
+
 				if (stackGroupName.Length > 0)
 				{
 					ser[CustomPropertyName.StackedGroupName] = stackGroupName;
@@ -1051,6 +1057,7 @@ internal class StackedColumnChart : IChartType
 		{
 			stackGroupName = series[CustomPropertyName.StackedGroupName];
 		}
+
 		return stackGroupName;
 	}
 
@@ -1068,6 +1075,7 @@ internal class StackedColumnChart : IChartType
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -1329,6 +1337,7 @@ internal class StackedColumnChart : IChartType
 					{
 						yValue += prevPosY;
 					}
+
 					if (yValue < 0.0 && !double.IsNaN(prevNegY))
 					{
 						yValue += prevNegY;
@@ -1555,6 +1564,7 @@ internal class StackedColumnChart : IChartType
 				bottomDarkening = 0.5f;
 				barZeroValue = vAxis.ViewMinimum;
 			}
+
 			if (yValue > vAxis.ViewMaximum)
 			{
 				topDarkening = 0.5f;
@@ -1633,14 +1643,17 @@ internal class StackedColumnChart : IChartType
 				rectSize.Width -= area.PlotAreaPosition.X - rectSize.X;
 				rectSize.X = area.PlotAreaPosition.X;
 			}
+
 			if (rectSize.Right > area.PlotAreaPosition.Right)
 			{
 				rectSize.Width -= rectSize.Right - area.PlotAreaPosition.Right;
 			}
+
 			if (rectSize.Width < 0)
 			{
 				rectSize.Width = 0;
 			}
+
 			if (rectSize.Height == 0f || rectSize.Width == 0f)
 			{
 				continue;
@@ -1720,10 +1733,12 @@ internal class StackedColumnChart : IChartType
 				{
 					yValue = vAxis.ViewMaximum;
 				}
+
 				if (yValue < vAxis.ViewMinimum)
 				{
 					yValue = vAxis.ViewMinimum;
 				}
+
 				yValue = vAxis.GetLogValue(yValue);
 
 				// Recalculates Height position and zero position of Columns

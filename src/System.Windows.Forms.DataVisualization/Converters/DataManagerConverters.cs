@@ -63,6 +63,7 @@ internal class SeriesAreaNameConverter : StringConverter
 				values.Add(area.Name);
 			}
 		}
+
 		return new StandardValuesCollection(values);
 	}
 
@@ -439,6 +440,7 @@ internal class DoubleArrayConverter : ArrayConverter
 		{
 			return true;
 		}
+
 		return base.CanConvertFrom(context, sourceType);
 	}
 
@@ -585,6 +587,7 @@ internal class DataPointValueConverter : DoubleConverter
 				return valueAsSate.ToString("g", System.Globalization.CultureInfo.CurrentCulture);
 			}
 		}
+
 		return base.ConvertTo(context, culture, value, destinationType);
 	}
 
@@ -703,6 +706,7 @@ internal class ColorArrayConverter : TypeConverter
 		{
 			return true;
 		}
+
 		return base.CanConvertFrom(context, sourceType);
 	}
 
@@ -761,10 +765,13 @@ internal class ColorArrayConverter : TypeConverter
 				{
 					result += "; ";
 				}
+
 				result += colorConverter.ConvertToInvariantString(color);
 			}
+
 			return result;
 		}
+
 		return string.Empty;
 	}
 
@@ -787,6 +794,7 @@ internal class ColorArrayConverter : TypeConverter
 				array[index++] = (Color)colorConverter.ConvertFromInvariantString(str);
 			}
 		}
+
 		return array;
 	}
 

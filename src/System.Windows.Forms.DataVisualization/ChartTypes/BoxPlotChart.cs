@@ -343,20 +343,24 @@ internal class BoxPlotChart : IChartType
 				{
 					high = vAxis.ViewMaximum;
 				}
+
 				if (high < vAxis.ViewMinimum)
 				{
 					high = vAxis.ViewMinimum;
 				}
+
 				high = (float)vAxis.GetLinearPosition(high);
 
 				if (low > vAxis.ViewMaximum)
 				{
 					low = vAxis.ViewMaximum;
 				}
+
 				if (low < vAxis.ViewMinimum)
 				{
 					low = vAxis.ViewMinimum;
 				}
+
 				low = vAxis.GetLinearPosition(low);
 
 				// Remeber pre-calculated point position
@@ -436,6 +440,7 @@ internal class BoxPlotChart : IChartType
 						{
 							showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
 						}
+
 						if (String.Compare(showAverageValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
@@ -458,6 +463,7 @@ internal class BoxPlotChart : IChartType
 						relBorderWidth.Height = 0;
 						relBorderWidth.Width = 0;
 					}
+
 					Color markerLinesColor = lineColor;
 					if (markerLinesColor == point.Color)
 					{
@@ -471,6 +477,7 @@ internal class BoxPlotChart : IChartType
 							markerLinesColor = ChartGraphics.GetGradientColor(point.Color, Color.White, 0.4);
 						}
 					}
+
 					if (!double.IsNaN(point.YValues[4]) && showAverage)
 					{
 						graph.DrawLineRel(
@@ -492,6 +499,7 @@ internal class BoxPlotChart : IChartType
 						{
 							showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
 						}
+
 						if (String.Compare(showMedianValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
@@ -554,6 +562,7 @@ internal class BoxPlotChart : IChartType
 					// Add area
 					common.HotRegionsList.AddHotRegion(areaRect, point, ser.Name, index - 1);
 				}
+
 				++index;
 			}
 
@@ -607,10 +616,12 @@ internal class BoxPlotChart : IChartType
 							{
 								currentValue = vAxis.ViewMaximum;
 							}
+
 							if (currentValue < vAxis.ViewMinimum)
 							{
 								currentValue = vAxis.ViewMinimum;
 							}
+
 							currentValue = (float)vAxis.GetLinearPosition(currentValue);
 
 							high = Math.Min(high, currentValue);
@@ -687,6 +698,7 @@ internal class BoxPlotChart : IChartType
 		{
 			markerStyle = point.MarkerStyle.ToString();
 		}
+
 		for (int valueIndex = 6; valueIndex < point.YValues.Length; valueIndex++)
 		{
 			if (!double.IsNaN(point.YValues[valueIndex]))
@@ -728,6 +740,7 @@ internal class BoxPlotChart : IChartType
 			{
 				return;
 			}
+
 			yPosition = (float)vAxis.GetLinearPosition(yPosition);
 
 			// 3D Transform coordinates
@@ -1122,20 +1135,24 @@ internal class BoxPlotChart : IChartType
 				{
 					high = vAxis.ViewMaximum;
 				}
+
 				if (high < vAxis.ViewMinimum)
 				{
 					high = vAxis.ViewMinimum;
 				}
+
 				high = (float)vAxis.GetLinearPosition(high);
 
 				if (low > vAxis.ViewMaximum)
 				{
 					low = vAxis.ViewMaximum;
 				}
+
 				if (low < vAxis.ViewMinimum)
 				{
 					low = vAxis.ViewMinimum;
 				}
+
 				low = vAxis.GetLinearPosition(low);
 
 				// Remeber pre-calculated point position
@@ -1223,6 +1240,7 @@ internal class BoxPlotChart : IChartType
 						{
 							showAverageValue = point[CustomPropertyName.BoxPlotShowAverage];
 						}
+
 						if (String.Compare(showAverageValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
@@ -1251,6 +1269,7 @@ internal class BoxPlotChart : IChartType
 							markerLinesColor = ChartGraphics.GetGradientColor(point.Color, Color.White, 0.4);
 						}
 					}
+
 					if (!double.IsNaN(point.YValues[4]) && showAverage)
 					{
 						graph.DrawLineRel(
@@ -1272,6 +1291,7 @@ internal class BoxPlotChart : IChartType
 						{
 							showMedianValue = point[CustomPropertyName.BoxPlotShowMedian];
 						}
+
 						if (String.Compare(showMedianValue, "True", StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							// default - do nothing
@@ -1392,20 +1412,24 @@ internal class BoxPlotChart : IChartType
 					{
 						high = vAxis.ViewMaximum;
 					}
+
 					if (high < vAxis.ViewMinimum)
 					{
 						high = vAxis.ViewMinimum;
 					}
+
 					high = (float)vAxis.GetLinearPosition(high);
 
 					if (low > vAxis.ViewMaximum)
 					{
 						low = vAxis.ViewMaximum;
 					}
+
 					if (low < vAxis.ViewMinimum)
 					{
 						low = vAxis.ViewMinimum;
 					}
+
 					low = vAxis.GetLinearPosition(low);
 
 
@@ -1475,6 +1499,7 @@ internal class BoxPlotChart : IChartType
 		{
 			markerStyle = point.MarkerStyle.ToString();
 		}
+
 		for (int valueIndex = 6; valueIndex < point.YValues.Length; valueIndex++)
 		{
 			if (!double.IsNaN(point.YValues[valueIndex]))
@@ -1567,6 +1592,7 @@ internal class BoxPlotChart : IChartType
 					{
 						throw (new InvalidOperationException(SR.ExceptionCustomAttributeSeriesNameNotFound("BoxPlotSeries", linkedSeriesName)));
 					}
+
 					Series linkedSeries = control.Series[linkedSeriesName];
 
 					// Calculate box point values
@@ -1603,6 +1629,7 @@ internal class BoxPlotChart : IChartType
 				++valueCount;
 			}
 		}
+
 		averageValue /= valueCount;
 
 		// Fill array of Y values
@@ -1622,6 +1649,7 @@ internal class BoxPlotChart : IChartType
 		{
 			boxPercentile = boxPoint.series[CustomPropertyName.BoxPlotPercentile];
 		}
+
 		string boxWhiskerPercentile = (boxPoint.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile)) ? boxPoint[CustomPropertyName.BoxPlotWhiskerPercentile] : String.Empty;
 		if (boxWhiskerPercentile.Length == 0 && boxPoint.series != null && boxPoint.series.IsCustomPropertySet(CustomPropertyName.BoxPlotWhiskerPercentile))
 		{
@@ -1683,6 +1711,7 @@ internal class BoxPlotChart : IChartType
 		{
 			showUnusualValues = boxPoint.series[CustomPropertyName.BoxPlotShowUnusualValues];
 		}
+
 		if (showUnusualValues.Length > 0)
 		{
 			if (String.Compare(showUnusualValues, "True", StringComparison.OrdinalIgnoreCase) == 0)
@@ -1775,6 +1804,7 @@ internal class BoxPlotChart : IChartType
 			{
 				result[index] += (1.0 - percentPointIndexReminder) * yValues[(int)percentPointIndexInteger];
 			}
+
 			if ((int)(percentPointIndexInteger + 1) < yValues.Count)
 			{
 				result[index] += percentPointIndexReminder * yValues[(int)percentPointIndexInteger + 1];

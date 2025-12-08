@@ -51,6 +51,7 @@ internal class HatchStyleEditor : UITypeEditor, IDisposable
 			{
 				_chartGraph = new ChartGraphics(null);
 			}
+
 			_chartGraph.Graphics = e.Graphics;
 
 			// Try to get original color from the object
@@ -103,10 +104,12 @@ internal class HatchStyleEditor : UITypeEditor, IDisposable
 			{
 				color1 = Color.Black;
 			}
+
 			if (color2 == Color.Empty)
 			{
 				color2 = Color.White;
 			}
+
 			if (color1 == color2)
 			{
 				color2 = Color.FromArgb(color1.B, color1.R, color1.G);
