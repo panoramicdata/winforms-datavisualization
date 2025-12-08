@@ -3177,7 +3177,7 @@ public abstract class Annotation : ChartNamedElement
 				{
 					string areaName = axisName.Substring(0, separatorIndex);
 					string axisType = axisName.Substring(separatorIndex + 2);
-					switch ((AxisName)Enum.Parse(typeof(AxisName), axisType))
+					switch (Enum.Parse<AxisName>(axisType))
 					{
 						case (AxisName.X):
 							axis = Chart.ChartAreas[areaName].AxisX;

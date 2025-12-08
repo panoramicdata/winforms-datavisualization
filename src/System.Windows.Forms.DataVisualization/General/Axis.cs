@@ -1455,7 +1455,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					axisPosition = ChartArea.PlotAreaPosition.Y;
 				}
 
-				axisPosition = axisPosition - ChartArea.PlotAreaPosition.Y;
+				axisPosition -= ChartArea.PlotAreaPosition.Y;
 			}
 			else if (AxisPosition == AxisPosition.Right)
 			{
@@ -1473,7 +1473,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					axisPosition = ChartArea.PlotAreaPosition.X;
 				}
 
-				axisPosition = axisPosition - ChartArea.PlotAreaPosition.X;
+				axisPosition -= ChartArea.PlotAreaPosition.X;
 			}
 
 			//******************************************************
@@ -1931,9 +1931,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 			if (IsTextVertical)
 			{
 				// Switch height and width for vertical axis
-				float tempValue = axisTitleSize.Height;
-				axisTitleSize.Height = axisTitleSize.Width;
-				axisTitleSize.Width = tempValue;
+				(axisTitleSize.Width, axisTitleSize.Height) = (axisTitleSize.Height, axisTitleSize.Width);
 			}
 
 			// Get relative size
@@ -3786,7 +3784,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					CustomLabels.Count > 0)
 				{
 					// Remove label and save it in the list
-					removedLabels.Add(CustomLabels[CustomLabels.Count - 1]);
+					removedLabels.Add(CustomLabels[^1]);
 					removedLabelsIndexes.Add(CustomLabels.Count - 1);
 					CustomLabels.RemoveAt(CustomLabels.Count - 1);
 				}
@@ -4577,9 +4575,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				// Swith text size for the radial style
 				if (labelsStyle == CircularAxisLabelsStyle.Radial)
 				{
-					float tempValue = textSize.Width;
-					textSize.Width = textSize.Height;
-					textSize.Height = tempValue;
+					(textSize.Height, textSize.Width) = (textSize.Width, textSize.Height);
 				}
 
 				//*****************************************************************
@@ -5167,9 +5163,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 				if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 				{
 					// Switch rectangle sizes
-					float val = rect.Height;
-					rect.Height = rect.Width;
-					rect.Width = val;
+					(rect.Width, rect.Height) = (rect.Height, rect.Width);
 
 					// Set vertical font for measuring
 					if (angle != 0)
@@ -5409,9 +5403,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					if (AxisPosition == AxisPosition.Bottom || AxisPosition == AxisPosition.Top)
 					{
 						// Switch rectangle sizes
-						float val = rect.Height;
-						rect.Height = rect.Width;
-						rect.Width = val;
+						(rect.Width, rect.Height) = (rect.Height, rect.Width);
 
 						// Set vertical font for measuring
 						if (angle != 0)

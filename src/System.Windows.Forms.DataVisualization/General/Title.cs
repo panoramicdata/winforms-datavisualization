@@ -1079,9 +1079,7 @@ public class Title : ChartNamedElement, IDisposable
 						(titlePosition.Height == 0) ? Common.ChartPicture.Height : titlePosition.Height);
 				if (IsTextVertical)
 				{
-					float tempValue = layoutArea.Width;
-					layoutArea.Width = layoutArea.Height;
-					layoutArea.Height = tempValue;
+					(layoutArea.Height, layoutArea.Width) = (layoutArea.Width, layoutArea.Height);
 				}
 
 				// Measure text size
@@ -1103,9 +1101,7 @@ public class Title : ChartNamedElement, IDisposable
 				// Switch width and height for vertical text
 				if (IsTextVertical)
 				{
-					float tempValue = titleSize.Width;
-					titleSize.Width = titleSize.Height;
-					titleSize.Height = tempValue;
+					(titleSize.Height, titleSize.Width) = (titleSize.Width, titleSize.Height);
 				}
 
 				// Convert text size to relative coordinates
@@ -1119,13 +1115,13 @@ public class Title : ChartNamedElement, IDisposable
 						Alignment == ContentAlignment.MiddleRight ||
 						Alignment == ContentAlignment.TopRight)
 					{
-						titlePosition.X = titlePosition.X - titlePosition.Width;
+						titlePosition.X -= titlePosition.Width;
 					}
 					else if (Alignment == ContentAlignment.BottomCenter ||
 						Alignment == ContentAlignment.MiddleCenter ||
 						Alignment == ContentAlignment.TopCenter)
 					{
-						titlePosition.X = titlePosition.X - titlePosition.Width / 2f;
+						titlePosition.X -= titlePosition.Width / 2f;
 					}
 				}
 
@@ -1136,13 +1132,13 @@ public class Title : ChartNamedElement, IDisposable
 						Alignment == ContentAlignment.BottomCenter ||
 						Alignment == ContentAlignment.BottomLeft)
 					{
-						titlePosition.Y = titlePosition.Y - titlePosition.Height;
+						titlePosition.Y -= titlePosition.Height;
 					}
 					else if (Alignment == ContentAlignment.MiddleCenter ||
 						Alignment == ContentAlignment.MiddleLeft ||
 						Alignment == ContentAlignment.MiddleRight)
 					{
-						titlePosition.Y = titlePosition.Y - titlePosition.Height / 2f;
+						titlePosition.Y -= titlePosition.Height / 2f;
 					}
 				}
 
@@ -1562,9 +1558,7 @@ public class Title : ChartNamedElement, IDisposable
 		// Switch width and height for vertical text
 		if (IsTextVertical)
 		{
-			float tempValue = layoutArea.Width;
-			layoutArea.Width = layoutArea.Height;
-			layoutArea.Height = tempValue;
+			(layoutArea.Height, layoutArea.Width) = (layoutArea.Width, layoutArea.Height);
 		}
 
 		// Meausure text size
@@ -1588,9 +1582,7 @@ public class Title : ChartNamedElement, IDisposable
 		// Switch width and height for vertical text
 		if (IsTextVertical)
 		{
-			float tempValue = titleSize.Width;
-			titleSize.Width = titleSize.Height;
-			titleSize.Height = tempValue;
+			(titleSize.Height, titleSize.Width) = (titleSize.Width, titleSize.Height);
 		}
 
 		// Convert text size to relative coordinates

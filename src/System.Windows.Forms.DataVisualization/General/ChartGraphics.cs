@@ -4,16 +4,15 @@
 
 
 //
-//  Purpose:	Chart graphic class is used for drawing Chart 
-//				elements as Rectangles, Pie slices, lines, areas 
-//				etc. This class is used in all classes where 
-//				drawing is necessary. The GDI+ graphic class is 
-//				used throw this class. Encapsulates a GDI+ chart 
+//  Purpose:	Chart graphic class is used for drawing Chart
+//				elements as Rectangles, Pie slices, lines, areas
+//				etc. This class is used in all classes where
+//				drawing is necessary. The GDI+ graphic class is
+//				used throw this class. Encapsulates a GDI+ chart
 //				drawing functionality
 //
 
 
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -88,23 +87,23 @@ public enum ChartDashStyle
 	/// </summary>
 	NotSet,
 	/// <summary>
-	/// Specifies a line consisting of dashes. 
+	/// Specifies a line consisting of dashes.
 	/// </summary>
 	Dash,
 	/// <summary>
-	/// Specifies a line consisting of a repeating pattern of dash-dot. 
+	/// Specifies a line consisting of a repeating pattern of dash-dot.
 	/// </summary>
 	DashDot,
 	/// <summary>
-	/// Specifies a line consisting of a repeating pattern of dash-dot-dot. 
+	/// Specifies a line consisting of a repeating pattern of dash-dot-dot.
 	/// </summary>
 	DashDotDot,
 	/// <summary>
-	/// Specifies a line consisting of dots. 
+	/// Specifies a line consisting of dots.
 	/// </summary>
 	Dot,
 	/// <summary>
-	/// Specifies a solid line. 
+	/// Specifies a solid line.
 	/// </summary>
 	Solid,
 }
@@ -112,9 +111,9 @@ public enum ChartDashStyle
 #endregion
 
 /// <summary>
-/// The ChartGraphics class provides all chart drawing capabilities. 
-/// It contains methods for drawing 2D primitives and also exposes 
-/// all ChartGraphics3D class methods for 3D shapes. Only this 
+/// The ChartGraphics class provides all chart drawing capabilities.
+/// It contains methods for drawing 2D primitives and also exposes
+/// all ChartGraphics3D class methods for 3D shapes. Only this
 /// class should be used for any drawing in the chart.
 /// </summary>
 public partial class ChartGraphics : ChartElement
@@ -133,12 +132,12 @@ public partial class ChartGraphics : ChartElement
 	private int _height;
 
 	// Indicates that smoothing is applied while drawing shadows
-	internal bool softShadows = true;
+	internal bool _softShadows = true;
 
 	// Anti aliasing flags
 
 	// True if rendering into the metafile
-	internal bool IsMetafile = false;
+	internal bool _isMetafile = false;
 
 	#endregion
 
@@ -208,9 +207,9 @@ public partial class ChartGraphics : ChartElement
 			Pen.DashStyle = GetPenStyle(style);
 		}
 
-		// Remember SmoothingMode and turn off anti aliasing for 
+		// Remember SmoothingMode and turn off anti aliasing for
 		// vertical or horizontal lines usinig 1 pixel dashed pen.
-		// This prevents anialiasing from completly smoothing the 
+		// This prevents anialiasing from completly smoothing the
 		// dashed line.
 		SmoothingMode oldSmoothingMode = SmoothingMode;
 		if (width <= 1 && style != ChartDashStyle.Solid)
@@ -240,7 +239,7 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="width">Line width.</param>
 	/// <param name="style">Line style.</param>
 	/// <param name="firstPoint">A Point that represents the first point to connect.</param>
-	/// <param name="secondPoint">A Point that represents the second point to connect.</param>		
+	/// <param name="secondPoint">A Point that represents the second point to connect.</param>
 	/// <param name="shadowColor">Shadow Color.</param>
 	/// <param name="shadowOffset">Shadow Offset.</param>
 	internal void DrawLineRel(
@@ -270,7 +269,7 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="width">Line width.</param>
 	/// <param name="style">Line style.</param>
 	/// <param name="firstPoint">A Point that represents the first point to connect.</param>
-	/// <param name="secondPoint">A Point that represents the second point to connect.</param>		
+	/// <param name="secondPoint">A Point that represents the second point to connect.</param>
 	/// <param name="shadowColor">Shadow Color.</param>
 	/// <param name="shadowOffset">Shadow Offset.</param>
 	internal void DrawLineAbs(
@@ -288,7 +287,7 @@ public partial class ChartGraphics : ChartElement
 			// Shadow color
 			Color shColor;
 
-			// Make shadow semi transparent 
+			// Make shadow semi transparent
 			// if alpha value not used
 			if (shadowColor.A != 255)
 			{
@@ -323,15 +322,15 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="foreColor">Fore Color.</param>
 	/// <returns>Brush</returns>
 	internal Brush GetHatchBrush(
-	ChartHatchStyle hatchStyle,
-	Color backColor,
-	Color foreColor
-	)
+		ChartHatchStyle hatchStyle,
+		Color backColor,
+		Color foreColor
+		)
 	{
-		// Convert Chart Hatch Style enum 
+		// Convert Chart Hatch Style enum
 		// to Hatch Style enum.
 		HatchStyle hatch;
-		hatch = (HatchStyle)Enum.Parse(typeof(HatchStyle), hatchStyle.ToString());
+		hatch = Enum.Parse<HatchStyle>(hatchStyle.ToString());
 
 		// Create Hatch Brush
 		return new HatchBrush(hatch, foreColor, backColor);
@@ -389,7 +388,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			textureBrush = new TextureBrush(image, new RectangleF(0, 0, image.Width, image.Height), attrib);
 		}
-		else  // if the image dpi does not match the graphics dpi we have to scale the image    
+		else  // if the image dpi does not match the graphics dpi we have to scale the image
 		{
 			Image scaledImage = ImageLoader.GetScaledImage(image, Graphics);
 			textureBrush = new TextureBrush(scaledImage, new RectangleF(0, 0, scaledImage.Width, scaledImage.Height), attrib);
@@ -422,7 +421,7 @@ public partial class ChartGraphics : ChartElement
 
 
 		Brush gradientBrush;
-		// Function which create gradient brush fires exception if 
+		// Function which create gradient brush fires exception if
 		// rectangle size is zero.
 		if (rectangle.Height == 0 || rectangle.Width == 0)
 		{
@@ -461,7 +460,7 @@ public partial class ChartGraphics : ChartElement
 			if (type == GradientStyle.HorizontalCenter)
 			{
 				// Resize and wrap gradient
-				tempRect.Height = tempRect.Height / 2F;
+				tempRect.Height /= 2F;
 				LinearGradientBrush linearGradientBrush = new(tempRect, firstColor, secondColor, angle);
 				gradientBrush = linearGradientBrush;
 				linearGradientBrush.WrapMode = WrapMode.TileFlipX;
@@ -469,7 +468,7 @@ public partial class ChartGraphics : ChartElement
 			else if (type == GradientStyle.VerticalCenter)
 			{
 				// Resize and wrap gradient
-				tempRect.Width = tempRect.Width / 2F;
+				tempRect.Width /= 2F;
 				LinearGradientBrush linearGradientBrush = new(tempRect, firstColor, secondColor, angle);
 				gradientBrush = linearGradientBrush;
 				linearGradientBrush.WrapMode = WrapMode.TileFlipX;
@@ -509,7 +508,7 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// This method creates a gradient brush for pie. This gradient is one 
+	/// This method creates a gradient brush for pie. This gradient is one
 	/// of the types used only with pie and doughnut.
 	/// </summary>
 	/// <param name="rectangle">A rectangle which has to be filled with a gradient color</param>
@@ -533,7 +532,7 @@ public partial class ChartGraphics : ChartElement
 			CenterColor = firstColor
 		};
 
-		// Set the color along the entire boundary 
+		// Set the color along the entire boundary
 		// of the path to aqua.
 		Color[] colors = [secondColor];
 
@@ -547,26 +546,20 @@ public partial class ChartGraphics : ChartElement
 
 	/// <summary>
 	/// Converts GDI+ line style to Chart Graph line style.
+	/// Convert to chart line styles. The custom style doesn't exist.
 	/// </summary>
 	/// <param name="style">Chart Line style.</param>
 	/// <returns>GDI+ line style.</returns>
-	internal DashStyle GetPenStyle(ChartDashStyle style)
-	{
-		// Convert to chart line styles. The custom style doesn’t exist.
-		switch (style)
-		{
-			case ChartDashStyle.Dash:
-				return DashStyle.Dash;
-			case ChartDashStyle.DashDot:
-				return DashStyle.DashDot;
-			case ChartDashStyle.DashDotDot:
-				return DashStyle.DashDotDot;
-			case ChartDashStyle.Dot:
-				return DashStyle.Dot;
-		}
+	internal DashStyle GetPenStyle(ChartDashStyle style) =>
 
-		return DashStyle.Solid;
-	}
+		style switch
+		{
+			ChartDashStyle.Dash => DashStyle.Dash,
+			ChartDashStyle.DashDot => DashStyle.DashDot,
+			ChartDashStyle.DashDotDot => DashStyle.DashDotDot,
+			ChartDashStyle.Dot => DashStyle.Dot,
+			_ => DashStyle.Solid,
+		};
 
 	#endregion
 
@@ -800,7 +793,7 @@ public partial class ChartGraphics : ChartElement
 							// Draw marker shadow
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
-								if (!softShadows)
+								if (!_softShadows)
 								{
 									using SolidBrush shadowBrush = new((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
 									RectangleF shadowRect = rect;
@@ -905,12 +898,12 @@ public partial class ChartGraphics : ChartElement
 								// Create translation matrix
 								Matrix translateMatrix = Transform.Clone();
 								translateMatrix.Translate(
-									(softShadows) ? shadowSize + 1 : shadowSize,
-									(softShadows) ? shadowSize + 1 : shadowSize);
+									(_softShadows) ? shadowSize + 1 : shadowSize,
+									(_softShadows) ? shadowSize + 1 : shadowSize);
 								Matrix oldMatrix = Transform;
 								Transform = translateMatrix;
 
-								if (!softShadows)
+								if (!_softShadows)
 								{
 									using Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
 									FillPolygon(softShadowBrush, points);
@@ -979,12 +972,12 @@ public partial class ChartGraphics : ChartElement
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
 								Matrix translateMatrix = Transform.Clone();
-								translateMatrix.Translate((softShadows) ? 0 : shadowSize,
-									(softShadows) ? 0 : shadowSize);
+								translateMatrix.Translate((_softShadows) ? 0 : shadowSize,
+									(_softShadows) ? 0 : shadowSize);
 								Matrix oldMatrix = Transform;
 								Transform = translateMatrix;
 
-								if (!softShadows)
+								if (!_softShadows)
 								{
 									using Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
 									FillPolygon(softShadowBrush, points);
@@ -1001,7 +994,7 @@ public partial class ChartGraphics : ChartElement
 									diamondRect.Width = diamondSize;
 									diamondRect.Height = diamondSize;
 
-									// Set rotation matrix to 45 
+									// Set rotation matrix to 45
 									translateMatrix.RotateAt(45, point);
 									Transform = translateMatrix;
 
@@ -1030,12 +1023,12 @@ public partial class ChartGraphics : ChartElement
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
 								Matrix translateMatrix = Transform.Clone();
-								translateMatrix.Translate((softShadows) ? shadowSize - 1 : shadowSize,
-									(softShadows) ? shadowSize + 1 : shadowSize);
+								translateMatrix.Translate((_softShadows) ? shadowSize - 1 : shadowSize,
+									(_softShadows) ? shadowSize + 1 : shadowSize);
 								Matrix oldMatrix = Transform;
 								Transform = translateMatrix;
 
-								if (!softShadows)
+								if (!_softShadows)
 								{
 									using Brush softShadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
 									FillPolygon(softShadowBrush, points);
@@ -1102,7 +1095,7 @@ public partial class ChartGraphics : ChartElement
 	#region String Methods
 
 	/// <summary>
-	/// Measures the specified string when drawn with the specified 
+	/// Measures the specified string when drawn with the specified
 	/// Font object and formatted with the specified StringFormat object.
 	/// </summary>
 	/// <param name="text">String to measure.</param>
@@ -1121,8 +1114,8 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Current implementation of the stacked text will simply insert a new
 		// line character between all characters in the original string. This
-		// apporach will not allow to show multiple lines of stacked text or 
-		// correctly handle text wrapping. 
+		// apporach will not allow to show multiple lines of stacked text or
+		// correctly handle text wrapping.
 		if (textOrientation == TextOrientation.Stacked)
 		{
 			text = GetStackedText(text);
@@ -1132,8 +1125,8 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// Measures the specified text string when drawn with 
-	/// the specified Font object and formatted with the 
+	/// Measures the specified text string when drawn with
+	/// the specified Font object and formatted with the
 	/// specified StringFormat object.
 	/// </summary>
 	/// <param name="text">The string to measure</param>
@@ -1151,8 +1144,8 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Current implementation of the stacked text will simply insert a new
 		// line character between all characters in the original string. This
-		// apporach will not allow to show multiple lines of stacked text or 
-		// correctly handle text wrapping. 
+		// apporach will not allow to show multiple lines of stacked text or
+		// correctly handle text wrapping.
 		if (textOrientation == TextOrientation.Stacked)
 		{
 			text = GetStackedText(text);
@@ -1181,8 +1174,8 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Current implementation of the stacked text will simply insert a new
 		// line character between all characters in the original string. This
-		// apporach will not allow to show multiple lines of stacked text or 
-		// correctly handle text wrapping. 
+		// apporach will not allow to show multiple lines of stacked text or
+		// correctly handle text wrapping.
 		if (textOrientation == TextOrientation.Stacked)
 		{
 			text = GetStackedText(text);
@@ -1213,8 +1206,8 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Current implementation of the stacked text will simply insert a new
 		// line character between all characters in the original string. This
-		// apporach will not allow to show multiple lines of stacked text or 
-		// correctly handle text wrapping. 
+		// apporach will not allow to show multiple lines of stacked text or
+		// correctly handle text wrapping.
 		if (textOrientation == TextOrientation.Stacked)
 		{
 			text = GetStackedText(text);
@@ -1243,8 +1236,8 @@ public partial class ChartGraphics : ChartElement
 	{
 		// Current implementation of the stacked text will simply insert a new
 		// line character between all characters in the original string. This
-		// apporach will not allow to show multiple lines of stacked text or 
-		// correctly handle text wrapping. 
+		// apporach will not allow to show multiple lines of stacked text or
+		// correctly handle text wrapping.
 		if (textOrientation == TextOrientation.Stacked)
 		{
 			text = GetStackedText(text);
@@ -1493,7 +1486,7 @@ public partial class ChartGraphics : ChartElement
 					FillRectangle(brush, backPositionAbs);
 				}
 
-				// deliant: Fix VSTS #156433	(2)	Data Label Border in core always shows when the style is set to NotSet	
+				// deliant: Fix VSTS #156433	(2)	Data Label Border in core always shows when the style is set to NotSet
 				// Draw box border
 				if (borderWidth > 0 &&
 						!borderColor.IsEmpty && borderDashStyle != ChartDashStyle.NotSet)
@@ -1558,10 +1551,10 @@ public partial class ChartGraphics : ChartElement
 						pointIndex);
 				}
 
-				// Set new hot region element type 
+				// Set new hot region element type
 				if (common.HotRegionsList.List != null && common.HotRegionsList.List.Count > 0)
 				{
-					((HotRegion)common.HotRegionsList.List[common.HotRegionsList.List.Count - 1]).Type =
+					((HotRegion)common.HotRegionsList.List[^1]).Type =
 						ChartElementType.DataPointLabel;
 				}
 			}
@@ -1639,7 +1632,7 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// This method is used by the axis title hot region generation code. 
+	/// This method is used by the axis title hot region generation code.
 	/// It transforms the centered rectangle the same way as the Axis title text.
 	/// </summary>
 	/// <param name="center">Title center</param>
@@ -1879,9 +1872,7 @@ public partial class ChartGraphics : ChartElement
 				absPosition = newRect;
 
 				// Replace string alignment
-				StringAlignment align = drawingFormat.Alignment;
-				drawingFormat.Alignment = drawingFormat.LineAlignment;
-				drawingFormat.LineAlignment = align;
+				(drawingFormat.LineAlignment, drawingFormat.Alignment) = (drawingFormat.Alignment, drawingFormat.LineAlignment);
 				if (angle == 90)
 				{
 					if (drawingFormat.LineAlignment == StringAlignment.Far)
@@ -2170,7 +2161,7 @@ public partial class ChartGraphics : ChartElement
 			//********************************************************************
 			if (IsRightToLeft)
 			{
-				// label alignment on the axis should appear as not RTL. 
+				// label alignment on the axis should appear as not RTL.
 				using StringFormat fmt = (StringFormat)drawingFormat.Clone();
 
 				if (fmt.Alignment == StringAlignment.Far)
@@ -2464,7 +2455,7 @@ public partial class ChartGraphics : ChartElement
 			return;
 		}
 
-		// Remember SmoothingMode and turn off anti aliasing for 
+		// Remember SmoothingMode and turn off anti aliasing for
 		// vertical or horizontal lines of the label markers.
 		SmoothingMode oldSmoothingMode = SmoothingMode;
 		SmoothingMode = SmoothingMode.None;
@@ -2559,8 +2550,8 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// Measures the specified text string when drawn with 
-	/// the specified Font object and formatted with the 
+	/// Measures the specified text string when drawn with
+	/// the specified Font object and formatted with the
 	/// specified StringFormat object.
 	/// </summary>
 	/// <param name="text">The string to measure</param>
@@ -2578,8 +2569,8 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// Measures the specified text string when drawn with 
-	/// the specified Font object and formatted with the 
+	/// Measures the specified text string when drawn with
+	/// the specified Font object and formatted with the
 	/// specified StringFormat object.
 	/// </summary>
 	/// <param name="text">The string to measure</param>
@@ -2601,8 +2592,8 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// Measures the specified text string when drawn with 
-	/// the specified Font object and formatted with the 
+	/// Measures the specified text string when drawn with
+	/// the specified Font object and formatted with the
 	/// specified StringFormat object.
 	/// </summary>
 	/// <param name="text">The string to measure</param>
@@ -2616,8 +2607,8 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// Measures the specified text string when drawn with 
-	/// the specified Font object and formatted with the 
+	/// Measures the specified text string when drawn with
+	/// the specified Font object and formatted with the
 	/// specified StringFormat object.
 	/// </summary>
 	/// <param name="text">The string to measure</param>
@@ -2632,9 +2623,9 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// Draws the specified text string at the specified location 
-	/// with the specified Brush object and font. The formatting 
-	/// properties in the specified StringFormat object are applied 
+	/// Draws the specified text string at the specified location
+	/// with the specified Brush object and font. The formatting
+	/// properties in the specified StringFormat object are applied
 	/// to the text.
 	/// </summary>
 	/// <param name="text">A string object that specifies the text to draw.</param>
@@ -2672,9 +2663,9 @@ public partial class ChartGraphics : ChartElement
 
 
 	/// <summary>
-	/// Draws the specified text string at the specified location 
-	/// with the specified angle and with the specified Brush object and font. The 
-	/// formatting properties in the specified StringFormat object are applied 
+	/// Draws the specified text string at the specified location
+	/// with the specified angle and with the specified Brush object and font. The
+	/// formatting properties in the specified StringFormat object are applied
 	/// to the text.
 	/// </summary>
 	/// <param name="text">A string object that specifies the text to draw.</param>
@@ -3368,7 +3359,7 @@ public partial class ChartGraphics : ChartElement
 		{
 			// SVG and Metafiles do not support inset pen styles - use same rectangle
 			if (ActiveRenderingType == RenderingType.Svg ||
-				IsMetafile)
+				_isMetafile)
 			{
 				fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 			}
@@ -3376,7 +3367,7 @@ public partial class ChartGraphics : ChartElement
 				Graphics.Transform.Elements[3] != 1f)
 			{
 				// Do not reduce filling rectangle if scaling is used in the graphics
-				// transformations. Rounding may cause a 1 pixel gap between the border 
+				// transformations. Rounding may cause a 1 pixel gap between the border
 				// and the filling.
 				fillRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 			}
@@ -3398,8 +3389,8 @@ public partial class ChartGraphics : ChartElement
 
 		// Fix for issue #6714:
 		// Make sure the rectangle coordinates fit the control. In same cases rectangle width or
-		// hight ca be extremly large. Drawing such a rectangle may cause an overflow exception. 
-		// The code below restricts the maximum size to double the chart size. See issue 
+		// hight ca be extremly large. Drawing such a rectangle may cause an overflow exception.
+		// The code below restricts the maximum size to double the chart size. See issue
 		// description for more information. -AG.
 		if (fillRect.Width > 2f * _width)
 		{
@@ -3598,7 +3589,7 @@ public partial class ChartGraphics : ChartElement
 			}
 			else
 			{
-				// NOTE: Rectangle with single pixel inset border is drawn 1 pixel larger 
+				// NOTE: Rectangle with single pixel inset border is drawn 1 pixel larger
 				// in the .Net Framework. Increase size by 1 pixel to solve the issue.
 				if (Pen.Alignment == PenAlignment.Inset && Pen.Width > 1f)
 				{
@@ -3683,7 +3674,7 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Draw usual or "soft" shadows
-		if (!softShadows || circularSectorsCount > 2)
+		if (!_softShadows || circularSectorsCount > 2)
 		{
 			RectangleF absolute;
 			RectangleF offset = RectangleF.Empty;
@@ -3981,27 +3972,24 @@ public partial class ChartGraphics : ChartElement
 	/// <param name="curentSector">Sector position.</param>
 	/// <param name="sectorSize">Sector size.</param>
 	/// <returns>3D brush.</returns>
-	[SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily",
-		Justification = "Too large of a code change to justify making this change")]
 	internal Brush GetSector3DBrush(Brush brush, float curentSector, float sectorSize)
 	{
 		// Get color from the brush
 		Color brushColor = Color.Gray;
-		if (brush is HatchBrush)
+		switch (brush)
 		{
-			brushColor = ((HatchBrush)brush).BackgroundColor;
-		}
-		else if (brush is LinearGradientBrush)
-		{
-			brushColor = ((LinearGradientBrush)brush).LinearColors[0];
-		}
-		else if (brush is PathGradientBrush)
-		{
-			brushColor = ((PathGradientBrush)brush).CenterColor;
-		}
-		else if (brush is SolidBrush)
-		{
-			brushColor = ((SolidBrush)brush).Color;
+			case HatchBrush hatchBrush:
+				brushColor = hatchBrush.BackgroundColor;
+				break;
+			case LinearGradientBrush linearGradientBrush:
+				brushColor = linearGradientBrush.LinearColors[0];
+				break;
+			case PathGradientBrush pathGradientBrush:
+				brushColor = pathGradientBrush.CenterColor;
+				break;
+			case SolidBrush solidBrush:
+				brushColor = solidBrush.Color;
+				break;
 		}
 
 		// Adjust sector angle
@@ -4014,13 +4002,13 @@ public partial class ChartGraphics : ChartElement
 			curentSector *= 0.8f;
 		}
 
-		// No angles more than 180 
+		// No angles more than 180
 		if (curentSector > 180)
 		{
 			curentSector = 360f - curentSector;
 		}
 
-		curentSector = curentSector / 180F;
+		curentSector /= 180F;
 
 		// Get brush
 		brushColor = GetBrightGradientColor(brushColor, curentSector);
@@ -4610,19 +4598,13 @@ public partial class ChartGraphics : ChartElement
 	#region Coordinates converter
 
 	/// <summary>
-	/// This method takes a RectangleF structure that is using absolute coordinates 
+	/// This method takes a RectangleF structure that is using absolute coordinates
 	/// and returns a RectangleF object that uses relative coordinates.
 	/// </summary>
 	/// <param name="rectangle">RectangleF structure in absolute coordinates.</param>
 	/// <returns>RectangleF structure in relative coordinates.</returns>
 	public RectangleF GetRelativeRectangle(RectangleF rectangle)
 	{
-		// Check arguments
-		if (rectangle == null)
-		{
-			throw new ArgumentNullException(nameof(rectangle));
-		}
-
 		RectangleF relative = RectangleF.Empty;
 
 		// Convert absolute coordinates to relative coordinates
@@ -4636,19 +4618,13 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// This method takes a PointF object that is using absolute coordinates 
+	/// This method takes a PointF object that is using absolute coordinates
 	/// and returns a PointF object that uses relative coordinates.
 	/// </summary>
 	/// <param name="point">PointF object in absolute coordinates.</param>
 	/// <returns>PointF object in relative coordinates.</returns>
 	public PointF GetRelativePoint(PointF point)
 	{
-		// Check arguments
-		if (point == null)
-		{
-			throw new ArgumentNullException(nameof(point));
-		}
-
 		PointF relative = PointF.Empty;
 
 		// Convert absolute coordinates to relative coordinates
@@ -4661,19 +4637,13 @@ public partial class ChartGraphics : ChartElement
 
 
 	/// <summary>
-	/// This method takes a SizeF object that uses absolute coordinates 
+	/// This method takes a SizeF object that uses absolute coordinates
 	/// and returns a SizeF object that uses relative coordinates.
 	/// </summary>
 	/// <param name="size">SizeF object in absolute coordinates.</param>
 	/// <returns>SizeF object in relative coordinates.</returns>
 	public SizeF GetRelativeSize(SizeF size)
 	{
-		// Check arguments
-		if (size == null)
-		{
-			throw new ArgumentNullException(nameof(size));
-		}
-
 		SizeF relative = SizeF.Empty;
 
 		// Convert absolute coordinates to relative coordinates
@@ -4685,19 +4655,13 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// This method takes a PointF object and converts its relative coordinates 
+	/// This method takes a PointF object and converts its relative coordinates
 	/// to absolute coordinates.
 	/// </summary>
 	/// <param name="point">PointF object in relative coordinates.</param>
 	/// <returns>PointF object in absolute coordinates.</returns>
 	public PointF GetAbsolutePoint(PointF point)
 	{
-		// Check arguments
-		if (point == null)
-		{
-			throw new ArgumentNullException(nameof(point));
-		}
-
 		PointF absolute = PointF.Empty;
 
 		// Convert relative coordinates to absolute coordinates
@@ -4709,19 +4673,13 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// This method takes a RectangleF structure and converts its relative coordinates 
+	/// This method takes a RectangleF structure and converts its relative coordinates
 	/// to absolute coordinates.
 	/// </summary>
 	/// <param name="rectangle">RectangleF object in relative coordinates.</param>
 	/// <returns>RectangleF object in absolute coordinates.</returns>
 	public RectangleF GetAbsoluteRectangle(RectangleF rectangle)
 	{
-		// Check arguments
-		if (rectangle == null)
-		{
-			throw new ArgumentNullException(nameof(rectangle));
-		}
-
 		RectangleF absolute = RectangleF.Empty;
 
 		// Convert relative coordinates to absolute coordinates
@@ -4742,12 +4700,6 @@ public partial class ChartGraphics : ChartElement
 	/// <returns>SizeF object in absolute coordinates.</returns>
 	public SizeF GetAbsoluteSize(SizeF size)
 	{
-		// Check arguments
-		if (size == null)
-		{
-			throw new ArgumentNullException(nameof(size));
-		}
-
 		SizeF absolute = SizeF.Empty;
 
 		// Convert relative coordinates to absolute coordinates
@@ -5030,7 +4982,7 @@ public partial class ChartGraphics : ChartElement
 		}
 
 		// Create border Pen
-		Pen borderPen = new Pen(borderColor, borderWidth)
+		Pen borderPen = new(borderColor, borderWidth)
 		{
 			// Set a border line style
 			DashStyle = GetPenStyle(borderDashStyle),
@@ -5067,7 +5019,7 @@ public partial class ChartGraphics : ChartElement
 		{
 
 			// Draw Soft shadow for pie slice
-			if (shadow && softShadows)
+			if (shadow && _softShadows)
 			{
 				DrawPieSoftShadow(startAngle, sweepAngle, absRect, backColor);
 			}
@@ -5105,7 +5057,7 @@ public partial class ChartGraphics : ChartElement
 	{
 		if (pieDrawingStyle == PieDrawingStyle.Concave)
 		{
-			// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn 
+			// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
 			// twice on the outside and inside radius.
 			float minSize = (float)Math.Min(position.Width, position.Height);
 			float shadowSize = minSize * 0.05f;
@@ -5155,7 +5107,7 @@ public partial class ChartGraphics : ChartElement
 		}
 		else if (pieDrawingStyle == PieDrawingStyle.SoftEdge)
 		{
-			// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn 
+			// Calculate the size of the shadow. Note: For Doughnut chart shadow is drawn
 			// twice on the outside and inside radius.
 			float minSize = (float)Math.Min(position.Width, position.Height);
 			float shadowSize = minSize / 10f;
@@ -5229,7 +5181,7 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// The soft shadow of the pie 
+	/// The soft shadow of the pie
 	/// </summary>
 	/// <param name="startAngle">Angle measured in degrees clockwise from the x-axis to the first side of the pie shape.</param>
 	/// <param name="sweepAngle">Angle measured in degrees clockwise from the startAngle parameter to the second side of the pie shape.</param>
@@ -5342,8 +5294,8 @@ public partial class ChartGraphics : ChartElement
 	}
 
 	/// <summary>
-	/// This function calculates points for polygon, which represents 
-	/// shape of an arrow. There are four different orientations 
+	/// This function calculates points for polygon, which represents
+	/// shape of an arrow. There are four different orientations
 	/// of arrow and three arrow types.
 	/// </summary>
 	/// <param name="position">Arrow position</param>
@@ -5364,8 +5316,8 @@ public partial class ChartGraphics : ChartElement
 			// Top orientation
 			case ArrowOrientation.Top:
 				// Get absolute size for arrow
-				// Arrow size has to have the same shape when width and height 
-				// are changed. When the picture is resized, width of the chart 
+				// Arrow size has to have the same shape when width and height
+				// are changed. When the picture is resized, width of the chart
 				// picture is used only for arrow size.
 				size = GetAbsoluteSize(new SizeF((float)size, (float)size)).Width;
 				shift = GetAbsoluteSize(new SizeF((float)shift, (float)shift)).Height;
@@ -5401,8 +5353,8 @@ public partial class ChartGraphics : ChartElement
 			// Bottom orientation
 			case ArrowOrientation.Bottom:
 				// Get absolute size for arrow
-				// Arrow size has to have the same shape when width and height 
-				// are changed. When the picture is resized, width of the chart 
+				// Arrow size has to have the same shape when width and height
+				// are changed. When the picture is resized, width of the chart
 				// picture is used only for arrow size.
 				size = GetAbsoluteSize(new SizeF((float)size, (float)size)).Width;
 				shift = GetAbsoluteSize(new SizeF((float)shift, (float)shift)).Height;
@@ -5662,7 +5614,7 @@ public partial class ChartGraphics : ChartElement
 	internal Pen Pen { get; private set; }
 
 	/// <summary>
-	/// Sets the clipping region of this Graphics object 
+	/// Sets the clipping region of this Graphics object
 	/// to the rectangle specified by a RectangleF structure.
 	/// </summary>
 	/// <param name="region">Region rectangle</param>
@@ -5744,7 +5696,7 @@ public partial class ChartGraphics : ChartElement
 
 	#region RightToLeft
 	/// <summary>
-	/// Returns chart right to left flag 
+	/// Returns chart right to left flag
 	/// </summary>
 	internal bool IsRightToLeft
 	{

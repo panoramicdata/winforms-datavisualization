@@ -708,7 +708,7 @@ internal class StackedColumnChart : IChartType
 
 
 					// Adjust width by number of stacked groups
-					width = width / (double)stackGroupNames.Count;
+					width /= (double)stackGroupNames.Count;
 
 
 					// Call Back Paint event
@@ -723,11 +723,11 @@ internal class StackedColumnChart : IChartType
 					{
 						if (yValue >= 0)
 						{
-							yValue = yValue + PreviousPosY;
+							yValue += PreviousPosY;
 						}
 						else
 						{
-							yValue = yValue + PreviousNegY;
+							yValue += PreviousNegY;
 						}
 					}
 
@@ -1582,9 +1582,7 @@ internal class StackedColumnChart : IChartType
 				// smaller value than a bottom value
 				if (zero < height)
 				{
-					float temp = bottomDarkening;
-					bottomDarkening = topDarkening;
-					topDarkening = temp;
+					(topDarkening, bottomDarkening) = (bottomDarkening, topDarkening);
 
 					rectSize.Y = (float)zero;
 					rectSize.Height = (float)height - rectSize.Y;

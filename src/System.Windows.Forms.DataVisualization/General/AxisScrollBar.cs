@@ -473,7 +473,7 @@ public class AxisScrollBar : IDisposable
 		scrollBarClientRect.Inflate(-borderRelativeSize.Width, -borderRelativeSize.Height);
 
 		// Draw all button types
-		foreach (ScrollBarButtonType buttonType in Enum.GetValues(typeof(ScrollBarButtonType)))
+		foreach (ScrollBarButtonType buttonType in Enum.GetValues<ScrollBarButtonType>())
 		{
 			// Get button rectangle
 			RectangleF buttonRect = GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)buttonType);
@@ -1079,7 +1079,7 @@ public class AxisScrollBar : IDisposable
 		ChartElementType buttonType = ChartElementType.Nothing;
 
 		// Fill collection with scroll buttons rectangles.
-		foreach (object type in Enum.GetValues(typeof(ScrollBarButtonType)))
+		foreach (object type in Enum.GetValues<ScrollBarButtonType>())
 		{
 
 			// Convert Scroll Bar Button type enum to Chart Element AxisName enum.
@@ -1147,7 +1147,7 @@ public class AxisScrollBar : IDisposable
 			//******************************************************************
 			//** Check if scroll bar button was clicked
 			//******************************************************************
-			foreach (object type in Enum.GetValues(typeof(ScrollBarButtonType)))
+			foreach (object type in Enum.GetValues<ScrollBarButtonType>())
 			{
 				// Get button rectangle
 				RectangleF buttonRect = GetScrollBarButtonRect(scrollBarClientRect, (ScrollBarButtonType)type);

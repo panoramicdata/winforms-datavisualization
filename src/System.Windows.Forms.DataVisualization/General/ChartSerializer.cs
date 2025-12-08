@@ -599,7 +599,7 @@ public class ChartSerializer
 		NonSerializableContent = "";
 
 		// Loop through all enumeration flags
-		Array enumValues = Enum.GetValues(typeof(SerializationContents));
+		Array enumValues = Enum.GetValues<SerializationContents>();
 		foreach (object flagObject in enumValues)
 		{
 			if (flagObject is SerializationContents)

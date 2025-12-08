@@ -1215,7 +1215,7 @@ internal class PointChart : IChartType
 		//**********************************************************************
 		if (label3DInfoList != null &&
 			label3DInfoList.Count > 0 &&
-			((Label3DInfo)label3DInfoList[label3DInfoList.Count - 1]).PointEx.zPosition != pointEx.zPosition)
+			((Label3DInfo)label3DInfoList[^1]).PointEx.zPosition != pointEx.zPosition)
 		{
 			// Draw labels with information previously collected
 			DrawAccumulated3DLabels(graph, common, area);

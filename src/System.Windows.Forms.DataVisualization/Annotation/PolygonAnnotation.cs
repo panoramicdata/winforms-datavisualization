@@ -1058,7 +1058,7 @@ public class PolylineAnnotation : Annotation
 				// Adjust last point position
 				PointF[] pathPoints = _graphicsPath.PathPoints;
 				byte[] pathTypes = _graphicsPath.PathTypes;
-				pathPoints[pathPoints.Length - 1] = newPoint;
+				pathPoints[^1] = newPoint;
 
 				_defaultGraphicsPath.Dispose();
 				_defaultGraphicsPath = new GraphicsPath(pathPoints, pathTypes);

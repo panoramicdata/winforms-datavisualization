@@ -440,7 +440,7 @@ internal class AxisScaleSegment
 				}
 
 				points[0] = new PointF(startX, y);
-				points[points.Length - 1] = new PointF(endX, y);
+				points[^1] = new PointF(endX, y);
 			}
 			else
 			{
@@ -463,7 +463,7 @@ internal class AxisScaleSegment
 				}
 
 				points[0] = new PointF(x, startY);
-				points[points.Length - 1] = new PointF(x, endY);
+				points[^1] = new PointF(x, endY);
 			}
 
 			path.AddCurve(points, 0, pointNumber, 0.8f);
@@ -494,7 +494,7 @@ internal class AxisScaleSegment
 				}
 
 				points[0] = new PointF(startX, y);
-				points[points.Length - 1] = new PointF(endX, y);
+				points[^1] = new PointF(endX, y);
 			}
 			else
 			{
@@ -518,7 +518,7 @@ internal class AxisScaleSegment
 				}
 
 				points[0] = new PointF(x, startY);
-				points[points.Length - 1] = new PointF(x, endY);
+				points[^1] = new PointF(x, endY);
 			}
 
 			path.AddLines(points);

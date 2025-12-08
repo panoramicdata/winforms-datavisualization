@@ -1386,7 +1386,7 @@ public partial class ChartArea
 					result = true;
 				}
 
-				resultCoordinates = resultCoordinates | COPCoordinates.X;
+				resultCoordinates |= COPCoordinates.X;
 			}
 
 			if ((coord & COPCoordinates.Y) == COPCoordinates.Y)
@@ -1398,7 +1398,7 @@ public partial class ChartArea
 					result = true;
 				}
 
-				resultCoordinates = resultCoordinates | COPCoordinates.Y;
+				resultCoordinates |= COPCoordinates.Y;
 			}
 
 			if ((coord & COPCoordinates.Z) == COPCoordinates.Z)
@@ -1410,7 +1410,7 @@ public partial class ChartArea
 					result = true;
 				}
 
-				resultCoordinates = resultCoordinates | COPCoordinates.Z;
+				resultCoordinates |= COPCoordinates.Z;
 			}
 		}
 

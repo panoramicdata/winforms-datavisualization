@@ -571,7 +571,7 @@ internal class PointAndFigureChart : RangeColumnChart
 
 						if (series.Points.Count > 0)
 						{
-							series.Points[series.Points.Count - 1].YValues[0] -= numberOfBricks * boxSize;
+							series.Points[^1].YValues[0] -= numberOfBricks * boxSize;
 						}
 
 						prevLow -= numberOfBricks * boxSize;
@@ -603,7 +603,7 @@ internal class PointAndFigureChart : RangeColumnChart
 
 						if (series.Points.Count > 0)
 						{
-							series.Points[series.Points.Count - 1].YValues[1] += numberOfBricks * boxSize;
+							series.Points[^1].YValues[1] += numberOfBricks * boxSize;
 						}
 
 						prevHigh += numberOfBricks * boxSize;
@@ -619,15 +619,15 @@ internal class PointAndFigureChart : RangeColumnChart
 					{
 						if (direction == 1)
 						{
-							series.Points[series.Points.Count - 1].YValues[1] += numberOfBricks * boxSize;
+							series.Points[^1].YValues[1] += numberOfBricks * boxSize;
 							prevHigh += numberOfBricks * boxSize;
-							series.Points[series.Points.Count - 1]["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
+							series.Points[^1]["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 						}
 						else
 						{
-							series.Points[series.Points.Count - 1].YValues[0] -= numberOfBricks * boxSize;
+							series.Points[^1].YValues[0] -= numberOfBricks * boxSize;
 							prevLow -= numberOfBricks * boxSize;
-							series.Points[series.Points.Count - 1]["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
+							series.Points[^1]["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
 						}
 					}
 					else

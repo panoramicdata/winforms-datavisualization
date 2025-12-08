@@ -1469,7 +1469,7 @@ internal class StatisticalAnalysis : IFormula
 
 	/// <summary>
 	/// Used by betai: Evaluates continued fraction for 
-	/// incomplete beta function by modified Lentz’s
+	/// incomplete beta function by modified Lentz's
 	/// </summary>
 	/// <param name="a">Beta incomplete parameter</param>
 	/// <param name="b">Beta incomplete parameter</param>

@@ -179,7 +179,7 @@ internal class FlagsEnumCheckedListBox : CheckedListBox
 		foreach (object checkedItem in CheckedItems)
 		{
 			int currentValueInt32 = (int)Enum.Parse(_editType, (string)checkedItem);
-			editValueInt32 = editValueInt32 | currentValueInt32;
+			editValueInt32 |= currentValueInt32;
 		}
 
 		// Return enumeration value

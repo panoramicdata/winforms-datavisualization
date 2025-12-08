@@ -1096,27 +1096,27 @@ public partial class ChartGraphics
 		}
 		else if (angle > -270 && angle < -90)
 		{
-			angle = angle + 180;
+			angle += 180;
 			angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-			angle = angle - 180;
+			angle -= 180;
 		}
 		else if (angle > 90 && angle < 270)
 		{
-			angle = angle - 180;
+			angle -= 180;
 			angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-			angle = angle + 180;
+			angle += 180;
 		}
 		else if (angle > 270 && angle < 450)
 		{
-			angle = angle - 360;
+			angle -= 360;
 			angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-			angle = angle + 360;
+			angle += 360;
 		}
 		else if (angle > 450)
 		{
-			angle = angle - 540;
+			angle -= 540;
 			angle = (float)(Math.Atan(Math.Tan((angle) * Math.PI / 180) * correction) * 180 / Math.PI);
-			angle = angle + 540;
+			angle += 540;
 		}
 
 		return angle;
@@ -2217,9 +2217,7 @@ public partial class ChartGraphics
 			//****************************************************************
 			if (firstPoint.index > secondPoint.index)
 			{
-				DataPoint3D tempPoint = firstPoint;
-				firstPoint = secondPoint;
-				secondPoint = tempPoint;
+				(secondPoint, firstPoint) = (firstPoint, secondPoint);
 			}
 
 			//**********************************************************************
@@ -2274,9 +2272,7 @@ public partial class ChartGraphics
 			// Switch left & right border if series is reversed
 			if (reversedSeriesOrder)
 			{
-				bool tempVal = thickBorderOnLeft;
-				thickBorderOnLeft = thickBorderOnRight;
-				thickBorderOnRight = tempVal;
+				(thickBorderOnRight, thickBorderOnLeft) = (thickBorderOnLeft, thickBorderOnRight);
 			}
 
 			// Draw thick border for single segment lines only
@@ -3553,7 +3549,7 @@ public partial class ChartGraphics
 							// Draw marker shadow
 							if (shadowSize != 0 && shadowColor != Color.Empty)
 							{
-								if (!graph.softShadows)
+								if (!graph._softShadows)
 								{
 									using Brush shadowBrush = new SolidBrush((shadowColor.A != 255) ? shadowColor : Color.FromArgb(markerColor.A / 2, shadowColor));
 									RectangleF shadowRect = rect;
@@ -4572,9 +4568,7 @@ public partial class ChartGraphics
 							{
 								if (ellipsePoints[leftBottomPoint].Y > oppositeEllipsePoints[_oppLeftBottomPoint].Y)
 								{
-									int temp = leftBottomPoint;
-									leftBottomPoint = rigthTopPoint;
-									rigthTopPoint = temp;
+									(rigthTopPoint, leftBottomPoint) = (leftBottomPoint, rigthTopPoint);
 
 									temp = _oppLeftBottomPoint;
 									_oppLeftBottomPoint = _oppRigthTopPoint;
@@ -4605,7 +4599,7 @@ public partial class ChartGraphics
 		{
 			if (pointIndex > ellipsePoints.Length - 1)
 			{
-				resultPath.AddLine(ellipsePoints[ellipsePoints.Length - 1], ellipsePoints[0]);
+				resultPath.AddLine(ellipsePoints[^1], ellipsePoints[0]);
 				pointIndex = 0;
 				continue;
 			}

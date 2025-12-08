@@ -763,9 +763,7 @@ internal class RangeChart : SplineChart
 		bool reversed = false;
 		if (firstPoint.index > secondPoint.index)
 		{
-			DataPoint3D tempPoint = firstPoint;
-			firstPoint = secondPoint;
-			secondPoint = tempPoint;
+			(secondPoint, firstPoint) = (firstPoint, secondPoint);
 			reversed = true;
 		}
 

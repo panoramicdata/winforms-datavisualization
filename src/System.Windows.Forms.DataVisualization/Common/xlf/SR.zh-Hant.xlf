@@ -3550,8 +3550,8 @@
         <note />
       </trans-unit>
       <trans-unit id="DescriptionCustomAttributeProportionalSymbols">
-        <source>Determines if a Point and Figure chart should attempt to draw ‘X’ and ‘O’ symbols proportionally. This is done by adding an empty space on the right side if the width of the symbol is too large.</source>
-        <target state="new">Determines if a Point and Figure chart should attempt to draw ‘X’ and ‘O’ symbols proportionally. This is done by adding an empty space on the right side if the width of the symbol is too large.</target>
+        <source>Determines if a Point and Figure chart should attempt to draw ‘X' and ‘O' symbols proportionally. This is done by adding an empty space on the right side if the width of the symbol is too large.</source>
+        <target state="new">Determines if a Point and Figure chart should attempt to draw ‘X' and ‘O' symbols proportionally. This is done by adding an empty space on the right side if the width of the symbol is too large.</target>
         <note />
       </trans-unit>
       <trans-unit id="DescriptionCustomAttributePyramid3DDrawingStyle">
@@ -5195,8 +5195,8 @@ All other characters are copied to the output string as literals in the position
  Parameters: 0 - series1 (string), 1 - series2 (string) </note>
       </trans-unit>
       <trans-unit id="ExceptionFormulaDataSeriesNameNotFound">
-        <source>Formula Data Object - Input Series doesn’t exist: {0}</source>
-        <target state="new">Formula Data Object - Input Series doesn’t exist: {0}</target>
+        <source>Formula Data Object - Input Series doesn't exist: {0}</source>
+        <target state="new">Formula Data Object - Input Series doesn't exist: {0}</target>
         <note>.
  Parameters: 0 - name (string) </note>
       </trans-unit>

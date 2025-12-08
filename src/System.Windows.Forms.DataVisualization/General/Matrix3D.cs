@@ -420,8 +420,8 @@ internal class Matrix3D
 	{
 		foreach (Point3D point in points)
 		{
-			point.X = point.X - _shiftX;
-			point.Y = point.Y - _shiftY;
+			point.X -= _shiftX;
+			point.Y -= _shiftY;
 		}
 	}
 
@@ -455,8 +455,8 @@ internal class Matrix3D
 		// Perspective Factor - Intensity of projection.
 		foreach (Point3D point in points)
 		{
-			point.X = point.X + (_perspectiveZ - point.Z) * yFactor;
-			point.Y = point.Y - (_perspectiveZ - point.Z) * xFactor;
+			point.X += (_perspectiveZ - point.Z) * yFactor;
+			point.Y -= (_perspectiveZ - point.Z) * xFactor;
 		}
 	}
 
@@ -857,7 +857,7 @@ internal class Matrix3D
 	/// <summary>
 	/// Return intensity of lightStyle for 3D Cube. There are tree types of lights: None, 
 	/// Simplistic and Realistic. None Style have same lightStyle intensity on 
-	/// all polygons. Normal vector doesn’t have influence on this type 
+	/// all polygons. Normal vector doesn't have influence on this type 
 	/// of lighting. Simplistic style have lightStyle source, which is 
 	/// rotated together with scene. Realistic lighting have fixed lightStyle 
 	/// source and intensity of lightStyle is change when scene is rotated.
@@ -967,7 +967,7 @@ internal class Matrix3D
 	/// <summary>
 	/// Return intensity of lightStyle for Polygons. There are tree types of lights: None, 
 	/// Simplistic and Realistic. None Style have same lightStyle intensity on 
-	/// all polygons. Normal vector doesn’t have influence on this type 
+	/// all polygons. Normal vector doesn't have influence on this type 
 	/// of lighting. Simplistic style have lightStyle source, which is 
 	/// rotated together with scene. Realistic lighting have fixed lightStyle 
 	/// source and intensity of lightStyle is change when scene is rotated.
@@ -1160,7 +1160,7 @@ internal class Matrix3D
 	/// <returns>Calculated Gradient color from gradient position</returns>
 	private Color GetBrightGradientColor(Color beginColor, double position)
 	{
-		position = position * 2;
+		position *= 2;
 		double brightness = 0.5;
 		if (position < brightness)
 		{

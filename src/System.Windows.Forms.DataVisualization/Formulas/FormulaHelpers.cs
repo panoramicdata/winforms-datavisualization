@@ -1538,7 +1538,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 		}
 		else
 		{
-			seriesField = (DataField)Enum.Parse(typeof(DataField), seriesFieldId, true);
+			seriesField = Enum.Parse<DataField>(seriesFieldId, true);
 		}
 
 		// Add the seriesField to the results
@@ -1637,7 +1637,7 @@ internal class SeriesFieldList : List<SeriesFieldInfo>
 			//Try parse the field name
 			try
 			{
-				seriesField = (DataField)Enum.Parse(typeof(DataField), seriesFieldId, true);
+				seriesField = Enum.Parse<DataField>(seriesFieldId, true);
 			}
 			catch (ArgumentException)
 			{ }

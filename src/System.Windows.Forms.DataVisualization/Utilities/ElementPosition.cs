@@ -9,25 +9,24 @@
 //              relative coordinate system where top left corner is
 //              0,0 and bottom right is 100,100.
 //              :
-//              If Auto property is set to true, all position properties 
+//              If Auto property is set to true, all position properties
 //              (X,Y,Width and Height) are ignored and they automatically
 //              calculated during chart rendering.
 //              :
-//              Note that setting any of the position properties will 
+//              Note that setting any of the position properties will
 //              automatically set Auto property to false.
 //
 
 
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
 /// <summary>
-/// ElementPosition is the base class for many chart visual 
-/// elements like Legend, Title and ChartArea. It provides 
-/// the position of the chart element in relative coordinates, 
+/// ElementPosition is the base class for many chart visual
+/// elements like Legend, Title and ChartArea. It provides
+/// the position of the chart element in relative coordinates,
 /// from (0,0) to (100,100).
 /// </summary>
 [
@@ -46,7 +45,7 @@ public class ElementPosition : ChartElement
 	internal bool _auto = true;
 
 	// Indicates the auto position of all areas must be reset
-	internal bool resetAreaAutoPosition = false;
+	internal bool _resetAreaAutoPosition = false;
 
 	#endregion
 
@@ -75,8 +74,6 @@ public class ElementPosition : ChartElement
 	/// <param name="y">Y position.</param>
 	/// <param name="width">Width.</param>
 	/// <param name="height">Height.</param>
-	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
-		Justification = "X and Y are cartesian coordinates and well understood")]
 	public ElementPosition(float x, float y, float width, float height)
 	{
 		_auto = false;
@@ -97,7 +94,7 @@ public class ElementPosition : ChartElement
 	/// <param name="autoValue">Value to be set for the Auto property.</param>
 	private void ResetAllAreasAutoPosition(bool autoValue)
 	{
-		if (resetAreaAutoPosition)
+		if (_resetAreaAutoPosition)
 		{
 			// Proceed only if at design time
 			if (Chart != null && Chart.IsDesignMode() && !Chart.serializing && Chart.Site != null)
@@ -164,11 +161,6 @@ public class ElementPosition : ChartElement
 	/// <param name="rect">RectangleF structure.</param>
 	public void FromRectangleF(RectangleF rect)
 	{
-		if (rect == null)
-		{
-			throw new ArgumentNullException(nameof(rect));
-		}
-
 		_x = rect.X;
 		_y = rect.Y;
 		_width = rect.Width;
@@ -283,7 +275,6 @@ public class ElementPosition : ChartElement
 	SRDescription("DescriptionAttributeElementPosition_X"),
 	NotifyParentProperty(true),
 	RefreshProperties(RefreshProperties.All),
-		SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")
 		]
 	public float X
 	{
@@ -321,7 +312,6 @@ public class ElementPosition : ChartElement
 	SRDescription("DescriptionAttributeElementPosition_Y"),
 	NotifyParentProperty(true),
 	RefreshProperties(RefreshProperties.All),
-		SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")
 		]
 	public float Y
 	{

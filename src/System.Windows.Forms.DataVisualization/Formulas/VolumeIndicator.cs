@@ -216,9 +216,9 @@ internal class VolumeIndicators : PriceIndicators
 	/// when prices close lower, the PVT adds/subtracts only 
 	/// a portion of the daily volume. The amount of volume 
 	/// added to the PVT is determined by the amount that prices 
-	/// rose or fell relative to the previous day’s close. 
-	/// The PVT is calculated by multiplying the day’s volume 
-	/// by the percent that the security’s price changed, and 
+	/// rose or fell relative to the previous day's close. 
+	/// The PVT is calculated by multiplying the day's volume 
+	/// by the percent that the security's price changed, and 
 	/// adding this value to a cumulative total.
 	/// ---------------------------------------------------------
 	/// Input: 
@@ -313,17 +313,17 @@ internal class VolumeIndicators : PriceIndicators
 			outputValues[0][index] = inputValues[0][index];
 
 			// Set Y Values
-			// If today’s close is greater than yesterday’s close then
+			// If today's close is greater than yesterday's close then
 			if (inputValues[1][index - 1] < inputValues[1][index])
 			{
 				outputValues[1][index] = outputValues[1][index - 1] + inputValues[2][index];
 			}
-			// If today’s close is less than yesterday’s close then
+			// If today's close is less than yesterday's close then
 			else if (inputValues[1][index - 1] > inputValues[1][index])
 			{
 				outputValues[1][index] = outputValues[1][index - 1] - inputValues[2][index];
 			}
-			// If today’s close is equal to yesterday’s close then
+			// If today's close is equal to yesterday's close then
 			else
 			{
 				outputValues[1][index] = outputValues[1][index - 1];
@@ -379,7 +379,7 @@ internal class VolumeIndicators : PriceIndicators
 			// Set X values
 			outputValues[0][index] = inputValues[0][index];
 
-			// If today’s volume is less than yesterday’s volume then
+			// If today's volume is less than yesterday's volume then
 			if (inputValues[2][index] < inputValues[2][index - 1])
 			{
 				double yesterdayClose = inputValues[1][index - 1];
@@ -387,7 +387,7 @@ internal class VolumeIndicators : PriceIndicators
 
 				outputValues[1][index] = (todayClose - yesterdayClose) / yesterdayClose * outputValues[1][index - 1] + outputValues[1][index - 1];
 			}
-			// If today’s volume is greater than or equal to yesterday’s volume then:
+			// If today's volume is greater than or equal to yesterday's volume then:
 			else
 			{
 				outputValues[1][index] = outputValues[1][index - 1];
@@ -452,7 +452,7 @@ internal class VolumeIndicators : PriceIndicators
 			// Set X values
 			outputValues[0][index] = inputValues[0][index];
 
-			// If today’s volume is greater than yesterday’s volume then
+			// If today's volume is greater than yesterday's volume then
 			if (inputValues[2][index] > inputValues[2][index - 1])
 			{
 				double yesterdayClose = inputValues[1][index - 1];
@@ -460,7 +460,7 @@ internal class VolumeIndicators : PriceIndicators
 
 				outputValues[1][index] = (todayClose - yesterdayClose) / yesterdayClose * outputValues[1][index - 1] + outputValues[1][index - 1];
 			}
-			// If today’s volume is less than or equal to yesterday’s volume then:
+			// If today's volume is less than or equal to yesterday's volume then:
 			else
 			{
 				outputValues[1][index] = outputValues[1][index - 1];
@@ -473,7 +473,7 @@ internal class VolumeIndicators : PriceIndicators
 	/// associates changes in price and volume. The indicator is 
 	/// based on the premise that the more volume that accompanies 
 	/// a price move, the more significant the price move. A portion 
-	/// of each day’s volume is added or subtracted from 
+	/// of each day's volume is added or subtracted from 
 	/// a cumulative total. The nearer the closing price is to 
 	/// the high for the day, the more volume added to 
 	/// the cumulative total. The nearer the closing price is to 

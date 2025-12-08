@@ -785,8 +785,8 @@ internal class PieChart : IChartType
 			{
 				rectangle.X += rectangle.Width * (1 - _sizeCorrection) / 2;
 				rectangle.Y += rectangle.Height * (1 - _sizeCorrection) / 2;
-				rectangle.Width = rectangle.Width * _sizeCorrection;
-				rectangle.Height = rectangle.Height * _sizeCorrection;
+				rectangle.Width *= _sizeCorrection;
+				rectangle.Height *= _sizeCorrection;
 
 				// Adjust inner plot position 
 				if (area.InnerPlotPosition.Auto)
@@ -1380,7 +1380,7 @@ internal class PieChart : IChartType
 				}
 
 				// This method returns calculated rectangle from point position 
-				// for outside label. Rectangle mustn’t be out of chart area.
+				// for outside label. Rectangle mustn't be out of chart area.
 				labelRect = GetLabelRect(new PointF(x3, y3), area, text, format, graph, point, true);
 				labelRectOver = GetLabelRect(new PointF(x3Overlap, y3), area, text, format, graph, point, true);
 			}
@@ -1397,7 +1397,7 @@ internal class PieChart : IChartType
 				}
 
 				// This method returns calculated rectangle from point position 
-				// for outside label. Rectangle mustn’t be out of chart area.
+				// for outside label. Rectangle mustn't be out of chart area.
 				labelRect = GetLabelRect(new PointF(x3, y3), area, text, format, graph, point, false);
 				labelRectOver = GetLabelRect(new PointF(x3Overlap, y3), area, text, format, graph, point, false);
 			}
@@ -1497,7 +1497,7 @@ internal class PieChart : IChartType
 
 	/// <summary>
 	/// This method returns calculated rectangle from point position 
-	/// for outside label. Rectangle mustn’t be out of chart area.
+	/// for outside label. Rectangle mustn't be out of chart area.
 	/// </summary>
 	/// <param name="labelPosition">The first position for label</param>
 	/// <param name="area">Chart area used for chart area position</param>
@@ -2000,7 +2000,7 @@ internal class PieChart : IChartType
 		DataPoint firstPoint, lastPoint;
 
 		firstPoint = points[0];
-		lastPoint = points[points.Count - 1];
+		lastPoint = points[^1];
 
 		// Change color for last point if same as the first and if it is from pallete.
 		if (firstPoint.tempColorIsSet && lastPoint.tempColorIsSet && firstPoint.Color == lastPoint.Color)
@@ -2250,7 +2250,7 @@ internal class PieChart : IChartType
 		}
 
 		//Find how much intervals are out of area. Out of area could be positive value only.
-		double outOfArea = (endOfIntervals[endOfIntervals.Length - 1] - endArea) + (startArea - startOfIntervals[0]);
+		double outOfArea = (endOfIntervals[^1] - endArea) + (startArea - startOfIntervals[0]);
 		if (outOfArea <= 0)
 		{
 			// This algorithm shifts all intervals for the same 
@@ -2321,9 +2321,9 @@ internal class PieChart : IChartType
 		{
 			shift = startArea - startOfIntervals[0];
 		}
-		else if (endOfIntervals[endOfIntervals.Length - 1] > endArea)
+		else if (endOfIntervals[^1] > endArea)
 		{
-			shift = endArea - endOfIntervals[endOfIntervals.Length - 1];
+			shift = endArea - endOfIntervals[^1];
 		}
 
 		for (int index = 0; index < startOfIntervals.Length; index++)
@@ -2682,8 +2682,8 @@ internal class PieChart : IChartType
 
 					rectangle.X += rectangle.Width * (1 - sizeCorrection) / 2;
 					rectangle.Y += rectangle.Height * (1 - sizeCorrection) / 2;
-					rectangle.Width = rectangle.Width * sizeCorrection;
-					rectangle.Height = rectangle.Height * sizeCorrection;
+					rectangle.Width *= sizeCorrection;
+					rectangle.Height *= sizeCorrection;
 				}
 
 
@@ -4526,14 +4526,14 @@ internal class PieChart : IChartType
 			// rotation from -180 to 180 ), Front point could be at 90 and 450
 			// Case frontPoint == -1 is set because of rounding error.
 			// ***************************************************************
-			if (startAngle <= 90 && endAngle > 90 || startAngle <= 450 && endAngle > 450 && frontPoint == -1 && (points[points.Length - 1] == null || points.Length == 1))
+			if (startAngle <= 90 && endAngle > 90 || startAngle <= 450 && endAngle > 450 && frontPoint == -1 && (points[^1] == null || points.Length == 1))
 			{
 				/*	
 			   if( points[points.Length-1] != null && points.Length != 1) 
 					throw new InvalidOperationException(SR.ExceptionPiePointOrderInvalid);
 				*/
 				frontPoint = pointIndx;
-				points[points.Length - 1] = point;
+				points[^1] = point;
 				newStartAngleList[points.Length - 1] = startAngleList[pointIndx];
 				newSweepAngleList[points.Length - 1] = sweepAngleList[pointIndx];
 				newPointIndexList[points.Length - 1] = pointIndexList[pointIndx];
@@ -4552,7 +4552,7 @@ internal class PieChart : IChartType
 		// put same point in two fields.
 		if (frontPoint == backPoint && points.Length != 1)
 		{
-			points[points.Length - 1] = null;
+			points[^1] = null;
 			newStartAngleList[points.Length - 1] = 0;
 			newSweepAngleList[points.Length - 1] = 0;
 			newPointIndexList[points.Length - 1] = 0;
@@ -5478,7 +5478,7 @@ internal class PieChart : IChartType
 		// Find size of inner plot are
 		pieRectangle.Width = pieRectangle.Width - 2F * maxSize - 2 * pieRectangle.Width * labelLineSize;
 
-		pieRectangle.Height = pieRectangle.Height - pieRectangle.Height * 0.3F;
+		pieRectangle.Height -= pieRectangle.Height * 0.3F;
 
 		// Size of pie chart can not be less then MinimumRelativePieSize of chart area.
 		if (pieRectangle.Width < oldWidth * (float)MinimumRelativePieSize(area))
@@ -5498,10 +5498,10 @@ internal class PieChart : IChartType
 			pieRectangle.Width *= 0.8F;
 		}
 
-		pieRectangle.X = pieRectangle.X + (oldWidth - pieRectangle.Width) / 2F;
+		pieRectangle.X += (oldWidth - pieRectangle.Width) / 2F;
 		pieWidth = pieRectangle.Width / oldWidth * pieWidth;
 
-		pieRectangle.Y = pieRectangle.Y + (oldHeight - pieRectangle.Height) / 2F;
+		pieRectangle.Y += (oldHeight - pieRectangle.Height) / 2F;
 
 		// Find maximum number of rows. Number of rows will be changed 
 		// but this is only recommendation, which depends on font size 
@@ -5721,7 +5721,7 @@ internal class PieChart : IChartType
 		sizeLabel.Height += sizeFont.Height / 8;
 		sizeLabel.Width += sizeLabel.Width / text.Length;
 		// Get label background position
-		RectangleF labelBackPosition = new RectangleF(
+		RectangleF labelBackPosition = new(
 	labelPosition.X - sizeLabel.Width / 2,
 	labelPosition.Y - sizeLabel.Height / 2 - sizeFont.Height / 10,
 	sizeLabel.Width,

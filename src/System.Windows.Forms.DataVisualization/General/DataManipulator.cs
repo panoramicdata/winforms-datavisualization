@@ -561,11 +561,11 @@ public class DataManipulator : DataFormula
 				{
 					if (double.IsNaN(toX))
 					{
-						toX = ser.Points[ser.Points.Count - 1].XValue;
+						toX = ser.Points[^1].XValue;
 					}
 					else
 					{
-						toX = Math.Max(toX, ser.Points[ser.Points.Count - 1].XValue);
+						toX = Math.Max(toX, ser.Points[^1].XValue);
 					}
 				}
 
@@ -583,9 +583,7 @@ public class DataManipulator : DataFormula
 
 				if (fromX > toX)
 				{
-					double tempValue = fromX;
-					fromX = toX;
-					toX = tempValue;
+					(toX, fromX) = (fromX, toX);
 				}
 			}
 		}
@@ -600,7 +598,7 @@ public class DataManipulator : DataFormula
 		// Add offset to the start position
 		if (intervalOffset != 0)
 		{
-			fromX = fromX + ChartHelper.GetIntervalSize(fromX, intervalOffset, ConvertIntervalType(intervalOffsetType), null, 0, DateTimeIntervalType.Number, true, false);
+			fromX += ChartHelper.GetIntervalSize(fromX, intervalOffset, ConvertIntervalType(intervalOffsetType), null, 0, DateTimeIntervalType.Number, true, false);
 		}
 
 
@@ -1509,9 +1507,7 @@ public class DataManipulator : DataFormula
 
 						if (result[index + 1] < result[index])
 						{
-							int temp = result[index];
-							result[index] = result[index + 1];
-							result[index + 1] = temp;
+							(result[index + 1], result[index]) = (result[index], result[index + 1]);
 						}
 					}
 					catch (Exception)
@@ -2144,7 +2140,7 @@ public class DataManipulator : DataFormula
 	}
 
 	/// <summary>
-	/// Grouping by X value, when it’s a string (stored in AxisLabel property).
+	/// Grouping by X value, when it's a string (stored in AxisLabel property).
 	/// </summary>
 	/// <param name="formula">Grouping formula.</param>
 	/// <param name="inputSeries">Array of input series.</param>
@@ -3110,55 +3106,55 @@ public class DataManipulator : DataFormula
 		}
 
 		// Check formula name
-		if (formulaParts[formulaParts.Length - 1] == "MIN")
+		if (formulaParts[^1] == "MIN")
 		{
 			return GroupingFunction.Min;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "MAX")
+		else if (formulaParts[^1] == "MAX")
 		{
 			return GroupingFunction.Max;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "AVE")
+		else if (formulaParts[^1] == "AVE")
 		{
 			return GroupingFunction.Ave;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "SUM")
+		else if (formulaParts[^1] == "SUM")
 		{
 			return GroupingFunction.Sum;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "FIRST")
+		else if (formulaParts[^1] == "FIRST")
 		{
 			return GroupingFunction.First;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "LAST")
+		else if (formulaParts[^1] == "LAST")
 		{
 			return GroupingFunction.Last;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "HILOOPCL")
+		else if (formulaParts[^1] == "HILOOPCL")
 		{
 			return GroupingFunction.HiLoOpCl;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "HILO")
+		else if (formulaParts[^1] == "HILO")
 		{
 			return GroupingFunction.HiLo;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "COUNT")
+		else if (formulaParts[^1] == "COUNT")
 		{
 			return GroupingFunction.Count;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "DISTINCTCOUNT")
+		else if (formulaParts[^1] == "DISTINCTCOUNT")
 		{
 			return GroupingFunction.DistinctCount;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "VARIANCE")
+		else if (formulaParts[^1] == "VARIANCE")
 		{
 			return GroupingFunction.Variance;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "DEVIATION")
+		else if (formulaParts[^1] == "DEVIATION")
 		{
 			return GroupingFunction.Deviation;
 		}
-		else if (formulaParts[formulaParts.Length - 1] == "CENTER")
+		else if (formulaParts[^1] == "CENTER")
 		{
 			return GroupingFunction.Center;
 		}

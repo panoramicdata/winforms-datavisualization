@@ -75,7 +75,7 @@ internal static class KeywordName
 /// KeywordRegistry class stores information about all 
 /// chart formatting keywords. It automatically registers 
 /// all known keywords when object is constructed. This 
-/// data is exposed as ArrayList through the ‘registeredKeywords’ 
+/// data is exposed as ArrayList through the ‘registeredKeywords' 
 /// field. Each item in this ArrayList is a KeywordInfo 
 /// object which describes a single formatting keyword.
 /// </summary>

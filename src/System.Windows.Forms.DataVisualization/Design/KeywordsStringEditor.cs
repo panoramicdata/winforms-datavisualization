@@ -363,7 +363,7 @@ internal class KeywordsStringEditorForm : Form
 			{
 				// Insert keyword at the end of curently selected keyword 
 				// and separate them with space
-				_richTextBox.SelectionStart = _richTextBox.SelectionStart + _richTextBox.SelectionLength;
+				_richTextBox.SelectionStart += _richTextBox.SelectionLength;
 				_richTextBox.SelectionLength = 0;
 				_richTextBox.SelectedText = " " + keywordEditor.Keyword;
 			}
@@ -486,7 +486,7 @@ internal class KeywordsStringEditorForm : Form
 			{
 				e.Handled = true;
 				_richTextBox.SelectedText = "{}";
-				_richTextBox.SelectionStart = _richTextBox.SelectionStart - 1;
+				_richTextBox.SelectionStart--;
 			}
 		}
 	}

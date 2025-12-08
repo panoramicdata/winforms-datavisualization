@@ -13,7 +13,7 @@
 // ---------------------------
 // :
 // Different chart types may have unique settings that only apply to 
-// this chart type. For example, ‘Exploded’ attribute on the data point 
+// this chart type. For example, ‘Exploded' attribute on the data point 
 // only make sense in case of Pie and Doughnut chart types. Instead of 
 // adding properties that only will work with specific chart types 
 // CustomProperties were introduced. 
@@ -354,7 +354,7 @@ internal static class CustomPropertyName
 /// <summary>
 /// CustomPropertyRegistry contains information for all chart 
 /// custom properties. This data is exposed through the 
-/// ‘registeredCustomProperties’ field which is an ArrayList 
+/// ‘registeredCustomProperties' field which is an ArrayList 
 /// containing CustomPropertyInfo classes.
 /// </summary>
 internal class CustomPropertyRegistry : IServiceProvider
@@ -435,7 +435,7 @@ internal class CustomPropertyRegistry : IServiceProvider
 
 										   ];
 		// "DrawSideBySide" attribute 
-		CustomPropertyInfo attrInfo = new CustomPropertyInfo(
+		CustomPropertyInfo attrInfo = new(
 			CustomPropertyName.DrawSideBySide,
 			typeof(AxisEnabled),
 			"Auto",

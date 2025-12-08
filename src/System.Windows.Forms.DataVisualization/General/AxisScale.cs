@@ -953,7 +953,7 @@ public partial class Axis
 		// Convert chart picture position to plotting position
 		if (AxisPosition == AxisPosition.Top || AxisPosition == AxisPosition.Bottom)
 		{
-			position = position - PlotAreaPosition.X;
+			position -= PlotAreaPosition.X;
 		}
 		else
 		{
@@ -1242,7 +1242,7 @@ public partial class Axis
 		while (temp > 1.0)
 		{
 			step++;
-			temp = temp / 10.0;
+			temp /= 10.0;
 			if (step > 1000)
 			{
 				throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid));
@@ -1260,7 +1260,7 @@ public partial class Axis
 		while (temp < 1.0)
 		{
 			step--;
-			temp = temp * 10.0;
+			temp *= 10.0;
 			if (step < -1000)
 			{
 				throw (new InvalidOperationException(SR.ExceptionAxisScaleMinimumMaximumInvalid));
@@ -2006,9 +2006,7 @@ public partial class Axis
 			else
 			{
 				// Max axis scale should be always bigger
-				double tempValue = maximumValue;
-				maximumValue = minimumValue;
-				minimumValue = tempValue;
+				(minimumValue, maximumValue) = (maximumValue, minimumValue);
 			}
 		}
 
@@ -2282,7 +2280,7 @@ public partial class Axis
 			ChartArea.Area3DStyle.Enable3D &&
 			!ChartArea.chartAreaIsCurcular)
 		{
-			diff = diff / interval3DCorrection;
+			diff /= interval3DCorrection;
 
 			// Do not change minimum and maximum with 3D correction.
 			if (max - min < diff)

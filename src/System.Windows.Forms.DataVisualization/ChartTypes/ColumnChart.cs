@@ -784,9 +784,7 @@ internal class ColumnChart : PointChart
 				// smaller value than a bottom value
 				if (columnStartPosition < height)
 				{
-					float temp = bottomDarkening;
-					bottomDarkening = topDarkening;
-					topDarkening = temp;
+					(topDarkening, bottomDarkening) = (bottomDarkening, topDarkening);
 
 					rectSize.Y = (float)columnStartPosition;
 					rectSize.Height = (float)height - rectSize.Y;

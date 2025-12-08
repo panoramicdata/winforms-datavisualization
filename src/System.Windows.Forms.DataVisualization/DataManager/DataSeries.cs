@@ -753,7 +753,7 @@ public class Series : DataPointCustomProperties
 			return ChartTypeNames.OneHundredPercentStackedColumn;
 		}
 
-		return Enum.GetName(typeof(SeriesChartType), type);
+		return Enum.GetName(type);
 	}
 
 	/// <summary>
@@ -1187,7 +1187,7 @@ public class Series : DataPointCustomProperties
 					{
 						if (Points.Count > 0)
 						{
-							keywordValue = Points[Points.Count - 1].YValues[yValueIndex];
+							keywordValue = Points[^1].YValues[yValueIndex];
 						}
 
 						break;
@@ -2205,7 +2205,7 @@ public class Series : DataPointCustomProperties
 			{
 				try
 				{
-					type = (SeriesChartType)Enum.Parse(typeof(SeriesChartType), ChartTypeName, true);
+					type = Enum.Parse<SeriesChartType>(ChartTypeName, true);
 				}
 				catch (ArgumentException)
 				{

@@ -153,9 +153,9 @@ internal class ChartImage : ChartPicture
 			}
 
 			// Draw chart in the metafile
-			ChartGraph.IsMetafile = true;
+			ChartGraph._isMetafile = true;
 			Paint(metaGraphics, false);
-			ChartGraph.IsMetafile = false;
+			ChartGraph._isMetafile = false;
 		}
 		finally
 		{
@@ -1493,7 +1493,7 @@ internal class ChartPicture : ChartElement, IServiceProvider
 
 		// Set anti alias mode
 		ChartGraph.AntiAliasing = AntiAliasing;
-		ChartGraph.softShadows = IsSoftShadows;
+		ChartGraph._softShadows = IsSoftShadows;
 		ChartGraph.TextRenderingHint = GetTextRenderingHint();
 
 		try

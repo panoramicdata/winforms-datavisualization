@@ -327,7 +327,7 @@ internal class TimeSeriesAndForecasting : IFormula
 			double first = inputValues[0][0];
 
 			// Find Interval for X values
-			interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
+			interval = Math.Abs(inputValues[0][0] - inputValues[0][^1]) / (inputValues[0].Length - 1);
 
 			if (interval <= 0)
 			{
@@ -364,7 +364,7 @@ internal class TimeSeriesAndForecasting : IFormula
 			}
 
 			// Find Interval for X values
-			interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
+			interval = Math.Abs(inputValues[0][0] - inputValues[0][^1]) / (inputValues[0].Length - 1);
 
 			if (interval <= 0)
 			{
@@ -408,7 +408,7 @@ internal class TimeSeriesAndForecasting : IFormula
 		double minimumX = double.MaxValue;
 
 		// Find Interval for X values
-		double interval = Math.Abs(inputValues[0][0] - inputValues[0][inputValues[0].Length - 1]) / (inputValues[0].Length - 1);
+		double interval = Math.Abs(inputValues[0][0] - inputValues[0][^1]) / (inputValues[0].Length - 1);
 
 		if (interval <= 0)
 		{

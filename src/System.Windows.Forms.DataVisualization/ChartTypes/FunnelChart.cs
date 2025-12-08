@@ -2127,7 +2127,7 @@ internal class FunnelChart : IChartType
 			// Convert string to the labels style
 			try
 			{
-				labelStyle = (FunnelLabelStyle)Enum.Parse(typeof(FunnelLabelStyle), attrValue, true);
+				labelStyle = Enum.Parse<FunnelLabelStyle>(attrValue, true);
 			}
 			catch
 			{
@@ -2508,7 +2508,7 @@ internal class FunnelChart : IChartType
 				// Convert string to the labels style
 				try
 				{
-					drawingStyle = (FunnelStyle)Enum.Parse(typeof(FunnelStyle), attrValue, true);
+					drawingStyle = Enum.Parse<FunnelStyle>(attrValue, true);
 				}
 				catch
 				{
@@ -2536,7 +2536,7 @@ internal class FunnelChart : IChartType
 			// Convert string to the labels placement
 			try
 			{
-				placement = (FunnelLabelPlacement)Enum.Parse(typeof(FunnelLabelPlacement), attrValue, true);
+				placement = Enum.Parse<FunnelLabelPlacement>(attrValue, true);
 			}
 			catch
 			{
@@ -2563,7 +2563,7 @@ internal class FunnelChart : IChartType
 			// Convert string to the labels style
 			try
 			{
-				alignment = (FunnelLabelVerticalAlignment)Enum.Parse(typeof(FunnelLabelVerticalAlignment), attrValue, true);
+				alignment = Enum.Parse<FunnelLabelVerticalAlignment>(attrValue, true);
 			}
 			catch
 			{
@@ -2591,7 +2591,7 @@ internal class FunnelChart : IChartType
 			// Convert string to the labels style
 			try
 			{
-				drawingStyle = (Funnel3DDrawingStyle)Enum.Parse(typeof(Funnel3DDrawingStyle), attrValue, true);
+				drawingStyle = Enum.Parse<Funnel3DDrawingStyle>(attrValue, true);
 			}
 			catch
 			{
@@ -2739,7 +2739,7 @@ internal class FunnelChart : IChartType
 				// Convert string to the labels style
 				try
 				{
-					valueType = (PyramidValueType)Enum.Parse(typeof(PyramidValueType), attrValue, true);
+					valueType = Enum.Parse<PyramidValueType>(attrValue, true);
 				}
 				catch
 				{
@@ -2976,7 +2976,7 @@ internal class PyramidChart : FunnelChart
 			endIntersection.X) * 2f;
 
 		// Set point position for annotation anchoring
-		PointF pointPositionAbs = new PointF(
+		PointF pointPositionAbs = new(
 			plotAreaPositionAbs.X + plotAreaPositionAbs.Width / 2f,
 			location - height / 2f);
 

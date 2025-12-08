@@ -439,7 +439,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
 		{
 			ArrayList result = [];
-			foreach (ChartTypes.ErrorBarType item in Enum.GetValues(typeof(ChartTypes.ErrorBarType)))
+			foreach (ChartTypes.ErrorBarType item in Enum.GetValues<ChartTypes.ErrorBarType>())
 			{
 				string itemStr = string.Format(CultureInfo.InvariantCulture, "{0}({1:N0})", item, ChartTypes.ErrorBarChart.DefaultErrorBarTypeValue(item));
 				result.Add(itemStr);

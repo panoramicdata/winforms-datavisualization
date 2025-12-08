@@ -384,7 +384,7 @@ public class DataFormula
 				if (series.Points.Count > 0)
 				{
 					// get the last xValue: the formula processing is 
-					double topXValue = series.Points[series.Points.Count - 1].XValue;
+					double topXValue = series.Points[^1].XValue;
 					Common.Chart.DataManipulator.InsertEmptyPoints(1, IntervalType.Number, 0, IntervalType.Number, 1, topXValue, series);
 					foreach (DataPoint point in series.Points)
 					{

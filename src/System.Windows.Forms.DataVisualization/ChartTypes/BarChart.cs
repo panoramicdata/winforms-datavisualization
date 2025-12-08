@@ -1468,9 +1468,7 @@ internal class BarChart : IChartType
 				}
 				else
 				{
-					float temp = rightDarkening;
-					rightDarkening = leftDarkening;
-					leftDarkening = temp;
+					(leftDarkening, rightDarkening) = (rightDarkening, leftDarkening);
 
 					rectSize.X = (float)barSize;
 					rectSize.Width = (float)barStartPosition - rectSize.X;
@@ -2244,9 +2242,7 @@ internal class BarPointsDrawingOrderComparer : IComparer
 			_areaProjectionCenter = area.GetCenterOfProjection(coord);
 
 			// Switch X & Y coordinates
-			float val = _areaProjectionCenter.X;
-			_areaProjectionCenter.X = _areaProjectionCenter.Y;
-			_areaProjectionCenter.Y = val;
+			(_areaProjectionCenter.Y, _areaProjectionCenter.X) = (_areaProjectionCenter.X, _areaProjectionCenter.Y);
 		}
 	}
 

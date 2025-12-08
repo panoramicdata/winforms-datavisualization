@@ -693,7 +693,7 @@ internal class StackedBarChart : IChartType
 
 
 					// Adjust width by number of stacked groups
-					width = width / (double)stackGroupNames.Count;
+					width /= (double)stackGroupNames.Count;
 
 
 					// Call Back Paint event
@@ -708,11 +708,11 @@ internal class StackedBarChart : IChartType
 					{
 						if (yValue >= 0)
 						{
-							yValue = yValue + PreviousPosY;
+							yValue += PreviousPosY;
 						}
 						else
 						{
-							yValue = yValue + PreviousNegY;
+							yValue += PreviousNegY;
 						}
 					}
 
@@ -1545,9 +1545,7 @@ internal class StackedBarChart : IChartType
 					// smaller value than a right value
 					if (zero < height)
 					{
-						float temp = leftDarkening;
-						leftDarkening = rightDarkening;
-						rightDarkening = temp;
+						(rightDarkening, leftDarkening) = (leftDarkening, rightDarkening);
 
 						rectSize.X = (float)zero;
 						rectSize.Width = (float)height - rectSize.X;

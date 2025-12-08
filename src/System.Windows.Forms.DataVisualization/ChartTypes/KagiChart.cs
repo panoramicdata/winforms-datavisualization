@@ -379,10 +379,10 @@ internal class KagiChart : StepLineChart
 				// Extend line in same direction
 				if (direction == prevDirection)
 				{
-					series.Points[series.Points.Count - 1].YValues[0] =
+					series.Points[^1].YValues[0] =
 						dataPoint.YValues[yValueIndex];
-					series.Points[series.Points.Count - 1]["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
-					series.Points[series.Points.Count - 1].Tag = dataPoint;
+					series.Points[^1]["OriginalPointIndex"] = pointIndex.ToString(CultureInfo.InvariantCulture);
+					series.Points[^1].Tag = dataPoint;
 				}
 				else if (Math.Abs(dataPoint.YValues[yValueIndex] - prevClose) < reversalAmount)
 				{

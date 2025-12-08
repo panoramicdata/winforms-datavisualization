@@ -839,7 +839,7 @@ internal class RadarChart : IChartType, ICircularChartType
 		{
 			if (area.CircularSectorsNumber == dataPointPos.Length - 1)
 			{
-				leftSidePoint = GetMiddlePoint(dataPointPos[firstPointIndex], dataPointPos[dataPointPos.Length - 2]);
+				leftSidePoint = GetMiddlePoint(dataPointPos[firstPointIndex], dataPointPos[^2]);
 			}
 		}
 

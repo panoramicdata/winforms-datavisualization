@@ -502,7 +502,7 @@ public partial class ChartArea : ChartNamedElement
 		{
 			_areaPosition = value;
 			_areaPosition.Parent = this;
-			_areaPosition.resetAreaAutoPosition = true;
+			_areaPosition._resetAreaAutoPosition = true;
 			Invalidate();
 		}
 	}
@@ -1092,7 +1092,7 @@ public partial class ChartArea : ChartNamedElement
 		// Set flag to reset auto values for all areas
 		_areaPosition = new ElementPosition(this)
 		{
-			resetAreaAutoPosition = true
+			_resetAreaAutoPosition = true
 		};
 
 		_innerPlotPosition = new ElementPosition(this);
@@ -1394,7 +1394,7 @@ public partial class ChartArea : ChartNamedElement
 					axisPosition = plottingRect.Y;
 				}
 
-				axisPosition = axisPosition - plottingRect.Top;
+				axisPosition -= plottingRect.Top;
 			}
 			else if (axis.AxisPosition == AxisPosition.Right)
 			{
@@ -1412,7 +1412,7 @@ public partial class ChartArea : ChartNamedElement
 					axisPosition = plottingRect.X;
 				}
 
-				axisPosition = axisPosition - plottingRect.Left;
+				axisPosition -= plottingRect.Left;
 			}
 
 			//******************************************************

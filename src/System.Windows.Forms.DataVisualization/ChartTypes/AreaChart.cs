@@ -667,9 +667,7 @@ internal class AreaChart : SplineChart
 			ref pointArrayIndex);
 		if (firstPoint.index > secondPoint.index)
 		{
-			DataPoint3D tempPoint = firstPoint;
-			firstPoint = secondPoint;
-			secondPoint = tempPoint;
+			(secondPoint, firstPoint) = (firstPoint, secondPoint);
 		}
 
 

@@ -862,7 +862,7 @@ internal class DataManager : ChartElement, IServiceProvider
 			stackedMin = Math.Min(stackedMin, noStackedMin);
 			if (stackedMin == 0)
 			{
-				stackedMin = Series[series[0]].Points[Series[series[0]].Points.Count - 1].YValues[valueIndex];
+				stackedMin = Series[series[0]].Points[^1].YValues[valueIndex];
 			}
 
 			returnValue = Math.Min(returnValue, stackedMin);

@@ -234,13 +234,13 @@ internal class PriceIndicators : IFormula
 
 	/// <summary>
 	/// An exponential (or exponentially weighted) moving average 
-	/// is calculated by applying a percentage of today’s closing 
-	/// price to yesterday’s moving average value. Exponential 
+	/// is calculated by applying a percentage of today's closing 
+	/// price to yesterday's moving average value. Exponential 
 	/// moving averages place more weight on recent prices.	For 
 	/// example, to calculate a 9% exponential moving average 
-	/// of IBM, you would first take today’s closing price and 
+	/// of IBM, you would first take today's closing price and 
 	/// multiply it by 9%. Next, you would add this product to 
-	/// the value of yesterday’s moving average multiplied by 
+	/// the value of yesterday's moving average multiplied by 
 	/// 91% (100% - 9% = 91%).
 	/// ---------------------------------------------------------
 	/// Input: 
@@ -277,13 +277,13 @@ internal class PriceIndicators : IFormula
 
 	/// <summary>
 	/// An exponential (or exponentially weighted) moving average 
-	/// is calculated by applying a percentage of today’s closing 
-	/// price to yesterday’s moving average value. Exponential 
+	/// is calculated by applying a percentage of today's closing 
+	/// price to yesterday's moving average value. Exponential 
 	/// moving averages place more weight on recent prices.	For 
 	/// example, to calculate a 9% exponential moving average 
-	/// of IBM, you would first take today’s closing price and 
+	/// of IBM, you would first take today's closing price and 
 	/// multiply it by 9%. Next, you would add this product to 
-	/// the value of yesterday’s moving average multiplied by 
+	/// the value of yesterday's moving average multiplied by 
 	/// 91% (100% - 9% = 91%).
 	/// ---------------------------------------------------------
 	/// Input: 
@@ -546,7 +546,7 @@ internal class PriceIndicators : IFormula
 	/// A weighted moving average is designed to put more weight on 
 	/// recent data and less weight on past data. A weighted moving 
 	/// average is calculated by multiplying each of the previous 
-	/// day’s data by a weight. The following table shows the calculation 
+	/// day's data by a weight. The following table shows the calculation 
 	/// of a 5-day weighted moving average.
 	/// ---------------------------------------------------------
 	/// Input: 

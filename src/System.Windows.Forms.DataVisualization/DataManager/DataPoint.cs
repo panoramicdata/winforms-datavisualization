@@ -315,7 +315,7 @@ public class DataPointCollection : ChartElementCollection<DataPoint>
 
 				// Check if format string was specified
 				int bracketIndex = otherFieldNames[index].IndexOf('{');
-				if (bracketIndex > 0 && otherFieldNames[index][otherFieldNames[index].Length - 1] == '}')
+				if (bracketIndex > 0 && otherFieldNames[index][^1] == '}')
 				{
 					otherValueFormat[index] = otherFieldNames[index].Substring(bracketIndex + 1);
 					otherValueFormat[index] = otherValueFormat[index].Trim('{', '}');
@@ -2877,12 +2877,12 @@ public class DataPointCustomProperties : ChartNamedElement
 		}
 
 		// Check if trying to delete the common attribute
-		string[] AttributesNames = Enum.GetNames(typeof(CommonCustomProperties));
+		string[] AttributesNames = Enum.GetNames<CommonCustomProperties>();
 		foreach (string commonName in AttributesNames)
 		{
 			if (name == commonName)
 			{
-				DeleteCustomProperty((CommonCustomProperties)Enum.Parse(typeof(CommonCustomProperties), commonName));
+				DeleteCustomProperty(Enum.Parse<CommonCustomProperties>(commonName));
 			}
 		}
 
@@ -4835,7 +4835,7 @@ public class DataPointCustomProperties : ChartNamedElement
 		{
 			// Save all custom properties in a string
 			string result = "";
-			string[] attributesNames = Enum.GetNames(typeof(CommonCustomProperties));
+			string[] attributesNames = Enum.GetNames<CommonCustomProperties>();
 			for (int i = properties.Count - 1; i >= 0; i--)
 			{
 				if (this[i] != null)
@@ -4878,7 +4878,7 @@ public class DataPointCustomProperties : ChartNamedElement
 
 			// Copy all common properties to the new collection
 			Hashtable newAttributes = [];
-			Array enumValues = Enum.GetValues(typeof(CommonCustomProperties));
+			Array enumValues = Enum.GetValues<CommonCustomProperties>();
 			foreach (object val in enumValues)
 			{
 				if (IsCustomPropertySet((CommonCustomProperties)val))

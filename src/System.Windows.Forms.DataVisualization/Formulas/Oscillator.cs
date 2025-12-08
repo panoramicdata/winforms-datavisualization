@@ -537,13 +537,13 @@ internal class Oscillators : PriceIndicators
 	}
 
 	/// <summary>
-	/// Williams’ %R (pronounced "percent R") is a momentum 
+	/// Williams' %R (pronounced "percent R") is a momentum 
 	/// indicator that measures overbought/oversold levels. 
-	/// Williams’ %R was developed by Larry Williams. The 
+	/// Williams' %R was developed by Larry Williams. The 
 	/// interpretation of Williams' %R is very similar to that 
 	/// of the Stochastic Oscillator except that %R is plotted 
 	/// upside-down and the Stochastic Oscillator has internal 
-	/// smoothing. To display the Williams’ %R indicator on an 
+	/// smoothing. To display the Williams' %R indicator on an 
 	/// upside-down scale, it is usually plotted using negative 
 	/// values (e.g., -20%). Readings in the range of 80 to 100% 
 	/// indicate that the security is oversold while readings in 

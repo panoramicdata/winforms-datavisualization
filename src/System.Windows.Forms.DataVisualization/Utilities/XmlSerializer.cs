@@ -1213,7 +1213,7 @@ internal abstract class SerializerBase
 		}
 
 		// Ends with class mask
-		else if (info.name[info.name.Length - 1] == '*')
+		else if (info.name[^1] == '*')
 		{
 			info.endsWith = true;
 			info.name = info.name.TrimEnd('*');

@@ -783,7 +783,7 @@ public partial class Axis
 			// Check if series has axis labels set
 			if ((axisType == AxisName.X || axisType == AxisName.X2) && (margin != 0 || maxPointCount == 1 || !AutoMinimum) && !ser.IsXValueIndexed)
 			{
-				if (ser.Points[0].AxisLabel.Length > 0 && ser.Points[ser.Points.Count - 1].AxisLabel.Length > 0)
+				if (ser.Points[0].AxisLabel.Length > 0 && ser.Points[^1].AxisLabel.Length > 0)
 				{
 					allEmpty = false;
 				}

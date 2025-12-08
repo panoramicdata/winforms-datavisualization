@@ -176,7 +176,7 @@ public partial class ChartGraphics
 		float tension
 		)
 	{
-		if (this is not ChartGraphics chartGraphics || !chartGraphics.IsMetafile)
+		if (this is not ChartGraphics chartGraphics || !chartGraphics._isMetafile)
 		{
 			RenderingObject.DrawCurve(pen, points, offset, numberOfSegments, tension);
 		}

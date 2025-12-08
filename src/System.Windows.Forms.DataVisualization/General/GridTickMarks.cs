@@ -195,7 +195,7 @@ public class TickMark : Grid
 			return;
 		}
 
-		// If Maximum, minimum and interval don’t have 
+		// If Maximum, minimum and interval don't have 
 		// proper value do not draw tick marks.
 		if (Axis.ViewMaximum <= Axis.ViewMinimum)
 		{
@@ -1280,7 +1280,7 @@ public class Grid
 			return;
 		}
 
-		// If Maximum, minimum and interval don’t have 
+		// If Maximum, minimum and interval don't have 
 		// proper value do not draw grid lines.
 		if (Axis.ViewMaximum <= Axis.ViewMinimum)
 		{

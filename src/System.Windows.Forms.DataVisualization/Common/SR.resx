@@ -1452,7 +1452,7 @@
  Parameters: 0 - name (string) </comment>
   </data>
   <data name="ExceptionFormulaDataSeriesNameNotFound" xml:space="preserve">
-    <value>Formula Data Object - Input Series doesn’t exist: {0}</value>
+    <value>Formula Data Object - Input Series doesn't exist: {0}</value>
     <comment>.
  Parameters: 0 - name (string) </comment>
   </data>
@@ -1620,7 +1620,7 @@
     <value>Determines if a Pie or Doughnut slice is exploded.</value>
   </data>
   <data name="DescriptionCustomAttributeProportionalSymbols" xml:space="preserve">
-    <value>Determines if a Point and Figure chart should attempt to draw ‘X’ and ‘O’ symbols proportionally. This is done by adding an empty space on the right side if the width of the symbol is too large.</value>
+    <value>Determines if a Point and Figure chart should attempt to draw ‘X' and ‘O' symbols proportionally. This is done by adding an empty space on the right side if the width of the symbol is too large.</value>
   </data>
   <data name="DescriptionCustomAttributeDrawSideBySide" xml:space="preserve">
     <value>Determines if data points that have the same X value are drawn side by side, or are drawn using the same X value.  If Auto, then the chart type automatically determines if this is true or false.  Note that setting this attribute to true only has an effect if two or more series in a chart area have DrawSideBySide set to true.</value>

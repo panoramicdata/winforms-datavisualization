@@ -409,9 +409,9 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	/// difference between the current price and the price x-time periods ago. The difference 
 	/// can be displayed in either points or as a percentage. The Momentum indicator displays 
 	/// the same information, but expresses it as a ratio. When the Rate-of-Change displays 
-	/// the price change in points, it subtracts the price x-time periods ago from today’s price.
+	/// the price change in points, it subtracts the price x-time periods ago from today's price.
 	/// When the Rate-of-Change displays the price change as a percentage, it divides 
-	/// the price change by price x-time period’s ago.
+	/// the price change by price x-time period's ago.
 	/// ---------------------------------------------------------
 	/// Input: 
 	///		- 1 Y value ( Close ).
@@ -730,7 +730,7 @@ internal class GeneralTechnicalIndicators : PriceIndicators
 	/// the use of a statistical analysis which incorporates a moving average and a divisor 
 	/// reflecting both the possible and actual trading ranges. Although developed primarily 
 	/// for commodities, the CCI could conceivably be used to analyze stocks as well. The 
-	/// Commodity Channel Index ("CCI") measures the variation of a security’s price from 
+	/// Commodity Channel Index ("CCI") measures the variation of a security's price from 
 	/// its statistical mean. High values show that prices are unusually high compared to 
 	/// average prices whereas low values indicate that prices are unusually low. 
 	/// 1. Calculate today's Typical Price (TP) = (H+L+C)/3 where H = high; L = low, and C = close. 

@@ -41,7 +41,7 @@ internal static class ValueConverter
 		ChartValueType valueType,
 		ChartElementType elementType)
 	{
-		format = format ?? string.Empty;
+		format ??= string.Empty;
 		string convertionFormat = format;
 		string result = "";
 

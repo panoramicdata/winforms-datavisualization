@@ -659,7 +659,7 @@ public partial class ChartArea
 		// code for logarithmic scale, which will set minimum 
 		// to one instead of zero.
 		// ***************************************************
-		// The minimum and maximum values from data manager don’t exist.
+		// The minimum and maximum values from data manager don't exist.
 
 		if (axis.enabled &&
 			((axis.AutoMaximum || double.IsNaN(axis.Maximum)) && (autoMaximum == double.MaxValue || autoMaximum == double.MinValue)) ||

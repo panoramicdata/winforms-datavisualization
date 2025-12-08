@@ -522,7 +522,7 @@ public class TextAnnotation : Annotation
 			//***************************************************************
 			//** Set text format
 			//***************************************************************
-			format.FormatFlags = format.FormatFlags ^ StringFormatFlags.LineLimit;
+			format.FormatFlags ^= StringFormatFlags.LineLimit;
 			format.Trimming = StringTrimming.EllipsisCharacter;
 			if (Alignment == ContentAlignment.BottomRight ||
 				Alignment == ContentAlignment.MiddleRight ||
