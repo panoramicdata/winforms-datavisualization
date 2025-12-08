@@ -4276,7 +4276,7 @@ public partial class ChartGraphics
 							if ((visibleSurfaces & currentSurface) != 0)
 							{
 								using Brush brush = new SolidBrush(surfaceColor);
-								FillPath((frontSurfaceBrush == null) ? brush : frontSurfaceBrush, pathToDraw);
+								FillPath(frontSurfaceBrush ?? brush, pathToDraw);
 							}
 
 							// Draw surface border

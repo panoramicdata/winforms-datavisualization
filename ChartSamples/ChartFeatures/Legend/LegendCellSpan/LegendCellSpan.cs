@@ -11,15 +11,15 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for LegendCellSpan.
 	/// </summary>
-	public class LegendCellSpan : System.Windows.Forms.UserControl
+	public class LegendCellSpan : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
+		private Label label9;
+		private Panel panel1;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+		private Container components = null;
+		private Chart chart2;
 
 		public LegendCellSpan()
 		{
@@ -49,77 +49,77 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem1 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell1 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.Margins margins1 = new System.Windows.Forms.DataVisualization.Charting.Margins();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell2 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem2 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell3 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell4 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem3 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell5 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell6 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem4 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell7 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.Margins margins2 = new System.Windows.Forms.DataVisualization.Charting.Margins();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell8 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem5 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell9 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell10 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem6 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell11 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell12 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 14);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 10);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 16);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 13);
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 11);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 14);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-			this.label9 = new System.Windows.Forms.Label();
-			this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.panel1 = new System.Windows.Forms.Panel();
-			((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			LegendItem legendItem1 = new LegendItem();
+			LegendCell legendCell1 = new LegendCell();
+			Margins margins1 = new Margins();
+			LegendCell legendCell2 = new LegendCell();
+			LegendItem legendItem2 = new LegendItem();
+			LegendCell legendCell3 = new LegendCell();
+			LegendCell legendCell4 = new LegendCell();
+			LegendItem legendItem3 = new LegendItem();
+			LegendCell legendCell5 = new LegendCell();
+			LegendCell legendCell6 = new LegendCell();
+			LegendItem legendItem4 = new LegendItem();
+			LegendCell legendCell7 = new LegendCell();
+			Margins margins2 = new Margins();
+			LegendCell legendCell8 = new LegendCell();
+			LegendItem legendItem5 = new LegendItem();
+			LegendCell legendCell9 = new LegendCell();
+			LegendCell legendCell10 = new LegendCell();
+			LegendItem legendItem6 = new LegendItem();
+			LegendCell legendCell11 = new LegendCell();
+			LegendCell legendCell12 = new LegendCell();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 8);
+			DataPoint dataPoint2 = new DataPoint(0, 14);
+			DataPoint dataPoint3 = new DataPoint(0, 10);
+			DataPoint dataPoint4 = new DataPoint(0, 16);
+			DataPoint dataPoint5 = new DataPoint(0, 13);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 11);
+			DataPoint dataPoint7 = new DataPoint(0, 7);
+			DataPoint dataPoint8 = new DataPoint(0, 8);
+			DataPoint dataPoint9 = new DataPoint(0, 6);
+			DataPoint dataPoint10 = new DataPoint(0, 7);
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(0, 4);
+			DataPoint dataPoint12 = new DataPoint(0, 3);
+			DataPoint dataPoint13 = new DataPoint(0, 6);
+			DataPoint dataPoint14 = new DataPoint(0, 5);
+			DataPoint dataPoint15 = new DataPoint(0, 3);
+			Series series4 = new Series();
+			DataPoint dataPoint16 = new DataPoint(0, 5);
+			DataPoint dataPoint17 = new DataPoint(0, 6);
+			DataPoint dataPoint18 = new DataPoint(0, 14);
+			DataPoint dataPoint19 = new DataPoint(0, 8);
+			DataPoint dataPoint20 = new DataPoint(0, 9);
+			label9 = new Label();
+			chart2 = new Chart();
+			panel1 = new Panel();
+			((ISupportInitialize)(chart2)).BeginInit();
+			SuspendLayout();
 			// 
 			// label9
 			// 
-			this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label9.Location = new System.Drawing.Point(16, 16);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(702, 32);
-			this.label9.TabIndex = 0;
-			this.label9.Text = "This sample demonstrates the cell span feature of the legend.";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			label9.Location = new Point(16, 16);
+			label9.Name = "label9";
+			label9.Size = new Size(702, 32);
+			label9.TabIndex = 0;
+			label9.Text = "This sample demonstrates the cell span feature of the legend.";
+			label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// chart2
 			// 
-			this.chart2.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
-			this.chart2.BackSecondaryColor = System.Drawing.Color.White;
-			this.chart2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.chart2.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.chart2.BorderlineWidth = 2;
-			this.chart2.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			chart2.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
+			chart2.BackSecondaryColor = System.Drawing.Color.White;
+			chart2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			chart2.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			chart2.BorderlineWidth = 2;
+			chart2.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.Area3DStyle.IsClustered = true;
 			chartArea1.Area3DStyle.Enable3D = true;
 			chartArea1.Area3DStyle.Perspective = 10;
@@ -128,13 +128,13 @@ namespace ChartSamples
 			chartArea1.Area3DStyle.Inclination = 15;
 			chartArea1.Area3DStyle.Rotation = 10;
 			chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
-			chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisX.LabelStyle.Format = "MMM dd";
 			chartArea1.AxisX.LabelStyle.IsEndLabelVisible = false;
 			chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.LabelAutoFitMaxFontSize = 7;
-			chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(165)), ((System.Byte)(191)), ((System.Byte)(228)));
@@ -143,7 +143,7 @@ namespace ChartSamples
 			chartArea1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.Name = "Default";
 			chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-			this.chart2.ChartAreas.Add(chartArea1);
+			chart2.ChartAreas.Add(chartArea1);
 			legend1.Alignment = System.Drawing.StringAlignment.Center;
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
@@ -163,10 +163,10 @@ namespace ChartSamples
 			legendCell3.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell3.CellType = System.Windows.Forms.DataVisualization.Charting.LegendCellType.SeriesSymbol;
 			legendCell3.Name = "Cell1";
-			legendCell3.SeriesSymbolSize = new System.Drawing.Size(200, 50);
+			legendCell3.SeriesSymbolSize = new Size(200, 50);
 			legendCell4.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell4.Name = "Cell2";
-			legendCell4.SeriesSymbolSize = new System.Drawing.Size(200, 100);
+			legendCell4.SeriesSymbolSize = new Size(200, 100);
 			legendCell4.Text = "Country 1";
 			legendItem2.Cells.Add(legendCell3);
 			legendItem2.Cells.Add(legendCell4);
@@ -176,7 +176,7 @@ namespace ChartSamples
 			legendCell5.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell5.CellType = System.Windows.Forms.DataVisualization.Charting.LegendCellType.SeriesSymbol;
 			legendCell5.Name = "Cell1";
-			legendCell5.SeriesSymbolSize = new System.Drawing.Size(200, 50);
+			legendCell5.SeriesSymbolSize = new Size(200, 50);
 			legendCell6.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell6.Name = "Cell2";
 			legendCell6.Text = "Country 2";
@@ -186,7 +186,7 @@ namespace ChartSamples
 			legendItem3.Name = "Gold";
 			legendCell7.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell7.CellSpan = 2;
-			legendCell7.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			legendCell7.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			margins2.Bottom = 15;
 			margins2.Left = 15;
 			margins2.Right = 15;
@@ -202,7 +202,7 @@ namespace ChartSamples
 			legendCell9.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell9.CellType = System.Windows.Forms.DataVisualization.Charting.LegendCellType.SeriesSymbol;
 			legendCell9.Name = "Cell1";
-			legendCell9.SeriesSymbolSize = new System.Drawing.Size(200, 50);
+			legendCell9.SeriesSymbolSize = new Size(200, 50);
 			legendCell10.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell10.Name = "Cell2";
 			legendCell10.Text = "Country 3";
@@ -214,7 +214,7 @@ namespace ChartSamples
 			legendCell11.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell11.CellType = System.Windows.Forms.DataVisualization.Charting.LegendCellType.SeriesSymbol;
 			legendCell11.Name = "Cell1";
-			legendCell11.SeriesSymbolSize = new System.Drawing.Size(200, 50);
+			legendCell11.SeriesSymbolSize = new Size(200, 50);
 			legendCell12.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			legendCell12.Name = "Cell2";
 			legendCell12.Text = "Country 4";
@@ -228,13 +228,13 @@ namespace ChartSamples
 			legend1.CustomItems.Add(legendItem4);
 			legend1.CustomItems.Add(legendItem5);
 			legend1.CustomItems.Add(legendItem6);
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			legend1.Name = "Default";
-			legend1.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-			this.chart2.Legends.Add(legend1);
-			this.chart2.Location = new System.Drawing.Point(16, 56);
-			this.chart2.Name = "chart2";
-			this.chart2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			legend1.TitleFont = new Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+			chart2.Legends.Add(legend1);
+			chart2.Location = new Point(16, 56);
+			chart2.Name = "chart2";
+			chart2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartArea = "Default";
 			series1.ChartType = SeriesChartType.StackedBar;
@@ -290,31 +290,31 @@ namespace ChartSamples
 			series4.IsVisibleInLegend = false;
 			series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
 			series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-			this.chart2.Series.Add(series1);
-			this.chart2.Series.Add(series2);
-			this.chart2.Series.Add(series3);
-			this.chart2.Series.Add(series4);
-			this.chart2.Size = new System.Drawing.Size(412, 296);
-			this.chart2.TabIndex = 1;
+			chart2.Series.Add(series1);
+			chart2.Series.Add(series2);
+			chart2.Series.Add(series3);
+			chart2.Series.Add(series4);
+			chart2.Size = new Size(412, 296);
+			chart2.TabIndex = 1;
 			// 
 			// panel1
 			// 
-			this.panel1.Location = new System.Drawing.Point(432, 56);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(292, 296);
-			this.panel1.TabIndex = 2;
+			panel1.Location = new Point(432, 56);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(292, 296);
+			panel1.TabIndex = 2;
 			// 
 			// LegendCellSpan
 			// 
-			this.Controls.AddRange([
-																		  this.panel1,
-																		  this.chart2,
-																		  this.label9]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "LegendCellSpan";
-			this.Size = new System.Drawing.Size(728, 392);
-			((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
-			this.ResumeLayout(false);
+			Controls.AddRange([
+																		  panel1,
+																		  chart2,
+																		  label9]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "LegendCellSpan";
+			Size = new Size(728, 392);
+			((ISupportInitialize)(chart2)).EndInit();
+			ResumeLayout(false);
 
 		}
 		#endregion

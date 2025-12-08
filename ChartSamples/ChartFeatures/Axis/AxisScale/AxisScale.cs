@@ -11,29 +11,29 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AxisScale.
 	/// </summary>
-	public class AxisScale : System.Windows.Forms.UserControl
+	public class AxisScale : UserControl
 	{
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox MinValue;
-		private System.Windows.Forms.ComboBox MaxValue;
-		private System.Windows.Forms.CheckBox AutoCheck;
-		private System.Windows.Forms.CheckBox LogCheck;
+		private Label label5;
+		private Label label6;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private ComboBox MinValue;
+		private ComboBox MaxValue;
+		private CheckBox AutoCheck;
+		private CheckBox LogCheck;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public AxisScale()
 		{
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 
-			this.MaxValue.SelectedIndex = 1;
-			this.MinValue.SelectedIndex = 0;
+			MaxValue.SelectedIndex = 1;
+			MinValue.SelectedIndex = 0;
 		}
 
 		/// <summary> 
@@ -58,143 +58,143 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 550);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 900);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1800);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1500);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 700);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 900);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1800);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1400);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2000);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2000);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1800);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2400);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 800);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 550);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2200);
-            this.MinValue = new System.Windows.Forms.ComboBox();
-            this.MaxValue = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.AutoCheck = new System.Windows.Forms.CheckBox();
-            this.LogCheck = new System.Windows.Forms.CheckBox();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 550);
+			DataPoint dataPoint2 = new DataPoint(0, 900);
+			DataPoint dataPoint3 = new DataPoint(0, 1800);
+			DataPoint dataPoint4 = new DataPoint(0, 1500);
+			DataPoint dataPoint5 = new DataPoint(0, 700);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 900);
+			DataPoint dataPoint7 = new DataPoint(0, 1800);
+			DataPoint dataPoint8 = new DataPoint(0, 1400);
+			DataPoint dataPoint9 = new DataPoint(0, 2000);
+			DataPoint dataPoint10 = new DataPoint(0, 2000);
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(0, 1800);
+			DataPoint dataPoint12 = new DataPoint(0, 2400);
+			DataPoint dataPoint13 = new DataPoint(0, 800);
+			DataPoint dataPoint14 = new DataPoint(0, 550);
+			DataPoint dataPoint15 = new DataPoint(0, 2200);
+            MinValue = new ComboBox();
+            MaxValue = new ComboBox();
+            label5 = new Label();
+            label6 = new Label();
+            label9 = new Label();
+            panel1 = new Panel();
+            AutoCheck = new CheckBox();
+            LogCheck = new CheckBox();
+            Chart1 = new Chart();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // MinValue
             // 
-            this.MinValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.MinValue.Items.AddRange([
+            MinValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            MinValue.Items.AddRange([
             "0",
             "250",
             "500"]);
-            this.MinValue.Location = new System.Drawing.Point(168, 96);
-            this.MinValue.Name = "MinValue";
-            this.MinValue.Size = new System.Drawing.Size(120, 22);
-            this.MinValue.TabIndex = 5;
-            this.MinValue.SelectedIndexChanged += new System.EventHandler(this.ControlChange);
+            MinValue.Location = new Point(168, 96);
+            MinValue.Name = "MinValue";
+            MinValue.Size = new Size(120, 22);
+            MinValue.TabIndex = 5;
+            MinValue.SelectedIndexChanged += new EventHandler(ControlChange);
             // 
             // MaxValue
             // 
-            this.MaxValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.MaxValue.Items.AddRange([
+            MaxValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            MaxValue.Items.AddRange([
             "3000",
             "5000",
             "10000"]);
-            this.MaxValue.Location = new System.Drawing.Point(168, 64);
-            this.MaxValue.Name = "MaxValue";
-            this.MaxValue.Size = new System.Drawing.Size(120, 22);
-            this.MaxValue.TabIndex = 3;
-            this.MaxValue.SelectedIndexChanged += new System.EventHandler(this.ControlChange);
+            MaxValue.Location = new Point(168, 64);
+            MaxValue.Name = "MaxValue";
+            MaxValue.Size = new Size(120, 22);
+            MaxValue.TabIndex = 3;
+            MaxValue.SelectedIndexChanged += new EventHandler(ControlChange);
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(0, 96);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(164, 16);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Mi&nimum:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label5.Click += new System.EventHandler(this.label5_Click);
+            label5.Location = new Point(0, 96);
+            label5.Name = "label5";
+            label5.Size = new Size(164, 16);
+            label5.TabIndex = 4;
+            label5.Text = "Mi&nimum:";
+            label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label5.Click += new EventHandler(label5_Click);
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(0, 72);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(164, 16);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Ma&ximum:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label6.Click += new System.EventHandler(this.label6_Click);
+            label6.Location = new Point(0, 72);
+            label6.Name = "label6";
+            label6.Size = new Size(164, 16);
+            label6.TabIndex = 2;
+            label6.Text = "Ma&ximum:";
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label6.Click += new EventHandler(label6_Click);
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 14);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 43);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "This sample demonstrates how to use a logarithmic scale, as well as how to set th" +
+            label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 14);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 43);
+            label9.TabIndex = 0;
+            label9.Text = "This sample demonstrates how to use a logarithmic scale, as well as how to set th" +
                 "e minimum and maximum axis values.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.AutoCheck);
-            this.panel1.Controls.Add(this.LogCheck);
-            this.panel1.Controls.Add(this.MaxValue);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.MinValue);
-            this.panel1.Location = new System.Drawing.Point(432, 73);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            panel1.Controls.Add(AutoCheck);
+            panel1.Controls.Add(LogCheck);
+            panel1.Controls.Add(MaxValue);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(MinValue);
+            panel1.Location = new Point(432, 73);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
+            panel1.Paint += new PaintEventHandler(panel1_Paint);
             // 
             // AutoCheck
             // 
-            this.AutoCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.AutoCheck.Checked = true;
-            this.AutoCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AutoCheck.Location = new System.Drawing.Point(0, 40);
-            this.AutoCheck.Name = "AutoCheck";
-            this.AutoCheck.Size = new System.Drawing.Size(180, 24);
-            this.AutoCheck.TabIndex = 1;
-            this.AutoCheck.Text = "&Auto Scale:";
-            this.AutoCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.AutoCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
+            AutoCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            AutoCheck.Checked = true;
+            AutoCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            AutoCheck.Location = new Point(0, 40);
+            AutoCheck.Name = "AutoCheck";
+            AutoCheck.Size = new Size(180, 24);
+            AutoCheck.TabIndex = 1;
+            AutoCheck.Text = "&Auto Scale:";
+            AutoCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            AutoCheck.CheckedChanged += new EventHandler(ControlChange);
             // 
             // LogCheck
             // 
-            this.LogCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.LogCheck.Location = new System.Drawing.Point(8, 8);
-            this.LogCheck.Name = "LogCheck";
-            this.LogCheck.Size = new System.Drawing.Size(172, 24);
-            this.LogCheck.TabIndex = 0;
-            this.LogCheck.Text = "&Logarithmic:";
-            this.LogCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.LogCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
+            LogCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            LogCheck.Location = new Point(8, 8);
+            LogCheck.Name = "LogCheck";
+            LogCheck.Size = new Size(172, 24);
+            LogCheck.TabIndex = 0;
+            LogCheck.Text = "&Logarithmic:";
+            LogCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            LogCheck.CheckedChanged += new EventHandler(ControlChange);
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BackSecondaryColor = System.Drawing.Color.White;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -202,15 +202,15 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Format = "#";
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.TitleFont = new Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea1.AxisX2.MajorGrid.Enabled = false;
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
@@ -221,18 +221,18 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.Alignment = System.Drawing.StringAlignment.Far;
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.Name = "Default";
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 65);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 65);
+            Chart1.Name = "Chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.CustomProperties = "DrawingStyle=Wedge";
@@ -261,33 +261,33 @@ namespace ChartSamples
             series3.Points.Add(dataPoint13);
             series3.Points.Add(dataPoint14);
             series3.Points.Add(dataPoint15);
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 1;
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Series.Add(series3);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 1;
             // 
             // AxisScale
             // 
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "AxisScale";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "AxisScale";
+            Size = new Size(728, 480);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void AxisScale_Load(object sender, System.EventArgs e)
+		private void AxisScale_Load(object sender, EventArgs e)
 		{ 
 		}
 
-		private void ControlChange(object sender, System.EventArgs e)
+		private void ControlChange(object sender, EventArgs e)
 		{
 			Chart1.ChartAreas["Default"].AxisY.IsLogarithmic = LogCheck.Checked;
 
@@ -300,15 +300,15 @@ namespace ChartSamples
 				AutoCheck.Enabled = true;
 
 
-			this.MaxValue.Enabled = !AutoCheck.Checked;
-			this.MinValue.Enabled = !AutoCheck.Checked;
+			MaxValue.Enabled = !AutoCheck.Checked;
+			MinValue.Enabled = !AutoCheck.Checked;
 
-			if(this.MaxValue.SelectedIndex >= 0 && 
-				this.MinValue.SelectedIndex >= 0 && 
+			if(MaxValue.SelectedIndex >= 0 && 
+				MinValue.SelectedIndex >= 0 && 
 				!AutoCheck.Checked)
 			{
-				double maxval= double.Parse(this.MaxValue.SelectedItem.ToString());
-				double minval= double.Parse(this.MinValue.SelectedItem.ToString());
+				double maxval= double.Parse(MaxValue.SelectedItem.ToString());
+				double minval= double.Parse(MinValue.SelectedItem.ToString());
 
 				Chart1.ChartAreas["Default"].AxisY.Maximum = maxval;
 				Chart1.ChartAreas["Default"].AxisY.Minimum = minval;
@@ -320,17 +320,17 @@ namespace ChartSamples
 			}
 		}
 
-		private void label6_Click(object sender, System.EventArgs e)
+		private void label6_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void label5_Click(object sender, System.EventArgs e)
+		private void label5_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+		private void panel1_Paint(object sender, PaintEventArgs e)
 		{
 		
 		}

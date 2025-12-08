@@ -11,26 +11,26 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for BasicZooming.
 	/// </summary>
-	public class BasicZooming : System.Windows.Forms.UserControl
+	public class BasicZooming : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button buttonResetZoom;
-		private System.Windows.Forms.CheckBox checkBoxZoomUI;
-		private System.Windows.Forms.ComboBox comboBoxFrom;
-		private System.Windows.Forms.ComboBox comboBoxTo;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
-		private System.Windows.Forms.ComboBox comboBoxAxis;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.CheckBox checkBoxInside;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private Label label2;
+		private Button buttonResetZoom;
+		private CheckBox checkBoxZoomUI;
+		private ComboBox comboBoxFrom;
+		private ComboBox comboBoxTo;
+		private CheckBox checkBoxShowMargin;
+		private ComboBox comboBoxAxis;
+		private Label label3;
+		private CheckBox checkBoxInside;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public BasicZooming()
 		{
@@ -63,49 +63,49 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.buttonResetZoom = new System.Windows.Forms.Button();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxInside = new System.Windows.Forms.CheckBox();
-            this.comboBoxAxis = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.checkBoxShowMargin = new System.Windows.Forms.CheckBox();
-            this.comboBoxTo = new System.Windows.Forms.ComboBox();
-            this.comboBoxFrom = new System.Windows.Forms.ComboBox();
-            this.checkBoxZoomUI = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+            chart1 = new Chart();
+            buttonResetZoom = new Button();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkBoxInside = new CheckBox();
+            comboBoxAxis = new ComboBox();
+            label3 = new Label();
+            checkBoxShowMargin = new CheckBox();
+            comboBoxTo = new ComboBox();
+            comboBoxFrom = new ComboBox();
+            checkBoxZoomUI = new CheckBox();
+            label2 = new Label();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.ScrollBar.BackColor = System.Drawing.Color.White;
             chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
             chartArea1.AxisX.ScrollBar.Size = 12;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.ScrollBar.BackColor = System.Drawing.Color.White;
@@ -119,188 +119,188 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 51);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 51);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Legend = "Default";
             series1.Name = "Default";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
+            chart1.Click += new EventHandler(chart1_Click);
             // 
             // buttonResetZoom
             // 
-            this.buttonResetZoom.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonResetZoom.Location = new System.Drawing.Point(128, 208);
-            this.buttonResetZoom.Name = "buttonResetZoom";
-            this.buttonResetZoom.Size = new System.Drawing.Size(112, 23);
-            this.buttonResetZoom.TabIndex = 8;
-            this.buttonResetZoom.Text = "&Reset Zoom";
-            this.buttonResetZoom.UseVisualStyleBackColor = false;
-            this.buttonResetZoom.Click += new System.EventHandler(this.buttonResetZoom_Click);
+            buttonResetZoom.BackColor = System.Drawing.SystemColors.Control;
+            buttonResetZoom.Location = new Point(128, 208);
+            buttonResetZoom.Name = "buttonResetZoom";
+            buttonResetZoom.Size = new Size(112, 23);
+            buttonResetZoom.TabIndex = 8;
+            buttonResetZoom.Text = "&Reset Zoom";
+            buttonResetZoom.UseVisualStyleBackColor = false;
+            buttonResetZoom.Click += new EventHandler(buttonResetZoom_Click);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 37);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to zoom along the X and Y axis.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 37);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to zoom along the X and Y axis.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxInside);
-            this.panel1.Controls.Add(this.comboBoxAxis);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.checkBoxShowMargin);
-            this.panel1.Controls.Add(this.comboBoxTo);
-            this.panel1.Controls.Add(this.comboBoxFrom);
-            this.panel1.Controls.Add(this.checkBoxZoomUI);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.buttonResetZoom);
-            this.panel1.Location = new System.Drawing.Point(432, 59);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxInside);
+            panel1.Controls.Add(comboBoxAxis);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(checkBoxShowMargin);
+            panel1.Controls.Add(comboBoxTo);
+            panel1.Controls.Add(comboBoxFrom);
+            panel1.Controls.Add(checkBoxZoomUI);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(buttonResetZoom);
+            panel1.Location = new Point(432, 59);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // checkBoxInside
             // 
-            this.checkBoxInside.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxInside.Checked = true;
-            this.checkBoxInside.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxInside.Location = new System.Drawing.Point(14, 104);
-            this.checkBoxInside.Name = "checkBoxInside";
-            this.checkBoxInside.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxInside.Size = new System.Drawing.Size(168, 16);
-            this.checkBoxInside.TabIndex = 9;
-            this.checkBoxInside.Text = "Scrollbars &Inside:";
-            this.checkBoxInside.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxInside.CheckedChanged += new System.EventHandler(this.checkBoxInside_CheckedChanged);
+            checkBoxInside.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxInside.Checked = true;
+            checkBoxInside.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxInside.Location = new Point(14, 104);
+            checkBoxInside.Name = "checkBoxInside";
+            checkBoxInside.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            checkBoxInside.Size = new Size(168, 16);
+            checkBoxInside.TabIndex = 9;
+            checkBoxInside.Text = "Scrollbars &Inside:";
+            checkBoxInside.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxInside.CheckedChanged += new EventHandler(checkBoxInside_CheckedChanged);
             // 
             // comboBoxAxis
             // 
-            this.comboBoxAxis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxAxis.Items.AddRange([
+            comboBoxAxis.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxAxis.Items.AddRange([
             "X",
             "Y",
             "X and Y"]);
-            this.comboBoxAxis.Location = new System.Drawing.Point(168, 8);
-            this.comboBoxAxis.Name = "comboBoxAxis";
-            this.comboBoxAxis.Size = new System.Drawing.Size(112, 22);
-            this.comboBoxAxis.TabIndex = 1;
-            this.comboBoxAxis.SelectedIndexChanged += new System.EventHandler(this.comboBoxAxis_SelectedIndexChanged);
+            comboBoxAxis.Location = new Point(168, 8);
+            comboBoxAxis.Name = "comboBoxAxis";
+            comboBoxAxis.Size = new Size(112, 22);
+            comboBoxAxis.TabIndex = 1;
+            comboBoxAxis.SelectedIndexChanged += new EventHandler(comboBoxAxis_SelectedIndexChanged);
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(28, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(136, 24);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "&Axis Used:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Location = new Point(28, 8);
+            label3.Name = "label3";
+            label3.Size = new Size(136, 24);
+            label3.TabIndex = 0;
+            label3.Text = "&Axis Used:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // checkBoxShowMargin
             // 
-            this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMargin.Checked = true;
-            this.checkBoxShowMargin.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShowMargin.Location = new System.Drawing.Point(14, 136);
-            this.checkBoxShowMargin.Name = "checkBoxShowMargin";
-            this.checkBoxShowMargin.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxShowMargin.Size = new System.Drawing.Size(168, 16);
-            this.checkBoxShowMargin.TabIndex = 6;
-            this.checkBoxShowMargin.Text = "Show Axis &Margin:";
-            this.checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
+            checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMargin.Checked = true;
+            checkBoxShowMargin.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowMargin.Location = new Point(14, 136);
+            checkBoxShowMargin.Name = "checkBoxShowMargin";
+            checkBoxShowMargin.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            checkBoxShowMargin.Size = new Size(168, 16);
+            checkBoxShowMargin.TabIndex = 6;
+            checkBoxShowMargin.Text = "Show Axis &Margin:";
+            checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMargin.CheckedChanged += new EventHandler(checkBoxShowMargin_CheckedChanged);
             // 
             // comboBoxTo
             // 
-            this.comboBoxTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxTo.Items.AddRange([
+            comboBoxTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxTo.Items.AddRange([
             "35",
             "40",
             "50"]);
-            this.comboBoxTo.Location = new System.Drawing.Point(168, 72);
-            this.comboBoxTo.Name = "comboBoxTo";
-            this.comboBoxTo.Size = new System.Drawing.Size(112, 22);
-            this.comboBoxTo.TabIndex = 5;
-            this.comboBoxTo.SelectedIndexChanged += new System.EventHandler(this.comboBoxFrom_SelectedIndexChanged);
+            comboBoxTo.Location = new Point(168, 72);
+            comboBoxTo.Name = "comboBoxTo";
+            comboBoxTo.Size = new Size(112, 22);
+            comboBoxTo.TabIndex = 5;
+            comboBoxTo.SelectedIndexChanged += new EventHandler(comboBoxFrom_SelectedIndexChanged);
             // 
             // comboBoxFrom
             // 
-            this.comboBoxFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxFrom.Items.AddRange([
+            comboBoxFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxFrom.Items.AddRange([
             "10",
             "20",
             "30"]);
-            this.comboBoxFrom.Location = new System.Drawing.Point(168, 40);
-            this.comboBoxFrom.Name = "comboBoxFrom";
-            this.comboBoxFrom.Size = new System.Drawing.Size(112, 22);
-            this.comboBoxFrom.TabIndex = 3;
-            this.comboBoxFrom.SelectedIndexChanged += new System.EventHandler(this.comboBoxFrom_SelectedIndexChanged);
+            comboBoxFrom.Location = new Point(168, 40);
+            comboBoxFrom.Name = "comboBoxFrom";
+            comboBoxFrom.Size = new Size(112, 22);
+            comboBoxFrom.TabIndex = 3;
+            comboBoxFrom.SelectedIndexChanged += new EventHandler(comboBoxFrom_SelectedIndexChanged);
             // 
             // checkBoxZoomUI
             // 
-            this.checkBoxZoomUI.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxZoomUI.Checked = true;
-            this.checkBoxZoomUI.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxZoomUI.Location = new System.Drawing.Point(14, 168);
-            this.checkBoxZoomUI.Name = "checkBoxZoomUI";
-            this.checkBoxZoomUI.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBoxZoomUI.Size = new System.Drawing.Size(168, 16);
-            this.checkBoxZoomUI.TabIndex = 7;
-            this.checkBoxZoomUI.Text = "&Enable Zooming UI:";
-            this.checkBoxZoomUI.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxZoomUI.CheckedChanged += new System.EventHandler(this.checkBoxZoomUI_CheckedChanged);
+            checkBoxZoomUI.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxZoomUI.Checked = true;
+            checkBoxZoomUI.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxZoomUI.Location = new Point(14, 168);
+            checkBoxZoomUI.Name = "checkBoxZoomUI";
+            checkBoxZoomUI.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            checkBoxZoomUI.Size = new Size(168, 16);
+            checkBoxZoomUI.TabIndex = 7;
+            checkBoxZoomUI.Text = "&Enable Zooming UI:";
+            checkBoxZoomUI.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxZoomUI.CheckedChanged += new EventHandler(checkBoxZoomUI_CheckedChanged);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(76, 72);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 24);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Zoom &To:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(76, 72);
+            label2.Name = "label2";
+            label2.Size = new Size(88, 24);
+            label2.TabIndex = 4;
+            label2.Text = "Zoom &To:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(52, 40);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 24);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Zoom &From:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(52, 40);
+            label1.Name = "label1";
+            label1.Size = new Size(112, 24);
+            label1.TabIndex = 2;
+            label1.Text = "Zoom &From:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // BasicZooming
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "BasicZooming";
-            this.Size = new System.Drawing.Size(728, 384);
-            this.Load += new System.EventHandler(this.BasicZooming_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "BasicZooming";
+            Size = new Size(728, 384);
+            Load += new EventHandler(BasicZooming_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void BasicZooming_Load(object sender, System.EventArgs e)
+		private void BasicZooming_Load(object sender, EventArgs e)
 		{
 			comboBoxAxis.SelectedIndex = 0;
 
@@ -317,7 +317,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void checkBoxZoomUI_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxZoomUI_CheckedChanged(object sender, EventArgs e)
 		{
 			// Reset to default
 			chart1.ChartAreas["Default"].CursorX.IsUserEnabled = false;
@@ -343,7 +343,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void buttonResetZoom_Click(object sender, System.EventArgs e)
+		private void buttonResetZoom_Click(object sender, EventArgs e)
 		{
 			if(comboBoxAxis.Text == "X" || comboBoxAxis.Text == "X and Y")
 			{
@@ -357,7 +357,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void comboBoxFrom_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxFrom_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(comboBoxFrom.Text != String.Empty)
 			{
@@ -378,13 +378,13 @@ namespace ChartSamples
 			}
 		}
 
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShowMargin_CheckedChanged(object sender, EventArgs e)
 		{
 			chart1.ChartAreas["Default"].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
 			chart1.ChartAreas["Default"].AxisY.IsMarginVisible = checkBoxShowMargin.Checked;
 		}
 
-		private void comboBoxAxis_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxAxis_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			comboBoxFrom_SelectedIndexChanged(chart1, null);
 			checkBoxShowMargin_CheckedChanged(chart1, null);
@@ -392,13 +392,13 @@ namespace ChartSamples
 			checkBoxInside_CheckedChanged(chart1, null);
 		}
 
-		private void checkBoxInside_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxInside_CheckedChanged(object sender, EventArgs e)
 		{
 			chart1.ChartAreas["Default"].AxisX.ScrollBar.IsPositionedInside = checkBoxInside.Checked;
 			chart1.ChartAreas["Default"].AxisY.ScrollBar.IsPositionedInside = checkBoxInside.Checked;
 		}
 
-		private void chart1_Click(object sender, System.EventArgs e)
+		private void chart1_Click(object sender, EventArgs e)
 		{
 		
 		}

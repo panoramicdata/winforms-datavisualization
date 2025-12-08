@@ -11,24 +11,24 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AreaChartType.
 	/// </summary>
-	public class AreaChartType : System.Windows.Forms.UserControl
+	public class AreaChartType : UserControl
 	{
 		private Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.RadioButton radioButtonArea;
-		private System.Windows.Forms.RadioButton radioButtonSplineArea;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
-		private System.Windows.Forms.CheckBox checkBoxShowMarkers;
-		private System.Windows.Forms.ComboBox comboBoxTension;
-		private System.Windows.Forms.CheckBox checkBoxShow3D;
-		private System.Windows.Forms.CheckBox checkBoxTransparent;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private RadioButton radioButtonArea;
+		private RadioButton radioButtonSplineArea;
+		private CheckBox checkBoxShowMargin;
+		private CheckBox checkBoxShowMarkers;
+		private ComboBox comboBoxTension;
+		private CheckBox checkBoxShow3D;
+		private CheckBox checkBoxTransparent;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public AreaChartType()
 		{
@@ -61,34 +61,34 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxTransparent = new System.Windows.Forms.CheckBox();
-            this.checkBoxShow3D = new System.Windows.Forms.CheckBox();
-            this.comboBoxTension = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.checkBoxShowMarkers = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowMargin = new System.Windows.Forms.CheckBox();
-            this.radioButtonSplineArea = new System.Windows.Forms.RadioButton();
-            this.radioButtonArea = new System.Windows.Forms.RadioButton();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Series series2 = new Series();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkBoxTransparent = new CheckBox();
+            checkBoxShow3D = new CheckBox();
+            comboBoxTension = new ComboBox();
+            label1 = new Label();
+            checkBoxShowMarkers = new CheckBox();
+            checkBoxShowMargin = new CheckBox();
+            radioButtonSplineArea = new RadioButton();
+            radioButtonArea = new RadioButton();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -96,10 +96,10 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(165)))), ((int)(((byte)(191)))), ((int)(((byte)(228)))));
@@ -108,15 +108,15 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 48);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 48);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
@@ -129,141 +129,141 @@ namespace ChartSamples
             series2.LabelFormat = "C";
             series2.Legend = "Default";
             series2.Name = "Series2";
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates Area and Spline Area charts.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelSampleComment.Click += new System.EventHandler(this.labelSampleComment_Click);
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 34);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates Area and Spline Area charts.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Click += new EventHandler(labelSampleComment_Click);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxTransparent);
-            this.panel1.Controls.Add(this.checkBoxShow3D);
-            this.panel1.Controls.Add(this.comboBoxTension);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.checkBoxShowMarkers);
-            this.panel1.Controls.Add(this.checkBoxShowMargin);
-            this.panel1.Controls.Add(this.radioButtonSplineArea);
-            this.panel1.Controls.Add(this.radioButtonArea);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxTransparent);
+            panel1.Controls.Add(checkBoxShow3D);
+            panel1.Controls.Add(comboBoxTension);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(checkBoxShowMarkers);
+            panel1.Controls.Add(checkBoxShowMargin);
+            panel1.Controls.Add(radioButtonSplineArea);
+            panel1.Controls.Add(radioButtonArea);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // checkBoxTransparent
             // 
-            this.checkBoxTransparent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxTransparent.Location = new System.Drawing.Point(19, 168);
-            this.checkBoxTransparent.Name = "checkBoxTransparent";
-            this.checkBoxTransparent.Size = new System.Drawing.Size(216, 24);
-            this.checkBoxTransparent.TabIndex = 6;
-            this.checkBoxTransparent.Text = "Semi-&Transparent Colors:";
-            this.checkBoxTransparent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxTransparent.CheckedChanged += new System.EventHandler(this.checkBoxTransparent_CheckedChanged);
+            checkBoxTransparent.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxTransparent.Location = new Point(19, 168);
+            checkBoxTransparent.Name = "checkBoxTransparent";
+            checkBoxTransparent.Size = new Size(216, 24);
+            checkBoxTransparent.TabIndex = 6;
+            checkBoxTransparent.Text = "Semi-&Transparent Colors:";
+            checkBoxTransparent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxTransparent.CheckedChanged += new EventHandler(checkBoxTransparent_CheckedChanged);
             // 
             // checkBoxShow3D
             // 
-            this.checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShow3D.Location = new System.Drawing.Point(51, 200);
-            this.checkBoxShow3D.Name = "checkBoxShow3D";
-            this.checkBoxShow3D.Size = new System.Drawing.Size(184, 24);
-            this.checkBoxShow3D.TabIndex = 7;
-            this.checkBoxShow3D.Text = "Display chart as 3&D:";
-            this.checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShow3D.CheckedChanged += new System.EventHandler(this.checkBoxShow3D_CheckedChanged);
+            checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShow3D.Location = new Point(51, 200);
+            checkBoxShow3D.Name = "checkBoxShow3D";
+            checkBoxShow3D.Size = new Size(184, 24);
+            checkBoxShow3D.TabIndex = 7;
+            checkBoxShow3D.Text = "Display chart as 3&D:";
+            checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShow3D.CheckedChanged += new EventHandler(checkBoxShow3D_CheckedChanged);
             // 
             // comboBoxTension
             // 
-            this.comboBoxTension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxTension.Items.AddRange([
+            comboBoxTension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxTension.Items.AddRange([
             "1.2",
             "0.8",
             "0.4",
             "0.2"]);
-            this.comboBoxTension.Location = new System.Drawing.Point(222, 70);
-            this.comboBoxTension.Name = "comboBoxTension";
-            this.comboBoxTension.Size = new System.Drawing.Size(64, 22);
-            this.comboBoxTension.TabIndex = 3;
-            this.comboBoxTension.SelectedIndexChanged += new System.EventHandler(this.comboBoxTension_SelectedIndexChanged);
+            comboBoxTension.Location = new Point(222, 70);
+            comboBoxTension.Name = "comboBoxTension";
+            comboBoxTension.Size = new Size(64, 22);
+            comboBoxTension.TabIndex = 3;
+            comboBoxTension.SelectedIndexChanged += new EventHandler(comboBoxTension_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(105, 70);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 23);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Spline &Tension:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(105, 70);
+            label1.Name = "label1";
+            label1.Size = new Size(112, 23);
+            label1.TabIndex = 2;
+            label1.Text = "Spline &Tension:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // checkBoxShowMarkers
             // 
-            this.checkBoxShowMarkers.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMarkers.Location = new System.Drawing.Point(3, 104);
-            this.checkBoxShowMarkers.Name = "checkBoxShowMarkers";
-            this.checkBoxShowMarkers.Size = new System.Drawing.Size(232, 24);
-            this.checkBoxShowMarkers.TabIndex = 4;
-            this.checkBoxShowMarkers.Text = "Show Point &Markers and Labels:";
-            this.checkBoxShowMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMarkers.CheckedChanged += new System.EventHandler(this.checkBoxShowMarkers_CheckedChanged);
+            checkBoxShowMarkers.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMarkers.Location = new Point(3, 104);
+            checkBoxShowMarkers.Name = "checkBoxShowMarkers";
+            checkBoxShowMarkers.Size = new Size(232, 24);
+            checkBoxShowMarkers.TabIndex = 4;
+            checkBoxShowMarkers.Text = "Show Point &Markers and Labels:";
+            checkBoxShowMarkers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMarkers.CheckedChanged += new EventHandler(checkBoxShowMarkers_CheckedChanged);
             // 
             // checkBoxShowMargin
             // 
-            this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMargin.Location = new System.Drawing.Point(3, 136);
-            this.checkBoxShowMargin.Name = "checkBoxShowMargin";
-            this.checkBoxShowMargin.Size = new System.Drawing.Size(232, 24);
-            this.checkBoxShowMargin.TabIndex = 5;
-            this.checkBoxShowMargin.Text = "Show X Axis M&argin:";
-            this.checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
+            checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMargin.Location = new Point(3, 136);
+            checkBoxShowMargin.Name = "checkBoxShowMargin";
+            checkBoxShowMargin.Size = new Size(232, 24);
+            checkBoxShowMargin.TabIndex = 5;
+            checkBoxShowMargin.Text = "Show X Axis M&argin:";
+            checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMargin.CheckedChanged += new EventHandler(checkBoxShowMargin_CheckedChanged);
             // 
             // radioButtonSplineArea
             // 
-            this.radioButtonSplineArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.radioButtonSplineArea.Location = new System.Drawing.Point(48, 37);
-            this.radioButtonSplineArea.Name = "radioButtonSplineArea";
-            this.radioButtonSplineArea.Size = new System.Drawing.Size(184, 24);
-            this.radioButtonSplineArea.TabIndex = 1;
-            this.radioButtonSplineArea.Text = "&Spline Area Chart:";
-            this.radioButtonSplineArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.radioButtonSplineArea.CheckedChanged += new System.EventHandler(this.radioButtonSplineArea_CheckedChanged);
+            radioButtonSplineArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            radioButtonSplineArea.Location = new Point(48, 37);
+            radioButtonSplineArea.Name = "radioButtonSplineArea";
+            radioButtonSplineArea.Size = new Size(184, 24);
+            radioButtonSplineArea.TabIndex = 1;
+            radioButtonSplineArea.Text = "&Spline Area Chart:";
+            radioButtonSplineArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            radioButtonSplineArea.CheckedChanged += new EventHandler(radioButtonSplineArea_CheckedChanged);
             // 
             // radioButtonArea
             // 
-            this.radioButtonArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.radioButtonArea.Checked = true;
-            this.radioButtonArea.Location = new System.Drawing.Point(88, 8);
-            this.radioButtonArea.Name = "radioButtonArea";
-            this.radioButtonArea.Size = new System.Drawing.Size(144, 24);
-            this.radioButtonArea.TabIndex = 0;
-            this.radioButtonArea.TabStop = true;
-            this.radioButtonArea.Text = "&Area Chart:";
-            this.radioButtonArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.radioButtonArea.CheckedChanged += new System.EventHandler(this.radioButtonArea_CheckedChanged);
+            radioButtonArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            radioButtonArea.Checked = true;
+            radioButtonArea.Location = new Point(88, 8);
+            radioButtonArea.Name = "radioButtonArea";
+            radioButtonArea.Size = new Size(144, 24);
+            radioButtonArea.TabIndex = 0;
+            radioButtonArea.TabStop = true;
+            radioButtonArea.Text = "&Area Chart:";
+            radioButtonArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            radioButtonArea.CheckedChanged += new EventHandler(radioButtonArea_CheckedChanged);
             // 
             // AreaChartType
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "AreaChartType";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.AreaChartType_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "AreaChartType";
+            Size = new Size(728, 480);
+            Load += new EventHandler(AreaChartType_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -358,32 +358,32 @@ namespace ChartSamples
 
 		}
 
-		private void radioButtonArea_CheckedChanged(object sender, System.EventArgs e)
+		private void radioButtonArea_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void radioButtonSplineArea_CheckedChanged(object sender, System.EventArgs e)
+		private void radioButtonSplineArea_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShowMargin_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxShowMarkers_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShowMarkers_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void comboBoxTension_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxTension_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();		
 		}
 
-		private void AreaChartType_Load(object sender, System.EventArgs e)
+		private void AreaChartType_Load(object sender, EventArgs e)
 		{
 			comboBoxTension.SelectedIndex = 1;
 			checkBoxTransparent.Checked = true;
@@ -403,17 +403,17 @@ namespace ChartSamples
 			chart1.Series["Series2"].Points.AddY(2.9);
 		}
 
-		private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShow3D_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxTransparent_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxTransparent_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void labelSampleComment_Click(object sender, System.EventArgs e)
+		private void labelSampleComment_Click(object sender, EventArgs e)
 		{
 		
 		}

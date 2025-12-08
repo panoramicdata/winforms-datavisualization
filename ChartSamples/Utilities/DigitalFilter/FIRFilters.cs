@@ -1,4 +1,4 @@
-//=================================================================
+﻿//=================================================================
 //  File:		FIRFilters.cs
 //
 //  Namespace:	System.Windows.Forms.DataVisualization.Charting.Utilities
@@ -9,7 +9,7 @@
 //
 //===================================================================
 // Chart Control for .NET Framework
-// Copyright � Microsoft Corporation, all rights reserved
+// Copyright © Microsoft Corporation, all rights reserved
 //===================================================================
 
 using System;
@@ -92,7 +92,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             get { return myAttenuation; }
             set {
                     myAttenuation = value;
-                    this.myFFT.StopBandAttenuation = myAttenuation;
+                    myFFT.StopBandAttenuation = myAttenuation;
                 }
         }
 
@@ -104,7 +104,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             get { return myBand; }
             set {
                     myBand = value;
-                    this.myFFT.TransitionBand = myBand;
+                    myFFT.TransitionBand = myBand;
                 }
         }
 
@@ -116,7 +116,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             get { return myAlpha; }
             set {
                     myAlpha = value;
-                    this.myFFT.Alpha = myAlpha;
+                    myFFT.Alpha = myAlpha;
                 }
         }
 
@@ -141,7 +141,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 if ((value % 2) == 0)
                 {
                     myOrder = value;
-                    this.myFFT.Order = myOrder;
+                    myFFT.Order = myOrder;
                 }
                 else
                     throw new ArgumentOutOfRangeException("Order", "Filter order must be an even number.");
@@ -156,13 +156,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         public FIRFilters()
         {
             //Create a new FFT object
-            this.myFFT = new FFT();
+            myFFT = new FFT();
 
             //Default algorithm to Kaiser
-            this.CurrentAlgorithm = FFT.Algorithm.Kaiser;
+            CurrentAlgorithm = FFT.Algorithm.Kaiser;
 
             //Default taps to 35
-            this.myTaps = 35;
+            myTaps = 35;
         }
         #endregion
 
@@ -177,19 +177,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             //If no start and end frequencies are specified, default low pass frequency range to:
             //0 - 1000hz
-            if (this.myFreqFrom == 0.0f && this.myFreqTo == 0.0f)
+            if (myFreqFrom == 0.0f && myFreqTo == 0.0f)
             {
-                this.myFFT.FreqFrom = 0.0f;
-                this.myFFT.FreqTo = 1000.0f;
+                myFFT.FreqFrom = 0.0f;
+                myFFT.FreqTo = 1000.0f;
             }
             else
             {
-                this.myFFT.FreqFrom = this.myFreqFrom;
-                this.myFFT.FreqTo = this.myFreqTo;
+                myFFT.FreqFrom = myFreqFrom;
+                myFFT.FreqTo = myFreqTo;
             }
 
             //Generate the actual coefficients
-            this.myCoeff = this.myFFT.GenerateCoefficients(FFT.FilterType.LowPass, CurrentAlgorithm);
+            myCoeff = myFFT.GenerateCoefficients(FFT.FilterType.LowPass, CurrentAlgorithm);
 
             //Filter the series based on the coefficients generated
             Filter(iseries, oseries);
@@ -205,19 +205,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             //If no start and end frequencies are specified, default high pass frequency range to:
             //2000 - 4000hz
-            if (this.myFreqFrom == 0.0f && this.myFreqTo == 0.0f)
+            if (myFreqFrom == 0.0f && myFreqTo == 0.0f)
             {
-                this.myFFT.FreqFrom = 2000.0f;
-                this.myFFT.FreqTo = 4000.0f;
+                myFFT.FreqFrom = 2000.0f;
+                myFFT.FreqTo = 4000.0f;
             }
             else
             {
-                this.myFFT.FreqFrom = this.myFreqFrom;
-                this.myFFT.FreqTo = this.myFreqTo;
+                myFFT.FreqFrom = myFreqFrom;
+                myFFT.FreqTo = myFreqTo;
             }
 
             //Generate the actual coefficients
-            this.myCoeff = this.myFFT.GenerateCoefficients(FFT.FilterType.HighPass, CurrentAlgorithm);
+            myCoeff = myFFT.GenerateCoefficients(FFT.FilterType.HighPass, CurrentAlgorithm);
 
             //Filter the series based on the coefficients generated
             Filter(iseries, oseries);
@@ -233,19 +233,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             //If no start and end frequencies are specified, default band pass frequency range to:
             //1000 - 1000hz
-            if (this.myFreqFrom == 0.0f && this.myFreqTo == 0.0f)
+            if (myFreqFrom == 0.0f && myFreqTo == 0.0f)
             {
-                this.myFFT.FreqFrom = 1000.0f;
-                this.myFFT.FreqTo = 1000.0f;
+                myFFT.FreqFrom = 1000.0f;
+                myFFT.FreqTo = 1000.0f;
             }
             else
             {
-                this.myFFT.FreqFrom = this.myFreqFrom;
-                this.myFFT.FreqTo = this.myFreqTo;
+                myFFT.FreqFrom = myFreqFrom;
+                myFFT.FreqTo = myFreqTo;
             }
 
             //Generate the actual coefficients
-            this.myCoeff = this.myFFT.GenerateCoefficients(FFT.FilterType.BandPass, CurrentAlgorithm);
+            myCoeff = myFFT.GenerateCoefficients(FFT.FilterType.BandPass, CurrentAlgorithm);
 
             //Filter the series based on the coefficients generated
             Filter(iseries, oseries);
@@ -261,11 +261,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="oseries">Output series to which filter will be written</param>
         private void SetIOSeries(Series iseries, Series oseries)
         {
-            this.myInputSeries = iseries;
-            this.myFilterSeries = oseries;
+            myInputSeries = iseries;
+            myFilterSeries = oseries;
 
             //Samples is the number of points contained in the input
-            this.mySamples = myInputSeries.Points.Count;
+            mySamples = myInputSeries.Points.Count;
         }
         #endregion
 
@@ -317,7 +317,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     x[j] = x[j - 1];
 
                 //Add the y value to the output series at the current x value
-                myFilterSeries.Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, y));
+                myFilterSeries.Points.Add(new DataPoint(i, y));
             }
         }
         #endregion

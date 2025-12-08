@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -13,20 +13,20 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for BasicSerialization.
 	/// </summary>
-	public class BasicSerialization : System.Windows.Forms.UserControl
+	public class BasicSerialization : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
-		private System.Windows.Forms.Button buttonLoad;
-		private System.Windows.Forms.Button buttonResetAppearance;
-		private System.Windows.Forms.Button buttonResetData;
-		private System.Windows.Forms.Label label1;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Chart chart2;
+		private Button buttonLoad;
+		private Button buttonResetAppearance;
+		private Button buttonResetData;
+		private Label label1;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public BasicSerialization()
 		{
@@ -60,57 +60,57 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "3,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "7,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "4,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "1,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "8,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "9,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "1,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "2,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "8,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "6,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "1,0");
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint21 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint22 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonResetData = new System.Windows.Forms.Button();
-            this.buttonResetAppearance = new System.Windows.Forms.Button();
-            this.buttonLoad = new System.Windows.Forms.Button();
-            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, "3,0");
+			DataPoint dataPoint2 = new DataPoint(0, "7,0");
+			DataPoint dataPoint3 = new DataPoint(0, "4,0");
+			DataPoint dataPoint4 = new DataPoint(0, "1,0");
+			DataPoint dataPoint5 = new DataPoint(0, "8,0");
+			DataPoint dataPoint6 = new DataPoint(0, "9,0");
+			DataPoint dataPoint7 = new DataPoint(0, "1,0");
+			DataPoint dataPoint8 = new DataPoint(0, "2,0");
+			DataPoint dataPoint9 = new DataPoint(0, "8,0");
+			DataPoint dataPoint10 = new DataPoint(0, "6,0");
+			DataPoint dataPoint11 = new DataPoint(0, "1,0");
+			Series series2 = new Series();
+			DataPoint dataPoint12 = new DataPoint(0, 5);
+			DataPoint dataPoint13 = new DataPoint(0, 8);
+			DataPoint dataPoint14 = new DataPoint(0, 2);
+			DataPoint dataPoint15 = new DataPoint(0, 5);
+			DataPoint dataPoint16 = new DataPoint(0, 6);
+			DataPoint dataPoint17 = new DataPoint(0, 3);
+			DataPoint dataPoint18 = new DataPoint(0, 9);
+			DataPoint dataPoint19 = new DataPoint(0, 8);
+			DataPoint dataPoint20 = new DataPoint(0, 4);
+			DataPoint dataPoint21 = new DataPoint(0, 7);
+			DataPoint dataPoint22 = new DataPoint(0, 2);
+			Title title1 = new Title();
+			ChartArea chartArea2 = new ChartArea();
+			Legend legend2 = new Legend();
+			Series series3 = new Series();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            buttonResetData = new Button();
+            buttonResetAppearance = new Button();
+            buttonLoad = new Button();
+            chart2 = new Chart();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(chart2)).BeginInit();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -118,10 +118,10 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsMarginVisible = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.OldLace;
@@ -131,17 +131,17 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.Alignment = System.Drawing.StringAlignment.Center;
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 40);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 40);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.BorderWidth = 3;
             series1.ChartArea = "Default";
@@ -181,122 +181,122 @@ namespace ChartSamples
             series2.Points.Add(dataPoint22);
             series2.ShadowColor = System.Drawing.Color.Black;
             series2.ShadowOffset = 1;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(250, 260);
-            this.chart1.TabIndex = 1;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(250, 260);
+            chart1.TabIndex = 1;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Serialization Sample";
-            this.chart1.Titles.Add(title1);
+            chart1.Titles.Add(title1);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 24);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to save, load, and reset chart data using serializat" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 24);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to save, load, and reset chart data using serializat" +
                 "ion.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.buttonResetData);
-            this.panel1.Controls.Add(this.buttonResetAppearance);
-            this.panel1.Controls.Add(this.buttonLoad);
-            this.panel1.Location = new System.Drawing.Point(536, 48);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(208, 248);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(buttonResetData);
+            panel1.Controls.Add(buttonResetAppearance);
+            panel1.Controls.Add(buttonLoad);
+            panel1.Location = new Point(536, 48);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(208, 248);
+            panel1.TabIndex = 2;
             // 
             // buttonResetData
             // 
-            this.buttonResetData.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonResetData.Location = new System.Drawing.Point(8, 128);
-            this.buttonResetData.Name = "buttonResetData";
-            this.buttonResetData.Size = new System.Drawing.Size(200, 40);
-            this.buttonResetData.TabIndex = 2;
-            this.buttonResetData.Text = "Reset &Second Chart";
-            this.buttonResetData.UseVisualStyleBackColor = false;
-            this.buttonResetData.Click += new System.EventHandler(this.buttonResetData_Click);
+            buttonResetData.BackColor = System.Drawing.SystemColors.Control;
+            buttonResetData.Location = new Point(8, 128);
+            buttonResetData.Name = "buttonResetData";
+            buttonResetData.Size = new Size(200, 40);
+            buttonResetData.TabIndex = 2;
+            buttonResetData.Text = "Reset &Second Chart";
+            buttonResetData.UseVisualStyleBackColor = false;
+            buttonResetData.Click += new EventHandler(buttonResetData_Click);
             // 
             // buttonResetAppearance
             // 
-            this.buttonResetAppearance.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonResetAppearance.Location = new System.Drawing.Point(8, 72);
-            this.buttonResetAppearance.Name = "buttonResetAppearance";
-            this.buttonResetAppearance.Size = new System.Drawing.Size(200, 40);
-            this.buttonResetAppearance.TabIndex = 1;
-            this.buttonResetAppearance.Text = "&Reset Visual Appearance of the Second  Chart";
-            this.buttonResetAppearance.UseVisualStyleBackColor = false;
-            this.buttonResetAppearance.Click += new System.EventHandler(this.buttonReset_Click);
+            buttonResetAppearance.BackColor = System.Drawing.SystemColors.Control;
+            buttonResetAppearance.Location = new Point(8, 72);
+            buttonResetAppearance.Name = "buttonResetAppearance";
+            buttonResetAppearance.Size = new Size(200, 40);
+            buttonResetAppearance.TabIndex = 1;
+            buttonResetAppearance.Text = "&Reset Visual Appearance of the Second  Chart";
+            buttonResetAppearance.UseVisualStyleBackColor = false;
+            buttonResetAppearance.Click += new EventHandler(buttonReset_Click);
             // 
             // buttonLoad
             // 
-            this.buttonLoad.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonLoad.Location = new System.Drawing.Point(8, 16);
-            this.buttonLoad.Name = "buttonLoad";
-            this.buttonLoad.Size = new System.Drawing.Size(200, 40);
-            this.buttonLoad.TabIndex = 0;
-            this.buttonLoad.Text = "&Load Data from the First Chart into the Second Chart";
-            this.buttonLoad.UseVisualStyleBackColor = false;
-            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
+            buttonLoad.BackColor = System.Drawing.SystemColors.Control;
+            buttonLoad.Location = new Point(8, 16);
+            buttonLoad.Name = "buttonLoad";
+            buttonLoad.Size = new Size(200, 40);
+            buttonLoad.TabIndex = 0;
+            buttonLoad.Text = "&Load Data from the First Chart into the Second Chart";
+            buttonLoad.UseVisualStyleBackColor = false;
+            buttonLoad.Click += new EventHandler(buttonLoad_Click);
             // 
             // chart2
             // 
-            this.chart2.BorderlineColor = System.Drawing.Color.Black;
-            this.chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart2.BorderlineColor = System.Drawing.Color.Black;
+            chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea2.Name = "Default";
-            this.chart2.ChartAreas.Add(chartArea2);
+            chart2.ChartAreas.Add(chartArea2);
             legend2.Enabled = false;
             legend2.Name = "Default";
-            this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(280, 40);
-            this.chart2.Name = "chart2";
+            chart2.Legends.Add(legend2);
+            chart2.Location = new Point(280, 40);
+            chart2.Name = "chart2";
             series3.ChartArea = "Default";
             series3.Legend = "Default";
             series3.Name = "Default";
-            this.chart2.Series.Add(series3);
-            this.chart2.Size = new System.Drawing.Size(250, 260);
-            this.chart2.TabIndex = 3;
+            chart2.Series.Add(series3);
+            chart2.Size = new Size(250, 260);
+            chart2.TabIndex = 3;
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 312);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(702, 64);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "In this sample, data and appearance settings from the first chart is saved into a" +
+            label1.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(16, 312);
+            label1.Name = "label1";
+            label1.Size = new Size(702, 64);
+            label1.TabIndex = 4;
+            label1.Text = "In this sample, data and appearance settings from the first chart is saved into a" +
                 " stream and then loaded into the second chart. You can then reset the second cha" +
                 "rt in two different ways.";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // BasicSerialization
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.chart2);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "BasicSerialization";
-            this.Size = new System.Drawing.Size(752, 400);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label1);
+            Controls.Add(chart2);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "BasicSerialization";
+            Size = new Size(752, 400);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(chart2)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void buttonLoad_Click(object sender, System.EventArgs e)
+		private void buttonLoad_Click(object sender, EventArgs e)
 		{
 			// Save first chart into the memory stream
 			chart2.Serializer.Content = SerializationContents.Default;
@@ -309,7 +309,7 @@ namespace ChartSamples
 			ms.Close();
 		}
 
-		private void buttonReset_Click(object sender, System.EventArgs e)
+		private void buttonReset_Click(object sender, EventArgs e)
 		{
 			// Reset visual appearance of the second chart
 			chart2.Serializer.Content = SerializationContents.Appearance;
@@ -320,7 +320,7 @@ namespace ChartSamples
 			chart2.BorderlineDashStyle = ChartDashStyle.Solid;
 		}
 
-		private void buttonResetData_Click(object sender, System.EventArgs e)
+		private void buttonResetData_Click(object sender, EventArgs e)
 		{
 			// Reset data of the second chart
 			chart2.Serializer.Content = SerializationContents.All;

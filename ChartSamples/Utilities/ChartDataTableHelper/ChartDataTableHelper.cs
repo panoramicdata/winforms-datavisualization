@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -14,11 +14,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 	public class ChartDataTableHelper
 	{
 		#region Members
-		protected System.Windows.Forms.DataVisualization.Charting.Chart ChartObj = null;
+		protected Chart ChartObj = null;
 		protected ArrayList ChartAreas = null;
 		protected bool AddTableTotals = false;
-		protected System.Drawing.Color tableColor = Color.White;
-		protected System.Drawing.Color borderColor = Color.Black;
+		protected Color tableColor = Color.White;
+		protected Color borderColor = Color.Black;
 		protected bool enabled = true;
 		protected bool Initialized = false;
 
@@ -44,7 +44,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Sets or gets the Chart object.
 		/// </summary>
-		public System.Windows.Forms.DataVisualization.Charting.Chart Chart
+		public Chart Chart
 		{
 			get
 			{
@@ -60,7 +60,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Sets or gets the Table Color that will be painted.
 		/// </summary>
-		public System.Drawing.Color TableColor
+		public Color TableColor
 		{
 			get
 			{
@@ -75,7 +75,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Sets or gets the Table Border Color that will be painted.
 		/// </summary>
-		public System.Drawing.Color BorderColor
+		public Color BorderColor
 		{
 			get
 			{
@@ -102,7 +102,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Construct a ChartDataTableHelper instance and Initialize all ChartAreas with a table.
 		/// </summary>
-		public ChartDataTableHelper(System.Windows.Forms.DataVisualization.Charting.Chart chartObj)
+		public ChartDataTableHelper(Chart chartObj)
 		{
 			ChartAreas = new ArrayList();
 			Initialize(chartObj);
@@ -112,7 +112,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Construct a ChartDataTableHelper instance and Initialize the specified ChartArea with a table.
 		/// </summary>
-		public ChartDataTableHelper(System.Windows.Forms.DataVisualization.Charting.Chart chartObj, string chartAreaName)
+		public ChartDataTableHelper(Chart chartObj, string chartAreaName)
 		{
 			ChartAreas = new ArrayList();
 			Initialize(chartObj, chartAreaName);
@@ -123,7 +123,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// Construct a ChartDataTableHelper instance, Initialize the specified ChartArea with a table and
 		/// set a boolean to show or hide total columns.
 		/// </summary>
-		public ChartDataTableHelper(System.Windows.Forms.DataVisualization.Charting.Chart chartObj, string chartAreaName, bool addTableTotals)
+		public ChartDataTableHelper(Chart chartObj, string chartAreaName, bool addTableTotals)
 		{
 			ChartAreas = new ArrayList();
 			Initialize(chartObj, chartAreaName, addTableTotals);
@@ -136,7 +136,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Initialize all ChartAreas with a table.
 		/// </summary>
-		public void Initialize(System.Windows.Forms.DataVisualization.Charting.Chart chartObj)
+		public void Initialize(Chart chartObj)
 		{
 			ChartObj = chartObj;
 
@@ -157,7 +157,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// Initialize all ChartAreas with a table and
 		/// set a boolean to show or hide total columns.
 		/// </summary>
-		public void Initialize(System.Windows.Forms.DataVisualization.Charting.Chart chartObj, bool addTableTotals)
+		public void Initialize(Chart chartObj, bool addTableTotals)
 		{
 			AddTableTotals = addTableTotals;
 			Initialize(chartObj);
@@ -166,7 +166,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Initialize the specified ChartArea with a table.
 		/// </summary>
-		public void Initialize(System.Windows.Forms.DataVisualization.Charting.Chart chartObj, string chartAreaName)
+		public void Initialize(Chart chartObj, string chartAreaName)
 		{
 			ChartObj = chartObj;
 			
@@ -182,7 +182,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// Initialize the specified ChartArea with a table and
 		/// set a boolean to show or hide total columns.
 		/// </summary>
-		public void Initialize(System.Windows.Forms.DataVisualization.Charting.Chart chartObj, string chartAreaName, bool addTableTotals)
+		public void Initialize(Chart chartObj, string chartAreaName, bool addTableTotals)
 		{
 			ChartObj = chartObj;
 			AddTableTotals = addTableTotals;
@@ -354,7 +354,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// A cleanup method that ensures the XValues are sorted accordingly and set explicitly.  
 		/// It will also create the totals for the DUMMY series.
 		/// </summary>
-		private void AdjustXValues(System.Windows.Forms.DataVisualization.Charting.Series series)
+		private void AdjustXValues(Series series)
 		{
 			bool AddDummyPoints = true;
 
@@ -443,7 +443,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// Chart Paint event handler.
 		/// </summary>
-		private void Chart_PostPaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void Chart_PostPaint(object sender, ChartPaintEventArgs e)
 		{
             if( e.ChartElement is ChartArea )
 			{
@@ -460,7 +460,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 		/// <summary>
 		/// This method does all the work for the painting of the data table.
 		/// </summary>
-		private void PaintDataTable(System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void PaintDataTable(ChartPaintEventArgs e)
 		{
 			ChartArea area = (ChartArea) e.ChartElement; 
 

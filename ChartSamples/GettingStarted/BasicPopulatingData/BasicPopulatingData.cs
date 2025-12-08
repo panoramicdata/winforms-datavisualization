@@ -11,21 +11,21 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for BasicPopulatingData.
 	/// </summary>
-	public class BasicPopulatingData : System.Windows.Forms.UserControl
+	public class BasicPopulatingData : UserControl
 	{
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
+		private Panel panel1;
+		private Chart Chart1;
+		private Label label3;
+		private Label label4;
+		private Label label5;
+		private Label label6;
+		private Label label15;
+		private Label label1;
+		private Label label2;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public BasicPopulatingData()
 		{
@@ -57,82 +57,82 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label15 = new System.Windows.Forms.Label();
-			this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			ChartArea chartArea2 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Series series2 = new Series();
+			Title title1 = new Title();
+			panel1 = new Panel();
+			label6 = new Label();
+			label5 = new Label();
+			label4 = new Label();
+			label3 = new Label();
+			label15 = new Label();
+			Chart1 = new Chart();
+			label1 = new Label();
+			label2 = new Label();
+			panel1.SuspendLayout();
+			((ISupportInitialize)(Chart1)).BeginInit();
+			SuspendLayout();
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.label6,
-																				 this.label5,
-																				 this.label4,
-																				 this.label3,
-																				 this.label15]);
-			this.panel1.Location = new System.Drawing.Point(400, 48);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(304, 248);
-			this.panel1.TabIndex = 19;
+			panel1.Controls.AddRange([
+																				 label6,
+																				 label5,
+																				 label4,
+																				 label3,
+																				 label15]);
+			panel1.Location = new Point(400, 48);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(304, 248);
+			panel1.TabIndex = 19;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(64, 403);
-			this.label6.Name = "label6";
-			this.label6.TabIndex = 5;
-			this.label6.Text = "Border Size:";
+			label6.Location = new Point(64, 403);
+			label6.Name = "label6";
+			label6.TabIndex = 5;
+			label6.Text = "Border Size:";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(64, 380);
-			this.label5.Name = "label5";
-			this.label5.TabIndex = 4;
-			this.label5.Text = "Border Color:";
+			label5.Location = new Point(64, 380);
+			label5.Name = "label5";
+			label5.TabIndex = 4;
+			label5.Text = "Border Color:";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(64, 357);
-			this.label4.Name = "label4";
-			this.label4.TabIndex = 3;
-			this.label4.Text = "Hatch Style:";
+			label4.Location = new Point(64, 357);
+			label4.Name = "label4";
+			label4.TabIndex = 3;
+			label4.Text = "Hatch Style:";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(64, 334);
-			this.label3.Name = "label3";
-			this.label3.TabIndex = 2;
-			this.label3.Text = "Gradient:";
+			label3.Location = new Point(64, 334);
+			label3.Name = "label3";
+			label3.TabIndex = 2;
+			label3.Text = "Gradient:";
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(64, 426);
-			this.label15.Name = "label15";
-			this.label15.TabIndex = 5;
-			this.label15.Text = "Border Size:";
+			label15.Location = new Point(64, 426);
+			label15.Name = "label15";
+			label15.TabIndex = 5;
+			label15.Text = "Border Size:";
 			// 
 			// Chart1
 			// 
-			this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-			this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.Chart1.BorderlineWidth = 2;
-			this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+			Chart1.BackSecondaryColor = System.Drawing.Color.White;
+			Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			Chart1.BorderlineWidth = 2;
+			Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Triangle;;
 			chartArea1.AxisX2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
 			chartArea1.AxisY.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Triangle;;
@@ -155,18 +155,18 @@ namespace ChartSamples
 			chartArea2.Position.Width = 45F;
 			chartArea2.Position.X = 3F;
 			chartArea2.Position.Y = 19.50579F;
-			this.Chart1.ChartAreas.Add(chartArea1);
-			this.Chart1.ChartAreas.Add(chartArea2);
+			Chart1.ChartAreas.Add(chartArea1);
+			Chart1.ChartAreas.Add(chartArea2);
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
 			legend1.Enabled = false;
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			legend1.Name = "Default";
-			legend1.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-			this.Chart1.Legends.Add(legend1);
-			this.Chart1.Location = new System.Drawing.Point(16, 40);
-			this.Chart1.Name = "Chart1";
-			this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			legend1.TitleFont = new Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+			Chart1.Legends.Add(legend1);
+			Chart1.Location = new Point(16, 40);
+			Chart1.Name = "Chart1";
+			Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.ChartArea = "Data Binding";
             series1.ChartType = SeriesChartType.Pie;
 			series1.CustomProperties = "LabelsRadialLineSize=1, PieDrawingStyle=Concave, LabelStyle=outside";
@@ -175,61 +175,61 @@ namespace ChartSamples
             series2.ChartType = SeriesChartType.Pie;
 			series2.CustomProperties = "LabelsRadialLineSize=1, PieDrawingStyle=Concave, LabelStyle=outside";
 			series2.Name = "ByPoint";
-			this.Chart1.Series.Add(series1);
-			this.Chart1.Series.Add(series2);
-			this.Chart1.Size = new System.Drawing.Size(360, 260);
-			this.Chart1.TabIndex = 0;
+			Chart1.Series.Add(series1);
+			Chart1.Series.Add(series2);
+			Chart1.Size = new Size(360, 260);
+			Chart1.TabIndex = 0;
 			title1.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
 			title1.ForeColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			title1.Name = "Default Title";
 			title1.ShadowColor = System.Drawing.Color.FromArgb(((System.Byte)(32)), ((System.Byte)(0)), ((System.Byte)(0)), ((System.Byte)(0)));
 			title1.ShadowOffset = 3;
 			title1.Text = "Chart Control for .NET Framework";
-			this.Chart1.Titles.Add(title1);
-            this.Chart1.PostPaint += new EventHandler<ChartPaintEventArgs>(Chart1_PostPaint);
+			Chart1.Titles.Add(title1);
+            Chart1.PostPaint += new EventHandler<ChartPaintEventArgs>(Chart1_PostPaint);
 			// 
 			// label1
 			// 
-			this.label1.Font = new System.Drawing.Font("Verdana", 11.25F);
-			this.label1.Location = new System.Drawing.Point(8, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(624, 24);
-			this.label1.TabIndex = 20;
-			this.label1.Text = "This sample demonstrates how to populate a chart with data.";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			label1.Font = new Font("Verdana", 11.25F);
+			label1.Location = new Point(8, 8);
+			label1.Name = "label1";
+			label1.Size = new Size(624, 24);
+			label1.TabIndex = 20;
+			label1.Text = "This sample demonstrates how to populate a chart with data.";
+			label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label2
 			// 
-			this.label2.Font = new System.Drawing.Font("Verdana", 11.25F);
-			this.label2.Location = new System.Drawing.Point(16, 312);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(688, 72);
-			this.label2.TabIndex = 21;
-			this.label2.Text = "Two arrays are used: one for X values and one for Y values.  The chart on the lef" +
+			label2.Font = new Font("Verdana", 11.25F);
+			label2.Location = new Point(16, 312);
+			label2.Name = "label2";
+			label2.Size = new Size(688, 72);
+			label2.TabIndex = 21;
+			label2.Text = "Two arrays are used: one for X values and one for Y values.  The chart on the lef" +
 				"t uses the AddXY method to add data points to the chart, while the chart on the " +
 				"right uses the DataBindXY method to bind data to an array.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// BasicPopulatingData
 			// 
-			this.BackColor = System.Drawing.Color.White;
-			this.Controls.AddRange([
-																		  this.label2,
-																		  this.Chart1,
-																		  this.panel1,
-																		  this.label1]);
-			this.Name = "BasicPopulatingData";
-			this.Size = new System.Drawing.Size(728, 400);
-			this.Load += new System.EventHandler(this.BasicPopulatingData_Load);
-			this.panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-			this.ResumeLayout(false);
+			BackColor = System.Drawing.Color.White;
+			Controls.AddRange([
+																		  label2,
+																		  Chart1,
+																		  panel1,
+																		  label1]);
+			Name = "BasicPopulatingData";
+			Size = new Size(728, 400);
+			Load += new EventHandler(BasicPopulatingData_Load);
+			panel1.ResumeLayout(false);
+			((ISupportInitialize)(Chart1)).EndInit();
+			ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void BasicPopulatingData_Load(object sender, System.EventArgs e)
+		private void BasicPopulatingData_Load(object sender, EventArgs e)
 		{
 			// initialize an array of doubles
 			double [] yval = [5,6,4,6,3];
@@ -247,10 +247,10 @@ namespace ChartSamples
 			}
 		}
 
-		private void Chart1_PostPaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void Chart1_PostPaint(object sender, ChartPaintEventArgs e)
 		{
 			// Painting series object
-			if(sender is System.Windows.Forms.DataVisualization.Charting.ChartArea)
+			if(sender is ChartArea)
 			{
 				ChartArea area = (ChartArea)sender;
 

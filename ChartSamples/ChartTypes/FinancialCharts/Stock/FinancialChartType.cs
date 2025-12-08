@@ -13,23 +13,23 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for FinancialChartType.
 	/// </summary>
-	public class FinancialChartType : System.Windows.Forms.UserControl
+	public class FinancialChartType : UserControl
 	{
 		private MemoryStream defaultViewStyleStream = new MemoryStream();
 
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox comboBoxMarks;
-		private System.Windows.Forms.CheckBox checkBoxCloseOnly;
-		private System.Windows.Forms.ComboBox comboBoxChartType;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private Label label2;
+		private ComboBox comboBoxMarks;
+		private CheckBox checkBoxCloseOnly;
+		private ComboBox comboBoxChartType;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public FinancialChartType()
 		{
@@ -64,32 +64,32 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.labelSampleComment = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.checkBoxCloseOnly = new System.Windows.Forms.CheckBox();
-			this.comboBoxMarks = new System.Windows.Forms.ComboBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.comboBoxChartType = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-			this.panel1.SuspendLayout();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			ChartArea chartArea2 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Series series2 = new Series();
+			chart1 = new Chart();
+			labelSampleComment = new Label();
+			panel1 = new Panel();
+			checkBoxCloseOnly = new CheckBox();
+			comboBoxMarks = new ComboBox();
+			label2 = new Label();
+			comboBoxChartType = new ComboBox();
+			label1 = new Label();
+			((ISupportInitialize)(chart1)).BeginInit();
+			panel1.SuspendLayout();
+			SuspendLayout();
 			// 
 			// chart1
 			// 
-			this.chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
-			this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-			this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.chart1.BorderlineWidth = 2;
-			this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
+			chart1.BackSecondaryColor = System.Drawing.Color.White;
+			chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			chart1.BorderlineWidth = 2;
+			chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.Area3DStyle.IsClustered = true;
 			chartArea1.Area3DStyle.Perspective = 10;
 			chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -97,12 +97,12 @@ namespace ChartSamples
 			chartArea1.Area3DStyle.Inclination = 15;
 			chartArea1.Area3DStyle.Rotation = 10;
 			chartArea1.AxisX.IsLabelAutoFit = false;
-			chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisX.LabelStyle.IsEndLabelVisible = false;
 			chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.IsLabelAutoFit = false;
-			chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.IsStartedFromZero = false;
@@ -126,12 +126,12 @@ namespace ChartSamples
 			chartArea2.Area3DStyle.Inclination = 15;
 			chartArea2.Area3DStyle.Rotation = 10;
 			chartArea2.AxisX.IsLabelAutoFit = false;
-			chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea2.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea2.AxisX.LabelStyle.IsEndLabelVisible = false;
 			chartArea2.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea2.AxisY.IsLabelAutoFit = false;
-			chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea2.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea2.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea2.AxisY.IsStartedFromZero = false;
@@ -147,15 +147,15 @@ namespace ChartSamples
 			chartArea2.Position.X = 3F;
 			chartArea2.Position.Y = 51.84195F;
 			chartArea2.ShadowColor = System.Drawing.Color.Transparent;
-			this.chart1.ChartAreas.Add(chartArea1);
-			this.chart1.ChartAreas.Add(chartArea2);
+			chart1.ChartAreas.Add(chartArea1);
+			chart1.ChartAreas.Add(chartArea2);
 			legend1.Alignment = System.Drawing.StringAlignment.Far;
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
 			legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
 			legend1.IsDockedInsideChartArea = false;
 			legend1.DockedToChartArea = "Price";
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
 			legend1.Name = "Default";
 			legend1.Position.Auto = false;
@@ -163,10 +163,10 @@ namespace ChartSamples
 			legend1.Position.Width = 38.19123F;
 			legend1.Position.X = 55F;
 			legend1.Position.Y = 5F;
-			this.chart1.Legends.Add(legend1);
-			this.chart1.Location = new System.Drawing.Point(16, 48);
-			this.chart1.Name = "chart1";
-			this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			chart1.Legends.Add(legend1);
+			chart1.Location = new Point(16, 48);
+			chart1.Name = "chart1";
+			chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartArea = "Price";
 			series1.ChartType = SeriesChartType.Stock;
@@ -180,101 +180,101 @@ namespace ChartSamples
 			series2.Name = "Volume";
 			series2.IsVisibleInLegend = false;
 			series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-			this.chart1.Series.Add(series1);
-			this.chart1.Series.Add(series2);
-			this.chart1.Size = new System.Drawing.Size(446, 296);
-			this.chart1.TabIndex = 1;
+			chart1.Series.Add(series1);
+			chart1.Series.Add(series2);
+			chart1.Size = new Size(446, 296);
+			chart1.TabIndex = 1;
 			// 
 			// labelSampleComment
 			// 
-			this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-			this.labelSampleComment.Name = "labelSampleComment";
-			this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
-			this.labelSampleComment.TabIndex = 0;
-			this.labelSampleComment.Text = "This sample demonstrates the Stock and CandleStick chart types.";
-			this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			labelSampleComment.Location = new Point(16, 8);
+			labelSampleComment.Name = "labelSampleComment";
+			labelSampleComment.Size = new Size(702, 34);
+			labelSampleComment.TabIndex = 0;
+			labelSampleComment.Text = "This sample demonstrates the Stock and CandleStick chart types.";
+			labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.checkBoxCloseOnly,
-																				 this.comboBoxMarks,
-																				 this.label2,
-																				 this.comboBoxChartType,
-																				 this.label1]);
-			this.panel1.Location = new System.Drawing.Point(464, 56);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(256, 288);
-			this.panel1.TabIndex = 2;
+			panel1.Controls.AddRange([
+																				 checkBoxCloseOnly,
+																				 comboBoxMarks,
+																				 label2,
+																				 comboBoxChartType,
+																				 label1]);
+			panel1.Location = new Point(464, 56);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(256, 288);
+			panel1.TabIndex = 2;
 			// 
 			// checkBoxCloseOnly
 			// 
-			this.checkBoxCloseOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxCloseOnly.Location = new System.Drawing.Point(13, 72);
-			this.checkBoxCloseOnly.Name = "checkBoxCloseOnly";
-			this.checkBoxCloseOnly.Size = new System.Drawing.Size(144, 24);
-			this.checkBoxCloseOnly.TabIndex = 4;
-			this.checkBoxCloseOnly.Text = "&Close Price Only:";
-			this.checkBoxCloseOnly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxCloseOnly.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			checkBoxCloseOnly.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxCloseOnly.Location = new Point(13, 72);
+			checkBoxCloseOnly.Name = "checkBoxCloseOnly";
+			checkBoxCloseOnly.Size = new Size(144, 24);
+			checkBoxCloseOnly.TabIndex = 4;
+			checkBoxCloseOnly.Text = "&Close Price Only:";
+			checkBoxCloseOnly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxCloseOnly.CheckedChanged += new EventHandler(checkBox1_CheckedChanged);
 			// 
 			// comboBoxMarks
 			// 
-			this.comboBoxMarks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxMarks.Items.AddRange([
+			comboBoxMarks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxMarks.Items.AddRange([
 															   "Line",
 															   "Triangle"]);
-			this.comboBoxMarks.Location = new System.Drawing.Point(144, 40);
-			this.comboBoxMarks.Name = "comboBoxMarks";
-			this.comboBoxMarks.Size = new System.Drawing.Size(112, 22);
-			this.comboBoxMarks.TabIndex = 3;
-			this.comboBoxMarks.SelectedIndexChanged += new System.EventHandler(this.comboBoxMarks_SelectedIndexChanged);
+			comboBoxMarks.Location = new Point(144, 40);
+			comboBoxMarks.Name = "comboBoxMarks";
+			comboBoxMarks.Size = new Size(112, 22);
+			comboBoxMarks.TabIndex = 3;
+			comboBoxMarks.SelectedIndexChanged += new EventHandler(comboBoxMarks_SelectedIndexChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(10, 40);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(128, 23);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "&Open Close Marks:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label2.Location = new Point(10, 40);
+			label2.Name = "label2";
+			label2.Size = new Size(128, 23);
+			label2.TabIndex = 2;
+			label2.Text = "&Open Close Marks:";
+			label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboBoxChartType
 			// 
-			this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxChartType.Items.AddRange([
+			comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxChartType.Items.AddRange([
 																   "Stock",
 																   "CandleStick"]);
-			this.comboBoxChartType.Location = new System.Drawing.Point(144, 8);
-			this.comboBoxChartType.Name = "comboBoxChartType";
-			this.comboBoxChartType.Size = new System.Drawing.Size(112, 22);
-			this.comboBoxChartType.TabIndex = 1;
-			this.comboBoxChartType.SelectedIndexChanged += new System.EventHandler(this.comboBoxMarks_SelectedIndexChanged);
+			comboBoxChartType.Location = new Point(144, 8);
+			comboBoxChartType.Name = "comboBoxChartType";
+			comboBoxChartType.Size = new Size(112, 22);
+			comboBoxChartType.TabIndex = 1;
+			comboBoxChartType.SelectedIndexChanged += new EventHandler(comboBoxMarks_SelectedIndexChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(10, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(128, 23);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Chart &Type:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label1.Location = new Point(10, 8);
+			label1.Name = "label1";
+			label1.Size = new Size(128, 23);
+			label1.TabIndex = 0;
+			label1.Text = "Chart &Type:";
+			label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FinancialChartType
 			// 
-			this.BackColor = System.Drawing.Color.White;
-			this.Controls.AddRange([
-																		  this.panel1,
-																		  this.labelSampleComment,
-																		  this.chart1]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "FinancialChartType";
-			this.Size = new System.Drawing.Size(728, 360);
-			this.Load += new System.EventHandler(this.FinancialChartType_Load);
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.ResumeLayout(false);
+			BackColor = System.Drawing.Color.White;
+			Controls.AddRange([
+																		  panel1,
+																		  labelSampleComment,
+																		  chart1]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "FinancialChartType";
+			Size = new Size(728, 360);
+			Load += new EventHandler(FinancialChartType_Load);
+			((ISupportInitialize)(chart1)).EndInit();
+			panel1.ResumeLayout(false);
+			ResumeLayout(false);
 
 		}
 		#endregion
@@ -325,7 +325,7 @@ namespace ChartSamples
 		private void SetMarkers()
 		{
 			// Get image path
-			MainForm mainForm = (MainForm)this.ParentForm;
+			MainForm mainForm = (MainForm)ParentForm;
             string imagePath = mainForm.CurrentSamplePath;
 			imagePath += "\\";
 
@@ -350,10 +350,10 @@ namespace ChartSamples
 			}
 		}
 
-		private void FinancialChartType_Load(object sender, System.EventArgs e)
+		private void FinancialChartType_Load(object sender, EventArgs e)
 		{
 			// Get image path
-			MainForm mainForm = (MainForm) this.ParentForm;
+			MainForm mainForm = (MainForm) ParentForm;
             string imagePath = mainForm.CurrentSamplePath; 
 			imagePath += "\\";
 
@@ -384,17 +384,17 @@ namespace ChartSamples
 			comboBoxMarks.SelectedIndex = 0;
 		}
 
-		private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void radioButtonCGI_CheckedChanged(object sender, System.EventArgs e)
+		private void radioButtonCGI_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void comboBoxMarks_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxMarks_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}

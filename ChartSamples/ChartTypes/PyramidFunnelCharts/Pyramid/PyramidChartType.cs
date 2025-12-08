@@ -11,31 +11,31 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for PyramidChartType.
 	/// </summary>
-	public class PyramidChartType : System.Windows.Forms.UserControl
+	public class PyramidChartType : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.CheckBox checkBoxShow3D;
-		private System.Windows.Forms.ComboBox comboBoxLabelsStyle;
-		private System.Windows.Forms.ComboBox comboBoxLabelsPlacement;
-		private System.Windows.Forms.Label labelOutsideLabelsPlacement;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.NumericUpDown numericUpDownGap;
-		private System.Windows.Forms.NumericUpDown numericUpDownMinHeight;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.NumericUpDown numericUpDownAngle;
-		private System.Windows.Forms.Label labelAngle;
-		private System.Windows.Forms.ComboBox comboBox3DDrawingStyle;
-		private System.Windows.Forms.Label label3DDrawingStyle;
-		private System.Windows.Forms.ComboBox comboBoxValueType;
-		private System.Windows.Forms.Label label1;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label2;
+		private CheckBox checkBoxShow3D;
+		private ComboBox comboBoxLabelsStyle;
+		private ComboBox comboBoxLabelsPlacement;
+		private Label labelOutsideLabelsPlacement;
+		private Label label3;
+		private NumericUpDown numericUpDownGap;
+		private NumericUpDown numericUpDownMinHeight;
+		private Label label4;
+		private NumericUpDown numericUpDownAngle;
+		private Label labelAngle;
+		private ComboBox comboBox3DDrawingStyle;
+		private Label label3DDrawingStyle;
+		private ComboBox comboBoxValueType;
+		private Label label1;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PyramidChartType()
 		{
@@ -68,49 +68,49 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 216.19999694824219);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 125.80000305175781);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2.5999999046325684);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 97.300003051757812);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 45.700000762939453);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 25.299999237060547);
-			System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.labelSampleComment = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.comboBoxValueType = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.comboBox3DDrawingStyle = new System.Windows.Forms.ComboBox();
-			this.label3DDrawingStyle = new System.Windows.Forms.Label();
-			this.numericUpDownAngle = new System.Windows.Forms.NumericUpDown();
-			this.labelAngle = new System.Windows.Forms.Label();
-			this.numericUpDownMinHeight = new System.Windows.Forms.NumericUpDown();
-			this.label4 = new System.Windows.Forms.Label();
-			this.numericUpDownGap = new System.Windows.Forms.NumericUpDown();
-			this.label3 = new System.Windows.Forms.Label();
-			this.comboBoxLabelsPlacement = new System.Windows.Forms.ComboBox();
-			this.labelOutsideLabelsPlacement = new System.Windows.Forms.Label();
-			this.checkBoxShow3D = new System.Windows.Forms.CheckBox();
-			this.comboBoxLabelsStyle = new System.Windows.Forms.ComboBox();
-			this.label2 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinHeight)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownGap)).BeginInit();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 216.19999694824219);
+			DataPoint dataPoint2 = new DataPoint(0, 125.80000305175781);
+			DataPoint dataPoint3 = new DataPoint(0, 2.5999999046325684);
+			DataPoint dataPoint4 = new DataPoint(0, 97.300003051757812);
+			DataPoint dataPoint5 = new DataPoint(0, 45.700000762939453);
+			DataPoint dataPoint6 = new DataPoint(0, 25.299999237060547);
+			Title title1 = new Title();
+			chart1 = new Chart();
+			labelSampleComment = new Label();
+			panel1 = new Panel();
+			comboBoxValueType = new ComboBox();
+			label1 = new Label();
+			comboBox3DDrawingStyle = new ComboBox();
+			label3DDrawingStyle = new Label();
+			numericUpDownAngle = new NumericUpDown();
+			labelAngle = new Label();
+			numericUpDownMinHeight = new NumericUpDown();
+			label4 = new Label();
+			numericUpDownGap = new NumericUpDown();
+			label3 = new Label();
+			comboBoxLabelsPlacement = new ComboBox();
+			labelOutsideLabelsPlacement = new Label();
+			checkBoxShow3D = new CheckBox();
+			comboBoxLabelsStyle = new ComboBox();
+			label2 = new Label();
+			((ISupportInitialize)(chart1)).BeginInit();
+			panel1.SuspendLayout();
+			((ISupportInitialize)(numericUpDownAngle)).BeginInit();
+			((ISupportInitialize)(numericUpDownMinHeight)).BeginInit();
+			((ISupportInitialize)(numericUpDownGap)).BeginInit();
+			SuspendLayout();
 			// 
 			// chart1
 			// 
-			this.chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
-			this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.chart1.BorderlineWidth = 2;
-			this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
+			chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			chart1.BorderlineWidth = 2;
+			chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.Area3DStyle.IsClustered = true;
 			chartArea1.Area3DStyle.Enable3D = true;
 			chartArea1.Area3DStyle.Perspective = 10;
@@ -118,10 +118,10 @@ namespace ChartSamples
 			chartArea1.Area3DStyle.WallWidth = 0;
 			chartArea1.Area3DStyle.Inclination = 15;
 			chartArea1.Area3DStyle.Rotation = 10;
-			chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
-			chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.BackColor = System.Drawing.Color.Transparent;
@@ -135,16 +135,16 @@ namespace ChartSamples
 			chartArea1.Position.X = 5.089137F;
 			chartArea1.Position.Y = 10F;
 			chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-			this.chart1.ChartAreas.Add(chartArea1);
+			chart1.ChartAreas.Add(chartArea1);
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
 			legend1.Enabled = false;
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			legend1.Name = "Default";
-			this.chart1.Legends.Add(legend1);
-			this.chart1.Location = new System.Drawing.Point(16, 40);
-			this.chart1.Name = "chart1";
-			this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			chart1.Legends.Add(legend1);
+			chart1.Location = new Point(16, 40);
+			chart1.Name = "chart1";
+			chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartType = SeriesChartType.Pyramid;
 			series1.Color = System.Drawing.Color.FromArgb(((System.Byte)(220)), ((System.Byte)(65)), ((System.Byte)(140)), ((System.Byte)(240)));
@@ -160,11 +160,11 @@ namespace ChartSamples
 			series1.IsValueShownAsLabel = true;
 			series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
 			series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-			this.chart1.Series.Add(series1);
-			this.chart1.Size = new System.Drawing.Size(412, 296);
-			this.chart1.TabIndex = 0;
+			chart1.Series.Add(series1);
+			chart1.Size = new Size(412, 296);
+			chart1.TabIndex = 0;
 			title1.ForeColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+			title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
 			title1.Position.Auto = false;
 			title1.Position.Height = 6.470197F;
 			title1.Position.Width = 88.77716F;
@@ -172,238 +172,238 @@ namespace ChartSamples
 			title1.ShadowColor = System.Drawing.Color.FromArgb(((System.Byte)(32)), ((System.Byte)(0)), ((System.Byte)(0)), ((System.Byte)(0)));
 			title1.ShadowOffset = 3;
 			title1.Text = "Pyramid Chart";
-			this.chart1.Titles.Add(title1);
+			chart1.Titles.Add(title1);
 			// 
 			// labelSampleComment
 			// 
-			this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-			this.labelSampleComment.Name = "labelSampleComment";
-			this.labelSampleComment.Size = new System.Drawing.Size(702, 24);
-			this.labelSampleComment.TabIndex = 2;
-			this.labelSampleComment.Text = "A Pyramid chart is used to display data that adds up to 100%.";
-			this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			labelSampleComment.Location = new Point(16, 8);
+			labelSampleComment.Name = "labelSampleComment";
+			labelSampleComment.Size = new Size(702, 24);
+			labelSampleComment.TabIndex = 2;
+			labelSampleComment.Text = "A Pyramid chart is used to display data that adds up to 100%.";
+			labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.comboBoxValueType,
-																				 this.label1,
-																				 this.comboBox3DDrawingStyle,
-																				 this.label3DDrawingStyle,
-																				 this.numericUpDownAngle,
-																				 this.labelAngle,
-																				 this.numericUpDownMinHeight,
-																				 this.label4,
-																				 this.numericUpDownGap,
-																				 this.label3,
-																				 this.comboBoxLabelsPlacement,
-																				 this.labelOutsideLabelsPlacement,
-																				 this.checkBoxShow3D,
-																				 this.comboBoxLabelsStyle,
-																				 this.label2]);
-			this.panel1.Location = new System.Drawing.Point(432, 40);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(304, 288);
-			this.panel1.TabIndex = 0;
+			panel1.Controls.AddRange([
+																				 comboBoxValueType,
+																				 label1,
+																				 comboBox3DDrawingStyle,
+																				 label3DDrawingStyle,
+																				 numericUpDownAngle,
+																				 labelAngle,
+																				 numericUpDownMinHeight,
+																				 label4,
+																				 numericUpDownGap,
+																				 label3,
+																				 comboBoxLabelsPlacement,
+																				 labelOutsideLabelsPlacement,
+																				 checkBoxShow3D,
+																				 comboBoxLabelsStyle,
+																				 label2]);
+			panel1.Location = new Point(432, 40);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(304, 288);
+			panel1.TabIndex = 0;
 			// 
 			// comboBoxValueType
 			// 
-			this.comboBoxValueType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxValueType.Items.AddRange([
+			comboBoxValueType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxValueType.Items.AddRange([
 																   "Linear",
 																   "Surface"]);
-			this.comboBoxValueType.Location = new System.Drawing.Point(168, 232);
-			this.comboBoxValueType.Name = "comboBoxValueType";
-			this.comboBoxValueType.Size = new System.Drawing.Size(136, 22);
-			this.comboBoxValueType.TabIndex = 16;
-			this.comboBoxValueType.SelectedIndexChanged += new System.EventHandler(this.comboBoxValueType_SelectedIndexChanged);
+			comboBoxValueType.Location = new Point(168, 232);
+			comboBoxValueType.Name = "comboBoxValueType";
+			comboBoxValueType.Size = new Size(136, 22);
+			comboBoxValueType.TabIndex = 16;
+			comboBoxValueType.SelectedIndexChanged += new EventHandler(comboBoxValueType_SelectedIndexChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(20, 232);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(144, 23);
-			this.label1.TabIndex = 15;
-			this.label1.Text = "&Value Type:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label1.Location = new Point(20, 232);
+			label1.Name = "label1";
+			label1.Size = new Size(144, 23);
+			label1.TabIndex = 15;
+			label1.Text = "&Value Type:";
+			label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboBox3DDrawingStyle
 			// 
-			this.comboBox3DDrawingStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox3DDrawingStyle.Items.AddRange([
+			comboBox3DDrawingStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBox3DDrawingStyle.Items.AddRange([
 																		"SquareBase",
 																		"CircularBase"]);
-			this.comboBox3DDrawingStyle.Location = new System.Drawing.Point(168, 200);
-			this.comboBox3DDrawingStyle.Name = "comboBox3DDrawingStyle";
-			this.comboBox3DDrawingStyle.Size = new System.Drawing.Size(136, 22);
-			this.comboBox3DDrawingStyle.TabIndex = 14;
-			this.comboBox3DDrawingStyle.SelectedIndexChanged += new System.EventHandler(this.comboBox3DDrawingStyle_SelectedIndexChanged);
+			comboBox3DDrawingStyle.Location = new Point(168, 200);
+			comboBox3DDrawingStyle.Name = "comboBox3DDrawingStyle";
+			comboBox3DDrawingStyle.Size = new Size(136, 22);
+			comboBox3DDrawingStyle.TabIndex = 14;
+			comboBox3DDrawingStyle.SelectedIndexChanged += new EventHandler(comboBox3DDrawingStyle_SelectedIndexChanged);
 			// 
 			// label3DDrawingStyle
 			// 
-			this.label3DDrawingStyle.Location = new System.Drawing.Point(20, 200);
-			this.label3DDrawingStyle.Name = "label3DDrawingStyle";
-			this.label3DDrawingStyle.Size = new System.Drawing.Size(144, 23);
-			this.label3DDrawingStyle.TabIndex = 13;
-			this.label3DDrawingStyle.Text = "&Drawing Style:";
-			this.label3DDrawingStyle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label3DDrawingStyle.Location = new Point(20, 200);
+			label3DDrawingStyle.Name = "label3DDrawingStyle";
+			label3DDrawingStyle.Size = new Size(144, 23);
+			label3DDrawingStyle.TabIndex = 13;
+			label3DDrawingStyle.Text = "&Drawing Style:";
+			label3DDrawingStyle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// numericUpDownAngle
 			// 
-			this.numericUpDownAngle.Location = new System.Drawing.Point(168, 168);
-			this.numericUpDownAngle.Maximum = new System.Decimal([
+			numericUpDownAngle.Location = new Point(168, 168);
+			numericUpDownAngle.Maximum = new System.Decimal([
 																			   10,
 																			   0,
 																			   0,
 																			   0]);
-			this.numericUpDownAngle.Minimum = new System.Decimal([
+			numericUpDownAngle.Minimum = new System.Decimal([
 																			   10,
 																			   0,
 																			   0,
 																			   -2147483648]);
-			this.numericUpDownAngle.Name = "numericUpDownAngle";
-			this.numericUpDownAngle.Size = new System.Drawing.Size(136, 22);
-			this.numericUpDownAngle.TabIndex = 12;
-			this.numericUpDownAngle.Value = new System.Decimal([
+			numericUpDownAngle.Name = "numericUpDownAngle";
+			numericUpDownAngle.Size = new Size(136, 22);
+			numericUpDownAngle.TabIndex = 12;
+			numericUpDownAngle.Value = new System.Decimal([
 																			 5,
 																			 0,
 																			 0,
 																			 0]);
-			this.numericUpDownAngle.ValueChanged += new System.EventHandler(this.numericUpDownAngle_ValueChanged);
+			numericUpDownAngle.ValueChanged += new EventHandler(numericUpDownAngle_ValueChanged);
 			// 
 			// labelAngle
 			// 
-			this.labelAngle.Location = new System.Drawing.Point(20, 168);
-			this.labelAngle.Name = "labelAngle";
-			this.labelAngle.Size = new System.Drawing.Size(144, 23);
-			this.labelAngle.TabIndex = 11;
-			this.labelAngle.Text = "Rotation &Angle:";
-			this.labelAngle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			labelAngle.Location = new Point(20, 168);
+			labelAngle.Name = "labelAngle";
+			labelAngle.Size = new Size(144, 23);
+			labelAngle.TabIndex = 11;
+			labelAngle.Text = "Rotation &Angle:";
+			labelAngle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// numericUpDownMinHeight
 			// 
-			this.numericUpDownMinHeight.Location = new System.Drawing.Point(168, 104);
-			this.numericUpDownMinHeight.Maximum = new System.Decimal([
+			numericUpDownMinHeight.Location = new Point(168, 104);
+			numericUpDownMinHeight.Maximum = new System.Decimal([
 																				   10,
 																				   0,
 																				   0,
 																				   0]);
-			this.numericUpDownMinHeight.Name = "numericUpDownMinHeight";
-			this.numericUpDownMinHeight.Size = new System.Drawing.Size(136, 22);
-			this.numericUpDownMinHeight.TabIndex = 9;
-			this.numericUpDownMinHeight.ValueChanged += new System.EventHandler(this.numericUpDownMinHeight_ValueChanged);
+			numericUpDownMinHeight.Name = "numericUpDownMinHeight";
+			numericUpDownMinHeight.Size = new Size(136, 22);
+			numericUpDownMinHeight.TabIndex = 9;
+			numericUpDownMinHeight.ValueChanged += new EventHandler(numericUpDownMinHeight_ValueChanged);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(20, 104);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(144, 23);
-			this.label4.TabIndex = 8;
-			this.label4.Text = "&Min. Point Height:";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label4.Location = new Point(20, 104);
+			label4.Name = "label4";
+			label4.Size = new Size(144, 23);
+			label4.TabIndex = 8;
+			label4.Text = "&Min. Point Height:";
+			label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// numericUpDownGap
 			// 
-			this.numericUpDownGap.Location = new System.Drawing.Point(168, 72);
-			this.numericUpDownGap.Maximum = new System.Decimal([
+			numericUpDownGap.Location = new Point(168, 72);
+			numericUpDownGap.Maximum = new System.Decimal([
 																			 5,
 																			 0,
 																			 0,
 																			 0]);
-			this.numericUpDownGap.Name = "numericUpDownGap";
-			this.numericUpDownGap.Size = new System.Drawing.Size(136, 22);
-			this.numericUpDownGap.TabIndex = 7;
-			this.numericUpDownGap.Value = new System.Decimal([
+			numericUpDownGap.Name = "numericUpDownGap";
+			numericUpDownGap.Size = new Size(136, 22);
+			numericUpDownGap.TabIndex = 7;
+			numericUpDownGap.Value = new System.Decimal([
 																		   2,
 																		   0,
 																		   0,
 																		   0]);
-			this.numericUpDownGap.ValueChanged += new System.EventHandler(this.numericUpDownGap_ValueChanged);
+			numericUpDownGap.ValueChanged += new EventHandler(numericUpDownGap_ValueChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(20, 72);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(144, 23);
-			this.label3.TabIndex = 6;
-			this.label3.Text = "Points &Gap:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label3.Location = new Point(20, 72);
+			label3.Name = "label3";
+			label3.Size = new Size(144, 23);
+			label3.TabIndex = 6;
+			label3.Text = "Points &Gap:";
+			label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboBoxLabelsPlacement
 			// 
-			this.comboBoxLabelsPlacement.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxLabelsPlacement.Items.AddRange([
+			comboBoxLabelsPlacement.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxLabelsPlacement.Items.AddRange([
 																		 "Right",
 																		 "Left"]);
-			this.comboBoxLabelsPlacement.Location = new System.Drawing.Point(168, 40);
-			this.comboBoxLabelsPlacement.Name = "comboBoxLabelsPlacement";
-			this.comboBoxLabelsPlacement.Size = new System.Drawing.Size(136, 22);
-			this.comboBoxLabelsPlacement.TabIndex = 5;
-			this.comboBoxLabelsPlacement.SelectedIndexChanged += new System.EventHandler(this.comboBoxLabelsPlacement_SelectedIndexChanged);
+			comboBoxLabelsPlacement.Location = new Point(168, 40);
+			comboBoxLabelsPlacement.Name = "comboBoxLabelsPlacement";
+			comboBoxLabelsPlacement.Size = new Size(136, 22);
+			comboBoxLabelsPlacement.TabIndex = 5;
+			comboBoxLabelsPlacement.SelectedIndexChanged += new EventHandler(comboBoxLabelsPlacement_SelectedIndexChanged);
 			// 
 			// labelOutsideLabelsPlacement
 			// 
-			this.labelOutsideLabelsPlacement.Location = new System.Drawing.Point(20, 40);
-			this.labelOutsideLabelsPlacement.Name = "labelOutsideLabelsPlacement";
-			this.labelOutsideLabelsPlacement.Size = new System.Drawing.Size(144, 23);
-			this.labelOutsideLabelsPlacement.TabIndex = 4;
-			this.labelOutsideLabelsPlacement.Text = "Labels &Placement:";
-			this.labelOutsideLabelsPlacement.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			labelOutsideLabelsPlacement.Location = new Point(20, 40);
+			labelOutsideLabelsPlacement.Name = "labelOutsideLabelsPlacement";
+			labelOutsideLabelsPlacement.Size = new Size(144, 23);
+			labelOutsideLabelsPlacement.TabIndex = 4;
+			labelOutsideLabelsPlacement.Text = "Labels &Placement:";
+			labelOutsideLabelsPlacement.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkBoxShow3D
 			// 
-			this.checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxShow3D.Checked = true;
-			this.checkBoxShow3D.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxShow3D.Location = new System.Drawing.Point(6, 136);
-			this.checkBoxShow3D.Name = "checkBoxShow3D";
-			this.checkBoxShow3D.Size = new System.Drawing.Size(176, 24);
-			this.checkBoxShow3D.TabIndex = 10;
-			this.checkBoxShow3D.Text = "Display chart as &3D:";
-			this.checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxShow3D.CheckedChanged += new System.EventHandler(this.checkBoxShow3D_CheckedChanged);
+			checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxShow3D.Checked = true;
+			checkBoxShow3D.CheckState = System.Windows.Forms.CheckState.Checked;
+			checkBoxShow3D.Location = new Point(6, 136);
+			checkBoxShow3D.Name = "checkBoxShow3D";
+			checkBoxShow3D.Size = new Size(176, 24);
+			checkBoxShow3D.TabIndex = 10;
+			checkBoxShow3D.Text = "Display chart as &3D:";
+			checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxShow3D.CheckedChanged += new EventHandler(checkBoxShow3D_CheckedChanged);
 			// 
 			// comboBoxLabelsStyle
 			// 
-			this.comboBoxLabelsStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxLabelsStyle.Items.AddRange([
+			comboBoxLabelsStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxLabelsStyle.Items.AddRange([
 																	 "OutsideInColumn",
 																	 "Outside",
 																	 "Inside",
 																	 "Disabled"]);
-			this.comboBoxLabelsStyle.Location = new System.Drawing.Point(168, 8);
-			this.comboBoxLabelsStyle.Name = "comboBoxLabelsStyle";
-			this.comboBoxLabelsStyle.Size = new System.Drawing.Size(136, 22);
-			this.comboBoxLabelsStyle.TabIndex = 3;
-			this.comboBoxLabelsStyle.SelectedIndexChanged += new System.EventHandler(this.comboBoxLabelsStyle_SelectedIndexChanged);
+			comboBoxLabelsStyle.Location = new Point(168, 8);
+			comboBoxLabelsStyle.Name = "comboBoxLabelsStyle";
+			comboBoxLabelsStyle.Size = new Size(136, 22);
+			comboBoxLabelsStyle.TabIndex = 3;
+			comboBoxLabelsStyle.SelectedIndexChanged += new EventHandler(comboBoxLabelsStyle_SelectedIndexChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(20, 8);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(144, 23);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "&Labels Style:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label2.Location = new Point(20, 8);
+			label2.Name = "label2";
+			label2.Size = new Size(144, 23);
+			label2.TabIndex = 2;
+			label2.Text = "&Labels Style:";
+			label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// PyramidChartType
 			// 
-			this.BackColor = System.Drawing.Color.White;
-			this.Controls.AddRange([
-																		  this.panel1,
-																		  this.labelSampleComment,
-																		  this.chart1]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "PyramidChartType";
-			this.Size = new System.Drawing.Size(736, 360);
-			this.Load += new System.EventHandler(this.PieChartType_Load);
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-			this.panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinHeight)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownGap)).EndInit();
-			this.ResumeLayout(false);
+			BackColor = System.Drawing.Color.White;
+			Controls.AddRange([
+																		  panel1,
+																		  labelSampleComment,
+																		  chart1]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "PyramidChartType";
+			Size = new Size(736, 360);
+			Load += new EventHandler(PieChartType_Load);
+			((ISupportInitialize)(chart1)).EndInit();
+			panel1.ResumeLayout(false);
+			((ISupportInitialize)(numericUpDownAngle)).EndInit();
+			((ISupportInitialize)(numericUpDownMinHeight)).EndInit();
+			((ISupportInitialize)(numericUpDownGap)).EndInit();
+			ResumeLayout(false);
 
 		}
 		#endregion
@@ -457,7 +457,7 @@ namespace ChartSamples
 			chart1.Invalidate();
 		}
 
-		private void PieChartType_Load(object sender, System.EventArgs e)
+		private void PieChartType_Load(object sender, EventArgs e)
 		{
 			// Set selection
 			comboBoxLabelsStyle.SelectedIndex = 0;
@@ -468,12 +468,12 @@ namespace ChartSamples
 			UpdateChartSettings();	
 		}
 
-		private void comboBoxFunnelStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxFunnelStyle_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void comboBoxLabelsStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxLabelsStyle_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			comboBoxLabelsPlacement.Items.Clear();
 			if(comboBoxLabelsStyle.SelectedIndex == 0 ||
@@ -492,37 +492,37 @@ namespace ChartSamples
 			UpdateChartSettings();	
 		}
 
-		private void comboBoxLabelsPlacement_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxLabelsPlacement_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void numericUpDownGap_ValueChanged(object sender, System.EventArgs e)
+		private void numericUpDownGap_ValueChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void numericUpDownMinHeight_ValueChanged(object sender, System.EventArgs e)
+		private void numericUpDownMinHeight_ValueChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShow3D_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void numericUpDownAngle_ValueChanged(object sender, System.EventArgs e)
+		private void numericUpDownAngle_ValueChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void comboBox3DDrawingStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBox3DDrawingStyle_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void comboBoxValueType_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxValueType_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}

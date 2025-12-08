@@ -11,19 +11,19 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for ZoomingExtents.
 	/// </summary>
-	public class ZoomingExtents : System.Windows.Forms.UserControl
+	public class ZoomingExtents : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxMinSize;
-		private System.Windows.Forms.Button buttonResetZoom;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private ComboBox comboBoxMinSize;
+		private Button buttonResetZoom;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public ZoomingExtents()
 		{
@@ -56,27 +56,27 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonResetZoom = new System.Windows.Forms.Button();
-            this.comboBoxMinSize = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            buttonResetZoom = new Button();
+            comboBoxMinSize = new ComboBox();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -84,14 +84,14 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsMarginVisible = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.ScrollBar.BackColor = System.Drawing.Color.White;
             chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
             chartArea1.AxisX.ScrollBar.Size = 12;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.ScrollBar.BackColor = System.Drawing.Color.White;
@@ -108,15 +108,15 @@ namespace ChartSamples
             chartArea1.CursorX.SelectionColor = System.Drawing.Color.LightBlue;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 65);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 65);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.BorderWidth = 3;
             series1.ChartArea = "Default";
@@ -124,85 +124,85 @@ namespace ChartSamples
             series1.Legend = "Default";
             series1.Name = "Default";
             series1.ShadowOffset = 1;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
-            this.chart1.AxisViewChanged += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ViewEventArgs>(this.chart1_AxisViewChanged);
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
+            chart1.AxisViewChanged += new EventHandler<ViewEventArgs>(chart1_AxisViewChanged);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 43);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to limit the minimum view size.  To zoom in, left-cl" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 14);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 43);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to limit the minimum view size.  To zoom in, left-cl" +
                 "ick on the chart, and then drag the mouse.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.buttonResetZoom);
-            this.panel1.Controls.Add(this.comboBoxMinSize);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(432, 73);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(buttonResetZoom);
+            panel1.Controls.Add(comboBoxMinSize);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(432, 73);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // buttonResetZoom
             // 
-            this.buttonResetZoom.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonResetZoom.Location = new System.Drawing.Point(112, 56);
-            this.buttonResetZoom.Name = "buttonResetZoom";
-            this.buttonResetZoom.Size = new System.Drawing.Size(128, 23);
-            this.buttonResetZoom.TabIndex = 2;
-            this.buttonResetZoom.Text = "&Reset Zoom";
-            this.buttonResetZoom.UseVisualStyleBackColor = false;
-            this.buttonResetZoom.Click += new System.EventHandler(this.buttonResetZoom_Click);
+            buttonResetZoom.BackColor = System.Drawing.SystemColors.Control;
+            buttonResetZoom.Location = new Point(112, 56);
+            buttonResetZoom.Name = "buttonResetZoom";
+            buttonResetZoom.Size = new Size(128, 23);
+            buttonResetZoom.TabIndex = 2;
+            buttonResetZoom.Text = "&Reset Zoom";
+            buttonResetZoom.UseVisualStyleBackColor = false;
+            buttonResetZoom.Click += new EventHandler(buttonResetZoom_Click);
             // 
             // comboBoxMinSize
             // 
-            this.comboBoxMinSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxMinSize.Items.AddRange([
+            comboBoxMinSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxMinSize.Items.AddRange([
             "None",
             "3 days",
             "1 week",
             "2 weeks",
             "1 month"]);
-            this.comboBoxMinSize.Location = new System.Drawing.Point(168, 8);
-            this.comboBoxMinSize.Name = "comboBoxMinSize";
-            this.comboBoxMinSize.Size = new System.Drawing.Size(120, 22);
-            this.comboBoxMinSize.TabIndex = 1;
-            this.comboBoxMinSize.SelectedIndexChanged += new System.EventHandler(this.comboBoxMinSize_SelectedIndexChanged);
+            comboBoxMinSize.Location = new Point(168, 8);
+            comboBoxMinSize.Name = "comboBoxMinSize";
+            comboBoxMinSize.Size = new Size(120, 22);
+            comboBoxMinSize.TabIndex = 1;
+            comboBoxMinSize.SelectedIndexChanged += new EventHandler(comboBoxMinSize_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(24, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "View Min. &Size:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(24, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(136, 24);
+            label1.TabIndex = 0;
+            label1.Text = "View Min. &Size:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ZoomingExtents
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "ZoomingExtents";
-            this.Size = new System.Drawing.Size(728, 368);
-            this.Load += new System.EventHandler(this.ZoomingExtents_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "ZoomingExtents";
+            Size = new Size(728, 368);
+            Load += new EventHandler(ZoomingExtents_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void ZoomingExtents_Load(object sender, System.EventArgs e)
+		private void ZoomingExtents_Load(object sender, EventArgs e)
 		{
 			comboBoxMinSize.SelectedIndex = 0;
 
@@ -217,7 +217,7 @@ namespace ChartSamples
 		
 		}
 
-		private void comboBoxMinSize_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxMinSize_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(comboBoxMinSize.SelectedIndex == 1)
 			{
@@ -248,7 +248,7 @@ namespace ChartSamples
 			chart1.ChartAreas["Default"].AxisX.ScaleView.ZoomReset(0);
 		}
 
-		private void chart1_AxisViewChanged(object sender, System.Windows.Forms.DataVisualization.Charting.ViewEventArgs e)
+		private void chart1_AxisViewChanged(object sender, ViewEventArgs e)
 		{
 			// Change label format when showing hours
 			chart1.ChartAreas["Default"].RecalculateAxesScale();
@@ -260,7 +260,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void buttonResetZoom_Click(object sender, System.EventArgs e)
+		private void buttonResetZoom_Click(object sender, EventArgs e)
 		{
 			chart1.ChartAreas["Default"].AxisX.ScaleView.ZoomReset(0);
 		}

@@ -5410,7 +5410,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					rect.Width = (float)Math.Ceiling(rect.Width);
 					rect.Height = (float)Math.Ceiling(rect.Height);
 					SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
-						(autoLabelFont != null) ? autoLabelFont : LabelStyle.Font,
+autoLabelFont ?? LabelStyle.Font,
 						rect.Size,
 						format);
 
@@ -5421,7 +5421,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 						// Measure string without the LineLimit flag
 						format.FormatFlags ^= StringFormatFlags.LineLimit;
 						axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"),
-							(autoLabelFont != null) ? autoLabelFont : LabelStyle.Font,
+autoLabelFont ?? LabelStyle.Font,
 							rect.Size,
 							format);
 						format.FormatFlags |= StringFormatFlags.LineLimit;
@@ -5646,7 +5646,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 					if (label.RowIndex == groupLevelIndex)
 					{
 						// Measure label text size
-						SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), (autoLabelFont != null) ? autoLabelFont : LabelStyle.Font);
+						SizeF axisLabelSize = chartGraph.MeasureStringRel(label.Text.Replace("\\n", "\n"), autoLabelFont ?? LabelStyle.Font);
 						axisLabelSize.Width = (float)Math.Ceiling(axisLabelSize.Width);
 						axisLabelSize.Height = (float)Math.Ceiling(axisLabelSize.Height);
 

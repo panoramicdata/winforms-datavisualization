@@ -11,18 +11,18 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for PrePostPaint.
 	/// </summary>
-	public class PrePostPaint : System.Windows.Forms.UserControl
+	public class PrePostPaint : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox ConnectionLine;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Label label1;
+		private Label label9;
+		private Chart Chart1;
+		private Panel panel1;
+		private CheckBox ConnectionLine;
+		private Button button1;
+		private Label label1;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PrePostPaint()
 		{
@@ -53,40 +53,40 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.label9 = new System.Windows.Forms.Label();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.ConnectionLine = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea2 = new ChartArea();
+			Legend legend2 = new Legend();
+			Series series2 = new Series();
+			Title title2 = new Title();
+            label9 = new Label();
+            Chart1 = new Chart();
+            panel1 = new Panel();
+            button1 = new Button();
+            ConnectionLine = new CheckBox();
+            label1 = new Label();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 14);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 43);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "This sample demonstrates how to draw custom items using the PrePaint and PostPain" +
+            label9.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 14);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 43);
+            label9.TabIndex = 2;
+            label9.Text = "This sample demonstrates how to draw custom items using the PrePaint and PostPain" +
                 "t events.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BackSecondaryColor = System.Drawing.Color.White;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea2.Area3DStyle.Inclination = 15;
             chartArea2.Area3DStyle.IsClustered = true;
             chartArea2.Area3DStyle.IsRightAngleAxes = false;
@@ -94,11 +94,11 @@ namespace ChartSamples
             chartArea2.Area3DStyle.Rotation = 10;
             chartArea2.Area3DStyle.WallWidth = 0;
             chartArea2.AxisX.IsMarginVisible = false;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea2.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea2.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.AxisY.IsStartedFromZero = false;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea2.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea2.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(165)))), ((int)(((byte)(191)))), ((int)(((byte)(228)))));
@@ -108,17 +108,17 @@ namespace ChartSamples
             chartArea2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea2.Name = "Default";
             chartArea2.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea2);
+            Chart1.ChartAreas.Add(chartArea2);
             legend2.Alignment = System.Drawing.StringAlignment.Center;
             legend2.BackColor = System.Drawing.Color.Transparent;
             legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
             legend2.Enabled = false;
-            legend2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend2.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend2.IsTextAutoFit = false;
             legend2.Name = "Default";
-            this.Chart1.Legends.Add(legend2);
-            this.Chart1.Location = new System.Drawing.Point(16, 65);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend2);
+            Chart1.Location = new Point(16, 65);
+            Chart1.Name = "Chart1";
             series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series2.BorderWidth = 3;
             series2.ChartArea = "Default";
@@ -130,81 +130,81 @@ namespace ChartSamples
             series2.Name = "Default";
             series2.ShadowColor = System.Drawing.Color.Black;
             series2.ShadowOffset = 2;
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 0;
-            title2.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            Chart1.Series.Add(series2);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 0;
+            title2.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title2.Name = "Title1";
             title2.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title2.ShadowOffset = 3;
             title2.Text = "PrePaint and PostPaint Events";
-            this.Chart1.Titles.Add(title2);
-            this.Chart1.PostPaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.Chart1_PostPaint);
-            this.Chart1.PrePaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.Chart1_PrePaint);
+            Chart1.Titles.Add(title2);
+            Chart1.PostPaint += new EventHandler<ChartPaintEventArgs>(Chart1_PostPaint);
+            Chart1.PrePaint += new EventHandler<ChartPaintEventArgs>(Chart1_PrePaint);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.ConnectionLine);
-            this.panel1.Location = new System.Drawing.Point(432, 73);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 1;
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(ConnectionLine);
+            panel1.Location = new Point(432, 73);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.Control;
-            this.button1.Location = new System.Drawing.Point(88, 56);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(136, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "&Random Data";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.BackColor = System.Drawing.SystemColors.Control;
+            button1.Location = new Point(88, 56);
+            button1.Name = "button1";
+            button1.Size = new Size(136, 23);
+            button1.TabIndex = 1;
+            button1.Text = "&Random Data";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += new EventHandler(button1_Click);
             // 
             // ConnectionLine
             // 
-            this.ConnectionLine.Checked = true;
-            this.ConnectionLine.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ConnectionLine.Location = new System.Drawing.Point(48, 16);
-            this.ConnectionLine.Name = "ConnectionLine";
-            this.ConnectionLine.Size = new System.Drawing.Size(232, 32);
-            this.ConnectionLine.TabIndex = 0;
-            this.ConnectionLine.Text = "Show Max-Min &Connection Line";
-            this.ConnectionLine.CheckedChanged += new System.EventHandler(this.ConnectionLine_CheckedChanged);
+            ConnectionLine.Checked = true;
+            ConnectionLine.CheckState = System.Windows.Forms.CheckState.Checked;
+            ConnectionLine.Location = new Point(48, 16);
+            ConnectionLine.Name = "ConnectionLine";
+            ConnectionLine.Size = new Size(232, 32);
+            ConnectionLine.TabIndex = 0;
+            ConnectionLine.Text = "Show Max-Min &Connection Line";
+            ConnectionLine.CheckedChanged += new EventHandler(ConnectionLine_CheckedChanged);
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 373);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(702, 40);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Data points with the maximum and minimum Y values are highlighted. Horizontal and" +
+            label1.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(16, 373);
+            label1.Name = "label1";
+            label1.Size = new Size(702, 40);
+            label1.TabIndex = 3;
+            label1.Text = "Data points with the maximum and minimum Y values are highlighted. Horizontal and" +
                 " connection lines are also drawn in this sample.";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PrePostPaint
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "PrePostPaint";
-            this.Size = new System.Drawing.Size(728, 440);
-            this.Load += new System.EventHandler(this.PrePostPaint_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(Chart1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "PrePostPaint";
+            Size = new Size(728, 440);
+            Load += new EventHandler(PrePostPaint_Load);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void PrePostPaint_Load(object sender, System.EventArgs e)
+		private void PrePostPaint_Load(object sender, EventArgs e)
 		{
 			// Populate series data with random data
 			Random	random = new Random();
@@ -241,7 +241,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void Chart1_PostPaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void Chart1_PostPaint(object sender, ChartPaintEventArgs e)
 		{
 			if(e.ChartElement is ChartArea)
 			{
@@ -285,7 +285,7 @@ namespace ChartSamples
 		
 		}
 
-		private void Chart1_PrePaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void Chart1_PrePaint(object sender, ChartPaintEventArgs e)
 		{
 			if(e.ChartElement is ChartArea)
 			{
@@ -371,12 +371,12 @@ namespace ChartSamples
 			}
 		}
 
-		private void ConnectionLine_CheckedChanged(object sender, System.EventArgs e)
+		private void ConnectionLine_CheckedChanged(object sender, EventArgs e)
 		{
 			Chart1.Invalidate();
 		}
 
-		private void button1_Click(object sender, System.EventArgs e)
+		private void button1_Click(object sender, EventArgs e)
 		{
 			Chart1.Series["Default"].Points.Clear();
 			PrePostPaint_Load(sender, e);

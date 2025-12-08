@@ -21,9 +21,9 @@ using System.Windows.Forms;
 
 namespace ChartSamples
 {
-    using Font = System.Drawing.Font;
-    using Size = System.Drawing.Size;
-    using Point = System.Drawing.Point;
+    using Font = Font;
+    using Size = Size;
+    using Point = Point;
 
     /// <summary>
     /// This class represents a custom vertical tab control that is used by docking windows.
@@ -104,16 +104,16 @@ namespace ChartSamples
 		public VerticalTabControl()
 		{
 			// Create tab pages collection
-			this.tabPages = new VerticalTabPageCollection(this);
+			tabPages = new VerticalTabPageCollection(this);
 
 			// Initialize splitter line control
 			tabSplitterLine = new Label();
 			tabSplitterLine.Text = String.Empty;
 			tabSplitterLine.Visible = false;
 			tabSplitterLine.BorderStyle = BorderStyle.FixedSingle;
-			this.Controls.Add(tabSplitterLine);
+			Controls.Add(tabSplitterLine);
 
-			this.SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
 		}
 
 		#endregion
@@ -132,12 +132,12 @@ namespace ChartSamples
 		{
 			set
 			{
-				this.borderColor = value;
-				this.Invalidate();
+				borderColor = value;
+				Invalidate();
 			}
 			get
 			{
-				return this.borderColor;
+				return borderColor;
 			}
 		}
 
@@ -153,12 +153,12 @@ namespace ChartSamples
 		{
 			set
 			{
-				this.borderSize = value;
-				this.Invalidate();
+				borderSize = value;
+				Invalidate();
 			}
 			get
 			{
-				return this.borderSize;
+				return borderSize;
 			}
 		}
 
@@ -176,7 +176,7 @@ namespace ChartSamples
 			get
 			{
 				int count = 0;
-				foreach(VerticalTabPage tabPage in this.TabPages)
+				foreach(VerticalTabPage tabPage in TabPages)
 				{
 					if(!tabPage.Hidden)
 					{
@@ -280,13 +280,13 @@ namespace ChartSamples
 			set
 			{
 				// Select tab page using index
-				if(value < this.TabPages.Count && value >= 0)
+				if(value < TabPages.Count && value >= 0)
 				{
-					this.SelectedTab = this.TabPages[value];
+					SelectedTab = TabPages[value];
 				}
 				else
 				{
-					this.SelectedTab = null;
+					SelectedTab = null;
 				}
 			}
 		}
@@ -309,10 +309,10 @@ namespace ChartSamples
 			}
 			set
 			{
-				if(value == null || this.Contains(value))
+				if(value == null || Contains(value))
 				{
 					// Hidden tabs cannot be selected
-					if(this.VisibleTabPagesCount == 0)
+					if(VisibleTabPagesCount == 0)
 					{
 						value = null;
 					}
@@ -320,16 +320,16 @@ namespace ChartSamples
 					{
 						// Try to find non-hidden tab page next to current
 						int index = value.Index + 1;
-						while(value.Hidden && index < this.TabPages.Count)
+						while(value.Hidden && index < TabPages.Count)
 						{
-							value = this.TabPages[index++];
+							value = TabPages[index++];
 						}
 
 						// Try to find non-hidden tab page prev. to current
 						index = value.Index - 1;
 						while(value.Hidden && index >= 0)
 						{
-							value = this.TabPages[index--];
+							value = TabPages[index--];
 						}
 
 					}
@@ -355,20 +355,20 @@ namespace ChartSamples
 			base.OnResize(e);
 
 			// Resize horizontal splitter line 
-			if(!this.Vertical)
+			if(!Vertical)
 			{
 				//this.tabSplitterLine.Visible = (this.VisibleTabPagesCount > 1) ? true : false;
-				this.tabSplitterLine.Location = new Point(0, this.ClientRectangle.Bottom - GetButtonHeight());
-				this.tabSplitterLine.Size = new Size(this.Width, 1);
+				tabSplitterLine.Location = new Point(0, ClientRectangle.Bottom - GetButtonHeight());
+				tabSplitterLine.Size = new Size(Width, 1);
 				tabSplitterLine.SendToBack();
 			}
 
 			// Reposition buttons in horizontal style
-			if(!this.Vertical)
+			if(!Vertical)
 			{
-				this.SuspendLayout();
+				SuspendLayout();
 				ResizeHorizontalTabPages();
-				this.ResumeLayout();
+				ResumeLayout();
 			}
 		}
 
@@ -400,9 +400,9 @@ namespace ChartSamples
 			ReorderTabButtons();
 
 			// Fire event
-			if(this.SelectedIndexChanged != null)
+			if(SelectedIndexChanged != null)
 			{
-				this.SelectedIndexChanged(this, new EventArgs());
+				SelectedIndexChanged(this, new EventArgs());
 			}
 		}
 
@@ -411,19 +411,19 @@ namespace ChartSamples
 		/// </summary>
 		private void ReorderTabButtons()
 		{
-			this.SuspendLayout();
+			SuspendLayout();
 
 			// Hide paneles of all tab pages except of selected one
 			bool	beforeSelectedTab = true;
-			int		childControlIndex = this.TabPages.Count - 1;
+			int		childControlIndex = TabPages.Count - 1;
 			int		tabIndex = 0;
-			foreach(VerticalTabPage tabPage in this.TabPages)
+			foreach(VerticalTabPage tabPage in TabPages)
 			{
 				// Set button orientation 
-				tabPage.TabButton.Vertical = this.Vertical;
+				tabPage.TabButton.Vertical = Vertical;
 
 				// Set buttons docking and child order for vertical tabs
-				if(this.Vertical)
+				if(Vertical)
 				{
 					// Hide button if there is only one
 //					if(this.VisibleTabPagesCount == 1)
@@ -443,10 +443,10 @@ namespace ChartSamples
 					tabPage.TabButton.Dock = (beforeSelectedTab) ? DockStyle.Top : DockStyle.Bottom;
 
 					// Set button child index
-					this.Controls.SetChildIndex(tabPage.TabButton, childControlIndex);
+					Controls.SetChildIndex(tabPage.TabButton, childControlIndex);
 				}
 
-                if(tabPage == this.SelectedTab)
+                if(tabPage == SelectedTab)
 				{
 					// Rest of the buttons should be docked to the bottom
 					beforeSelectedTab = false;
@@ -458,7 +458,7 @@ namespace ChartSamples
 					// Make sure the previous button has no separator line
 					if(tabIndex > 0)
 					{
-						this.TabPages[tabIndex - 1].TabButton.SeparatorLine = false;
+						TabPages[tabIndex - 1].TabButton.SeparatorLine = false;
 					}
 				}
 				else
@@ -482,31 +482,31 @@ namespace ChartSamples
 				}
 
 				// Show selected tab panel
-				if(this.SelectedTab != null)
+				if(SelectedTab != null)
 				{
 					// Make sure panel is on the top of the Z order
-					this.SelectedTab.BringToFront();
+					SelectedTab.BringToFront();
 
 					// set fill docking style
-					if(this.Vertical)
+					if(Vertical)
 					{
-						this.SelectedTab.Dock = DockStyle.Fill;
+						SelectedTab.Dock = DockStyle.Fill;
 					}
 
 					// Show selected tab panel
-					this.SelectedTab.Visible = true;
+					SelectedTab.Visible = true;
 				}
 
 				++tabIndex;
 			}
 
 			// Make sure all buttons fit in horizontal mode
-			if(!this.Vertical)
+			if(!Vertical)
 			{
 				ResizeHorizontalTabPages();
 			}
 
-			this.ResumeLayout();
+			ResumeLayout();
 		}
 
 		/// <summary>
@@ -518,18 +518,18 @@ namespace ChartSamples
 		public int GetButtonHeight()
 		{
 			int	height = 0;
-			if(this.TabPages.Count > 0)
+			if(TabPages.Count > 0)
 			{
 				// Get text size
-				Graphics graphics = this.CreateGraphics();
-				SizeF	textSize = graphics.MeasureString(this.TabPages[0].TabButton.Text, this.TabPages[0].TabButton.Font);
+				Graphics graphics = CreateGraphics();
+				SizeF	textSize = graphics.MeasureString(TabPages[0].TabButton.Text, TabPages[0].TabButton.Font);
 				height = (int)textSize.Height;
 				graphics.Dispose();
 
 				// Get image size
-				if(this.TabPages[0].TabButton.Image != null)
+				if(TabPages[0].TabButton.Image != null)
 				{
-					height = Math.Max(height, this.TabPages[0].TabButton.Image.Height);
+					height = Math.Max(height, TabPages[0].TabButton.Image.Height);
 				}
 
 				// Add extra spacing
@@ -546,15 +546,15 @@ namespace ChartSamples
 			//************************************************************
 			//** Reposition all tab page panel controls.
 			//************************************************************
-			Rectangle	panelPosition = this.ClientRectangle;
+			Rectangle	panelPosition = ClientRectangle;
 			panelPosition.Inflate(-1, -1);
-			if(this.VisibleTabPagesCount >= 1)
+			if(VisibleTabPagesCount >= 1)
 			{
 				int tabButtonsHeight = GetButtonHeight() + 1;
 				panelPosition.Height -= tabButtonsHeight;
 				panelPosition.Y += tabButtonsHeight;
 			}
-			foreach(VerticalTabPage tabPage in this.TabPages)
+			foreach(VerticalTabPage tabPage in TabPages)
 			{
 				tabPage.Dock = DockStyle.None;
 				tabPage.Location = panelPosition.Location;
@@ -566,12 +566,12 @@ namespace ChartSamples
 			//************************************************************
 
 			// Create an arry of rectangles
-			Rectangle[]	buttonPos = new Rectangle[this.TabPages.Count];
+			Rectangle[]	buttonPos = new Rectangle[TabPages.Count];
 
 			// Calculate position of each button
 			int	tabIndex = 0;
-			int	currentX = this.buttonOffset;
-			foreach(VerticalTabPage tabPage in this.TabPages)
+			int	currentX = buttonOffset;
+			foreach(VerticalTabPage tabPage in TabPages)
 			{
 				if(!tabPage.Hidden)
 				{
@@ -591,11 +591,11 @@ namespace ChartSamples
 					buttonPos[tabIndex].X = currentX;
 
 					// Set button Top and Height
-					buttonPos[tabIndex].Y = (tabPage == this.SelectedTab) ? 1 : 1;
+					buttonPos[tabIndex].Y = (tabPage == SelectedTab) ? 1 : 1;
 					buttonPos[tabIndex].Height = GetButtonHeight();
 
 					// Set button width
-					Graphics graphics = this.CreateGraphics();
+					Graphics graphics = CreateGraphics();
 					SizeF	textSize = graphics.MeasureString(tabPage.TabButton.Text, tabPage.TabButton.Font);
 					buttonPos[tabIndex].Width = (int)textSize.Width + buttonTextSpacing.X + buttonTextSpacing.Width;
 					graphics.Dispose();
@@ -619,7 +619,7 @@ namespace ChartSamples
 			//************************************************************
 
 			// Calculate max width for all buttons
-			int maxX = this.ClientRectangle.Width - 2 * this.buttonOffset;
+			int maxX = ClientRectangle.Width - 2 * buttonOffset;
 
 			// Check if buttons width adjustment is required
 			bool	adjustmentRequired = false;
@@ -636,14 +636,14 @@ namespace ChartSamples
 			if(adjustmentRequired)
 			{
 				// Calculate new button width
-				int newWidth = maxX / this.TabPages.Count - this.TabPages.Count;
+				int newWidth = maxX / TabPages.Count - TabPages.Count;
 				if(newWidth < 10)
 				{
 					newWidth = 10;
 				}
 
 				// Set new width
-				currentX = this.buttonOffset;
+				currentX = buttonOffset;
 				for(int rectIndex = 0; rectIndex < buttonPos.Length; rectIndex++)
 				{
 					buttonPos[rectIndex].X = currentX;
@@ -656,7 +656,7 @@ namespace ChartSamples
 			//** Set buttons position.
 			//************************************************************
 			tabIndex = 0;
-			foreach(VerticalTabPage tabPage in this.TabPages)
+			foreach(VerticalTabPage tabPage in TabPages)
 			{
 				if(tabPage.TabButton.Dock != DockStyle.None)
 				{
@@ -678,25 +678,25 @@ namespace ChartSamples
 
 		protected override void OnPaintBackground( PaintEventArgs e )
 		{
-			int height = this.GetButtonHeight() + 1;
-			if(this.BackgroundImage != null)
+			int height = GetButtonHeight() + 1;
+			if(BackgroundImage != null)
 			{
-				e.Graphics.Clear(this.BackColor);
+				e.Graphics.Clear(BackColor);
 
 				// Draw image in the background of the tab controls.
 				// Image must be aligne to the bottom-right corner of the tabs area.
 				Rectangle destRect = new Rectangle(
-					this.Right - this.BackgroundImage.Width + this.BackImageOffsetX,
+					Right - BackgroundImage.Width + BackImageOffsetX,
 					0,
-					this.BackgroundImage.Width,
+					BackgroundImage.Width,
 					height);
 				ImageAttributes imageAttributes = new ImageAttributes();
 				e.Graphics.DrawImage(
-					this.BackgroundImage, 
+					BackgroundImage, 
 					destRect, 
 					0, 
-					this.BackImageOffsetY, 
-					this.BackgroundImage.Width, 
+					BackImageOffsetY, 
+					BackgroundImage.Width, 
 					height,
 					GraphicsUnit.Pixel,
 					imageAttributes);
@@ -708,7 +708,7 @@ namespace ChartSamples
 
 			// Border rectangle
 			height -= 1;
-			Rectangle rectBorder = new Rectangle(0, height, this.Width - 1, this.Height - height - 1);
+			Rectangle rectBorder = new Rectangle(0, height, Width - 1, Height - height - 1);
 
 			// Draw simple border
 			using(Pen pen = new Pen(BorderColor, BorderSize))
@@ -744,9 +744,9 @@ namespace ChartSamples
 		internal void OnTabPageButtonStartDragging(object sender, EventArgs e)
 		{
 			// Fire TabPageButtonStartDragging event
-			if(this.TabPageButtonStartDragging != null)
+			if(TabPageButtonStartDragging != null)
 			{
-				this.TabPageButtonStartDragging(sender, e);
+				TabPageButtonStartDragging(sender, e);
 			}
 		}
 
@@ -816,15 +816,15 @@ namespace ChartSamples
 		private void Initialize(string text)
 		{
 			// Set button text
-			this.Text = text;
+			Text = text;
 
 			// Initialize Panel properties
-			this.Visible = false;
-			this.Dock = DockStyle.Fill;
-			this.DockPadding.Left = 5;
-			this.DockPadding.Right = 2;
-			this.DockPadding.Top = 5;
-			this.DockPadding.Bottom = 2;
+			Visible = false;
+			Dock = DockStyle.Fill;
+			DockPadding.Left = 5;
+			DockPadding.Right = 2;
+			DockPadding.Top = 5;
+			DockPadding.Bottom = 2;
 
 			// Change control style
 			//this.SetStyle(ControlStyles.ResizeRedraw, true);
@@ -888,21 +888,21 @@ namespace ChartSamples
 		{
 			get
 			{
-				return this.TabButton.ImageIndex;
+				return TabButton.ImageIndex;
 			}
 			set
 			{
 				// Set image list of the button
-				if(this.tabControl != null)
+				if(tabControl != null)
 				{
-					if(this.TabButton.ImageList != this.tabControl.ImageList)
+					if(TabButton.ImageList != tabControl.ImageList)
 					{
-						this.TabButton.ImageList = this.tabControl.ImageList;
+						TabButton.ImageList = tabControl.ImageList;
 					}
 				}
 
 				// Set image index
-				this.TabButton.ImageIndex = value;
+				TabButton.ImageIndex = value;
 			}
 		}
 
@@ -940,11 +940,11 @@ namespace ChartSamples
 		{
 			get
 			{
-				if(this.tabControl != null)
+				if(tabControl != null)
 				{
 					// Find index of this tab page
 					int	tabPageIndex = 0;
-					foreach(VerticalTabPage tabPage in this.tabControl.TabPages)
+					foreach(VerticalTabPage tabPage in tabControl.TabPages)
 					{
 						if(tabPage == this)
 						{
@@ -964,12 +964,12 @@ namespace ChartSamples
 
 		private void OnButtonDragOver(object sender, DragEventArgs e)
 		{
-			if(this.tabControl != null && this != tabControl.SelectedTab)
+			if(tabControl != null && this != tabControl.SelectedTab)
 			{
 				// Change selected tab control
 				tabControl.SelectedTab = this;
-				this.Invalidate();
-				this.Update();
+				Invalidate();
+				Update();
 			}
 		}
 
@@ -980,7 +980,7 @@ namespace ChartSamples
 		/// <param name="e">Event arguments</param>
 		private void OnButtonMouseDown(object sender, MouseEventArgs e)
 		{
-			if(this.tabControl != null && !this.tabControl.Vertical)
+			if(tabControl != null && !tabControl.Vertical)
 			{
 				// Change selected tab control
 				tabControl.SelectedTab = this;
@@ -994,7 +994,7 @@ namespace ChartSamples
 		/// <param name="e">Event arguments</param>
 		private void OnButtonMouseClick(object sender, EventArgs e)
 		{
-			if(this.tabControl != null && this.tabControl.Vertical)
+			if(tabControl != null && tabControl.Vertical)
 			{
 				// Change selected tab control
 				tabControl.SelectedTab = this;
@@ -1008,7 +1008,7 @@ namespace ChartSamples
 		/// <param name="e">Event arguments</param>
 		private void OnButtonStartDragging(object sender, EventArgs e)
 		{
-			if(this.tabControl != null)
+			if(tabControl != null)
 			{
 				// Notify tab control
 				tabControl.OnTabPageButtonStartDragging(sender, e);
@@ -1022,9 +1022,9 @@ namespace ChartSamples
 		protected override void OnTextChanged(EventArgs e)
 		{
 			// Update button text
-			if(this.TabButton != null)
+			if(TabButton != null)
 			{
-				this.TabButton.Text = this.Text;
+				TabButton.Text = Text;
 			}
 		}
 
@@ -1034,30 +1034,30 @@ namespace ChartSamples
 		protected void OnHiddenChanged()
 		{
 			// Change visibility of the tab button
-			this.TabButton.Visible = !this.Hidden;
+			TabButton.Visible = !Hidden;
 
 			// Check if control reference is not null
-			if(this.tabControl != null)
+			if(tabControl != null)
 			{
 				// Hidden tab page can't be selected
-				if(this.tabControl.SelectedTab == this)
+				if(tabControl.SelectedTab == this)
 				{
-					int newIndex = this.Index;
-					if(newIndex >= this.tabControl.TabPages.Count)
+					int newIndex = Index;
+					if(newIndex >= tabControl.TabPages.Count)
 					{
-						newIndex = this.tabControl.TabPages.Count - 1;
+						newIndex = tabControl.TabPages.Count - 1;
 					}
-					this.tabControl.SelectedIndex = newIndex;
+					tabControl.SelectedIndex = newIndex;
 				}
 
 				// If there is only one tab page in control - select it
-				if(this.tabControl.SelectedTab == null)
+				if(tabControl.SelectedTab == null)
 				{
-					this.tabControl.SelectedTab = this;
+					tabControl.SelectedTab = this;
 				}
 
 				// Notify tab control about the changes
-				this.tabControl.OnTabPagesChanged();
+				tabControl.OnTabPagesChanged();
 			}
 		}
 
@@ -1117,12 +1117,12 @@ namespace ChartSamples
 		{
 			get 
 			{ 
-				return (VerticalTabPage)this.List[index]; 
+				return (VerticalTabPage)List[index]; 
 			} 
 
 			set 
 			{ 
-				this.List[index] = value;
+				List[index] = value;
 			}
 		}
 
@@ -1142,7 +1142,7 @@ namespace ChartSamples
 		/// <returns>Index of the added object.</returns>
 		public int Add(VerticalTabPage tabPage)
 		{
-			return this.List.Add(tabPage);
+			return List.Add(tabPage);
 		}
 
 		/// <summary>
@@ -1159,7 +1159,7 @@ namespace ChartSamples
 		public VerticalTabPage Add(string text)
 		{
 			VerticalTabPage tabPage = new VerticalTabPage(text);
-			this.List.Add(tabPage);
+			List.Add(tabPage);
 			return tabPage;
 		}
 
@@ -1175,7 +1175,7 @@ namespace ChartSamples
 		/// <param name="tabPage">Tab page object.</param>
 		public void Insert(int index, VerticalTabPage tabPage)
 		{
-			this.List.Insert(index, tabPage);
+			List.Insert(index, tabPage);
 		}
 
 		/// <summary>
@@ -1190,22 +1190,22 @@ namespace ChartSamples
 		public void SetTabIndex(VerticalTabPage tabPage, int index)
 		{
 			// Check if tab page exsists in the collection
-			if(this.List.Contains(tabPage))
+			if(List.Contains(tabPage))
 			{
 				// Remove item from the list without notifications
-				this.InnerList.Remove(tabPage);
+				InnerList.Remove(tabPage);
 
 				// Check insert index
-				if(index > this.Count)
+				if(index > Count)
 				{
-					index = this.Count;
+					index = Count;
 				}
 
 				// Insert item into the list without notifications
-				this.InnerList.Insert(index, tabPage);
+				InnerList.Insert(index, tabPage);
 
 				// Notify control that tab pages where changed
-				this.tabControl.OnTabPagesChanged();
+				tabControl.OnTabPagesChanged();
 			}
 		}
 
@@ -1222,7 +1222,7 @@ namespace ChartSamples
 		public void Insert(int index, string text)
 		{
 			VerticalTabPage tabPage = new VerticalTabPage(text);
-			this.List.Insert(index, tabPage);
+			List.Insert(index, tabPage);
 		}
 
 		/// <summary>
@@ -1236,7 +1236,7 @@ namespace ChartSamples
 		/// <param name="tabPage">Tab page to remove.</param>
 		public void Remove(VerticalTabPage tabPage)
 		{
-			this.List.Remove(tabPage);
+			List.Remove(tabPage);
 		}
 
 		#endregion
@@ -1253,22 +1253,22 @@ namespace ChartSamples
 			VerticalTabPage	tabPage = (VerticalTabPage)value;
 
 			// Set referense to the tab control
-			tabPage.tabControl = this.tabControl;
+			tabPage.tabControl = tabControl;
 
 			// Set referense to the tab control image list
-			if(this.tabControl.ImageList != null)
+			if(tabControl.ImageList != null)
 			{
-				tabPage.TabButton.ImageList = this.tabControl.ImageList;
+				tabPage.TabButton.ImageList = tabControl.ImageList;
 			}
 
 			// Set button orientation
-			tabPage.TabButton.Vertical = this.tabControl.Vertical;
+			tabPage.TabButton.Vertical = tabControl.Vertical;
 
 			// Add panel and button controls as child controls of the TabControl
-			if(!this.tabControl.Contains(tabPage))
+			if(!tabControl.Contains(tabPage))
 			{
-				this.tabControl.Controls.Add(tabPage.TabButton);
-				this.tabControl.Controls.Add(tabPage);
+				tabControl.Controls.Add(tabPage.TabButton);
+				tabControl.Controls.Add(tabPage);
 			}
 		}
 
@@ -1282,10 +1282,10 @@ namespace ChartSamples
 			VerticalTabPage	tabPage = (VerticalTabPage)value;
 
 			// Remove panel and button controls from child controls of the TabControl
-			if(this.tabControl.Contains(tabPage))
+			if(tabControl.Contains(tabPage))
 			{
-				this.tabControl.Controls.Remove(tabPage.TabButton);
-				this.tabControl.Controls.Remove(tabPage);
+				tabControl.Controls.Remove(tabPage.TabButton);
+				tabControl.Controls.Remove(tabPage);
 			}
 		}
 
@@ -1294,9 +1294,9 @@ namespace ChartSamples
 		/// </summary>
 		protected override void OnClear()
 		{
-			for(int tabIndex = 0; tabIndex < this.List.Count; tabIndex++)
+			for(int tabIndex = 0; tabIndex < List.Count; tabIndex++)
 			{
-				OnRemove(tabIndex, this.List[tabIndex]);
+				OnRemove(tabIndex, List[tabIndex]);
 			}
 		}
 
@@ -1310,13 +1310,13 @@ namespace ChartSamples
 			VerticalTabPage	tabPage = (VerticalTabPage)value;
 
 			// Set selected item
-			if(this.tabControl.SelectedTab == null)
+			if(tabControl.SelectedTab == null)
 			{
-				this.tabControl.SelectedTab = tabPage;
+				tabControl.SelectedTab = tabPage;
 			}
 
 			// Notify control that tab pages where changed
-			this.tabControl.OnTabPagesChanged();
+			tabControl.OnTabPagesChanged();
 		}
 
 		/// <summary>
@@ -1329,18 +1329,18 @@ namespace ChartSamples
 			VerticalTabPage	tabPage = (VerticalTabPage)value;
 
 			// Check if selected tab page should be updated
-			if(this.tabControl.SelectedTab == tabPage)
+			if(tabControl.SelectedTab == tabPage)
 			{
 				int newIndex = index;
-				if(newIndex >= this.tabControl.TabPages.Count)
+				if(newIndex >= tabControl.TabPages.Count)
 				{
-					newIndex = this.tabControl.TabPages.Count - 1;
+					newIndex = tabControl.TabPages.Count - 1;
 				}
-				this.tabControl.SelectedIndex = newIndex;
+				tabControl.SelectedIndex = newIndex;
 			}
 
 			// Notify control that tab pages where changed
-			this.tabControl.OnTabPagesChanged();
+			tabControl.OnTabPagesChanged();
 		}
 
 		/// <summary>
@@ -1349,10 +1349,10 @@ namespace ChartSamples
 		protected override void OnClearComplete()
 		{
 			// Clear selected index
-			this.tabControl.SelectedTab = null;
+			tabControl.SelectedTab = null;
 
 			// Notify control that tab pages where changed
-			this.tabControl.OnTabPagesChanged();
+			tabControl.OnTabPagesChanged();
 		}
 
 		#endregion
@@ -1371,7 +1371,7 @@ namespace ChartSamples
 		public TiledPictureBox()
 		{
 			// Change control style
-			this.SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
 		}
 
 		#endregion
@@ -1380,19 +1380,19 @@ namespace ChartSamples
 
 		protected override void OnPaintBackground( PaintEventArgs e )
 		{
-			if(this.Image != null)
+			if(Image != null)
 			{
 				using( Bitmap bitmap = new Bitmap(e.ClipRectangle.Width, e.ClipRectangle.Height) )
 				{
 					using( Graphics graphics = Graphics.FromImage(bitmap) )
 					{
 						ImageAttributes imageAttributes = new ImageAttributes();
-						for(int curentX = 0; curentX < e.ClipRectangle.Width; curentX += this.Image.Width)
+						for(int curentX = 0; curentX < e.ClipRectangle.Width; curentX += Image.Width)
 						{
 							graphics.DrawImage(
-								this.Image, 
-								new Rectangle(curentX, 0, this.Image.Width, e.ClipRectangle.Height), 
-								0, e.ClipRectangle.Y, this.Image.Width, e.ClipRectangle.Height,
+								Image, 
+								new Rectangle(curentX, 0, Image.Width, e.ClipRectangle.Height), 
+								0, e.ClipRectangle.Y, Image.Width, e.ClipRectangle.Height,
 								GraphicsUnit.Pixel,
 								imageAttributes);
 						}
@@ -1428,7 +1428,7 @@ namespace ChartSamples
 		public LabelWithBackImage()
 		{
 			// Change control style
-			this.SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
 		}
 
 		#endregion
@@ -1445,12 +1445,12 @@ namespace ChartSamples
 		protected override void OnPaint( PaintEventArgs e )
 		{
 			// Clear background
-			e.Graphics.Clear(this.BackColor);
+			e.Graphics.Clear(BackColor);
 
 			// Draw back image
-			if(this.BackImage != null)
+			if(BackImage != null)
 			{
-				int imageLeft = this.Right - this.BackImage.Width - this.Left;
+				int imageLeft = Right - BackImage.Width - Left;
 				Rectangle	dest = e.ClipRectangle;
 				if(dest.X < imageLeft)
 				{
@@ -1459,17 +1459,17 @@ namespace ChartSamples
 				}
 				ImageAttributes imageAttributes = new ImageAttributes();
 				e.Graphics.DrawImage(
-					this.BackImage,
+					BackImage,
 					dest, 
 					dest.X - imageLeft, 
-					e.ClipRectangle.Y + this.Top, 
+					e.ClipRectangle.Y + Top, 
 					dest.Width, dest.Height,
 					GraphicsUnit.Pixel,
 					imageAttributes);
 			}
 
 			// Get text position
-			Rectangle	textRect = new Rectangle(this.ClientRectangle.Location, this.ClientRectangle.Size);
+			Rectangle	textRect = new Rectangle(ClientRectangle.Location, ClientRectangle.Size);
 			textRect.X += 5;
 			textRect.Width -= 10;
 
@@ -1479,9 +1479,9 @@ namespace ChartSamples
 			format.Alignment = StringAlignment.Near;
 			format.Trimming = StringTrimming.EllipsisCharacter;
 			format.FormatFlags = StringFormatFlags.LineLimit;
-			using( SolidBrush brush = new SolidBrush( this.ForeColor ) )
+			using( SolidBrush brush = new SolidBrush( ForeColor ) )
 			{
-				e.Graphics.DrawString(this.Text, this.Font, brush, textRect, format);
+				e.Graphics.DrawString(Text, Font, brush, textRect, format);
 			}
 
 			format.Dispose();

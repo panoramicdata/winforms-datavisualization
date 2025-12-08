@@ -11,22 +11,22 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for Palettes.
 	/// </summary>
-	public class Palettes : System.Windows.Forms.UserControl
+	public class Palettes : UserControl
 	{
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.ComboBox cb_Palette;
-		private System.Windows.Forms.ComboBox cb_CustomPalette;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private ComboBox cb_Palette;
+		private ComboBox cb_CustomPalette;
+		private Chart chart2;
 
 		Random random = new Random();
-		private System.Windows.Forms.RadioButton rb_Palette;
-		private System.Windows.Forms.RadioButton rb_CustomPalette;
+		private RadioButton rb_Palette;
+		private RadioButton rb_CustomPalette;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public Palettes()
 		{
@@ -39,8 +39,8 @@ namespace ChartSamples
 			FillSeries(chart2, 40, 50);
 			FillSeries(chart2, 11, 50);
 
-			this.cb_CustomPalette.SelectedIndex = 0;
-			this.cb_Palette.SelectedIndex = 0;
+			cb_CustomPalette.SelectedIndex = 0;
+			cb_Palette.SelectedIndex = 0;
 		}	
 
 		/// <summary> 
@@ -65,34 +65,34 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = ((System.Windows.Forms.DataVisualization.Charting.ChartArea)(new System.Windows.Forms.DataVisualization.Charting.ChartArea()));
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = ((System.Windows.Forms.DataVisualization.Charting.Legend)(new System.Windows.Forms.DataVisualization.Charting.Legend()));
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = ((System.Windows.Forms.DataVisualization.Charting.Series)(new System.Windows.Forms.DataVisualization.Charting.Series()));
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = ((System.Windows.Forms.DataVisualization.Charting.Series)(new System.Windows.Forms.DataVisualization.Charting.Series()));
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = ((System.Windows.Forms.DataVisualization.Charting.Series)(new System.Windows.Forms.DataVisualization.Charting.Series()));
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = ((System.Windows.Forms.DataVisualization.Charting.Series)(new System.Windows.Forms.DataVisualization.Charting.Series()));
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = ((System.Windows.Forms.DataVisualization.Charting.Title)(new System.Windows.Forms.DataVisualization.Charting.Title()));
-            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.rb_CustomPalette = new System.Windows.Forms.RadioButton();
-            this.rb_Palette = new System.Windows.Forms.RadioButton();
-            this.cb_CustomPalette = new System.Windows.Forms.ComboBox();
-            this.cb_Palette = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = ((ChartArea)(new ChartArea()));
+			Legend legend1 = ((Legend)(new Legend()));
+			Series series1 = ((Series)(new Series()));
+			Series series2 = ((Series)(new Series()));
+			Series series3 = ((Series)(new Series()));
+			Series series4 = ((Series)(new Series()));
+			Title title1 = ((Title)(new Title()));
+            chart2 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            rb_CustomPalette = new RadioButton();
+            rb_Palette = new RadioButton();
+            cb_CustomPalette = new ComboBox();
+            cb_Palette = new ComboBox();
+            ((ISupportInitialize)(chart2)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart2
             // 
-            this.chart2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart2.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart2.BorderlineColor = System.Drawing.Color.Navy;
-            this.chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart2.BorderlineWidth = 2;
-            this.chart2.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
-            this.chart2.BorderSkin.Tag = null;
+            chart2.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart2.BackSecondaryColor = System.Drawing.Color.White;
+            chart2.BorderlineColor = System.Drawing.Color.Navy;
+            chart2.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart2.BorderlineWidth = 2;
+            chart2.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart2.BorderSkin.Tag = null;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -102,10 +102,10 @@ namespace ChartSamples
             chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
             chartArea1.AxisX.LabelAutoFitMinFontSize = 8;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea1.AxisX.LabelAutoFitStyle = ((LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Interval = 0;
             chartArea1.AxisX.LabelStyle.IntervalOffset = 0;
             chartArea1.AxisX.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
@@ -133,10 +133,10 @@ namespace ChartSamples
             chartArea1.AxisX2.MajorTickMark.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
             chartArea1.AxisX2.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
             chartArea1.AxisY.LabelAutoFitMaxFontSize = 8;
-            chartArea1.AxisY.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea1.AxisY.LabelAutoFitStyle = ((LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LabelStyle.Interval = 0;
             chartArea1.AxisY.LabelStyle.IntervalOffset = 0;
             chartArea1.AxisY.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
@@ -178,16 +178,16 @@ namespace ChartSamples
             chartArea1.Position.X = 4.824818F;
             chartArea1.Position.Y = 16.02085F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart2.ChartAreas.Add(chartArea1);
+            chart2.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
             legend1.Position.Tag = null;
-            this.chart2.Legends.Add(legend1);
-            this.chart2.Location = new System.Drawing.Point(16, 56);
-            this.chart2.Name = "chart2";
+            chart2.Legends.Add(legend1);
+            chart2.Location = new Point(16, 56);
+            chart2.Name = "chart2";
             series1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopLeft;
             series1.BorderWidth = 3;
             series1.CustomProperties = "DrawingStyle=LightToDark";
@@ -215,13 +215,13 @@ namespace ChartSamples
             series4.EmptyPointStyle.Name = null;
             series4.Name = "Series4";
             series4.YValuesPerPoint = 2;
-            this.chart2.Series.Add(series1);
-            this.chart2.Series.Add(series2);
-            this.chart2.Series.Add(series3);
-            this.chart2.Series.Add(series4);
-            this.chart2.Size = new System.Drawing.Size(412, 296);
-            this.chart2.TabIndex = 0;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            chart2.Series.Add(series1);
+            chart2.Series.Add(series2);
+            chart2.Series.Add(series3);
+            chart2.Series.Add(series4);
+            chart2.Size = new Size(412, 296);
+            chart2.TabIndex = 0;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.Name = "Title1";
             title1.Position.Height = 7.478481F;
             title1.Position.Tag = null;
@@ -229,98 +229,98 @@ namespace ChartSamples
             title1.Position.X = 4.824818F;
             title1.Position.Y = 5.542373F;
             title1.Text = "Chart Control for .NET Framework";
-            this.chart2.Titles.Add(title1);
+            chart2.Titles.Add(title1);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
-            this.labelSampleComment.TabIndex = 2;
-            this.labelSampleComment.Text = "This sample demonstrates how a chart palette can be specified.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 34);
+            labelSampleComment.TabIndex = 2;
+            labelSampleComment.Text = "This sample demonstrates how a chart palette can be specified.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.rb_CustomPalette);
-            this.panel1.Controls.Add(this.rb_Palette);
-            this.panel1.Controls.Add(this.cb_CustomPalette);
-            this.panel1.Controls.Add(this.cb_Palette);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(312, 288);
-            this.panel1.TabIndex = 1;
+            panel1.Controls.Add(rb_CustomPalette);
+            panel1.Controls.Add(rb_Palette);
+            panel1.Controls.Add(cb_CustomPalette);
+            panel1.Controls.Add(cb_Palette);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(312, 288);
+            panel1.TabIndex = 1;
             // 
             // rb_CustomPalette
             // 
-            this.rb_CustomPalette.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.rb_CustomPalette.Location = new System.Drawing.Point(24, 48);
-            this.rb_CustomPalette.Name = "rb_CustomPalette";
-            this.rb_CustomPalette.Size = new System.Drawing.Size(136, 24);
-            this.rb_CustomPalette.TabIndex = 6;
-            this.rb_CustomPalette.Text = "Custom Palette:";
-            this.rb_CustomPalette.CheckedChanged += new System.EventHandler(this.rb_CustomPalette_CheckedChanged);
+            rb_CustomPalette.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            rb_CustomPalette.Location = new Point(24, 48);
+            rb_CustomPalette.Name = "rb_CustomPalette";
+            rb_CustomPalette.Size = new Size(136, 24);
+            rb_CustomPalette.TabIndex = 6;
+            rb_CustomPalette.Text = "Custom Palette:";
+            rb_CustomPalette.CheckedChanged += new EventHandler(rb_CustomPalette_CheckedChanged);
             // 
             // rb_Palette
             // 
-            this.rb_Palette.Checked = true;
-            this.rb_Palette.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.rb_Palette.Location = new System.Drawing.Point(24, 16);
-            this.rb_Palette.Name = "rb_Palette";
-            this.rb_Palette.Size = new System.Drawing.Size(136, 24);
-            this.rb_Palette.TabIndex = 5;
-            this.rb_Palette.TabStop = true;
-            this.rb_Palette.Text = "Standard Palette:";
-            this.rb_Palette.CheckedChanged += new System.EventHandler(this.rb_Palette_CheckedChanged);
+            rb_Palette.Checked = true;
+            rb_Palette.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            rb_Palette.Location = new Point(24, 16);
+            rb_Palette.Name = "rb_Palette";
+            rb_Palette.Size = new Size(136, 24);
+            rb_Palette.TabIndex = 5;
+            rb_Palette.TabStop = true;
+            rb_Palette.Text = "Standard Palette:";
+            rb_Palette.CheckedChanged += new EventHandler(rb_Palette_CheckedChanged);
             // 
             // cb_CustomPalette
             // 
-            this.cb_CustomPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_CustomPalette.Enabled = false;
-            this.cb_CustomPalette.Items.AddRange([
+            cb_CustomPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cb_CustomPalette.Enabled = false;
+            cb_CustomPalette.Items.AddRange([
             "CorporateGold",
             "CorporateBlue",
             "Pastel"]);
-            this.cb_CustomPalette.Location = new System.Drawing.Point(168, 48);
-            this.cb_CustomPalette.Name = "cb_CustomPalette";
-            this.cb_CustomPalette.Size = new System.Drawing.Size(128, 22);
-            this.cb_CustomPalette.TabIndex = 4;
-            this.cb_CustomPalette.SelectedIndexChanged += new System.EventHandler(this.cb_CustomPalette_SelectedIndexChanged);
+            cb_CustomPalette.Location = new Point(168, 48);
+            cb_CustomPalette.Name = "cb_CustomPalette";
+            cb_CustomPalette.Size = new Size(128, 22);
+            cb_CustomPalette.TabIndex = 4;
+            cb_CustomPalette.SelectedIndexChanged += new EventHandler(cb_CustomPalette_SelectedIndexChanged);
             // 
             // cb_Palette
             // 
-            this.cb_Palette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_Palette.Items.AddRange([
+            cb_Palette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cb_Palette.Items.AddRange([
             "BrightPastel",
             "EarthTones",
             "Pastel",
             "Excel",
             "SeaGreen"]);
-            this.cb_Palette.Location = new System.Drawing.Point(168, 16);
-            this.cb_Palette.Name = "cb_Palette";
-            this.cb_Palette.Size = new System.Drawing.Size(128, 22);
-            this.cb_Palette.TabIndex = 1;
-            this.cb_Palette.SelectedIndexChanged += new System.EventHandler(this.cb_Palette_SelectedIndexChanged);
+            cb_Palette.Location = new Point(168, 16);
+            cb_Palette.Name = "cb_Palette";
+            cb_Palette.Size = new Size(128, 22);
+            cb_Palette.TabIndex = 1;
+            cb_Palette.SelectedIndexChanged += new EventHandler(cb_Palette_SelectedIndexChanged);
             // 
             // Palettes
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart2);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "Palettes";
-            this.Size = new System.Drawing.Size(760, 376);
-            this.Load += new System.EventHandler(this.Palettes_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart2);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "Palettes";
+            Size = new Size(760, 376);
+            Load += new EventHandler(Palettes_Load);
+            ((ISupportInitialize)(chart2)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void cb_CustomPalette_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void cb_CustomPalette_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateCustomPalette();
             chart2.Invalidate();
@@ -350,7 +350,7 @@ namespace ChartSamples
 		{            
 			// Add series to the chart
 			string seriesName = "Series" + min;
-			this.AddSeries(chart, seriesName);
+			AddSeries(chart, seriesName);
 
 			chart.Series[seriesName].BorderWidth = 3;
 			chart.Series[seriesName].ShadowOffset = 1;
@@ -387,16 +387,16 @@ namespace ChartSamples
 		private void UpdatePalette()
 		{
 			chart2.PaletteCustomColors = [];
-			chart2.Palette = (ChartColorPalette)ChartColorPalette.Parse(typeof(ChartColorPalette), this.cb_Palette.SelectedItem.ToString());
+			chart2.Palette = (ChartColorPalette)ChartColorPalette.Parse(typeof(ChartColorPalette), cb_Palette.SelectedItem.ToString());
 		}
 
-		private void cb_Palette_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void cb_Palette_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdatePalette();
 			chart2.Invalidate();
 		}
 
-		private void rb_CustomPalette_CheckedChanged(object sender, System.EventArgs e)
+		private void rb_CustomPalette_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateControls();
 			UpdateCustomPalette();
@@ -404,20 +404,20 @@ namespace ChartSamples
 
 		private void UpdateControls()
 		{			
-			if (this.rb_CustomPalette.Checked) 
+			if (rb_CustomPalette.Checked) 
 			{
-				this.cb_Palette.Enabled = false;
-				this.cb_CustomPalette.Enabled = true;
+				cb_Palette.Enabled = false;
+				cb_CustomPalette.Enabled = true;
 			}
 
 			else 
 			{
-				this.cb_Palette.Enabled = true;
-				this.cb_CustomPalette.Enabled = false;
+				cb_Palette.Enabled = true;
+				cb_CustomPalette.Enabled = false;
 			}
 		}
 
-		private void rb_Palette_CheckedChanged(object sender, System.EventArgs e)
+		private void rb_Palette_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateControls();
 			UpdatePalette();

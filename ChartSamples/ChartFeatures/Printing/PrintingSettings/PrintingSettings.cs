@@ -12,23 +12,23 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for PrintingSettings.
 	/// </summary>
-	public class PrintingSettings : System.Windows.Forms.UserControl
+	public class PrintingSettings : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Button buttonPreview;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxOrientation;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox comboBoxMargin;
-		private System.Windows.Forms.ComboBox comboBoxResolution;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Button buttonPrint;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Button buttonPreview;
+		private Panel panel1;
+		private Label label1;
+		private ComboBox comboBoxOrientation;
+		private Label label2;
+		private ComboBox comboBoxMargin;
+		private ComboBox comboBoxResolution;
+		private Label label3;
+		private Button buttonPrint;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PrintingSettings()
 		{
@@ -62,66 +62,66 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "3,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "7,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "4,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "1,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "8,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "9,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "1,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "2,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "8,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "6,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, "1,0");
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint21 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint22 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.buttonPreview = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonPrint = new System.Windows.Forms.Button();
-            this.comboBoxResolution = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxMargin = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBoxOrientation = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, "3,0");
+			DataPoint dataPoint2 = new DataPoint(0, "7,0");
+			DataPoint dataPoint3 = new DataPoint(0, "4,0");
+			DataPoint dataPoint4 = new DataPoint(0, "1,0");
+			DataPoint dataPoint5 = new DataPoint(0, "8,0");
+			DataPoint dataPoint6 = new DataPoint(0, "9,0");
+			DataPoint dataPoint7 = new DataPoint(0, "1,0");
+			DataPoint dataPoint8 = new DataPoint(0, "2,0");
+			DataPoint dataPoint9 = new DataPoint(0, "8,0");
+			DataPoint dataPoint10 = new DataPoint(0, "6,0");
+			DataPoint dataPoint11 = new DataPoint(0, "1,0");
+			Series series2 = new Series();
+			DataPoint dataPoint12 = new DataPoint(0, 5);
+			DataPoint dataPoint13 = new DataPoint(0, 8);
+			DataPoint dataPoint14 = new DataPoint(0, 2);
+			DataPoint dataPoint15 = new DataPoint(0, 5);
+			DataPoint dataPoint16 = new DataPoint(0, 6);
+			DataPoint dataPoint17 = new DataPoint(0, 3);
+			DataPoint dataPoint18 = new DataPoint(0, 9);
+			DataPoint dataPoint19 = new DataPoint(0, 8);
+			DataPoint dataPoint20 = new DataPoint(0, 4);
+			DataPoint dataPoint21 = new DataPoint(0, 7);
+			DataPoint dataPoint22 = new DataPoint(0, 2);
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            buttonPreview = new Button();
+            panel1 = new Panel();
+            buttonPrint = new Button();
+            comboBoxResolution = new ComboBox();
+            label3 = new Label();
+            comboBoxMargin = new ComboBox();
+            label2 = new Label();
+            comboBoxOrientation = new ComboBox();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(165)))), ((int)(((byte)(191)))), ((int)(((byte)(228)))));
@@ -131,17 +131,17 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.DockedToChartArea = "Default";
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 83);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 83);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Legend = "Default";
@@ -182,136 +182,136 @@ namespace ChartSamples
             series2.Points.Add(dataPoint22);
             series2.ShadowColor = System.Drawing.Color.Black;
             series2.ShadowOffset = 2;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 64);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to programmatically change page settings like orient" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 64);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to programmatically change page settings like orient" +
                 "ation and margins. Note that reducing page resolution also reduces the size of d" +
                 "ata send to the printer.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // buttonPreview
             // 
-            this.buttonPreview.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonPreview.Location = new System.Drawing.Point(96, 128);
-            this.buttonPreview.Name = "buttonPreview";
-            this.buttonPreview.Size = new System.Drawing.Size(120, 23);
-            this.buttonPreview.TabIndex = 6;
-            this.buttonPreview.Text = "Print Previe&w";
-            this.buttonPreview.UseVisualStyleBackColor = false;
-            this.buttonPreview.Click += new System.EventHandler(this.buttonPreview_Click);
+            buttonPreview.BackColor = System.Drawing.SystemColors.Control;
+            buttonPreview.Location = new Point(96, 128);
+            buttonPreview.Name = "buttonPreview";
+            buttonPreview.Size = new Size(120, 23);
+            buttonPreview.TabIndex = 6;
+            buttonPreview.Text = "Print Previe&w";
+            buttonPreview.UseVisualStyleBackColor = false;
+            buttonPreview.Click += new EventHandler(buttonPreview_Click);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.buttonPrint);
-            this.panel1.Controls.Add(this.comboBoxResolution);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.comboBoxMargin);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboBoxOrientation);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.buttonPreview);
-            this.panel1.Location = new System.Drawing.Point(432, 91);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(buttonPrint);
+            panel1.Controls.Add(comboBoxResolution);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(comboBoxMargin);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(comboBoxOrientation);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(buttonPreview);
+            panel1.Location = new Point(432, 91);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // buttonPrint
             // 
-            this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonPrint.Location = new System.Drawing.Point(96, 168);
-            this.buttonPrint.Name = "buttonPrint";
-            this.buttonPrint.Size = new System.Drawing.Size(120, 23);
-            this.buttonPrint.TabIndex = 7;
-            this.buttonPrint.Text = "&Print";
-            this.buttonPrint.UseVisualStyleBackColor = false;
-            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
+            buttonPrint.BackColor = System.Drawing.SystemColors.Control;
+            buttonPrint.Location = new Point(96, 168);
+            buttonPrint.Name = "buttonPrint";
+            buttonPrint.Size = new Size(120, 23);
+            buttonPrint.TabIndex = 7;
+            buttonPrint.Text = "&Print";
+            buttonPrint.UseVisualStyleBackColor = false;
+            buttonPrint.Click += new EventHandler(buttonPrint_Click);
             // 
             // comboBoxResolution
             // 
-            this.comboBoxResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxResolution.Items.AddRange([
+            comboBoxResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxResolution.Items.AddRange([
             "Low",
             "Medium",
             "High"]);
-            this.comboBoxResolution.Location = new System.Drawing.Point(168, 72);
-            this.comboBoxResolution.Name = "comboBoxResolution";
-            this.comboBoxResolution.Size = new System.Drawing.Size(120, 22);
-            this.comboBoxResolution.TabIndex = 5;
+            comboBoxResolution.Location = new Point(168, 72);
+            comboBoxResolution.Name = "comboBoxResolution";
+            comboBoxResolution.Size = new Size(120, 22);
+            comboBoxResolution.TabIndex = 5;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(8, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(152, 23);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "&Resolution:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Location = new Point(8, 72);
+            label3.Name = "label3";
+            label3.Size = new Size(152, 23);
+            label3.TabIndex = 4;
+            label3.Text = "&Resolution:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxMargin
             // 
-            this.comboBoxMargin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxMargin.Items.AddRange([
+            comboBoxMargin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxMargin.Items.AddRange([
             "0.5",
             "1",
             "1.5",
             "2"]);
-            this.comboBoxMargin.Location = new System.Drawing.Point(168, 40);
-            this.comboBoxMargin.Name = "comboBoxMargin";
-            this.comboBoxMargin.Size = new System.Drawing.Size(120, 22);
-            this.comboBoxMargin.TabIndex = 3;
+            comboBoxMargin.Location = new Point(168, 40);
+            comboBoxMargin.Name = "comboBoxMargin";
+            comboBoxMargin.Size = new Size(120, 22);
+            comboBoxMargin.TabIndex = 3;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(8, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 23);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "All Side &Margin (inch):";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(8, 40);
+            label2.Name = "label2";
+            label2.Size = new Size(152, 23);
+            label2.TabIndex = 2;
+            label2.Text = "All Side &Margin (inch):";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxOrientation
             // 
-            this.comboBoxOrientation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxOrientation.Items.AddRange([
+            comboBoxOrientation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxOrientation.Items.AddRange([
             "Portrait",
             "Landscape"]);
-            this.comboBoxOrientation.Location = new System.Drawing.Point(168, 8);
-            this.comboBoxOrientation.Name = "comboBoxOrientation";
-            this.comboBoxOrientation.Size = new System.Drawing.Size(120, 22);
-            this.comboBoxOrientation.TabIndex = 1;
+            comboBoxOrientation.Location = new Point(168, 8);
+            comboBoxOrientation.Name = "comboBoxOrientation";
+            comboBoxOrientation.Size = new Size(120, 22);
+            comboBoxOrientation.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(8, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(152, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Page &Orientation:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(8, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(152, 23);
+            label1.TabIndex = 0;
+            label1.Text = "Page &Orientation:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PrintingSettings
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "PrintingSettings";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.PrintingSettings_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "PrintingSettings";
+            Size = new Size(728, 480);
+            Load += new EventHandler(PrintingSettings_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -343,7 +343,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void buttonPreview_Click(object sender, System.EventArgs e)
+		private void buttonPreview_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -359,7 +359,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void buttonPrint_Click(object sender, System.EventArgs e)
+		private void buttonPrint_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -375,7 +375,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void PrintingSettings_Load(object sender, System.EventArgs e)
+		private void PrintingSettings_Load(object sender, EventArgs e)
 		{
 			comboBoxOrientation.SelectedIndex = 0;
 			comboBoxMargin.SelectedIndex = 1;

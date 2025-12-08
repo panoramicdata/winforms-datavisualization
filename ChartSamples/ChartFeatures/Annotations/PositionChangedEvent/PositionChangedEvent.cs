@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,22 +11,22 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AnnotationPositioning.
 	/// </summary>
-	public class PositionChangedEvent : System.Windows.Forms.UserControl
+	public class PositionChangedEvent : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox AnnotationX;
-		private System.Windows.Forms.TextBox AnnotationY;
-		private System.Windows.Forms.CheckBox AllowMoving;
-		private System.Windows.Forms.CheckBox ClipToChartArea;
-		private System.Windows.Forms.Label label1;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private Label label2;
+		private Label label3;
+		private TextBox AnnotationX;
+		private TextBox AnnotationY;
+		private CheckBox AllowMoving;
+		private CheckBox ClipToChartArea;
+		private Label label1;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PositionChangedEvent()
 		{
@@ -56,124 +56,124 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation calloutAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 40);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 30);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 79);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 91);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 78);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 39);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 67);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 34);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 60);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 81);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 55);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 47);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 67);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 87);
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ClipToChartArea = new System.Windows.Forms.CheckBox();
-            this.AnnotationY = new System.Windows.Forms.TextBox();
-            this.AnnotationX = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.AllowMoving = new System.Windows.Forms.CheckBox();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			CalloutAnnotation calloutAnnotation1 = new CalloutAnnotation();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 70);
+			DataPoint dataPoint2 = new DataPoint(0, 40);
+			DataPoint dataPoint3 = new DataPoint(0, 30);
+			DataPoint dataPoint4 = new DataPoint(0, 79);
+			DataPoint dataPoint5 = new DataPoint(0, 91);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 78);
+			DataPoint dataPoint7 = new DataPoint(0, 39);
+			DataPoint dataPoint8 = new DataPoint(0, 67);
+			DataPoint dataPoint9 = new DataPoint(0, 34);
+			DataPoint dataPoint10 = new DataPoint(0, 60);
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(0, 81);
+			DataPoint dataPoint12 = new DataPoint(0, 55);
+			DataPoint dataPoint13 = new DataPoint(0, 47);
+			DataPoint dataPoint14 = new DataPoint(0, 67);
+			DataPoint dataPoint15 = new DataPoint(0, 87);
+            label9 = new Label();
+            panel1 = new Panel();
+            ClipToChartArea = new CheckBox();
+            AnnotationY = new TextBox();
+            AnnotationX = new TextBox();
+            label2 = new Label();
+            label3 = new Label();
+            AllowMoving = new CheckBox();
+            Chart1 = new Chart();
+            label1 = new Label();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 34);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "This sample demonstrates the AnnotationPositionChanged event.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 34);
+            label9.TabIndex = 2;
+            label9.Text = "This sample demonstrates the AnnotationPositionChanged event.";
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.ClipToChartArea);
-            this.panel1.Controls.Add(this.AnnotationY);
-            this.panel1.Controls.Add(this.AnnotationX);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.AllowMoving);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 1;
+            panel1.Controls.Add(ClipToChartArea);
+            panel1.Controls.Add(AnnotationY);
+            panel1.Controls.Add(AnnotationX);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(AllowMoving);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 1;
             // 
             // ClipToChartArea
             // 
-            this.ClipToChartArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ClipToChartArea.Location = new System.Drawing.Point(29, 40);
-            this.ClipToChartArea.Name = "ClipToChartArea";
-            this.ClipToChartArea.Size = new System.Drawing.Size(152, 24);
-            this.ClipToChartArea.TabIndex = 1;
-            this.ClipToChartArea.Text = "&Clip To Chart Area:  ";
-            this.ClipToChartArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ClipToChartArea.CheckedChanged += new System.EventHandler(this.ClipToChartArea_CheckedChanged);
+            ClipToChartArea.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            ClipToChartArea.Location = new Point(29, 40);
+            ClipToChartArea.Name = "ClipToChartArea";
+            ClipToChartArea.Size = new Size(152, 24);
+            ClipToChartArea.TabIndex = 1;
+            ClipToChartArea.Text = "&Clip To Chart Area:  ";
+            ClipToChartArea.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            ClipToChartArea.CheckedChanged += new EventHandler(ClipToChartArea_CheckedChanged);
             // 
             // AnnotationY
             // 
-            this.AnnotationY.Location = new System.Drawing.Point(168, 104);
-            this.AnnotationY.Name = "AnnotationY";
-            this.AnnotationY.ReadOnly = true;
-            this.AnnotationY.Size = new System.Drawing.Size(40, 22);
-            this.AnnotationY.TabIndex = 5;
-            this.AnnotationY.Text = "0";
+            AnnotationY.Location = new Point(168, 104);
+            AnnotationY.Name = "AnnotationY";
+            AnnotationY.ReadOnly = true;
+            AnnotationY.Size = new Size(40, 22);
+            AnnotationY.TabIndex = 5;
+            AnnotationY.Text = "0";
             // 
             // AnnotationX
             // 
-            this.AnnotationX.Location = new System.Drawing.Point(168, 72);
-            this.AnnotationX.Name = "AnnotationX";
-            this.AnnotationX.ReadOnly = true;
-            this.AnnotationX.Size = new System.Drawing.Size(40, 22);
-            this.AnnotationX.TabIndex = 3;
-            this.AnnotationX.Text = "0";
+            AnnotationX.Location = new Point(168, 72);
+            AnnotationX.Name = "AnnotationX";
+            AnnotationX.ReadOnly = true;
+            AnnotationX.Size = new Size(40, 22);
+            AnnotationX.TabIndex = 3;
+            AnnotationX.Text = "0";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(99, 104);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 23);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "&Y:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(99, 104);
+            label2.Name = "label2";
+            label2.Size = new Size(64, 23);
+            label2.TabIndex = 4;
+            label2.Text = "&Y:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(99, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 23);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "&X:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            label3.Location = new Point(99, 72);
+            label3.Name = "label3";
+            label3.Size = new Size(64, 23);
+            label3.TabIndex = 2;
+            label3.Text = "&X:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Click += new EventHandler(label3_Click);
             // 
             // AllowMoving
             // 
-            this.AllowMoving.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.AllowMoving.Checked = true;
-            this.AllowMoving.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AllowMoving.Location = new System.Drawing.Point(61, 8);
-            this.AllowMoving.Name = "AllowMoving";
-            this.AllowMoving.Size = new System.Drawing.Size(120, 24);
-            this.AllowMoving.TabIndex = 0;
-            this.AllowMoving.Text = "Allow &Moving:";
-            this.AllowMoving.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.AllowMoving.CheckedChanged += new System.EventHandler(this.AllowMoving_CheckedChanged);
+            AllowMoving.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            AllowMoving.Checked = true;
+            AllowMoving.CheckState = System.Windows.Forms.CheckState.Checked;
+            AllowMoving.Location = new Point(61, 8);
+            AllowMoving.Name = "AllowMoving";
+            AllowMoving.Size = new Size(120, 24);
+            AllowMoving.TabIndex = 0;
+            AllowMoving.Text = "Allow &Moving:";
+            AllowMoving.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            AllowMoving.CheckedChanged += new EventHandler(AllowMoving_CheckedChanged);
             // 
             // Chart1
             // 
@@ -181,19 +181,19 @@ namespace ChartSamples
             calloutAnnotation1.AllowSelecting = true;
             calloutAnnotation1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             calloutAnnotation1.CalloutStyle = System.Windows.Forms.DataVisualization.Charting.CalloutStyle.RoundedRectangle;
-            calloutAnnotation1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            calloutAnnotation1.Font = new Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             calloutAnnotation1.Name = "MyAnnotation";
             calloutAnnotation1.Text = "Select and Reposition Me\\nusing the mouse";
             calloutAnnotation1.X = 0;
             calloutAnnotation1.Y = 0;
-            this.Chart1.Annotations.Add(calloutAnnotation1);
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.Annotations.Add(calloutAnnotation1);
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BackSecondaryColor = System.Drawing.Color.White;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -201,10 +201,10 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
+            chartArea1.AxisX.LabelAutoFitStyle = ((LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Interval = 1;
             chartArea1.AxisX.LabelStyle.IsEndLabelVisible = false;
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -215,7 +215,7 @@ namespace ChartSamples
             chartArea1.AxisX2.MajorGrid.Enabled = false;
             chartArea1.AxisX2.Maximum = 100;
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.Enabled = false;
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -230,15 +230,15 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 48);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 48);
+            Chart1.Name = "Chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Legend = "Default";
@@ -277,50 +277,50 @@ namespace ChartSamples
             series3.Points.Add(dataPoint14);
             series3.Points.Add(dataPoint15);
             series3.ShadowOffset = 1;
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 0;
-            this.Chart1.AnnotationPositionChanged += new System.EventHandler(this.Chart1_AnnotationPositionChanged);
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Series.Add(series3);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 0;
+            Chart1.AnnotationPositionChanged += new EventHandler(Chart1_AnnotationPositionChanged);
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 360);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(702, 39);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Click on the annotation, and then move it with the mouse. This sample uses the An" +
+            label1.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(16, 360);
+            label1.Name = "label1";
+            label1.Size = new Size(702, 39);
+            label1.TabIndex = 3;
+            label1.Text = "Click on the annotation, and then move it with the mouse. This sample uses the An" +
                 "notationPositionChanged event to update X and Y coordinates to the right of the " +
                 "chart.";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PositionChangedEvent
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "PositionChangedEvent";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label1);
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "PositionChangedEvent";
+            Size = new Size(728, 480);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void AnnotationPositioning_Load(object sender, System.EventArgs e)
+		private void AnnotationPositioning_Load(object sender, EventArgs e)
 		{ 
 		
 		}
 
-		private void Chart1_AnnotationPositionChanged(object sender, System.EventArgs e)
+		private void Chart1_AnnotationPositionChanged(object sender, EventArgs e)
 		{
 			Annotation annotation = (Annotation) sender;
 			
@@ -330,12 +330,12 @@ namespace ChartSamples
 
 		}
 
-		private void AllowMoving_CheckedChanged(object sender, System.EventArgs e)
+		private void AllowMoving_CheckedChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].AllowMoving = AllowMoving.Checked;
 		}
 
-		private void ClipToChartArea_CheckedChanged(object sender, System.EventArgs e)
+		private void ClipToChartArea_CheckedChanged(object sender, EventArgs e)
 		{
 			if(ClipToChartArea.Checked)
 				Chart1.Annotations[0].ClipToChartArea = "Default";
@@ -344,7 +344,7 @@ namespace ChartSamples
 		
 		}
 
-		private void label3_Click(object sender, System.EventArgs e)
+		private void label3_Click(object sender, EventArgs e)
 		{
 		
 		}

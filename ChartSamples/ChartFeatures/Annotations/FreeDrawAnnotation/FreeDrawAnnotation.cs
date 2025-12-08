@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,19 +11,19 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AnnotationAppearance.
 	/// </summary>
-	public class FreeDrawAnnotation : System.Windows.Forms.UserControl
+	public class FreeDrawAnnotation : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox DrawingMode;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button UndoButton;
-        private System.Windows.Forms.Button ClearAll;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private CheckBox DrawingMode;
+		private Label label1;
+		private Button UndoButton;
+        private Button ClearAll;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public FreeDrawAnnotation()
 		{
@@ -53,120 +53,120 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FreeDrawAnnotation));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
-            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
-            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel3 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
-            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel4 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem1 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem2 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem3 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 80);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 85);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 65);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 60);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 75);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 50);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 55);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 40);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 70);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ClearAll = new System.Windows.Forms.Button();
-            this.UndoButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.DrawingMode = new System.Windows.Forms.CheckBox();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(FreeDrawAnnotation));
+			ChartArea chartArea1 = new ChartArea();
+			CustomLabel customLabel1 = new CustomLabel();
+			CustomLabel customLabel2 = new CustomLabel();
+			CustomLabel customLabel3 = new CustomLabel();
+			CustomLabel customLabel4 = new CustomLabel();
+			Legend legend1 = new Legend();
+			Legend legend2 = new Legend();
+			Legend legend3 = new Legend();
+			LegendItem legendItem1 = new LegendItem();
+			LegendItem legendItem2 = new LegendItem();
+			LegendItem legendItem3 = new LegendItem();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(1, 70);
+			DataPoint dataPoint2 = new DataPoint(2, 80);
+			DataPoint dataPoint3 = new DataPoint(3, 70);
+			DataPoint dataPoint4 = new DataPoint(4, 85);
+			Series series2 = new Series();
+			DataPoint dataPoint5 = new DataPoint(1, 65);
+			DataPoint dataPoint6 = new DataPoint(2, 70);
+			DataPoint dataPoint7 = new DataPoint(3, 60);
+			DataPoint dataPoint8 = new DataPoint(4, 75);
+			Series series3 = new Series();
+			DataPoint dataPoint9 = new DataPoint(1, 50);
+			DataPoint dataPoint10 = new DataPoint(2, 55);
+			DataPoint dataPoint11 = new DataPoint(3, 40);
+			DataPoint dataPoint12 = new DataPoint(4, 70);
+			Title title1 = new Title();
+            label9 = new Label();
+            panel1 = new Panel();
+            ClearAll = new Button();
+            UndoButton = new Button();
+            label1 = new Label();
+            DrawingMode = new CheckBox();
+            Chart1 = new Chart();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 14);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 56);
-            this.label9.TabIndex = 1;
-            this.label9.Text = resources.GetString("label9.Text");
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 14);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 56);
+            label9.TabIndex = 1;
+            label9.Text = resources.GetString("label9.Text");
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.ClearAll);
-            this.panel1.Controls.Add(this.UndoButton);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.DrawingMode);
-            this.panel1.Location = new System.Drawing.Point(432, 87);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(288, 284);
-            this.panel1.TabIndex = 19;
+            panel1.Controls.Add(ClearAll);
+            panel1.Controls.Add(UndoButton);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(DrawingMode);
+            panel1.Location = new Point(432, 87);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(288, 284);
+            panel1.TabIndex = 19;
             // 
             // ClearAll
             // 
-            this.ClearAll.BackColor = System.Drawing.SystemColors.Control;
-            this.ClearAll.Enabled = false;
-            this.ClearAll.Location = new System.Drawing.Point(48, 133);
-            this.ClearAll.Name = "ClearAll";
-            this.ClearAll.Size = new System.Drawing.Size(128, 23);
-            this.ClearAll.TabIndex = 4;
-            this.ClearAll.Text = "&Clear All";
-            this.ClearAll.UseVisualStyleBackColor = false;
-            this.ClearAll.Click += new System.EventHandler(this.ClearAll_Click);
+            ClearAll.BackColor = System.Drawing.SystemColors.Control;
+            ClearAll.Enabled = false;
+            ClearAll.Location = new Point(48, 133);
+            ClearAll.Name = "ClearAll";
+            ClearAll.Size = new Size(128, 23);
+            ClearAll.TabIndex = 4;
+            ClearAll.Text = "&Clear All";
+            ClearAll.UseVisualStyleBackColor = false;
+            ClearAll.Click += new EventHandler(ClearAll_Click);
             // 
             // UndoButton
             // 
-            this.UndoButton.BackColor = System.Drawing.SystemColors.Control;
-            this.UndoButton.Enabled = false;
-            this.UndoButton.Location = new System.Drawing.Point(48, 88);
-            this.UndoButton.Name = "UndoButton";
-            this.UndoButton.Size = new System.Drawing.Size(128, 23);
-            this.UndoButton.TabIndex = 3;
-            this.UndoButton.Text = "&Undo";
-            this.UndoButton.UseVisualStyleBackColor = false;
-            this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
+            UndoButton.BackColor = System.Drawing.SystemColors.Control;
+            UndoButton.Enabled = false;
+            UndoButton.Location = new Point(48, 88);
+            UndoButton.Name = "UndoButton";
+            UndoButton.Size = new Size(128, 23);
+            UndoButton.TabIndex = 3;
+            UndoButton.Text = "&Undo";
+            UndoButton.UseVisualStyleBackColor = false;
+            UndoButton.Click += new EventHandler(UndoButton_Click);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(8, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(224, 23);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Select to enable Drawing Mode:";
+            label1.Location = new Point(8, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(224, 23);
+            label1.TabIndex = 2;
+            label1.Text = "Select to enable Drawing Mode:";
             // 
             // DrawingMode
             // 
-            this.DrawingMode.Appearance = System.Windows.Forms.Appearance.Button;
-            this.DrawingMode.BackColor = System.Drawing.SystemColors.Control;
-            this.DrawingMode.Location = new System.Drawing.Point(48, 48);
-            this.DrawingMode.Name = "DrawingMode";
-            this.DrawingMode.Size = new System.Drawing.Size(128, 24);
-            this.DrawingMode.TabIndex = 1;
-            this.DrawingMode.Text = "&Drawing Mode";
-            this.DrawingMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.DrawingMode.UseVisualStyleBackColor = false;
-            this.DrawingMode.CheckedChanged += new System.EventHandler(this.DrawingMode_CheckedChanged);
+            DrawingMode.Appearance = System.Windows.Forms.Appearance.Button;
+            DrawingMode.BackColor = System.Drawing.SystemColors.Control;
+            DrawingMode.Location = new Point(48, 48);
+            DrawingMode.Name = "DrawingMode";
+            DrawingMode.Size = new Size(128, 24);
+            DrawingMode.TabIndex = 1;
+            DrawingMode.Text = "&Drawing Mode";
+            DrawingMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            DrawingMode.UseVisualStyleBackColor = false;
+            DrawingMode.CheckedChanged += new EventHandler(DrawingMode_CheckedChanged);
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BackSecondaryColor = System.Drawing.Color.White;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -192,11 +192,11 @@ namespace ChartSamples
             chartArea1.AxisX.CustomLabels.Add(customLabel4);
             chartArea1.AxisX.Interval = 1;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(165)))), ((int)(((byte)(191)))), ((int)(((byte)(228)))));
@@ -210,7 +210,7 @@ namespace ChartSamples
             chartArea1.Position.X = 2F;
             chartArea1.Position.Y = 13F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
@@ -232,7 +232,7 @@ namespace ChartSamples
             legend3.CustomItems.Add(legendItem1);
             legend3.CustomItems.Add(legendItem2);
             legend3.CustomItems.Add(legendItem3);
-            legend3.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend3.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend3.IsTextAutoFit = false;
             legend3.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend3.Name = "Legend3";
@@ -241,12 +241,12 @@ namespace ChartSamples
             legend3.Position.Width = 90F;
             legend3.Position.X = 5F;
             legend3.Position.Y = 85F;
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Legends.Add(legend2);
-            this.Chart1.Legends.Add(legend3);
-            this.Chart1.Location = new System.Drawing.Point(16, 79);
-            this.Chart1.Name = "Chart1";
-            this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
+            Chart1.Legends.Add(legend1);
+            Chart1.Legends.Add(legend2);
+            Chart1.Legends.Add(legend3);
+            Chart1.Location = new Point(16, 79);
+            Chart1.Name = "Chart1";
+            Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
@@ -280,13 +280,13 @@ namespace ChartSamples
             series3.Points.Add(dataPoint10);
             series3.Points.Add(dataPoint11);
             series3.Points.Add(dataPoint12);
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 0;
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Series.Add(series3);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 0;
             title1.Alignment = System.Drawing.ContentAlignment.TopLeft;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.Position.Auto = false;
@@ -297,26 +297,26 @@ namespace ChartSamples
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Chart Control for .NET Framework";
-            this.Chart1.Titles.Add(title1);
-            this.Chart1.AnnotationPlaced += new System.EventHandler(this.Chart1_AnnotationPlaced);
+            Chart1.Titles.Add(title1);
+            Chart1.AnnotationPlaced += new EventHandler(Chart1_AnnotationPlaced);
             // 
             // FreeDrawAnnotation
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "FreeDrawAnnotation";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "FreeDrawAnnotation";
+            Size = new Size(728, 480);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void DrawingMode_CheckedChanged(object sender, System.EventArgs e)
+		private void DrawingMode_CheckedChanged(object sender, EventArgs e)
 		{
 			if(DrawingMode.Checked)
 			{
@@ -331,7 +331,7 @@ namespace ChartSamples
 		}
 
 
-		private void Chart1_AnnotationPlaced(object sender, System.EventArgs e)
+		private void Chart1_AnnotationPlaced(object sender, EventArgs e)
 		{
 			if(DrawingMode.Checked)
 			{
@@ -354,7 +354,7 @@ namespace ChartSamples
 			polyline.BeginPlacement();
 		}
 
-		private void UndoButton_Click(object sender, System.EventArgs e)
+		private void UndoButton_Click(object sender, EventArgs e)
 		{
 			if(Chart1.Annotations.Count > 0)
 			{
@@ -376,7 +376,7 @@ namespace ChartSamples
 			EnableDisableButtons();
 		}
 
-		private void ClearAll_Click(object sender, System.EventArgs e)
+		private void ClearAll_Click(object sender, EventArgs e)
 		{
 			// uncheck the drawing mode button, which will cause
 			// the end placement method to be called for the check changed event

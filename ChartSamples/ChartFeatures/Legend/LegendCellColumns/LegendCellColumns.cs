@@ -11,25 +11,25 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for LegendCellColumns.
 	/// </summary>
-	public class LegendCellColumns : System.Windows.Forms.UserControl
+	public class LegendCellColumns : UserControl
 	{
 		#region Fields
 
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox chk_showTotal;
-		private System.Windows.Forms.CheckBox chk_showAvg;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private CheckBox chk_showTotal;
+		private CheckBox chk_showAvg;
 		
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		LegendCellColumn avgColumn = new LegendCellColumn();
 		LegendCellColumn totalColumn = new LegendCellColumn();
-		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.Button button1;
+		private CheckBox checkBox1;
+		private Button button1;
 		LegendCellColumn minColumn = new LegendCellColumn();
 		Random random = new Random();
 
@@ -68,128 +68,128 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle axisScaleBreakStyle1 = new System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle();
-			System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle axisScaleBreakStyle2 = new System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle();
-			System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle axisScaleBreakStyle3 = new System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle();
-			System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle axisScaleBreakStyle4 = new System.Windows.Forms.DataVisualization.Charting.AxisScaleBreakStyle();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 5);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(5, 8);
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 2);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(5, 3);
-			System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 4);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 9);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 12);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(5, 3);
-			System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 7.1999998092651367);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 9);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(5, 9);
-			this.label9 = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.button1 = new System.Windows.Forms.Button();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.chk_showAvg = new System.Windows.Forms.CheckBox();
-			this.chk_showTotal = new System.Windows.Forms.CheckBox();
-			this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			AxisScaleBreakStyle axisScaleBreakStyle1 = new AxisScaleBreakStyle();
+			AxisScaleBreakStyle axisScaleBreakStyle2 = new AxisScaleBreakStyle();
+			AxisScaleBreakStyle axisScaleBreakStyle3 = new AxisScaleBreakStyle();
+			AxisScaleBreakStyle axisScaleBreakStyle4 = new AxisScaleBreakStyle();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(1, 3);
+			DataPoint dataPoint2 = new DataPoint(2, 5);
+			DataPoint dataPoint3 = new DataPoint(3, 6);
+			DataPoint dataPoint4 = new DataPoint(4, 7);
+			DataPoint dataPoint5 = new DataPoint(5, 8);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(1, 8);
+			DataPoint dataPoint7 = new DataPoint(2, 7);
+			DataPoint dataPoint8 = new DataPoint(3, 2);
+			DataPoint dataPoint9 = new DataPoint(4, 6);
+			DataPoint dataPoint10 = new DataPoint(5, 3);
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(1, 4);
+			DataPoint dataPoint12 = new DataPoint(2, 7);
+			DataPoint dataPoint13 = new DataPoint(3, 9);
+			DataPoint dataPoint14 = new DataPoint(4, 12);
+			DataPoint dataPoint15 = new DataPoint(5, 3);
+			Series series4 = new Series();
+			DataPoint dataPoint16 = new DataPoint(1, 7.1999998092651367);
+			DataPoint dataPoint17 = new DataPoint(2, 8);
+			DataPoint dataPoint18 = new DataPoint(3, 8);
+			DataPoint dataPoint19 = new DataPoint(4, 9);
+			DataPoint dataPoint20 = new DataPoint(5, 9);
+			label9 = new Label();
+			panel1 = new Panel();
+			button1 = new Button();
+			checkBox1 = new CheckBox();
+			chk_showAvg = new CheckBox();
+			chk_showTotal = new CheckBox();
+			Chart1 = new Chart();
+			panel1.SuspendLayout();
+			((ISupportInitialize)(Chart1)).BeginInit();
+			SuspendLayout();
 			// 
 			// label9
 			// 
-			this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label9.Location = new System.Drawing.Point(16, 16);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(702, 34);
-			this.label9.TabIndex = 0;
-			this.label9.Text = "This sample demonstrates how to work with cell columns to create multi-column leg" +
+			label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			label9.Location = new Point(16, 16);
+			label9.Name = "label9";
+			label9.Size = new Size(702, 34);
+			label9.TabIndex = 0;
+			label9.Text = "This sample demonstrates how to work with cell columns to create multi-column leg" +
 				"ends.";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.button1,
-																				 this.checkBox1,
-																				 this.chk_showAvg,
-																				 this.chk_showTotal]);
-			this.panel1.Location = new System.Drawing.Point(432, 64);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(292, 296);
-			this.panel1.TabIndex = 0;
+			panel1.Controls.AddRange([
+																				 button1,
+																				 checkBox1,
+																				 chk_showAvg,
+																				 chk_showTotal]);
+			panel1.Location = new Point(432, 64);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(292, 296);
+			panel1.TabIndex = 0;
 			// 
 			// button1
 			// 
-			this.button1.BackColor = System.Drawing.SystemColors.Control;
-			this.button1.Location = new System.Drawing.Point(88, 120);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(168, 23);
-			this.button1.TabIndex = 10;
-			this.button1.Text = "Generate Random Data";
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			button1.BackColor = System.Drawing.SystemColors.Control;
+			button1.Location = new Point(88, 120);
+			button1.Name = "button1";
+			button1.Size = new Size(168, 23);
+			button1.TabIndex = 10;
+			button1.Text = "Generate Random Data";
+			button1.Click += new EventHandler(button1_Click);
 			// 
 			// checkBox1
 			// 
-			this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBox1.Checked = true;
-			this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox1.Location = new System.Drawing.Point(14, 80);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(168, 24);
-			this.checkBox1.TabIndex = 9;
-			this.checkBox1.Text = "Show &Minimum:";
-			this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBox1.Checked = true;
+			checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+			checkBox1.Location = new Point(14, 80);
+			checkBox1.Name = "checkBox1";
+			checkBox1.Size = new Size(168, 24);
+			checkBox1.TabIndex = 9;
+			checkBox1.Text = "Show &Minimum:";
+			checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBox1.CheckedChanged += new EventHandler(checkBox1_CheckedChanged);
 			// 
 			// chk_showAvg
 			// 
-			this.chk_showAvg.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.chk_showAvg.Checked = true;
-			this.chk_showAvg.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chk_showAvg.Location = new System.Drawing.Point(13, 12);
-			this.chk_showAvg.Name = "chk_showAvg";
-			this.chk_showAvg.Size = new System.Drawing.Size(168, 24);
-			this.chk_showAvg.TabIndex = 8;
-			this.chk_showAvg.Text = "Show &Average:";
-			this.chk_showAvg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.chk_showAvg.CheckedChanged += new System.EventHandler(this.chk_showAvg_CheckedChanged);
+			chk_showAvg.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			chk_showAvg.Checked = true;
+			chk_showAvg.CheckState = System.Windows.Forms.CheckState.Checked;
+			chk_showAvg.Location = new Point(13, 12);
+			chk_showAvg.Name = "chk_showAvg";
+			chk_showAvg.Size = new Size(168, 24);
+			chk_showAvg.TabIndex = 8;
+			chk_showAvg.Text = "Show &Average:";
+			chk_showAvg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			chk_showAvg.CheckedChanged += new EventHandler(chk_showAvg_CheckedChanged);
 			// 
 			// chk_showTotal
 			// 
-			this.chk_showTotal.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.chk_showTotal.Checked = true;
-			this.chk_showTotal.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chk_showTotal.Location = new System.Drawing.Point(14, 47);
-			this.chk_showTotal.Name = "chk_showTotal";
-			this.chk_showTotal.Size = new System.Drawing.Size(168, 24);
-			this.chk_showTotal.TabIndex = 7;
-			this.chk_showTotal.Text = "Show &Total:";
-			this.chk_showTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.chk_showTotal.CheckedChanged += new System.EventHandler(this.chk_showTotal_CheckedChanged);
+			chk_showTotal.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			chk_showTotal.Checked = true;
+			chk_showTotal.CheckState = System.Windows.Forms.CheckState.Checked;
+			chk_showTotal.Location = new Point(14, 47);
+			chk_showTotal.Name = "chk_showTotal";
+			chk_showTotal.Size = new Size(168, 24);
+			chk_showTotal.TabIndex = 7;
+			chk_showTotal.Text = "Show &Total:";
+			chk_showTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			chk_showTotal.CheckedChanged += new EventHandler(chk_showTotal_CheckedChanged);
 			// 
 			// Chart1
 			// 
-			this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-			this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.Chart1.BorderlineWidth = 2;
-			this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+			Chart1.BackSecondaryColor = System.Drawing.Color.White;
+			Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			Chart1.BorderlineWidth = 2;
+			Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.Area3DStyle.IsClustered = true;
 			chartArea1.Area3DStyle.Enable3D = true;
 			chartArea1.Area3DStyle.Perspective = 10;
@@ -199,7 +199,7 @@ namespace ChartSamples
 			chartArea1.Area3DStyle.Inclination = 15;
 			chartArea1.Area3DStyle.Rotation = 10;
 			chartArea1.AxisX.IsLabelAutoFit = false;
-			chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisX.LabelStyle.Interval = 1;
 			chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.Interval = 1;
@@ -211,7 +211,7 @@ namespace ChartSamples
 			axisScaleBreakStyle2.Enabled = false;
 			chartArea1.AxisX2.ScaleBreakStyle = axisScaleBreakStyle2;
 			chartArea1.AxisY.IsLabelAutoFit = false;
-			chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorTickMark.Enabled = false;
@@ -224,19 +224,19 @@ namespace ChartSamples
 			chartArea1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.Name = "Default";
 			chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-			this.Chart1.ChartAreas.Add(chartArea1);
+			Chart1.ChartAreas.Add(chartArea1);
 			legend1.Alignment = System.Drawing.StringAlignment.Center;
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
 			legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Bold);
 			legend1.Name = "Default";
 			legend1.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Tall;
-			legend1.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-			this.Chart1.Legends.Add(legend1);
-			this.Chart1.Location = new System.Drawing.Point(16, 64);
-			this.Chart1.Name = "Chart1";
-			this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			legend1.TitleFont = new Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+			Chart1.Legends.Add(legend1);
+			Chart1.Location = new Point(16, 64);
+			Chart1.Name = "Chart1";
+			Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
             series1.ChartType = SeriesChartType.StackedArea;
 			series1.Color = System.Drawing.Color.FromArgb(((System.Byte)(5)), ((System.Byte)(100)), ((System.Byte)(146)));
@@ -285,27 +285,27 @@ namespace ChartSamples
 			series4.Points.Add(dataPoint20);
 			series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
 			series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-			this.Chart1.Series.Add(series1);
-			this.Chart1.Series.Add(series2);
-			this.Chart1.Series.Add(series3);
-			this.Chart1.Series.Add(series4);
-			this.Chart1.Size = new System.Drawing.Size(412, 296);
-			this.Chart1.TabIndex = 1;
-			this.Chart1.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal;
+			Chart1.Series.Add(series1);
+			Chart1.Series.Add(series2);
+			Chart1.Series.Add(series3);
+			Chart1.Series.Add(series4);
+			Chart1.Size = new Size(412, 296);
+			Chart1.TabIndex = 1;
+			Chart1.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal;
 			// 
 			// LegendCellColumns
 			// 
-			this.Controls.AddRange([
-																		  this.Chart1,
-																		  this.panel1,
-																		  this.label9]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "LegendCellColumns";
-			this.Size = new System.Drawing.Size(728, 480);
-			this.Load += new System.EventHandler(this.LegendCellColumns_Load);
-			this.panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-			this.ResumeLayout(false);
+			Controls.AddRange([
+																		  Chart1,
+																		  panel1,
+																		  label9]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "LegendCellColumns";
+			Size = new Size(728, 480);
+			Load += new EventHandler(LegendCellColumns_Load);
+			panel1.ResumeLayout(false);
+			((ISupportInitialize)(Chart1)).EndInit();
+			ResumeLayout(false);
 
 		}
 		#endregion
@@ -319,7 +319,7 @@ namespace ChartSamples
 			firstColumn.ColumnType = LegendCellColumnType.SeriesSymbol;
 			firstColumn.HeaderText = "Color";
 			firstColumn.HeaderBackColor = Color.WhiteSmoke;
-			this.Chart1.Legends["Default"].CellColumns.Add(firstColumn);
+			Chart1.Legends["Default"].CellColumns.Add(firstColumn);
 
 			// Add second cell column
 			LegendCellColumn secondColumn = new LegendCellColumn();
@@ -327,15 +327,15 @@ namespace ChartSamples
 			secondColumn.HeaderText = "Name";
 			secondColumn.Text = "#LEGENDTEXT";
 			secondColumn.HeaderBackColor = Color.WhiteSmoke;
-			this.Chart1.Legends["Default"].CellColumns.Add(secondColumn);
+			Chart1.Legends["Default"].CellColumns.Add(secondColumn);
 
 			// Add header separator of type line
-			this.Chart1.Legends["Default"].HeaderSeparator = LegendSeparatorStyle.Line;
-			this.Chart1.Legends["Default"].HeaderSeparatorColor = Color.FromArgb(64,64,64,64);
+			Chart1.Legends["Default"].HeaderSeparator = LegendSeparatorStyle.Line;
+			Chart1.Legends["Default"].HeaderSeparatorColor = Color.FromArgb(64,64,64,64);
 			
 			// Add item column separator of type line
-			this.Chart1.Legends["Default"].ItemColumnSeparator = LegendSeparatorStyle.Line;
-			this.Chart1.Legends["Default"].ItemColumnSeparatorColor = Color.FromArgb(64,64,64,64);
+			Chart1.Legends["Default"].ItemColumnSeparator = LegendSeparatorStyle.Line;
+			Chart1.Legends["Default"].ItemColumnSeparatorColor = Color.FromArgb(64,64,64,64);
 
 			// Set AVG cell column attributes
 			avgColumn.Text = "#AVG{N2}";
@@ -343,7 +343,7 @@ namespace ChartSamples
 			avgColumn.Name = "AvgColumn";
 			avgColumn.HeaderBackColor = Color.WhiteSmoke;
 
-			this.Chart1.Legends["Default"].CellColumns.Add(avgColumn);
+			Chart1.Legends["Default"].CellColumns.Add(avgColumn);
 			
 			// Set Total cell column attributes
 			totalColumn.Text = "#TOTAL{N1}";
@@ -351,7 +351,7 @@ namespace ChartSamples
 			totalColumn.Name = "TotalColumn";
 			totalColumn.HeaderBackColor = Color.WhiteSmoke;
 
-			this.Chart1.Legends["Default"].CellColumns.Add(totalColumn);
+			Chart1.Legends["Default"].CellColumns.Add(totalColumn);
 
 			// Set Min cell column attributes
 			minColumn.Text = "#MIN{N1}";
@@ -359,7 +359,7 @@ namespace ChartSamples
 			minColumn.Name = "MinColumn";
 			minColumn.HeaderBackColor = Color.WhiteSmoke;
 
-			this.Chart1.Legends["Default"].CellColumns.Add(minColumn);
+			Chart1.Legends["Default"].CellColumns.Add(minColumn);
 		}
 
 		// Fill chart data
@@ -377,55 +377,55 @@ namespace ChartSamples
 
 		#region UI Handlers
 
-		private void LegendCellColumns_Load(object sender, System.EventArgs e)
+		private void LegendCellColumns_Load(object sender, EventArgs e)
 		{			
 			// Set up the default appearance of the legend
 			InitializeCellColumns();
 		}
 
-		private void chk_showAvg_CheckedChanged(object sender, System.EventArgs e)
+		private void chk_showAvg_CheckedChanged(object sender, EventArgs e)
 		{
-			if (this.chk_showAvg.Checked) 
+			if (chk_showAvg.Checked) 
 			{
-				this.Chart1.Legends["Default"].CellColumns.Add(avgColumn);		
+				Chart1.Legends["Default"].CellColumns.Add(avgColumn);		
 			}
 
 			else 
 			{
-				LegendCellColumn cellColumn = this.Chart1.Legends["Default"].CellColumns.FindByName("AvgColumn");
-				this.Chart1.Legends["Default"].CellColumns.Remove(cellColumn);
+				LegendCellColumn cellColumn = Chart1.Legends["Default"].CellColumns.FindByName("AvgColumn");
+				Chart1.Legends["Default"].CellColumns.Remove(cellColumn);
 			}		
 		}
 
-		private void chk_showTotal_CheckedChanged(object sender, System.EventArgs e)
+		private void chk_showTotal_CheckedChanged(object sender, EventArgs e)
 		{
-			if (this.chk_showTotal.Checked) 
+			if (chk_showTotal.Checked) 
 			{
-				this.Chart1.Legends["Default"].CellColumns.Add(totalColumn);		
+				Chart1.Legends["Default"].CellColumns.Add(totalColumn);		
 			}
 
 			else 
 			{
-				LegendCellColumn cellColumn = this.Chart1.Legends["Default"].CellColumns.FindByName("TotalColumn");
-				this.Chart1.Legends["Default"].CellColumns.Remove(cellColumn);
+				LegendCellColumn cellColumn = Chart1.Legends["Default"].CellColumns.FindByName("TotalColumn");
+				Chart1.Legends["Default"].CellColumns.Remove(cellColumn);
 			}			
 		}
 
-		private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
-			if (this.checkBox1.Checked) 
+			if (checkBox1.Checked) 
 			{
-				this.Chart1.Legends["Default"].CellColumns.Add(minColumn);		
+				Chart1.Legends["Default"].CellColumns.Add(minColumn);		
 			}
 
 			else 
 			{
-				LegendCellColumn minColumn = this.Chart1.Legends["Default"].CellColumns.FindByName("MinColumn");
-				this.Chart1.Legends["Default"].CellColumns.Remove(minColumn);
+				LegendCellColumn minColumn = Chart1.Legends["Default"].CellColumns.FindByName("MinColumn");
+				Chart1.Legends["Default"].CellColumns.Remove(minColumn);
 			}	
 		}
 
-		private void button1_Click(object sender, System.EventArgs e)
+		private void button1_Click(object sender, EventArgs e)
 		{
 			foreach(Series series in Chart1.Series) 
 			{
@@ -434,8 +434,8 @@ namespace ChartSamples
 				FillData(Chart1,seriesName);
 			}
 
-			this.Chart1.ResetAutoValues();
-			this.Chart1.Invalidate();
+			Chart1.ResetAutoValues();
+			Chart1.Invalidate();
 		}
 
 		

@@ -11,21 +11,21 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for RangeBar3D.
 	/// </summary>
-	public class RangeBar3D : System.Windows.Forms.UserControl
+	public class RangeBar3D : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
 		private double dToday = 4;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.NumericUpDown Inclination;
-        private System.Windows.Forms.NumericUpDown Rotation; // assume fourth day in the data set
+		private Label label1;
+		private Label label2;
+		private NumericUpDown Inclination;
+        private NumericUpDown Rotation; // assume fourth day in the data set
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public RangeBar3D()
 		{
@@ -58,47 +58,47 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem1 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem2 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.Rotation = new System.Windows.Forms.NumericUpDown();
-            this.Inclination = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Rotation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Inclination)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			LegendItem legendItem1 = new LegendItem();
+			LegendItem legendItem2 = new LegendItem();
+			Series series1 = new Series();
+			Series series2 = new Series();
+			Title title1 = new Title();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            Rotation = new NumericUpDown();
+            Inclination = new NumericUpDown();
+            label2 = new Label();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Rotation)).BeginInit();
+            ((ISupportInitialize)(Inclination)).BeginInit();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Enable3D = true;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.PointDepth = 200;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.IsEndLabelVisible = false;
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LabelStyle.Format = "dd MMM";
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -108,7 +108,7 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.Alignment = System.Drawing.StringAlignment.Center;
             legend1.BackColor = System.Drawing.Color.Transparent;
             legendItem1.Color = System.Drawing.Color.Red;
@@ -118,13 +118,13 @@ namespace ChartSamples
             legend1.CustomItems.Add(legendItem1);
             legend1.CustomItems.Add(legendItem2);
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 45);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 45);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.RangeBar;
@@ -143,130 +143,130 @@ namespace ChartSamples
             series2.Name = "Actual";
             series2.YValuesPerPoint = 2;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "3D Range Bar Chart";
-            this.chart1.Titles.Add(title1);
-            this.chart1.PostPaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.chart1_PostPaint);
+            chart1.Titles.Add(title1);
+            chart1.PostPaint += new EventHandler<ChartPaintEventArgs>(chart1_PostPaint);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 29);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates a 3D Range Bar chart.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 29);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates a 3D Range Bar chart.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.Rotation);
-            this.panel1.Controls.Add(this.Inclination);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(432, 53);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 280);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(Rotation);
+            panel1.Controls.Add(Inclination);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(432, 53);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 280);
+            panel1.TabIndex = 2;
             // 
             // Rotation
             // 
-            this.Rotation.Increment = new decimal([
+            Rotation.Increment = new decimal([
             10,
             0,
             0,
             0]);
-            this.Rotation.Location = new System.Drawing.Point(168, 56);
-            this.Rotation.Maximum = new decimal([
+            Rotation.Location = new Point(168, 56);
+            Rotation.Maximum = new decimal([
             1000,
             0,
             0,
             0]);
-            this.Rotation.Minimum = new decimal([
+            Rotation.Minimum = new decimal([
             1000,
             0,
             0,
             -2147483648]);
-            this.Rotation.Name = "Rotation";
-            this.Rotation.Size = new System.Drawing.Size(64, 22);
-            this.Rotation.TabIndex = 3;
-            this.Rotation.Value = new decimal([
+            Rotation.Name = "Rotation";
+            Rotation.Size = new Size(64, 22);
+            Rotation.TabIndex = 3;
+            Rotation.Value = new decimal([
             10,
             0,
             0,
             0]);
-            this.Rotation.ValueChanged += new System.EventHandler(this.Rotation_ValueChanged);
+            Rotation.ValueChanged += new EventHandler(Rotation_ValueChanged);
             // 
             // Inclination
             // 
-            this.Inclination.Increment = new decimal([
+            Inclination.Increment = new decimal([
             10,
             0,
             0,
             0]);
-            this.Inclination.Location = new System.Drawing.Point(168, 16);
-            this.Inclination.Maximum = new decimal([
+            Inclination.Location = new Point(168, 16);
+            Inclination.Maximum = new decimal([
             1000,
             0,
             0,
             0]);
-            this.Inclination.Minimum = new decimal([
+            Inclination.Minimum = new decimal([
             1000,
             0,
             0,
             -2147483648]);
-            this.Inclination.Name = "Inclination";
-            this.Inclination.Size = new System.Drawing.Size(64, 22);
-            this.Inclination.TabIndex = 1;
-            this.Inclination.Value = new decimal([
+            Inclination.Name = "Inclination";
+            Inclination.Size = new Size(64, 22);
+            Inclination.TabIndex = 1;
+            Inclination.Value = new decimal([
             15,
             0,
             0,
             0]);
-            this.Inclination.ValueChanged += new System.EventHandler(this.Inclination_ValueChanged);
+            Inclination.ValueChanged += new EventHandler(Inclination_ValueChanged);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(40, 56);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 23);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Rotate &Y:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(40, 56);
+            label2.Name = "label2";
+            label2.Size = new Size(120, 23);
+            label2.TabIndex = 2;
+            label2.Text = "Rotate &Y:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(40, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Rotate &X:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            label1.Location = new Point(40, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(120, 23);
+            label1.TabIndex = 0;
+            label1.Text = "Rotate &X:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Click += new EventHandler(label1_Click);
             // 
             // RangeBar3D
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "Range Bar 3D";
-            this.Size = new System.Drawing.Size(728, 424);
-            this.Load += new System.EventHandler(this.RangeBar3D_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Rotation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Inclination)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "Range Bar 3D";
+            Size = new Size(728, 424);
+            Load += new EventHandler(RangeBar3D_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Rotation)).EndInit();
+            ((ISupportInitialize)(Inclination)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -359,7 +359,7 @@ namespace ChartSamples
 			}
 		}
 		
-		private void chart1_PostPaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void chart1_PostPaint(object sender, ChartPaintEventArgs e)
 		{
 			if(sender is ChartArea)
 			{
@@ -471,12 +471,12 @@ namespace ChartSamples
 
 		}
 		
-		private void RangeBar3D_Load(object sender, System.EventArgs e)
+		private void RangeBar3D_Load(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void Inclination_ValueChanged(object sender, System.EventArgs e)
+		private void Inclination_ValueChanged(object sender, EventArgs e)
 		{
 			
 			if(Inclination.Value > 90)
@@ -492,7 +492,7 @@ namespace ChartSamples
 			
 		}
 
-		private void Rotation_ValueChanged(object sender, System.EventArgs e)
+		private void Rotation_ValueChanged(object sender, EventArgs e)
 		{
 			if(Rotation.Value > 44)
 				Rotation.Value = 44;
@@ -501,7 +501,7 @@ namespace ChartSamples
 			chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;			
 		}
 
-		private void label1_Click(object sender, System.EventArgs e)
+		private void label1_Click(object sender, EventArgs e)
 		{
 		
 		}

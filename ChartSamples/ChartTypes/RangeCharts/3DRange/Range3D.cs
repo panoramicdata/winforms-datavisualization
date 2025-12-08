@@ -11,25 +11,25 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for Range3D.
 	/// </summary>
-	public class Range3D : System.Windows.Forms.UserControl
+	public class Range3D : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxLineTension;
-		private System.Windows.Forms.ComboBox comboBoxChartType;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
-		private System.Windows.Forms.CheckBox ShowMarkerLines;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ComboBox LightingType;
-        private System.Windows.Forms.CheckBox UsePerspective;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label2;
+		private Label label1;
+		private ComboBox comboBoxLineTension;
+		private ComboBox comboBoxChartType;
+		private CheckBox checkBoxShowMargin;
+		private CheckBox ShowMarkerLines;
+		private Label label3;
+		private ComboBox LightingType;
+        private CheckBox UsePerspective;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public Range3D()
 		{
@@ -62,35 +62,35 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.UsePerspective = new System.Windows.Forms.CheckBox();
-            this.LightingType = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.ShowMarkerLines = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowMargin = new System.Windows.Forms.CheckBox();
-            this.comboBoxLineTension = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBoxChartType = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Series series2 = new Series();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            UsePerspective = new CheckBox();
+            LightingType = new ComboBox();
+            label3 = new Label();
+            ShowMarkerLines = new CheckBox();
+            checkBoxShowMargin = new CheckBox();
+            comboBoxLineTension = new ComboBox();
+            label2 = new Label();
+            comboBoxChartType = new ComboBox();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Enable3D = true;
             chartArea1.Area3DStyle.Inclination = 32;
             chartArea1.Area3DStyle.IsClustered = true;
@@ -99,10 +99,10 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 29;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsMarginVisible = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -115,15 +115,15 @@ namespace ChartSamples
             chartArea1.Position.Width = 99F;
             chartArea1.Position.Y = 2F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 48);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 48);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
@@ -142,150 +142,150 @@ namespace ChartSamples
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series2.YValuesPerPoint = 2;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 0);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 42);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates Range and Spline Range chart types. The Spline Range cha" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 0);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 42);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates Range and Spline Range chart types. The Spline Range cha" +
                 "rt supports line tension adjustment. ";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.UsePerspective);
-            this.panel1.Controls.Add(this.LightingType);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.ShowMarkerLines);
-            this.panel1.Controls.Add(this.checkBoxShowMargin);
-            this.panel1.Controls.Add(this.comboBoxLineTension);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboBoxChartType);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 280);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(UsePerspective);
+            panel1.Controls.Add(LightingType);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(ShowMarkerLines);
+            panel1.Controls.Add(checkBoxShowMargin);
+            panel1.Controls.Add(comboBoxLineTension);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(comboBoxChartType);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 280);
+            panel1.TabIndex = 2;
             // 
             // UsePerspective
             // 
-            this.UsePerspective.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.UsePerspective.Location = new System.Drawing.Point(-2, 168);
-            this.UsePerspective.Name = "UsePerspective";
-            this.UsePerspective.Size = new System.Drawing.Size(184, 24);
-            this.UsePerspective.TabIndex = 8;
-            this.UsePerspective.Text = "Use 10% &Perspective:";
-            this.UsePerspective.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.UsePerspective.CheckedChanged += new System.EventHandler(this.UsePerspective_CheckedChanged);
+            UsePerspective.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            UsePerspective.Location = new Point(-2, 168);
+            UsePerspective.Name = "UsePerspective";
+            UsePerspective.Size = new Size(184, 24);
+            UsePerspective.TabIndex = 8;
+            UsePerspective.Text = "Use 10% &Perspective:";
+            UsePerspective.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            UsePerspective.CheckedChanged += new EventHandler(UsePerspective_CheckedChanged);
             // 
             // LightingType
             // 
-            this.LightingType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.LightingType.Items.AddRange([
+            LightingType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            LightingType.Items.AddRange([
             "None",
             "Simplistic",
             "Realistic"]);
-            this.LightingType.Location = new System.Drawing.Point(168, 72);
-            this.LightingType.Name = "LightingType";
-            this.LightingType.Size = new System.Drawing.Size(112, 22);
-            this.LightingType.TabIndex = 5;
-            this.LightingType.SelectedIndexChanged += new System.EventHandler(this.LightingType_SelectedIndexChanged);
+            LightingType.Location = new Point(168, 72);
+            LightingType.Name = "LightingType";
+            LightingType.Size = new Size(112, 22);
+            LightingType.TabIndex = 5;
+            LightingType.SelectedIndexChanged += new EventHandler(LightingType_SelectedIndexChanged);
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(28, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(136, 23);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "L&ighting:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Location = new Point(28, 72);
+            label3.Name = "label3";
+            label3.Size = new Size(136, 23);
+            label3.TabIndex = 4;
+            label3.Text = "L&ighting:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ShowMarkerLines
             // 
-            this.ShowMarkerLines.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ShowMarkerLines.Location = new System.Drawing.Point(-2, 136);
-            this.ShowMarkerLines.Name = "ShowMarkerLines";
-            this.ShowMarkerLines.Size = new System.Drawing.Size(184, 24);
-            this.ShowMarkerLines.TabIndex = 7;
-            this.ShowMarkerLines.Text = "Show Marker &Lines:";
-            this.ShowMarkerLines.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ShowMarkerLines.CheckedChanged += new System.EventHandler(this.ShowMarkerLines_CheckedChanged);
+            ShowMarkerLines.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            ShowMarkerLines.Location = new Point(-2, 136);
+            ShowMarkerLines.Name = "ShowMarkerLines";
+            ShowMarkerLines.Size = new Size(184, 24);
+            ShowMarkerLines.TabIndex = 7;
+            ShowMarkerLines.Text = "Show Marker &Lines:";
+            ShowMarkerLines.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            ShowMarkerLines.CheckedChanged += new EventHandler(ShowMarkerLines_CheckedChanged);
             // 
             // checkBoxShowMargin
             // 
-            this.checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMargin.Location = new System.Drawing.Point(-2, 104);
-            this.checkBoxShowMargin.Name = "checkBoxShowMargin";
-            this.checkBoxShowMargin.Size = new System.Drawing.Size(184, 24);
-            this.checkBoxShowMargin.TabIndex = 6;
-            this.checkBoxShowMargin.Text = "Show X Axis &Margin:";
-            this.checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
+            checkBoxShowMargin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMargin.Location = new Point(-2, 104);
+            checkBoxShowMargin.Name = "checkBoxShowMargin";
+            checkBoxShowMargin.Size = new Size(184, 24);
+            checkBoxShowMargin.TabIndex = 6;
+            checkBoxShowMargin.Text = "Show X Axis &Margin:";
+            checkBoxShowMargin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowMargin.CheckedChanged += new EventHandler(checkBoxShowMargin_CheckedChanged);
             // 
             // comboBoxLineTension
             // 
-            this.comboBoxLineTension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLineTension.Items.AddRange([
+            comboBoxLineTension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxLineTension.Items.AddRange([
             "1.2",
             "0.8",
             "0.4",
             "0.2"]);
-            this.comboBoxLineTension.Location = new System.Drawing.Point(168, 40);
-            this.comboBoxLineTension.Name = "comboBoxLineTension";
-            this.comboBoxLineTension.Size = new System.Drawing.Size(112, 22);
-            this.comboBoxLineTension.TabIndex = 3;
-            this.comboBoxLineTension.SelectedIndexChanged += new System.EventHandler(this.comboBoxLineTension_SelectedIndexChanged);
+            comboBoxLineTension.Location = new Point(168, 40);
+            comboBoxLineTension.Name = "comboBoxLineTension";
+            comboBoxLineTension.Size = new Size(112, 22);
+            comboBoxLineTension.TabIndex = 3;
+            comboBoxLineTension.SelectedIndexChanged += new EventHandler(comboBoxLineTension_SelectedIndexChanged);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(4, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 23);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Spline &Tension:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(4, 40);
+            label2.Name = "label2";
+            label2.Size = new Size(160, 23);
+            label2.TabIndex = 2;
+            label2.Text = "Spline &Tension:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxChartType
             // 
-            this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChartType.Items.AddRange([
+            comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxChartType.Items.AddRange([
             "Spline Range",
             "Range"]);
-            this.comboBoxChartType.Location = new System.Drawing.Point(168, 8);
-            this.comboBoxChartType.Name = "comboBoxChartType";
-            this.comboBoxChartType.Size = new System.Drawing.Size(112, 22);
-            this.comboBoxChartType.TabIndex = 1;
-            this.comboBoxChartType.SelectedIndexChanged += new System.EventHandler(this.comboBoxLineTension_SelectedIndexChanged);
+            comboBoxChartType.Location = new Point(168, 8);
+            comboBoxChartType.Name = "comboBoxChartType";
+            comboBoxChartType.Size = new Size(112, 22);
+            comboBoxChartType.TabIndex = 1;
+            comboBoxChartType.SelectedIndexChanged += new EventHandler(comboBoxLineTension_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(4, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(160, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Chart &Type:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(4, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(160, 23);
+            label1.TabIndex = 0;
+            label1.Text = "Chart &Type:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Range3D
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "Range3D";
-            this.Size = new System.Drawing.Size(728, 384);
-            this.Load += new System.EventHandler(this.Range3D_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "Range3D";
+            Size = new Size(728, 384);
+            Load += new EventHandler(Range3D_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -337,7 +337,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void Range3D_Load(object sender, System.EventArgs e)
+		private void Range3D_Load(object sender, EventArgs e)
 		{
 			// Populate series data with data
 			double[]	yValue11 = [56, 74, 45, 59, 34, 87, 50, 87, 64, 34];
@@ -354,27 +354,27 @@ namespace ChartSamples
 			LightingType.SelectedIndex = 2;
 		}
 
-		private void comboBoxLineTension_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxLineTension_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShowMargin_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void ShowMarkerLines_CheckedChanged(object sender, System.EventArgs e)
+		private void ShowMarkerLines_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void LightingType_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void LightingType_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void UsePerspective_CheckedChanged(object sender, System.EventArgs e)
+		private void UsePerspective_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}

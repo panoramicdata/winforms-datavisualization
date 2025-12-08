@@ -2467,7 +2467,7 @@ public partial class ChartArea : ChartNamedElement
 			//*****************************************************************
 			SizeF textSize = chartGraph.MeasureString(
 				axis.Title.Replace("\\n", "\n"),
-				(AxisX.autoLabelFont == null) ? AxisX.LabelStyle.Font : AxisX.autoLabelFont);
+AxisX.autoLabelFont ?? AxisX.LabelStyle.Font);
 			textSize.Width = (float)Math.Ceiling(textSize.Width * 1.1f);
 			textSize.Height = (float)Math.Ceiling(textSize.Height * 1.1f);
 

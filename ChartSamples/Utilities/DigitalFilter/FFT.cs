@@ -1,4 +1,4 @@
-//=================================================================
+﻿//=================================================================
 //  File:		FFT.cs
 //
 //  Namespace:	System.Windows.Forms.DataVisualization.Charting.Utilities
@@ -9,7 +9,7 @@
 //
 //===================================================================
 // Chart Control for .NET Framework
-// Copyright � Microsoft Corporation, all rights reserved
+// Copyright © Microsoft Corporation, all rights reserved
 //===================================================================
 
 using System;
@@ -129,16 +129,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             Rate = 8000;
 
             //default attenuation to 60db
-            this.myAttenuation = 60;
+            myAttenuation = 60;
 
             //default transition band to 500hz
-            this.myBand = 500;
+            myBand = 500;
 
             //default order to 0 so that we'll know if it was changed by the user or not
-            this.myOrder = 0;
+            myOrder = 0;
 
             //default Alpha to 4
-            this.myAlpha = 4;
+            myAlpha = 4;
         }
         #endregion
 
@@ -188,15 +188,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         public float[] GenerateCoefficients(FilterType filterType, Algorithm alg)
         {
             //Calculate order if it hasn't been set
-            if (this.myOrder == 0)
-                this.myOrder = (int)(((this.myAttenuation - 7.95f) / (this.myBand * 14.36f / this.myFS) + 1.0f) * 2.0f) - 1;
+            if (myOrder == 0)
+                myOrder = (int)(((myAttenuation - 7.95f) / (myBand * 14.36f / myFS) + 1.0f) * 2.0f) - 1;
 
-            float[] window = new float[(this.myOrder / 2) + 1];
-            float[] coEff = new float[this.myOrder + 1];
+            float[] window = new float[(myOrder / 2) + 1];
+            float[] coEff = new float[myOrder + 1];
             float ps;
             float pe;
             const float PI = (float)System.Math.PI;
-            int o2 = this.myOrder / 2;
+            int o2 = myOrder / 2;
 
             //Switch based on algorithm
             switch (alg)
@@ -205,7 +205,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     //Kaiser Window function
                     for (int i = 1; i <= o2; i++)
                     {
-                        window[i] = Bessel(this.myAlpha * (float)System.Math.Sqrt(1.0f - (float)System.Math.Pow((float)i / o2, 2))) / Bessel(this.myAlpha);
+                        window[i] = Bessel(myAlpha * (float)System.Math.Sqrt(1.0f - (float)System.Math.Pow((float)i / o2, 2))) / Bessel(myAlpha);
                     }
 
                     //Stopband attenuation and transition band should be set by the user
@@ -219,10 +219,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     }
 
                     //Set the min stopband attenuation
-                    this.StopBandAttenuation = 44.0f;
+                    StopBandAttenuation = 44.0f;
 
                     //Set the transition band
-                    this.TransitionBand = 6.22f * this.myFS / this.myOrder;
+                    TransitionBand = 6.22f * myFS / myOrder;
                     break;
 
                 case Algorithm.Hamming:
@@ -233,10 +233,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     }
 
                     //Set the min stopband attenuation
-                    this.StopBandAttenuation = 53.0f;
+                    StopBandAttenuation = 53.0f;
 
                     //Set the transition band
-                    this.TransitionBand = 6.64f * this.myFS / this.myOrder;
+                    TransitionBand = 6.64f * myFS / myOrder;
                     break;
 
                 case Algorithm.Blackman:
@@ -247,10 +247,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     }
 
                     //Set the min stopband attenuation
-                    this.StopBandAttenuation = 74.0f;
+                    StopBandAttenuation = 74.0f;
 
                     //Set the transition band
-                    this.TransitionBand = 11.13f * this.myFS / this.myOrder;
+                    TransitionBand = 11.13f * myFS / myOrder;
                     break;
 
                 case Algorithm.Rectangular:
@@ -261,10 +261,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                     }
 
                     //Set the min stopband attenuation
-                    this.StopBandAttenuation = 21.0f;
+                    StopBandAttenuation = 21.0f;
 
                     //Set the transition band
-                    this.TransitionBand = 1.84f * this.myFS / this.myOrder;
+                    TransitionBand = 1.84f * myFS / myOrder;
                     break;
 
                 default:
@@ -280,17 +280,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             switch (filterType)
             {
                 case FilterType.BandPass:
-                    pe = PI / 2 * (this.FreqTo - this.FreqFrom + this.myBand) / this.myFS;
-                    ps = PI / 2 * (this.FreqFrom + this.FreqTo) / this.myFS;
+                    pe = PI / 2 * (FreqTo - FreqFrom + myBand) / myFS;
+                    ps = PI / 2 * (FreqFrom + FreqTo) / myFS;
                     break;
 
                 case FilterType.LowPass:
-                    pe = PI * (this.FreqTo + this.myBand / 2) / this.myFS;
+                    pe = PI * (FreqTo + myBand / 2) / myFS;
                     ps = 0.0f;
                     break;
 
                 case FilterType.HighPass:
-                    pe = PI * (1.0f - (this.FreqFrom - this.myBand / 2) / this.myFS);
+                    pe = PI * (1.0f - (FreqFrom - myBand / 2) / myFS);
                     ps = PI;
                     break;
 
@@ -310,13 +310,13 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             }
 
             //Shift Impulse
-            for (int i = o2 + 1; i <= this.myOrder; i++)
+            for (int i = o2 + 1; i <= myOrder; i++)
             {
                 coEff[i] = coEff[i - o2];
             }
             for (int i = 0; i <= o2 - 1; i++)
             {
-                coEff[i] = coEff[this.myOrder - i];
+                coEff[i] = coEff[myOrder - i];
             }
             coEff[o2] = pe / PI;
 

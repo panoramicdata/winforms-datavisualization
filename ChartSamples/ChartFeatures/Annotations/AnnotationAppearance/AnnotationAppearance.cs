@@ -11,31 +11,31 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AnnotationAppearance.
 	/// </summary>
-	public class AnnotationAppearance : System.Windows.Forms.UserControl
+	public class AnnotationAppearance : UserControl
 	{
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox LineColor;
-		private System.Windows.Forms.ComboBox LineDashStyle;
-		private System.Windows.Forms.ComboBox FontName;
-		private System.Windows.Forms.ComboBox FontSize;
-		private System.Windows.Forms.Label FontLabel;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.ComboBox FontColorCombo;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ComboBox FontStyle;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox AnnotationBackColor;
-		private System.Windows.Forms.ComboBox Shadow;
-		private System.Windows.Forms.Label label2;
+		private Label label6;
+		private Label label7;
+		private Label label8;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private ComboBox LineColor;
+		private ComboBox LineDashStyle;
+		private ComboBox FontName;
+		private ComboBox FontSize;
+		private Label FontLabel;
+		private Label label4;
+		private ComboBox FontColorCombo;
+		private Label label3;
+		private ComboBox FontStyle;
+		private Label label1;
+		private ComboBox AnnotationBackColor;
+		private ComboBox Shadow;
+		private Label label2;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public AnnotationAppearance()
 		{
@@ -45,19 +45,19 @@ namespace ChartSamples
 			
 			
 			// Add Border styles to control.
-			foreach(string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
+			foreach(string lineName in Enum.GetNames(typeof(ChartDashStyle)))
 			{
-				this.LineDashStyle.Items.Add(lineName);
+				LineDashStyle.Items.Add(lineName);
 			}
 
-			this.LineDashStyle.SelectedIndex = 5;
-			this.Shadow.SelectedIndex = 2;
-			this.FontSize.SelectedIndex = 0;
-			this.FontName.SelectedIndex = 3;
-			this.AnnotationBackColor.SelectedIndex = 0;
-			this.FontStyle.SelectedIndex = 0;
-			this.FontColorCombo.SelectedIndex = 0;
-			this.LineColor.SelectedIndex = 1;
+			LineDashStyle.SelectedIndex = 5;
+			Shadow.SelectedIndex = 2;
+			FontSize.SelectedIndex = 0;
+			FontName.SelectedIndex = 3;
+			AnnotationBackColor.SelectedIndex = 0;
+			FontStyle.SelectedIndex = 0;
+			FontColorCombo.SelectedIndex = 0;
+			LineColor.SelectedIndex = 1;
 
 		}
 
@@ -83,48 +83,48 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation calloutAnnotation2 = new System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 700);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 600);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 800);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 450);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 700);
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 450);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 500);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 400);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 600);
-            this.LineColor = new System.Windows.Forms.ComboBox();
-            this.LineDashStyle = new System.Windows.Forms.ComboBox();
-            this.Shadow = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.AnnotationBackColor = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.FontStyle = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.FontColorCombo = new System.Windows.Forms.ComboBox();
-            this.FontLabel = new System.Windows.Forms.Label();
-            this.FontSize = new System.Windows.Forms.ComboBox();
-            this.FontName = new System.Windows.Forms.ComboBox();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			CalloutAnnotation calloutAnnotation2 = new CalloutAnnotation();
+			ChartArea chartArea2 = new ChartArea();
+			Legend legend2 = new Legend();
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(0, 700);
+			DataPoint dataPoint12 = new DataPoint(0, 600);
+			DataPoint dataPoint13 = new DataPoint(0, 800);
+			DataPoint dataPoint14 = new DataPoint(0, 450);
+			DataPoint dataPoint15 = new DataPoint(0, 700);
+			Series series4 = new Series();
+			DataPoint dataPoint16 = new DataPoint(0, 450);
+			DataPoint dataPoint17 = new DataPoint(0, 300);
+			DataPoint dataPoint18 = new DataPoint(0, 500);
+			DataPoint dataPoint19 = new DataPoint(0, 400);
+			DataPoint dataPoint20 = new DataPoint(0, 600);
+            LineColor = new ComboBox();
+            LineDashStyle = new ComboBox();
+            Shadow = new ComboBox();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            label9 = new Label();
+            panel1 = new Panel();
+            label2 = new Label();
+            label1 = new Label();
+            AnnotationBackColor = new ComboBox();
+            label3 = new Label();
+            FontStyle = new ComboBox();
+            label4 = new Label();
+            FontColorCombo = new ComboBox();
+            FontLabel = new Label();
+            FontSize = new ComboBox();
+            FontName = new ComboBox();
+            Chart1 = new Chart();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // LineColor
             // 
-            this.LineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.LineColor.Items.AddRange([
+            LineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            LineColor.Items.AddRange([
             "Black",
             "DimGray",
             "Gainsboro",
@@ -133,169 +133,169 @@ namespace ChartSamples
             "Magenta",
             "Purple",
             "Orange"]);
-            this.LineColor.Location = new System.Drawing.Point(168, 40);
-            this.LineColor.Name = "LineColor";
-            this.LineColor.Size = new System.Drawing.Size(121, 22);
-            this.LineColor.TabIndex = 3;
-            this.LineColor.SelectedIndexChanged += new System.EventHandler(this.LineColor_SelectedIndexChanged);
+            LineColor.Location = new Point(168, 40);
+            LineColor.Name = "LineColor";
+            LineColor.Size = new Size(121, 22);
+            LineColor.TabIndex = 3;
+            LineColor.SelectedIndexChanged += new EventHandler(LineColor_SelectedIndexChanged);
             // 
             // LineDashStyle
             // 
-            this.LineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.LineDashStyle.Location = new System.Drawing.Point(168, 8);
-            this.LineDashStyle.Name = "LineDashStyle";
-            this.LineDashStyle.Size = new System.Drawing.Size(121, 22);
-            this.LineDashStyle.TabIndex = 1;
-            this.LineDashStyle.SelectedIndexChanged += new System.EventHandler(this.LineDashStyle_SelectedIndexChanged);
+            LineDashStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            LineDashStyle.Location = new Point(168, 8);
+            LineDashStyle.Name = "LineDashStyle";
+            LineDashStyle.Size = new Size(121, 22);
+            LineDashStyle.TabIndex = 1;
+            LineDashStyle.SelectedIndexChanged += new EventHandler(LineDashStyle_SelectedIndexChanged);
             // 
             // Shadow
             // 
-            this.Shadow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Shadow.Items.AddRange([
+            Shadow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            Shadow.Items.AddRange([
             "0",
             "1",
             "2",
             "3",
             "4"]);
-            this.Shadow.Location = new System.Drawing.Point(168, 72);
-            this.Shadow.Name = "Shadow";
-            this.Shadow.Size = new System.Drawing.Size(121, 22);
-            this.Shadow.TabIndex = 5;
-            this.Shadow.SelectedIndexChanged += new System.EventHandler(this.Shadow_SelectedIndexChanged);
+            Shadow.Location = new Point(168, 72);
+            Shadow.Name = "Shadow";
+            Shadow.Size = new Size(121, 22);
+            Shadow.TabIndex = 5;
+            Shadow.SelectedIndexChanged += new EventHandler(Shadow_SelectedIndexChanged);
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(-16, 8);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(176, 23);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Line &Style:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label6.Location = new Point(-16, 8);
+            label6.Name = "label6";
+            label6.Size = new Size(176, 23);
+            label6.TabIndex = 0;
+            label6.Text = "Line &Style:";
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(-16, 40);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(176, 23);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Line &Color:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            label7.Location = new Point(-16, 40);
+            label7.Name = "label7";
+            label7.Size = new Size(176, 23);
+            label7.TabIndex = 2;
+            label7.Text = "Line &Color:";
+            label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label7.Click += new EventHandler(label7_Click);
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(-16, 72);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(176, 23);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "&Shadow:";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label8.Location = new Point(-16, 72);
+            label8.Name = "label8";
+            label8.Size = new Size(176, 23);
+            label8.TabIndex = 4;
+            label8.Text = "&Shadow:";
+            label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 34);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "This sample demonstrates how to set the appearance properties of an Annotation ob" +
+            label9.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 34);
+            label9.TabIndex = 0;
+            label9.Text = "This sample demonstrates how to set the appearance properties of an Annotation ob" +
                 "ject. ";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.AnnotationBackColor);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.FontStyle);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.FontColorCombo);
-            this.panel1.Controls.Add(this.FontLabel);
-            this.panel1.Controls.Add(this.FontSize);
-            this.panel1.Controls.Add(this.FontName);
-            this.panel1.Controls.Add(this.LineDashStyle);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.Shadow);
-            this.panel1.Controls.Add(this.LineColor);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(AnnotationBackColor);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(FontStyle);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(FontColorCombo);
+            panel1.Controls.Add(FontLabel);
+            panel1.Controls.Add(FontSize);
+            panel1.Controls.Add(FontName);
+            panel1.Controls.Add(LineDashStyle);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(label8);
+            panel1.Controls.Add(Shadow);
+            panel1.Controls.Add(LineColor);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(24, 136);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(136, 23);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "F&ont Size:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(24, 136);
+            label2.Name = "label2";
+            label2.Size = new Size(136, 23);
+            label2.TabIndex = 8;
+            label2.Text = "F&ont Size:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(-16, 232);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 23);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "&Back Color:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(-16, 232);
+            label1.Name = "label1";
+            label1.Size = new Size(176, 23);
+            label1.TabIndex = 14;
+            label1.Text = "&Back Color:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // AnnotationBackColor
             // 
-            this.AnnotationBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AnnotationBackColor.Items.AddRange([
+            AnnotationBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AnnotationBackColor.Items.AddRange([
             "LightYellow",
             "White",
             "Yellow",
             "Gainsboro",
             "Silver",
             "BurlyWood"]);
-            this.AnnotationBackColor.Location = new System.Drawing.Point(168, 232);
-            this.AnnotationBackColor.Name = "AnnotationBackColor";
-            this.AnnotationBackColor.Size = new System.Drawing.Size(121, 22);
-            this.AnnotationBackColor.TabIndex = 15;
-            this.AnnotationBackColor.SelectedIndexChanged += new System.EventHandler(this.BackColor_SelectedIndexChanged);
+            AnnotationBackColor.Location = new Point(168, 232);
+            AnnotationBackColor.Name = "AnnotationBackColor";
+            AnnotationBackColor.Size = new Size(121, 22);
+            AnnotationBackColor.TabIndex = 15;
+            AnnotationBackColor.SelectedIndexChanged += new EventHandler(BackColor_SelectedIndexChanged);
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(-16, 200);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(176, 23);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Font St&yle:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Location = new Point(-16, 200);
+            label3.Name = "label3";
+            label3.Size = new Size(176, 23);
+            label3.TabIndex = 12;
+            label3.Text = "Font St&yle:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FontStyle
             // 
-            this.FontStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FontStyle.Items.AddRange([
+            FontStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            FontStyle.Items.AddRange([
             "Default",
             "Shadow",
             "Emboss",
             "Embed",
             "Frame"]);
-            this.FontStyle.Location = new System.Drawing.Point(168, 200);
-            this.FontStyle.Name = "FontStyle";
-            this.FontStyle.Size = new System.Drawing.Size(121, 22);
-            this.FontStyle.TabIndex = 13;
-            this.FontStyle.SelectedIndexChanged += new System.EventHandler(this.FontStyle_SelectedIndexChanged);
+            FontStyle.Location = new Point(168, 200);
+            FontStyle.Name = "FontStyle";
+            FontStyle.Size = new Size(121, 22);
+            FontStyle.TabIndex = 13;
+            FontStyle.SelectedIndexChanged += new EventHandler(FontStyle_SelectedIndexChanged);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(-16, 168);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(176, 23);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Fo&nt Color:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label4.Location = new Point(-16, 168);
+            label4.Name = "label4";
+            label4.Size = new Size(176, 23);
+            label4.TabIndex = 10;
+            label4.Text = "Fo&nt Color:";
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FontColorCombo
             // 
-            this.FontColorCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FontColorCombo.Items.AddRange([
+            FontColorCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            FontColorCombo.Items.AddRange([
             "Black",
             "DimGray",
             "Gainsboro",
@@ -304,48 +304,48 @@ namespace ChartSamples
             "Magenta",
             "Purple",
             "Orange"]);
-            this.FontColorCombo.Location = new System.Drawing.Point(168, 168);
-            this.FontColorCombo.Name = "FontColorCombo";
-            this.FontColorCombo.Size = new System.Drawing.Size(121, 22);
-            this.FontColorCombo.TabIndex = 11;
-            this.FontColorCombo.SelectedIndexChanged += new System.EventHandler(this.FontColorCombo_SelectedIndexChanged);
+            FontColorCombo.Location = new Point(168, 168);
+            FontColorCombo.Name = "FontColorCombo";
+            FontColorCombo.Size = new Size(121, 22);
+            FontColorCombo.TabIndex = 11;
+            FontColorCombo.SelectedIndexChanged += new EventHandler(FontColorCombo_SelectedIndexChanged);
             // 
             // FontLabel
             // 
-            this.FontLabel.Location = new System.Drawing.Point(-16, 104);
-            this.FontLabel.Name = "FontLabel";
-            this.FontLabel.Size = new System.Drawing.Size(176, 23);
-            this.FontLabel.TabIndex = 6;
-            this.FontLabel.Text = "&Font:";
-            this.FontLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            FontLabel.Location = new Point(-16, 104);
+            FontLabel.Name = "FontLabel";
+            FontLabel.Size = new Size(176, 23);
+            FontLabel.TabIndex = 6;
+            FontLabel.Text = "&Font:";
+            FontLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FontSize
             // 
-            this.FontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FontSize.Items.AddRange([
+            FontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            FontSize.Items.AddRange([
             "8",
             "10",
             "12",
             "14"]);
-            this.FontSize.Location = new System.Drawing.Point(168, 136);
-            this.FontSize.Name = "FontSize";
-            this.FontSize.Size = new System.Drawing.Size(56, 22);
-            this.FontSize.TabIndex = 9;
-            this.FontSize.SelectedIndexChanged += new System.EventHandler(this.FontSize_SelectedIndexChanged);
+            FontSize.Location = new Point(168, 136);
+            FontSize.Name = "FontSize";
+            FontSize.Size = new Size(56, 22);
+            FontSize.TabIndex = 9;
+            FontSize.SelectedIndexChanged += new EventHandler(FontSize_SelectedIndexChanged);
             // 
             // FontName
             // 
-            this.FontName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FontName.Items.AddRange([
+            FontName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            FontName.Items.AddRange([
             "Microsoft Sans Serif",
             "Arial",
             "Times New Roman",
             "Tahoma"]);
-            this.FontName.Location = new System.Drawing.Point(168, 104);
-            this.FontName.Name = "FontName";
-            this.FontName.Size = new System.Drawing.Size(121, 22);
-            this.FontName.TabIndex = 7;
-            this.FontName.SelectedIndexChanged += new System.EventHandler(this.FontName_SelectedIndexChanged);
+            FontName.Location = new Point(168, 104);
+            FontName.Name = "FontName";
+            FontName.Size = new Size(121, 22);
+            FontName.TabIndex = 7;
+            FontName.SelectedIndexChanged += new EventHandler(FontName_SelectedIndexChanged);
             // 
             // Chart1
             // 
@@ -355,13 +355,13 @@ namespace ChartSamples
             calloutAnnotation2.CalloutStyle = System.Windows.Forms.DataVisualization.Charting.CalloutStyle.Cloud;
             calloutAnnotation2.Name = "CloudAnnotation";
             calloutAnnotation2.Text = "Set my Appearance";
-            this.Chart1.Annotations.Add(calloutAnnotation2);
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.Annotations.Add(calloutAnnotation2);
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea2.Area3DStyle.Enable3D = true;
             chartArea2.Area3DStyle.Inclination = 15;
             chartArea2.Area3DStyle.IsClustered = true;
@@ -369,12 +369,12 @@ namespace ChartSamples
             chartArea2.Area3DStyle.Perspective = 10;
             chartArea2.Area3DStyle.Rotation = 10;
             chartArea2.Area3DStyle.WallWidth = 0;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea2.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea2.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.AxisX.MajorGrid.Enabled = false;
             chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.AxisX2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea2.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea2.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.AxisY.MajorGrid.Enabled = false;
             chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -386,15 +386,15 @@ namespace ChartSamples
             chartArea2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea2.Name = "Default";
             chartArea2.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea2);
+            Chart1.ChartAreas.Add(chartArea2);
             legend2.BackColor = System.Drawing.Color.Transparent;
             legend2.Enabled = false;
-            legend2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend2.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend2.IsTextAutoFit = false;
             legend2.Name = "Default";
-            this.Chart1.Legends.Add(legend2);
-            this.Chart1.Location = new System.Drawing.Point(16, 48);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend2);
+            Chart1.Location = new Point(16, 48);
+            Chart1.Name = "Chart1";
             series3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series3.ChartArea = "Default";
             series3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
@@ -415,30 +415,30 @@ namespace ChartSamples
             series4.Points.Add(dataPoint18);
             series4.Points.Add(dataPoint19);
             series4.Points.Add(dataPoint20);
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Series.Add(series4);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 1;
+            Chart1.Series.Add(series3);
+            Chart1.Series.Add(series4);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 1;
             // 
             // AnnotationAppearance
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "AnnotationAppearance";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.AnnotationAppearance_Load);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "AnnotationAppearance";
+            Size = new Size(728, 480);
+            Load += new EventHandler(AnnotationAppearance_Load);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void LineDashStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void LineDashStyle_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].LineDashStyle = 
 				(ChartDashStyle)ChartDashStyle.Parse(typeof(ChartDashStyle), LineDashStyle.SelectedItem.ToString());
@@ -446,57 +446,57 @@ namespace ChartSamples
 		}
 
 
-		private void LineColor_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void LineColor_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].LineColor = Color.FromName(LineColor.SelectedItem.ToString());
 		}
 
 
-		private void AnnotationAppearance_Load(object sender, System.EventArgs e)
+		private void AnnotationAppearance_Load(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void label7_Click(object sender, System.EventArgs e)
+		private void label7_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void label5_Click(object sender, System.EventArgs e)
+		private void label5_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void FontName_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void FontName_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(FontSize.SelectedItem != null)
 				Chart1.Annotations[0].Font = new Font(FontName.SelectedItem.ToString(), float.Parse(FontSize.SelectedItem.ToString()));
 		}
 
-		private void FontSize_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void FontSize_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(FontName.SelectedItem != null)
 				Chart1.Annotations[0].Font = new Font(FontName.SelectedItem.ToString(), float.Parse(FontSize.SelectedItem.ToString()));
 		}
 
-		private void FontColorCombo_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void FontColorCombo_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].ForeColor = Color.FromName(FontColorCombo.SelectedItem.ToString());
 		}
 
-		private void FontStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void FontStyle_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].TextStyle = 
 				(TextStyle)TextStyle.Parse(	typeof(TextStyle), FontStyle.SelectedItem.ToString());
 		}
 
-		private void BackColor_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void BackColor_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].BackColor = Color.FromName(AnnotationBackColor.SelectedItem.ToString());
 		
 		}
 
-		private void Shadow_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void Shadow_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].ShadowOffset = int.Parse(Shadow.SelectedItem.ToString());
 		

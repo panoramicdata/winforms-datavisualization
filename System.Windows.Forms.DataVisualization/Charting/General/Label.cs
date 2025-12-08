@@ -963,7 +963,7 @@ public class LabelStyle : ChartElement
 				{
 					graph.DrawString(
 						circAxis.Title.Replace("\\n", "\n"),
-						(_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+_axis.autoLabelFont ?? _font,
 						brush,
 						labelPosition[0],
 						format);
@@ -972,7 +972,7 @@ public class LabelStyle : ChartElement
 				// Process selection region 
 				if (_axis.Common.ProcessModeRegions)
 				{
-					SizeF size = graph.MeasureString(circAxis.Title.Replace("\\n", "\n"), (_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont);
+					SizeF size = graph.MeasureString(circAxis.Title.Replace("\\n", "\n"), _axis.autoLabelFont ?? _font);
 					RectangleF labelRect = GetLabelPosition(
 						labelPosition[0],
 						size,
@@ -1508,7 +1508,7 @@ public class LabelStyle : ChartElement
 					label.Text,
 					label.Image,
 					label.ImageTransparentColor,
-					(_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+_axis.autoLabelFont ?? _font,
 					brush,
 					rect,
 					format,
@@ -2242,7 +2242,7 @@ public class LabelStyle : ChartElement
 						label.Text,
 						label.Image,
 						label.ImageTransparentColor,
-						(_axis.autoLabelFont == null) ? _font : _axis.autoLabelFont,
+_axis.autoLabelFont ?? _font,
 						brush,
 						rect,
 						format,

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,18 +11,18 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for ScrollBarEvents.
 	/// </summary>
-	public class ScrollBarEvents : System.Windows.Forms.UserControl
+	public class ScrollBarEvents : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox checkBoxResetBoth;
-		private System.Windows.Forms.Label label1;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private CheckBox checkBoxResetBoth;
+		private Label label1;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public ScrollBarEvents()
 		{
@@ -55,28 +55,28 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScrollBarEvents));
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxResetBoth = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(ScrollBarEvents));
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkBoxResetBoth = new CheckBox();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -84,7 +84,7 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.ScaleView.Position = 10;
@@ -92,7 +92,7 @@ namespace ChartSamples
             chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Silver;
             chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.ScaleView.Position = 10;
@@ -122,15 +122,15 @@ namespace ChartSamples
             chartArea1.Position.X = 5F;
             chartArea1.Position.Y = 5F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 61);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 61);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.BorderWidth = 3;
             series1.ChartArea = "Default";
@@ -139,69 +139,69 @@ namespace ChartSamples
             series1.Name = "Default";
             series1.ShadowColor = System.Drawing.Color.Black;
             series1.ShadowOffset = 1;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 0;
-            this.chart1.AxisScrollBarClicked += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ScrollBarEventArgs>(this.chart1_AxisScrollBarClicked);
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 0;
+            chart1.AxisScrollBarClicked += new EventHandler<ScrollBarEventArgs>(chart1_AxisScrollBarClicked);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 45);
-            this.labelSampleComment.TabIndex = 2;
-            this.labelSampleComment.Text = "This sample demonstrates how to extend the standard functionality of the scroll b" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 45);
+            labelSampleComment.TabIndex = 2;
+            labelSampleComment.Text = "This sample demonstrates how to extend the standard functionality of the scroll b" +
                 "ar using the AxisScrollBarClicked event.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxResetBoth);
-            this.panel1.Location = new System.Drawing.Point(432, 61);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 1;
+            panel1.Controls.Add(checkBoxResetBoth);
+            panel1.Location = new Point(432, 61);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 1;
             // 
             // checkBoxResetBoth
             // 
-            this.checkBoxResetBoth.Checked = true;
-            this.checkBoxResetBoth.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxResetBoth.Location = new System.Drawing.Point(48, 8);
-            this.checkBoxResetBoth.Name = "checkBoxResetBoth";
-            this.checkBoxResetBoth.Size = new System.Drawing.Size(216, 24);
-            this.checkBoxResetBoth.TabIndex = 0;
-            this.checkBoxResetBoth.Text = "&Reset Zoom for Both Axis";
+            checkBoxResetBoth.Checked = true;
+            checkBoxResetBoth.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxResetBoth.Location = new Point(48, 8);
+            checkBoxResetBoth.Name = "checkBoxResetBoth";
+            checkBoxResetBoth.Size = new Size(216, 24);
+            checkBoxResetBoth.TabIndex = 0;
+            checkBoxResetBoth.Text = "&Reset Zoom for Both Axis";
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 365);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(702, 56);
-            this.label1.TabIndex = 3;
-            this.label1.Text = resources.GetString("label1.Text");
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(16, 365);
+            label1.Name = "label1";
+            label1.Size = new Size(702, 56);
+            label1.TabIndex = 3;
+            label1.Text = resources.GetString("label1.Text");
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ScrollBarEvents
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "ScrollBarEvents";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.ScrollBarEvents_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "ScrollBarEvents";
+            Size = new Size(728, 480);
+            Load += new EventHandler(ScrollBarEvents_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void ScrollBarEvents_Load(object sender, System.EventArgs e)
+		private void ScrollBarEvents_Load(object sender, EventArgs e)
 		{
 			// Fill chart with random data
 			Random	random = new Random();
@@ -212,7 +212,7 @@ namespace ChartSamples
 
 		}
 
-		private void chart1_AxisScrollBarClicked(object sender, System.Windows.Forms.DataVisualization.Charting.ScrollBarEventArgs e)
+		private void chart1_AxisScrollBarClicked(object sender, ScrollBarEventArgs e)
 		{
 			// Handle zoom reset button
 			if(e.ButtonType == ScrollBarButtonType.ZoomReset && checkBoxResetBoth.Checked)		

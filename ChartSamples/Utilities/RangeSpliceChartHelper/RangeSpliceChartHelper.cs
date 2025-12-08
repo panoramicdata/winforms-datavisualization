@@ -62,7 +62,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             topToolTip = "Line Above";
             bottomColor = Color.Transparent;
             topColor = Color.Transparent;
-            this.lineChart = chart;
+            lineChart = chart;
         }
         
         #region Properties
@@ -85,11 +85,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             set
             {
-                this.bottomColor = value;
+                bottomColor = value;
             }
             get
             {
-                return this.bottomColor;
+                return bottomColor;
             }
         }
 
@@ -101,11 +101,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get
             {
-                return this.topColor;
+                return topColor;
             }
             set
             {
-                this.topColor = value;
+                topColor = value;
             }
         }
 
@@ -116,11 +116,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get
             {
-                return this.bottomToolTip;
+                return bottomToolTip;
             }
             set
             {
-                this.bottomToolTip = value;
+                bottomToolTip = value;
             }
         }
 
@@ -131,11 +131,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get
             {
-                return this.topToolTip;
+                return topToolTip;
             }
             set
             {
-                this.topToolTip = value;
+                topToolTip = value;
             }
         }
 
@@ -148,17 +148,17 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             {
                 if (value)
                 {
-                    this.lineChart.PostPaint +=new EventHandler<ChartPaintEventArgs>(lineChart_PostPaint);
-                    this.lineChart.Resize += new System.EventHandler(lineChart_Resize);
-                    this.lineChart.MouseMove += new System.Windows.Forms.MouseEventHandler(lineChart_MouseMove);
+                    lineChart.PostPaint +=new EventHandler<ChartPaintEventArgs>(lineChart_PostPaint);
+                    lineChart.Resize += new EventHandler(lineChart_Resize);
+                    lineChart.MouseMove += new MouseEventHandler(lineChart_MouseMove);
                 }
                 else
                 {
-                    this.lineChart.PostPaint -= new EventHandler<ChartPaintEventArgs>(lineChart_PostPaint);
-                    this.lineChart.Resize -= new System.EventHandler(lineChart_Resize);
-                    this.lineChart.MouseMove -= new System.Windows.Forms.MouseEventHandler(lineChart_MouseMove);
+                    lineChart.PostPaint -= new EventHandler<ChartPaintEventArgs>(lineChart_PostPaint);
+                    lineChart.Resize -= new EventHandler(lineChart_Resize);
+                    lineChart.MouseMove -= new MouseEventHandler(lineChart_MouseMove);
                 }
-                this.lineChart.Invalidate();
+                lineChart.Invalidate();
             }
         }
 
@@ -174,7 +174,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         private void FillRangePolygons(ChartGraphics cg, Series line1, Series line2)
         {
 
-            this.ClearRangePolygons();
+            ClearRangePolygons();
             //System.Console.WriteLine("GetRangePolygons Start: " + DateTime.Now.Millisecond);
             DataPoint[] dpIntersections = LineUtils.GetAllIntersections(line1, line2);
             //ArrayList rPolygons = new ArrayList();
@@ -188,11 +188,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                         break;
                     case 1:
                         //this is the special case that there is only one intersection
-                        RangePolygon sPolygon = GetStartPolygon(cg, line1, line2, dpIntersections[0], this.rPolygons.Count);
+                        RangePolygon sPolygon = GetStartPolygon(cg, line1, line2, dpIntersections[0], rPolygons.Count);
 
                         if (sPolygon != null)
                             rPolygons.Add(sPolygon);
-                        RangePolygon ePolygon = GetEndPolygon(cg, line1, line2, dpIntersections[dpIntersections.Length - 1], this.rPolygons.Count);
+                        RangePolygon ePolygon = GetEndPolygon(cg, line1, line2, dpIntersections[dpIntersections.Length - 1], rPolygons.Count);
 
                         if (ePolygon != null)
                             rPolygons.Add(ePolygon);
@@ -202,7 +202,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
                         if (dpIntersections.Length >= 0)
                         {
-                            RangePolygon startPolygon = GetStartPolygon(cg, line1, line2, dpIntersections[0], this.rPolygons.Count);
+                            RangePolygon startPolygon = GetStartPolygon(cg, line1, line2, dpIntersections[0], rPolygons.Count);
 
                             if (startPolygon != null)
                                 rPolygons.Add(startPolygon);
@@ -210,12 +210,12 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                             for (int dpInterIndex = 0; dpInterIndex < dpIntersections.Length - 1; dpInterIndex++)
                             {
                                 RangePolygon rp = GetPolygonOfIntersection(cg, line1,
-                                    line2, dpIntersections[dpInterIndex], dpIntersections[dpInterIndex + 1], this.rPolygons.Count);
+                                    line2, dpIntersections[dpInterIndex], dpIntersections[dpInterIndex + 1], rPolygons.Count);
                                 if (rp != null)
                                     rPolygons.Add(rp);
                             }
 
-                            RangePolygon endPolygon = GetEndPolygon(cg, line1, line2, dpIntersections[dpIntersections.Length - 1], this.rPolygons.Count);
+                            RangePolygon endPolygon = GetEndPolygon(cg, line1, line2, dpIntersections[dpIntersections.Length - 1], rPolygons.Count);
 
                             if (endPolygon != null)
                                 rPolygons.Add(endPolygon);
@@ -397,9 +397,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             RangePolygon polygon = GetRangePolygon(polygonIndex);
 
             if (polygon.RangeType == RangePolygon.RANGETYPE.BOTTOM)
-                return this.BottomToolTip;
+                return BottomToolTip;
             else
-                return this.TopToolTip;
+                return TopToolTip;
         }
 
         public void DrawPolygons(ChartGraphics cg, Series line1,
@@ -414,9 +414,9 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 //else fill with transBlue;
                 if (RangePolygons[i].RangeType == System.Windows.Forms.DataVisualization.Charting.Utilities.RangePolygon.RANGETYPE.BOTTOM)
 
-                    RangePolygons[i].FillColor = this.bottomColor;
+                    RangePolygons[i].FillColor = bottomColor;
                 else
-                    RangePolygons[i].FillColor = this.topColor;
+                    RangePolygons[i].FillColor = topColor;
 
 
                 SolidBrush fillBrush = new SolidBrush(RangePolygons[i].FillColor);
@@ -434,7 +434,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lineChart_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void lineChart_MouseMove(object sender, MouseEventArgs e)
         {
 
             //make sure the mouse has moved over a rangepolygon
@@ -459,10 +459,10 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lineChart_Resize(object sender, System.EventArgs e)
+        private void lineChart_Resize(object sender, EventArgs e)
         {
 
-            this.lineChart.Invalidate();
+            lineChart.Invalidate();
         }
 
         private void lineChart_PostPaint(object sender, ChartPaintEventArgs e)
@@ -476,15 +476,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
             if (lineChart.Series[1].ChartType != SeriesChartType.Line)
                 throw new RangeSpliceChartHelperException("Series[1] is not a line! (Series[1], the Bottom Line, needs to be a line)");
-            this.DrawPolygons(e.ChartGraphics, lineChart.Series[0], lineChart.Series[1]);
+            DrawPolygons(e.ChartGraphics, lineChart.Series[0], lineChart.Series[1]);
         }
 
         #endregion
 
     }
 
-    class RangeSpliceChartHelperException : System.Exception
-    {
+    class RangeSpliceChartHelperException : Exception
+	{
         public RangeSpliceChartHelperException(string msg)
             : base(msg)
         { }

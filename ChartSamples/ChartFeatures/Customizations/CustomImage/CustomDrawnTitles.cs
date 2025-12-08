@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -12,16 +12,16 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for TemplateSampleControl.
 	/// </summary>
-	public class CustomDrawnTitles : System.Windows.Forms.UserControl
+	public class CustomDrawnTitles : UserControl
 	{
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Chart Chart1;
+		private Label label1;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public CustomDrawnTitles()
 		{
@@ -54,40 +54,40 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 80);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 88);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 65);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 60);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 75);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 50);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 55);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 40);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 70);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomDrawnTitles));
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(1, 70);
+			DataPoint dataPoint2 = new DataPoint(2, 80);
+			DataPoint dataPoint3 = new DataPoint(3, 70);
+			DataPoint dataPoint4 = new DataPoint(4, 88);
+			Series series2 = new Series();
+			DataPoint dataPoint5 = new DataPoint(1, 65);
+			DataPoint dataPoint6 = new DataPoint(2, 70);
+			DataPoint dataPoint7 = new DataPoint(3, 60);
+			DataPoint dataPoint8 = new DataPoint(4, 75);
+			Series series3 = new Series();
+			DataPoint dataPoint9 = new DataPoint(1, 50);
+			DataPoint dataPoint10 = new DataPoint(2, 55);
+			DataPoint dataPoint11 = new DataPoint(3, 40);
+			DataPoint dataPoint12 = new DataPoint(4, 70);
+			Title title1 = new Title();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(CustomDrawnTitles));
+            Chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            label1 = new Label();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -97,11 +97,11 @@ namespace ChartSamples
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.Interval = 1;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.OldLace;
@@ -115,7 +115,7 @@ namespace ChartSamples
             chartArea1.Position.X = 2F;
             chartArea1.Position.Y = 13F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
@@ -125,10 +125,10 @@ namespace ChartSamples
             legend1.Position.Width = 40F;
             legend1.Position.X = 5F;
             legend1.Position.Y = 85F;
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 48);
-            this.Chart1.Name = "Chart1";
-            this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 48);
+            Chart1.Name = "Chart1";
+            Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
@@ -162,13 +162,13 @@ namespace ChartSamples
             series3.Points.Add(dataPoint10);
             series3.Points.Add(dataPoint11);
             series3.Points.Add(dataPoint12);
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 0;
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Series.Add(series3);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 0;
             title1.Alignment = System.Drawing.ContentAlignment.TopLeft;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.Position.Auto = false;
@@ -179,56 +179,56 @@ namespace ChartSamples
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Draw an Image";
-            this.Chart1.Titles.Add(title1);
-            this.Chart1.PostPaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.Chart1_PostPaint);
+            Chart1.Titles.Add(title1);
+            Chart1.PostPaint += new EventHandler<ChartPaintEventArgs>(Chart1_PostPaint);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F);
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
-            this.labelSampleComment.TabIndex = 2;
-            this.labelSampleComment.Text = "This sample demonstrates how to draw an image on the chart.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11F);
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 34);
+            labelSampleComment.TabIndex = 2;
+            labelSampleComment.Text = "This sample demonstrates how to draw an image on the chart.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 1;
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F);
-            this.label1.Location = new System.Drawing.Point(16, 360);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(702, 56);
-            this.label1.TabIndex = 3;
-            this.label1.Text = resources.GetString("label1.Text");
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.Font = new Font("Verdana", 11F);
+            label1.Location = new Point(16, 360);
+            label1.Name = "label1";
+            label1.Size = new Size(702, 56);
+            label1.TabIndex = 3;
+            label1.Text = resources.GetString("label1.Text");
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CustomDrawnTitles
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.Chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F);
-            this.Name = "CustomDrawnTitles";
-            this.Size = new System.Drawing.Size(728, 448);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(Chart1);
+            Font = new Font("Verdana", 9F);
+            Name = "CustomDrawnTitles";
+            Size = new Size(728, 448);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void Chart1_PostPaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void Chart1_PostPaint(object sender, ChartPaintEventArgs e)
 		{
 			// Painting series object
-			if(e.ChartElement is System.Windows.Forms.DataVisualization.Charting.Series)
+			if(e.ChartElement is Series)
 			{
 				// Add custom painting only to the series with name "Sereis2"
 				Series	series = (Series)e.ChartElement;
@@ -238,11 +238,11 @@ namespace ChartSamples
 					DataPoint	dataPoint = series.Points.FindMaxByValue();
 					
 					// Image path
-					MainForm mainForm = (MainForm)this.ParentForm;
+					MainForm mainForm = (MainForm)ParentForm;
                     string fileNameString = mainForm.applicationPath + "\\Images\\money.png";
 
 					// Load bitmap from file 
-					System.Drawing.Image bitmap = Bitmap.FromFile(fileNameString);
+					Image bitmap = Bitmap.FromFile(fileNameString);
 
 					// Set Red color as transparent
 					ImageAttributes attrib = new ImageAttributes();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,16 +11,16 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for MultipleYAxis.
 	/// </summary>
-	public class MultipleYAxis : System.Windows.Forms.UserControl
+	public class MultipleYAxis : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox checkBoxUseMultipleYAxis;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private CheckBox checkBoxUseMultipleYAxis;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public MultipleYAxis()
 		{
@@ -50,54 +50,54 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxUseMultipleYAxis = new System.Windows.Forms.CheckBox();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Series series2 = new Series();
+			Series series3 = new Series();
+            label9 = new Label();
+            panel1 = new Panel();
+            checkBoxUseMultipleYAxis = new CheckBox();
+            Chart1 = new Chart();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 34);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "This sample demonstrates how to display a data series using multiple Y axes. ";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 34);
+            label9.TabIndex = 0;
+            label9.Text = "This sample demonstrates how to display a data series using multiple Y axes. ";
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxUseMultipleYAxis);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxUseMultipleYAxis);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // checkBoxUseMultipleYAxis
             // 
-            this.checkBoxUseMultipleYAxis.Location = new System.Drawing.Point(48, 8);
-            this.checkBoxUseMultipleYAxis.Name = "checkBoxUseMultipleYAxis";
-            this.checkBoxUseMultipleYAxis.Size = new System.Drawing.Size(172, 24);
-            this.checkBoxUseMultipleYAxis.TabIndex = 0;
-            this.checkBoxUseMultipleYAxis.Text = "Use Multiple &Y Axis: ";
-            this.checkBoxUseMultipleYAxis.CheckedChanged += new System.EventHandler(this.checkBoxUseMultipleYAxis_CheckedChanged);
+            checkBoxUseMultipleYAxis.Location = new Point(48, 8);
+            checkBoxUseMultipleYAxis.Name = "checkBoxUseMultipleYAxis";
+            checkBoxUseMultipleYAxis.Size = new Size(172, 24);
+            checkBoxUseMultipleYAxis.TabIndex = 0;
+            checkBoxUseMultipleYAxis.Text = "Use Multiple &Y Axis: ";
+            checkBoxUseMultipleYAxis.CheckedChanged += new EventHandler(checkBoxUseMultipleYAxis_CheckedChanged);
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -106,7 +106,7 @@ namespace ChartSamples
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Format = "MM/dd";
             chartArea1.AxisX.LabelStyle.Interval = 0;
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -114,7 +114,7 @@ namespace ChartSamples
             chartArea1.AxisX.MajorTickMark.Size = 2F;
             chartArea1.AxisY.IsLabelAutoFit = false;
             chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LabelStyle.Format = "N0";
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -124,15 +124,15 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 48);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 48);
+            Chart1.Name = "Chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.BorderWidth = 2;
             series1.ChartArea = "Default";
@@ -157,29 +157,29 @@ namespace ChartSamples
             series3.Name = "Series3";
             series3.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             series3.ShadowOffset = 2;
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Size = new System.Drawing.Size(412, 306);
-            this.Chart1.TabIndex = 1;
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Series.Add(series3);
+            Chart1.Size = new Size(412, 306);
+            Chart1.TabIndex = 1;
             // 
             // MultipleYAxis
             // 
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "MultipleYAxis";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.MultipleYAxis_Load);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "MultipleYAxis";
+            Size = new Size(728, 480);
+            Load += new EventHandler(MultipleYAxis_Load);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void checkBoxUseMultipleYAxis_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxUseMultipleYAxis_CheckedChanged(object sender, EventArgs e)
 		{
 			if(checkBoxUseMultipleYAxis.Checked)
 			{
@@ -214,7 +214,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void MultipleYAxis_Load(object sender, System.EventArgs e)
+		private void MultipleYAxis_Load(object sender, EventArgs e)
 		{
 			// Populate series with random data of different scale
 			Random		random = new Random();

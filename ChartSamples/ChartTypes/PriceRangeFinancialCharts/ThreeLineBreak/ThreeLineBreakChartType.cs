@@ -11,19 +11,19 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for ThreeLineBreakChartType.
 	/// </summary>
-	public class ThreeLineBreakChartType : System.Windows.Forms.UserControl
+	public class ThreeLineBreakChartType : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboNumberOfLines;
-		private System.Windows.Forms.Label label3;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private ComboBox comboNumberOfLines;
+		private Label label3;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public ThreeLineBreakChartType()
 		{
@@ -54,41 +54,41 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.comboNumberOfLines = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Title title1 = new Title();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            comboNumberOfLines = new ComboBox();
+            label1 = new Label();
+            label3 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Format = "MMM dd";
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.Gainsboro;
@@ -98,15 +98,15 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 40);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 40);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.ThreeLineBreak;
@@ -116,87 +116,87 @@ namespace ChartSamples
             series1.Name = "Default";
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 0;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 0;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Three Line Break Chart";
-            this.chart1.Titles.Add(title1);
+            chart1.Titles.Add(title1);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 26);
-            this.labelSampleComment.TabIndex = 2;
-            this.labelSampleComment.Text = "This sample demonstrates the Three Line Break chart type.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 26);
+            labelSampleComment.TabIndex = 2;
+            labelSampleComment.Text = "This sample demonstrates the Three Line Break chart type.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.comboNumberOfLines);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(432, 48);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(296, 280);
-            this.panel1.TabIndex = 1;
+            panel1.Controls.Add(comboNumberOfLines);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(432, 48);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(296, 280);
+            panel1.TabIndex = 1;
             // 
             // comboNumberOfLines
             // 
-            this.comboNumberOfLines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboNumberOfLines.Items.AddRange([
+            comboNumberOfLines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboNumberOfLines.Items.AddRange([
             "1",
             "2",
             "3",
             "4",
             "Default"]);
-            this.comboNumberOfLines.Location = new System.Drawing.Point(168, 16);
-            this.comboNumberOfLines.Name = "comboNumberOfLines";
-            this.comboNumberOfLines.Size = new System.Drawing.Size(104, 22);
-            this.comboNumberOfLines.TabIndex = 0;
-            this.comboNumberOfLines.SelectedIndexChanged += new System.EventHandler(this.comboNumberOfLines_SelectedIndexChanged);
+            comboNumberOfLines.Location = new Point(168, 16);
+            comboNumberOfLines.Name = "comboNumberOfLines";
+            comboNumberOfLines.Size = new Size(104, 22);
+            comboNumberOfLines.TabIndex = 0;
+            comboNumberOfLines.SelectedIndexChanged += new EventHandler(comboNumberOfLines_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(8, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(152, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Number of &Lines in Break:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(8, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(152, 32);
+            label1.TabIndex = 0;
+            label1.Text = "Number of &Lines in Break:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            label3.Anchor = ((AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Font = new System.Drawing.Font("Verdana", 11F);
-            this.label3.Location = new System.Drawing.Point(13, 342);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(702, 43);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "The sensitivity of the reversal criteria can be adjusted by changing the number o" +
+            label3.Font = new Font("Verdana", 11F);
+            label3.Location = new Point(13, 342);
+            label3.Name = "label3";
+            label3.Size = new Size(702, 43);
+            label3.TabIndex = 25;
+            label3.Text = "The sensitivity of the reversal criteria can be adjusted by changing the number o" +
                 "f lines in break.";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ThreeLineBreakChartType
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "ThreeLineBreakChartType";
-            this.Size = new System.Drawing.Size(728, 403);
-            this.Load += new System.EventHandler(this.ThreeLineBreakChartType_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label3);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "ThreeLineBreakChartType";
+            Size = new Size(728, 403);
+            Load += new EventHandler(ThreeLineBreakChartType_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -229,7 +229,7 @@ namespace ChartSamples
 			
 		}
 
-		private void ThreeLineBreakChartType_Load(object sender, System.EventArgs e)
+		private void ThreeLineBreakChartType_Load(object sender, EventArgs e)
 		{
 
 			comboNumberOfLines.Text = "1";
@@ -260,7 +260,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void comboNumberOfLines_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboNumberOfLines_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}

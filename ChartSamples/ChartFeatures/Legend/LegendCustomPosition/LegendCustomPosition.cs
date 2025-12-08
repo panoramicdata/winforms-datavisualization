@@ -11,24 +11,24 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for LegendCustomPosition.
 	/// </summary>
-	public class LegendCustomPosition : System.Windows.Forms.UserControl
+	public class LegendCustomPosition : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.NumericUpDown XEdit;
-		private System.Windows.Forms.NumericUpDown YEdit;
-		private System.Windows.Forms.NumericUpDown WidthEdit;
-		private System.Windows.Forms.NumericUpDown HeightEdit;
+		private Label label9;
+		private Chart Chart1;
+		private Panel panel1;
+		private Label label5;
+		private Label label4;
+		private Label label3;
+		private Label label2;
+		private Label label1;
+		private NumericUpDown XEdit;
+		private NumericUpDown YEdit;
+		private NumericUpDown WidthEdit;
+		private NumericUpDown HeightEdit;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		private bool suppressChanges = false;
 
@@ -61,79 +61,79 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 600);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 400);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 200);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 560);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 550);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 580);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 425);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 400);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 500);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 500);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 350);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 520);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LegendCustomPosition));
-            this.label9 = new System.Windows.Forms.Label();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.HeightEdit = new System.Windows.Forms.NumericUpDown();
-            this.WidthEdit = new System.Windows.Forms.NumericUpDown();
-            this.YEdit = new System.Windows.Forms.NumericUpDown();
-            this.XEdit = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HeightEdit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WidthEdit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YEdit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XEdit)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 600);
+			DataPoint dataPoint2 = new DataPoint(0, 400);
+			DataPoint dataPoint3 = new DataPoint(0, 200);
+			DataPoint dataPoint4 = new DataPoint(0, 560);
+			DataPoint dataPoint5 = new DataPoint(0, 300);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 550);
+			DataPoint dataPoint7 = new DataPoint(0, 580);
+			DataPoint dataPoint8 = new DataPoint(0, 300);
+			DataPoint dataPoint9 = new DataPoint(0, 425);
+			DataPoint dataPoint10 = new DataPoint(0, 400);
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(0, 500);
+			DataPoint dataPoint12 = new DataPoint(0, 500);
+			DataPoint dataPoint13 = new DataPoint(0, 350);
+			DataPoint dataPoint14 = new DataPoint(0, 300);
+			DataPoint dataPoint15 = new DataPoint(0, 520);
+			Title title1 = new Title();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(LegendCustomPosition));
+            label9 = new Label();
+            Chart1 = new Chart();
+            panel1 = new Panel();
+            HeightEdit = new NumericUpDown();
+            WidthEdit = new NumericUpDown();
+            YEdit = new NumericUpDown();
+            XEdit = new NumericUpDown();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(HeightEdit)).BeginInit();
+            ((ISupportInitialize)(WidthEdit)).BeginInit();
+            ((ISupportInitialize)(YEdit)).BeginInit();
+            ((ISupportInitialize)(XEdit)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 40);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "This sample demonstrates how to position the legend by setting the coordinates of" +
+            label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 40);
+            label9.TabIndex = 0;
+            label9.Text = "This sample demonstrates how to position the legend by setting the coordinates of" +
                 " its width and height, relative to the top left corner. ";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BackSecondaryColor = System.Drawing.Color.White;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.Gainsboro;
@@ -147,10 +147,10 @@ namespace ChartSamples
             chartArea1.Position.X = 5.089137F;
             chartArea1.Position.Y = 18.3307F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(100)))), ((int)(((byte)(146)))));
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.Name = "Default";
@@ -159,9 +159,9 @@ namespace ChartSamples
             legend1.Position.Width = 59F;
             legend1.Position.X = 6.966655F;
             legend1.Position.Y = 82.79218F;
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 56);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 56);
+            Chart1.Name = "Chart1";
             series1.ChartArea = "Default";
             series1.Legend = "Default";
             series1.Name = "Default";
@@ -188,161 +188,161 @@ namespace ChartSamples
             series3.Points.Add(dataPoint13);
             series3.Points.Add(dataPoint14);
             series3.Points.Add(dataPoint15);
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 1;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Series.Add(series3);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 1;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Legend Positioning";
-            this.Chart1.Titles.Add(title1);
-            this.Chart1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Chart1_MouseDown);
+            Chart1.Titles.Add(title1);
+            Chart1.MouseDown += new MouseEventHandler(Chart1_MouseDown);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.HeightEdit);
-            this.panel1.Controls.Add(this.WidthEdit);
-            this.panel1.Controls.Add(this.YEdit);
-            this.panel1.Controls.Add(this.XEdit);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 296);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(HeightEdit);
+            panel1.Controls.Add(WidthEdit);
+            panel1.Controls.Add(YEdit);
+            panel1.Controls.Add(XEdit);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label2);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 296);
+            panel1.TabIndex = 2;
             // 
             // HeightEdit
             // 
-            this.HeightEdit.Location = new System.Drawing.Point(168, 104);
-            this.HeightEdit.Name = "HeightEdit";
-            this.HeightEdit.Size = new System.Drawing.Size(80, 22);
-            this.HeightEdit.TabIndex = 7;
-            this.HeightEdit.Value = new decimal([
+            HeightEdit.Location = new Point(168, 104);
+            HeightEdit.Name = "HeightEdit";
+            HeightEdit.Size = new Size(80, 22);
+            HeightEdit.TabIndex = 7;
+            HeightEdit.Value = new decimal([
             9,
             0,
             0,
             0]);
-            this.HeightEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
+            HeightEdit.ValueChanged += new EventHandler(Controls_ValueChanged);
             // 
             // WidthEdit
             // 
-            this.WidthEdit.Location = new System.Drawing.Point(168, 72);
-            this.WidthEdit.Name = "WidthEdit";
-            this.WidthEdit.Size = new System.Drawing.Size(80, 22);
-            this.WidthEdit.TabIndex = 5;
-            this.WidthEdit.Value = new decimal([
+            WidthEdit.Location = new Point(168, 72);
+            WidthEdit.Name = "WidthEdit";
+            WidthEdit.Size = new Size(80, 22);
+            WidthEdit.TabIndex = 5;
+            WidthEdit.Value = new decimal([
             21,
             0,
             0,
             0]);
-            this.WidthEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
+            WidthEdit.ValueChanged += new EventHandler(Controls_ValueChanged);
             // 
             // YEdit
             // 
-            this.YEdit.Location = new System.Drawing.Point(168, 40);
-            this.YEdit.Name = "YEdit";
-            this.YEdit.Size = new System.Drawing.Size(80, 22);
-            this.YEdit.TabIndex = 3;
-            this.YEdit.Value = new decimal([
+            YEdit.Location = new Point(168, 40);
+            YEdit.Name = "YEdit";
+            YEdit.Size = new Size(80, 22);
+            YEdit.TabIndex = 3;
+            YEdit.Value = new decimal([
             50,
             0,
             0,
             0]);
-            this.YEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
+            YEdit.ValueChanged += new EventHandler(Controls_ValueChanged);
             // 
             // XEdit
             // 
-            this.XEdit.Location = new System.Drawing.Point(168, 8);
-            this.XEdit.Name = "XEdit";
-            this.XEdit.Size = new System.Drawing.Size(80, 22);
-            this.XEdit.TabIndex = 1;
-            this.XEdit.Value = new decimal([
+            XEdit.Location = new Point(168, 8);
+            XEdit.Name = "XEdit";
+            XEdit.Size = new Size(80, 22);
+            XEdit.TabIndex = 1;
+            XEdit.Value = new decimal([
             15,
             0,
             0,
             0]);
-            this.XEdit.ValueChanged += new System.EventHandler(this.Controls_ValueChanged);
+            XEdit.ValueChanged += new EventHandler(Controls_ValueChanged);
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(16, 107);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(148, 16);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "&Height:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label5.Location = new Point(16, 107);
+            label5.Name = "label5";
+            label5.Size = new Size(148, 16);
+            label5.TabIndex = 6;
+            label5.Text = "&Height:";
+            label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(16, 75);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(148, 16);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "&Width:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label4.Location = new Point(16, 75);
+            label4.Name = "label4";
+            label4.Size = new Size(148, 16);
+            label4.TabIndex = 4;
+            label4.Text = "&Width:";
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(16, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(148, 16);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "&Y:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Location = new Point(16, 43);
+            label3.Name = "label3";
+            label3.Size = new Size(148, 16);
+            label3.TabIndex = 2;
+            label3.Text = "&Y:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(16, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(148, 16);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "&X:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(16, 11);
+            label2.Name = "label2";
+            label2.Size = new Size(148, 16);
+            label2.TabIndex = 0;
+            label2.Text = "&X:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 360);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(712, 64);
-            this.label1.TabIndex = 3;
-            this.label1.Text = resources.GetString("label1.Text");
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(16, 360);
+            label1.Name = "label1";
+            label1.Size = new Size(712, 64);
+            label1.TabIndex = 3;
+            label1.Text = resources.GetString("label1.Text");
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LegendCustomPosition
             // 
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "LegendCustomPosition";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.LegendCustomPosition_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HeightEdit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WidthEdit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YEdit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XEdit)).EndInit();
-            this.ResumeLayout(false);
+            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(Chart1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "LegendCustomPosition";
+            Size = new Size(728, 480);
+            Load += new EventHandler(LegendCustomPosition_Load);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(HeightEdit)).EndInit();
+            ((ISupportInitialize)(WidthEdit)).EndInit();
+            ((ISupportInitialize)(YEdit)).EndInit();
+            ((ISupportInitialize)(XEdit)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void LegendCustomPosition_Load(object sender, System.EventArgs e)
+		private void LegendCustomPosition_Load(object sender, EventArgs e)
 		{
-			this.AdjustLegendControls();
+			AdjustLegendControls();
 		}
 
-		private void Chart1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void Chart1_MouseDown(object sender, MouseEventArgs e)
 		{
 			if(e.X != 0 && e.Y != 0)
 			{
@@ -361,7 +361,7 @@ namespace ChartSamples
 		{
 			try
 			{
-				this.suppressChanges = true;
+				suppressChanges = true;
 
                 ElementPosition position = Chart1.Legends[0].Position;
 
@@ -378,13 +378,13 @@ namespace ChartSamples
 			}
 			finally
 			{
-				this.suppressChanges = false;
+				suppressChanges = false;
 			}
 		}
 
-		private void Controls_ValueChanged(object sender, System.EventArgs e)
+		private void Controls_ValueChanged(object sender, EventArgs e)
 		{
-			if ( this.suppressChanges )
+			if ( suppressChanges )
 			{
 				return;
 			}
@@ -395,7 +395,7 @@ namespace ChartSamples
             position.Width = (float)WidthEdit.Value;
             position.Height = (float)HeightEdit.Value;
 
-			this.AdjustLegendControls();
+			AdjustLegendControls();
 
 			Chart1.Invalidate();
 

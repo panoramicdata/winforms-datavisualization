@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -12,18 +12,18 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for EmptyPointAppearance.
 	/// </summary>
-	public class SavingAndCopyingImages : System.Windows.Forms.UserControl
+	public class SavingAndCopyingImages : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Button Copy;
-		private System.Windows.Forms.Button Save;
-		private System.Windows.Forms.Label label2;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private Button Copy;
+		private Button Save;
+		private Label label2;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public SavingAndCopyingImages()
 		{
@@ -53,88 +53,88 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 400);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 600);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1700);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1500);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 950);
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.Copy = new System.Windows.Forms.Button();
-            this.Save = new System.Windows.Forms.Button();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 400);
+			DataPoint dataPoint2 = new DataPoint(0, 600);
+			DataPoint dataPoint3 = new DataPoint(0, 1700);
+			DataPoint dataPoint4 = new DataPoint(0, 1500);
+			DataPoint dataPoint5 = new DataPoint(0, 950);
+            label9 = new Label();
+            panel1 = new Panel();
+            Copy = new Button();
+            Save = new Button();
+            Chart1 = new Chart();
+            label2 = new Label();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 37);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "This sample shows how to save a chart as an image, and also demonstrates how to c" +
+            label9.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 37);
+            label9.TabIndex = 2;
+            label9.Text = "This sample shows how to save a chart as an image, and also demonstrates how to c" +
                 "opy a chart image to the clipboard.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.Copy);
-            this.panel1.Controls.Add(this.Save);
-            this.panel1.Location = new System.Drawing.Point(432, 61);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 1;
+            panel1.Controls.Add(Copy);
+            panel1.Controls.Add(Save);
+            panel1.Location = new Point(432, 61);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 1;
             // 
             // Copy
             // 
-            this.Copy.BackColor = System.Drawing.SystemColors.Control;
-            this.Copy.Location = new System.Drawing.Point(48, 56);
-            this.Copy.Name = "Copy";
-            this.Copy.Size = new System.Drawing.Size(112, 23);
-            this.Copy.TabIndex = 16;
-            this.Copy.Text = "&Copy";
-            this.Copy.UseVisualStyleBackColor = false;
-            this.Copy.Click += new System.EventHandler(this.Copy_Click);
+            Copy.BackColor = System.Drawing.SystemColors.Control;
+            Copy.Location = new Point(48, 56);
+            Copy.Name = "Copy";
+            Copy.Size = new Size(112, 23);
+            Copy.TabIndex = 16;
+            Copy.Text = "&Copy";
+            Copy.UseVisualStyleBackColor = false;
+            Copy.Click += new EventHandler(Copy_Click);
             // 
             // Save
             // 
-            this.Save.BackColor = System.Drawing.SystemColors.Control;
-            this.Save.Location = new System.Drawing.Point(48, 16);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(112, 23);
-            this.Save.TabIndex = 15;
-            this.Save.Text = "&Save";
-            this.Save.UseVisualStyleBackColor = false;
-            this.Save.Click += new System.EventHandler(this.Save_Click);
+            Save.BackColor = System.Drawing.SystemColors.Control;
+            Save.Location = new Point(48, 16);
+            Save.Name = "Save";
+            Save.Size = new Size(112, 23);
+            Save.TabIndex = 15;
+            Save.Text = "&Save";
+            Save.UseVisualStyleBackColor = false;
+            Save.Click += new EventHandler(Save_Click);
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Format = "#";
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.TitleFont = new Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea1.AxisX2.MajorGrid.Enabled = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
@@ -145,17 +145,17 @@ namespace ChartSamples
             chartArea1.BorderWidth = 0;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.Alignment = System.Drawing.StringAlignment.Center;
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.Name = "Default";
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 53);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 53);
+            Chart1.Name = "Chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
@@ -173,45 +173,45 @@ namespace ChartSamples
             series1.Points.Add(dataPoint3);
             series1.Points.Add(dataPoint4);
             series1.Points.Add(dataPoint5);
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 0;
-            this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
+            Chart1.Series.Add(series1);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 0;
+            Chart1.Click += new EventHandler(Chart1_Click);
             // 
             // label2
             // 
-            this.label2.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(13, 349);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(702, 48);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "After copying the chart image to the clipboard, try pasting that image into anoth" +
+            label2.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label2.Location = new Point(13, 349);
+            label2.Name = "label2";
+            label2.Size = new Size(702, 48);
+            label2.TabIndex = 4;
+            label2.Text = "After copying the chart image to the clipboard, try pasting that image into anoth" +
                 "er application.";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SavingAndCopyingImages
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "SavingAndCopyingImages";
-            this.Size = new System.Drawing.Size(728, 408);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label2);
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "SavingAndCopyingImages";
+            Size = new Size(728, 408);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void EmptyPointAppearance_Load(object sender, System.EventArgs e)
+		private void EmptyPointAppearance_Load(object sender, EventArgs e)
 		{ 
 		}
 	
-		private void button1_Click(object sender, System.EventArgs e)
+		private void button1_Click(object sender, EventArgs e)
 		{
 			// Create a new save file dialog
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -259,10 +259,10 @@ namespace ChartSamples
 			}
 		}
 
-		private void button2_Click(object sender, System.EventArgs e)
+		private void button2_Click(object sender, EventArgs e)
 		{
 			// create a memory stream to save the chart image    
-			System.IO.MemoryStream stream = new System.IO.MemoryStream();     
+			MemoryStream stream = new MemoryStream();     
 
 			// save the chart image to the stream    
 			Chart1.SaveImage(stream,System.Drawing.Imaging.ImageFormat.Bmp);     
@@ -275,12 +275,12 @@ namespace ChartSamples
 
 		}
 
-		private void Chart1_Click(object sender, System.EventArgs e)
+		private void Chart1_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void Save_Click(object sender, System.EventArgs e)
+		private void Save_Click(object sender, EventArgs e)
 		{
 			// Create a new save file dialog
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -336,10 +336,10 @@ namespace ChartSamples
 			}
 		}
 
-		private void Copy_Click(object sender, System.EventArgs e)
+		private void Copy_Click(object sender, EventArgs e)
 		{
 			// create a memory stream to save the chart image    
-			System.IO.MemoryStream stream = new System.IO.MemoryStream();     
+			MemoryStream stream = new MemoryStream();     
 
 			// save the chart image to the stream    
 			Chart1.SaveImage(stream,System.Drawing.Imaging.ImageFormat.Bmp);     

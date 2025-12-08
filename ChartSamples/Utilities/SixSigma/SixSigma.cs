@@ -617,11 +617,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             processStdDev = (float)((sbar / C4[n - 2]) * System.Math.Sqrt(1 - System.Math.Pow(C4[n - 2], 2)));
 
             //Set the sBar class variable and clear rBar.
-            this.mysBar = sbar;
-            this.myrBar = 0;
+            mysBar = sbar;
+            myrBar = 0;
 
             //Store the n value for use by XBAR.
-            this.mynValue = n;
+            mynValue = n;
 
             //Return the series.
             return sseries;
@@ -723,11 +723,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             processStdDev = (float)(rbar / D2[n - 2]);
 
             //Set the rBar class variable and clear sBar.
-            this.myrBar = rbar;
-            this.mysBar = 0;
+            myrBar = rbar;
+            mysBar = 0;
 
             //Store the n value for use by XBAR.
-            this.mynValue = n;
+            mynValue = n;
 
             //Return the series.
             return rseries;
@@ -797,7 +797,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
             //Assure that either rBar or sBar have a value, and n has a value. If MRBAR has been specified, do not check.
             if (mrbar == 0)
-                if ((this.myrBar == 0 && this.mysBar == 0) || (this.mynValue < 2 || this.mynValue > 9))
+                if ((myrBar == 0 && mysBar == 0) || (mynValue < 2 || mynValue > 9))
                     throw new ArgumentException("sChart or rChart must be called before XBAR.");
 
             //c holds the total number of items (subgroups).
@@ -825,15 +825,15 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
                 UCL = (float)(xbar + 2.66 * mrbar);
                 LCL = (float)(xbar - 2.66 * mrbar);
             }
-            else if (this.mysBar != 0)
+            else if (mysBar != 0)
             {
-                UCL = xbar + A3[this.mynValue - 2] * this.mysBar;
-                LCL = xbar - A3[this.mynValue - 2] * this.mysBar;
+                UCL = xbar + A3[mynValue - 2] * mysBar;
+                LCL = xbar - A3[mynValue - 2] * mysBar;
             }
-            else if (this.myrBar != 0)
+            else if (myrBar != 0)
             {
-                UCL = xbar + A2[this.mynValue - 2] * this.myrBar;
-                LCL = xbar - A2[this.mynValue - 2] * this.myrBar;
+                UCL = xbar + A2[mynValue - 2] * myrBar;
+                LCL = xbar - A2[mynValue - 2] * myrBar;
             }
 
             //If LCL is less than zero, then it should be zero.

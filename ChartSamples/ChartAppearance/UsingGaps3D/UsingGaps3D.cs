@@ -11,22 +11,22 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for UsingGaps3D.
 	/// </summary>
-	public class UsingGaps3D : System.Windows.Forms.UserControl
+	public class UsingGaps3D : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.NumericUpDown Rotation;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.NumericUpDown pointGapDepth;
-		private System.Windows.Forms.NumericUpDown pointDepth;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private NumericUpDown Rotation;
+		private Label label4;
+		private Label label6;
+		private Label label5;
+		private NumericUpDown pointGapDepth;
+		private NumericUpDown pointDepth;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public UsingGaps3D()
 		{
@@ -59,48 +59,48 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 80);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 85);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 65);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 70);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 60);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 75);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1, 50);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 55);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(3, 40);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(4, 70);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.pointGapDepth = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pointDepth = new System.Windows.Forms.NumericUpDown();
-            this.Rotation = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pointGapDepth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pointDepth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Rotation)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(1, 70);
+			DataPoint dataPoint2 = new DataPoint(2, 80);
+			DataPoint dataPoint3 = new DataPoint(3, 70);
+			DataPoint dataPoint4 = new DataPoint(4, 85);
+			Series series2 = new Series();
+			DataPoint dataPoint5 = new DataPoint(1, 65);
+			DataPoint dataPoint6 = new DataPoint(2, 70);
+			DataPoint dataPoint7 = new DataPoint(3, 60);
+			DataPoint dataPoint8 = new DataPoint(4, 75);
+			Series series3 = new Series();
+			DataPoint dataPoint9 = new DataPoint(1, 50);
+			DataPoint dataPoint10 = new DataPoint(2, 55);
+			DataPoint dataPoint11 = new DataPoint(3, 40);
+			DataPoint dataPoint12 = new DataPoint(4, 70);
+			Title title1 = new Title();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            label6 = new Label();
+            pointGapDepth = new NumericUpDown();
+            label5 = new Label();
+            pointDepth = new NumericUpDown();
+            Rotation = new NumericUpDown();
+            label4 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(pointGapDepth)).BeginInit();
+            ((ISupportInitialize)(pointDepth)).BeginInit();
+            ((ISupportInitialize)(Rotation)).BeginInit();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Enable3D = true;
             chartArea1.Area3DStyle.Inclination = 18;
             chartArea1.Area3DStyle.IsClustered = true;
@@ -110,16 +110,16 @@ namespace ChartSamples
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.Interval = 1;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels)
+            chartArea1.AxisX.LabelAutoFitStyle = ((LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels)
+            chartArea1.AxisY.LabelAutoFitStyle = ((LabelAutoFitStyles)((((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.OldLace;
@@ -127,7 +127,7 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
@@ -137,10 +137,10 @@ namespace ChartSamples
             legend1.Position.Width = 40F;
             legend1.Position.X = 5F;
             legend1.Position.Y = 85F;
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 65);
-            this.chart1.Name = "chart1";
-            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 65);
+            chart1.Name = "chart1";
+            chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
@@ -178,173 +178,173 @@ namespace ChartSamples
             series3.Points.Add(dataPoint12);
             series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Series.Add(series3);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
             title1.Alignment = System.Drawing.ContentAlignment.TopLeft;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "3D Z Space Control";
-            this.chart1.Titles.Add(title1);
+            chart1.Titles.Add(title1);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 45);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to adjust the PointDepth and the PointGapDepth prope" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 45);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to adjust the PointDepth and the PointGapDepth prope" +
                 "rties, which are used to control the depth of each plotted series in a 3D chart " +
                 "area.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.pointGapDepth);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.pointDepth);
-            this.panel1.Controls.Add(this.Rotation);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(432, 61);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.BackColor = System.Drawing.Color.Transparent;
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(pointGapDepth);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(pointDepth);
+            panel1.Controls.Add(Rotation);
+            panel1.Controls.Add(label4);
+            panel1.Location = new Point(432, 61);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(8, 40);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(160, 16);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Point &Gap Depth:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label6.Location = new Point(8, 40);
+            label6.Name = "label6";
+            label6.Size = new Size(160, 16);
+            label6.TabIndex = 2;
+            label6.Text = "Point &Gap Depth:";
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pointGapDepth
             // 
-            this.pointGapDepth.Increment = new decimal([
+            pointGapDepth.Increment = new decimal([
             25,
             0,
             0,
             0]);
-            this.pointGapDepth.Location = new System.Drawing.Point(168, 40);
-            this.pointGapDepth.Maximum = new decimal([
+            pointGapDepth.Location = new Point(168, 40);
+            pointGapDepth.Maximum = new decimal([
             1000,
             0,
             0,
             0]);
-            this.pointGapDepth.Name = "pointGapDepth";
-            this.pointGapDepth.Size = new System.Drawing.Size(56, 22);
-            this.pointGapDepth.TabIndex = 3;
-            this.pointGapDepth.Value = new decimal([
+            pointGapDepth.Name = "pointGapDepth";
+            pointGapDepth.Size = new Size(56, 22);
+            pointGapDepth.TabIndex = 3;
+            pointGapDepth.Value = new decimal([
             100,
             0,
             0,
             0]);
-            this.pointGapDepth.ValueChanged += new System.EventHandler(this.pointGapDepth_ValueChanged);
+            pointGapDepth.ValueChanged += new EventHandler(pointGapDepth_ValueChanged);
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(16, 8);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(152, 16);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Point &Depth:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label5.Location = new Point(16, 8);
+            label5.Name = "label5";
+            label5.Size = new Size(152, 16);
+            label5.TabIndex = 0;
+            label5.Text = "Point &Depth:";
+            label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pointDepth
             // 
-            this.pointDepth.Increment = new decimal([
+            pointDepth.Increment = new decimal([
             25,
             0,
             0,
             0]);
-            this.pointDepth.Location = new System.Drawing.Point(168, 8);
-            this.pointDepth.Maximum = new decimal([
+            pointDepth.Location = new Point(168, 8);
+            pointDepth.Maximum = new decimal([
             1000,
             0,
             0,
             0]);
-            this.pointDepth.Name = "pointDepth";
-            this.pointDepth.Size = new System.Drawing.Size(56, 22);
-            this.pointDepth.TabIndex = 1;
-            this.pointDepth.Value = new decimal([
+            pointDepth.Name = "pointDepth";
+            pointDepth.Size = new Size(56, 22);
+            pointDepth.TabIndex = 1;
+            pointDepth.Value = new decimal([
             100,
             0,
             0,
             0]);
-            this.pointDepth.ValueChanged += new System.EventHandler(this.pointDepth_ValueChanged);
+            pointDepth.ValueChanged += new EventHandler(pointDepth_ValueChanged);
             // 
             // Rotation
             // 
-            this.Rotation.Increment = new decimal([
+            Rotation.Increment = new decimal([
             10,
             0,
             0,
             0]);
-            this.Rotation.Location = new System.Drawing.Point(168, 72);
-            this.Rotation.Maximum = new decimal([
+            Rotation.Location = new Point(168, 72);
+            Rotation.Maximum = new decimal([
             1000,
             0,
             0,
             0]);
-            this.Rotation.Minimum = new decimal([
+            Rotation.Minimum = new decimal([
             1000,
             0,
             0,
             -2147483648]);
-            this.Rotation.Name = "Rotation";
-            this.Rotation.Size = new System.Drawing.Size(56, 22);
-            this.Rotation.TabIndex = 5;
-            this.Rotation.Value = new decimal([
+            Rotation.Name = "Rotation";
+            Rotation.Size = new Size(56, 22);
+            Rotation.TabIndex = 5;
+            Rotation.Value = new decimal([
             40,
             0,
             0,
             0]);
-            this.Rotation.ValueChanged += new System.EventHandler(this.Rotation_ValueChanged);
+            Rotation.ValueChanged += new EventHandler(Rotation_ValueChanged);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(24, 72);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(144, 23);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Rotate &Y:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label4.Location = new Point(24, 72);
+            label4.Name = "label4";
+            label4.Size = new Size(144, 23);
+            label4.TabIndex = 4;
+            label4.Text = "Rotate &Y:";
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // UsingGaps3D
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "UsingGaps3D";
-            this.Size = new System.Drawing.Size(728, 368);
-            this.Load += new System.EventHandler(this.BarColumnChartType_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pointGapDepth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pointDepth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Rotation)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "UsingGaps3D";
+            Size = new Size(728, 368);
+            Load += new EventHandler(BarColumnChartType_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(pointGapDepth)).EndInit();
+            ((ISupportInitialize)(pointDepth)).EndInit();
+            ((ISupportInitialize)(Rotation)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void BarColumnChartType_Load(object sender, System.EventArgs e)
+		private void BarColumnChartType_Load(object sender, EventArgs e)
 		{
 		}
 
-		private void Rotation_ValueChanged(object sender, System.EventArgs e)
+		private void Rotation_ValueChanged(object sender, EventArgs e)
 		{
 			if(Rotation.Value > 180)
 				Rotation.Value = -180;
@@ -354,12 +354,12 @@ namespace ChartSamples
 			chart1.ChartAreas["Default"].Area3DStyle.Rotation = (int)Rotation.Value;
 		}
 
-		private void pointDepth_ValueChanged(object sender, System.EventArgs e)
+		private void pointDepth_ValueChanged(object sender, EventArgs e)
 		{
 			chart1.ChartAreas[0].Area3DStyle.PointDepth = (int)pointDepth.Value;
 		}
 
-		private void pointGapDepth_ValueChanged(object sender, System.EventArgs e)
+		private void pointGapDepth_ValueChanged(object sender, EventArgs e)
 		{
 			chart1.ChartAreas[0].Area3DStyle.PointGapDepth = (int)pointGapDepth.Value;
 		}

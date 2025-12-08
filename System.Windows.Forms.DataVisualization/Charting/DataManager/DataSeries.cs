@@ -11,7 +11,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Globalization;
@@ -22,10 +21,8 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
 
-#region Series enumerations
-
 /// <summary>
-/// Chart axis type (Primary or Secondary). 
+/// Chart axis type (Primary or Secondary).
 /// </summary>
 public enum AxisType
 {
@@ -55,8 +52,6 @@ public enum PointSortOrder
 	/// </summary>
 	Descending
 }
-
-#endregion
 
 /// <summary>
 /// Data series collection
@@ -215,7 +210,7 @@ public class Series : DataPointCustomProperties
 
 
 	// fake data points for selector service in design time.
-	// note: in design time fake points are generated 
+	// note: in design time fake points are generated
 	// with short life time - during painting.
 	// this collection keep a copy of design time datapoints.
 	internal DataPointCollection fakeDataPoints;
@@ -486,7 +481,7 @@ public class Series : DataPointCustomProperties
 		_emptyPointCustomProperties.SetDefault(true);
 		_emptyPointCustomProperties.pointCustomProperties = true;
 		//TODO : check if this is still needed.
-		//#if !SQLRS_CONTROL 
+		//#if !SQLRS_CONTROL
 		//			    // Use transparent colors for empty points
 		//			    emptyPointAttributes.Color = Color.Transparent;
 		//			    emptyPointAttributes.BorderColor = Color.Transparent;
@@ -911,7 +906,7 @@ public class Series : DataPointCustomProperties
 		{
 			//TODO: Check, what is needed from here...
 			//#if !SQLRS_CONTROL
-			//				Random random2 = new Random(unchecked((int)DateTime.Now.Ticks + 
+			//				Random random2 = new Random(unchecked((int)DateTime.Now.Ticks +
 			//					this.Color.B + this.Color.G + this.Color.R));
 			//#else
 			int seed = 0;
@@ -1964,11 +1959,14 @@ public class Series : DataPointCustomProperties
 	DefaultValue(ChartColorPalette.None),
 		Editor(typeof(ColorPaletteEditor), typeof(UITypeEditor))
 		]
-	public ChartColorPalette Palette { get; set
+	public ChartColorPalette Palette
+	{
+		get; set
 		{
 			field = value;
 			Invalidate(true, true);
-		} } = ChartColorPalette.None;
+		}
+	} = ChartColorPalette.None;
 
 	/// <summary>
 	/// Specify how often to display data point markers.
@@ -1979,7 +1977,9 @@ public class Series : DataPointCustomProperties
 	SRDescription("DescriptionAttributeSeries_MarkerStep"),
 	DefaultValue(1)
 	]
-	public int MarkerStep { get; set
+	public int MarkerStep
+	{
+		get; set
 		{
 			if (value <= 0)
 			{
@@ -1988,7 +1988,8 @@ public class Series : DataPointCustomProperties
 
 			field = value;
 			Invalidate(true, false);
-		} } = 1;
+		}
+	} = 1;
 
 	/// <summary>
 	/// Shadow offset of series.
@@ -2000,11 +2001,14 @@ public class Series : DataPointCustomProperties
 		SRDescription("DescriptionAttributeShadowOffset"),
 	DefaultValue(0)
 	]
-	public int ShadowOffset { get; set
+	public int ShadowOffset
+	{
+		get; set
 		{
 			field = value;
 			Invalidate(true, true);
-		} } = 0;
+		}
+	} = 0;
 
 	/// <summary>
 	/// Shadow color of series.
@@ -2015,11 +2019,14 @@ public class Series : DataPointCustomProperties
 	DefaultValue(typeof(Color), "128,0,0,0"),
 		SRDescription("DescriptionAttributeShadowColor"),
 	]
-	public Color ShadowColor { get; set
+	public Color ShadowColor
+	{
+		get; set
 		{
 			field = value;
 			Invalidate(true, true);
-		} } = Color.FromArgb(128, 0, 0, 0);
+		}
+	} = Color.FromArgb(128, 0, 0, 0);
 
 
 #if SUBAXES
@@ -2050,7 +2057,7 @@ public class Series : DataPointCustomProperties
 		/// Name of the X sub-axis this series is attached to.
 		/// </summary>
 		[
- 
+
 		SRCategory("CategoryAttributeAxes"),
 		Bindable(true),
 		SRDescription("DescriptionAttributeSeries_XSubAxisName"),
@@ -2078,6 +2085,7 @@ public class Series : DataPointCustomProperties
 	Bindable(true),
 	SRDescription("DescriptionAttributeSeries_YSubAxisName"),
 	DefaultValue("")
+#endif
 
 #if SUBAXES
 #else // SUBAXES
@@ -2122,11 +2130,14 @@ public class Series : DataPointCustomProperties
 	SRDescription("DescriptionAttributeSeries_XAxisType"),
 	DefaultValue(AxisType.Primary)
 	]
-	public AxisType XAxisType { get; set
+	public AxisType XAxisType
+	{
+		get; set
 		{
 			field = value;
 			Invalidate(true, false);
-		} } = AxisType.Primary;
+		}
+	} = AxisType.Primary;
 
 	/// <summary>
 	/// Axis type of vertical axes.
@@ -2137,11 +2148,14 @@ public class Series : DataPointCustomProperties
 	SRDescription("DescriptionAttributeSeries_YAxisType"),
 	DefaultValue(AxisType.Primary)
 	]
-	public AxisType YAxisType { get; set
+	public AxisType YAxisType
+	{
+		get; set
 		{
 			field = value;
 			Invalidate(true, false);
-		} } = AxisType.Primary;
+		}
+	} = AxisType.Primary;
 
 	/// <summary>
 	/// Gets or sets a flag which indicates whether the series is enabled.
@@ -2154,11 +2168,14 @@ public class Series : DataPointCustomProperties
 	NotifyParentProperty(true),
 	ParenthesizePropertyName(true),
 	]
-	public bool Enabled { get; set
+	public bool Enabled
+	{
+		get; set
 		{
 			field = value;
 			Invalidate(true, true);
-		} } = true;
+		}
+	} = true;
 
 	/// <summary>
 	/// Chart type used to draw the series.
@@ -2223,7 +2240,9 @@ public class Series : DataPointCustomProperties
 		SerializationVisibility(SerializationVisibility.Hidden),
 	DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)
 	]
-	public string ChartTypeName { get; set
+	public string ChartTypeName
+	{
+		get; set
 		{
 			if (field != value && value.Length > 0)
 			{
@@ -2261,7 +2280,8 @@ public class Series : DataPointCustomProperties
 			field = value;
 
 			Invalidate(false, true);
-		} } = ChartTypeNames.Column;
+		}
+	} = ChartTypeNames.Column;
 
 
 	/// <summary>
@@ -2274,7 +2294,9 @@ public class Series : DataPointCustomProperties
 		DefaultValue(""),
 		TypeConverter(typeof(SeriesAreaNameConverter))
 	]
-	public string ChartArea { get; set
+	public string ChartArea
+	{
+		get; set
 		{
 			if (value != field)
 			{
@@ -2286,7 +2308,8 @@ public class Series : DataPointCustomProperties
 				field = value;
 				Invalidate(false, true);
 			}
-		} } = string.Empty;
+		}
+	} = string.Empty;
 	/*
 		/// <summary>
 		/// If set to true, each data point of the series will use a random color from the palette.
@@ -2363,9 +2386,6 @@ public class Series : DataPointCustomProperties
 	/// </summary>
 	/// <value>The font cache.</value>
 	internal FontCache FontCache { get; private set; } = new();
-
-
-	#endregion
 
 	#region Invalidating method
 
@@ -2455,3 +2475,4 @@ public class Series : DataPointCustomProperties
 
 	#endregion
 }
+#endregion

@@ -11,27 +11,27 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for ScrollBarAppearance.
 	/// </summary>
-	public class ScrollBarAppearance : System.Windows.Forms.UserControl
+	public class ScrollBarAppearance : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxSize;
-		private System.Windows.Forms.ComboBox comboBoxBackColor;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox comboBoxButtonsColor;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ComboBox comboBoxLineColor;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.CheckBox checkBoxResetButton;
-		private System.Windows.Forms.CheckBox checkBoxSmallScrollButton;
-		private System.Windows.Forms.CheckBox checkBoxInside;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private ComboBox comboBoxSize;
+		private ComboBox comboBoxBackColor;
+		private Label label2;
+		private ComboBox comboBoxButtonsColor;
+		private Label label3;
+		private ComboBox comboBoxLineColor;
+		private Label label4;
+		private CheckBox checkBoxResetButton;
+		private CheckBox checkBoxSmallScrollButton;
+		private CheckBox checkBoxInside;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public ScrollBarAppearance()
 		{
@@ -64,37 +64,37 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.labelSampleComment = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.checkBoxInside = new System.Windows.Forms.CheckBox();
-			this.comboBoxLineColor = new System.Windows.Forms.ComboBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.comboBoxButtonsColor = new System.Windows.Forms.ComboBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.comboBoxBackColor = new System.Windows.Forms.ComboBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.checkBoxSmallScrollButton = new System.Windows.Forms.CheckBox();
-			this.checkBoxResetButton = new System.Windows.Forms.CheckBox();
-			this.comboBoxSize = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-			this.panel1.SuspendLayout();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Title title1 = new Title();
+			chart1 = new Chart();
+			labelSampleComment = new Label();
+			panel1 = new Panel();
+			checkBoxInside = new CheckBox();
+			comboBoxLineColor = new ComboBox();
+			label4 = new Label();
+			comboBoxButtonsColor = new ComboBox();
+			label3 = new Label();
+			comboBoxBackColor = new ComboBox();
+			label2 = new Label();
+			checkBoxSmallScrollButton = new CheckBox();
+			checkBoxResetButton = new CheckBox();
+			comboBoxSize = new ComboBox();
+			label1 = new Label();
+			((ISupportInitialize)(chart1)).BeginInit();
+			panel1.SuspendLayout();
+			SuspendLayout();
 			// 
 			// chart1
 			// 
-			this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-			this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.chart1.BorderlineWidth = 2;
-			this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+			chart1.BackSecondaryColor = System.Drawing.Color.White;
+			chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			chart1.BorderlineWidth = 2;
+			chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.Area3DStyle.IsClustered = true;
 			chartArea1.Area3DStyle.Perspective = 10;
 			chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -102,7 +102,7 @@ namespace ChartSamples
 			chartArea1.Area3DStyle.Inclination = 15;
 			chartArea1.Area3DStyle.Rotation = 10;
 			chartArea1.AxisX.IsLabelAutoFit = false;
-			chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.IsMarginVisible = false;
@@ -110,7 +110,7 @@ namespace ChartSamples
 			chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((System.Byte)(224)), ((System.Byte)(224)), ((System.Byte)(224)));
 			chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
 			chartArea1.AxisY.IsLabelAutoFit = false;
-			chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.BackColor = System.Drawing.Color.Gainsboro;
@@ -123,208 +123,208 @@ namespace ChartSamples
 			chartArea1.CursorX.IsUserSelectionEnabled = true;
 			chartArea1.Name = "Default";
 			chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-			this.chart1.ChartAreas.Add(chartArea1);
+			chart1.ChartAreas.Add(chartArea1);
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
 			legend1.Enabled = false;
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			legend1.Name = "Default";
-			this.chart1.Legends.Add(legend1);
-			this.chart1.Location = new System.Drawing.Point(16, 48);
-			this.chart1.Name = "chart1";
-			this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			chart1.Legends.Add(legend1);
+			chart1.Location = new Point(16, 48);
+			chart1.Name = "chart1";
+			chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartType = SeriesChartType.Area;
 			series1.Name = "Default";
-			this.chart1.Series.Add(series1);
-			this.chart1.Size = new System.Drawing.Size(412, 296);
-			this.chart1.TabIndex = 1;
+			chart1.Series.Add(series1);
+			chart1.Size = new Size(412, 296);
+			chart1.TabIndex = 1;
 			title1.ForeColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+			title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
 			title1.ShadowColor = System.Drawing.Color.FromArgb(((System.Byte)(32)), ((System.Byte)(0)), ((System.Byte)(0)), ((System.Byte)(0)));
 			title1.ShadowOffset = 3;
 			title1.Text = "ScrollBar Appearance";
-			this.chart1.Titles.Add(title1);
-			this.chart1.Click += new System.EventHandler(this.chart1_Click);
+			chart1.Titles.Add(title1);
+			chart1.Click += new EventHandler(chart1_Click);
 			// 
 			// labelSampleComment
 			// 
-			this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-			this.labelSampleComment.Name = "labelSampleComment";
-			this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
-			this.labelSampleComment.TabIndex = 0;
-			this.labelSampleComment.Text = "This sample demonstrates how to set the appearance of a scrollbar.";
-			this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			labelSampleComment.Location = new Point(16, 8);
+			labelSampleComment.Name = "labelSampleComment";
+			labelSampleComment.Size = new Size(702, 34);
+			labelSampleComment.TabIndex = 0;
+			labelSampleComment.Text = "This sample demonstrates how to set the appearance of a scrollbar.";
+			labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.checkBoxInside,
-																				 this.comboBoxLineColor,
-																				 this.label4,
-																				 this.comboBoxButtonsColor,
-																				 this.label3,
-																				 this.comboBoxBackColor,
-																				 this.label2,
-																				 this.checkBoxSmallScrollButton,
-																				 this.checkBoxResetButton,
-																				 this.comboBoxSize,
-																				 this.label1]);
-			this.panel1.Location = new System.Drawing.Point(432, 56);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(292, 288);
-			this.panel1.TabIndex = 0;
+			panel1.Controls.AddRange([
+																				 checkBoxInside,
+																				 comboBoxLineColor,
+																				 label4,
+																				 comboBoxButtonsColor,
+																				 label3,
+																				 comboBoxBackColor,
+																				 label2,
+																				 checkBoxSmallScrollButton,
+																				 checkBoxResetButton,
+																				 comboBoxSize,
+																				 label1]);
+			panel1.Location = new Point(432, 56);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(292, 288);
+			panel1.TabIndex = 0;
 			// 
 			// checkBoxInside
 			// 
-			this.checkBoxInside.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxInside.Checked = true;
-			this.checkBoxInside.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxInside.Location = new System.Drawing.Point(-10, 104);
-			this.checkBoxInside.Name = "checkBoxInside";
-			this.checkBoxInside.Size = new System.Drawing.Size(192, 24);
-			this.checkBoxInside.TabIndex = 4;
-			this.checkBoxInside.Text = "Scrollbars &Inside:";
-			this.checkBoxInside.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxInside.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			checkBoxInside.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxInside.Checked = true;
+			checkBoxInside.CheckState = System.Windows.Forms.CheckState.Checked;
+			checkBoxInside.Location = new Point(-10, 104);
+			checkBoxInside.Name = "checkBoxInside";
+			checkBoxInside.Size = new Size(192, 24);
+			checkBoxInside.TabIndex = 4;
+			checkBoxInside.Text = "Scrollbars &Inside:";
+			checkBoxInside.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxInside.CheckedChanged += new EventHandler(checkBox1_CheckedChanged);
 			// 
 			// comboBoxLineColor
 			// 
-			this.comboBoxLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxLineColor.Items.AddRange([
+			comboBoxLineColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxLineColor.Items.AddRange([
 																   "Default"]);
-			this.comboBoxLineColor.Location = new System.Drawing.Point(168, 200);
-			this.comboBoxLineColor.Name = "comboBoxLineColor";
-			this.comboBoxLineColor.TabIndex = 10;
-			this.comboBoxLineColor.SelectedIndexChanged += new System.EventHandler(this.comboBoxBackColor_SelectedIndexChanged);
+			comboBoxLineColor.Location = new Point(168, 200);
+			comboBoxLineColor.Name = "comboBoxLineColor";
+			comboBoxLineColor.TabIndex = 10;
+			comboBoxLineColor.SelectedIndexChanged += new EventHandler(comboBoxBackColor_SelectedIndexChanged);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(52, 200);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(112, 23);
-			this.label4.TabIndex = 9;
-			this.label4.Text = "&Line Color:";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label4.Location = new Point(52, 200);
+			label4.Name = "label4";
+			label4.Size = new Size(112, 23);
+			label4.TabIndex = 9;
+			label4.Text = "&Line Color:";
+			label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboBoxButtonsColor
 			// 
-			this.comboBoxButtonsColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxButtonsColor.Items.AddRange([
+			comboBoxButtonsColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxButtonsColor.Items.AddRange([
 																	  "Default"]);
-			this.comboBoxButtonsColor.Location = new System.Drawing.Point(168, 168);
-			this.comboBoxButtonsColor.Name = "comboBoxButtonsColor";
-			this.comboBoxButtonsColor.TabIndex = 8;
-			this.comboBoxButtonsColor.SelectedIndexChanged += new System.EventHandler(this.comboBoxBackColor_SelectedIndexChanged);
+			comboBoxButtonsColor.Location = new Point(168, 168);
+			comboBoxButtonsColor.Name = "comboBoxButtonsColor";
+			comboBoxButtonsColor.TabIndex = 8;
+			comboBoxButtonsColor.SelectedIndexChanged += new EventHandler(comboBoxBackColor_SelectedIndexChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(52, 168);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(112, 23);
-			this.label3.TabIndex = 7;
-			this.label3.Text = "Buttons &Color:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label3.Location = new Point(52, 168);
+			label3.Name = "label3";
+			label3.Size = new Size(112, 23);
+			label3.TabIndex = 7;
+			label3.Text = "Buttons &Color:";
+			label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboBoxBackColor
 			// 
-			this.comboBoxBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxBackColor.Items.AddRange([
+			comboBoxBackColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxBackColor.Items.AddRange([
 																   "Default"]);
-			this.comboBoxBackColor.Location = new System.Drawing.Point(168, 136);
-			this.comboBoxBackColor.Name = "comboBoxBackColor";
-			this.comboBoxBackColor.TabIndex = 6;
-			this.comboBoxBackColor.SelectedIndexChanged += new System.EventHandler(this.comboBoxBackColor_SelectedIndexChanged);
+			comboBoxBackColor.Location = new Point(168, 136);
+			comboBoxBackColor.Name = "comboBoxBackColor";
+			comboBoxBackColor.TabIndex = 6;
+			comboBoxBackColor.SelectedIndexChanged += new EventHandler(comboBoxBackColor_SelectedIndexChanged);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(60, 136);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(104, 23);
-			this.label2.TabIndex = 5;
-			this.label2.Text = "&Back Color:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label2.Location = new Point(60, 136);
+			label2.Name = "label2";
+			label2.Size = new Size(104, 23);
+			label2.TabIndex = 5;
+			label2.Text = "&Back Color:";
+			label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkBoxSmallScrollButton
 			// 
-			this.checkBoxSmallScrollButton.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxSmallScrollButton.Checked = true;
-			this.checkBoxSmallScrollButton.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSmallScrollButton.Location = new System.Drawing.Point(-10, 72);
-			this.checkBoxSmallScrollButton.Name = "checkBoxSmallScrollButton";
-			this.checkBoxSmallScrollButton.Size = new System.Drawing.Size(192, 24);
-			this.checkBoxSmallScrollButton.TabIndex = 3;
-			this.checkBoxSmallScrollButton.Text = "Show S&mallScroll Button:";
-			this.checkBoxSmallScrollButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxSmallScrollButton.CheckedChanged += new System.EventHandler(this.checkBoxResetButton_CheckedChanged);
+			checkBoxSmallScrollButton.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxSmallScrollButton.Checked = true;
+			checkBoxSmallScrollButton.CheckState = System.Windows.Forms.CheckState.Checked;
+			checkBoxSmallScrollButton.Location = new Point(-10, 72);
+			checkBoxSmallScrollButton.Name = "checkBoxSmallScrollButton";
+			checkBoxSmallScrollButton.Size = new Size(192, 24);
+			checkBoxSmallScrollButton.TabIndex = 3;
+			checkBoxSmallScrollButton.Text = "Show S&mallScroll Button:";
+			checkBoxSmallScrollButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxSmallScrollButton.CheckedChanged += new EventHandler(checkBoxResetButton_CheckedChanged);
 			// 
 			// checkBoxResetButton
 			// 
-			this.checkBoxResetButton.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxResetButton.Checked = true;
-			this.checkBoxResetButton.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxResetButton.Location = new System.Drawing.Point(-10, 40);
-			this.checkBoxResetButton.Name = "checkBoxResetButton";
-			this.checkBoxResetButton.Size = new System.Drawing.Size(192, 24);
-			this.checkBoxResetButton.TabIndex = 2;
-			this.checkBoxResetButton.Text = "Show &Reset Button:";
-			this.checkBoxResetButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkBoxResetButton.CheckedChanged += new System.EventHandler(this.checkBoxResetButton_CheckedChanged);
+			checkBoxResetButton.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxResetButton.Checked = true;
+			checkBoxResetButton.CheckState = System.Windows.Forms.CheckState.Checked;
+			checkBoxResetButton.Location = new Point(-10, 40);
+			checkBoxResetButton.Name = "checkBoxResetButton";
+			checkBoxResetButton.Size = new Size(192, 24);
+			checkBoxResetButton.TabIndex = 2;
+			checkBoxResetButton.Text = "Show &Reset Button:";
+			checkBoxResetButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			checkBoxResetButton.CheckedChanged += new EventHandler(checkBoxResetButton_CheckedChanged);
 			// 
 			// comboBoxSize
 			// 
-			this.comboBoxSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxSize.Items.AddRange([
+			comboBoxSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxSize.Items.AddRange([
 															  "5",
 															  "10",
 															  "15",
 															  "20"]);
-			this.comboBoxSize.Location = new System.Drawing.Point(168, 8);
-			this.comboBoxSize.Name = "comboBoxSize";
-			this.comboBoxSize.TabIndex = 1;
-			this.comboBoxSize.SelectedIndexChanged += new System.EventHandler(this.comboBoxSize_SelectedIndexChanged);
+			comboBoxSize.Location = new Point(168, 8);
+			comboBoxSize.Name = "comboBoxSize";
+			comboBoxSize.TabIndex = 1;
+			comboBoxSize.SelectedIndexChanged += new EventHandler(comboBoxSize_SelectedIndexChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(85, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(80, 23);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "&Size:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label1.Location = new Point(85, 8);
+			label1.Name = "label1";
+			label1.Size = new Size(80, 23);
+			label1.TabIndex = 0;
+			label1.Text = "&Size:";
+			label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// ScrollBarAppearance
 			// 
-			this.BackColor = System.Drawing.Color.White;
-			this.Controls.AddRange([
-																		  this.panel1,
-																		  this.labelSampleComment,
-																		  this.chart1]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "ScrollBarAppearance";
-			this.Size = new System.Drawing.Size(728, 360);
-			this.Load += new System.EventHandler(this.ZoomingExtents_Load);
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.ResumeLayout(false);
+			BackColor = System.Drawing.Color.White;
+			Controls.AddRange([
+																		  panel1,
+																		  labelSampleComment,
+																		  chart1]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "ScrollBarAppearance";
+			Size = new Size(728, 360);
+			Load += new EventHandler(ZoomingExtents_Load);
+			((ISupportInitialize)(chart1)).EndInit();
+			panel1.ResumeLayout(false);
+			ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void ZoomingExtents_Load(object sender, System.EventArgs e)
+		private void ZoomingExtents_Load(object sender, EventArgs e)
 		{
 			// Fill combo boxes with known colors
 			foreach(String colorName in KnownColor.GetNames(typeof(KnownColor)))
 			{
-				this.comboBoxBackColor.Items.Add(colorName);
-				this.comboBoxButtonsColor.Items.Add(colorName);
-				this.comboBoxLineColor.Items.Add(colorName);
+				comboBoxBackColor.Items.Add(colorName);
+				comboBoxButtonsColor.Items.Add(colorName);
+				comboBoxLineColor.Items.Add(colorName);
 			}
-			this.comboBoxSize.SelectedIndex = 1;
-			this.comboBoxBackColor.SelectedIndex = 0;
-			this.comboBoxButtonsColor.SelectedIndex = 0;
-			this.comboBoxLineColor.SelectedIndex = 0;
+			comboBoxSize.SelectedIndex = 1;
+			comboBoxBackColor.SelectedIndex = 0;
+			comboBoxButtonsColor.SelectedIndex = 0;
+			comboBoxLineColor.SelectedIndex = 0;
 
 
 			// Set original view
@@ -339,17 +339,17 @@ namespace ChartSamples
 			}
 		}
 
-		private void comboBoxBackColor_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxBackColor_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxResetButton_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxResetButton_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void comboBoxSize_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxSize_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
@@ -409,12 +409,12 @@ namespace ChartSamples
 			}
 		}
 
-		private void chart1_Click(object sender, System.EventArgs e)
+		private void chart1_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}

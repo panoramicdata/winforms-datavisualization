@@ -13,19 +13,19 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for Templates.
 	/// </summary>
-	public class Templates : System.Windows.Forms.UserControl
+	public class Templates : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxTemplate;
-		private System.Windows.Forms.Label label2;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private ComboBox comboBoxTemplate;
+		private Label label2;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public Templates()
 		{
@@ -59,48 +59,48 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-			System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint21 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.labelSampleComment = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.comboBoxTemplate = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-			this.panel1.SuspendLayout();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 3);
+			DataPoint dataPoint2 = new DataPoint(0, 4);
+			DataPoint dataPoint3 = new DataPoint(0, 7);
+			DataPoint dataPoint4 = new DataPoint(0, 3);
+			DataPoint dataPoint5 = new DataPoint(0, 9);
+			DataPoint dataPoint6 = new DataPoint(0, 7);
+			DataPoint dataPoint7 = new DataPoint(0, 2);
+			Series series2 = new Series();
+			DataPoint dataPoint8 = new DataPoint(0, 9);
+			DataPoint dataPoint9 = new DataPoint(0, 7);
+			DataPoint dataPoint10 = new DataPoint(0, 5);
+			DataPoint dataPoint11 = new DataPoint(0, 8);
+			DataPoint dataPoint12 = new DataPoint(0, 2);
+			DataPoint dataPoint13 = new DataPoint(0, 1);
+			DataPoint dataPoint14 = new DataPoint(0, 5);
+			Series series3 = new Series();
+			DataPoint dataPoint15 = new DataPoint(0, 8);
+			DataPoint dataPoint16 = new DataPoint(0, 3);
+			DataPoint dataPoint17 = new DataPoint(0, 6);
+			DataPoint dataPoint18 = new DataPoint(0, 1);
+			DataPoint dataPoint19 = new DataPoint(0, 3);
+			DataPoint dataPoint20 = new DataPoint(0, 9);
+			DataPoint dataPoint21 = new DataPoint(0, 2);
+			chart1 = new Chart();
+			labelSampleComment = new Label();
+			panel1 = new Panel();
+			comboBoxTemplate = new ComboBox();
+			label1 = new Label();
+			label2 = new Label();
+			((ISupportInitialize)(chart1)).BeginInit();
+			panel1.SuspendLayout();
+			SuspendLayout();
 			// 
 			// chart1
 			// 
-			this.chart1.BackColor = System.Drawing.Color.Goldenrod;
-			this.chart1.BackSecondaryColor = System.Drawing.Color.PaleGoldenrod;
-			this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.DiagonalLeft;
-			this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
+			chart1.BackColor = System.Drawing.Color.Goldenrod;
+			chart1.BackSecondaryColor = System.Drawing.Color.PaleGoldenrod;
+			chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.DiagonalLeft;
+			chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
 			chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
@@ -108,17 +108,17 @@ namespace ChartSamples
 			chartArea1.BackColor = System.Drawing.Color.Transparent;
 			chartArea1.BorderColor = System.Drawing.Color.Empty;
 			chartArea1.Name = "Default";
-			this.chart1.ChartAreas.Add(chartArea1);
+			chart1.ChartAreas.Add(chartArea1);
 			legend1.Alignment = System.Drawing.StringAlignment.Center;
 			legend1.BackColor = System.Drawing.Color.Transparent;
 			legend1.BorderColor = System.Drawing.Color.Transparent;
 			legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
 			legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
 			legend1.Name = "Default";
-			this.chart1.Legends.Add(legend1);
-			this.chart1.Location = new System.Drawing.Point(16, 40);
-			this.chart1.Name = "chart1";
-			this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
+			chart1.Legends.Add(legend1);
+			chart1.Location = new Point(16, 40);
+			chart1.Name = "chart1";
+			chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
 			series1.BackSecondaryColor = System.Drawing.Color.Khaki;
 			series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.VerticalCenter;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
@@ -155,91 +155,91 @@ namespace ChartSamples
 			series3.Points.Add(dataPoint20);
 			series3.Points.Add(dataPoint21);
 			series3.ShadowOffset = 2;
-			this.chart1.Series.Add(series1);
-			this.chart1.Series.Add(series2);
-			this.chart1.Series.Add(series3);
-			this.chart1.Size = new System.Drawing.Size(412, 296);
-			this.chart1.TabIndex = 0;
+			chart1.Series.Add(series1);
+			chart1.Series.Add(series2);
+			chart1.Series.Add(series3);
+			chart1.Size = new Size(412, 296);
+			chart1.TabIndex = 0;
 			// 
 			// labelSampleComment
 			// 
-			this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-			this.labelSampleComment.Name = "labelSampleComment";
-			this.labelSampleComment.Size = new System.Drawing.Size(702, 24);
-			this.labelSampleComment.TabIndex = 2;
-			this.labelSampleComment.Text = "This sample demonstrates how to load appearance templates using serialization.";
-			this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			labelSampleComment.Location = new Point(16, 8);
+			labelSampleComment.Name = "labelSampleComment";
+			labelSampleComment.Size = new Size(702, 24);
+			labelSampleComment.TabIndex = 2;
+			labelSampleComment.Text = "This sample demonstrates how to load appearance templates using serialization.";
+			labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.comboBoxTemplate,
-																				 this.label1]);
-			this.panel1.Location = new System.Drawing.Point(432, 48);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(292, 288);
-			this.panel1.TabIndex = 1;
+			panel1.Controls.AddRange([
+																				 comboBoxTemplate,
+																				 label1]);
+			panel1.Location = new Point(432, 48);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(292, 288);
+			panel1.TabIndex = 1;
 			// 
 			// comboBoxTemplate
 			// 
-			this.comboBoxTemplate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxTemplate.Items.AddRange([
+			comboBoxTemplate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxTemplate.Items.AddRange([
 																  "None",
 																  "WhiteSmoke",
 																  "SkyBlue",
 																  "WarmTones"]);
-			this.comboBoxTemplate.Location = new System.Drawing.Point(168, 8);
-			this.comboBoxTemplate.Name = "comboBoxTemplate";
-			this.comboBoxTemplate.TabIndex = 1;
-			this.comboBoxTemplate.SelectedIndexChanged += new System.EventHandler(this.comboBoxTemplate_SelectedIndexChanged);
+			comboBoxTemplate.Location = new Point(168, 8);
+			comboBoxTemplate.Name = "comboBoxTemplate";
+			comboBoxTemplate.TabIndex = 1;
+			comboBoxTemplate.SelectedIndexChanged += new EventHandler(comboBoxTemplate_SelectedIndexChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(56, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 23);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "&Template:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label1.Location = new Point(56, 8);
+			label1.Name = "label1";
+			label1.Size = new Size(104, 23);
+			label1.TabIndex = 0;
+			label1.Text = "&Template:";
+			label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label2.Location = new System.Drawing.Point(16, 344);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(702, 48);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "Template files are in an XML format, and can be created using any text editor or " +
+			label2.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			label2.Location = new Point(16, 344);
+			label2.Name = "label2";
+			label2.Size = new Size(702, 48);
+			label2.TabIndex = 3;
+			label2.Text = "Template files are in an XML format, and can be created using any text editor or " +
 				"by using the Save method of the ChartSerializer class.";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// Templates
 			// 
-			this.BackColor = System.Drawing.Color.White;
-			this.Controls.AddRange([
-																		  this.label2,
-																		  this.panel1,
-																		  this.labelSampleComment,
-																		  this.chart1]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "Templates";
-			this.Size = new System.Drawing.Size(728, 440);
-			this.Load += new System.EventHandler(this.Templates_Load);
-			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.ResumeLayout(false);
+			BackColor = System.Drawing.Color.White;
+			Controls.AddRange([
+																		  label2,
+																		  panel1,
+																		  labelSampleComment,
+																		  chart1]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "Templates";
+			Size = new Size(728, 440);
+			Load += new EventHandler(Templates_Load);
+			((ISupportInitialize)(chart1)).EndInit();
+			panel1.ResumeLayout(false);
+			ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void Templates_Load(object sender, System.EventArgs e)
+		private void Templates_Load(object sender, EventArgs e)
 		{
 			// Set current template
 			comboBoxTemplate.SelectedIndex = 1;
 		}
 
-		private void comboBoxTemplate_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxTemplate_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(comboBoxTemplate.Text == "None")
 			{
@@ -250,7 +250,7 @@ namespace ChartSamples
 			else
 			{
 				// Get template path
-				MainForm mainForm = (MainForm)this.ParentForm;
+				MainForm mainForm = (MainForm)ParentForm;
                 string imageFileName = mainForm.CurrentSamplePath;
 				imageFileName += "\\" + comboBoxTemplate.Text + ".xml";
 

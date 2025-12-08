@@ -1327,36 +1327,31 @@ internal class Selection : IServiceProvider
 			}
 		}
 
-
 		// Get tooltips from custom label
 		if (type == ChartElementType.AxisLabels &&
-			obj is CustomLabel)
+			obj is CustomLabel label)
 		{
-			toolTipText = ((CustomLabel)obj).ToolTip;
+			toolTipText = label.ToolTip;
 		}
-
-
-
 
 		// Get tooltips from data points
 		else if (type == ChartElementType.Annotation && obj != null && obj is Annotation annotation)
 		{
 			// Take tool tip from data point
 			toolTipText = annotation.ReplaceKeywords(annotation.ToolTip);
-
 		}
 		// Get tooltips from axis
-		else if (type == ChartElementType.Axis && obj != null && obj is Axis)
+		else if (type == ChartElementType.Axis && obj != null && obj is Axis axis)
 		{
 			// Take tool tip from strip line
-			toolTipText = ((Axis)obj).ToolTip;
+			toolTipText = axis.ToolTip;
 		}
 
 		// Get tooltips from strip lines
-		else if (type == ChartElementType.StripLines && obj != null && obj is StripLine)
+		else if (type == ChartElementType.StripLines && obj != null && obj is StripLine line)
 		{
 			// Take tool tip from strip line
-			toolTipText = ((StripLine)obj).ToolTip;
+			toolTipText = line.ToolTip;
 
 		}
 		// Get tooltips from data points
@@ -1379,7 +1374,6 @@ internal class Selection : IServiceProvider
 			{
 				toolTipText = legendCell.ToolTip;
 			}
-
 
 			// Check if series is associated with legend item
 			if (toolTipText.Length == 0 &&
@@ -1416,7 +1410,6 @@ internal class Selection : IServiceProvider
 		return args.Text.Trim();
 
 	}
-
 
 	/// <summary>
 	/// Mouse move event handler.
@@ -1719,44 +1712,44 @@ internal class Selection : IServiceProvider
 				}
 			}
 		}
-		else if (region.SelectedObject is Axis)
+		else if (region.SelectedObject is Axis axis)
 		{
-			if (((Axis)region.SelectedObject).LineColor == Color.Transparent)
+			if (axis.LineColor == Color.Transparent)
 			{
 				isTransparent = true;
 			}
 		}
-		else if (region.SelectedObject is ChartArea)
+		else if (region.SelectedObject is ChartArea area)
 		{
-			if (((ChartArea)region.SelectedObject).BackColor == Color.Transparent)
+			if (area.BackColor == Color.Transparent)
 			{
 				isTransparent = true;
 			}
 		}
-		else if (region.SelectedObject is Legend)
+		else if (region.SelectedObject is Legend legend)
 		{
-			if (((Legend)region.SelectedObject).BackColor == Color.Transparent)
+			if (legend.BackColor == Color.Transparent)
 			{
 				isTransparent = true;
 			}
 		}
-		else if (region.SelectedObject is Grid)
+		else if (region.SelectedObject is Grid grid)
 		{
-			if (((Grid)region.SelectedObject).LineColor == Color.Transparent)
+			if (grid.LineColor == Color.Transparent)
 			{
 				isTransparent = true;
 			}
 		}
-		else if (region.SelectedObject is StripLine)
+		else if (region.SelectedObject is StripLine line)
 		{
-			if (((StripLine)region.SelectedObject).BackColor == Color.Transparent)
+			if (line.BackColor == Color.Transparent)
 			{
 				isTransparent = true;
 			}
 		}
-		else if (region.SelectedObject is TickMark)
+		else if (region.SelectedObject is TickMark mark)
 		{
-			if (((TickMark)region.SelectedObject).LineColor == Color.Transparent)
+			if (mark.LineColor == Color.Transparent)
 			{
 				isTransparent = true;
 			}
@@ -1909,9 +1902,9 @@ internal class Selection : IServiceProvider
 
 				break;
 			case ChartElementType.AxisTitle:
-				if (obj is Axis)
+				if (obj is Axis axis1)
 				{
-					result.Axis = (Axis)obj;
+					result.Axis = axis1;
 					result.ChartArea = result.Axis.ChartArea;
 				}
 
@@ -2006,7 +1999,7 @@ internal class Selection : IServiceProvider
 	/// <param name="chartObject">The chart object.</param>
 	/// <param name="elementType">Type of the element.</param>
 	/// <returns></returns>
-	private GraphicsPath GetGraphicsPath(IList markers, object chartObject, ChartElementType elementType)
+	private GraphicsPath GetGraphicsPath(ArrayList markers, object chartObject, ChartElementType elementType)
 	{
 		bool chartArea3D = false;
 		if (chartObject is ChartArea chartArea && elementType == ChartElementType.PlottingArea)
@@ -2608,7 +2601,7 @@ internal class Selection : IServiceProvider
 			rect1.Inflate(size.Width, 2);
 		}
 
-		IList list1 = GetMarkers(rect1, ChartElementType.Axis);
+		ArrayList list1 = GetMarkers(rect1, ChartElementType.Axis);
 		ChartArea area = axis.ChartArea;
 		if (IsArea3D(area))
 		{
@@ -2651,7 +2644,7 @@ internal class Selection : IServiceProvider
 			return list;
 		}
 
-		IList list1 = GetMarkers(area.PlotAreaPosition.ToRectangleF(), ChartElementType.PlottingArea);
+		ArrayList list1 = GetMarkers(area.PlotAreaPosition.ToRectangleF(), ChartElementType.PlottingArea);
 		if (IsChartAreaCircular(area))
 		{
 			list1 = GetMarkers(area.lastAreaPosition, ChartElementType.PlottingArea);

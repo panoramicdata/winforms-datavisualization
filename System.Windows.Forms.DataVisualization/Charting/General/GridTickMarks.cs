@@ -109,22 +109,22 @@ public class TickMark : Grid
 		// or gridlines between major gridlines and tickmarks. For date 
 		// type interval is calculated using CalcInterval function.
 		// ****************************************************************
-		double oldInterval = this.interval;
+		double oldInterval = interval;
 		DateTimeIntervalType oldIntervalType = intervalType;
 		double oldIntervalOffset = intervalOffset;
 		DateTimeIntervalType oldIntervalOffsetType = intervalOffsetType;
-		if (!majorGridTick && (this.interval == 0 || double.IsNaN(this.interval)))
+		if (!majorGridTick && (interval == 0 || double.IsNaN(interval)))
 		{
 			// Number type
 			if (Axis.majorGrid.GetIntervalType() == DateTimeIntervalType.Auto)
 			{
-				this.interval = Axis.majorGrid.GetInterval() / NumberOfIntervals;
+				interval = Axis.majorGrid.GetInterval() / NumberOfIntervals;
 			}
 			// Date type
 			else
 			{
 				DateTimeIntervalType localIntervalType = Axis.majorGrid.GetIntervalType();
-				this.interval = Axis.CalcInterval(
+				interval = Axis.CalcInterval(
 					Axis.ViewMinimum,
 					Axis.ViewMinimum + (Axis.ViewMaximum - Axis.ViewMinimum) / NumberOfDateTimeIntervals,
 				true,
@@ -518,7 +518,7 @@ public class TickMark : Grid
 		// gridlines
 		if (!majorGridTick)
 		{
-			this.interval = oldInterval;
+			interval = oldInterval;
 			intervalType = oldIntervalType;
 			intervalOffset = oldIntervalOffset;
 			intervalOffsetType = oldIntervalOffsetType;

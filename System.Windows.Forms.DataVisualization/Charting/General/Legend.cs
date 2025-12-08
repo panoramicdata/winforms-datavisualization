@@ -1651,8 +1651,8 @@ public class Legend : ChartNamedElement
 		//*************************************************************************
 		//** Measure legend font single character
 		//*************************************************************************
-		singleWCharacterSize = graph.MeasureStringAbs("W", (autofitFont == null) ? Font : autofitFont);
-		Size doubleCharacterSize = graph.MeasureStringAbs("WW", (autofitFont == null) ? Font : autofitFont);
+		singleWCharacterSize = graph.MeasureStringAbs("W", autofitFont ?? Font);
+		Size doubleCharacterSize = graph.MeasureStringAbs("WW", autofitFont ?? Font);
 		singleWCharacterSize.Width = doubleCharacterSize.Width - singleWCharacterSize.Width;
 
 
@@ -1699,7 +1699,7 @@ public class Legend : ChartNamedElement
 				Size cellSize = legendCell.MeasureCell(
 					graph,
 					fontSizeReducedBy,
-					(autofitFont == null) ? Font : autofitFont,
+autofitFont ?? Font,
 					singleWCharacterSize);
 
 				// Check for column maximum/minimum cell width restrictions

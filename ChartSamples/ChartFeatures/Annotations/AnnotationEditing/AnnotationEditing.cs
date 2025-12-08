@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,17 +11,17 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AnnotationEditing.
 	/// </summary>
-	public class AnnotationEditing : System.Windows.Forms.UserControl
+	public class AnnotationEditing : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.CheckBox AllowTextEditingCheck;
-		private System.Windows.Forms.CheckBox VisibleCheck;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private CheckBox AllowTextEditingCheck;
+		private CheckBox VisibleCheck;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public AnnotationEditing()
 		{
@@ -53,71 +53,71 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation calloutAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.CalloutAnnotation();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 700);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 400);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 200);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 450);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 760);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 345);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 700);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 700);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 560);
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.VisibleCheck = new System.Windows.Forms.CheckBox();
-            this.AllowTextEditingCheck = new System.Windows.Forms.CheckBox();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			CalloutAnnotation calloutAnnotation1 = new CalloutAnnotation();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 700);
+			DataPoint dataPoint2 = new DataPoint(0, 400);
+			DataPoint dataPoint3 = new DataPoint(0, 200);
+			DataPoint dataPoint4 = new DataPoint(0, 450);
+			DataPoint dataPoint5 = new DataPoint(0, 300);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 760);
+			DataPoint dataPoint7 = new DataPoint(0, 345);
+			DataPoint dataPoint8 = new DataPoint(0, 700);
+			DataPoint dataPoint9 = new DataPoint(0, 700);
+			DataPoint dataPoint10 = new DataPoint(0, 560);
+            label9 = new Label();
+            panel1 = new Panel();
+            VisibleCheck = new CheckBox();
+            AllowTextEditingCheck = new CheckBox();
+            Chart1 = new Chart();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 14);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 34);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "This sample demonstrates how to enable and disable text editing for an annotation" +
+            label9.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 14);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 34);
+            label9.TabIndex = 1;
+            label9.Text = "This sample demonstrates how to enable and disable text editing for an annotation" +
                 ".  Double-click on the Annotation object to begin editing the text.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.VisibleCheck);
-            this.panel1.Controls.Add(this.AllowTextEditingCheck);
-            this.panel1.Location = new System.Drawing.Point(432, 68);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 19;
+            panel1.Controls.Add(VisibleCheck);
+            panel1.Controls.Add(AllowTextEditingCheck);
+            panel1.Location = new Point(432, 68);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 19;
             // 
             // VisibleCheck
             // 
-            this.VisibleCheck.Checked = true;
-            this.VisibleCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.VisibleCheck.Location = new System.Drawing.Point(48, 8);
-            this.VisibleCheck.Name = "VisibleCheck";
-            this.VisibleCheck.Size = new System.Drawing.Size(144, 24);
-            this.VisibleCheck.TabIndex = 1;
-            this.VisibleCheck.Text = "Annotation &Visible";
-            this.VisibleCheck.CheckedChanged += new System.EventHandler(this.VisibleCheck_CheckedChanged);
+            VisibleCheck.Checked = true;
+            VisibleCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            VisibleCheck.Location = new Point(48, 8);
+            VisibleCheck.Name = "VisibleCheck";
+            VisibleCheck.Size = new Size(144, 24);
+            VisibleCheck.TabIndex = 1;
+            VisibleCheck.Text = "Annotation &Visible";
+            VisibleCheck.CheckedChanged += new EventHandler(VisibleCheck_CheckedChanged);
             // 
             // AllowTextEditingCheck
             // 
-            this.AllowTextEditingCheck.Checked = true;
-            this.AllowTextEditingCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AllowTextEditingCheck.Location = new System.Drawing.Point(48, 40);
-            this.AllowTextEditingCheck.Name = "AllowTextEditingCheck";
-            this.AllowTextEditingCheck.Size = new System.Drawing.Size(200, 24);
-            this.AllowTextEditingCheck.TabIndex = 0;
-            this.AllowTextEditingCheck.Text = "Allow &Multiline Text Editing";
-            this.AllowTextEditingCheck.CheckedChanged += new System.EventHandler(this.Enabled_CheckedChanged);
+            AllowTextEditingCheck.Checked = true;
+            AllowTextEditingCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            AllowTextEditingCheck.Location = new Point(48, 40);
+            AllowTextEditingCheck.Name = "AllowTextEditingCheck";
+            AllowTextEditingCheck.Size = new Size(200, 24);
+            AllowTextEditingCheck.TabIndex = 0;
+            AllowTextEditingCheck.Text = "Allow &Multiline Text Editing";
+            AllowTextEditingCheck.CheckedChanged += new EventHandler(Enabled_CheckedChanged);
             // 
             // Chart1
             // 
@@ -125,23 +125,23 @@ namespace ChartSamples
             calloutAnnotation1.AnchorDataPointName = "Default\\r2";
             calloutAnnotation1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             calloutAnnotation1.CalloutStyle = System.Windows.Forms.DataVisualization.Charting.CalloutStyle.Ellipse;
-            calloutAnnotation1.Font = new System.Drawing.Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
+            calloutAnnotation1.Font = new Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
             calloutAnnotation1.Name = "ElipseAnnotation";
             calloutAnnotation1.Text = "Double Click to \\nEdit this Annotation";
-            this.Chart1.Annotations.Add(calloutAnnotation1);
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.Annotations.Add(calloutAnnotation1);
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Interval = 0;
             chartArea1.AxisX.LabelStyle.IntervalOffset = 0;
             chartArea1.AxisX.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
@@ -170,7 +170,7 @@ namespace ChartSamples
             chartArea1.AxisX2.MajorTickMark.IntervalOffset = 0;
             chartArea1.AxisX2.MajorTickMark.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
             chartArea1.AxisX2.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LabelStyle.Interval = 0;
             chartArea1.AxisY.LabelStyle.IntervalOffset = 0;
             chartArea1.AxisY.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Auto;
@@ -216,15 +216,15 @@ namespace ChartSamples
             chartArea1.Position.X = 5.089137F;
             chartArea1.Position.Y = 5.895753F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 60);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 60);
+            Chart1.Name = "Chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
@@ -245,37 +245,37 @@ namespace ChartSamples
             series2.Points.Add(dataPoint8);
             series2.Points.Add(dataPoint9);
             series2.Points.Add(dataPoint10);
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 0;
-            this.Chart1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Chart1_KeyDown);
-            this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 0;
+            Chart1.KeyDown += new KeyEventHandler(Chart1_KeyDown);
+            Chart1.Click += new EventHandler(Chart1_Click);
             // 
             // AnnotationEditing
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "AnnotationEditing";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "AnnotationEditing";
+            Size = new Size(728, 480);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void Enabled_CheckedChanged(object sender, System.EventArgs e)
+		private void Enabled_CheckedChanged(object sender, EventArgs e)
 		{
 			((CalloutAnnotation)Chart1.Annotations["ElipseAnnotation"]).IsMultiline = AllowTextEditingCheck.Checked;
 
 		}
 
-		private void Chart1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		private void Chart1_KeyDown(object sender, KeyEventArgs e)
 		{
 			if(e.KeyCode == Keys.Enter)
 			{
@@ -284,12 +284,12 @@ namespace ChartSamples
 		
 		}
 
-		private void Chart1_Click(object sender, System.EventArgs e)
+		private void Chart1_Click(object sender, EventArgs e)
 		{
 			Chart1.Focus();
 		}
 
-		private void VisibleCheck_CheckedChanged(object sender, System.EventArgs e)
+		private void VisibleCheck_CheckedChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations[0].Visible = VisibleCheck.Checked;
 		}

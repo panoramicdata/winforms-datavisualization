@@ -1,4 +1,4 @@
-//=================================================================
+﻿//=================================================================
 //  File:		ActivityLegend.cs
 //
 //  Namespace:	System.Windows.Forms.DataVisualization.Charting.Utilities
@@ -10,7 +10,7 @@
 //
 //===================================================================
 // Chart Control for .NET Framework
-// Copyright � Microsoft Corporation, all rights reserved
+// Copyright © Microsoft Corporation, all rights reserved
 //===================================================================
 
 #region Using Statements
@@ -223,8 +223,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             myLegendDateFormat = "Y";
 
             // Set the default fonts used for the cells
-            myFirstCellFont = new System.Drawing.Font("Arial", 8, System.Drawing.FontStyle.Bold);
-            mySecondCellFont = new System.Drawing.Font("Arial", 8);
+            myFirstCellFont = new Font("Arial", 8, System.Drawing.FontStyle.Bold);
+            mySecondCellFont = new Font("Arial", 8);
 
             // Set the legend to some default properties
             myLegend = new Legend("ActivityLegend00");

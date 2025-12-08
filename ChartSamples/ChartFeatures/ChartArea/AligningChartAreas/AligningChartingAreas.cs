@@ -13,29 +13,29 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AligningChartingAreas.
 	/// </summary>
-	public class AligningChartingAreas : System.Windows.Forms.UserControl
-    {
+	public class AligningChartingAreas : UserControl
+	{
         # region Fields
-        private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.ComboBox AlignmentCombo;
-		private System.Windows.Forms.CheckBox checkBoxShowChartArea1;
-		private System.Windows.Forms.CheckBox checkBoxShowChartArea2;
-		private System.Windows.Forms.Label label1;
+        private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private Label label3;
+		private Label label4;
+		private Label label5;
+		private Label label6;
+		private Label label7;
+		private Label label8;
+		private Label label12;
+		private Label label15;
+		private ComboBox AlignmentCombo;
+		private CheckBox checkBoxShowChartArea1;
+		private CheckBox checkBoxShowChartArea2;
+		private Label label1;
         
         /// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
         #endregion
 
         # region Constructor
@@ -70,196 +70,196 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxShowChartArea2 = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowChartArea1 = new System.Windows.Forms.CheckBox();
-            this.AlignmentCombo = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea3 = new ChartArea();
+			ChartArea chartArea4 = new ChartArea();
+			Legend legend2 = new Legend();
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(0, 3);
+			DataPoint dataPoint12 = new DataPoint(0, 7);
+			DataPoint dataPoint13 = new DataPoint(0, 8);
+			DataPoint dataPoint14 = new DataPoint(0, 6);
+			DataPoint dataPoint15 = new DataPoint(0, 7);
+			Series series4 = new Series();
+			DataPoint dataPoint16 = new DataPoint(0, 4);
+			DataPoint dataPoint17 = new DataPoint(0, 7);
+			DataPoint dataPoint18 = new DataPoint(0, 5);
+			DataPoint dataPoint19 = new DataPoint(0, 8);
+			DataPoint dataPoint20 = new DataPoint(0, 6);
+            label9 = new Label();
+            panel1 = new Panel();
+            checkBoxShowChartArea2 = new CheckBox();
+            checkBoxShowChartArea1 = new CheckBox();
+            AlignmentCombo = new ComboBox();
+            label8 = new Label();
+            label7 = new Label();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label12 = new Label();
+            label15 = new Label();
+            Chart1 = new Chart();
+            label1 = new Label();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            label9.Anchor = ((AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 43);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "This sample shows how to align multiple chart areas when more than one chart area" +
+            label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 43);
+            label9.TabIndex = 0;
+            label9.Text = "This sample shows how to align multiple chart areas when more than one chart area" +
                 " is visible.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxShowChartArea2);
-            this.panel1.Controls.Add(this.checkBoxShowChartArea1);
-            this.panel1.Controls.Add(this.AlignmentCombo);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label12);
-            this.panel1.Controls.Add(this.label15);
-            this.panel1.Location = new System.Drawing.Point(432, 46);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxShowChartArea2);
+            panel1.Controls.Add(checkBoxShowChartArea1);
+            panel1.Controls.Add(AlignmentCombo);
+            panel1.Controls.Add(label8);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label12);
+            panel1.Controls.Add(label15);
+            panel1.Location = new Point(432, 46);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // checkBoxShowChartArea2
             // 
-            this.checkBoxShowChartArea2.Checked = true;
-            this.checkBoxShowChartArea2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShowChartArea2.Location = new System.Drawing.Point(6, 47);
-            this.checkBoxShowChartArea2.Name = "checkBoxShowChartArea2";
-            this.checkBoxShowChartArea2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBoxShowChartArea2.Size = new System.Drawing.Size(160, 24);
-            this.checkBoxShowChartArea2.TabIndex = 9;
-            this.checkBoxShowChartArea2.Text = "Show Chart Area 2";
-            this.checkBoxShowChartArea2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            checkBoxShowChartArea2.Checked = true;
+            checkBoxShowChartArea2.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowChartArea2.Location = new Point(6, 47);
+            checkBoxShowChartArea2.Name = "checkBoxShowChartArea2";
+            checkBoxShowChartArea2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            checkBoxShowChartArea2.Size = new Size(160, 24);
+            checkBoxShowChartArea2.TabIndex = 9;
+            checkBoxShowChartArea2.Text = "Show Chart Area 2";
+            checkBoxShowChartArea2.CheckedChanged += new EventHandler(checkBox2_CheckedChanged);
             // 
             // checkBoxShowChartArea1
             // 
-            this.checkBoxShowChartArea1.Checked = true;
-            this.checkBoxShowChartArea1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShowChartArea1.Location = new System.Drawing.Point(6, 15);
-            this.checkBoxShowChartArea1.Name = "checkBoxShowChartArea1";
-            this.checkBoxShowChartArea1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBoxShowChartArea1.Size = new System.Drawing.Size(160, 24);
-            this.checkBoxShowChartArea1.TabIndex = 8;
-            this.checkBoxShowChartArea1.Text = "Show Chart Area 1";
-            this.checkBoxShowChartArea1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            checkBoxShowChartArea1.Checked = true;
+            checkBoxShowChartArea1.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowChartArea1.Location = new Point(6, 15);
+            checkBoxShowChartArea1.Name = "checkBoxShowChartArea1";
+            checkBoxShowChartArea1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            checkBoxShowChartArea1.Size = new Size(160, 24);
+            checkBoxShowChartArea1.TabIndex = 8;
+            checkBoxShowChartArea1.Text = "Show Chart Area 1";
+            checkBoxShowChartArea1.CheckedChanged += new EventHandler(checkBox1_CheckedChanged);
             // 
             // AlignmentCombo
             // 
-            this.AlignmentCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AlignmentCombo.Items.AddRange([
+            AlignmentCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AlignmentCombo.Items.AddRange([
             "Horizontally",
             "Vertically"]);
-            this.AlignmentCombo.Location = new System.Drawing.Point(150, 80);
-            this.AlignmentCombo.Name = "AlignmentCombo";
-            this.AlignmentCombo.Size = new System.Drawing.Size(136, 22);
-            this.AlignmentCombo.TabIndex = 1;
-            this.AlignmentCombo.SelectedIndexChanged += new System.EventHandler(this.Combo_SelectedIndexChanged);
+            AlignmentCombo.Location = new Point(150, 80);
+            AlignmentCombo.Name = "AlignmentCombo";
+            AlignmentCombo.Size = new Size(136, 22);
+            AlignmentCombo.TabIndex = 1;
+            AlignmentCombo.SelectedIndexChanged += new EventHandler(Combo_SelectedIndexChanged);
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(64, 472);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 23);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "Shadow Offset:";
+            label8.Location = new Point(64, 472);
+            label8.Name = "label8";
+            label8.Size = new Size(100, 23);
+            label8.TabIndex = 7;
+            label8.Text = "Shadow Offset:";
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(64, 449);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(100, 23);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Border Style:";
+            label7.Location = new Point(64, 449);
+            label7.Name = "label7";
+            label7.Size = new Size(100, 23);
+            label7.TabIndex = 6;
+            label7.Text = "Border Style:";
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 23);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Border Size:";
+            label6.Location = new Point(64, 403);
+            label6.Name = "label6";
+            label6.Size = new Size(100, 23);
+            label6.TabIndex = 5;
+            label6.Text = "Border Size:";
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(100, 23);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Border Color:";
+            label5.Location = new Point(64, 380);
+            label5.Name = "label5";
+            label5.Size = new Size(100, 23);
+            label5.TabIndex = 4;
+            label5.Text = "Border Color:";
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 23);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Hatch Style:";
+            label4.Location = new Point(64, 357);
+            label4.Name = "label4";
+            label4.Size = new Size(100, 23);
+            label4.TabIndex = 3;
+            label4.Text = "Hatch Style:";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 23);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Gradient:";
+            label3.Location = new Point(64, 334);
+            label3.Name = "label3";
+            label3.Size = new Size(100, 23);
+            label3.TabIndex = 2;
+            label3.Text = "Gradient:";
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(95, 80);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(51, 23);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "&Align:";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label12.Location = new Point(95, 80);
+            label12.Name = "label12";
+            label12.Size = new Size(51, 23);
+            label12.TabIndex = 0;
+            label12.Text = "&Align:";
+            label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label15
             // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(100, 23);
-            this.label15.TabIndex = 5;
-            this.label15.Text = "Border Size:";
+            label15.Location = new Point(64, 426);
+            label15.Name = "label15";
+            label15.Size = new Size(100, 23);
+            label15.TabIndex = 5;
+            label15.Text = "Border Size:";
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            Chart1.BackSecondaryColor = System.Drawing.Color.White;
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea3.Area3DStyle.IsClustered = true;
             chartArea3.Area3DStyle.Perspective = 10;
             chartArea3.Area3DStyle.IsRightAngleAxes = false;
             chartArea3.Area3DStyle.WallWidth = 0;
             chartArea3.Area3DStyle.Inclination = 15;
             chartArea3.Area3DStyle.Rotation = 10;
-            chartArea3.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
+            chartArea3.AxisX.LabelAutoFitStyle = ((LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea3.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea3.AxisX.LabelStyle.Format = "dd MMM";
             chartArea3.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea3.AxisY.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
+            chartArea3.AxisY.LabelAutoFitStyle = ((LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea3.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea3.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea3.AxisY.LineWidth = 2;
             chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -276,21 +276,21 @@ namespace ChartSamples
             chartArea4.Area3DStyle.WallWidth = 0;
             chartArea4.Area3DStyle.Inclination = 15;
             chartArea4.Area3DStyle.Rotation = 10;
-            chartArea4.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
+            chartArea4.AxisX.LabelAutoFitStyle = ((LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea4.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea4.AxisX.LabelStyle.Format = "dd MMM";
             chartArea4.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea4.AxisY.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
+            chartArea4.AxisY.LabelAutoFitStyle = ((LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea4.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea4.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea4.AxisY.LineWidth = 2;
             chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea4.AxisY2.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
+            chartArea4.AxisY2.LabelAutoFitStyle = ((LabelAutoFitStyles)(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.StaggeredLabels | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.LabelsAngleStep30)
                         | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap)));
-            chartArea4.AxisY2.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea4.AxisY2.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea4.AxisY2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea4.AxisY2.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(165)))), ((int)(((byte)(191)))), ((int)(((byte)(228)))));
@@ -299,17 +299,17 @@ namespace ChartSamples
             chartArea4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea4.Name = "Chart Area 2";
             chartArea4.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea3);
-            this.Chart1.ChartAreas.Add(chartArea4);
+            Chart1.ChartAreas.Add(chartArea3);
+            Chart1.ChartAreas.Add(chartArea4);
             legend2.IsTextAutoFit = false;
             legend2.BackColor = System.Drawing.Color.Transparent;
             legend2.Enabled = false;
-            legend2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend2.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend2.Name = "Default";
-            this.Chart1.Legends.Add(legend2);
-            this.Chart1.Location = new System.Drawing.Point(14, 46);
-            this.Chart1.Name = "Chart1";
-            this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+            Chart1.Legends.Add(legend2);
+            Chart1.Location = new Point(14, 46);
+            Chart1.Name = "Chart1";
+            Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
             series3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series3.ChartArea = "Default";
             series3.Name = "Series1";
@@ -331,62 +331,62 @@ namespace ChartSamples
             series4.Points.Add(dataPoint20);
             series4.ShadowOffset = 1;
             series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            this.Chart1.Series.Add(series3);
-            this.Chart1.Series.Add(series4);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 1;
+            Chart1.Series.Add(series3);
+            Chart1.Series.Add(series4);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            label1.Anchor = ((AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 353);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(702, 57);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "In order to horizontally align the chart areas, the position of both chart areas " +
+            label1.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(16, 353);
+            label1.Name = "label1";
+            label1.Size = new Size(702, 57);
+            label1.TabIndex = 3;
+            label1.Text = "In order to horizontally align the chart areas, the position of both chart areas " +
                 "must be set. In addition, by setting the AlignmentOrientation property, we are able " +
                 "to align the inner plotting areas.";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AligningChartingAreas
             // 
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "AligningChartingAreas";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.Alignment_Load);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            Controls.Add(label1);
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "AligningChartingAreas";
+            Size = new Size(728, 480);
+            Load += new EventHandler(Alignment_Load);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
         # region Event Handler
 
-        private void Alignment_Load(object sender, System.EventArgs e)
+        private void Alignment_Load(object sender, EventArgs e)
         {
             AlignmentCombo.SelectedIndex = 0;
 
             Alignment();
         }
 
-        private void Combo_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void Combo_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Alignment();
 		}
 
-		private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBox2_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBox2_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
         }
@@ -481,16 +481,16 @@ namespace ChartSamples
 			// If both chart areas are specified, align the chart areas
 			if ((checkBoxShowChartArea2.Checked) && (checkBoxShowChartArea1.Checked))
 			{
-				this.AlignmentCombo.Enabled = true;
+				AlignmentCombo.Enabled = true;
 				Chart1.ChartAreas["Default"].Visible = true;
 				Chart1.ChartAreas["Chart Area 2"].Visible = true;
-				this.Alignment();
+				Alignment();
 			}
 
 			// If Chart Area 1 checked, Chart Area 2 unchecked
 			else if ((!checkBoxShowChartArea2.Checked) &&(checkBoxShowChartArea1.Checked))
 			{
-				this.AlignmentCombo.Enabled = false;
+				AlignmentCombo.Enabled = false;
 
 				Chart1.ChartAreas["Chart Area 2"].Visible = false;
 				
@@ -506,7 +506,7 @@ namespace ChartSamples
 			// If Chart Area 1 unchecked, Chart Area 2 checked
 			else if ((checkBoxShowChartArea2.Checked) &&(!checkBoxShowChartArea1.Checked))
 			{
-				this.AlignmentCombo.Enabled = false;
+				AlignmentCombo.Enabled = false;
 
 				Chart1.ChartAreas["Default"].Visible = false;
 
@@ -518,7 +518,7 @@ namespace ChartSamples
 			// If both chart areas unchecked
 			else if ((!checkBoxShowChartArea2.Checked) &&(!checkBoxShowChartArea1.Checked))
 			{
-				this.AlignmentCombo.Enabled = false;
+				AlignmentCombo.Enabled = false;
 
 				Chart1.ChartAreas["Default"].Visible = false;
 				Chart1.ChartAreas["Chart Area 2"].Visible = false;

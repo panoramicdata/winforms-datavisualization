@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,18 +11,18 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for KeyboardZoomScroll.
 	/// </summary>
-	public class KeyboardZoomScroll : System.Windows.Forms.UserControl
+	public class KeyboardZoomScroll : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
 		private double SelectionStart = double.NaN;
-		private System.Windows.Forms.Label label1;
+		private Label label1;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public KeyboardZoomScroll()
 		{
@@ -55,26 +55,26 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeyboardZoomScroll));
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Title title1 = new Title();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(KeyboardZoomScroll));
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -82,7 +82,7 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Interval = 5;
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.Interval = 5;
@@ -94,7 +94,7 @@ namespace ChartSamples
             chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Tan;
             chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.OldLace;
@@ -115,79 +115,79 @@ namespace ChartSamples
             chartArea1.Position.X = 3F;
             chartArea1.Position.Y = 15F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 60);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 60);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.BorderWidth = 2;
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Default";
             series1.Name = "Default";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 0;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 0;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Using Keyboard to Zoom and Scroll";
-            this.chart1.Titles.Add(title1);
-            this.chart1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.chart1_KeyUp);
-            this.chart1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.chart1_KeyDown);
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            chart1.Titles.Add(title1);
+            chart1.KeyUp += new KeyEventHandler(chart1_KeyUp);
+            chart1.KeyDown += new KeyEventHandler(chart1_KeyDown);
+            chart1.Click += new EventHandler(chart1_Click);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
-            this.labelSampleComment.TabIndex = 2;
-            this.labelSampleComment.Text = "This sample demonstrates how to scroll, select data points, and zoom using the ke" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 14);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 34);
+            labelSampleComment.TabIndex = 2;
+            labelSampleComment.Text = "This sample demonstrates how to scroll, select data points, and zoom using the ke" +
                 "yboard.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(432, 68);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 1;
+            panel1.Location = new Point(432, 68);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 368);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(702, 56);
-            this.label1.TabIndex = 3;
-            this.label1.Text = resources.GetString("label1.Text");
+            label1.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(16, 368);
+            label1.Name = "label1";
+            label1.Size = new Size(702, 56);
+            label1.TabIndex = 3;
+            label1.Text = resources.GetString("label1.Text");
             // 
             // KeyboardZoomScroll
             // 
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "KeyboardZoomScroll";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.KeyboardZoomScroll_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.ResumeLayout(false);
+            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "KeyboardZoomScroll";
+            Size = new Size(728, 480);
+            Load += new EventHandler(KeyboardZoomScroll_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void KeyboardZoomScroll_Load(object sender, System.EventArgs e)
+		private void KeyboardZoomScroll_Load(object sender, EventArgs e)
 		{
 			// Fill chart with random data
 			Random	random = new Random();
@@ -213,23 +213,23 @@ namespace ChartSamples
 			return base.ProcessDialogKey(keyData);
 		}
 
-		private void chart1_Click(object sender, System.EventArgs e)
+		private void chart1_Click(object sender, EventArgs e)
 		{
 			// Set input focus to the chart control
 			chart1.Focus();
 	
 			// set the selection start variable to that of the current position
-			this.SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
+			SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
 		}
 		
-		private void ProcessSelect(System.Windows.Forms.KeyEventArgs e)
+		private void ProcessSelect(KeyEventArgs e)
 		{
 			// Process keyboard keys
 			if(e.KeyCode == Keys.Right)
 			{
 				// make sure the selection start value is assigned
-				if(this.SelectionStart == double.NaN)
-					this.SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
+				if(SelectionStart == double.NaN)
+					SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
 
 				// set the new cursor position 
 				chart1.ChartAreas["Default"].CursorX.Position += chart1.ChartAreas["Default"].CursorX.Interval;
@@ -237,8 +237,8 @@ namespace ChartSamples
 			else if(e.KeyCode == Keys.Left)
 			{
 				// make sure the selection start value is assigned
-				if(this.SelectionStart == double.NaN)
-					this.SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
+				if(SelectionStart == double.NaN)
+					SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
 
 				// set the new cursor position 
 				chart1.ChartAreas["Default"].CursorX.Position -= chart1.ChartAreas["Default"].CursorX.Interval;
@@ -249,7 +249,7 @@ namespace ChartSamples
 			SetView();
 
 
-			chart1.ChartAreas["Default"].CursorX.SelectionStart = this.SelectionStart;
+			chart1.ChartAreas["Default"].CursorX.SelectionStart = SelectionStart;
 			chart1.ChartAreas["Default"].CursorX.SelectionEnd = chart1.ChartAreas["Default"].CursorX.Position;
 		}
 		
@@ -275,7 +275,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void ProcessScroll(System.Windows.Forms.KeyEventArgs e)
+		private void ProcessScroll(KeyEventArgs e)
 		{
 			// Process keyboard keys
 			if(e.KeyCode == Keys.Right)
@@ -292,14 +292,14 @@ namespace ChartSamples
 
 
 			// set the selection start variable in case shift arrows are selected...
-			this.SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
+			SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
 
 			//reset the old selection start and end
 			chart1.ChartAreas["Default"].CursorX.SelectionStart = double.NaN;
 			chart1.ChartAreas["Default"].CursorX.SelectionEnd = double.NaN;
 		}
 
-		private void chart1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+		private void chart1_KeyDown(object sender, KeyEventArgs e)
 		{
 			if((e.KeyCode == Keys.Right) || (e.KeyCode == Keys.Left)) 
 			{
@@ -334,7 +334,7 @@ namespace ChartSamples
 				chart1.ChartAreas["Default"].AxisX.ScaleView.Zoom( start,(end-start), DateTimeIntervalType.Number,true);
 
 				// reset selection values
-				this.SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
+				SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
 				chart1.ChartAreas["Default"].CursorX.SelectionStart = double.NaN;
 				chart1.ChartAreas["Default"].CursorX.SelectionEnd = double.NaN;
 
@@ -346,14 +346,14 @@ namespace ChartSamples
 				chart1.ChartAreas["Default"].AxisX.ScaleView.ZoomReset(1);
 		
 				// reset selection values
-				this.SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
+				SelectionStart = chart1.ChartAreas["Default"].CursorX.Position;
 				chart1.ChartAreas["Default"].CursorX.SelectionStart = double.NaN;
 				chart1.ChartAreas["Default"].CursorX.SelectionEnd = double.NaN;
 			}
 
 		}
 
-		private void chart1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+		private void chart1_KeyUp(object sender, KeyEventArgs e)
 		{
 			if(e.Shift)
 			{

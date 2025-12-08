@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -108,19 +108,19 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 			}
 
 			// Calculate interval width if it's not set
-			if(double.IsNaN(this.SegmentIntervalWidth))
+			if(double.IsNaN(SegmentIntervalWidth))
 			{
-				this.SegmentIntervalWidth = (maxValue - minValue) / SegmentIntervalNumber;
-				this.SegmentIntervalWidth = RoundInterval(this.SegmentIntervalWidth);
+				SegmentIntervalWidth = (maxValue - minValue) / SegmentIntervalNumber;
+				SegmentIntervalWidth = RoundInterval(SegmentIntervalWidth);
 			}
 
 			// Round minimum and maximum values
-			minValue = Math.Floor( minValue / this.SegmentIntervalWidth ) * this.SegmentIntervalWidth;
-			maxValue = Math.Ceiling( maxValue / this.SegmentIntervalWidth ) * this.SegmentIntervalWidth;
+			minValue = Math.Floor( minValue / SegmentIntervalWidth ) * SegmentIntervalWidth;
+			maxValue = Math.Ceiling( maxValue / SegmentIntervalWidth ) * SegmentIntervalWidth;
 
 			// Create histogram series points
 			double currentPosition = minValue;
-			for(currentPosition = minValue; currentPosition <= maxValue; currentPosition+=this.SegmentIntervalWidth)
+			for(currentPosition = minValue; currentPosition <= maxValue; currentPosition+=SegmentIntervalWidth)
 			{
 				// Count all points from data series that are in current interval
 				int count = 0;
@@ -128,7 +128,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 				{
 					if(!dataPoint.IsEmpty)
 					{
-						double	endPosition = currentPosition + this.SegmentIntervalWidth;
+						double	endPosition = currentPosition + SegmentIntervalWidth;
 						if(dataPoint.YValues[0] >= currentPosition &&
 							dataPoint.YValues[0] < endPosition)
 						{
@@ -149,7 +149,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 
 				// Add data point into the histogram series
-				histogramSeries.Points.AddXY(currentPosition + this.SegmentIntervalWidth / 2.0, count);
+				histogramSeries.Points.AddXY(currentPosition + SegmentIntervalWidth / 2.0, count);
 			}
 
 			// Adjust series attributes
@@ -163,7 +163,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 			// Set axis interval based on the histogram class interval
 			// and do not allow more than 10 labels on the axis.
-			double axisInterval = this.SegmentIntervalWidth;
+			double axisInterval = SegmentIntervalWidth;
 			while( (maxValue - minValue) / axisInterval > 10.0)
 			{
 				axisInterval *= 2.0;
@@ -172,7 +172,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
 
 			// Set chart area secondary Y axis
 			chartArea.AxisY2.Enabled = AxisEnabled.Auto;
-			if(this.ShowPercentOnSecondaryYAxis)
+			if(ShowPercentOnSecondaryYAxis)
 			{
 				chartArea.RecalculateAxesScale();
 

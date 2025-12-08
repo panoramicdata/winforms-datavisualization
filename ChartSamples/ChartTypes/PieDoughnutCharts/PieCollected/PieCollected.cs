@@ -13,28 +13,28 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for PieCollected.
 	/// </summary>
-	public class PieCollected : System.Windows.Forms.UserControl
+	public class PieCollected : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.ComboBox comboBoxCollectedThreshold;
-		private System.Windows.Forms.TextBox textBoxCollectedLabel;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.ComboBox comboBoxCollectedColor;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.CheckBox checkBoxCollectPieSlices;
-		private System.Windows.Forms.CheckBox checkBoxShowExploded;
-		private System.Windows.Forms.ComboBox comboBoxChartType;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox textBoxCollectedLegend;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private ComboBox comboBoxCollectedThreshold;
+		private TextBox textBoxCollectedLabel;
+		private Label label6;
+		private Label label5;
+		private ComboBox comboBoxCollectedColor;
+		private Label label4;
+		private CheckBox checkBoxCollectPieSlices;
+		private CheckBox checkBoxShowExploded;
+		private ComboBox comboBoxChartType;
+		private Label label1;
+		private Panel panel1;
+		private Label label2;
+		private TextBox textBoxCollectedLegend;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PieCollected()
 		{
@@ -67,58 +67,58 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 39);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 18);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 15);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 12);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4.5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3.2000000476837158);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1);
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.comboBoxCollectedThreshold = new System.Windows.Forms.ComboBox();
-            this.textBoxCollectedLabel = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.comboBoxCollectedColor = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.checkBoxCollectPieSlices = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowExploded = new System.Windows.Forms.CheckBox();
-            this.comboBoxChartType = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxCollectedLegend = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 39);
+			DataPoint dataPoint2 = new DataPoint(0, 18);
+			DataPoint dataPoint3 = new DataPoint(0, 15);
+			DataPoint dataPoint4 = new DataPoint(0, 12);
+			DataPoint dataPoint5 = new DataPoint(0, 8);
+			DataPoint dataPoint6 = new DataPoint(0, 4.5);
+			DataPoint dataPoint7 = new DataPoint(0, 3.2000000476837158);
+			DataPoint dataPoint8 = new DataPoint(0, 2);
+			DataPoint dataPoint9 = new DataPoint(0, 1);
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            comboBoxCollectedThreshold = new ComboBox();
+            textBoxCollectedLabel = new TextBox();
+            label6 = new Label();
+            label5 = new Label();
+            comboBoxCollectedColor = new ComboBox();
+            label4 = new Label();
+            checkBoxCollectPieSlices = new CheckBox();
+            checkBoxShowExploded = new CheckBox();
+            comboBoxChartType = new ComboBox();
+            label1 = new Label();
+            panel1 = new Panel();
+            textBoxCollectedLegend = new TextBox();
+            label2 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.PointGapDepth = 900;
             chartArea1.Area3DStyle.Rotation = 162;
             chartArea1.Area3DStyle.WallWidth = 25;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.Enabled = false;
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorTickMark.Enabled = false;
             chartArea1.AxisX2.MajorGrid.Enabled = false;
             chartArea1.AxisX2.MajorTickMark.Enabled = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.Enabled = false;
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -131,23 +131,23 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Area1";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.IsSoftShadows = false;
+            chart1.ChartAreas.Add(chartArea1);
+            chart1.IsSoftShadows = false;
             legend1.BackColor = System.Drawing.Color.Transparent;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Bold);
             legend1.IsEquallySpacedItems = true;
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 61);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 61);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             series1.ChartArea = "Area1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
             series1.CustomProperties = "DoughnutRadius=25, PieDrawingStyle=Concave, CollectedLabel=Other, MinimumRelative" +
                 "PieSize=20";
-            series1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            series1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             series1.Label = "#PERCENT{P1}";
             series1.Legend = "Default";
             series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
@@ -181,205 +181,205 @@ namespace ChartSamples
             series1.Points.Add(dataPoint9);
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 45);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to group many small segments of a pie or doughnut ch" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 45);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to group many small segments of a pie or doughnut ch" +
                 "art into one collected slice to improve chart readability.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // comboBoxCollectedThreshold
             // 
-            this.comboBoxCollectedThreshold.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxCollectedThreshold.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxCollectedThreshold.ItemHeight = 14;
-            this.comboBoxCollectedThreshold.Items.AddRange([
+            comboBoxCollectedThreshold.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxCollectedThreshold.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            comboBoxCollectedThreshold.ItemHeight = 14;
+            comboBoxCollectedThreshold.Items.AddRange([
             "5",
             "8",
             "12",
             "15"]);
-            this.comboBoxCollectedThreshold.Location = new System.Drawing.Point(184, 40);
-            this.comboBoxCollectedThreshold.Name = "comboBoxCollectedThreshold";
-            this.comboBoxCollectedThreshold.Size = new System.Drawing.Size(104, 22);
-            this.comboBoxCollectedThreshold.TabIndex = 2;
-            this.comboBoxCollectedThreshold.SelectedIndexChanged += new System.EventHandler(this.comboBoxCollectedThreshold_SelectedIndexChanged);
+            comboBoxCollectedThreshold.Location = new Point(184, 40);
+            comboBoxCollectedThreshold.Name = "comboBoxCollectedThreshold";
+            comboBoxCollectedThreshold.Size = new Size(104, 22);
+            comboBoxCollectedThreshold.TabIndex = 2;
+            comboBoxCollectedThreshold.SelectedIndexChanged += new EventHandler(comboBoxCollectedThreshold_SelectedIndexChanged);
             // 
             // textBoxCollectedLabel
             // 
-            this.textBoxCollectedLabel.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCollectedLabel.Location = new System.Drawing.Point(184, 104);
-            this.textBoxCollectedLabel.MaxLength = 12;
-            this.textBoxCollectedLabel.Name = "textBoxCollectedLabel";
-            this.textBoxCollectedLabel.Size = new System.Drawing.Size(104, 22);
-            this.textBoxCollectedLabel.TabIndex = 4;
-            this.textBoxCollectedLabel.TextChanged += new System.EventHandler(this.textBoxCollectedLabel_TextChanged);
+            textBoxCollectedLabel.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            textBoxCollectedLabel.Location = new Point(184, 104);
+            textBoxCollectedLabel.MaxLength = 12;
+            textBoxCollectedLabel.Name = "textBoxCollectedLabel";
+            textBoxCollectedLabel.Size = new Size(104, 22);
+            textBoxCollectedLabel.TabIndex = 4;
+            textBoxCollectedLabel.TextChanged += new EventHandler(textBoxCollectedLabel_TextChanged);
             // 
             // label6
             // 
-            this.label6.BackColor = System.Drawing.Color.White;
-            this.label6.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(35, 104);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(144, 23);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Collected &Label:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label6.BackColor = System.Drawing.Color.White;
+            label6.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label6.Location = new Point(35, 104);
+            label6.Name = "label6";
+            label6.Size = new Size(144, 23);
+            label6.TabIndex = 4;
+            label6.Text = "Collected &Label:";
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
             // 
-            this.label5.BackColor = System.Drawing.Color.White;
-            this.label5.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(35, 72);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(144, 23);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Collected &Color:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label5.BackColor = System.Drawing.Color.White;
+            label5.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label5.Location = new Point(35, 72);
+            label5.Name = "label5";
+            label5.Size = new Size(144, 23);
+            label5.TabIndex = 3;
+            label5.Text = "Collected &Color:";
+            label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxCollectedColor
             // 
-            this.comboBoxCollectedColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxCollectedColor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxCollectedColor.ItemHeight = 14;
-            this.comboBoxCollectedColor.Items.AddRange([
+            comboBoxCollectedColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxCollectedColor.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            comboBoxCollectedColor.ItemHeight = 14;
+            comboBoxCollectedColor.Items.AddRange([
             "Green",
             "Gold",
             "Gray",
             "Magenta"]);
-            this.comboBoxCollectedColor.Location = new System.Drawing.Point(184, 72);
-            this.comboBoxCollectedColor.Name = "comboBoxCollectedColor";
-            this.comboBoxCollectedColor.Size = new System.Drawing.Size(104, 22);
-            this.comboBoxCollectedColor.TabIndex = 3;
-            this.comboBoxCollectedColor.SelectedIndexChanged += new System.EventHandler(this.comboBoxCollectedColor_SelectedIndexChanged);
+            comboBoxCollectedColor.Location = new Point(184, 72);
+            comboBoxCollectedColor.Name = "comboBoxCollectedColor";
+            comboBoxCollectedColor.Size = new Size(104, 22);
+            comboBoxCollectedColor.TabIndex = 3;
+            comboBoxCollectedColor.SelectedIndexChanged += new EventHandler(comboBoxCollectedColor_SelectedIndexChanged);
             // 
             // label4
             // 
-            this.label4.BackColor = System.Drawing.Color.White;
-            this.label4.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(4, 40);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(176, 23);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Collected &Threshold (in %):";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label4.BackColor = System.Drawing.Color.White;
+            label4.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label4.Location = new Point(4, 40);
+            label4.Name = "label4";
+            label4.Size = new Size(176, 23);
+            label4.TabIndex = 2;
+            label4.Text = "Collected &Threshold (in %):";
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // checkBoxCollectPieSlices
             // 
-            this.checkBoxCollectPieSlices.BackColor = System.Drawing.Color.White;
-            this.checkBoxCollectPieSlices.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxCollectPieSlices.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxCollectPieSlices.Location = new System.Drawing.Point(38, 8);
-            this.checkBoxCollectPieSlices.Name = "checkBoxCollectPieSlices";
-            this.checkBoxCollectPieSlices.Size = new System.Drawing.Size(160, 24);
-            this.checkBoxCollectPieSlices.TabIndex = 1;
-            this.checkBoxCollectPieSlices.Text = "Collect &Pie Slices:     ";
-            this.checkBoxCollectPieSlices.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxCollectPieSlices.UseVisualStyleBackColor = false;
-            this.checkBoxCollectPieSlices.CheckedChanged += new System.EventHandler(this.checkBoxCollectPieSlices_CheckedChanged);
+            checkBoxCollectPieSlices.BackColor = System.Drawing.Color.White;
+            checkBoxCollectPieSlices.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxCollectPieSlices.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            checkBoxCollectPieSlices.Location = new Point(38, 8);
+            checkBoxCollectPieSlices.Name = "checkBoxCollectPieSlices";
+            checkBoxCollectPieSlices.Size = new Size(160, 24);
+            checkBoxCollectPieSlices.TabIndex = 1;
+            checkBoxCollectPieSlices.Text = "Collect &Pie Slices:     ";
+            checkBoxCollectPieSlices.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxCollectPieSlices.UseVisualStyleBackColor = false;
+            checkBoxCollectPieSlices.CheckedChanged += new EventHandler(checkBoxCollectPieSlices_CheckedChanged);
             // 
             // checkBoxShowExploded
             // 
-            this.checkBoxShowExploded.BackColor = System.Drawing.Color.White;
-            this.checkBoxShowExploded.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowExploded.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxShowExploded.Location = new System.Drawing.Point(62, 165);
-            this.checkBoxShowExploded.Name = "checkBoxShowExploded";
-            this.checkBoxShowExploded.Size = new System.Drawing.Size(136, 24);
-            this.checkBoxShowExploded.TabIndex = 6;
-            this.checkBoxShowExploded.Text = "&Show Exploded: ";
-            this.checkBoxShowExploded.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShowExploded.UseVisualStyleBackColor = false;
-            this.checkBoxShowExploded.CheckedChanged += new System.EventHandler(this.checkBoxcollectSmallSegments_CheckedChanged);
+            checkBoxShowExploded.BackColor = System.Drawing.Color.White;
+            checkBoxShowExploded.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowExploded.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            checkBoxShowExploded.Location = new Point(62, 165);
+            checkBoxShowExploded.Name = "checkBoxShowExploded";
+            checkBoxShowExploded.Size = new Size(136, 24);
+            checkBoxShowExploded.TabIndex = 6;
+            checkBoxShowExploded.Text = "&Show Exploded: ";
+            checkBoxShowExploded.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShowExploded.UseVisualStyleBackColor = false;
+            checkBoxShowExploded.CheckedChanged += new EventHandler(checkBoxcollectSmallSegments_CheckedChanged);
             // 
             // comboBoxChartType
             // 
-            this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChartType.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxChartType.ItemHeight = 14;
-            this.comboBoxChartType.Items.AddRange([
+            comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxChartType.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            comboBoxChartType.ItemHeight = 14;
+            comboBoxChartType.Items.AddRange([
             "Pie",
             "Doughnut"]);
-            this.comboBoxChartType.Location = new System.Drawing.Point(184, 195);
-            this.comboBoxChartType.Name = "comboBoxChartType";
-            this.comboBoxChartType.Size = new System.Drawing.Size(104, 22);
-            this.comboBoxChartType.TabIndex = 7;
-            this.comboBoxChartType.SelectedIndexChanged += new System.EventHandler(this.comboBoxChartType_SelectedIndexChanged);
+            comboBoxChartType.Location = new Point(184, 195);
+            comboBoxChartType.Name = "comboBoxChartType";
+            comboBoxChartType.Size = new Size(104, 22);
+            comboBoxChartType.TabIndex = 7;
+            comboBoxChartType.SelectedIndexChanged += new EventHandler(comboBoxChartType_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(99, 194);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 23);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Chart &Type:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.BackColor = System.Drawing.Color.White;
+            label1.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new Point(99, 194);
+            label1.Name = "label1";
+            label1.Size = new Size(80, 23);
+            label1.TabIndex = 7;
+            label1.Text = "Chart &Type:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.textBoxCollectedLegend);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboBoxCollectedThreshold);
-            this.panel1.Controls.Add(this.textBoxCollectedLabel);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.comboBoxCollectedColor);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.checkBoxCollectPieSlices);
-            this.panel1.Controls.Add(this.checkBoxShowExploded);
-            this.panel1.Controls.Add(this.comboBoxChartType);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(432, 69);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 0;
+            panel1.BackColor = System.Drawing.Color.White;
+            panel1.Controls.Add(textBoxCollectedLegend);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(comboBoxCollectedThreshold);
+            panel1.Controls.Add(textBoxCollectedLabel);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(comboBoxCollectedColor);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(checkBoxCollectPieSlices);
+            panel1.Controls.Add(checkBoxShowExploded);
+            panel1.Controls.Add(comboBoxChartType);
+            panel1.Controls.Add(label1);
+            panel1.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            panel1.Location = new Point(432, 69);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 0;
             // 
             // textBoxCollectedLegend
             // 
-            this.textBoxCollectedLegend.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCollectedLegend.Location = new System.Drawing.Point(184, 136);
-            this.textBoxCollectedLegend.MaxLength = 12;
-            this.textBoxCollectedLegend.Name = "textBoxCollectedLegend";
-            this.textBoxCollectedLegend.Size = new System.Drawing.Size(104, 22);
-            this.textBoxCollectedLegend.TabIndex = 5;
-            this.textBoxCollectedLegend.TextChanged += new System.EventHandler(this.textBoxCollectedLegend_TextChanged);
+            textBoxCollectedLegend.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            textBoxCollectedLegend.Location = new Point(184, 136);
+            textBoxCollectedLegend.MaxLength = 12;
+            textBoxCollectedLegend.Name = "textBoxCollectedLegend";
+            textBoxCollectedLegend.Size = new Size(104, 22);
+            textBoxCollectedLegend.TabIndex = 5;
+            textBoxCollectedLegend.TextChanged += new EventHandler(textBoxCollectedLegend_TextChanged);
             // 
             // label2
             // 
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(27, 136);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 23);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Collected &Legend Text:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.BackColor = System.Drawing.Color.White;
+            label2.Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label2.Location = new Point(27, 136);
+            label2.Name = "label2";
+            label2.Size = new Size(152, 23);
+            label2.TabIndex = 5;
+            label2.Text = "Collected &Legend Text:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PieCollected
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "PieCollected";
-            this.Size = new System.Drawing.Size(728, 368);
-            this.Load += new System.EventHandler(this.PieChartType_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "PieCollected";
+            Size = new Size(728, 368);
+            Load += new EventHandler(PieChartType_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -388,7 +388,7 @@ namespace ChartSamples
 		{
 			Series series1 = chart1.Series[0];
 
-			if (this.checkBoxCollectPieSlices.Checked) 
+			if (checkBoxCollectPieSlices.Checked) 
 			{
 				comboBoxChartType.Enabled = true;
 				comboBoxCollectedColor.Enabled = true;
@@ -431,7 +431,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void PieChartType_Load(object sender, System.EventArgs e)
+		private void PieChartType_Load(object sender, EventArgs e)
 		{
 			// Set series font
 			chart1.Series[0].Font = new Font("Trebuchet MS", 8, FontStyle.Bold);
@@ -450,37 +450,37 @@ namespace ChartSamples
 			UpdateChartSettings();
 		}
 
-		private void comboBoxChartType_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxChartType_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxcollectSmallSegments_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxcollectSmallSegments_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void comboBoxCollectedColor_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxCollectedColor_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void textBoxCollectedLabel_TextChanged(object sender, System.EventArgs e)
+		private void textBoxCollectedLabel_TextChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();		
 		}
 
-		private void comboBoxCollectedThreshold_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxCollectedThreshold_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();		
 		}
 
-		private void textBoxCollectedLegend_TextChanged(object sender, System.EventArgs e)
+		private void textBoxCollectedLegend_TextChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxCollectPieSlices_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxCollectPieSlices_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}

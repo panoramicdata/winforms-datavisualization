@@ -11,22 +11,22 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for PointAndFigureChartType.
 	/// </summary>
-	public class PointAndFigureChartType : System.Windows.Forms.UserControl
+	public class PointAndFigureChartType : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxSize;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox comboReversalAmount;
-		private System.Windows.Forms.CheckBox checkPropSymbols;
-		private System.Windows.Forms.Label label3;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private ComboBox comboBoxSize;
+		private Label label2;
+		private ComboBox comboReversalAmount;
+		private CheckBox checkPropSymbols;
+		private Label label3;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PointAndFigureChartType()
 		{
@@ -57,44 +57,44 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkPropSymbols = new System.Windows.Forms.CheckBox();
-            this.comboBoxSize = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboReversalAmount = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Title title1 = new Title();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkPropSymbols = new CheckBox();
+            comboBoxSize = new ComboBox();
+            label2 = new Label();
+            comboReversalAmount = new ComboBox();
+            label1 = new Label();
+            label3 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LabelStyle.Format = "MMM dd";
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(165)))), ((int)(((byte)(191)))), ((int)(((byte)(228)))));
@@ -104,15 +104,15 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 40);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 40);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.PointAndFigure;
@@ -123,129 +123,129 @@ namespace ChartSamples
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
             series1.YValuesPerPoint = 2;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Point and Figure Chart";
-            this.chart1.Titles.Add(title1);
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            chart1.Titles.Add(title1);
+            chart1.Click += new EventHandler(chart1_Click);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 24);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates the Point and Figure chart type.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 24);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates the Point and Figure chart type.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkPropSymbols);
-            this.panel1.Controls.Add(this.comboBoxSize);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboReversalAmount);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(432, 48);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            panel1.Controls.Add(checkPropSymbols);
+            panel1.Controls.Add(comboBoxSize);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(comboReversalAmount);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(432, 48);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
+            panel1.Paint += new PaintEventHandler(panel1_Paint);
             // 
             // checkPropSymbols
             // 
-            this.checkPropSymbols.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkPropSymbols.Location = new System.Drawing.Point(5, 72);
-            this.checkPropSymbols.Name = "checkPropSymbols";
-            this.checkPropSymbols.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkPropSymbols.Size = new System.Drawing.Size(176, 24);
-            this.checkPropSymbols.TabIndex = 4;
-            this.checkPropSymbols.Text = "&Proportional Symbols:";
-            this.checkPropSymbols.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkPropSymbols.CheckedChanged += new System.EventHandler(this.checkPropSymbols_CheckedChanged);
+            checkPropSymbols.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkPropSymbols.Location = new Point(5, 72);
+            checkPropSymbols.Name = "checkPropSymbols";
+            checkPropSymbols.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            checkPropSymbols.Size = new Size(176, 24);
+            checkPropSymbols.TabIndex = 4;
+            checkPropSymbols.Text = "&Proportional Symbols:";
+            checkPropSymbols.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkPropSymbols.CheckedChanged += new EventHandler(checkPropSymbols_CheckedChanged);
             // 
             // comboBoxSize
             // 
-            this.comboBoxSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSize.Items.AddRange([
+            comboBoxSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxSize.Items.AddRange([
             "1",
             "1.2",
             "7%",
             "8%",
             "9%",
             "Default"]);
-            this.comboBoxSize.Location = new System.Drawing.Point(168, 8);
-            this.comboBoxSize.Name = "comboBoxSize";
-            this.comboBoxSize.Size = new System.Drawing.Size(88, 22);
-            this.comboBoxSize.TabIndex = 1;
-            this.comboBoxSize.SelectedIndexChanged += new System.EventHandler(this.comboBoxSize_SelectedIndexChanged);
+            comboBoxSize.Location = new Point(168, 8);
+            comboBoxSize.Name = "comboBoxSize";
+            comboBoxSize.Size = new Size(88, 22);
+            comboBoxSize.TabIndex = 1;
+            comboBoxSize.SelectedIndexChanged += new EventHandler(comboBoxSize_SelectedIndexChanged);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(59, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(104, 23);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Box &Size:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(59, 8);
+            label2.Name = "label2";
+            label2.Size = new Size(104, 23);
+            label2.TabIndex = 0;
+            label2.Text = "Box &Size:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboReversalAmount
             // 
-            this.comboReversalAmount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboReversalAmount.Items.AddRange([
+            comboReversalAmount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboReversalAmount.Items.AddRange([
             "1",
             "2",
             "3",
             "4",
             "5"]);
-            this.comboReversalAmount.Location = new System.Drawing.Point(168, 40);
-            this.comboReversalAmount.Name = "comboReversalAmount";
-            this.comboReversalAmount.Size = new System.Drawing.Size(88, 22);
-            this.comboReversalAmount.TabIndex = 3;
-            this.comboReversalAmount.SelectedIndexChanged += new System.EventHandler(this.comboReversalAmount_SelectedIndexChanged);
+            comboReversalAmount.Location = new Point(168, 40);
+            comboReversalAmount.Name = "comboReversalAmount";
+            comboReversalAmount.Size = new Size(88, 22);
+            comboReversalAmount.TabIndex = 3;
+            comboReversalAmount.SelectedIndexChanged += new EventHandler(comboReversalAmount_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(27, 40);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 23);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Reversal &Amount:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(27, 40);
+            label1.Name = "label1";
+            label1.Size = new Size(136, 23);
+            label1.TabIndex = 2;
+            label1.Text = "Reversal &Amount:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            label3.Anchor = ((AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Font = new System.Drawing.Font("Verdana", 11F);
-            this.label3.Location = new System.Drawing.Point(13, 344);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(702, 40);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "The ProportionalSymbols custom attribute indicates that the chart should try to d" +
+            label3.Font = new Font("Verdana", 11F);
+            label3.Location = new Point(13, 344);
+            label3.Name = "label3";
+            label3.Size = new Size(702, 40);
+            label3.TabIndex = 23;
+            label3.Text = "The ProportionalSymbols custom attribute indicates that the chart should try to d" +
                 "raw ‘X’ and ‘O’ symbols proportionally.";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PointAndFigureChartType
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "PointAndFigureChartType";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.PointAndFigureChartType_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label3);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "PointAndFigureChartType";
+            Size = new Size(728, 480);
+            Load += new EventHandler(PointAndFigureChartType_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -292,7 +292,7 @@ namespace ChartSamples
 			chart1.Series["Default"]["ProportionalSymbols"] = propSymbols;
 		}
 
-		private void PointAndFigureChartType_Load(object sender, System.EventArgs e)
+		private void PointAndFigureChartType_Load(object sender, EventArgs e)
 		{
 
 			comboBoxSize.Text = "1";
@@ -328,27 +328,27 @@ namespace ChartSamples
 			}
 		}
 
-		private void comboReversalAmount_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboReversalAmount_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void comboBoxSize_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxSize_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkPropSymbols_CheckedChanged(object sender, System.EventArgs e)
+		private void checkPropSymbols_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+		private void panel1_Paint(object sender, PaintEventArgs e)
 		{
 		
 		}
 
-		private void chart1_Click(object sender, System.EventArgs e)
+		private void chart1_Click(object sender, EventArgs e)
 		{
 		
 		}

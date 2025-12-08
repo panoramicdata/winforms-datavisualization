@@ -11,29 +11,29 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for LabelsOverlapping.
 	/// </summary>
-	public class SmartLabels : System.Windows.Forms.UserControl
+	public class SmartLabels : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox checkBoxPreventOverlap;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.ComboBox AllowOutsidePlotArea;
-		private System.Windows.Forms.ComboBox CalloutLineAnchorCap;
-		private System.Windows.Forms.ComboBox CalloutLineAnchorColor;
-		private System.Windows.Forms.ComboBox CalloutLineAnchorWidth;
-		private System.Windows.Forms.ComboBox CalloutStyle;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.ComboBox NumOfPoints;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.CheckBox Aligned;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private CheckBox checkBoxPreventOverlap;
+		private Label label1;
+		private Label label2;
+		private Label label3;
+		private Label label4;
+		private ComboBox AllowOutsidePlotArea;
+		private ComboBox CalloutLineAnchorCap;
+		private ComboBox CalloutLineAnchorColor;
+		private ComboBox CalloutLineAnchorWidth;
+		private ComboBox CalloutStyle;
+		private Label label5;
+		private ComboBox NumOfPoints;
+		private Label label6;
+		private CheckBox Aligned;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public SmartLabels()
 		{
@@ -67,39 +67,39 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.Aligned = new System.Windows.Forms.CheckBox();
-            this.NumOfPoints = new System.Windows.Forms.ComboBox();
-            this.CalloutStyle = new System.Windows.Forms.ComboBox();
-            this.CalloutLineAnchorWidth = new System.Windows.Forms.ComboBox();
-            this.CalloutLineAnchorColor = new System.Windows.Forms.ComboBox();
-            this.CalloutLineAnchorCap = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.AllowOutsidePlotArea = new System.Windows.Forms.ComboBox();
-            this.checkBoxPreventOverlap = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            Aligned = new CheckBox();
+            NumOfPoints = new ComboBox();
+            CalloutStyle = new ComboBox();
+            CalloutLineAnchorWidth = new ComboBox();
+            CalloutLineAnchorColor = new ComboBox();
+            CalloutLineAnchorCap = new ComboBox();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            AllowOutsidePlotArea = new ComboBox();
+            checkBoxPreventOverlap = new CheckBox();
+            label1 = new Label();
+            label5 = new Label();
+            label6 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -107,11 +107,11 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.Gainsboro;
@@ -120,19 +120,19 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 60);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 60);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            series1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series1.IsValueShownAsLabel = true;
             series1.LabelFormat = "P0";
             series1.Legend = "Default";
@@ -140,232 +140,232 @@ namespace ChartSamples
             series1.Name = "Default";
             series1.ShadowOffset = 1;
             series1.SmartLabelStyle.CalloutStyle = System.Windows.Forms.DataVisualization.Charting.LabelCalloutStyle.Box;
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
+            chart1.Click += new EventHandler(chart1_Click);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 36);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to use smart labels to avoid overlaps by repositioni" +
+            labelSampleComment.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 14);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 36);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to use smart labels to avoid overlaps by repositioni" +
                 "ng or hiding point labels.";
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.Aligned);
-            this.panel1.Controls.Add(this.NumOfPoints);
-            this.panel1.Controls.Add(this.CalloutStyle);
-            this.panel1.Controls.Add(this.CalloutLineAnchorWidth);
-            this.panel1.Controls.Add(this.CalloutLineAnchorColor);
-            this.panel1.Controls.Add(this.CalloutLineAnchorCap);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.AllowOutsidePlotArea);
-            this.panel1.Controls.Add(this.checkBoxPreventOverlap);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Location = new System.Drawing.Point(424, 68);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(296, 292);
-            this.panel1.TabIndex = 0;
+            panel1.Controls.Add(Aligned);
+            panel1.Controls.Add(NumOfPoints);
+            panel1.Controls.Add(CalloutStyle);
+            panel1.Controls.Add(CalloutLineAnchorWidth);
+            panel1.Controls.Add(CalloutLineAnchorColor);
+            panel1.Controls.Add(CalloutLineAnchorCap);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(AllowOutsidePlotArea);
+            panel1.Controls.Add(checkBoxPreventOverlap);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label6);
+            panel1.Location = new Point(424, 68);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(296, 292);
+            panel1.TabIndex = 0;
             // 
             // Aligned
             // 
-            this.Aligned.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Aligned.Location = new System.Drawing.Point(22, 36);
-            this.Aligned.Name = "Aligned";
-            this.Aligned.Size = new System.Drawing.Size(168, 24);
-            this.Aligned.TabIndex = 1;
-            this.Aligned.Text = "&Similar Point Values:";
-            this.Aligned.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Aligned.CheckedChanged += new System.EventHandler(this.Aligned_CheckedChanged);
+            Aligned.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            Aligned.Location = new Point(22, 36);
+            Aligned.Name = "Aligned";
+            Aligned.Size = new Size(168, 24);
+            Aligned.TabIndex = 1;
+            Aligned.Text = "&Similar Point Values:";
+            Aligned.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            Aligned.CheckedChanged += new EventHandler(Aligned_CheckedChanged);
             // 
             // NumOfPoints
             // 
-            this.NumOfPoints.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.NumOfPoints.Items.AddRange([
+            NumOfPoints.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            NumOfPoints.Items.AddRange([
             "20",
             "30",
             "40",
             "50",
             "60"]);
-            this.NumOfPoints.Location = new System.Drawing.Point(176, 64);
-            this.NumOfPoints.Name = "NumOfPoints";
-            this.NumOfPoints.Size = new System.Drawing.Size(121, 22);
-            this.NumOfPoints.TabIndex = 3;
-            this.NumOfPoints.SelectedIndexChanged += new System.EventHandler(this.NumOfPoints_SelectedIndexChanged);
+            NumOfPoints.Location = new Point(176, 64);
+            NumOfPoints.Name = "NumOfPoints";
+            NumOfPoints.Size = new Size(121, 22);
+            NumOfPoints.TabIndex = 3;
+            NumOfPoints.SelectedIndexChanged += new EventHandler(NumOfPoints_SelectedIndexChanged);
             // 
             // CalloutStyle
             // 
-            this.CalloutStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CalloutStyle.Items.AddRange([
+            CalloutStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CalloutStyle.Items.AddRange([
             "None",
             "Box",
             "Underlined"]);
-            this.CalloutStyle.Location = new System.Drawing.Point(176, 200);
-            this.CalloutStyle.Name = "CalloutStyle";
-            this.CalloutStyle.Size = new System.Drawing.Size(121, 22);
-            this.CalloutStyle.TabIndex = 13;
-            this.CalloutStyle.SelectedIndexChanged += new System.EventHandler(this.CalloutStyle_SelectedIndexChanged);
+            CalloutStyle.Location = new Point(176, 200);
+            CalloutStyle.Name = "CalloutStyle";
+            CalloutStyle.Size = new Size(121, 22);
+            CalloutStyle.TabIndex = 13;
+            CalloutStyle.SelectedIndexChanged += new EventHandler(CalloutStyle_SelectedIndexChanged);
             // 
             // CalloutLineAnchorWidth
             // 
-            this.CalloutLineAnchorWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CalloutLineAnchorWidth.Items.AddRange([
+            CalloutLineAnchorWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CalloutLineAnchorWidth.Items.AddRange([
             "1",
             "2",
             "3",
             "4",
             "5"]);
-            this.CalloutLineAnchorWidth.Location = new System.Drawing.Point(176, 176);
-            this.CalloutLineAnchorWidth.Name = "CalloutLineAnchorWidth";
-            this.CalloutLineAnchorWidth.Size = new System.Drawing.Size(121, 22);
-            this.CalloutLineAnchorWidth.TabIndex = 11;
-            this.CalloutLineAnchorWidth.SelectedIndexChanged += new System.EventHandler(this.CalloutLineAnchorWidth_SelectedIndexChanged);
+            CalloutLineAnchorWidth.Location = new Point(176, 176);
+            CalloutLineAnchorWidth.Name = "CalloutLineAnchorWidth";
+            CalloutLineAnchorWidth.Size = new Size(121, 22);
+            CalloutLineAnchorWidth.TabIndex = 11;
+            CalloutLineAnchorWidth.SelectedIndexChanged += new EventHandler(CalloutLineAnchorWidth_SelectedIndexChanged);
             // 
             // CalloutLineAnchorColor
             // 
-            this.CalloutLineAnchorColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CalloutLineAnchorColor.Items.AddRange([
+            CalloutLineAnchorColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CalloutLineAnchorColor.Items.AddRange([
             "Red",
             "Blue",
             "Green",
             "Yellow"]);
-            this.CalloutLineAnchorColor.Location = new System.Drawing.Point(176, 152);
-            this.CalloutLineAnchorColor.Name = "CalloutLineAnchorColor";
-            this.CalloutLineAnchorColor.Size = new System.Drawing.Size(121, 22);
-            this.CalloutLineAnchorColor.TabIndex = 9;
-            this.CalloutLineAnchorColor.SelectedIndexChanged += new System.EventHandler(this.CalloutLineAnchorColor_SelectedIndexChanged);
+            CalloutLineAnchorColor.Location = new Point(176, 152);
+            CalloutLineAnchorColor.Name = "CalloutLineAnchorColor";
+            CalloutLineAnchorColor.Size = new Size(121, 22);
+            CalloutLineAnchorColor.TabIndex = 9;
+            CalloutLineAnchorColor.SelectedIndexChanged += new EventHandler(CalloutLineAnchorColor_SelectedIndexChanged);
             // 
             // CalloutLineAnchorCap
             // 
-            this.CalloutLineAnchorCap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CalloutLineAnchorCap.Items.AddRange([
+            CalloutLineAnchorCap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CalloutLineAnchorCap.Items.AddRange([
             "None",
             "Arrow",
             "Diamond",
             "Square",
             "Round"]);
-            this.CalloutLineAnchorCap.Location = new System.Drawing.Point(176, 128);
-            this.CalloutLineAnchorCap.Name = "CalloutLineAnchorCap";
-            this.CalloutLineAnchorCap.Size = new System.Drawing.Size(121, 22);
-            this.CalloutLineAnchorCap.TabIndex = 7;
-            this.CalloutLineAnchorCap.SelectedIndexChanged += new System.EventHandler(this.CalloutLineAnchorCap_SelectedIndexChanged);
+            CalloutLineAnchorCap.Location = new Point(176, 128);
+            CalloutLineAnchorCap.Name = "CalloutLineAnchorCap";
+            CalloutLineAnchorCap.Size = new Size(121, 22);
+            CalloutLineAnchorCap.TabIndex = 7;
+            CalloutLineAnchorCap.SelectedIndexChanged += new EventHandler(CalloutLineAnchorCap_SelectedIndexChanged);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(3, 176);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(172, 20);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Callout Line Anchor &Width:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label4.Location = new Point(3, 176);
+            label4.Name = "label4";
+            label4.Size = new Size(172, 20);
+            label4.TabIndex = 10;
+            label4.Text = "Callout Line Anchor &Width:";
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(8, 154);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(168, 16);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Callout Line Anchor C&olor:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Location = new Point(8, 154);
+            label3.Name = "label3";
+            label3.Size = new Size(168, 16);
+            label3.TabIndex = 8;
+            label3.Text = "Callout Line Anchor C&olor:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(16, 130);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 16);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Callout Line Anchor &Cap:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(16, 130);
+            label2.Name = "label2";
+            label2.Size = new Size(160, 16);
+            label2.TabIndex = 6;
+            label2.Text = "Callout Line Anchor &Cap:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // AllowOutsidePlotArea
             // 
-            this.AllowOutsidePlotArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AllowOutsidePlotArea.Items.AddRange([
+            AllowOutsidePlotArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AllowOutsidePlotArea.Items.AddRange([
             "No",
             "Yes",
             "Partial"]);
-            this.AllowOutsidePlotArea.Location = new System.Drawing.Point(176, 96);
-            this.AllowOutsidePlotArea.Name = "AllowOutsidePlotArea";
-            this.AllowOutsidePlotArea.Size = new System.Drawing.Size(121, 22);
-            this.AllowOutsidePlotArea.TabIndex = 5;
-            this.AllowOutsidePlotArea.SelectedIndexChanged += new System.EventHandler(this.AllowOutsidePlotArea_SelectedIndexChanged);
+            AllowOutsidePlotArea.Location = new Point(176, 96);
+            AllowOutsidePlotArea.Name = "AllowOutsidePlotArea";
+            AllowOutsidePlotArea.Size = new Size(121, 22);
+            AllowOutsidePlotArea.TabIndex = 5;
+            AllowOutsidePlotArea.SelectedIndexChanged += new EventHandler(AllowOutsidePlotArea_SelectedIndexChanged);
             // 
             // checkBoxPreventOverlap
             // 
-            this.checkBoxPreventOverlap.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxPreventOverlap.Location = new System.Drawing.Point(18, 8);
-            this.checkBoxPreventOverlap.Name = "checkBoxPreventOverlap";
-            this.checkBoxPreventOverlap.Size = new System.Drawing.Size(172, 24);
-            this.checkBoxPreventOverlap.TabIndex = 0;
-            this.checkBoxPreventOverlap.Text = "&Smart Labels:";
-            this.checkBoxPreventOverlap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxPreventOverlap.CheckedChanged += new System.EventHandler(this.checkBoxPreventOverlap_CheckedChanged);
+            checkBoxPreventOverlap.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxPreventOverlap.Location = new Point(18, 8);
+            checkBoxPreventOverlap.Name = "checkBoxPreventOverlap";
+            checkBoxPreventOverlap.Size = new Size(172, 24);
+            checkBoxPreventOverlap.TabIndex = 0;
+            checkBoxPreventOverlap.Text = "&Smart Labels:";
+            checkBoxPreventOverlap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxPreventOverlap.CheckedChanged += new EventHandler(checkBoxPreventOverlap_CheckedChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(16, 99);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(160, 16);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Allow &Outside Plot Area:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            label1.Location = new Point(16, 99);
+            label1.Name = "label1";
+            label1.Size = new Size(160, 16);
+            label1.TabIndex = 4;
+            label1.Text = "Allow &Outside Plot Area:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Click += new EventHandler(label1_Click);
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(16, 202);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(160, 16);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Callout St&yle:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label5.Location = new Point(16, 202);
+            label5.Name = "label5";
+            label5.Size = new Size(160, 16);
+            label5.TabIndex = 12;
+            label5.Text = "Callout St&yle:";
+            label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(16, 67);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(160, 16);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "&Number of Points:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label6.Location = new Point(16, 67);
+            label6.Name = "label6";
+            label6.Size = new Size(160, 16);
+            label6.TabIndex = 2;
+            label6.Text = "&Number of Points:";
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SmartLabels
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "Smart Labels";
-            this.Size = new System.Drawing.Size(728, 376);
-            this.Load += new System.EventHandler(this.SmartLabels_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "Smart Labels";
+            Size = new Size(728, 376);
+            Load += new EventHandler(SmartLabels_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void checkBoxPreventOverlap_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxPreventOverlap_CheckedChanged(object sender, EventArgs e)
 		{
 			SetSmartLabels();
 		}
 
-		private void chart1_Click(object sender, System.EventArgs e)
+		private void chart1_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void label1_Click(object sender, System.EventArgs e)
+		private void label1_Click(object sender, EventArgs e)
 		{
 		
 		}
@@ -383,9 +383,9 @@ namespace ChartSamples
 
 			// Get out from this method if all combo boxes 
 			// are not initialized.
-			if( this.NumOfPoints.Text != "" )
+			if( NumOfPoints.Text != "" )
 			{
-				numOfPoints = int.Parse( this.NumOfPoints.Text );
+				numOfPoints = int.Parse( NumOfPoints.Text );
 			}
 			
 			// Initialize random nubers.
@@ -395,7 +395,7 @@ namespace ChartSamples
 			for( int index = 0; index <= numOfPoints; index++ )
 			{
 				// Filling algorithm for not aligned data points
-				if( !this.Aligned.Checked )
+				if( !Aligned.Checked )
 				{
 					chart1.Series[0].Points.Add( new DataPoint( 0, rand.NextDouble() * 50 ) );
 				}
@@ -417,14 +417,14 @@ namespace ChartSamples
 		/// <summary>
 		/// Initialize combo boxes
 		/// </summary>
-		private void SmartLabels_Load(object sender, System.EventArgs e)
+		private void SmartLabels_Load(object sender, EventArgs e)
 		{
-			this.AllowOutsidePlotArea.SelectedIndex = 0;
-			this.CalloutLineAnchorCap.SelectedIndex = 0;
-			this.CalloutLineAnchorColor.SelectedIndex = 0;
-			this.CalloutLineAnchorWidth.SelectedIndex = 0;
-			this.CalloutStyle.SelectedIndex = 0;
-			this.NumOfPoints.SelectedIndex = 1;
+			AllowOutsidePlotArea.SelectedIndex = 0;
+			CalloutLineAnchorCap.SelectedIndex = 0;
+			CalloutLineAnchorColor.SelectedIndex = 0;
+			CalloutLineAnchorWidth.SelectedIndex = 0;
+			CalloutStyle.SelectedIndex = 0;
+			NumOfPoints.SelectedIndex = 1;
 		}
 
 		/// <summary>
@@ -435,72 +435,72 @@ namespace ChartSamples
 		{
 			// Get out from this method if all combo boxes 
 			// are not initialized.
-			if( this.CalloutStyle.Text == "" )
+			if( CalloutStyle.Text == "" )
 			{
 				return;
 			}
 
 			// Enable or disable Smart label combo boxes
-			if( this.checkBoxPreventOverlap.Checked )
+			if( checkBoxPreventOverlap.Checked )
 			{
-				this.AllowOutsidePlotArea.Enabled = true;
-                this.CalloutLineAnchorCap.Enabled = true;
-				this.CalloutLineAnchorColor.Enabled = true;
-				this.CalloutLineAnchorWidth.Enabled = true;
-				this.CalloutStyle.Enabled = true;
+				AllowOutsidePlotArea.Enabled = true;
+                CalloutLineAnchorCap.Enabled = true;
+				CalloutLineAnchorColor.Enabled = true;
+				CalloutLineAnchorWidth.Enabled = true;
+				CalloutStyle.Enabled = true;
 			}
 			else
 			{
-				this.AllowOutsidePlotArea.Enabled = false;
-                this.CalloutLineAnchorCap.Enabled = false;
-				this.CalloutLineAnchorColor.Enabled = false;
-				this.CalloutLineAnchorWidth.Enabled = false;
-				this.CalloutStyle.Enabled = false;
+				AllowOutsidePlotArea.Enabled = false;
+                CalloutLineAnchorCap.Enabled = false;
+				CalloutLineAnchorColor.Enabled = false;
+				CalloutLineAnchorWidth.Enabled = false;
+				CalloutStyle.Enabled = false;
 			}
 
 			// Set values from combo boxes to the chart 
 			// smart labels properties.
-			chart1.Series["Default"].SmartLabelStyle.Enabled = this.checkBoxPreventOverlap.Checked;
-			chart1.Series["Default"].SmartLabelStyle.AllowOutsidePlotArea = (LabelOutsidePlotAreaStyle) Enum.Parse( typeof(LabelOutsidePlotAreaStyle), this.AllowOutsidePlotArea.Text, true );
-            chart1.Series["Default"].SmartLabelStyle.CalloutLineAnchorCapStyle = (LineAnchorCapStyle)Enum.Parse(typeof(LineAnchorCapStyle), this.CalloutLineAnchorCap.Text, true);
-			chart1.Series["Default"].SmartLabelStyle.CalloutLineColor = Color.FromName( this.CalloutLineAnchorColor.Text );
-			chart1.Series["Default"].SmartLabelStyle.CalloutLineWidth = int.Parse( this.CalloutLineAnchorWidth.Text );
-			chart1.Series["Default"].SmartLabelStyle.CalloutStyle = (LabelCalloutStyle) Enum.Parse( typeof(LabelCalloutStyle), this.CalloutStyle.Text, true );
+			chart1.Series["Default"].SmartLabelStyle.Enabled = checkBoxPreventOverlap.Checked;
+			chart1.Series["Default"].SmartLabelStyle.AllowOutsidePlotArea = (LabelOutsidePlotAreaStyle) Enum.Parse( typeof(LabelOutsidePlotAreaStyle), AllowOutsidePlotArea.Text, true );
+            chart1.Series["Default"].SmartLabelStyle.CalloutLineAnchorCapStyle = (LineAnchorCapStyle)Enum.Parse(typeof(LineAnchorCapStyle), CalloutLineAnchorCap.Text, true);
+			chart1.Series["Default"].SmartLabelStyle.CalloutLineColor = Color.FromName( CalloutLineAnchorColor.Text );
+			chart1.Series["Default"].SmartLabelStyle.CalloutLineWidth = int.Parse( CalloutLineAnchorWidth.Text );
+			chart1.Series["Default"].SmartLabelStyle.CalloutStyle = (LabelCalloutStyle) Enum.Parse( typeof(LabelCalloutStyle), CalloutStyle.Text, true );
 		
 		}
 
-		private void AllowOutsidePlotArea_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void AllowOutsidePlotArea_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			SetSmartLabels();
 		}
 
-		private void CalloutLineAnchorCap_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void CalloutLineAnchorCap_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			SetSmartLabels();
 		}
 
-		private void CalloutLineAnchorColor_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void CalloutLineAnchorColor_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			SetSmartLabels();
 		}
 
-		private void CalloutLineAnchorWidth_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void CalloutLineAnchorWidth_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			SetSmartLabels();
 		}
 
-		private void CalloutStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void CalloutStyle_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			SetSmartLabels();
 		}
 
-		private void NumOfPoints_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void NumOfPoints_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			FillData();
 			SetSmartLabels();
 		}
 
-		private void Aligned_CheckedChanged(object sender, System.EventArgs e)
+		private void Aligned_CheckedChanged(object sender, EventArgs e)
 		{
 			FillData();
 			SetSmartLabels();

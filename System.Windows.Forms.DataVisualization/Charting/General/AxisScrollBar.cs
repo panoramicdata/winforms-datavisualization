@@ -152,7 +152,7 @@ public class AxisScrollBar : IDisposable
 	internal AxisScrollBar(Axis axis)
 	{
 		// Save reference to the axis data scaleView
-		this._axis = axis;
+		_axis = axis;
 	}
 
 	/// <summary>

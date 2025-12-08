@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -28,7 +28,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         private RANGETYPE rangeType;
 
-        private System.Drawing.Drawing2D.GraphicsPath graphicsPath;
+        private Drawing.Drawing2D.GraphicsPath graphicsPath;
         /// <summary>
         /// The fill color.  
         /// By default the fill color is a transparent green if the rangeType is TOP
@@ -50,8 +50,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <param name="rType">Range Type</param>
         public RangePolygon(PointF[] points, RANGETYPE rType,int id)
         {
-            this.rangeType = rType;
-            this.polygonPoints = points;
+            rangeType = rType;
+            polygonPoints = points;
             if(rType == RANGETYPE.TOP)
             {
                 fillColor=Color.FromArgb(15,0,255,0);
@@ -60,8 +60,8 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
             {
                 fillColor=Color.FromArgb(15,255,0,0);
             }
-            this.polygonID = id;
-            graphicsPath = new System.Drawing.Drawing2D.GraphicsPath();
+            polygonID = id;
+            graphicsPath = new Drawing.Drawing2D.GraphicsPath();
             graphicsPath.AddPolygon(polygonPoints);
         }
 
@@ -92,11 +92,11 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// <summary>
         /// (READ ONLY) The graphics path of the RangePolygon
         /// </summary>
-        public System.Drawing.Drawing2D.GraphicsPath GraphicsPath
+        public Drawing.Drawing2D.GraphicsPath GraphicsPath
         {
             get
             {
-                return this.graphicsPath;
+                return graphicsPath;
             }
         }
 
@@ -118,7 +118,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         {
             get
             {
-                return this.polygonID;
+                return polygonID;
             }
         }
 
@@ -148,7 +148,7 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities
         /// </summary>
         public virtual void Dispose()
         {
-            this.graphicsPath.Dispose();
+            graphicsPath.Dispose();
         }
 
         #endregion

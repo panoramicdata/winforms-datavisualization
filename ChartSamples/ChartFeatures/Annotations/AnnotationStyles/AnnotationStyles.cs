@@ -11,23 +11,23 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AnnotationStyles.
 	/// </summary>
-	public class AnnotationStyles : System.Windows.Forms.UserControl
+	public class AnnotationStyles : UserControl
 	{
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox AnnotationStyle;
-		private System.Windows.Forms.ComboBox Annotation;
-		private System.Windows.Forms.ComboBox AnnotationStyle1;
-		private System.Windows.Forms.Label StyleLabel2;
-		private System.Windows.Forms.Label StyleLabel1;
-		private System.Windows.Forms.ComboBox AnnotationStyle2;
+		private Label label1;
+		private Label label2;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private ComboBox AnnotationStyle;
+		private ComboBox Annotation;
+		private ComboBox AnnotationStyle1;
+		private Label StyleLabel2;
+		private Label StyleLabel1;
+		private ComboBox AnnotationStyle2;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public AnnotationStyles()
 		{
@@ -60,45 +60,45 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.PolylineAnnotation polylineAnnotation1 = new System.Windows.Forms.DataVisualization.Charting.PolylineAnnotation();
-            System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint annotationPathPoint1 = new System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint();
-            System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint annotationPathPoint2 = new System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint();
-            System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint annotationPathPoint3 = new System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint();
-            System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint annotationPathPoint4 = new System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint();
-            System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint annotationPathPoint5 = new System.Windows.Forms.DataVisualization.Charting.AnnotationPathPoint();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 800);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 600);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 750);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 600);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 330);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 200);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-            this.Annotation = new System.Windows.Forms.ComboBox();
-            this.AnnotationStyle = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.AnnotationStyle2 = new System.Windows.Forms.ComboBox();
-            this.StyleLabel1 = new System.Windows.Forms.Label();
-            this.StyleLabel2 = new System.Windows.Forms.Label();
-            this.AnnotationStyle1 = new System.Windows.Forms.ComboBox();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			PolylineAnnotation polylineAnnotation1 = new PolylineAnnotation();
+			AnnotationPathPoint annotationPathPoint1 = new AnnotationPathPoint();
+			AnnotationPathPoint annotationPathPoint2 = new AnnotationPathPoint();
+			AnnotationPathPoint annotationPathPoint3 = new AnnotationPathPoint();
+			AnnotationPathPoint annotationPathPoint4 = new AnnotationPathPoint();
+			AnnotationPathPoint annotationPathPoint5 = new AnnotationPathPoint();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 800);
+			DataPoint dataPoint2 = new DataPoint(0, 600);
+			DataPoint dataPoint3 = new DataPoint(0, 300);
+			DataPoint dataPoint4 = new DataPoint(0, 750);
+			DataPoint dataPoint5 = new DataPoint(0, 300);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 600);
+			DataPoint dataPoint7 = new DataPoint(0, 300);
+			DataPoint dataPoint8 = new DataPoint(0, 330);
+			DataPoint dataPoint9 = new DataPoint(0, 200);
+			DataPoint dataPoint10 = new DataPoint(0, 300);
+            Annotation = new ComboBox();
+            AnnotationStyle = new ComboBox();
+            label1 = new Label();
+            label2 = new Label();
+            label9 = new Label();
+            panel1 = new Panel();
+            AnnotationStyle2 = new ComboBox();
+            StyleLabel1 = new Label();
+            StyleLabel2 = new Label();
+            AnnotationStyle1 = new ComboBox();
+            Chart1 = new Chart();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // Annotation
             // 
-            this.Annotation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Annotation.Items.AddRange([
+            Annotation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            Annotation.Items.AddRange([
             "Line",
             "Vertical Line",
             "Horizontal Line",
@@ -111,100 +111,100 @@ namespace ChartSamples
             "Polyline",
             "Polygon",
             "Image"]);
-            this.Annotation.Location = new System.Drawing.Point(168, 8);
-            this.Annotation.Name = "Annotation";
-            this.Annotation.Size = new System.Drawing.Size(121, 22);
-            this.Annotation.TabIndex = 1;
-            this.Annotation.SelectedIndexChanged += new System.EventHandler(this.Annotation_SelectedIndexChanged);
+            Annotation.Location = new Point(168, 8);
+            Annotation.Name = "Annotation";
+            Annotation.Size = new Size(121, 22);
+            Annotation.TabIndex = 1;
+            Annotation.SelectedIndexChanged += new EventHandler(Annotation_SelectedIndexChanged);
             // 
             // AnnotationStyle
             // 
-            this.AnnotationStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AnnotationStyle.Location = new System.Drawing.Point(168, 40);
-            this.AnnotationStyle.Name = "AnnotationStyle";
-            this.AnnotationStyle.Size = new System.Drawing.Size(121, 22);
-            this.AnnotationStyle.TabIndex = 3;
-            this.AnnotationStyle.SelectedIndexChanged += new System.EventHandler(this.AnnotationStyle_SelectedIndexChanged);
+            AnnotationStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AnnotationStyle.Location = new Point(168, 40);
+            AnnotationStyle.Name = "AnnotationStyle";
+            AnnotationStyle.Size = new Size(121, 22);
+            AnnotationStyle.TabIndex = 3;
+            AnnotationStyle.SelectedIndexChanged += new EventHandler(AnnotationStyle_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(8, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(152, 22);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Annotation &Type:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(8, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(152, 22);
+            label1.TabIndex = 0;
+            label1.Text = "Annotation &Type:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(32, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(128, 25);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "&Style:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(32, 39);
+            label2.Name = "label2";
+            label2.Size = new Size(128, 25);
+            label2.TabIndex = 2;
+            label2.Text = "&Style:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 14);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 43);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "This sample demonstrates how to set the different styles of each annotation type." +
+            label9.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 14);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 43);
+            label9.TabIndex = 0;
+            label9.Text = "This sample demonstrates how to set the different styles of each annotation type." +
                 " When using each type, you can further adjust the styles.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.AnnotationStyle2);
-            this.panel1.Controls.Add(this.StyleLabel1);
-            this.panel1.Controls.Add(this.StyleLabel2);
-            this.panel1.Controls.Add(this.AnnotationStyle1);
-            this.panel1.Controls.Add(this.Annotation);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.AnnotationStyle);
-            this.panel1.Location = new System.Drawing.Point(432, 73);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 0;
+            panel1.Controls.Add(AnnotationStyle2);
+            panel1.Controls.Add(StyleLabel1);
+            panel1.Controls.Add(StyleLabel2);
+            panel1.Controls.Add(AnnotationStyle1);
+            panel1.Controls.Add(Annotation);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(AnnotationStyle);
+            panel1.Location = new Point(432, 73);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 0;
             // 
             // AnnotationStyle2
             // 
-            this.AnnotationStyle2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AnnotationStyle2.Location = new System.Drawing.Point(168, 104);
-            this.AnnotationStyle2.Name = "AnnotationStyle2";
-            this.AnnotationStyle2.Size = new System.Drawing.Size(120, 22);
-            this.AnnotationStyle2.TabIndex = 7;
-            this.AnnotationStyle2.SelectedIndexChanged += new System.EventHandler(this.AnnotationStyle2_SelectedIndexChanged);
+            AnnotationStyle2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AnnotationStyle2.Location = new Point(168, 104);
+            AnnotationStyle2.Name = "AnnotationStyle2";
+            AnnotationStyle2.Size = new Size(120, 22);
+            AnnotationStyle2.TabIndex = 7;
+            AnnotationStyle2.SelectedIndexChanged += new EventHandler(AnnotationStyle2_SelectedIndexChanged);
             // 
             // StyleLabel1
             // 
-            this.StyleLabel1.Location = new System.Drawing.Point(40, 72);
-            this.StyleLabel1.Name = "StyleLabel1";
-            this.StyleLabel1.Size = new System.Drawing.Size(120, 20);
-            this.StyleLabel1.TabIndex = 4;
-            this.StyleLabel1.Text = "Start &Cap:";
-            this.StyleLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            StyleLabel1.Location = new Point(40, 72);
+            StyleLabel1.Name = "StyleLabel1";
+            StyleLabel1.Size = new Size(120, 20);
+            StyleLabel1.TabIndex = 4;
+            StyleLabel1.Text = "Start &Cap:";
+            StyleLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // StyleLabel2
             // 
-            this.StyleLabel2.Location = new System.Drawing.Point(32, 106);
-            this.StyleLabel2.Name = "StyleLabel2";
-            this.StyleLabel2.Size = new System.Drawing.Size(128, 16);
-            this.StyleLabel2.TabIndex = 6;
-            this.StyleLabel2.Text = "&End Cap:";
-            this.StyleLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            StyleLabel2.Location = new Point(32, 106);
+            StyleLabel2.Name = "StyleLabel2";
+            StyleLabel2.Size = new Size(128, 16);
+            StyleLabel2.TabIndex = 6;
+            StyleLabel2.Text = "&End Cap:";
+            StyleLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // AnnotationStyle1
             // 
-            this.AnnotationStyle1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AnnotationStyle1.Location = new System.Drawing.Point(168, 72);
-            this.AnnotationStyle1.Name = "AnnotationStyle1";
-            this.AnnotationStyle1.Size = new System.Drawing.Size(121, 22);
-            this.AnnotationStyle1.TabIndex = 5;
-            this.AnnotationStyle1.SelectedIndexChanged += new System.EventHandler(this.AnnotationStyle1_SelectedIndexChanged);
+            AnnotationStyle1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AnnotationStyle1.Location = new Point(168, 72);
+            AnnotationStyle1.Name = "AnnotationStyle1";
+            AnnotationStyle1.Size = new Size(121, 22);
+            AnnotationStyle1.TabIndex = 5;
+            AnnotationStyle1.SelectedIndexChanged += new EventHandler(AnnotationStyle1_SelectedIndexChanged);
             // 
             // Chart1
             // 
@@ -226,13 +226,13 @@ namespace ChartSamples
             polylineAnnotation1.GraphicsPathPoints.Add(annotationPathPoint4);
             polylineAnnotation1.GraphicsPathPoints.Add(annotationPathPoint5);
             polylineAnnotation1.Name = "Polyline1";
-            this.Chart1.Annotations.Add(polylineAnnotation1);
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.Annotations.Add(polylineAnnotation1);
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Enable3D = true;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -242,11 +242,11 @@ namespace ChartSamples
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
             chartArea1.AxisX.IsMarginVisible = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.OldLace;
@@ -257,15 +257,15 @@ namespace ChartSamples
             chartArea1.Position.Height = 98F;
             chartArea1.Position.Width = 100F;
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 65);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 65);
+            Chart1.Name = "Chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineArea;
@@ -292,29 +292,29 @@ namespace ChartSamples
             series2.Points.Add(dataPoint10);
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 1;
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 1;
             // 
             // AnnotationStyles
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "AnnotationStyles";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "AnnotationStyles";
+            Size = new Size(728, 480);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void Annotation_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void Annotation_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Chart1.Annotations.Clear();
 			
@@ -550,7 +550,7 @@ namespace ChartSamples
 
 		private void SetCalloutControls()
 		{
-			foreach(string style in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.CalloutStyle)))
+			foreach(string style in Enum.GetNames(typeof(CalloutStyle)))
 			{
 				AnnotationStyle.Items.Add(style);
 			}
@@ -573,7 +573,7 @@ namespace ChartSamples
 
 		private void SetBorder3DControls()
 		{
-			foreach(string skinStyle in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle)))
+			foreach(string skinStyle in Enum.GetNames(typeof(BorderSkinStyle)))
 			{
 				AnnotationStyle.Items.Add(skinStyle);
 			}
@@ -598,7 +598,7 @@ namespace ChartSamples
 		private void SetArrowControls()
 		{
 
-			foreach(string arrow in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ArrowStyle)))
+			foreach(string arrow in Enum.GetNames(typeof(ArrowStyle)))
 			{
 				AnnotationStyle.Items.Add(arrow);
 			}
@@ -629,7 +629,7 @@ namespace ChartSamples
 			AnnotationStyle1.SelectedIndex = 2;
 			AnnotationStyle1.Enabled = true;
 
-			foreach(string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
+			foreach(string lineName in Enum.GetNames(typeof(ChartDashStyle)))
 			{
 				AnnotationStyle2.Items.Add(lineName);
 			}
@@ -670,7 +670,7 @@ namespace ChartSamples
 
 		private void SetLineControls(bool showAnchors)
 		{
-			foreach(string lineName in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.ChartDashStyle)))
+			foreach(string lineName in Enum.GetNames(typeof(ChartDashStyle)))
 			{
 				AnnotationStyle.Items.Add(lineName);
 			}
@@ -680,7 +680,7 @@ namespace ChartSamples
 
 			if(showAnchors)
 			{
-				foreach(string arrowStyle in Enum.GetNames(typeof(System.Windows.Forms.DataVisualization.Charting.LineAnchorCapStyle)))
+				foreach(string arrowStyle in Enum.GetNames(typeof(LineAnchorCapStyle)))
 				{
 					AnnotationStyle1.Items.Add(arrowStyle);
 					AnnotationStyle2.Items.Add(arrowStyle);
@@ -697,7 +697,7 @@ namespace ChartSamples
 		}
 
 
-		private void AnnotationStyle_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void AnnotationStyle_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(Annotation.SelectedItem.ToString().ToLower().Contains("line", StringComparison.CurrentCulture))
 			{
@@ -745,7 +745,7 @@ namespace ChartSamples
 
 
 
-		private void AnnotationStyle1_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void AnnotationStyle1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(Annotation.SelectedItem.ToString() == "Line")
 			{
@@ -816,7 +816,7 @@ namespace ChartSamples
 		
 		}
 
-		private void AnnotationStyle2_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void AnnotationStyle2_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if(Annotation.SelectedItem.ToString() == "Line")
 			{

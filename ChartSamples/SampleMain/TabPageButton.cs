@@ -114,7 +114,7 @@ namespace ChartSamples
 				if(vertical != value)
 				{
 					vertical = value;
-					this.Invalidate();
+					Invalidate();
 				}
 			}
 		}
@@ -138,7 +138,7 @@ namespace ChartSamples
 				if(selectedTab != value)
 				{
 					selectedTab = value;
-					this.Invalidate();
+					Invalidate();
 				}
 			}
 		}
@@ -163,7 +163,7 @@ namespace ChartSamples
 				if(separatorLine != value)
 				{
 					separatorLine = value;
-					this.Invalidate();
+					Invalidate();
 				}
 			}
 		}
@@ -178,13 +178,13 @@ namespace ChartSamples
 		public VerticalTabPageButton()
 		{
 			// Set button style
-			this.SetStyle(ControlStyles.UserPaint, true);
-			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			this.SetStyle(ControlStyles.DoubleBuffer, true);
+			SetStyle(ControlStyles.UserPaint, true);
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.DoubleBuffer, true);
 
-			this.SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
 
-			this.AllowDrop = true;
+			AllowDrop = true;
 		}
 
 		#endregion
@@ -201,8 +201,8 @@ namespace ChartSamples
 		{
 			base.OnMouseUp(e);
 			pressed = false;
-			this.Invalidate();
-			this.Capture = false;
+			Invalidate();
+			Capture = false;
 		}
 		
 		/// <summary>
@@ -215,8 +215,8 @@ namespace ChartSamples
 		{
 			base.OnMouseDown(e);
 			pressed = true;
-			this.Invalidate();
-			this.Capture = true;
+			Invalidate();
+			Capture = true;
 		}
 
 		/// <summary>
@@ -230,16 +230,16 @@ namespace ChartSamples
 
 			// If left mouse button is still pressed and we moved outside of the button - start button dragging
 			if( (e.Button & MouseButtons.Left) == MouseButtons.Left &&
-				!this.ClientRectangle.Contains(e.X, e.Y))
+				!ClientRectangle.Contains(e.X, e.Y))
 			{
 				// Make sure the button is not in pressed mode
-				if(this.pressed)
+				if(pressed)
 				{
-					this.pressed = false;
-					this.Invalidate();
+					pressed = false;
+					Invalidate();
 				}
 
-				this.Capture = false;
+				Capture = false;
 
 				// fire start dragging event
 				OnStartDragging();
@@ -253,7 +253,7 @@ namespace ChartSamples
 		/// <param name="e">Event arguments.</param>
 		protected override void OnPaint( PaintEventArgs e )
 		{
-			this.DrawButton(e.Graphics);
+			DrawButton(e.Graphics);
 		}
 
 		#endregion
@@ -268,8 +268,8 @@ namespace ChartSamples
 		private void DrawVerticalButtonBack(Graphics graphics)
 		{
 			// Draw button border
-			ButtonState buttonState = (this.pressed) ? ButtonState.Pushed : ButtonState.Normal;
-			ControlPaint.DrawButton(graphics, this.ClientRectangle, buttonState);
+			ButtonState buttonState = (pressed) ? ButtonState.Pushed : ButtonState.Normal;
+			ControlPaint.DrawButton(graphics, ClientRectangle, buttonState);
 		}
 
 		/// <summary>
@@ -279,10 +279,10 @@ namespace ChartSamples
 		private void DrawHorizontalButtonBack(Graphics graphics)
 		{
 			// Define button radius
-			int radius = (int)Math.Round(this.ClientRectangle.Height / 3.0);
+			int radius = (int)Math.Round(ClientRectangle.Height / 3.0);
 
 			// Draw background image
-			VerticalTabControl tabControl = this.Parent as VerticalTabControl;
+			VerticalTabControl tabControl = Parent as VerticalTabControl;
 			if(tabControl != null && tabControl.BackgroundImage != null)
 			{
 				int height = tabControl.GetButtonHeight() + 1;
@@ -290,7 +290,7 @@ namespace ChartSamples
 				// Draw image in the background of the tab controls.
 				// Image must be aligne to the bottom-right corner of the tabs area.
 				Rectangle destRect = new Rectangle(
-					tabControl.Right - tabControl.BackgroundImage.Width + tabControl.BackImageOffsetX - this.Left,
+					tabControl.Right - tabControl.BackgroundImage.Width + tabControl.BackImageOffsetX - Left,
 					0,
 					tabControl.BackgroundImage.Width,
 					height);
@@ -299,7 +299,7 @@ namespace ChartSamples
 					tabControl.BackgroundImage, 
 					destRect, 
 					0, 
-					tabControl.BackImageOffsetY + this.Top, 
+					tabControl.BackImageOffsetY + Top, 
 					tabControl.BackgroundImage.Width, 
 					height,
 					GraphicsUnit.Pixel,
@@ -311,15 +311,15 @@ namespace ChartSamples
 			{
 				// Left vertical line
 				buttonPath.AddLine(
-					this.ClientRectangle.X, 
-					this.ClientRectangle.Bottom,
-					this.ClientRectangle.X, 
-					this.ClientRectangle.Y + radius);
+					ClientRectangle.X, 
+					ClientRectangle.Bottom,
+					ClientRectangle.X, 
+					ClientRectangle.Y + radius);
 
 				// Top left arc
 				buttonPath.AddArc(
-					this.ClientRectangle.X, 
-					this.ClientRectangle.Y,
+					ClientRectangle.X, 
+					ClientRectangle.Y,
 					2 * radius, 
 					2 * radius,
 					180,
@@ -327,15 +327,15 @@ namespace ChartSamples
 
 				// Top horizontal line
 				buttonPath.AddLine(
-					this.ClientRectangle.X + radius, 
-					this.ClientRectangle.Y,
-					this.ClientRectangle.Right - radius, 
-					this.ClientRectangle.Y);
+					ClientRectangle.X + radius, 
+					ClientRectangle.Y,
+					ClientRectangle.Right - radius, 
+					ClientRectangle.Y);
 
 				// Top right arc
 				buttonPath.AddArc(
-					this.ClientRectangle.Right - 1 - 2 * radius, 
-					this.ClientRectangle.Y,
+					ClientRectangle.Right - 1 - 2 * radius, 
+					ClientRectangle.Y,
 					2 * radius, 
 					2 * radius,
 					270,
@@ -343,26 +343,26 @@ namespace ChartSamples
 
 				// Right vertical line
 				buttonPath.AddLine(
-					this.ClientRectangle.Right - 1, 
-					this.ClientRectangle.Y + radius,
-					this.ClientRectangle.Right - 1, 
-					this.ClientRectangle.Bottom);
+					ClientRectangle.Right - 1, 
+					ClientRectangle.Y + radius,
+					ClientRectangle.Right - 1, 
+					ClientRectangle.Bottom);
 
 				// Bottom horizontal line
-				if(!this.SelectedTab)
+				if(!SelectedTab)
 				{
 					buttonPath.AddLine(
-						this.ClientRectangle.X, 
-						this.ClientRectangle.Bottom - 1,
-						this.ClientRectangle.Right, 
-						this.ClientRectangle.Bottom - 1);
+						ClientRectangle.X, 
+						ClientRectangle.Bottom - 1,
+						ClientRectangle.Right, 
+						ClientRectangle.Bottom - 1);
 				}
 
 				// Fill button background
-				if(this.SelectedTab)
+				if(SelectedTab)
 				{
-					Rectangle brushRect = this.ClientRectangle;
-					using( LinearGradientBrush backBrush = new LinearGradientBrush(brushRect, this.selectedGradientBackColor, this.BackColor, 90 ) )
+					Rectangle brushRect = ClientRectangle;
+					using( LinearGradientBrush backBrush = new LinearGradientBrush(brushRect, selectedGradientBackColor, BackColor, 90 ) )
 					{
 						Blend blend = new Blend(3);
 						blend.Positions[0] = 0.0f;
@@ -378,14 +378,14 @@ namespace ChartSamples
 				}
 				else
 				{
-					using( SolidBrush backBrush = new SolidBrush( (this.SelectedTab) ? this.BackColor : nonSelectedBackColor) )
+					using( SolidBrush backBrush = new SolidBrush( (SelectedTab) ? BackColor : nonSelectedBackColor) )
 					{
 						graphics.FillPath(backBrush, buttonPath);
 					}
 				}
 
 				// Draw button border using Anti-Aliasing
-				using( Pen pen = new Pen(this.borderColor, 1) )
+				using( Pen pen = new Pen(borderColor, 1) )
 				{
 					SmoothingMode oldMode = graphics.SmoothingMode;
 					graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -403,10 +403,10 @@ namespace ChartSamples
 		protected virtual void DrawButton(Graphics graphics)
 		{
 			// Cleat the background with the Back color
-			graphics.Clear(this.BackColor);
+			graphics.Clear(BackColor);
 
 			// Draw background
-			if(this.Vertical)
+			if(Vertical)
 			{
 				DrawVerticalButtonBack(graphics);
 			}
@@ -417,16 +417,16 @@ namespace ChartSamples
 
 			// Draw image
 			Rectangle	imageRect = Rectangle.Empty;
-			if(this.Image != null)
+			if(Image != null)
 			{
 				// Calculate image rectangle position
-				imageRect.X = this.ClientRectangle.X + this.offset;
-				imageRect.Y = this.ClientRectangle.Y + (this.ClientRectangle.Height - this.Image.Height) / 2;
-				imageRect.Width = this.Image.Width;
-				imageRect.Height = this.Image.Height;
+				imageRect.X = ClientRectangle.X + offset;
+				imageRect.Y = ClientRectangle.Y + (ClientRectangle.Height - Image.Height) / 2;
+				imageRect.Width = Image.Width;
+				imageRect.Height = Image.Height;
 
 				// Shift image by 1 pixel when in pressed state
-				if(this.pressed && this.Vertical)
+				if(pressed && Vertical)
 				{
 					++imageRect.X;
 					++imageRect.Y;
@@ -435,7 +435,7 @@ namespace ChartSamples
 				// Replace transparent color (White) with button back color 
 				ColorMap[] myColorMap = [new ColorMap()];
 				myColorMap[0].OldColor = Color.White;
-				myColorMap[0].NewColor = this.BackColor;
+				myColorMap[0].NewColor = BackColor;
 
 				// Create an ImageAttributes object
 				ImageAttributes imageAttr = new ImageAttributes();
@@ -443,12 +443,12 @@ namespace ChartSamples
 
 				// Draw image
 				graphics.DrawImage(
-					this.Image, 
+					Image, 
 					imageRect, 
 					0,
 					0,
-					this.Image.Width, 
-					this.Image.Height,
+					Image.Width, 
+					Image.Height,
 					GraphicsUnit.Pixel,
 					imageAttr);
 
@@ -456,19 +456,19 @@ namespace ChartSamples
 			}
 
 			// Draw button text
-			if(this.Text.Length > 0)
+			if(Text.Length > 0)
 			{
-				Rectangle	textRect = new Rectangle(this.ClientRectangle.Location, this.ClientRectangle.Size);
-				textRect.X += this.offset - 2;
-				textRect.Width -= 2 * this.offset;
-				if(this.Image != null)
+				Rectangle	textRect = new Rectangle(ClientRectangle.Location, ClientRectangle.Size);
+				textRect.X += offset - 2;
+				textRect.Width -= 2 * offset;
+				if(Image != null)
 				{
-					textRect.X += this.offset + this.Image.Width;
-					textRect.Width -= this.offset + this.Image.Width;
+					textRect.X += offset + Image.Width;
+					textRect.Width -= offset + Image.Width;
 				}
 				
 				// Shift image by 1 pixel when in pressed state
-				if(this.pressed && this.Vertical)
+				if(pressed && Vertical)
 				{
 					++textRect.X;
 					++textRect.Y;
@@ -479,9 +479,9 @@ namespace ChartSamples
 				format.Alignment = StringAlignment.Center;
 				format.Trimming = StringTrimming.EllipsisCharacter;
 				format.FormatFlags = StringFormatFlags.LineLimit;
-				using( SolidBrush brush = new SolidBrush( (this.SelectedTab) ? textColorSelected : textColorUnSelected ) )
+				using( SolidBrush brush = new SolidBrush( (SelectedTab) ? textColorSelected : textColorUnSelected ) )
 				{
-					graphics.DrawString(this.Text, this.Font, brush, textRect, format);
+					graphics.DrawString(Text, Font, brush, textRect, format);
 				}
 
 				format.Dispose();

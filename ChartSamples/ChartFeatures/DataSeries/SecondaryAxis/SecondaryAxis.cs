@@ -11,30 +11,30 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AxisAppearance.
 	/// </summary>
-	public class SecondaryAxis : System.Windows.Forms.UserControl
+	public class SecondaryAxis : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.ComboBox Series1X;
-		private System.Windows.Forms.ComboBox Series1Y;
-		private System.Windows.Forms.ComboBox Series2X;
-		private System.Windows.Forms.ComboBox Series2Y;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private Label label3;
+		private Label label4;
+		private Label label5;
+		private Label label6;
+		private Label label7;
+		private Label label8;
+		private Label label15;
+		private Label label1;
+		private Label label2;
+		private Label label10;
+		private Label label11;
+		private ComboBox Series1X;
+		private ComboBox Series1Y;
+		private ComboBox Series2X;
+		private ComboBox Series2Y;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public SecondaryAxis()
 		{
@@ -64,225 +64,225 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 14);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 13);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 14);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 18);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 16);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 10);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 15);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 12);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 18);
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.Series2Y = new System.Windows.Forms.ComboBox();
-            this.Series2X = new System.Windows.Forms.ComboBox();
-            this.Series1Y = new System.Windows.Forms.ComboBox();
-            this.Series1X = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 14);
+			DataPoint dataPoint2 = new DataPoint(0, 13);
+			DataPoint dataPoint3 = new DataPoint(0, 14);
+			DataPoint dataPoint4 = new DataPoint(0, 18);
+			DataPoint dataPoint5 = new DataPoint(0, 16);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 10);
+			DataPoint dataPoint7 = new DataPoint(0, 15);
+			DataPoint dataPoint8 = new DataPoint(0, 8);
+			DataPoint dataPoint9 = new DataPoint(0, 12);
+			DataPoint dataPoint10 = new DataPoint(0, 18);
+            label9 = new Label();
+            panel1 = new Panel();
+            label11 = new Label();
+            label10 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            Series2Y = new ComboBox();
+            Series2X = new ComboBox();
+            Series1Y = new ComboBox();
+            Series1X = new ComboBox();
+            label8 = new Label();
+            label7 = new Label();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label15 = new Label();
+            Chart1 = new Chart();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)(Chart1)).BeginInit();
+            SuspendLayout();
             // 
             // label9
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            label9.Anchor = ((AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(16, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(702, 32);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "This sample demonstrates how to plot a series on either the primary or secondary " +
+            label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new Point(16, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(702, 32);
+            label9.TabIndex = 0;
+            label9.Text = "This sample demonstrates how to plot a series on either the primary or secondary " +
                 "axis.";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.Series2Y);
-            this.panel1.Controls.Add(this.Series2X);
-            this.panel1.Controls.Add(this.Series1Y);
-            this.panel1.Controls.Add(this.Series1X);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label15);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(label11);
+            panel1.Controls.Add(label10);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(Series2Y);
+            panel1.Controls.Add(Series2X);
+            panel1.Controls.Add(Series1Y);
+            panel1.Controls.Add(Series1X);
+            panel1.Controls.Add(label8);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label15);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(8, 104);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(156, 23);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "Series2 Y &Axis:";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label11.Location = new Point(8, 104);
+            label11.Name = "label11";
+            label11.Size = new Size(156, 23);
+            label11.TabIndex = 6;
+            label11.Text = "Series2 Y &Axis:";
+            label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(8, 72);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(156, 23);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "Series&2 X Axis:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label10.Location = new Point(8, 72);
+            label10.Name = "label10";
+            label10.Size = new Size(156, 23);
+            label10.TabIndex = 4;
+            label10.Text = "Series&2 X Axis:";
+            label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(8, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(156, 23);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Series1 &Y Axis:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(8, 40);
+            label2.Name = "label2";
+            label2.Size = new Size(156, 23);
+            label2.TabIndex = 2;
+            label2.Text = "Series1 &Y Axis:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(8, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(156, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Series&1 X Axis:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(8, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(156, 23);
+            label1.TabIndex = 0;
+            label1.Text = "Series&1 X Axis:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Series2Y
             // 
-            this.Series2Y.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Series2Y.Items.AddRange([
+            Series2Y.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            Series2Y.Items.AddRange([
             "Primary",
             "Secondary"]);
-            this.Series2Y.Location = new System.Drawing.Point(168, 104);
-            this.Series2Y.Name = "Series2Y";
-            this.Series2Y.Size = new System.Drawing.Size(121, 22);
-            this.Series2Y.TabIndex = 7;
-            this.Series2Y.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
+            Series2Y.Location = new Point(168, 104);
+            Series2Y.Name = "Series2Y";
+            Series2Y.Size = new Size(121, 22);
+            Series2Y.TabIndex = 7;
+            Series2Y.SelectedIndexChanged += new EventHandler(Series_SelectedIndexChanged);
             // 
             // Series2X
             // 
-            this.Series2X.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Series2X.Items.AddRange([
+            Series2X.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            Series2X.Items.AddRange([
             "Primary",
             "Secondary"]);
-            this.Series2X.Location = new System.Drawing.Point(168, 72);
-            this.Series2X.Name = "Series2X";
-            this.Series2X.Size = new System.Drawing.Size(121, 22);
-            this.Series2X.TabIndex = 5;
-            this.Series2X.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
+            Series2X.Location = new Point(168, 72);
+            Series2X.Name = "Series2X";
+            Series2X.Size = new Size(121, 22);
+            Series2X.TabIndex = 5;
+            Series2X.SelectedIndexChanged += new EventHandler(Series_SelectedIndexChanged);
             // 
             // Series1Y
             // 
-            this.Series1Y.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Series1Y.Items.AddRange([
+            Series1Y.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            Series1Y.Items.AddRange([
             "Primary",
             "Secondary"]);
-            this.Series1Y.Location = new System.Drawing.Point(168, 40);
-            this.Series1Y.Name = "Series1Y";
-            this.Series1Y.Size = new System.Drawing.Size(121, 22);
-            this.Series1Y.TabIndex = 3;
-            this.Series1Y.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
+            Series1Y.Location = new Point(168, 40);
+            Series1Y.Name = "Series1Y";
+            Series1Y.Size = new Size(121, 22);
+            Series1Y.TabIndex = 3;
+            Series1Y.SelectedIndexChanged += new EventHandler(Series_SelectedIndexChanged);
             // 
             // Series1X
             // 
-            this.Series1X.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Series1X.Items.AddRange([
+            Series1X.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            Series1X.Items.AddRange([
             "Primary",
             "Secondary"]);
-            this.Series1X.Location = new System.Drawing.Point(168, 8);
-            this.Series1X.Name = "Series1X";
-            this.Series1X.Size = new System.Drawing.Size(121, 22);
-            this.Series1X.TabIndex = 1;
-            this.Series1X.SelectedIndexChanged += new System.EventHandler(this.Series_SelectedIndexChanged);
+            Series1X.Location = new Point(168, 8);
+            Series1X.Name = "Series1X";
+            Series1X.Size = new Size(121, 22);
+            Series1X.TabIndex = 1;
+            Series1X.SelectedIndexChanged += new EventHandler(Series_SelectedIndexChanged);
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(64, 472);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 23);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "Shadow Offset:";
+            label8.Location = new Point(64, 472);
+            label8.Name = "label8";
+            label8.Size = new Size(100, 23);
+            label8.TabIndex = 7;
+            label8.Text = "Shadow Offset:";
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(64, 449);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(100, 23);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Border Style:";
+            label7.Location = new Point(64, 449);
+            label7.Name = "label7";
+            label7.Size = new Size(100, 23);
+            label7.TabIndex = 6;
+            label7.Text = "Border Style:";
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(64, 403);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 23);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Border Size:";
+            label6.Location = new Point(64, 403);
+            label6.Name = "label6";
+            label6.Size = new Size(100, 23);
+            label6.TabIndex = 11;
+            label6.Text = "Border Size:";
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(64, 380);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(100, 23);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Border Color:";
+            label5.Location = new Point(64, 380);
+            label5.Name = "label5";
+            label5.Size = new Size(100, 23);
+            label5.TabIndex = 10;
+            label5.Text = "Border Color:";
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(64, 357);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 23);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Hatch Style:";
+            label4.Location = new Point(64, 357);
+            label4.Name = "label4";
+            label4.Size = new Size(100, 23);
+            label4.TabIndex = 9;
+            label4.Text = "Hatch Style:";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(64, 334);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 23);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Gradient:";
+            label3.Location = new Point(64, 334);
+            label3.Name = "label3";
+            label3.Size = new Size(100, 23);
+            label3.TabIndex = 8;
+            label3.Text = "Gradient:";
             // 
             // label15
             // 
-            this.label15.Location = new System.Drawing.Point(64, 426);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(100, 23);
-            this.label15.TabIndex = 5;
-            this.label15.Text = "Border Size:";
+            label15.Location = new Point(64, 426);
+            label15.Name = "label15";
+            label15.Size = new Size(100, 23);
+            label15.TabIndex = 5;
+            label15.Text = "Border Size:";
             // 
             // Chart1
             // 
-            this.Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.Chart1.BorderlineWidth = 2;
-            this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            Chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            Chart1.BorderlineWidth = 2;
+            Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -290,19 +290,19 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX2.IsLabelAutoFit = false;
-            chartArea1.AxisX2.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX2.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX2.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY2.IsLabelAutoFit = false;
-            chartArea1.AxisY2.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY2.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY2.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.OldLace;
@@ -311,17 +311,17 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.Chart1.ChartAreas.Add(chartArea1);
+            Chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.DockedToChartArea = "Default";
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.Name = "Default";
-            this.Chart1.Legends.Add(legend1);
-            this.Chart1.Location = new System.Drawing.Point(16, 48);
-            this.Chart1.Name = "Chart1";
+            Chart1.Legends.Add(legend1);
+            Chart1.Location = new Point(16, 48);
+            Chart1.Name = "Chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.CustomProperties = "DrawingStyle=LightToDark";
@@ -342,23 +342,23 @@ namespace ChartSamples
             series2.Points.Add(dataPoint8);
             series2.Points.Add(dataPoint9);
             series2.Points.Add(dataPoint10);
-            this.Chart1.Series.Add(series1);
-            this.Chart1.Series.Add(series2);
-            this.Chart1.Size = new System.Drawing.Size(412, 296);
-            this.Chart1.TabIndex = 1;
+            Chart1.Series.Add(series1);
+            Chart1.Series.Add(series2);
+            Chart1.Size = new Size(412, 296);
+            Chart1.TabIndex = 1;
             // 
             // SecondaryAxis
             // 
-            this.Controls.Add(this.Chart1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label9);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "SecondaryAxis";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.SecondaryAxis_Load);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-            this.ResumeLayout(false);
+            Controls.Add(Chart1);
+            Controls.Add(panel1);
+            Controls.Add(label9);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "SecondaryAxis";
+            Size = new Size(728, 480);
+            Load += new EventHandler(SecondaryAxis_Load);
+            panel1.ResumeLayout(false);
+            ((ISupportInitialize)(Chart1)).EndInit();
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -379,13 +379,13 @@ namespace ChartSamples
 			Chart1.Series["Series2"].YAxisType = (AxisType)AxisType.Parse(typeof(AxisType), Series2Y.GetItemText(Series2Y.SelectedItem));
 		}
 
-		private void Series_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void Series_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			SetSecondary();
 		}
 		
 
-		private void SecondaryAxis_Load(object sender, System.EventArgs e)
+		private void SecondaryAxis_Load(object sender, EventArgs e)
 		{
 			// Initialize Combo boxes
 			Series1X.SelectedIndex = 0;

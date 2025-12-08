@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,19 +11,19 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for PrintPreview.
 	/// </summary>
-	public class PrintPreview : System.Windows.Forms.UserControl
+	public class PrintPreview : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button buttonPrint;
-		private System.Windows.Forms.Button buttonPreview;
-		private System.Windows.Forms.Button buttonPageSetup;
-		private System.Windows.Forms.CheckBox checkBoxShowPrinterDialog;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Button buttonPrint;
+		private Button buttonPreview;
+		private Button buttonPageSetup;
+		private CheckBox checkBoxShowPrinterDialog;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PrintPreview()
 		{
@@ -57,52 +57,52 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 12);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 10);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint21 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint22 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 1);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxShowPrinterDialog = new System.Windows.Forms.CheckBox();
-            this.buttonPageSetup = new System.Windows.Forms.Button();
-            this.buttonPreview = new System.Windows.Forms.Button();
-            this.buttonPrint = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 6);
+			DataPoint dataPoint2 = new DataPoint(0, 12);
+			DataPoint dataPoint3 = new DataPoint(0, 8);
+			DataPoint dataPoint4 = new DataPoint(0, 9);
+			DataPoint dataPoint5 = new DataPoint(0, 7);
+			DataPoint dataPoint6 = new DataPoint(0, 10);
+			DataPoint dataPoint7 = new DataPoint(0, 5);
+			DataPoint dataPoint8 = new DataPoint(0, 2);
+			DataPoint dataPoint9 = new DataPoint(0, 4);
+			DataPoint dataPoint10 = new DataPoint(0, 7);
+			DataPoint dataPoint11 = new DataPoint(0, 6);
+			Series series2 = new Series();
+			DataPoint dataPoint12 = new DataPoint(0, 3);
+			DataPoint dataPoint13 = new DataPoint(0, 7);
+			DataPoint dataPoint14 = new DataPoint(0, 4);
+			DataPoint dataPoint15 = new DataPoint(0, 1);
+			DataPoint dataPoint16 = new DataPoint(0, 8);
+			DataPoint dataPoint17 = new DataPoint(0, 7);
+			DataPoint dataPoint18 = new DataPoint(0, 1);
+			DataPoint dataPoint19 = new DataPoint(0, 2);
+			DataPoint dataPoint20 = new DataPoint(0, 1);
+			DataPoint dataPoint21 = new DataPoint(0, 2);
+			DataPoint dataPoint22 = new DataPoint(0, 1);
+			Title title1 = new Title();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkBoxShowPrinterDialog = new CheckBox();
+            buttonPageSetup = new Button();
+            buttonPreview = new Button();
+            buttonPrint = new Button();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Enable3D = true;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
@@ -110,10 +110,10 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(165)))), ((int)(((byte)(191)))), ((int)(((byte)(228)))));
@@ -123,15 +123,15 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.DockedToChartArea = "Default";
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 63);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 63);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(65)))), ((int)(((byte)(140)))), ((int)(((byte)(240)))));
@@ -166,100 +166,100 @@ namespace ChartSamples
             series2.Points.Add(dataPoint20);
             series2.Points.Add(dataPoint21);
             series2.Points.Add(dataPoint22);
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
+            title1.Font = new Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Bold);
             title1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             title1.Name = "Title1";
             title1.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             title1.ShadowOffset = 3;
             title1.Text = "Printing Sample";
-            this.chart1.Titles.Add(title1);
+            chart1.Titles.Add(title1);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 14);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 43);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates printing and previewing. Page settings are accessible th" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 14);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 43);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates printing and previewing. Page settings are accessible th" +
                 "rough the Page Setup dialog.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxShowPrinterDialog);
-            this.panel1.Controls.Add(this.buttonPageSetup);
-            this.panel1.Controls.Add(this.buttonPreview);
-            this.panel1.Controls.Add(this.buttonPrint);
-            this.panel1.Location = new System.Drawing.Point(432, 71);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxShowPrinterDialog);
+            panel1.Controls.Add(buttonPageSetup);
+            panel1.Controls.Add(buttonPreview);
+            panel1.Controls.Add(buttonPrint);
+            panel1.Location = new Point(432, 71);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // checkBoxShowPrinterDialog
             // 
-            this.checkBoxShowPrinterDialog.Checked = true;
-            this.checkBoxShowPrinterDialog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShowPrinterDialog.Location = new System.Drawing.Point(168, 40);
-            this.checkBoxShowPrinterDialog.Name = "checkBoxShowPrinterDialog";
-            this.checkBoxShowPrinterDialog.Size = new System.Drawing.Size(120, 40);
-            this.checkBoxShowPrinterDialog.TabIndex = 2;
-            this.checkBoxShowPrinterDialog.Text = "Show Printer &Dialog";
+            checkBoxShowPrinterDialog.Checked = true;
+            checkBoxShowPrinterDialog.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowPrinterDialog.Location = new Point(168, 40);
+            checkBoxShowPrinterDialog.Name = "checkBoxShowPrinterDialog";
+            checkBoxShowPrinterDialog.Size = new Size(120, 40);
+            checkBoxShowPrinterDialog.TabIndex = 2;
+            checkBoxShowPrinterDialog.Text = "Show Printer &Dialog";
             // 
             // buttonPageSetup
             // 
-            this.buttonPageSetup.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonPageSetup.Location = new System.Drawing.Point(48, 8);
-            this.buttonPageSetup.Name = "buttonPageSetup";
-            this.buttonPageSetup.Size = new System.Drawing.Size(104, 23);
-            this.buttonPageSetup.TabIndex = 0;
-            this.buttonPageSetup.Text = "Page &Setup";
-            this.buttonPageSetup.UseVisualStyleBackColor = false;
-            this.buttonPageSetup.Click += new System.EventHandler(this.buttonPageSetup_Click);
+            buttonPageSetup.BackColor = System.Drawing.SystemColors.Control;
+            buttonPageSetup.Location = new Point(48, 8);
+            buttonPageSetup.Name = "buttonPageSetup";
+            buttonPageSetup.Size = new Size(104, 23);
+            buttonPageSetup.TabIndex = 0;
+            buttonPageSetup.Text = "Page &Setup";
+            buttonPageSetup.UseVisualStyleBackColor = false;
+            buttonPageSetup.Click += new EventHandler(buttonPageSetup_Click);
             // 
             // buttonPreview
             // 
-            this.buttonPreview.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonPreview.Location = new System.Drawing.Point(48, 88);
-            this.buttonPreview.Name = "buttonPreview";
-            this.buttonPreview.Size = new System.Drawing.Size(104, 23);
-            this.buttonPreview.TabIndex = 3;
-            this.buttonPreview.Text = "Previe&w";
-            this.buttonPreview.UseVisualStyleBackColor = false;
-            this.buttonPreview.Click += new System.EventHandler(this.buttonPreview_Click);
+            buttonPreview.BackColor = System.Drawing.SystemColors.Control;
+            buttonPreview.Location = new Point(48, 88);
+            buttonPreview.Name = "buttonPreview";
+            buttonPreview.Size = new Size(104, 23);
+            buttonPreview.TabIndex = 3;
+            buttonPreview.Text = "Previe&w";
+            buttonPreview.UseVisualStyleBackColor = false;
+            buttonPreview.Click += new EventHandler(buttonPreview_Click);
             // 
             // buttonPrint
             // 
-            this.buttonPrint.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonPrint.Location = new System.Drawing.Point(48, 48);
-            this.buttonPrint.Name = "buttonPrint";
-            this.buttonPrint.Size = new System.Drawing.Size(104, 23);
-            this.buttonPrint.TabIndex = 1;
-            this.buttonPrint.Text = "&Print";
-            this.buttonPrint.UseVisualStyleBackColor = false;
-            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
+            buttonPrint.BackColor = System.Drawing.SystemColors.Control;
+            buttonPrint.Location = new Point(48, 48);
+            buttonPrint.Name = "buttonPrint";
+            buttonPrint.Size = new Size(104, 23);
+            buttonPrint.TabIndex = 1;
+            buttonPrint.Text = "&Print";
+            buttonPrint.UseVisualStyleBackColor = false;
+            buttonPrint.Click += new EventHandler(buttonPrint_Click);
             // 
             // PrintPreview
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "PrintPreview";
-            this.Size = new System.Drawing.Size(728, 480);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "PrintPreview";
+            Size = new Size(728, 480);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
 
-		private void buttonPageSetup_Click(object sender, System.EventArgs e)
+		private void buttonPageSetup_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -271,7 +271,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void buttonPrint_Click(object sender, System.EventArgs e)
+		private void buttonPrint_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -283,7 +283,7 @@ namespace ChartSamples
 			}
 		}
 
-		private void buttonPreview_Click(object sender, System.EventArgs e)
+		private void buttonPreview_Click(object sender, EventArgs e)
 		{
 			try
 			{

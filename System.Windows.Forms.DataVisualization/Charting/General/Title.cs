@@ -470,7 +470,7 @@ public class Title : ChartNamedElement, IDisposable
 		}
 		set
 		{
-			_text = (value == null) ? string.Empty : value;
+			_text = value ?? string.Empty;
 			Invalidate(false);
 		}
 	}

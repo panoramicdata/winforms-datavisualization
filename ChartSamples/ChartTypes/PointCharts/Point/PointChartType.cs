@@ -11,23 +11,23 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for PointChartType.
 	/// </summary>
-	public class PointChartType : System.Windows.Forms.UserControl
+	public class PointChartType : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboMarkerSize;
-		private System.Windows.Forms.ComboBox comboBoxMarkerShape;
-		private System.Windows.Forms.ComboBox comboBoxLabelPosition;
-		private System.Windows.Forms.CheckBox checkBoxShow3D;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label3;
+		private Label label2;
+		private Label label1;
+		private ComboBox comboMarkerSize;
+		private ComboBox comboBoxMarkerShape;
+		private ComboBox comboBoxLabelPosition;
+		private CheckBox checkBoxShow3D;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public PointChartType()
 		{
@@ -60,43 +60,43 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxShow3D = new System.Windows.Forms.CheckBox();
-            this.comboMarkerSize = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxMarkerShape = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBoxLabelPosition = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Series series2 = new Series();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkBoxShow3D = new CheckBox();
+            comboMarkerSize = new ComboBox();
+            label3 = new Label();
+            comboBoxMarkerShape = new ComboBox();
+            label2 = new Label();
+            comboBoxLabelPosition = new ComboBox();
+            label1 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
             chartArea1.Area3DStyle.Perspective = 10;
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.Gainsboro;
@@ -106,19 +106,19 @@ namespace ChartSamples
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 56);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 56);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Font = new System.Drawing.Font("Trebuchet MS", 9F);
+            series1.Font = new Font("Trebuchet MS", 9F);
             series1.Legend = "Default";
             series1.MarkerSize = 10;
             series1.Name = "Series1";
@@ -126,102 +126,102 @@ namespace ChartSamples
             series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series2.ChartArea = "Default";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series2.Font = new System.Drawing.Font("Trebuchet MS", 9F);
+            series2.Font = new Font("Trebuchet MS", 9F);
             series2.Legend = "Default";
             series2.MarkerSize = 10;
             series2.Name = "Series2";
             series2.ShadowOffset = 1;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 45);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample displays a Point chart. Try setting different marker sizes, shapes an" +
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 45);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample displays a Point chart. Try setting different marker sizes, shapes an" +
                 "d point label positions.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxShow3D);
-            this.panel1.Controls.Add(this.comboMarkerSize);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.comboBoxMarkerShape);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboBoxLabelPosition);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(432, 64);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxShow3D);
+            panel1.Controls.Add(comboMarkerSize);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(comboBoxMarkerShape);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(comboBoxLabelPosition);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(432, 64);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // checkBoxShow3D
             // 
-            this.checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShow3D.Location = new System.Drawing.Point(13, 104);
-            this.checkBoxShow3D.Name = "checkBoxShow3D";
-            this.checkBoxShow3D.Size = new System.Drawing.Size(168, 24);
-            this.checkBoxShow3D.TabIndex = 6;
-            this.checkBoxShow3D.Text = "Display chart as 3&D:";
-            this.checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxShow3D.CheckedChanged += new System.EventHandler(this.checkBoxShow3D_CheckedChanged);
+            checkBoxShow3D.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShow3D.Location = new Point(13, 104);
+            checkBoxShow3D.Name = "checkBoxShow3D";
+            checkBoxShow3D.Size = new Size(168, 24);
+            checkBoxShow3D.TabIndex = 6;
+            checkBoxShow3D.Text = "Display chart as 3&D:";
+            checkBoxShow3D.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            checkBoxShow3D.CheckedChanged += new EventHandler(checkBoxShow3D_CheckedChanged);
             // 
             // comboMarkerSize
             // 
-            this.comboMarkerSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboMarkerSize.Items.AddRange([
+            comboMarkerSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboMarkerSize.Items.AddRange([
             "5",
             "7",
             "10",
             "12",
             "18"]);
-            this.comboMarkerSize.Location = new System.Drawing.Point(168, 72);
-            this.comboMarkerSize.Name = "comboMarkerSize";
-            this.comboMarkerSize.Size = new System.Drawing.Size(120, 22);
-            this.comboMarkerSize.TabIndex = 5;
-            this.comboMarkerSize.SelectedIndexChanged += new System.EventHandler(this.comboMarkerSize_SelectedIndexChanged);
+            comboMarkerSize.Location = new Point(168, 72);
+            comboMarkerSize.Name = "comboMarkerSize";
+            comboMarkerSize.Size = new Size(120, 22);
+            comboMarkerSize.TabIndex = 5;
+            comboMarkerSize.SelectedIndexChanged += new EventHandler(comboMarkerSize_SelectedIndexChanged);
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(20, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(144, 23);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Marker Si&ze:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label3.Location = new Point(20, 72);
+            label3.Name = "label3";
+            label3.Size = new Size(144, 23);
+            label3.TabIndex = 4;
+            label3.Text = "Marker Si&ze:";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxMarkerShape
             // 
-            this.comboBoxMarkerShape.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxMarkerShape.Items.AddRange([
+            comboBoxMarkerShape.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxMarkerShape.Items.AddRange([
             "Circle & Square",
             "Diamond & Triangle",
             "Cross & Star"]);
-            this.comboBoxMarkerShape.Location = new System.Drawing.Point(168, 40);
-            this.comboBoxMarkerShape.Name = "comboBoxMarkerShape";
-            this.comboBoxMarkerShape.Size = new System.Drawing.Size(120, 22);
-            this.comboBoxMarkerShape.TabIndex = 3;
-            this.comboBoxMarkerShape.SelectedIndexChanged += new System.EventHandler(this.comboMarkerSize_SelectedIndexChanged);
+            comboBoxMarkerShape.Location = new Point(168, 40);
+            comboBoxMarkerShape.Name = "comboBoxMarkerShape";
+            comboBoxMarkerShape.Size = new Size(120, 22);
+            comboBoxMarkerShape.TabIndex = 3;
+            comboBoxMarkerShape.SelectedIndexChanged += new EventHandler(comboMarkerSize_SelectedIndexChanged);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(20, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 23);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Marker &Shape:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label2.Location = new Point(20, 40);
+            label2.Name = "label2";
+            label2.Size = new Size(144, 23);
+            label2.TabIndex = 2;
+            label2.Text = "Marker &Shape:";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxLabelPosition
             // 
-            this.comboBoxLabelPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLabelPosition.Items.AddRange([
+            comboBoxLabelPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxLabelPosition.Items.AddRange([
             "None",
             "TopLeft",
             "Top",
@@ -232,34 +232,34 @@ namespace ChartSamples
             "BottomLeft",
             "Left",
             "Center"]);
-            this.comboBoxLabelPosition.Location = new System.Drawing.Point(168, 8);
-            this.comboBoxLabelPosition.Name = "comboBoxLabelPosition";
-            this.comboBoxLabelPosition.Size = new System.Drawing.Size(120, 22);
-            this.comboBoxLabelPosition.TabIndex = 1;
-            this.comboBoxLabelPosition.SelectedIndexChanged += new System.EventHandler(this.comboMarkerSize_SelectedIndexChanged);
+            comboBoxLabelPosition.Location = new Point(168, 8);
+            comboBoxLabelPosition.Name = "comboBoxLabelPosition";
+            comboBoxLabelPosition.Size = new Size(120, 22);
+            comboBoxLabelPosition.TabIndex = 1;
+            comboBoxLabelPosition.SelectedIndexChanged += new EventHandler(comboMarkerSize_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(20, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(144, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Label &Position:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.Location = new Point(20, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(144, 23);
+            label1.TabIndex = 0;
+            label1.Text = "Label &Position:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PointChartType
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "PointChartType";
-            this.Size = new System.Drawing.Size(728, 368);
-            this.Load += new System.EventHandler(this.PointChartType_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "PointChartType";
+            Size = new Size(728, 368);
+            Load += new EventHandler(PointChartType_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -315,7 +315,7 @@ namespace ChartSamples
 			chart1.ChartAreas["Default"].AxisY.Minimum = 0.0;
 		}	
 			
-		private void PointChartType_Load(object sender, System.EventArgs e)
+		private void PointChartType_Load(object sender, EventArgs e)
 		{
 			// Populate series data with random data
 			Random	random = new Random();
@@ -331,12 +331,12 @@ namespace ChartSamples
 			comboBoxLabelPosition.SelectedIndex = 0;
 		}
 
-		private void comboMarkerSize_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboMarkerSize_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();		
 		}
 
-		private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShow3D_CheckedChanged(object sender, EventArgs e)
 		{
 			if(checkBoxShow3D.Checked)
 			{

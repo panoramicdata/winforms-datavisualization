@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,19 +11,19 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AxisMargins.
 	/// </summary>
-	public class AxisMargins : System.Windows.Forms.UserControl
+	public class AxisMargins : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.RadioButton radioButtonArea;
-		private System.Windows.Forms.RadioButton radioButtonSplineArea;
-		private System.Windows.Forms.CheckBox checkBoxShowMargin;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private RadioButton radioButtonArea;
+		private RadioButton radioButtonSplineArea;
+		private CheckBox checkBoxShowMargin;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public AxisMargins()
 		{
@@ -56,46 +56,46 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8.1000003814697266);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3.5999999046325684);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6.5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4.3000001907348633);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2.7999999523162842);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7.8000001907348633);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5.5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8.5);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2.2999999523162842);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5.5);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7.9000000953674316);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3.4000000953674316);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7.3000001907348633);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4.1999998092651367);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3.5999999046325684);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8.1000003814697266);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5.3000001907348633);
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxShowMargin = new System.Windows.Forms.CheckBox();
-            this.radioButtonSplineArea = new System.Windows.Forms.RadioButton();
-            this.radioButtonArea = new System.Windows.Forms.RadioButton();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 5);
+			DataPoint dataPoint2 = new DataPoint(0, 8.1000003814697266);
+			DataPoint dataPoint3 = new DataPoint(0, 3.5999999046325684);
+			DataPoint dataPoint4 = new DataPoint(0, 6.5);
+			DataPoint dataPoint5 = new DataPoint(0, 4.3000001907348633);
+			DataPoint dataPoint6 = new DataPoint(0, 2.7999999523162842);
+			DataPoint dataPoint7 = new DataPoint(0, 7.8000001907348633);
+			DataPoint dataPoint8 = new DataPoint(0, 5.5);
+			DataPoint dataPoint9 = new DataPoint(0, 8.5);
+			Series series2 = new Series();
+			DataPoint dataPoint10 = new DataPoint(0, 2.2999999523162842);
+			DataPoint dataPoint11 = new DataPoint(0, 5.5);
+			DataPoint dataPoint12 = new DataPoint(0, 7.9000000953674316);
+			DataPoint dataPoint13 = new DataPoint(0, 3.4000000953674316);
+			DataPoint dataPoint14 = new DataPoint(0, 7.3000001907348633);
+			DataPoint dataPoint15 = new DataPoint(0, 4.1999998092651367);
+			DataPoint dataPoint16 = new DataPoint(0, 3.5999999046325684);
+			DataPoint dataPoint17 = new DataPoint(0, 8.1000003814697266);
+			DataPoint dataPoint18 = new DataPoint(0, 5.3000001907348633);
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkBoxShowMargin = new CheckBox();
+            radioButtonSplineArea = new RadioButton();
+            radioButtonArea = new RadioButton();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(223)))), ((int)(((byte)(193)))));
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(64)))), ((int)(((byte)(1)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.Area3DStyle.Inclination = 15;
             chartArea1.Area3DStyle.IsClustered = true;
             chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -103,11 +103,11 @@ namespace ChartSamples
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.BackColor = System.Drawing.Color.OldLace;
@@ -115,15 +115,15 @@ namespace ChartSamples
             chartArea1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.Name = "Default";
             chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-            this.chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea1);
             legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Enabled = false;
-            legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 48);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 48);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
             series1.ChartArea = "Default";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
@@ -158,75 +158,75 @@ namespace ChartSamples
             series2.Points.Add(dataPoint18);
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(412, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Size = new Size(412, 296);
+            chart1.TabIndex = 1;
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 34);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to use axis margins.";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 34);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to use axis margins.";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxShowMargin);
-            this.panel1.Controls.Add(this.radioButtonSplineArea);
-            this.panel1.Controls.Add(this.radioButtonArea);
-            this.panel1.Location = new System.Drawing.Point(432, 56);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 288);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxShowMargin);
+            panel1.Controls.Add(radioButtonSplineArea);
+            panel1.Controls.Add(radioButtonArea);
+            panel1.Location = new Point(432, 56);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(292, 288);
+            panel1.TabIndex = 2;
             // 
             // checkBoxShowMargin
             // 
-            this.checkBoxShowMargin.Location = new System.Drawing.Point(13, 72);
-            this.checkBoxShowMargin.Name = "checkBoxShowMargin";
-            this.checkBoxShowMargin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBoxShowMargin.Size = new System.Drawing.Size(168, 24);
-            this.checkBoxShowMargin.TabIndex = 2;
-            this.checkBoxShowMargin.Text = "Show X Axis &Margin";
-            this.checkBoxShowMargin.CheckedChanged += new System.EventHandler(this.checkBoxShowMargin_CheckedChanged);
+            checkBoxShowMargin.Location = new Point(13, 72);
+            checkBoxShowMargin.Name = "checkBoxShowMargin";
+            checkBoxShowMargin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            checkBoxShowMargin.Size = new Size(168, 24);
+            checkBoxShowMargin.TabIndex = 2;
+            checkBoxShowMargin.Text = "Show X Axis &Margin";
+            checkBoxShowMargin.CheckedChanged += new EventHandler(checkBoxShowMargin_CheckedChanged);
             // 
             // radioButtonSplineArea
             // 
-            this.radioButtonSplineArea.Location = new System.Drawing.Point(12, 36);
-            this.radioButtonSplineArea.Name = "radioButtonSplineArea";
-            this.radioButtonSplineArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.radioButtonSplineArea.Size = new System.Drawing.Size(168, 24);
-            this.radioButtonSplineArea.TabIndex = 1;
-            this.radioButtonSplineArea.Text = "&Line Chart";
-            this.radioButtonSplineArea.CheckedChanged += new System.EventHandler(this.radioButtonSplineArea_CheckedChanged);
+            radioButtonSplineArea.Location = new Point(12, 36);
+            radioButtonSplineArea.Name = "radioButtonSplineArea";
+            radioButtonSplineArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            radioButtonSplineArea.Size = new Size(168, 24);
+            radioButtonSplineArea.TabIndex = 1;
+            radioButtonSplineArea.Text = "&Line Chart";
+            radioButtonSplineArea.CheckedChanged += new EventHandler(radioButtonSplineArea_CheckedChanged);
             // 
             // radioButtonArea
             // 
-            this.radioButtonArea.Checked = true;
-            this.radioButtonArea.Location = new System.Drawing.Point(8, 8);
-            this.radioButtonArea.Name = "radioButtonArea";
-            this.radioButtonArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.radioButtonArea.Size = new System.Drawing.Size(172, 24);
-            this.radioButtonArea.TabIndex = 0;
-            this.radioButtonArea.TabStop = true;
-            this.radioButtonArea.Text = "&Area Chart";
-            this.radioButtonArea.CheckedChanged += new System.EventHandler(this.radioButtonArea_CheckedChanged);
+            radioButtonArea.Checked = true;
+            radioButtonArea.Location = new Point(8, 8);
+            radioButtonArea.Name = "radioButtonArea";
+            radioButtonArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            radioButtonArea.Size = new Size(172, 24);
+            radioButtonArea.TabIndex = 0;
+            radioButtonArea.TabStop = true;
+            radioButtonArea.Text = "&Area Chart";
+            radioButtonArea.CheckedChanged += new EventHandler(radioButtonArea_CheckedChanged);
             // 
             // AxisMargins
             // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "AxisMargins";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.AxisMargins_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "AxisMargins";
+            Size = new Size(728, 480);
+            Load += new EventHandler(AxisMargins_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -258,23 +258,23 @@ namespace ChartSamples
 
 		}
 
-		private void radioButtonArea_CheckedChanged(object sender, System.EventArgs e)
+		private void radioButtonArea_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void radioButtonSplineArea_CheckedChanged(object sender, System.EventArgs e)
+		private void radioButtonSplineArea_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
-		private void checkBoxShowMargin_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShowMargin_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();
 		}
 
 
-		private void AxisMargins_Load(object sender, System.EventArgs e)
+		private void AxisMargins_Load(object sender, EventArgs e)
 		{
 			checkBoxShowMargin.Checked = true;
 		}

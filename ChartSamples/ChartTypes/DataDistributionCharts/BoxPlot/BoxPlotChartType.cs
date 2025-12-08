@@ -11,22 +11,22 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for BoxPlotChartType.
 	/// </summary>
-	public class BoxPlotChartType : System.Windows.Forms.UserControl
+	public class BoxPlotChartType : UserControl
 	{
-		private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-		private System.Windows.Forms.Label labelSampleComment;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBoxPercentiles;
-		private System.Windows.Forms.CheckBox checkBoxShowAverage;
-		private System.Windows.Forms.CheckBox checkBoxShowMedian;
-		private System.Windows.Forms.CheckBox checkBoxShowUnusual;
-		private System.Windows.Forms.Label label5;
+		private Chart chart1;
+		private Label labelSampleComment;
+		private Panel panel1;
+		private Label label1;
+		private ComboBox comboBoxPercentiles;
+		private CheckBox checkBoxShowAverage;
+		private CheckBox checkBoxShowMedian;
+		private CheckBox checkBoxShowUnusual;
+		private Label label5;
 
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public BoxPlotChartType()
 		{
@@ -59,45 +59,45 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2, 0);
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.labelSampleComment = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxShowUnusual = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowMedian = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowAverage = new System.Windows.Forms.CheckBox();
-            this.comboBoxPercentiles = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			ChartArea chartArea2 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			Series series2 = new Series();
+			Series series3 = new Series();
+			DataPoint dataPoint1 = new DataPoint(2, 0);
+			DataPoint dataPoint2 = new DataPoint(2, 0);
+			DataPoint dataPoint3 = new DataPoint(2, 0);
+			DataPoint dataPoint4 = new DataPoint(2, 0);
+			DataPoint dataPoint5 = new DataPoint(2, 0);
+			DataPoint dataPoint6 = new DataPoint(2, 0);
+			DataPoint dataPoint7 = new DataPoint(2, 0);
+			DataPoint dataPoint8 = new DataPoint(2, 0);
+			Title title1 = new Title();
+			Title title2 = new Title();
+            chart1 = new Chart();
+            labelSampleComment = new Label();
+            panel1 = new Panel();
+            checkBoxShowUnusual = new CheckBox();
+            checkBoxShowMedian = new CheckBox();
+            checkBoxShowAverage = new CheckBox();
+            comboBoxPercentiles = new ComboBox();
+            label1 = new Label();
+            label5 = new Label();
+            ((ISupportInitialize)(chart1)).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // chart1
             // 
-            this.chart1.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Graphics;
-            this.chart1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            this.chart1.BackSecondaryColor = System.Drawing.Color.White;
-            this.chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
-            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            this.chart1.BorderlineWidth = 2;
-            this.chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chart1.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Graphics;
+            chart1.BackColor = System.Drawing.Color.WhiteSmoke;
+            chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            chart1.BackSecondaryColor = System.Drawing.Color.White;
+            chart1.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
+            chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chart1.BorderlineWidth = 2;
+            chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
             chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
@@ -133,13 +133,13 @@ namespace ChartSamples
             chartArea2.Position.Width = 39F;
             chartArea2.Position.X = 61F;
             chartArea2.Position.Y = 12F;
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.ChartAreas.Add(chartArea2);
+            chart1.ChartAreas.Add(chartArea1);
+            chart1.ChartAreas.Add(chartArea2);
             legend1.Enabled = false;
             legend1.Name = "Default";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(16, 56);
-            this.chart1.Name = "chart1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(16, 56);
+            chart1.Name = "chart1";
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             series1.ChartArea = "Data Chart Area";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
@@ -161,7 +161,7 @@ namespace ChartSamples
             series3.ChartArea = "Box Chart Area";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series3.CustomProperties = "LabelStyle=Right";
-            series3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            series3.Font = new Font("Microsoft Sans Serif", 7F);
             series3.Legend = "Default";
             series3.Name = "BoxPlotLabels";
             dataPoint1.Color = System.Drawing.Color.Transparent;
@@ -181,14 +181,14 @@ namespace ChartSamples
             series3.Points.Add(dataPoint7);
             series3.Points.Add(dataPoint8);
             series3.SmartLabelStyle.Enabled = false;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(460, 296);
-            this.chart1.TabIndex = 1;
+            chart1.Series.Add(series1);
+            chart1.Series.Add(series2);
+            chart1.Series.Add(series3);
+            chart1.Size = new Size(460, 296);
+            chart1.TabIndex = 1;
             title1.DockedToChartArea = "Data Chart Area";
             title1.DockingOffset = -8;
-            title1.Font = new System.Drawing.Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
+            title1.Font = new Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
             title1.Name = "Title1";
             title1.Position.Auto = false;
             title1.Position.Height = 5.813029F;
@@ -199,7 +199,7 @@ namespace ChartSamples
             title2.Alignment = System.Drawing.ContentAlignment.MiddleLeft;
             title2.DockedToChartArea = "Box Chart Area";
             title2.DockingOffset = -7;
-            title2.Font = new System.Drawing.Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
+            title2.Font = new Font("Trebuchet MS", 10F, System.Drawing.FontStyle.Bold);
             title2.Name = "Title2";
             title2.Position.Auto = false;
             title2.Position.Height = 5.813029F;
@@ -207,115 +207,115 @@ namespace ChartSamples
             title2.Position.X = 69.30817F;
             title2.Position.Y = 6F;
             title2.Text = "Data Distribution";
-            this.chart1.Titles.Add(title1);
-            this.chart1.Titles.Add(title2);
-            this.chart1.PrePaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.chart1_PrePaint);
+            chart1.Titles.Add(title1);
+            chart1.Titles.Add(title2);
+            chart1.PrePaint += new EventHandler<ChartPaintEventArgs>(chart1_PrePaint);
             // 
             // labelSampleComment
             // 
-            this.labelSampleComment.Font = new System.Drawing.Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleComment.Location = new System.Drawing.Point(16, 8);
-            this.labelSampleComment.Name = "labelSampleComment";
-            this.labelSampleComment.Size = new System.Drawing.Size(702, 48);
-            this.labelSampleComment.TabIndex = 0;
-            this.labelSampleComment.Text = "This sample demonstrates how to use a Box Plot chart. ";
-            this.labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelSampleComment.Font = new Font("Verdana", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            labelSampleComment.Location = new Point(16, 8);
+            labelSampleComment.Name = "labelSampleComment";
+            labelSampleComment.Size = new Size(702, 48);
+            labelSampleComment.TabIndex = 0;
+            labelSampleComment.Text = "This sample demonstrates how to use a Box Plot chart. ";
+            labelSampleComment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkBoxShowUnusual);
-            this.panel1.Controls.Add(this.checkBoxShowMedian);
-            this.panel1.Controls.Add(this.checkBoxShowAverage);
-            this.panel1.Controls.Add(this.comboBoxPercentiles);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(480, 64);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(240, 280);
-            this.panel1.TabIndex = 2;
+            panel1.Controls.Add(checkBoxShowUnusual);
+            panel1.Controls.Add(checkBoxShowMedian);
+            panel1.Controls.Add(checkBoxShowAverage);
+            panel1.Controls.Add(comboBoxPercentiles);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(480, 64);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(240, 280);
+            panel1.TabIndex = 2;
             // 
             // checkBoxShowUnusual
             // 
-            this.checkBoxShowUnusual.Checked = true;
-            this.checkBoxShowUnusual.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShowUnusual.Location = new System.Drawing.Point(32, 120);
-            this.checkBoxShowUnusual.Name = "checkBoxShowUnusual";
-            this.checkBoxShowUnusual.Size = new System.Drawing.Size(192, 24);
-            this.checkBoxShowUnusual.TabIndex = 4;
-            this.checkBoxShowUnusual.Text = "Show &Unusual Points";
-            this.checkBoxShowUnusual.CheckedChanged += new System.EventHandler(this.checkBoxShowUnusual_CheckedChanged);
+            checkBoxShowUnusual.Checked = true;
+            checkBoxShowUnusual.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowUnusual.Location = new Point(32, 120);
+            checkBoxShowUnusual.Name = "checkBoxShowUnusual";
+            checkBoxShowUnusual.Size = new Size(192, 24);
+            checkBoxShowUnusual.TabIndex = 4;
+            checkBoxShowUnusual.Text = "Show &Unusual Points";
+            checkBoxShowUnusual.CheckedChanged += new EventHandler(checkBoxShowUnusual_CheckedChanged);
             // 
             // checkBoxShowMedian
             // 
-            this.checkBoxShowMedian.Checked = true;
-            this.checkBoxShowMedian.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShowMedian.Location = new System.Drawing.Point(32, 88);
-            this.checkBoxShowMedian.Name = "checkBoxShowMedian";
-            this.checkBoxShowMedian.Size = new System.Drawing.Size(192, 24);
-            this.checkBoxShowMedian.TabIndex = 3;
-            this.checkBoxShowMedian.Text = "Show &Median Line";
-            this.checkBoxShowMedian.CheckedChanged += new System.EventHandler(this.checkBoxShowMedian_CheckedChanged);
+            checkBoxShowMedian.Checked = true;
+            checkBoxShowMedian.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowMedian.Location = new Point(32, 88);
+            checkBoxShowMedian.Name = "checkBoxShowMedian";
+            checkBoxShowMedian.Size = new Size(192, 24);
+            checkBoxShowMedian.TabIndex = 3;
+            checkBoxShowMedian.Text = "Show &Median Line";
+            checkBoxShowMedian.CheckedChanged += new EventHandler(checkBoxShowMedian_CheckedChanged);
             // 
             // checkBoxShowAverage
             // 
-            this.checkBoxShowAverage.Checked = true;
-            this.checkBoxShowAverage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxShowAverage.Location = new System.Drawing.Point(32, 56);
-            this.checkBoxShowAverage.Name = "checkBoxShowAverage";
-            this.checkBoxShowAverage.Size = new System.Drawing.Size(192, 24);
-            this.checkBoxShowAverage.TabIndex = 2;
-            this.checkBoxShowAverage.Text = "Show &Average Line";
-            this.checkBoxShowAverage.CheckedChanged += new System.EventHandler(this.checkBoxShow3D_CheckedChanged);
+            checkBoxShowAverage.Checked = true;
+            checkBoxShowAverage.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowAverage.Location = new Point(32, 56);
+            checkBoxShowAverage.Name = "checkBoxShowAverage";
+            checkBoxShowAverage.Size = new Size(192, 24);
+            checkBoxShowAverage.TabIndex = 2;
+            checkBoxShowAverage.Text = "Show &Average Line";
+            checkBoxShowAverage.CheckedChanged += new EventHandler(checkBoxShow3D_CheckedChanged);
             // 
             // comboBoxPercentiles
             // 
-            this.comboBoxPercentiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxPercentiles.Items.AddRange([
+            comboBoxPercentiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxPercentiles.Items.AddRange([
             "15/85th Percentile",
             "10/90th Percentile",
             "5/95th Percentile",
             "0/100th Percentile (Min/Max)"]);
-            this.comboBoxPercentiles.Location = new System.Drawing.Point(32, 24);
-            this.comboBoxPercentiles.Name = "comboBoxPercentiles";
-            this.comboBoxPercentiles.Size = new System.Drawing.Size(168, 22);
-            this.comboBoxPercentiles.TabIndex = 1;
-            this.comboBoxPercentiles.SelectedIndexChanged += new System.EventHandler(this.comboBoxExploded_SelectedIndexChanged);
+            comboBoxPercentiles.Location = new Point(32, 24);
+            comboBoxPercentiles.Name = "comboBoxPercentiles";
+            comboBoxPercentiles.Size = new Size(168, 22);
+            comboBoxPercentiles.TabIndex = 1;
+            comboBoxPercentiles.SelectedIndexChanged += new EventHandler(comboBoxExploded_SelectedIndexChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(32, 2);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(160, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Whiskers &Percentiles:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label1.Location = new Point(32, 2);
+            label1.Name = "label1";
+            label1.Size = new Size(160, 23);
+            label1.TabIndex = 0;
+            label1.Text = "Whiskers &Percentiles:";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            label5.Anchor = ((AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.Font = new System.Drawing.Font("Verdana", 11F);
-            this.label5.Location = new System.Drawing.Point(16, 352);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(696, 48);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "The box and its whiskers can use different percentiles of the data series. Unusua" +
+            label5.Font = new Font("Verdana", 11F);
+            label5.Location = new Point(16, 352);
+            label5.Name = "label5";
+            label5.Size = new Size(696, 48);
+            label5.TabIndex = 23;
+            label5.Text = "The box and its whiskers can use different percentiles of the data series. Unusua" +
                 "l data points, median and average lines can also be shown or hidden.";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // BoxPlotChartType
             // 
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.labelSampleComment);
-            this.Controls.Add(this.chart1);
-            this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "BoxPlotChartType";
-            this.Size = new System.Drawing.Size(728, 480);
-            this.Load += new System.EventHandler(this.PieChartType_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            BackColor = System.Drawing.Color.White;
+            Controls.Add(label5);
+            Controls.Add(panel1);
+            Controls.Add(labelSampleComment);
+            Controls.Add(chart1);
+            Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Name = "BoxPlotChartType";
+            Size = new Size(728, 480);
+            Load += new EventHandler(PieChartType_Load);
+            ((ISupportInitialize)(chart1)).EndInit();
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
 
 		}
 		#endregion
@@ -336,7 +336,7 @@ namespace ChartSamples
 			chart1.Series["BoxPlotSeries"]["BoxPlotShowUnusualValues"] = (checkBoxShowUnusual.Checked) ? "true" : "false";
 		}
 
-		private void PieChartType_Load(object sender, System.EventArgs e)
+		private void PieChartType_Load(object sender, EventArgs e)
 		{
 			// Populate series data
 			double[]	yValues = [55.62, 45.54, 73.45, 9.73, 88.42, 45.9, 63.6, 85.1, 67.2, 23.6];
@@ -351,27 +351,27 @@ namespace ChartSamples
 			UpdateChartSettings();	
 		}
 
-		private void comboBoxExploded_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxExploded_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void checkBoxShow3D_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShow3D_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void checkBoxShowMedian_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShowMedian_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void checkBoxShowUnusual_CheckedChanged(object sender, System.EventArgs e)
+		private void checkBoxShowUnusual_CheckedChanged(object sender, EventArgs e)
 		{
 			UpdateChartSettings();	
 		}
 
-		private void chart1_PrePaint(object sender, System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs e)
+		private void chart1_PrePaint(object sender, ChartPaintEventArgs e)
 		{
 			if(e.ChartElement is Chart)
 			{

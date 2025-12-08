@@ -11,25 +11,25 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AxisAppearance.
 	/// </summary>
-	public class HidingSeries : System.Windows.Forms.UserControl
+	public class HidingSeries : UserControl
 	{
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.CheckBox HideSeries1;
-		private System.Windows.Forms.CheckBox HideSeries2;
-		private System.Windows.Forms.CheckBox HideSeries3;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private Label label3;
+		private Label label4;
+		private Label label5;
+		private Label label6;
+		private Label label7;
+		private Label label8;
+		private Label label15;
+		private CheckBox HideSeries1;
+		private CheckBox HideSeries2;
+		private CheckBox HideSeries3;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public HidingSeries()
 		{
@@ -59,167 +59,167 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 3);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 7);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint13 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint14 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 8);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint15 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint16 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 6);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 2);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 4);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 5);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 9);
-			this.label9 = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.HideSeries3 = new System.Windows.Forms.CheckBox();
-			this.HideSeries2 = new System.Windows.Forms.CheckBox();
-			this.HideSeries1 = new System.Windows.Forms.CheckBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label15 = new System.Windows.Forms.Label();
-			this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 3);
+			DataPoint dataPoint2 = new DataPoint(0, 7);
+			DataPoint dataPoint3 = new DataPoint(0, 8);
+			DataPoint dataPoint4 = new DataPoint(0, 6);
+			DataPoint dataPoint5 = new DataPoint(0, 7);
+			Series series2 = new Series();
+			DataPoint dataPoint6 = new DataPoint(0, 4);
+			DataPoint dataPoint7 = new DataPoint(0, 3);
+			DataPoint dataPoint8 = new DataPoint(0, 6);
+			DataPoint dataPoint9 = new DataPoint(0, 5);
+			DataPoint dataPoint10 = new DataPoint(0, 8);
+			Series series3 = new Series();
+			DataPoint dataPoint11 = new DataPoint(0, 4);
+			DataPoint dataPoint12 = new DataPoint(0, 7);
+			DataPoint dataPoint13 = new DataPoint(0, 5);
+			DataPoint dataPoint14 = new DataPoint(0, 8);
+			DataPoint dataPoint15 = new DataPoint(0, 6);
+			Series series4 = new Series();
+			DataPoint dataPoint16 = new DataPoint(0, 6);
+			DataPoint dataPoint17 = new DataPoint(0, 2);
+			DataPoint dataPoint18 = new DataPoint(0, 4);
+			DataPoint dataPoint19 = new DataPoint(0, 5);
+			DataPoint dataPoint20 = new DataPoint(0, 9);
+			label9 = new Label();
+			panel1 = new Panel();
+			HideSeries3 = new CheckBox();
+			HideSeries2 = new CheckBox();
+			HideSeries1 = new CheckBox();
+			label8 = new Label();
+			label7 = new Label();
+			label6 = new Label();
+			label5 = new Label();
+			label4 = new Label();
+			label3 = new Label();
+			label15 = new Label();
+			Chart1 = new Chart();
+			panel1.SuspendLayout();
+			((ISupportInitialize)(Chart1)).BeginInit();
+			SuspendLayout();
 			// 
 			// label9
 			// 
-			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			label9.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label9.Location = new System.Drawing.Point(16, 8);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(702, 34);
-			this.label9.TabIndex = 0;
-			this.label9.Text = "This sample demonstrates how to hide a data series.";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			label9.Location = new Point(16, 8);
+			label9.Name = "label9";
+			label9.Size = new Size(702, 34);
+			label9.TabIndex = 0;
+			label9.Text = "This sample demonstrates how to hide a data series.";
+			label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.HideSeries3,
-																				 this.HideSeries2,
-																				 this.HideSeries1,
-																				 this.label8,
-																				 this.label7,
-																				 this.label6,
-																				 this.label5,
-																				 this.label4,
-																				 this.label3,
-																				 this.label15]);
-			this.panel1.Location = new System.Drawing.Point(432, 56);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(292, 288);
-			this.panel1.TabIndex = 2;
+			panel1.Controls.AddRange([
+																				 HideSeries3,
+																				 HideSeries2,
+																				 HideSeries1,
+																				 label8,
+																				 label7,
+																				 label6,
+																				 label5,
+																				 label4,
+																				 label3,
+																				 label15]);
+			panel1.Location = new Point(432, 56);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(292, 288);
+			panel1.TabIndex = 2;
 			// 
 			// HideSeries3
 			// 
-			this.HideSeries3.Location = new System.Drawing.Point(48, 72);
-			this.HideSeries3.Name = "HideSeries3";
-			this.HideSeries3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.HideSeries3.Size = new System.Drawing.Size(172, 24);
-			this.HideSeries3.TabIndex = 2;
-			this.HideSeries3.Text = "Hide Series &3";
-			this.HideSeries3.CheckedChanged += new System.EventHandler(this.Hide_CheckedChanged);
+			HideSeries3.Location = new Point(48, 72);
+			HideSeries3.Name = "HideSeries3";
+			HideSeries3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			HideSeries3.Size = new Size(172, 24);
+			HideSeries3.TabIndex = 2;
+			HideSeries3.Text = "Hide Series &3";
+			HideSeries3.CheckedChanged += new EventHandler(Hide_CheckedChanged);
 			// 
 			// HideSeries2
 			// 
-			this.HideSeries2.Location = new System.Drawing.Point(48, 40);
-			this.HideSeries2.Name = "HideSeries2";
-			this.HideSeries2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.HideSeries2.Size = new System.Drawing.Size(172, 24);
-			this.HideSeries2.TabIndex = 1;
-			this.HideSeries2.Text = "Hide Series &2";
-			this.HideSeries2.CheckedChanged += new System.EventHandler(this.Hide_CheckedChanged);
+			HideSeries2.Location = new Point(48, 40);
+			HideSeries2.Name = "HideSeries2";
+			HideSeries2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			HideSeries2.Size = new Size(172, 24);
+			HideSeries2.TabIndex = 1;
+			HideSeries2.Text = "Hide Series &2";
+			HideSeries2.CheckedChanged += new EventHandler(Hide_CheckedChanged);
 			// 
 			// HideSeries1
 			// 
-			this.HideSeries1.Location = new System.Drawing.Point(48, 8);
-			this.HideSeries1.Name = "HideSeries1";
-			this.HideSeries1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.HideSeries1.Size = new System.Drawing.Size(172, 24);
-			this.HideSeries1.TabIndex = 0;
-			this.HideSeries1.Text = "Hide Series &1";
-			this.HideSeries1.CheckedChanged += new System.EventHandler(this.Hide_CheckedChanged);
+			HideSeries1.Location = new Point(48, 8);
+			HideSeries1.Name = "HideSeries1";
+			HideSeries1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			HideSeries1.Size = new Size(172, 24);
+			HideSeries1.TabIndex = 0;
+			HideSeries1.Text = "Hide Series &1";
+			HideSeries1.CheckedChanged += new EventHandler(Hide_CheckedChanged);
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(64, 472);
-			this.label8.Name = "label8";
-			this.label8.TabIndex = 7;
-			this.label8.Text = "Shadow Offset:";
+			label8.Location = new Point(64, 472);
+			label8.Name = "label8";
+			label8.TabIndex = 7;
+			label8.Text = "Shadow Offset:";
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(64, 449);
-			this.label7.Name = "label7";
-			this.label7.TabIndex = 6;
-			this.label7.Text = "Border Style:";
+			label7.Location = new Point(64, 449);
+			label7.Name = "label7";
+			label7.TabIndex = 6;
+			label7.Text = "Border Style:";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(64, 403);
-			this.label6.Name = "label6";
-			this.label6.TabIndex = 3;
-			this.label6.Text = "Border Size:";
+			label6.Location = new Point(64, 403);
+			label6.Name = "label6";
+			label6.TabIndex = 3;
+			label6.Text = "Border Size:";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(64, 380);
-			this.label5.Name = "label5";
-			this.label5.TabIndex = 2;
-			this.label5.Text = "Border Color:";
+			label5.Location = new Point(64, 380);
+			label5.Name = "label5";
+			label5.TabIndex = 2;
+			label5.Text = "Border Color:";
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(64, 357);
-			this.label4.Name = "label4";
-			this.label4.TabIndex = 1;
-			this.label4.Text = "Hatch Style:";
+			label4.Location = new Point(64, 357);
+			label4.Name = "label4";
+			label4.TabIndex = 1;
+			label4.Text = "Hatch Style:";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(64, 334);
-			this.label3.Name = "label3";
-			this.label3.TabIndex = 0;
-			this.label3.Text = "Gradient:";
+			label3.Location = new Point(64, 334);
+			label3.Name = "label3";
+			label3.TabIndex = 0;
+			label3.Text = "Gradient:";
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(64, 426);
-			this.label15.Name = "label15";
-			this.label15.TabIndex = 5;
-			this.label15.Text = "Border Size:";
+			label15.Location = new Point(64, 426);
+			label15.Name = "label15";
+			label15.TabIndex = 5;
+			label15.Text = "Border Size:";
 			// 
 			// Chart1
 			// 
-			this.Chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
-			this.Chart1.BackSecondaryColor = System.Drawing.Color.White;
-			this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.Chart1.BorderlineWidth = 2;
-			this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			Chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
+			Chart1.BackSecondaryColor = System.Drawing.Color.White;
+			Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			Chart1.BorderlineWidth = 2;
+			Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.Area3DStyle.IsClustered = true;
 			chartArea1.Area3DStyle.Perspective = 10;
 			chartArea1.Area3DStyle.IsRightAngleAxes = false;
@@ -227,12 +227,12 @@ namespace ChartSamples
 			chartArea1.Area3DStyle.Inclination = 15;
 			chartArea1.Area3DStyle.Rotation = 10;
 			chartArea1.AxisX.IsLabelAutoFit = false;
-			chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisX.LabelStyle.Format = "dd MMM";
 			chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.IsLabelAutoFit = false;
-			chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(165)), ((System.Byte)(191)), ((System.Byte)(228)));
@@ -241,18 +241,18 @@ namespace ChartSamples
 			chartArea1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.Name = "Default";
 			chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-			this.Chart1.ChartAreas.Add(chartArea1);
+			Chart1.ChartAreas.Add(chartArea1);
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
 			legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
 			legend1.DockedToChartArea = "Default";
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Table;
 			legend1.Name = "Default";
-			this.Chart1.Legends.Add(legend1);
-			this.Chart1.Location = new System.Drawing.Point(16, 56);
-			this.Chart1.Name = "Chart1";
-			this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			Chart1.Legends.Add(legend1);
+			Chart1.Location = new Point(16, 56);
+			Chart1.Name = "Chart1";
+			Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartArea = "Default";
 			series1.Name = "Series1";
@@ -298,27 +298,27 @@ namespace ChartSamples
 			series4.ShadowColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(0)), ((System.Byte)(0)), ((System.Byte)(0)));
 			series4.ShadowOffset = 2;
 			series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-			this.Chart1.Series.Add(series1);
-			this.Chart1.Series.Add(series2);
-			this.Chart1.Series.Add(series3);
-			this.Chart1.Series.Add(series4);
-			this.Chart1.Size = new System.Drawing.Size(412, 296);
-			this.Chart1.TabIndex = 1;
-			this.Chart1.Click += new System.EventHandler(this.Chart1_Click);
+			Chart1.Series.Add(series1);
+			Chart1.Series.Add(series2);
+			Chart1.Series.Add(series3);
+			Chart1.Series.Add(series4);
+			Chart1.Size = new Size(412, 296);
+			Chart1.TabIndex = 1;
+			Chart1.Click += new EventHandler(Chart1_Click);
 			// 
 			// HidingSeries
 			// 
-			this.Controls.AddRange([
-																		  this.Chart1,
-																		  this.panel1,
-																		  this.label9]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "HidingSeries";
-			this.Size = new System.Drawing.Size(728, 480);
-			this.Load += new System.EventHandler(this.HidingSeries_Load);
-			this.panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-			this.ResumeLayout(false);
+			Controls.AddRange([
+																		  Chart1,
+																		  panel1,
+																		  label9]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "HidingSeries";
+			Size = new Size(728, 480);
+			Load += new EventHandler(HidingSeries_Load);
+			panel1.ResumeLayout(false);
+			((ISupportInitialize)(Chart1)).EndInit();
+			ResumeLayout(false);
 
 		}
 		#endregion
@@ -336,17 +336,17 @@ namespace ChartSamples
 			Chart1.Series["Series3"].Enabled = !HideSeries3.Checked;
 		}
 				
-		private void Hide_CheckedChanged(object sender, System.EventArgs e)
+		private void Hide_CheckedChanged(object sender, EventArgs e)
 		{
 			HideSeries();
 		}
 
-		private void Chart1_Click(object sender, System.EventArgs e)
+		private void Chart1_Click(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void HidingSeries_Load(object sender, System.EventArgs e)
+		private void HidingSeries_Load(object sender, EventArgs e)
 		{
 			HideSeries();
 		}

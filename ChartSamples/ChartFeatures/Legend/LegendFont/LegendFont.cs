@@ -11,25 +11,25 @@ namespace ChartSamples
 	/// <summary>
 	/// Summary description for AxisTitle.
 	/// </summary>
-	public class LegendFont : System.Windows.Forms.UserControl
+	public class LegendFont : UserControl
 	{
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.DataVisualization.Charting.Chart Chart1;
-		private System.Windows.Forms.ComboBox FontSize;
-		private System.Windows.Forms.CheckBox ItalicCheck;
-		private System.Windows.Forms.CheckBox BoldCheck;
-		private System.Windows.Forms.CheckBox UnderlineCheck;
-		private System.Windows.Forms.CheckBox StrikeoutCheck;
-		private System.Windows.Forms.ComboBox FontColorCombo;
-		private System.Windows.Forms.ComboBox TheFont;
+		private Label label5;
+		private Label label7;
+		private Label label8;
+		private Label label9;
+		private Panel panel1;
+		private Chart Chart1;
+		private ComboBox FontSize;
+		private CheckBox ItalicCheck;
+		private CheckBox BoldCheck;
+		private CheckBox UnderlineCheck;
+		private CheckBox StrikeoutCheck;
+		private ComboBox FontColorCombo;
+		private ComboBox TheFont;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public LegendFont()
 		{
@@ -39,18 +39,18 @@ namespace ChartSamples
 			// Add Chart Line styles to control.
 			foreach(FontFamily fontName in FontFamily.Families)
 			{
-				this.TheFont.Items.Add(fontName.Name);
+				TheFont.Items.Add(fontName.Name);
 			}
-			this.TheFont.SelectedIndex = this.TheFont.Items.IndexOf(this.Chart1.Legends[0].Font.Name);
+			TheFont.SelectedIndex = TheFont.Items.IndexOf(Chart1.Legends[0].Font.Name);
 
 			foreach(String colorName in KnownColor.GetNames(typeof(KnownColor)))
 			{
-				this.FontColorCombo.Items.Add(colorName);
+				FontColorCombo.Items.Add(colorName);
 			}
-			this.FontColorCombo.SelectedIndex = 9;	// "Control Text"
+			FontColorCombo.SelectedIndex = 9;	// "Control Text"
 
-			this.FontSize.SelectedIndex = 0;	// 8 point
-			this.BoldCheck.Checked = true;
+			FontSize.SelectedIndex = 0;	// 8 point
+			BoldCheck.Checked = true;
 
 		}
 
@@ -76,180 +76,180 @@ namespace ChartSamples
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 400);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 200);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 700);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 300);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0, 450);
-			this.TheFont = new System.Windows.Forms.ComboBox();
-			this.FontColorCombo = new System.Windows.Forms.ComboBox();
-			this.FontSize = new System.Windows.Forms.ComboBox();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.StrikeoutCheck = new System.Windows.Forms.CheckBox();
-			this.UnderlineCheck = new System.Windows.Forms.CheckBox();
-			this.BoldCheck = new System.Windows.Forms.CheckBox();
-			this.ItalicCheck = new System.Windows.Forms.CheckBox();
-			this.Chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).BeginInit();
-			this.SuspendLayout();
+			ChartArea chartArea1 = new ChartArea();
+			Legend legend1 = new Legend();
+			Series series1 = new Series();
+			DataPoint dataPoint1 = new DataPoint(0, 400);
+			DataPoint dataPoint2 = new DataPoint(0, 200);
+			DataPoint dataPoint3 = new DataPoint(0, 700);
+			DataPoint dataPoint4 = new DataPoint(0, 300);
+			DataPoint dataPoint5 = new DataPoint(0, 450);
+			TheFont = new ComboBox();
+			FontColorCombo = new ComboBox();
+			FontSize = new ComboBox();
+			label5 = new Label();
+			label7 = new Label();
+			label8 = new Label();
+			label9 = new Label();
+			panel1 = new Panel();
+			StrikeoutCheck = new CheckBox();
+			UnderlineCheck = new CheckBox();
+			BoldCheck = new CheckBox();
+			ItalicCheck = new CheckBox();
+			Chart1 = new Chart();
+			panel1.SuspendLayout();
+			((ISupportInitialize)(Chart1)).BeginInit();
+			SuspendLayout();
 			// 
 			// TheFont
 			// 
-			this.TheFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.TheFont.Location = new System.Drawing.Point(168, 4);
-			this.TheFont.Name = "TheFont";
-			this.TheFont.TabIndex = 1;
-			this.TheFont.SelectedIndexChanged += new System.EventHandler(this.ControlChange);
+			TheFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			TheFont.Location = new Point(168, 4);
+			TheFont.Name = "TheFont";
+			TheFont.TabIndex = 1;
+			TheFont.SelectedIndexChanged += new EventHandler(ControlChange);
 			// 
 			// FontColorCombo
 			// 
-			this.FontColorCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.FontColorCombo.Location = new System.Drawing.Point(168, 72);
-			this.FontColorCombo.Name = "FontColorCombo";
-			this.FontColorCombo.TabIndex = 5;
-			this.FontColorCombo.SelectedIndexChanged += new System.EventHandler(this.ControlChange);
+			FontColorCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			FontColorCombo.Location = new Point(168, 72);
+			FontColorCombo.Name = "FontColorCombo";
+			FontColorCombo.TabIndex = 5;
+			FontColorCombo.SelectedIndexChanged += new EventHandler(ControlChange);
 			// 
 			// FontSize
 			// 
-			this.FontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.FontSize.Items.AddRange([
+			FontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			FontSize.Items.AddRange([
 														  "8",
 														  "10",
 														  "12",
 														  "14",
 														  "16"]);
-			this.FontSize.Location = new System.Drawing.Point(168, 40);
-			this.FontSize.Name = "FontSize";
-			this.FontSize.TabIndex = 3;
-			this.FontSize.SelectedIndexChanged += new System.EventHandler(this.ControlChange);
+			FontSize.Location = new Point(168, 40);
+			FontSize.Name = "FontSize";
+			FontSize.TabIndex = 3;
+			FontSize.SelectedIndexChanged += new EventHandler(ControlChange);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(12, 7);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(152, 16);
-			this.label5.TabIndex = 0;
-			this.label5.Text = "&Font:";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label5.Location = new Point(12, 7);
+			label5.Name = "label5";
+			label5.Size = new Size(152, 16);
+			label5.TabIndex = 0;
+			label5.Text = "&Font:";
+			label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(12, 72);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(152, 16);
-			this.label7.TabIndex = 4;
-			this.label7.Text = "Font &Color:";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label7.Location = new Point(12, 72);
+			label7.Name = "label7";
+			label7.Size = new Size(152, 16);
+			label7.TabIndex = 4;
+			label7.Text = "Font &Color:";
+			label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(12, 40);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(152, 16);
-			this.label8.TabIndex = 2;
-			this.label8.Text = "Font &Size:";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			label8.Location = new Point(12, 40);
+			label8.Name = "label8";
+			label8.Size = new Size(152, 16);
+			label8.TabIndex = 2;
+			label8.Text = "Font &Size:";
+			label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label9.Location = new System.Drawing.Point(16, 8);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(702, 34);
-			this.label9.TabIndex = 0;
-			this.label9.Text = "This sample demonstrates how to set the font and color of the legend\'s text.";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			label9.Font = new Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			label9.Location = new Point(16, 8);
+			label9.Name = "label9";
+			label9.Size = new Size(702, 34);
+			label9.TabIndex = 0;
+			label9.Text = "This sample demonstrates how to set the font and color of the legend\'s text.";
+			label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.AddRange([
-																				 this.StrikeoutCheck,
-																				 this.UnderlineCheck,
-																				 this.BoldCheck,
-																				 this.ItalicCheck,
-																				 this.label5,
-																				 this.TheFont,
-																				 this.label7,
-																				 this.label8,
-																				 this.FontSize,
-																				 this.FontColorCombo]);
-			this.panel1.Location = new System.Drawing.Point(432, 56);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(292, 296);
-			this.panel1.TabIndex = 0;
+			panel1.Controls.AddRange([
+																				 StrikeoutCheck,
+																				 UnderlineCheck,
+																				 BoldCheck,
+																				 ItalicCheck,
+																				 label5,
+																				 TheFont,
+																				 label7,
+																				 label8,
+																				 FontSize,
+																				 FontColorCombo]);
+			panel1.Location = new Point(432, 56);
+			panel1.Name = "panel1";
+			panel1.Size = new Size(292, 296);
+			panel1.TabIndex = 0;
 			// 
 			// StrikeoutCheck
 			// 
-			this.StrikeoutCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.StrikeoutCheck.Location = new System.Drawing.Point(13, 200);
-			this.StrikeoutCheck.Name = "StrikeoutCheck";
-			this.StrikeoutCheck.Size = new System.Drawing.Size(168, 24);
-			this.StrikeoutCheck.TabIndex = 9;
-			this.StrikeoutCheck.Text = "&Strikeout:";
-			this.StrikeoutCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.StrikeoutCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
+			StrikeoutCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			StrikeoutCheck.Location = new Point(13, 200);
+			StrikeoutCheck.Name = "StrikeoutCheck";
+			StrikeoutCheck.Size = new Size(168, 24);
+			StrikeoutCheck.TabIndex = 9;
+			StrikeoutCheck.Text = "&Strikeout:";
+			StrikeoutCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			StrikeoutCheck.CheckedChanged += new EventHandler(ControlChange);
 			// 
 			// UnderlineCheck
 			// 
-			this.UnderlineCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.UnderlineCheck.Location = new System.Drawing.Point(13, 168);
-			this.UnderlineCheck.Name = "UnderlineCheck";
-			this.UnderlineCheck.Size = new System.Drawing.Size(168, 24);
-			this.UnderlineCheck.TabIndex = 8;
-			this.UnderlineCheck.Text = "&Underline:";
-			this.UnderlineCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.UnderlineCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
+			UnderlineCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			UnderlineCheck.Location = new Point(13, 168);
+			UnderlineCheck.Name = "UnderlineCheck";
+			UnderlineCheck.Size = new Size(168, 24);
+			UnderlineCheck.TabIndex = 8;
+			UnderlineCheck.Text = "&Underline:";
+			UnderlineCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			UnderlineCheck.CheckedChanged += new EventHandler(ControlChange);
 			// 
 			// BoldCheck
 			// 
-			this.BoldCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.BoldCheck.Location = new System.Drawing.Point(13, 136);
-			this.BoldCheck.Name = "BoldCheck";
-			this.BoldCheck.Size = new System.Drawing.Size(168, 24);
-			this.BoldCheck.TabIndex = 7;
-			this.BoldCheck.Text = "&Bold:";
-			this.BoldCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.BoldCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
+			BoldCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			BoldCheck.Location = new Point(13, 136);
+			BoldCheck.Name = "BoldCheck";
+			BoldCheck.Size = new Size(168, 24);
+			BoldCheck.TabIndex = 7;
+			BoldCheck.Text = "&Bold:";
+			BoldCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			BoldCheck.CheckedChanged += new EventHandler(ControlChange);
 			// 
 			// ItalicCheck
 			// 
-			this.ItalicCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.ItalicCheck.Location = new System.Drawing.Point(13, 104);
-			this.ItalicCheck.Name = "ItalicCheck";
-			this.ItalicCheck.Size = new System.Drawing.Size(168, 24);
-			this.ItalicCheck.TabIndex = 6;
-			this.ItalicCheck.Text = "&Italic:";
-			this.ItalicCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.ItalicCheck.CheckedChanged += new System.EventHandler(this.ControlChange);
+			ItalicCheck.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			ItalicCheck.Location = new Point(13, 104);
+			ItalicCheck.Name = "ItalicCheck";
+			ItalicCheck.Size = new Size(168, 24);
+			ItalicCheck.TabIndex = 6;
+			ItalicCheck.Text = "&Italic:";
+			ItalicCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			ItalicCheck.CheckedChanged += new EventHandler(ControlChange);
 			// 
 			// Chart1
 			// 
-			this.Chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
-			this.Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-			this.Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
-			this.Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-			this.Chart1.BorderlineWidth = 2;
-			this.Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+			Chart1.BackColor = System.Drawing.Color.FromArgb(((System.Byte)(211)), ((System.Byte)(223)), ((System.Byte)(240)));
+			Chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+			Chart1.BorderlineColor = System.Drawing.Color.FromArgb(((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
+			Chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+			Chart1.BorderlineWidth = 2;
+			Chart1.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
 			chartArea1.Area3DStyle.IsClustered = true;
 			chartArea1.Area3DStyle.Perspective = 10;
 			chartArea1.Area3DStyle.IsRightAngleAxes = false;
 			chartArea1.Area3DStyle.WallWidth = 0;
 			chartArea1.Area3DStyle.Inclination = 15;
 			chartArea1.Area3DStyle.Rotation = 10;
-			chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisX.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
-			chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			chartArea1.AxisX.TitleFont = new Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			chartArea1.AxisX2.MajorGrid.Enabled = false;
-			chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			chartArea1.AxisY.LabelStyle.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.AxisY2.MajorGrid.Enabled = false;
@@ -257,16 +257,16 @@ namespace ChartSamples
 			chartArea1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)), ((System.Byte)(64)));
 			chartArea1.Name = "Default";
 			chartArea1.ShadowColor = System.Drawing.Color.Transparent;
-			this.Chart1.ChartAreas.Add(chartArea1);
+			Chart1.ChartAreas.Add(chartArea1);
 			legend1.IsTextAutoFit = false;
 			legend1.BackColor = System.Drawing.Color.Transparent;
-			legend1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+			legend1.Font = new Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
 			legend1.Name = "Default";
-			legend1.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-			this.Chart1.Legends.Add(legend1);
-			this.Chart1.Location = new System.Drawing.Point(16, 48);
-			this.Chart1.Name = "Chart1";
-			this.Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
+			legend1.TitleFont = new Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+			Chart1.Legends.Add(legend1);
+			Chart1.Location = new Point(16, 48);
+			Chart1.Name = "Chart1";
+			Chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.BrightPastel;
 			series1.BorderColor = System.Drawing.Color.FromArgb(((System.Byte)(180)), ((System.Byte)(26)), ((System.Byte)(59)), ((System.Byte)(105)));
 			series1.ChartType = SeriesChartType.Pie;
 			series1.Color = System.Drawing.Color.FromArgb(((System.Byte)(220)), ((System.Byte)(65)), ((System.Byte)(140)), ((System.Byte)(240)));
@@ -284,33 +284,33 @@ namespace ChartSamples
 			series1.Points.Add(dataPoint4);
 			series1.Points.Add(dataPoint5);
 			series1.IsValueShownAsLabel = true;
-			this.Chart1.Series.Add(series1);
-			this.Chart1.Size = new System.Drawing.Size(412, 296);
-			this.Chart1.TabIndex = 1;
+			Chart1.Series.Add(series1);
+			Chart1.Size = new Size(412, 296);
+			Chart1.TabIndex = 1;
 			// 
 			// LegendFont
 			// 
-			this.Controls.AddRange([
-																		  this.Chart1,
-																		  this.panel1,
-																		  this.label9]);
-			this.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.Name = "LegendFont";
-			this.Size = new System.Drawing.Size(728, 480);
-			this.panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.Chart1)).EndInit();
-			this.ResumeLayout(false);
+			Controls.AddRange([
+																		  Chart1,
+																		  panel1,
+																		  label9]);
+			Font = new Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			Name = "LegendFont";
+			Size = new Size(728, 480);
+			panel1.ResumeLayout(false);
+			((ISupportInitialize)(Chart1)).EndInit();
+			ResumeLayout(false);
 
 		}
 		#endregion
 
 
-		private void LegendFont_Load(object sender, System.EventArgs e)
+		private void LegendFont_Load(object sender, EventArgs e)
 		{ 
 		
 		}
 
-		private void ControlChange(object sender, System.EventArgs e)
+		private void ControlChange(object sender, EventArgs e)
 		{
 			// Set Font style.
 			FontStyle fontStyle = FontStyle.Regular;
@@ -324,10 +324,10 @@ namespace ChartSamples
 				fontStyle |= (FontStyle)FontStyle.Strikeout;
 
 			// Set Title font
-			if(this.TheFont.SelectedIndex >= 0 && this.FontSize.SelectedIndex >= 0)
+			if(TheFont.SelectedIndex >= 0 && FontSize.SelectedIndex >= 0)
 			{
-				string font = this.TheFont.SelectedItem.ToString();
-				float fontpoint = float.Parse(this.FontSize.SelectedItem.ToString());
+				string font = TheFont.SelectedItem.ToString();
+				float fontpoint = float.Parse(FontSize.SelectedItem.ToString());
 				try
 				{
 					Chart1.Legends["Default"].Font = new Font(font, fontpoint, fontStyle);
@@ -339,9 +339,9 @@ namespace ChartSamples
 			}
 
 			// Set Title color
-			if(this.FontColorCombo.SelectedIndex >= 0)
+			if(FontColorCombo.SelectedIndex >= 0)
 			{
-				Chart1.Legends["Default"].ForeColor = Color.FromName(this.FontColorCombo.SelectedItem.ToString());
+				Chart1.Legends["Default"].ForeColor = Color.FromName(FontColorCombo.SelectedItem.ToString());
 			}
 		}
 
