@@ -353,7 +353,7 @@ public partial class ChartArea : ChartNamedElement
 	/// Avoid serialization of the axes array
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	internal bool ShouldSerializeAxes()
+	internal static bool ShouldSerializeAxes()
 	{
 		return false;
 	}

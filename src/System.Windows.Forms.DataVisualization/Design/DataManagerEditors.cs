@@ -18,7 +18,6 @@ using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 
 namespace System.Windows.Forms.Design.DataVisualization.Charting;
 
-
 /// <summary>
 /// UI type editor for the Y data source members of the series.
 /// </summary>
@@ -30,7 +29,6 @@ internal class SeriesDataSourceMemberValueAxisUITypeEditor : UITypeEditor
 	{
 		return new SeriesDataSourceMemberYCheckedListBox(chart, value, flag);
 	}
-
 
 	/// <summary>
 	/// Display a drop down list with check boxes.
@@ -77,16 +75,15 @@ internal class SeriesDataSourceMemberValueAxisUITypeEditor : UITypeEditor
 		{
 			// Check how many Y values in the series.
 			int yValuesNumber = 1;
-			if (context.Instance is Series)
+			if (context.Instance is Series series)
 			{
-				yValuesNumber = ((Series)context.Instance).YValuesPerPoint;
+				yValuesNumber = series.YValuesPerPoint;
 			}
-			else if (context.Instance is Array)
+			else if (context.Instance is Array array)
 			{
-				Array array = (Array)context.Instance;
-				if (array.Length > 0 && array.GetValue(0) is Series)
+				if (array.Length > 0 && array.GetValue(0) is Series series1)
 				{
-					yValuesNumber = Math.Max(yValuesNumber, ((Series)array.GetValue(0)).YValuesPerPoint);
+					yValuesNumber = Math.Max(yValuesNumber, series1.YValuesPerPoint);
 				}
 			}
 
@@ -172,9 +169,9 @@ internal class SeriesDataSourceMemberYCheckedListBox : CheckedListBox
 	{
 		// Create arry of current names
 		string[] currentNames = null;
-		if (editValue != null && editValue is string)
+		if (editValue != null && editValue is string v)
 		{
-			string editedString = (string)editValue;
+			string editedString = v;
 			currentNames = editedString.Split(',');
 		}
 
@@ -265,13 +262,13 @@ internal class ChartTypeEditor : UITypeEditor
 		string chartTypeName = string.Empty;
 		if (_chartTypeRegistry != null && e != null)
 		{
-			if (e.Value is string)
+			if (e.Value is string v)
 			{
-				chartTypeName = (string)e.Value;
+				chartTypeName = v;
 			}
-			else if (e.Value is SeriesChartType)
+			else if (e.Value is SeriesChartType type)
 			{
-				chartTypeName = Series.GetChartTypeName((SeriesChartType)e.Value);
+				chartTypeName = Series.GetChartTypeName(type);
 			}
 
 
@@ -324,7 +321,7 @@ internal class DataPointCollectionEditor : ChartCollectionEditor
 		if (context != null && context.Instance != null)
 		{
 			// Save current control type descriptor context
-			if (!(context.Instance is Series))
+			if (context.Instance is not Series)
 			{
 				throw (new InvalidOperationException(SR.ExceptionEditorMultipleSeriesEditiingUnsupported));
 			}
@@ -342,9 +339,8 @@ internal class DataPointCollectionEditor : ChartCollectionEditor
 	{
 		if (Context != null && Context.Instance != null)
 		{
-			if (Context.Instance is Series)
+			if (Context.Instance is Series series)
 			{
-				Series series = (Series)Context.Instance;
 				DataPoint newDataPoint = new(series);
 				return newDataPoint;
 			}
@@ -364,7 +360,11 @@ internal class DataPointCollectionEditor : ChartCollectionEditor
 /// <summary>
 /// Collection editor that supports property help in the property grid
 /// </summary>
-internal class ChartCollectionEditor : CollectionEditor
+/// <remarks>
+/// Object constructor.
+/// </remarks>
+/// <param name="type">AxisName.</param>
+internal class ChartCollectionEditor(Type type) : CollectionEditor(type)
 {
 	#region Editor methods and properties
 
@@ -375,13 +375,6 @@ internal class ChartCollectionEditor : CollectionEditor
 
 	// Help topic string
 	string _helpTopic = "";
-	/// <summary>
-	/// Object constructor.
-	/// </summary>
-	/// <param name="type">AxisName.</param>
-	public ChartCollectionEditor(Type type) : base(type)
-	{
-	}
 
 	/// <summary>
 	/// Edit object's value.
@@ -541,7 +534,7 @@ internal class ChartCollectionEditor : CollectionEditor
 	/// </summary>
 	/// <param name="controls"></param>
 	/// <returns></returns>
-	private PropertyGrid GetPropertyGrid(Control.ControlCollection controls)
+	private static PropertyGrid GetPropertyGrid(Control.ControlCollection controls)
 	{
 		foreach (Control control in controls)
 		{
@@ -568,7 +561,7 @@ internal class ChartCollectionEditor : CollectionEditor
 	/// </summary>
 	/// <param name="buttons"></param>
 	/// <param name="controls"></param>
-	private void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
+	private static void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
 	{
 		foreach (Control control in controls)
 		{

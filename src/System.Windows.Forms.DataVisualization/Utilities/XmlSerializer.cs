@@ -1733,7 +1733,7 @@ internal class XmlFormatSerializer : SerializerBase
 	/// Method is called recursively to remove empty child nodes first.
 	/// </summary>
 	/// <param name="xmlNode">The node where to start the removing.</param>
-	private void RemoveEmptyChildNodes(XmlNode xmlNode)
+	private static void RemoveEmptyChildNodes(XmlNode xmlNode)
 	{
 		// Loop through all child nodes
 		for (int nodeIndex = 0; nodeIndex < xmlNode.ChildNodes.Count; nodeIndex++)
@@ -1744,7 +1744,7 @@ internal class XmlFormatSerializer : SerializerBase
 			// Check if there are any non-empty nodes left
 			XmlNode currentNode = xmlNode.ChildNodes[nodeIndex];
 			if (currentNode.ParentNode != null &&
-				!(currentNode.ParentNode is XmlDocument))
+				currentNode.ParentNode is not XmlDocument)
 			{
 				if (!currentNode.HasChildNodes &&
 					(currentNode.Attributes == null ||
@@ -2635,9 +2635,8 @@ internal class BinaryFormatSerializer : SerializerBase
 			}
 		}
 
-		else if (obj is Color[])
+		else if (obj is Color[] arr)
 		{
-			Color[] arr = (Color[])obj;
 
 			// Write the size of the array (int)
 			writer.Write(arr.Length);

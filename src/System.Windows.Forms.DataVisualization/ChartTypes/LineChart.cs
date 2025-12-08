@@ -948,7 +948,7 @@ internal class LineChart : PointChart
 
 	private const long maxGDIRange = 0x800000;
 	// VSTS: 9698 - issue: the line start from X = 0 when GDI overflows (before we expected exception)
-	private bool IsLinePointsOverflow(PointF point)
+	private static bool IsLinePointsOverflow(PointF point)
 	{
 		return point.X <= -maxGDIRange || point.X >= maxGDIRange || point.Y <= -maxGDIRange || point.Y >= maxGDIRange;
 	}

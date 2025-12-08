@@ -597,10 +597,9 @@ public class ChartSerializer
 		Array enumValues = Enum.GetValues<SerializationContents>();
 		foreach (object flagObject in enumValues)
 		{
-			if (flagObject is SerializationContents)
+			// Check if flag currently set
+			if (flagObject is SerializationContents flag)
 			{
-				// Check if flag currently set
-				SerializationContents flag = (SerializationContents)flagObject;
 				if ((Content & flag) == flag &&
 					flag != SerializationContents.All &&
 					Content != SerializationContents.All)

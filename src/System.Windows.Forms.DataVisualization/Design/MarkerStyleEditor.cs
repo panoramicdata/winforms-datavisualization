@@ -60,9 +60,8 @@ internal class MarkerStyleEditor : UITypeEditor, IDisposable
 			{
 				// Check if several object selected
 				object attrObject = e.Context.Instance;
-				if (e.Context.Instance is Array)
+				if (e.Context.Instance is Array array)
 				{
-					Array array = (Array)e.Context.Instance;
 					if (array.Length > 0)
 					{
 						attrObject = array.GetValue(0);

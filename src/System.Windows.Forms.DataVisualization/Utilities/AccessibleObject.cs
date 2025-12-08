@@ -14,12 +14,16 @@ namespace System.Windows.Forms.DataVisualization.Charting.Utilities;
 
 using System.Drawing;
 
-internal class ChartAccessibleObject : Control.ControlAccessibleObject
+/// <summary>
+/// Object constructor.
+/// </summary>
+/// <param name="chart">Reference to the chart control.</param>
+internal class ChartAccessibleObject(Chart chart) : Control.ControlAccessibleObject(chart)
 {
 	#region Fields
 
 	// Reference to the chart control
-	private readonly Chart _chart = null;
+	private readonly Chart _chart = chart;
 
 	// List of chart accessible objects
 	private List<AccessibleObject> _chartAccessibleObjectList = null;
@@ -31,17 +35,7 @@ internal class ChartAccessibleObject : Control.ControlAccessibleObject
 	private PointF _chartScale = new(1f, 1f);
 
 	#endregion // Fields
-
 	#region Constructors
-
-	/// <summary>
-	/// Object constructor.
-	/// </summary>
-	/// <param name="chart">Reference to the chart control.</param>
-	public ChartAccessibleObject(Chart chart) : base(chart)
-	{
-		_chart = chart;
-	}
 
 	#endregion // Constructors
 

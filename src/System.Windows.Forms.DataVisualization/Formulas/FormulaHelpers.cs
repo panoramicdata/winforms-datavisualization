@@ -286,7 +286,13 @@ internal static class FormulaHelper
 /// <summary>
 /// This a base class of the formula metainfo classes.
 /// </summary>
-internal abstract class FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="FormulaInfo"/> class.
+/// </remarks>
+/// <param name="inputFields">The input data fields.</param>
+/// <param name="outputFields">The output data fields.</param>
+/// <param name="defaultParams">The default formula params.</param>
+internal abstract class FormulaInfo(DataField[] inputFields, DataField[] outputFields, params object[] defaultParams)
 {
 	#region Fields
 	#endregion
@@ -296,34 +302,22 @@ internal abstract class FormulaInfo
 	/// Gets the input data fields of the formula.
 	/// </summary>
 	/// <value>The input fields.</value>
-	public DataField[] InputFields { get; }
+	public DataField[] InputFields { get; } = inputFields;
 
 	/// <summary>
 	/// Gets the output data fields of the formula.
 	/// </summary>
 	/// <value>The output fields.</value>
-	public DataField[] OutputFields { get; }
+	public DataField[] OutputFields { get; } = outputFields;
 
 	/// <summary>
 	/// Gets the parameters of the formula.
 	/// </summary>
 	/// <value>The parameters.</value>
-	public object[] Parameters { get; }
-	#endregion
+	public object[] Parameters { get; } = defaultParams;
 
+	#endregion
 	#region Constructors
-	/// <summary>
-	/// Initializes a new instance of the <see cref="FormulaInfo"/> class.
-	/// </summary>
-	/// <param name="inputFields">The input data fields.</param>
-	/// <param name="outputFields">The output data fields.</param>
-	/// <param name="defaultParams">The default formula params.</param>
-	public FormulaInfo(DataField[] inputFields, DataField[] outputFields, params object[] defaultParams)
-	{
-		InputFields = inputFields;
-		OutputFields = outputFields;
-		Parameters = defaultParams;
-	}
 	#endregion
 
 	#region Methods
@@ -430,7 +424,15 @@ internal abstract class FormulaInfo
 /// <summary>
 /// MovingAverage FormulaInfo
 /// </summary>
-internal class MovingAverageFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="MovingAverageFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class MovingAverageFormulaInfo(int period, bool startFromFirst) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		period, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -440,24 +442,20 @@ internal class MovingAverageFormulaInfo : FormulaInfo
 		: this(2, false)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="MovingAverageFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public MovingAverageFormulaInfo(int period, bool startFromFirst)
-		: base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			period, startFromFirst)
-	{
-	}
 }
 
 /// <summary>
 /// ExponentialMoving AverageFormulaInfo
 /// </summary>
-internal class ExponentialMovingAverageFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="ExponentialMovingAverageFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class ExponentialMovingAverageFormulaInfo(int period, bool startFromFirst) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		period, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -467,24 +465,20 @@ internal class ExponentialMovingAverageFormulaInfo : FormulaInfo
 		: this(2, false)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="ExponentialMovingAverageFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public ExponentialMovingAverageFormulaInfo(int period, bool startFromFirst)
-		: base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			period, startFromFirst)
-	{
-	}
 }
 
 /// <summary>
 /// WeightedMovingAverageFormulaInfo
 /// </summary>
-internal class WeightedMovingAverageFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="WeightedMovingAverageFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class WeightedMovingAverageFormulaInfo(int period, bool startFromFirst) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		period, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -494,24 +488,20 @@ internal class WeightedMovingAverageFormulaInfo : FormulaInfo
 		: this(2, false)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="WeightedMovingAverageFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public WeightedMovingAverageFormulaInfo(int period, bool startFromFirst)
-	   : base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			period, startFromFirst)
-	{
-	}
 }
 
 /// <summary>
 /// TriangularMovingAverage FormulaInfo
 /// </summary>
-internal class TriangularMovingAverageFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="TriangularMovingAverageFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class TriangularMovingAverageFormulaInfo(int period, bool startFromFirst) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		period, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -521,24 +511,19 @@ internal class TriangularMovingAverageFormulaInfo : FormulaInfo
 		: this(2, false)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="TriangularMovingAverageFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public TriangularMovingAverageFormulaInfo(int period, bool startFromFirst)
-		: base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			period, startFromFirst)
-	{
-	}
 }
 
 /// <summary>
 /// TripleExponentialMovingAverage FormulaInfo
 /// </summary>
-internal class TripleExponentialMovingAverageFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="TripleExponentialMovingAverageFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+internal class TripleExponentialMovingAverageFormulaInfo(int period) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		period)
 {
 	//Constructor
 	/// <summary>
@@ -548,23 +533,21 @@ internal class TripleExponentialMovingAverageFormulaInfo : FormulaInfo
 		: this(12)                           //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="TripleExponentialMovingAverageFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	public TripleExponentialMovingAverageFormulaInfo(int period)
-		: base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			period)
-	{
-	}
 }
 
 /// <summary>
 /// BollingerBands FormulaInfo
 /// </summary>
-internal class BollingerBandsFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="BollingerBandsFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="deviation">The deviation.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class BollingerBandsFormulaInfo(int period, double deviation, bool startFromFirst) : FormulaInfo(
+		[DataField.Y],                        //Input fields
+		[DataField.Top, DataField.Bottom],    //Output fields
+		period, deviation, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -572,19 +555,6 @@ internal class BollingerBandsFormulaInfo : FormulaInfo
 	/// </summary>
 	public BollingerBandsFormulaInfo()
 		: this(3, 2, true)                                          //Defaults
-	{
-	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="BollingerBandsFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="deviation">The deviation.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public BollingerBandsFormulaInfo(int period, double deviation, bool startFromFirst)
-		: base(
-			[DataField.Y],                        //Input fields
-			[DataField.Top, DataField.Bottom],    //Output fields
-			period, deviation, startFromFirst)
 	{
 	}
 }
@@ -644,7 +614,16 @@ internal class MedianPriceFormulaInfo : FormulaInfo
 /// <summary>
 /// Envelopes FormulaInfo
 /// </summary>
-internal class EnvelopesFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="EnvelopesFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="shiftPercentage">The shift percentage.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class EnvelopesFormulaInfo(int period, double shiftPercentage, bool startFromFirst) : FormulaInfo(
+		[DataField.Y],                        //Input fields
+		[DataField.Top, DataField.Bottom],    //Output fields
+		period, shiftPercentage, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -654,26 +633,21 @@ internal class EnvelopesFormulaInfo : FormulaInfo
 		: this(2, 10, true)                                          //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="EnvelopesFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="shiftPercentage">The shift percentage.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public EnvelopesFormulaInfo(int period, double shiftPercentage, bool startFromFirst)
-		: base(
-			[DataField.Y],                        //Input fields
-			[DataField.Top, DataField.Bottom],    //Output fields
-			period, shiftPercentage, startFromFirst)
-	{
-	}
 }
 
 
 /// <summary>
 /// StandardDeviation FormulaInfo
 /// </summary>
-internal class StandardDeviationFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="StandardDeviationFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class StandardDeviationFormulaInfo(int period, bool startFromFirst) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		period, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -683,24 +657,21 @@ internal class StandardDeviationFormulaInfo : FormulaInfo
 		: this(2, false)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="StandardDeviationFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public StandardDeviationFormulaInfo(int period, bool startFromFirst)
-		: base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			period, startFromFirst)
-	{
-	}
 }
 
 /// <summary>
 /// ChaikinOscillatorFormulaInfo
 /// </summary>
-internal class ChaikinOscillatorFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="ChaikinOscillatorFormulaInfo"/> class.
+/// </remarks>
+/// <param name="shortPeriod">The short period.</param>
+/// <param name="longPeriod">The long period.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class ChaikinOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool startFromFirst) : FormulaInfo(
+		[DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		shortPeriod, longPeriod, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -710,25 +681,20 @@ internal class ChaikinOscillatorFormulaInfo : FormulaInfo
 		: this(3, 10, false)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="ChaikinOscillatorFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="shortPeriod">The short period.</param>
-	/// <param name="longPeriod">The long period.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public ChaikinOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool startFromFirst)
-		: base(
-			[DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			shortPeriod, longPeriod, startFromFirst)
-	{
-	}
 }
 
 /// <summary>
 /// DetrendedPriceOscillator FormulaInfo
 /// </summary>
-internal class DetrendedPriceOscillatorFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="DetrendedPriceOscillatorFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
+internal class DetrendedPriceOscillatorFormulaInfo(int period, bool startFromFirst) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		period, startFromFirst)
 {
 	//Constructor
 	/// <summary>
@@ -738,25 +704,21 @@ internal class DetrendedPriceOscillatorFormulaInfo : FormulaInfo
 		: this(2, false)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="DetrendedPriceOscillatorFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="startFromFirst">if set to <c>true</c> [start from first].</param>
-	public DetrendedPriceOscillatorFormulaInfo(int period, bool startFromFirst)
-		: base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			period, startFromFirst)
-	{
-	}
 }
 
 
 /// <summary>
 /// VolatilityChaikins FormulaInfo
 /// </summary>
-internal class VolatilityChaikinsFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="VolatilityChaikinsFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="signalPeriod">The signal period.</param>
+internal class VolatilityChaikinsFormulaInfo(int period, int signalPeriod) : FormulaInfo(
+		[DataField.High, DataField.Low], //Input fields
+		[DataField.Y], //Output fields
+		period, signalPeriod)
 {
 	//Constructor
 	/// <summary>
@@ -766,24 +728,21 @@ internal class VolatilityChaikinsFormulaInfo : FormulaInfo
 		: this(10, 10)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="VolatilityChaikinsFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="signalPeriod">The signal period.</param>
-	public VolatilityChaikinsFormulaInfo(int period, int signalPeriod)
-		: base(
-			[DataField.High, DataField.Low], //Input fields
-			[DataField.Y], //Output fields
-			period, signalPeriod)
-	{
-	}
 }
 
 /// <summary>
 /// VolumeOscillator FormulaInfo
 /// </summary>
-internal class VolumeOscillatorFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="VolumeOscillatorFormulaInfo"/> class.
+/// </remarks>
+/// <param name="shortPeriod">The short period.</param>
+/// <param name="longPeriod">The long period.</param>
+/// <param name="percentage">if set to <c>true</c> [percentage].</param>
+internal class VolumeOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool percentage) : FormulaInfo(
+		[DataField.Y], //Input fields
+		[DataField.Y], //Output fields
+		shortPeriod, longPeriod, percentage)
 {
 	//Constructor
 	/// <summary>
@@ -793,25 +752,20 @@ internal class VolumeOscillatorFormulaInfo : FormulaInfo
 		: this(5, 10, true)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="VolumeOscillatorFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="shortPeriod">The short period.</param>
-	/// <param name="longPeriod">The long period.</param>
-	/// <param name="percentage">if set to <c>true</c> [percentage].</param>
-	public VolumeOscillatorFormulaInfo(int shortPeriod, int longPeriod, bool percentage)
-		: base(
-			[DataField.Y], //Input fields
-			[DataField.Y], //Output fields
-			shortPeriod, longPeriod, percentage)
-	{
-	}
 }
 
 /// <summary>
 /// StochasticIndicatorFormulaInfo
 /// </summary>
-internal class StochasticIndicatorFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="StochasticIndicatorFormulaInfo"/> class.
+/// </remarks>
+/// <param name="periodD">The period D.</param>
+/// <param name="periodK">The period K.</param>
+internal class StochasticIndicatorFormulaInfo(int periodD, int periodK) : FormulaInfo(
+		[DataField.High, DataField.Low, DataField.Close], //Input fields
+		[DataField.Y, DataField.Y], //Output fields
+		periodD, periodK)
 {
 	//Constructor
 	/// <summary>
@@ -821,24 +775,19 @@ internal class StochasticIndicatorFormulaInfo : FormulaInfo
 		: this(10, 10)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="StochasticIndicatorFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="periodD">The period D.</param>
-	/// <param name="periodK">The period K.</param>
-	public StochasticIndicatorFormulaInfo(int periodD, int periodK)
-		: base(
-			[DataField.High, DataField.Low, DataField.Close], //Input fields
-			[DataField.Y, DataField.Y], //Output fields
-			periodD, periodK)
-	{
-	}
 }
 
 /// <summary>
 /// WilliamsRFormulaInfo
 /// </summary>
-internal class WilliamsRFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="WilliamsRFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+internal class WilliamsRFormulaInfo(int period) : FormulaInfo(
+		[DataField.High, DataField.Low, DataField.Close], //Input fields
+		[DataField.Y], //Output fields
+		period)
 {
 	//Constructor
 	/// <summary>
@@ -848,23 +797,19 @@ internal class WilliamsRFormulaInfo : FormulaInfo
 		: this(14)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="WilliamsRFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	public WilliamsRFormulaInfo(int period)
-		: base(
-			[DataField.High, DataField.Low, DataField.Close], //Input fields
-			[DataField.Y], //Output fields
-			period)
-	{
-	}
 }
 
 /// <summary>
 /// AverageTrueRange FormulaInfo
 /// </summary>
-internal class AverageTrueRangeFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="AverageTrueRangeFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+internal class AverageTrueRangeFormulaInfo(int period) : FormulaInfo(
+		[DataField.High, DataField.Low, DataField.Close], //Input fields
+		[DataField.Y], //Output fields
+		period)
 {
 	//Constructor
 	/// <summary>
@@ -872,17 +817,6 @@ internal class AverageTrueRangeFormulaInfo : FormulaInfo
 	/// </summary>
 	public AverageTrueRangeFormulaInfo()
 		: this(14)                      //Defaults
-	{
-	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="AverageTrueRangeFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	public AverageTrueRangeFormulaInfo(int period)
-		: base(
-			[DataField.High, DataField.Low, DataField.Close], //Input fields
-			[DataField.Y], //Output fields
-			period)
 	{
 	}
 }
@@ -907,7 +841,15 @@ internal class EaseOfMovementFormulaInfo : FormulaInfo
 /// <summary>
 /// MassIndex FormulaInfo
 /// </summary>
-internal class MassIndexFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="MassIndexFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+/// <param name="averagePeriod">The average period.</param>
+internal class MassIndexFormulaInfo(int period, int averagePeriod) : FormulaInfo(
+		[DataField.High, DataField.Low], //Input fields
+		[DataField.Y], //Output fields
+		period, averagePeriod)
 {
 	//Constructor
 	/// <summary>
@@ -915,18 +857,6 @@ internal class MassIndexFormulaInfo : FormulaInfo
 	/// </summary>
 	public MassIndexFormulaInfo()
 		: this(25, 9)                      //Defaults
-	{
-	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="MassIndexFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	/// <param name="averagePeriod">The average period.</param>
-	public MassIndexFormulaInfo(int period, int averagePeriod)
-		: base(
-			[DataField.High, DataField.Low], //Input fields
-			[DataField.Y], //Output fields
-			period, averagePeriod)
 	{
 	}
 }
@@ -951,7 +881,14 @@ internal class PerformanceFormulaInfo : FormulaInfo
 /// <summary>
 /// RateOfChange FormulaInfo
 /// </summary>
-internal class RateOfChangeFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="RateOfChangeFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+internal class RateOfChangeFormulaInfo(int period) : FormulaInfo(
+		[DataField.Close], //Input fields
+		[DataField.Y], //Output fields
+		period)
 {
 	//Constructor
 	/// <summary>
@@ -961,23 +898,19 @@ internal class RateOfChangeFormulaInfo : FormulaInfo
 		: this(10)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="RateOfChangeFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	public RateOfChangeFormulaInfo(int period)
-		: base(
-			[DataField.Close], //Input fields
-			[DataField.Y], //Output fields
-			period)
-	{
-	}
 }
 
 /// <summary>
 /// RelativeStrengthIndex FormulaInfo
 /// </summary>
-internal class RelativeStrengthIndexFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="RelativeStrengthIndexFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+internal class RelativeStrengthIndexFormulaInfo(int period) : FormulaInfo(
+		[DataField.Close], //Input fields
+		[DataField.Y], //Output fields
+		period)
 {
 	//Constructor
 	/// <summary>
@@ -987,23 +920,20 @@ internal class RelativeStrengthIndexFormulaInfo : FormulaInfo
 		: this(10)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="RelativeStrengthIndexFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	public RelativeStrengthIndexFormulaInfo(int period)
-		: base(
-			[DataField.Close], //Input fields
-			[DataField.Y], //Output fields
-			period)
-	{
-	}
 }
 
 /// <summary>
 /// MovingAverageConvergenceDivergence FormulaInfo
 /// </summary>
-internal class MovingAverageConvergenceDivergenceFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="MovingAverageConvergenceDivergenceFormulaInfo"/> class.
+/// </remarks>
+/// <param name="shortPeriod">The short period.</param>
+/// <param name="longPeriod">The long period.</param>
+internal class MovingAverageConvergenceDivergenceFormulaInfo(int shortPeriod, int longPeriod) : FormulaInfo(
+		[DataField.Close], //Input fields
+		[DataField.Y], //Output fields
+		shortPeriod, longPeriod)
 {
 	//Constructor
 	/// <summary>
@@ -1013,24 +943,19 @@ internal class MovingAverageConvergenceDivergenceFormulaInfo : FormulaInfo
 		: this(12, 26)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="MovingAverageConvergenceDivergenceFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="shortPeriod">The short period.</param>
-	/// <param name="longPeriod">The long period.</param>
-	public MovingAverageConvergenceDivergenceFormulaInfo(int shortPeriod, int longPeriod)
-		: base(
-			[DataField.Close], //Input fields
-			[DataField.Y], //Output fields
-			shortPeriod, longPeriod)
-	{
-	}
 }
 
 /// <summary>
 /// CommodityChannelIndex FormulaInfo
 /// </summary>
-internal class CommodityChannelIndexFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="CommodityChannelIndexFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+internal class CommodityChannelIndexFormulaInfo(int period) : FormulaInfo(
+		[DataField.High, DataField.Low, DataField.Close], //Input fields
+		[DataField.Y], //Output fields
+		period)
 {
 	//Constructor
 	/// <summary>
@@ -1040,23 +965,23 @@ internal class CommodityChannelIndexFormulaInfo : FormulaInfo
 		: this(10)                      //Defaults
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="CommodityChannelIndexFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	public CommodityChannelIndexFormulaInfo(int period)
-		: base(
-			[DataField.High, DataField.Low, DataField.Close], //Input fields
-			[DataField.Y], //Output fields
-			period)
-	{
-	}
 }
 
 /// <summary>
 /// Forecasting FormulaInfo
 /// </summary>
-internal class ForecastingFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="ForecastingFormulaInfo"/> class.
+/// </remarks>
+/// <param name="regressionType">Type of the regression.</param>
+/// <param name="polynomialDegree">The polynomial degree.</param>
+/// <param name="forecastingPeriod">The forecasting period.</param>
+/// <param name="returnApproximationError">if set to <c>true</c> [return approximation error].</param>
+/// <param name="returnForecastingError">if set to <c>true</c> [return forecasting error].</param>
+internal class ForecastingFormulaInfo(TimeSeriesAndForecasting.RegressionType regressionType, int polynomialDegree, int forecastingPeriod, bool returnApproximationError, bool returnForecastingError) : FormulaInfo(
+		[DataField.Close], //Input fields
+		[DataField.Close, DataField.High, DataField.Low], //Output fields
+		regressionType, polynomialDegree, forecastingPeriod, returnApproximationError, returnForecastingError)
 {
 	//Fields
 	string _parameters;
@@ -1067,21 +992,6 @@ internal class ForecastingFormulaInfo : FormulaInfo
 	/// </summary>
 	public ForecastingFormulaInfo()
 		: this(TimeSeriesAndForecasting.RegressionType.Polynomial, 2, 0, true, true)                      //Defaults
-	{
-	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="ForecastingFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="regressionType">Type of the regression.</param>
-	/// <param name="polynomialDegree">The polynomial degree.</param>
-	/// <param name="forecastingPeriod">The forecasting period.</param>
-	/// <param name="returnApproximationError">if set to <c>true</c> [return approximation error].</param>
-	/// <param name="returnForecastingError">if set to <c>true</c> [return forecasting error].</param>
-	public ForecastingFormulaInfo(TimeSeriesAndForecasting.RegressionType regressionType, int polynomialDegree, int forecastingPeriod, bool returnApproximationError, bool returnForecastingError)
-		: base(
-			[DataField.Close], //Input fields
-			[DataField.Close, DataField.High, DataField.Low], //Output fields
-			regressionType, polynomialDegree, forecastingPeriod, returnApproximationError, returnForecastingError)
 	{
 	}
 
@@ -1146,7 +1056,14 @@ internal class ForecastingFormulaInfo : FormulaInfo
 /// <summary>
 /// MoneyFlow FormulaInfo
 /// </summary>
-internal class MoneyFlowFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="MoneyFlowFormulaInfo"/> class.
+/// </remarks>
+/// <param name="period">The period.</param>
+internal class MoneyFlowFormulaInfo(int period) : FormulaInfo(
+		[DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields: High,Low,Close,Volume
+		[DataField.Y], //Output fields
+		period)
 {
 	//Constructor
 	/// <summary>
@@ -1154,17 +1071,6 @@ internal class MoneyFlowFormulaInfo : FormulaInfo
 	/// </summary>
 	public MoneyFlowFormulaInfo()
 		: this(2)                      //Defaults
-	{
-	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="MoneyFlowFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="period">The period.</param>
-	public MoneyFlowFormulaInfo(int period)
-		: base(
-			[DataField.High, DataField.Low, DataField.Close, DataField.Y], //Input fields: High,Low,Close,Volume
-			[DataField.Y], //Output fields
-			period)
 	{
 	}
 }
@@ -1206,7 +1112,14 @@ internal class OnBalanceVolumeFormulaInfo : FormulaInfo
 /// <summary>
 /// NegativeVolumeIndex FormulaInfo
 /// </summary>
-internal class NegativeVolumeIndexFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="NegativeVolumeIndexFormulaInfo"/> class.
+/// </remarks>
+/// <param name="startValue">The start value.</param>
+internal class NegativeVolumeIndexFormulaInfo(double startValue) : FormulaInfo(
+		[DataField.Close, DataField.Y], //Input=Close,Volume
+		[DataField.Y],
+		startValue)
 {
 	//Constructor
 	/// <summary>
@@ -1216,23 +1129,19 @@ internal class NegativeVolumeIndexFormulaInfo : FormulaInfo
 		: this(double.NaN)
 	{
 	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="NegativeVolumeIndexFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="startValue">The start value.</param>
-	public NegativeVolumeIndexFormulaInfo(double startValue)
-		: base(
-			[DataField.Close, DataField.Y], //Input=Close,Volume
-			[DataField.Y],
-			startValue) //Output fields
-	{
-	}
 }
 
 /// <summary>
 /// PositiveVolumeIndex FormulaInfo
 /// </summary>
-internal class PositiveVolumeIndexFormulaInfo : FormulaInfo
+/// <remarks>
+/// Initializes a new instance of the <see cref="PositiveVolumeIndexFormulaInfo"/> class.
+/// </remarks>
+/// <param name="startValue">The start value.</param>
+internal class PositiveVolumeIndexFormulaInfo(double startValue) : FormulaInfo(
+		[DataField.Close, DataField.Y], //Input=Close,Volume
+		[DataField.Y],
+		startValue)
 {
 	//Constructor
 	/// <summary>
@@ -1240,17 +1149,6 @@ internal class PositiveVolumeIndexFormulaInfo : FormulaInfo
 	/// </summary>
 	public PositiveVolumeIndexFormulaInfo() //Note about parameters: Start value is mandatory so we don't provide the default
 		: this(double.NaN)
-	{
-	}
-	/// <summary>
-	/// Initializes a new instance of the <see cref="PositiveVolumeIndexFormulaInfo"/> class.
-	/// </summary>
-	/// <param name="startValue">The start value.</param>
-	public PositiveVolumeIndexFormulaInfo(double startValue)
-		: base(
-			[DataField.Close, DataField.Y], //Input=Close,Volume
-			[DataField.Y],
-			startValue) //Output fields
 	{
 	}
 }

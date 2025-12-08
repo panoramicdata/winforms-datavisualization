@@ -1800,9 +1800,8 @@ internal class Selection : IServiceProvider
 				isTransparent = true;
 			}
 		}
-		else if (region.SelectedObject is Title)
+		else if (region.SelectedObject is Title title)
 		{
-			Title title = (Title)region.SelectedObject;
 			if ((title.Text.Length == 0 || title.ForeColor == Color.Transparent) &&
 				(title.BackColor == Color.Transparent || title.BackColor.IsEmpty))
 			{
@@ -1935,18 +1934,16 @@ internal class Selection : IServiceProvider
 				result.ChartArea = null;
 				break;
 			case ChartElementType.AxisLabels:
-				if (obj is CustomLabel)
+				if (obj is CustomLabel label)
 				{
-					CustomLabel label = (CustomLabel)obj;
 					result.Axis = label.Axis;
 					result.ChartArea = label.Axis?.ChartArea;
 				}
 
 				break;
 			case ChartElementType.AxisLabelImage:
-				if (obj is CustomLabel)
+				if (obj is CustomLabel label)
 				{
-					CustomLabel label = (CustomLabel)obj;
 					result.Axis = label.Axis;
 					result.ChartArea = label.Axis?.ChartArea;
 				}
@@ -2971,32 +2968,27 @@ internal class Selection : IServiceProvider
 /// <summary>
 /// The ToolTipEventArgs class stores the tool tips event arguments.
 /// </summary>
-public class ToolTipEventArgs : EventArgs
+/// <remarks>
+/// ToolTipEventArgs constructor.  Creates ToolTip event arguments.
+/// </remarks>
+/// <param name="x">X-coordinate of mouse.</param>
+/// <param name="y">Y-coordinate of mouse.</param>
+/// <param name="text">Tooltip text.</param>
+/// <param name="result">Hit test result object.</param>
+[method: SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
+		Justification = "X and Y are cartesian coordinates and well understood")]
+
+/// <summary>
+/// The ToolTipEventArgs class stores the tool tips event arguments.
+/// </summary>
+public class ToolTipEventArgs(int x, int y, string text, HitTestResult result) : EventArgs
 {
 	#region Private fields
 
 	// Private fields for properties values storage
 
-	#endregion
 
 	#region Constructors
-
-	/// <summary>
-	/// ToolTipEventArgs constructor.  Creates ToolTip event arguments.
-	/// </summary>
-	/// <param name="x">X-coordinate of mouse.</param>
-	/// <param name="y">Y-coordinate of mouse.</param>
-	/// <param name="text">Tooltip text.</param>
-	/// <param name="result">Hit test result object.</param>
-	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
-		Justification = "X and Y are cartesian coordinates and well understood")]
-	public ToolTipEventArgs(int x, int y, string text, HitTestResult result)
-	{
-		X = x;
-		Y = y;
-		Text = text;
-		HitTestResult = result;
-	}
 
 	#endregion
 
@@ -3009,7 +3001,7 @@ public class ToolTipEventArgs : EventArgs
 	SRDescription("DescriptionAttributeToolTipEventArgs_X"),
 	]
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "X")]
-	public int X { get; } = 0;
+	public int X { get; } = x;
 
 	/// <summary>
 	/// Gets the result of the hit test.
@@ -3017,7 +3009,7 @@ public class ToolTipEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeToolTipEventArgs_HitTestResult"),
 	]
-	public HitTestResult HitTestResult { get; } = new();
+	public HitTestResult HitTestResult { get; } = result;
 
 	/// <summary>
 	/// Gets the y-coordinate of the mouse.
@@ -3026,7 +3018,7 @@ public class ToolTipEventArgs : EventArgs
 	SRDescription("DescriptionAttributeToolTipEventArgs_Y"),
 	]
 	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Y")]
-	public int Y { get; } = 0;
+	public int Y { get; } = y;
 
 	/// <summary>
 	/// Gets the text of the tooltip.
@@ -3034,7 +3026,7 @@ public class ToolTipEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeToolTipEventArgs_Text"),
 	]
-	public string Text { get; set; } = "";
+	public string Text { get; set; } = text;
 
 	#endregion
 }

@@ -7,16 +7,10 @@ using System.ComponentModel;
 namespace System.Windows.Forms.DataVisualization.Charting;
 
 [AttributeUsage(AttributeTargets.All)]
-internal sealed class SRDescriptionAttribute : DescriptionAttribute
+internal sealed class SRDescriptionAttribute(string description) : DescriptionAttribute(description)
 {
 	// Fields
 	private bool replaced;
-
-	// Methods
-	public SRDescriptionAttribute(string description)
-		: base(description)
-	{
-	}
 
 	// Properties
 	public override string Description

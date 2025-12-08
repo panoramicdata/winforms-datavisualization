@@ -69,7 +69,7 @@ internal class AxesArrayEditor : ArrayEditor
 	/// </summary>
 	/// <param name="controls"></param>
 	/// <returns></returns>
-	private PropertyGrid GetPropertyGrid(Control.ControlCollection controls)
+	private static PropertyGrid GetPropertyGrid(Control.ControlCollection controls)
 	{
 		foreach (Control control in controls)
 		{
@@ -96,7 +96,7 @@ internal class AxesArrayEditor : ArrayEditor
 	/// </summary>
 	/// <param name="buttons"></param>
 	/// <param name="controls"></param>
-	private void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
+	private static void CollectButtons(ArrayList buttons, Control.ControlCollection controls)
 	{
 		foreach (Control control in controls)
 		{

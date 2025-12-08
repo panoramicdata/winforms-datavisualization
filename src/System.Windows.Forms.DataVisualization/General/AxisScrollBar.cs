@@ -1727,32 +1727,26 @@ public class AxisScrollBar : IDisposable
 /// <summary>
 /// The arguments for a scrollbar event.
 /// </summary>
-public class ScrollBarEventArgs : EventArgs
+/// <remarks>
+/// ScrollBarEventArgs constructor.
+/// </remarks>
+/// <param name="axis">Axis containing the scrollbar.</param>
+/// <param name="x">X position of mouse cursor.</param>
+/// <param name="y">Y position of mouse cursor.</param>
+/// <param name="buttonType">Button type of the button clicked.</param>
+[method: SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
+		Justification = "X and Y are cartesian coordinates and well understood")]
+/// <summary>
+/// The arguments for a scrollbar event.
+/// </summary>
+public class ScrollBarEventArgs(Axis axis, int x, int y, ScrollBarButtonType buttonType) : EventArgs
 {
 	#region Private fields
 
 	// Private fields for properties values storage
 
-	#endregion
 
 	#region Constructors
-
-	/// <summary>
-	/// ScrollBarEventArgs constructor.
-	/// </summary>
-	/// <param name="axis">Axis containing the scrollbar.</param>
-	/// <param name="x">X position of mouse cursor.</param>
-	/// <param name="y">Y position of mouse cursor.</param>
-	/// <param name="buttonType">Button type of the button clicked.</param>
-	[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
-		Justification = "X and Y are cartesian coordinates and well understood")]
-	public ScrollBarEventArgs(Axis axis, int x, int y, ScrollBarButtonType buttonType)
-	{
-		Axis = axis;
-		MousePositionX = x;
-		MousePositionY = y;
-		ButtonType = buttonType;
-	}
 
 	#endregion
 
@@ -1764,7 +1758,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeAxis"),
 	]
-	public Axis Axis { get; } = null;
+	public Axis Axis { get; } = axis;
 
 	/// <summary>
 	/// ChartArea containing the scrollbar of the event.
@@ -1786,7 +1780,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeScrollBarEventArgs_ButtonType"),
 	]
-	public ScrollBarButtonType ButtonType { get; } = ScrollBarButtonType.ThumbTracker;
+	public ScrollBarButtonType ButtonType { get; } = buttonType;
 
 	/// <summary>
 	/// Indicates if the event is handled by the user and no further processing is required.
@@ -1802,7 +1796,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeScrollBarEventArgs_MousePositionX"),
 	]
-	public int MousePositionX { get; } = 0;
+	public int MousePositionX { get; } = x;
 
 	/// <summary>
 	/// Y position of mouse cursor.
@@ -1810,7 +1804,7 @@ public class ScrollBarEventArgs : EventArgs
 	[
 	SRDescription("DescriptionAttributeScrollBarEventArgs_MousePositionY"),
 	]
-	public int MousePositionY { get; } = 0;
+	public int MousePositionY { get; } = y;
 
 	#endregion
 }

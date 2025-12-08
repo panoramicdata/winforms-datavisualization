@@ -47,14 +47,12 @@ internal class ImageValueEditor : FileNameEditor
 				ImageLoader imageLoader = null;
 				if (e.Context != null && e.Context.Instance != null)
 				{
-					if (e.Context.Instance is Chart)
+					if (e.Context.Instance is Chart chart)
 					{
-						Chart chart = (Chart)e.Context.Instance;
 						imageLoader = (ImageLoader)chart.GetService(typeof(ImageLoader));
 					}
-					else if (e.Context.Instance is IChartElement)
+					else if (e.Context.Instance is IChartElement chartElement)
 					{
-						IChartElement chartElement = (IChartElement)e.Context.Instance;
 						imageLoader = (ImageLoader)chartElement.Common.ImageLoader;
 					}
 				}

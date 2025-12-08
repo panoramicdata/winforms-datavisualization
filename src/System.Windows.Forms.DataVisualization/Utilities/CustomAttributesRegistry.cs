@@ -1919,44 +1919,61 @@ internal class CustomPropertyRegistry : IServiceProvider
 /// in 2D or 3D mode and some can be applied to the whole 
 /// series or data points only.
 /// </summary>
-internal class CustomPropertyInfo
+/// <remarks>
+/// Public constructor.
+/// </remarks>
+/// <param name="name">Attribute name</param>
+/// <param name="valueType">Attribute value type.</param>
+/// <param name="defaultValue">Attribute default value.</param>
+/// <param name="description">Attribute description.</param>
+/// <param name="appliesToChartType">Array of chart types where attribute used.</param>
+/// <param name="appliesToSeries">True if properties can be set in series.</param>
+/// <param name="appliesToDataPoint">True if properties can be set in data point.</param>
+internal class CustomPropertyInfo(
+	string name,
+	Type valueType,
+	object defaultValue,
+	string description,
+	SeriesChartType[] appliesToChartType,
+	bool appliesToSeries,
+	bool appliesToDataPoint)
 {
 	#region Public Fields
 
 	/// <summary>
 	/// Attribute name.
 	/// </summary>
-	public string Name = string.Empty;
+	public string Name = name;
 
 	/// <summary>
 	/// Attribute value type.
 	/// </summary>
-	public Type ValueType = typeof(int);
+	public Type ValueType = valueType;
 
 	/// <summary>
 	/// Attribute default value.
 	/// </summary>
-	public object DefaultValue = null;
+	public object DefaultValue = defaultValue;
 
 	/// <summary>
 	/// Attribute description.
 	/// </summary>
-	public string Description = string.Empty;
+	public string Description = description;
 
 	/// <summary>
 	/// Array of chart type supported by the attribute
 	/// </summary>
-	public SeriesChartType[] AppliesToChartType = null;
+	public SeriesChartType[] AppliesToChartType = appliesToChartType;
 
 	/// <summary>
 	/// Indicates that attribute can be applied on series.
 	/// </summary>
-	public bool AppliesToSeries = true;
+	public bool AppliesToSeries = appliesToSeries;
 
 	/// <summary>
 	/// Indicates that attribute can be applied on data point.
 	/// </summary>
-	public bool AppliesToDataPoint = true;
+	public bool AppliesToDataPoint = appliesToDataPoint;
 
 	/// <summary>
 	/// Indicates that attribute can be applied on 3D chart type.
@@ -1979,36 +1996,7 @@ internal class CustomPropertyInfo
 	public object MaxValue = null;
 
 	#endregion // Public Fields
-
 	#region Constructor
-
-	/// <summary>
-	/// Public constructor.
-	/// </summary>
-	/// <param name="name">Attribute name</param>
-	/// <param name="valueType">Attribute value type.</param>
-	/// <param name="defaultValue">Attribute default value.</param>
-	/// <param name="description">Attribute description.</param>
-	/// <param name="appliesToChartType">Array of chart types where attribute used.</param>
-	/// <param name="appliesToSeries">True if properties can be set in series.</param>
-	/// <param name="appliesToDataPoint">True if properties can be set in data point.</param>
-	public CustomPropertyInfo(
-		string name,
-		Type valueType,
-		object defaultValue,
-		string description,
-		SeriesChartType[] appliesToChartType,
-		bool appliesToSeries,
-		bool appliesToDataPoint)
-	{
-		Name = name;
-		ValueType = valueType;
-		DefaultValue = defaultValue;
-		Description = description;
-		AppliesToChartType = appliesToChartType;
-		AppliesToSeries = appliesToSeries;
-		AppliesToDataPoint = appliesToDataPoint;
-	}
 
 	#endregion // Constructor
 }

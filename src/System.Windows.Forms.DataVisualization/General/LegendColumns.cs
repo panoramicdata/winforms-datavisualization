@@ -71,18 +71,25 @@ public enum LegendCellColumnType
 /// visual appearance properties, legend header settings and also determine
 /// how and in which order cells are formed for each of the legend items.
 /// </summary>
+/// <remarks>
+/// Legend column object constructor.
+/// </remarks>
+/// <param name="headerText">Column header text.</param>
+/// <param name="columnType">Column type.</param>
+/// <param name="text">Column cell text .</param>
+/// <param name="alignment">Column cell content alignment.</param>
 [
 SRDescription("DescriptionAttributeLegendCellColumn_LegendCellColumn"),
 ]
-public class LegendCellColumn : ChartNamedElement
+public class LegendCellColumn(string headerText, LegendCellColumnType columnType, string text, ContentAlignment alignment) : ChartNamedElement
 {
 	#region Fields
 
 	// Legend column type
-	private LegendCellColumnType _columnType = LegendCellColumnType.Text;
+	private LegendCellColumnType _columnType = columnType;
 
 	// Legend column text
-	private string _text = KeywordName.LegendText;
+	private string _text = text;
 
 	// Legend column text color
 	private Color _foreColor = Color.Empty;
@@ -100,7 +107,7 @@ public class LegendCellColumn : ChartNamedElement
 	private Size _seriesSymbolSize = new(200, 70);
 
 	// Legend column content allignment
-	private ContentAlignment _alignment = ContentAlignment.MiddleCenter;
+	private ContentAlignment _alignment = alignment;
 
 	// Legend column tooltip
 	private string _toolTip = string.Empty;
@@ -109,7 +116,7 @@ public class LegendCellColumn : ChartNamedElement
 	private Margins _margins = new(0, 0, 15, 15);
 
 	// Legend column header text
-	private string _headerText = string.Empty;
+	private string _headerText = headerText;
 
 	// Legend column/cell content allignment
 
@@ -151,21 +158,6 @@ public class LegendCellColumn : ChartNamedElement
 	public LegendCellColumn(string headerText, LegendCellColumnType columnType, string text) : this(headerText, columnType, text, ContentAlignment.MiddleCenter)
 	{
 
-	}
-
-	/// <summary>
-	/// Legend column object constructor.
-	/// </summary>
-	/// <param name="headerText">Column header text.</param>
-	/// <param name="columnType">Column type.</param>
-	/// <param name="text">Column cell text .</param>
-	/// <param name="alignment">Column cell content alignment.</param>
-	public LegendCellColumn(string headerText, LegendCellColumnType columnType, string text, ContentAlignment alignment)
-	{
-		_headerText = headerText;
-		_columnType = columnType;
-		_text = text;
-		_alignment = alignment;
 	}
 
 

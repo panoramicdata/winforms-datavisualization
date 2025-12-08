@@ -7,14 +7,8 @@ using System.ComponentModel;
 namespace System.Windows.Forms.DataVisualization.Charting;
 
 [AttributeUsage(AttributeTargets.All)]
-internal sealed class SRCategoryAttribute : CategoryAttribute
+internal sealed class SRCategoryAttribute(string category) : CategoryAttribute(category)
 {
-	// Methods
-	public SRCategoryAttribute(string category)
-		: base(category)
-	{
-	}
-
 	protected override string GetLocalizedString(string value)
 	{
 		return SR.Keys.GetString(value);

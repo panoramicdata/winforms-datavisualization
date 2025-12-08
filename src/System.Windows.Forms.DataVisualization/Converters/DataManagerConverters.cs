@@ -620,17 +620,14 @@ internal class DataPointValueConverter : DoubleConverter
 /// <summary>
 /// Removes the String type for Y axes
 /// </summary>
-internal class SeriesYValueTypeConverter : EnumConverter
+/// <remarks>
+/// Public constructor
+/// </remarks>
+/// <param name="type">Enumeration type.</param>
+internal class SeriesYValueTypeConverter(Type type) : EnumConverter(type)
 {
-	#region Converter methods
 
-	/// <summary>
-	/// Public constructor
-	/// </summary>
-	/// <param name="type">Enumeration type.</param>
-	public SeriesYValueTypeConverter(Type type) : base(type)
-	{
-	}
+	#region Converter methods
 
 	/// <summary>
 	/// Fill in the list of data series names.

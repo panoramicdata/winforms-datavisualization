@@ -1385,28 +1385,21 @@ public class PolygonAnnotation : PolylineAnnotation
 /// shape of the polyline and polygon via their GraphicsPathPoints collection property.
 /// At run-time, use Path property to set the path of a polyline or polygon
 /// </remarks>
+/// <remarks>
+/// Default public constructor.
+/// </remarks>
 [
 	SRDescription("DescriptionAttributeAnnotationPathPointCollection_AnnotationPathPointCollection"),
 ]
-public class AnnotationPathPointCollection : ChartElementCollection<AnnotationPathPoint>
+public class AnnotationPathPointCollection(PolylineAnnotation annotation) : ChartElementCollection<AnnotationPathPoint>(annotation)
 {
 	#region Fields
 
-	internal PolylineAnnotation annotation = null;
+	internal PolylineAnnotation annotation = annotation;
 	private GraphicsPath _graphicsPath = null;
 
 	#endregion // Fields
-
 	#region Constructors
-
-	/// <summary>
-	/// Default public constructor.
-	/// </summary>
-	public AnnotationPathPointCollection(PolylineAnnotation annotation)
-		: base(annotation)
-	{
-		this.annotation = annotation;
-	}
 
 	#endregion // Constructors
 

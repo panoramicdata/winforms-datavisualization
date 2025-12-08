@@ -560,7 +560,7 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 				{
 					// Remove custom properties with default values from data point
 					// only when series do not have this attribute set.
-					if (!(customAttr.DataPointCustomProperties is DataPoint) ||
+					if (customAttr.DataPointCustomProperties is not DataPoint ||
 						!((DataPoint)customAttr.DataPointCustomProperties).series.IsCustomPropertySet(_name))
 					{
 						// Delete attribute
@@ -806,33 +806,25 @@ internal class CustomPropertiesTypeConverter : TypeConverter
 /// Property descriptor with ability to dynamically change properties 
 /// of the base property descriptor object.
 /// </summary>
-internal class DynamicPropertyDescriptor : PropertyDescriptor
+/// <remarks>
+/// Constructor of the dynamic property descriptor.
+/// </remarks>
+/// <param name="basePropertyDescriptor">Base property descriptor.</param>
+/// <param name="displayName">New display name of the property.</param>
+internal class DynamicPropertyDescriptor(
+	PropertyDescriptor basePropertyDescriptor,
+	string displayName) : PropertyDescriptor(basePropertyDescriptor)
 {
 	#region Fields
 
 	// Reference to the base property descriptor
-	private readonly PropertyDescriptor _basePropertyDescriptor = null;
+	private readonly PropertyDescriptor _basePropertyDescriptor = basePropertyDescriptor;
 
 	// Dynamic display name of the property
-	private readonly string _displayName = string.Empty;
+	private readonly string _displayName = displayName;
 
 	#endregion // Fields 
-
 	#region Constructor
-
-	/// <summary>
-	/// Constructor of the dynamic property descriptor.
-	/// </summary>
-	/// <param name="basePropertyDescriptor">Base property descriptor.</param>
-	/// <param name="displayName">New display name of the property.</param>
-	public DynamicPropertyDescriptor(
-		PropertyDescriptor basePropertyDescriptor,
-		string displayName)
-		: base(basePropertyDescriptor)
-	{
-		_displayName = displayName;
-		_basePropertyDescriptor = basePropertyDescriptor;
-	}
 
 	#endregion // Constructor
 

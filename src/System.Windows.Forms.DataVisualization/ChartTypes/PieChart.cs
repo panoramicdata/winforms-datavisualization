@@ -4974,10 +4974,14 @@ internal class PieChart : IChartType
 	/// <summary>
 	/// LabelColumn class is used for labels manipulation - outside label style
 	/// </summary>
-	internal class LabelColumn
+	/// <remarks>
+	/// Constructor
+	/// </remarks>
+	/// <param name="position">Chart Area position.</param>
+	internal class LabelColumn(RectangleF position)
 	{
 		// Fields of Label Column class
-		private RectangleF _chartAreaPosition;
+		private RectangleF _chartAreaPosition = position;
 		private RectangleF _innerPlotPosition;
 		internal float columnHeight;
 		internal int numOfItems = 0;
@@ -4986,15 +4990,6 @@ internal class PieChart : IChartType
 		private float[] _yPositions;
 		private bool _rightPosition = true;
 		private float _labelLineSize;
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="position">Chart Area position.</param>
-		public LabelColumn(RectangleF position)
-		{
-			_chartAreaPosition = position;
-		}
 
 		/// <summary>
 		/// Return index of label position in the column.

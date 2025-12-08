@@ -566,7 +566,7 @@ internal class KeywordsStringEditorForm : Form
 	}
 
 	// VSTS: 65162: The non ansi 1252 characters will be lost, we need conversion in \uXXXX? format.
-	private string GetUnicodeRtf(string orginalText)
+	private static string GetUnicodeRtf(string orginalText)
 	{
 		Text.StringBuilder result = new();
 		foreach (char c in orginalText.ToCharArray())
@@ -765,7 +765,7 @@ internal class KeywordsStringEditorForm : Form
 			_classTypeName.Length > 0)
 		{
 			// Iterate through all keywords in the registry
-			foreach (KeywordInfo keywordInfo in KeywordsRegistry.registeredKeywords)
+			foreach (KeywordInfo keywordInfo in KeywordsRegistry._registeredKeywords)
 			{
 				// Check if keyword is supported by specified type
 				bool typeSupported = false;

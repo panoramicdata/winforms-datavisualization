@@ -84,7 +84,7 @@ internal class KeywordsRegistry : IServiceProvider
 	#region Fields
 
 	// List of registered keywords
-	internal ArrayList registeredKeywords = [];
+	internal ArrayList _registeredKeywords = [];
 
 	#endregion
 
@@ -331,7 +331,7 @@ internal class KeywordsRegistry : IServiceProvider
 			supportsValueIndex);
 
 		// Add keyword information to the hash table
-		registeredKeywords.Add(keywordInfo);
+		_registeredKeywords.Add(keywordInfo);
 	}
 
 	#endregion
@@ -343,85 +343,72 @@ internal class KeywordsRegistry : IServiceProvider
 /// Description, list of data types and properties it 
 /// applies to and other information.
 /// </summary>
-internal class KeywordInfo
+/// <remarks>
+/// Keyword information object constructor
+/// </remarks>
+/// <param name="name">Keyword full name.</param>
+/// <param name="keyword">Keyword text.</param>
+/// <param name="keywordAliases">Keyword alternative text.</param>
+/// <param name="description">Keyword description.</param>
+/// <param name="appliesToTypes">Comma separated list of applicable classes</param>
+/// <param name="appliesToProperties">Comma separated list of applicable properties.</param>
+/// <param name="supportsFormatting">True if formatting is supported.</param>
+/// <param name="supportsValueIndex">True if different point Y values are supported.</param>
+internal class KeywordInfo(
+	string name,
+	string keyword,
+	string keywordAliases,
+	string description,
+	string appliesToTypes,
+	string appliesToProperties,
+	bool supportsFormatting,
+	bool supportsValueIndex)
 {
 	#region Public Fields
 
 	/// <summary>
 	/// Keyword full name.
 	/// </summary>
-	public string Name = string.Empty;
+	public string Name = name;
 
 	/// <summary>
 	/// String that represent this keyword in the property (keyword).
 	/// </summary>
-	public string Keyword = string.Empty;
+	public string Keyword = keyword;
 
 	/// <summary>
 	/// Comma separated strings that may alternatively represent this 
 	/// keyword in the property.
 	/// </summary>
-	public string KeywordAliases = string.Empty;
+	public string KeywordAliases = keywordAliases;
 
 	/// <summary>
 	/// Keyword description.
 	/// </summary>
-	public string Description = string.Empty;
+	public string Description = description;
 
 	/// <summary>
 	/// Comma separated names of classes this keyword applies to.
 	/// </summary>
-	public string AppliesToTypes = string.Empty;
+	public string AppliesToTypes = appliesToTypes;
 
 	/// <summary>
 	/// Comma separated names of properties this keyword applies to.
 	/// </summary>
-	public string AppliesToProperties = string.Empty;
+	public string AppliesToProperties = appliesToProperties;
 
 	/// <summary>
 	/// True if keyword value can be formatted.
 	/// </summary>
-	public bool SupportsFormatting = false;
+	public bool SupportsFormatting = supportsFormatting;
 
 	/// <summary>
 	/// True if keyword can be used with different point Y values.
 	/// </summary>
-	public bool SupportsValueIndex = false;
+	public bool SupportsValueIndex = supportsValueIndex;
 
 	#endregion // Public Fields
-
 	#region Constructor
-
-	/// <summary>
-	/// Keyword information object constructor
-	/// </summary>
-	/// <param name="name">Keyword full name.</param>
-	/// <param name="keyword">Keyword text.</param>
-	/// <param name="keywordAliases">Keyword alternative text.</param>
-	/// <param name="description">Keyword description.</param>
-	/// <param name="appliesToTypes">Comma separated list of applicable classes</param>
-	/// <param name="appliesToProperties">Comma separated list of applicable properties.</param>
-	/// <param name="supportsFormatting">True if formatting is supported.</param>
-	/// <param name="supportsValueIndex">True if different point Y values are supported.</param>
-	public KeywordInfo(
-		string name,
-		string keyword,
-		string keywordAliases,
-		string description,
-		string appliesToTypes,
-		string appliesToProperties,
-		bool supportsFormatting,
-		bool supportsValueIndex)
-	{
-		Name = name;
-		Keyword = keyword;
-		KeywordAliases = keywordAliases;
-		Description = description;
-		AppliesToTypes = appliesToTypes;
-		AppliesToProperties = appliesToProperties;
-		SupportsFormatting = supportsFormatting;
-		SupportsValueIndex = supportsValueIndex;
-	}
 
 	#endregion // Constructor
 
