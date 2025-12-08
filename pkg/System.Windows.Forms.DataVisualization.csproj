@@ -50,7 +50,7 @@
   <!-- If you add a new csproj, and you want the outputs in the package, you must add it here -->
   <ItemGroup>
 	<!-- ChartWin -->
-	<ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\ChartWin.csproj" />
+	<ProjectReference Include="..\src\System.Windows.Forms.DataVisualization\System.Windows.Forms.DataVisualization.Charting.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
