@@ -2751,7 +2751,7 @@ DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
 		{
 			StripLine stripLine = new()
 			{
-				interlaced = true,
+				_interlaced = true,
 				// VSTS fix of 164115 IsInterlaced StripLines with no border are rendered with black border, regression of VSTS 136763
 				BorderColor = Color.Empty
 			};

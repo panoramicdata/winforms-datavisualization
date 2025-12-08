@@ -4,21 +4,21 @@
 
 
 //
-//  Purpose:	StripLinesCollection class is used to expose stripes 
-//              or lines on the plotting area and is exposed through 
+//  Purpose:	StripLinesCollection class is used to expose stripes
+//              or lines on the plotting area and is exposed through
 //              StripLines property of each Axis.
-//              Each StripLine class presents one or series of 
-//              repeated axis horizontal or vertical strips within 
+//              Each StripLine class presents one or series of
+//              repeated axis horizontal or vertical strips within
 //              the plotting are.
-//              When multiple strip lines are defined for an axis, 
-//              there is a possibility of overlap. The z-order of 
-//              StripLine objects is determined by their order of 
-//              occurrence in the StripLinesCollection object. The 
-//              z-order follows this convention, the first occurrence 
-//              is drawn first, the second occurrence is drawn second, 
+//              When multiple strip lines are defined for an axis,
+//              there is a possibility of overlap. The z-order of
+//              StripLine objects is determined by their order of
+//              occurrence in the StripLinesCollection object. The
+//              z-order follows this convention, the first occurrence
+//              is drawn first, the second occurrence is drawn second,
 //              and so on.
-//              Highlighting weekends on date axis is a good example 
-//              of using strip lines with interval. 
+//              Highlighting weekends on date axis is a good example
+//              of using strip lines with interval.
 //
 
 
@@ -33,8 +33,8 @@ using System.Windows.Forms.Design.DataVisualization.Charting;
 namespace System.Windows.Forms.DataVisualization.Charting;
 
 /// <summary>
-/// The StripLinesCollection class is a strongly typed collection of 
-/// StripLine classes. 
+/// The StripLinesCollection class is a strongly typed collection of
+/// StripLine classes.
 /// </summary>
 [
 SRDescription("DescriptionAttributeStripLinesCollection_StripLinesCollection"),
@@ -58,10 +58,10 @@ public class StripLinesCollection : ChartElementCollection<StripLine>
 }
 
 /// <summary>
-/// The StripLine class contains properties which define visual appearance 
-/// of the stripe or line, its position according to the axis.  It 
-/// may optionally contain the repeat interval. Text may associate 
-/// with a strip or a line.  It also contains methods of drawing and hit 
+/// The StripLine class contains properties which define visual appearance
+/// of the stripe or line, its position according to the axis.  It
+/// may optionally contain the repeat interval. Text may associate
+/// with a strip or a line.  It also contains methods of drawing and hit
 /// testing.
 /// </summary>
 [
@@ -74,14 +74,14 @@ public class StripLine : ChartElement
 	#region Fields
 
 	// Private data members, which store properties values
-	internal DateTimeIntervalType intervalOffsetType = DateTimeIntervalType.Auto;
-	internal bool interlaced = false;
+	internal DateTimeIntervalType _intervalOffsetType = DateTimeIntervalType.Auto;
+	internal bool _interlaced = false;
 
 	// Strip/Line title properties
 	private FontCache _fontCache = new();
 	private Font _font = null;
 
-	// Chart image map properties 
+	// Chart image map properties
 
 	// Default text orientation
 
@@ -200,7 +200,7 @@ public class StripLine : ChartElement
 		}
 
 		// Get starting position from axis
-		// NOTE: Starting position was changed from "this.Axis.minimum" to 
+		// NOTE: Starting position was changed from "this.Axis.minimum" to
 		// fix the minimum scaleView location to fix issue #5962 -- AG
 		double currentPosition = Axis.ViewMinimum;
 
@@ -213,7 +213,7 @@ public class StripLine : ChartElement
 
 			// NOTE: fix for issue #5962
 			// Always use original grid interval for isInterlaced strip lines.
-			if (interlaced)
+			if (_interlaced)
 			{
 				// Automaticly generated isInterlaced strips have interval twice as big as major grids
 				intervalToUse /= 2.0;
@@ -243,12 +243,12 @@ public class StripLine : ChartElement
 		{
 			// Align first position for indexed series
 			currentPosition += this.Axis.AlignIndexedIntervalStart(
-				currentPosition, 
-				this.Interval, 
-				this.IntervalType, 
-				axisSeries, 
-				this.IntervalOffset, 
-				offsetType, 
+				currentPosition,
+				this.Interval,
+				this.IntervalType,
+				axisSeries,
+				this.IntervalOffset,
+				offsetType,
 				false);
 		}
 		*/
@@ -758,11 +758,11 @@ public class StripLine : ChartElement
 	{
 		get
 		{
-			return intervalOffsetType;
+			return _intervalOffsetType;
 		}
 		set
 		{
-			intervalOffsetType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
+			_intervalOffsetType = (value != DateTimeIntervalType.NotSet) ? value : DateTimeIntervalType.Auto;
 			Invalidate();
 		}
 	}
@@ -1050,7 +1050,7 @@ public class StripLine : ChartElement
 	/// <seealso cref="BackGradientStyle"/>
 	/// </summary>
 	/// <value>
-	/// A <see cref="Color"/> value used for the secondary color of a background with 
+	/// A <see cref="Color"/> value used for the secondary color of a background with
 	/// hatching or gradient fill.
 	/// </value>
 	/// <remarks>
