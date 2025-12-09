@@ -1,4 +1,19 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="CODE-OF-CONDUCT.md" />
+    <File Path="CODEOWNERS" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="global.json" />
+    <File Path="LICENSE.TXT" />
+    <File Path="NuGet.config" />
+    <File Path="README.md" />
+    <File Path="sample-screenshot.png" />
+    <File Path="SECURITY.md" />
+    <File Path="THIRD-PARTY-NOTICES.TXT" />
+  </Folder>
   <Project Path="ChartSamples/ChartSamples.csproj" />
   <Project Path="System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj" />
 </Solution>
