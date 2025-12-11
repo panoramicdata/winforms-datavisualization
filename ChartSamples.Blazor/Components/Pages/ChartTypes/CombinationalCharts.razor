@@ -1,0 +1,166 @@
+@page "/chart-types/combinational-charts"
+
+<PageTitle>Combinational Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Combinational Charts"
+            Description="This sample demonstrates how to combine multiple chart types in a single chart, such as columns with lines."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Primary Series Type:</label>
+            <select @bind="PrimaryChartType" @bind:after="RefreshChart">
+                <option value="Column">Column</option>
+                <option value="Bar">Bar</option>
+                <option value="Area">Area</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Secondary Series Type:</label>
+            <select @bind="SecondaryChartType" @bind:after="RefreshChart">
+                <option value="Line">Line</option>
+                <option value="Spline">Spline</option>
+                <option value="Scatter">Scatter</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Third Series:</label>
+            <input type="checkbox" @bind="ShowThirdSeries" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string PrimaryChartType { get; set; } = "Column";
+    private string SecondaryChartType { get; set; } = "Line";
+    private bool ShowThirdSeries { get; set; } = true;
+
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    // Sales data
+    private readonly double[] _salesData = [85, 92, 78, 95, 110, 125, 140, 135, 120, 105, 98, 115];
+    // Target data
+    private readonly double[] _targetData = [80, 85, 90, 95, 100, 110, 120, 130, 125, 115, 100, 110];
+    // Growth rate (%)
+    private readonly double[] _growthData = [5, 8, -3, 12, 15, 18, 22, 20, 15, 10, 8, 12];
+
+    private SvgChartType GetPrimaryType() => PrimaryChartType switch
+    {
+        "Bar" => SvgChartType.Bar,
+        "Area" => SvgChartType.Area,
+        _ => SvgChartType.Column
+    };
+
+    private SvgChartType GetSecondaryType() => SecondaryChartType switch
+    {
+        "Spline" => SvgChartType.Line, // Will use smooth rendering
+        "Scatter" => SvgChartType.Scatter,
+        _ => SvgChartType.Line
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Sales Performance - Combined Chart";
+        chart.ShowLegend = true;
+
+        // Primary series (bars/columns/area)
+        var primarySeries = new SvgChartSeries("Actual Sales")
+        {
+            ChartType = GetPrimaryType(),
+            Color = GetPrimaryType() == SvgChartType.Area 
+                ? ChartColor.FromArgb(150, 65, 140, 240)
+                : ChartColor.FromArgb(65, 140, 240)
+        };
+
+        for (int i = 0; i < _months.Length; i++)
+        {
+            primarySeries.Points.Add(new SvgDataPoint(i + 1, _salesData[i], _months[i]));
+        }
+
+        chart.Series.Add(primarySeries);
+
+        // Secondary series (line/spline/scatter)
+        var secondarySeries = new SvgChartSeries("Target")
+        {
+            ChartType = GetSecondaryType(),
+            Color = ChartColor.FromArgb(224, 64, 10),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        for (int i = 0; i < _months.Length; i++)
+        {
+            secondarySeries.Points.Add(new SvgDataPoint(i + 1, _targetData[i], _months[i]));
+        }
+
+        chart.Series.Add(secondarySeries);
+
+        // Optional third series
+        if (ShowThirdSeries)
+        {
+            var thirdSeries = new SvgChartSeries("Growth %")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(34, 139, 34),
+                LineWidth = 2,
+                ShowMarkers = true,
+                MarkerSize = 6
+            };
+
+            // Scale growth data to fit on same axis (multiply by 5 for visibility)
+            for (int i = 0; i < _months.Length; i++)
+            {
+                thirdSeries.Points.Add(new SvgDataPoint(i + 1, _growthData[i] * 5 + 50, _months[i]));
+            }
+
+            chart.Series.Add(thirdSeries);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Create a combinational chart with multiple series types
+// Each series can have its own chart type
+
+// Column series for actual sales
+chart1.Series[""ActualSales""].ChartType = SeriesChartType.Column;
+chart1.Series[""ActualSales""].Color = Color.FromArgb(65, 140, 240);
+
+// Line series for target values
+chart1.Series[""Target""].ChartType = SeriesChartType.Line;
+chart1.Series[""Target""].Color = Color.FromArgb(224, 64, 10);
+chart1.Series[""Target""].BorderWidth = 3;
+chart1.Series[""Target""].MarkerStyle = MarkerStyle.Circle;
+chart1.Series[""Target""].MarkerSize = 8;
+
+// Spline series for smooth trend line
+chart1.Series[""Trend""].ChartType = SeriesChartType.Spline;
+chart1.Series[""Trend""].Color = Color.Green;
+
+// Add data
+string[] months = { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" };
+double[] sales = { 85, 92, 78, 95, 110, 125 };
+double[] target = { 80, 85, 90, 95, 100, 110 };
+
+for (int i = 0; i < months.Length; i++)
+{
+    chart1.Series[""ActualSales""].Points.AddXY(months[i], sales[i]);
+    chart1.Series[""Target""].Points.AddXY(months[i], target[i]);
+}
+
+// Use secondary Y axis for different scales
+chart1.Series[""Growth""].YAxisType = AxisType.Secondary;
+chart1.ChartAreas[0].AxisY2.Title = ""Growth %"";
+chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
+
+// Customize legend
+chart1.Legends[0].Enabled = true;
+chart1.Legends[0].Docking = Docking.Bottom;";
+}

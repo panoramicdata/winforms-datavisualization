@@ -1,0 +1,18 @@
+@* App.razor - Root component *@
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h2" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="main-content">
+                <div class="page-header">
+                    <h2>Page Not Found</h2>
+                    <p>Sorry, the page you requested could not be found.</p>
+                </div>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>

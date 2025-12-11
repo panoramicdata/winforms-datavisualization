@@ -1,0 +1,154 @@
+@page "/chart-features/legend-appearance"
+
+<PageTitle>Legend Appearance - Chart Samples</PageTitle>
+
+<SampleBase Title="Legend Appearance"
+            Description="This sample demonstrates how to customize the appearance and styling of chart legends."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Legend Position:</label>
+            <select @bind="LegendPosition" @bind:after="RefreshChart">
+                <option value="Right">Right</option>
+                <option value="Bottom">Bottom</option>
+                <option value="Left">Left</option>
+                <option value="Top">Top</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Legend Style:</label>
+            <select @bind="LegendStyle" @bind:after="RefreshChart">
+                <option value="Default">Default (Rectangle)</option>
+                <option value="Row">Row Layout</option>
+                <option value="Column">Column Layout</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Legend:</label>
+            <input type="checkbox" @bind="ShowLegend" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Series Count:</label>
+            <select @bind="SeriesCount" @bind:after="RefreshChart">
+                <option value="3">3 Series</option>
+                <option value="5">5 Series</option>
+                <option value="7">7 Series</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="420" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string LegendPosition { get; set; } = "Right";
+    private string LegendStyle { get; set; } = "Default";
+    private bool ShowLegend { get; set; } = true;
+    private int SeriesCount { get; set; } = 5;
+
+    private readonly string[] _seriesNames = ["Product A", "Product B", "Product C", "Product D", "Product E", "Product F", "Product G"];
+    private readonly ChartColor[] _colors =
+    [
+        ChartColor.FromArgb(65, 140, 240),
+        ChartColor.FromArgb(252, 180, 65),
+        ChartColor.FromArgb(224, 64, 10),
+        ChartColor.FromArgb(5, 100, 146),
+        ChartColor.FromArgb(191, 191, 191),
+        ChartColor.FromArgb(26, 59, 105),
+        ChartColor.FromArgb(255, 227, 130)
+    ];
+
+    private SvgLegendPosition GetLegendPosition() => LegendPosition switch
+    {
+        "Bottom" => SvgLegendPosition.Bottom,
+        "Left" => SvgLegendPosition.Right, // SVG library may not support all positions
+        "Top" => SvgLegendPosition.Right,
+        _ => SvgLegendPosition.Right
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Sales Comparison with Legend";
+        chart.ShowLegend = ShowLegend;
+        chart.LegendPosition = GetLegendPosition();
+
+        var random = new Random(42);
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries(_seriesNames[s])
+            {
+                ChartType = SvgChartType.Line,
+                Color = _colors[s],
+                LineWidth = 2,
+                ShowMarkers = true,
+                MarkerSize = 6
+            };
+
+            for (int i = 0; i < 8; i++)
+            {
+                series.Points.Add(new SvgDataPoint(i + 1, 30 + s * 10 + random.Next(-10, 20)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Legend visibility
+chart1.Legends[0].Enabled = true;
+
+// Legend position (docking)
+chart1.Legends[0].Docking = Docking.Right;
+// Options: Top, Bottom, Left, Right
+
+// Legend alignment within docked area
+chart1.Legends[0].Alignment = StringAlignment.Center;
+// Options: Near, Center, Far
+
+// Legend style
+chart1.Legends[0].LegendStyle = LegendStyle.Row;
+// Options: Column, Row, Table
+
+// Legend appearance
+chart1.Legends[0].BackColor = Color.WhiteSmoke;
+chart1.Legends[0].BorderColor = Color.Gray;
+chart1.Legends[0].BorderWidth = 1;
+chart1.Legends[0].BorderDashStyle = ChartDashStyle.Solid;
+
+// Legend font
+chart1.Legends[0].Font = new Font(""Arial"", 9, FontStyle.Regular);
+chart1.Legends[0].ForeColor = Color.Black;
+
+// Legend title
+chart1.Legends[0].Title = ""Products"";
+chart1.Legends[0].TitleFont = new Font(""Arial"", 10, FontStyle.Bold);
+chart1.Legends[0].TitleAlignment = StringAlignment.Center;
+
+// Legend item order
+chart1.Legends[0].LegendItemOrder = LegendItemOrder.ReversedSeriesOrder;
+// Options: Auto, SameAsSeriesOrder, ReversedSeriesOrder
+
+// Custom legend position
+chart1.Legends[0].IsDockedInsideChartArea = true;
+chart1.Legends[0].DockedToChartArea = ""ChartArea1"";
+chart1.Legends[0].Position.Auto = false;
+chart1.Legends[0].Position.X = 70;
+chart1.Legends[0].Position.Y = 5;
+chart1.Legends[0].Position.Width = 25;
+chart1.Legends[0].Position.Height = 20;
+
+// Shadow
+chart1.Legends[0].ShadowOffset = 2;
+chart1.Legends[0].ShadowColor = Color.FromArgb(64, 0, 0, 0);
+
+// Series-specific legend text
+chart1.Series[""Sales""].LegendText = ""Total Sales (2024)"";
+chart1.Series[""Sales""].IsVisibleInLegend = true;";
+}

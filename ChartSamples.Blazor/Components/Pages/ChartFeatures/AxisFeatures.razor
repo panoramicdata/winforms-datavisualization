@@ -1,0 +1,238 @@
+@page "/chart-features/axis"
+
+<PageTitle>Axis Features - Chart Samples</PageTitle>
+
+<SampleBase Title="Axis Features"
+            Description="This sample demonstrates various axis configuration options including titles, scales, and grid lines."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Feature:</label>
+            <select @bind="SelectedFeature" @bind:after="RefreshChart">
+                <option value="GridLines">Grid Lines</option>
+                <option value="AxisTitles">Axis Titles</option>
+                <option value="AxisScale">Axis Scale</option>
+                <option value="StripLines">Strip Lines</option>
+                <option value="MultipleAxes">Multiple Y Axes</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Grid:</label>
+            <input type="checkbox" @bind="ShowGrid" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string SelectedFeature { get; set; } = "GridLines";
+    private bool ShowGrid { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.ShowLegend = true;
+
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].ShowGrid = ShowGrid;
+        }
+
+        switch (SelectedFeature)
+        {
+            case "GridLines":
+                ConfigureGridLinesDemo(chart);
+                break;
+            case "AxisTitles":
+                ConfigureAxisTitlesDemo(chart);
+                break;
+            case "AxisScale":
+                ConfigureAxisScaleDemo(chart);
+                break;
+            case "StripLines":
+                ConfigureStripLinesDemo(chart);
+                break;
+            case "MultipleAxes":
+                ConfigureMultipleAxesDemo(chart);
+                break;
+        }
+    }
+
+    private void ConfigureGridLinesDemo(SvgChart chart)
+    {
+        chart.Title = "Grid Lines Configuration";
+
+        var series = new SvgChartSeries("Data")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 2,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        var random = new Random(42);
+        for (int i = 0; i < 10; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, 20 + random.Next(0, 60)));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureAxisTitlesDemo(SvgChart chart)
+    {
+        chart.Title = "Chart with Axis Titles";
+
+        var series = new SvgChartSeries("Sales ($)")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+        double[] values = [120, 150, 180, 140, 200, 220];
+
+        for (int i = 0; i < months.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, values[i], months[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureAxisScaleDemo(SvgChart chart)
+    {
+        chart.Title = "Axis Scale - Logarithmic Data";
+
+        var series = new SvgChartSeries("Exponential Growth")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(224, 64, 10),
+            LineWidth = 2,
+            ShowMarkers = true,
+            MarkerSize = 6
+        };
+
+        // Exponential growth data
+        for (int i = 0; i < 10; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, Math.Pow(2, i)));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureStripLinesDemo(SvgChart chart)
+    {
+        chart.Title = "Strip Lines - Target Zones";
+
+        var series = new SvgChartSeries("Performance")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 2,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        var random = new Random(42);
+        for (int i = 0; i < 12; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, 40 + random.Next(0, 50)));
+        }
+
+        chart.Series.Add(series);
+
+        // Add target line as separate series
+        var targetSeries = new SvgChartSeries("Target")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(200, 34, 139, 34),
+            LineWidth = 2
+        };
+
+        for (int i = 0; i < 12; i++)
+        {
+            targetSeries.Points.Add(new SvgDataPoint(i + 1, 70));
+        }
+
+        chart.Series.Add(targetSeries);
+    }
+
+    private void ConfigureMultipleAxesDemo(SvgChart chart)
+    {
+        chart.Title = "Multiple Y Axes";
+
+        // Primary Y axis - Temperature
+        var tempSeries = new SvgChartSeries("Temperature (°C)")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(224, 64, 10),
+            LineWidth = 2,
+            ShowMarkers = true,
+            MarkerSize = 6
+        };
+
+        // Secondary Y axis - Precipitation (simulated with different scale)
+        var rainSeries = new SvgChartSeries("Precipitation (mm)")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(150, 65, 140, 240)
+        };
+
+        var random = new Random(42);
+        for (int i = 0; i < 12; i++)
+        {
+            tempSeries.Points.Add(new SvgDataPoint(i + 1, 10 + random.Next(0, 25)));
+            rainSeries.Points.Add(new SvgDataPoint(i + 1, random.Next(20, 100)));
+        }
+
+        chart.Series.Add(rainSeries);
+        chart.Series.Add(tempSeries);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Configure grid lines
+chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
+chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+chart1.ChartAreas[0].AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
+
+// Minor grid lines
+chart1.ChartAreas[0].AxisY.MinorGrid.Enabled = true;
+chart1.ChartAreas[0].AxisY.MinorGrid.Interval = 5;
+
+// Axis titles
+chart1.ChartAreas[0].AxisX.Title = ""Month"";
+chart1.ChartAreas[0].AxisY.Title = ""Sales ($)"";
+chart1.ChartAreas[0].AxisX.TitleFont = new Font(""Arial"", 10, FontStyle.Bold);
+
+// Axis scale
+chart1.ChartAreas[0].AxisY.Minimum = 0;
+chart1.ChartAreas[0].AxisY.Maximum = 100;
+chart1.ChartAreas[0].AxisY.Interval = 10;
+
+// Logarithmic scale
+chart1.ChartAreas[0].AxisY.IsLogarithmic = true;
+chart1.ChartAreas[0].AxisY.LogarithmBase = 10;
+
+// Strip lines (horizontal bands)
+StripLine stripLine = new StripLine();
+stripLine.IntervalOffset = 70;
+stripLine.StripWidth = 20;
+stripLine.BackColor = Color.FromArgb(50, 0, 255, 0);
+chart1.ChartAreas[0].AxisY.StripLines.Add(stripLine);
+
+// Multiple Y axes
+chart1.Series[""Temperature""].YAxisType = AxisType.Primary;
+chart1.Series[""Precipitation""].YAxisType = AxisType.Secondary;
+chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
+chart1.ChartAreas[0].AxisY2.Title = ""Precipitation (mm)"";";
+}

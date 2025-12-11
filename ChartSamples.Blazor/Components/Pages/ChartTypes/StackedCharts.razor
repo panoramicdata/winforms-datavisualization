@@ -1,0 +1,178 @@
+@page "/chart-types/stacked-charts"
+
+<PageTitle>Stacked Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Stacked Charts"
+            Description="This sample demonstrates stacked and 100% stacked chart types for showing cumulative data and proportions."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                <option value="StackedColumn">Stacked Column</option>
+                <option value="StackedColumn100">100% Stacked Column</option>
+                <option value="StackedBar">Stacked Bar</option>
+                <option value="StackedBar100">100% Stacked Bar</option>
+                <option value="StackedArea">Stacked Area</option>
+                <option value="StackedArea100">100% Stacked Area</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Series Count:</label>
+            <select @bind="SeriesCount" @bind:after="RefreshChart">
+                <option value="2">2 Series</option>
+                <option value="3">3 Series</option>
+                <option value="4">4 Series</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Data Categories:</label>
+            <select @bind="CategoryCount" @bind:after="RefreshChart">
+                <option value="4">4 Categories (Quarters)</option>
+                <option value="6">6 Categories (Months)</option>
+                <option value="12">12 Categories (Full Year)</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string SelectedChartType { get; set; } = "StackedColumn";
+    private int SeriesCount { get; set; } = 3;
+    private int CategoryCount { get; set; } = 4;
+
+    private readonly string[] _quarters = ["Q1", "Q2", "Q3", "Q4"];
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    private readonly string[] _seriesNames = ["Product A", "Product B", "Product C", "Product D"];
+    private readonly ChartColor[] _colors =
+    [
+        ChartColor.FromArgb(65, 140, 240),
+        ChartColor.FromArgb(252, 180, 65),
+        ChartColor.FromArgb(224, 64, 10),
+        ChartColor.FromArgb(5, 100, 146)
+    ];
+
+    private bool Is100Percent => SelectedChartType.Contains("100");
+    
+    private SvgChartType GetChartType() => SelectedChartType switch
+    {
+        "StackedBar" or "StackedBar100" => SvgChartType.Bar,
+        "StackedArea" or "StackedArea100" => SvgChartType.Area,
+        _ => SvgChartType.Column
+    };
+
+    private string[] GetCategories() => CategoryCount switch
+    {
+        6 => _months.Take(6).ToArray(),
+        12 => _months,
+        _ => _quarters
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        var categories = GetCategories();
+        var suffix = Is100Percent ? " (Percentage)" : "";
+        chart.Title = $"{SelectedChartType.Replace("100", "")} - Quarterly Sales{suffix}";
+        chart.ShowLegend = true;
+
+        var random = new Random(42);
+        var chartType = GetChartType();
+
+        // Generate raw data first
+        var rawData = new double[SeriesCount, categories.Length];
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            for (int i = 0; i < categories.Length; i++)
+            {
+                rawData[s, i] = 20 + random.Next(10, 50);
+            }
+        }
+
+        // For 100% stacked, convert to percentages
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries(_seriesNames[s])
+            {
+                ChartType = chartType,
+                Color = chartType == SvgChartType.Area 
+                    ? ChartColor.FromArgb(180, _colors[s].R, _colors[s].G, _colors[s].B)
+                    : _colors[s],
+                LineWidth = 2
+            };
+
+            for (int i = 0; i < categories.Length; i++)
+            {
+                double value;
+                if (Is100Percent)
+                {
+                    // Calculate percentage of total for this category
+                    double total = 0;
+                    for (int j = 0; j < SeriesCount; j++)
+                    {
+                        total += rawData[j, i];
+                    }
+                    value = (rawData[s, i] / total) * 100;
+                }
+                else
+                {
+                    value = rawData[s, i];
+                }
+                
+                series.Points.Add(new SvgDataPoint(i + 1, value, categories[i]));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Stacked column chart
+chart1.Series[""Product A""].ChartType = SeriesChartType.StackedColumn;
+chart1.Series[""Product B""].ChartType = SeriesChartType.StackedColumn;
+chart1.Series[""Product C""].ChartType = SeriesChartType.StackedColumn;
+
+// 100% Stacked column (shows percentages)
+chart1.Series[""Product A""].ChartType = SeriesChartType.StackedColumn100;
+chart1.Series[""Product B""].ChartType = SeriesChartType.StackedColumn100;
+chart1.Series[""Product C""].ChartType = SeriesChartType.StackedColumn100;
+
+// Stacked bar chart (horizontal)
+chart1.Series[""Product A""].ChartType = SeriesChartType.StackedBar;
+// 100% version:
+chart1.Series[""Product A""].ChartType = SeriesChartType.StackedBar100;
+
+// Stacked area chart
+chart1.Series[""Product A""].ChartType = SeriesChartType.StackedArea;
+// 100% version:
+chart1.Series[""Product A""].ChartType = SeriesChartType.StackedArea100;
+
+// Add quarterly data for each product
+string[] quarters = { ""Q1"", ""Q2"", ""Q3"", ""Q4"" };
+double[] productA = { 100, 120, 140, 130 };
+double[] productB = { 80, 90, 110, 100 };
+double[] productC = { 60, 70, 80, 90 };
+
+for (int i = 0; i < quarters.Length; i++)
+{
+    chart1.Series[""Product A""].Points.AddXY(quarters[i], productA[i]);
+    chart1.Series[""Product B""].Points.AddXY(quarters[i], productB[i]);
+    chart1.Series[""Product C""].Points.AddXY(quarters[i], productC[i]);
+}
+
+// Group series into stacking groups
+chart1.Series[""Product A""][""StackedGroupName""] = ""Group1"";
+chart1.Series[""Product B""][""StackedGroupName""] = ""Group1"";
+chart1.Series[""Product C""][""StackedGroupName""] = ""Group1"";
+
+// Create side-by-side stacked groups
+chart1.Series[""2023 A""][""StackedGroupName""] = ""2023"";
+chart1.Series[""2024 A""][""StackedGroupName""] = ""2024"";";
+}

@@ -1,0 +1,150 @@
+@page "/chart-features/chart-styling"
+
+<PageTitle>Chart Styling - Chart Samples</PageTitle>
+
+<SampleBase Title="Chart Styling"
+            Description="This sample demonstrates various styling options for charts."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Background:</label>
+            <select @bind="BackgroundStyle" @bind:after="RefreshChart">
+                <option value="White">White</option>
+                <option value="Light">Light Gray</option>
+                <option value="Dark">Dark Theme</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Color Palette:</label>
+            <select @bind="ColorPalette" @bind:after="RefreshChart">
+                <option value="Default">Default</option>
+                <option value="Pastel">Pastel</option>
+                <option value="Vibrant">Vibrant</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Grid:</label>
+            <input type="checkbox" @bind="ShowGrid" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string BackgroundStyle { get; set; } = "Light";
+    private string ColorPalette { get; set; } = "Default";
+    private bool ShowGrid { get; set; } = true;
+
+    private ChartColor[] GetPaletteColors() => ColorPalette switch
+    {
+        "Pastel" => [
+            ChartColor.FromArgb(174, 198, 207),
+            ChartColor.FromArgb(255, 179, 186),
+            ChartColor.FromArgb(255, 223, 186),
+            ChartColor.FromArgb(186, 255, 201)
+        ],
+        "Vibrant" => [
+            ChartColor.FromArgb(255, 0, 102),
+            ChartColor.FromArgb(0, 204, 255),
+            ChartColor.FromArgb(255, 204, 0),
+            ChartColor.FromArgb(102, 255, 102)
+        ],
+        _ => [
+            ChartColor.FromArgb(65, 140, 240),
+            ChartColor.FromArgb(252, 180, 65),
+            ChartColor.FromArgb(224, 64, 10),
+            ChartColor.FromArgb(5, 100, 146)
+        ]
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Styled Chart Example";
+        chart.ShowLegend = true;
+
+        // Set background color
+        chart.BackColor = BackgroundStyle switch
+        {
+            "Dark" => ChartColor.FromArgb(45, 45, 48),
+            "Light" => ChartColor.FromArgb(245, 245, 245),
+            _ => ChartColor.White
+        };
+
+        chart.TitleColor = BackgroundStyle == "Dark" ? ChartColor.White : ChartColor.FromArgb(26, 59, 105);
+
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].ShowGrid = ShowGrid;
+            chart.ChartAreas[0].BackColor = BackgroundStyle switch
+            {
+                "Dark" => ChartColor.FromArgb(60, 60, 65),
+                "Light" => ChartColor.FromArgb(250, 250, 250),
+                _ => ChartColor.White
+            };
+            chart.ChartAreas[0].GridColor = BackgroundStyle == "Dark" 
+                ? ChartColor.FromArgb(80, 80, 85) 
+                : ChartColor.LightGray;
+            chart.ChartAreas[0].AxisColor = BackgroundStyle == "Dark"
+                ? ChartColor.FromArgb(150, 150, 150)
+                : ChartColor.Black;
+        }
+
+        var colors = GetPaletteColors();
+        var random = new Random(42);
+
+        for (int s = 0; s < 3; s++)
+        {
+            var series = new SvgChartSeries($"Series {s + 1}")
+            {
+                ChartType = SvgChartType.Line,
+                Color = colors[s],
+                LineWidth = 3,
+                ShowMarkers = true,
+                MarkerSize = 8
+            };
+
+            double baseValue = 40 + s * 15;
+            for (int i = 0; i < 8; i++)
+            {
+                baseValue += random.Next(-10, 15);
+                series.Points.Add(new SvgDataPoint(i + 1, Math.Max(10, baseValue)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Set chart background
+chart1.BackColor = Color.WhiteSmoke;
+chart1.BackSecondaryColor = Color.White;
+chart1.BackGradientStyle = GradientStyle.TopBottom;
+
+// Set chart area background
+chart1.ChartAreas[0].BackColor = Color.FromArgb(245, 245, 245);
+chart1.ChartAreas[0].BackSecondaryColor = Color.White;
+
+// Configure grid lines
+chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+chart1.ChartAreas[0].AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+
+// Use a color palette
+chart1.Palette = ChartColorPalette.BrightPastel;
+// Or: ChartColorPalette.Berry, Excel, Fire, Grayscale, etc.
+
+// Custom palette
+chart1.Palette = ChartColorPalette.None;
+chart1.PaletteCustomColors = new Color[] { 
+    Color.FromArgb(65, 140, 240),
+    Color.FromArgb(252, 180, 65),
+    Color.FromArgb(224, 64, 10)
+};";
+}

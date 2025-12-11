@@ -1,0 +1,190 @@
+@page "/chart-types/financial-charts"
+
+<PageTitle>Financial Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Financial Charts"
+            Description="This sample demonstrates financial chart types including Stock (OHLC) and Candlestick charts."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Chart Style:</label>
+            <select @bind="ChartStyle" @bind:after="RefreshChart">
+                <option value="Candlestick">Candlestick</option>
+                <option value="OHLC">OHLC (Open-High-Low-Close)</option>
+                <option value="Line">Close Price Line</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Time Period:</label>
+            <select @bind="TimePeriod" @bind:after="RefreshChart">
+                <option value="20">20 Days</option>
+                <option value="40">40 Days</option>
+                <option value="60">60 Days</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Volume:</label>
+            <input type="checkbox" @bind="ShowVolume" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="450" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string ChartStyle { get; set; } = "Candlestick";
+    private int TimePeriod { get; set; } = 20;
+    private bool ShowVolume { get; set; } = false;
+
+    // Simulated stock data
+    private (double Open, double High, double Low, double Close, int Volume)[] GenerateStockData(int days)
+    {
+        var data = new (double, double, double, double, int)[days];
+        var random = new Random(42);
+        double price = 100.0;
+
+        for (int i = 0; i < days; i++)
+        {
+            var change = (random.NextDouble() - 0.48) * 5; // Slight upward bias
+            var open = price;
+            var close = price + change;
+            var high = Math.Max(open, close) + random.NextDouble() * 2;
+            var low = Math.Min(open, close) - random.NextDouble() * 2;
+            var volume = random.Next(100000, 500000);
+
+            data[i] = (open, high, low, close, volume);
+            price = close;
+        }
+
+        return data;
+    }
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"Stock Price - {ChartStyle} Chart";
+        chart.ShowLegend = true;
+
+        var stockData = GenerateStockData(TimePeriod);
+
+        if (ChartStyle == "Line")
+        {
+            // Simple close price line
+            var series = new SvgChartSeries("Close Price")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(65, 140, 240),
+                LineWidth = 2,
+                ShowMarkers = false
+            };
+
+            for (int i = 0; i < stockData.Length; i++)
+            {
+                series.Points.Add(new SvgDataPoint(i + 1, stockData[i].Close));
+            }
+
+            chart.Series.Add(series);
+        }
+        else
+        {
+            // For candlestick/OHLC, we simulate with high/low columns
+            // (Full implementation would require custom SVG rendering)
+            
+            var highSeries = new SvgChartSeries("High")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(100, 100, 100),
+                LineWidth = 1,
+                ShowMarkers = true,
+                MarkerSize = 4
+            };
+
+            var lowSeries = new SvgChartSeries("Low")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(150, 150, 150),
+                LineWidth = 1,
+                ShowMarkers = true,
+                MarkerSize = 4
+            };
+
+            var closeSeries = new SvgChartSeries("Close")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(34, 139, 34), // Green for up
+                LineWidth = 2,
+                ShowMarkers = false
+            };
+
+            for (int i = 0; i < stockData.Length; i++)
+            {
+                highSeries.Points.Add(new SvgDataPoint(i + 1, stockData[i].High));
+                lowSeries.Points.Add(new SvgDataPoint(i + 1, stockData[i].Low));
+                closeSeries.Points.Add(new SvgDataPoint(i + 1, stockData[i].Close));
+            }
+
+            chart.Series.Add(highSeries);
+            chart.Series.Add(lowSeries);
+            chart.Series.Add(closeSeries);
+        }
+
+        if (ShowVolume)
+        {
+            // Add volume as column series (scaled down)
+            var volumeSeries = new SvgChartSeries("Volume")
+            {
+                ChartType = SvgChartType.Column,
+                Color = ChartColor.FromArgb(100, 65, 140, 240)
+            };
+
+            var maxVolume = stockData.Max(d => d.Volume);
+            var maxPrice = stockData.Max(d => d.High);
+
+            for (int i = 0; i < stockData.Length; i++)
+            {
+                // Scale volume to fit on price chart
+                var scaledVolume = (stockData[i].Volume / (double)maxVolume) * maxPrice * 0.3;
+                volumeSeries.Points.Add(new SvgDataPoint(i + 1, scaledVolume));
+            }
+
+            chart.Series.Insert(0, volumeSeries); // Add behind price data
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Stock chart (OHLC bars)
+chart1.Series[""Stock""].ChartType = SeriesChartType.Stock;
+
+// Candlestick chart
+chart1.Series[""Stock""].ChartType = SeriesChartType.Candlestick;
+
+// Add OHLC data points
+// Parameters: X, High, Low, Open, Close
+chart1.Series[""Stock""].Points.AddXY(date, high, low, open, close);
+
+// Example with dates
+for (int i = 0; i < tradingDays; i++)
+{
+    DateTime date = startDate.AddDays(i);
+    chart1.Series[""Stock""].Points.AddXY(
+        date,
+        stockData[i].High,
+        stockData[i].Low, 
+        stockData[i].Open,
+        stockData[i].Close
+    );
+}
+
+// Customize candlestick colors
+chart1.Series[""Stock""][""PriceUpColor""] = ""Green"";
+chart1.Series[""Stock""][""PriceDownColor""] = ""Red"";
+
+// Add volume as secondary series
+chart1.Series[""Volume""].ChartType = SeriesChartType.Column;
+chart1.Series[""Volume""].YAxisType = AxisType.Secondary;";
+}

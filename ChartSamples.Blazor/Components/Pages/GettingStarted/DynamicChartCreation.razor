@@ -1,0 +1,141 @@
+@page "/getting-started/dynamic-chart-creation"
+
+<PageTitle>Dynamic Chart Creation - Chart Samples</PageTitle>
+
+<SampleBase Title="Dynamic Chart Creation"
+            Description="This sample demonstrates how to dynamically create and configure charts at runtime."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Series Count:</label>
+            <select @bind="SeriesCount" @bind:after="RefreshChart">
+                <option value="1">1 Series</option>
+                <option value="2">2 Series</option>
+                <option value="3">3 Series</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Points Per Series:</label>
+            <select @bind="PointCount" @bind:after="RefreshChart">
+                <option value="5">5 Points</option>
+                <option value="10">10 Points</option>
+                <option value="20">20 Points</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="ChartType" @bind:after="RefreshChart">
+                <option value="Line">Line</option>
+                <option value="Column">Column</option>
+                <option value="Area">Area</option>
+                <option value="Scatter">Scatter</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Legend:</label>
+            <input type="checkbox" @bind="ShowLegend" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+    <div class="sample-controls">
+        <button class="sample-tab active" @onclick="GenerateRandomData" style="cursor: pointer;">
+            ?? Generate Random Data
+        </button>
+    </div>
+
+</SampleBase>
+
+@code {
+    private int SeriesCount { get; set; } = 2;
+    private int PointCount { get; set; } = 10;
+    private string ChartType { get; set; } = "Line";
+    private bool ShowLegend { get; set; } = true;
+    private Random _random = new();
+
+    private readonly ChartColor[] _colors =
+    [
+        ChartColor.FromArgb(65, 140, 240),
+        ChartColor.FromArgb(252, 180, 65),
+        ChartColor.FromArgb(224, 64, 10)
+    ];
+
+    private SvgChartType GetChartType() => ChartType switch
+    {
+        "Column" => SvgChartType.Column,
+        "Area" => SvgChartType.Area,
+        "Scatter" => SvgChartType.Scatter,
+        _ => SvgChartType.Line
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Dynamically Created Chart";
+        chart.ShowLegend = ShowLegend;
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries($"Series {s + 1}")
+            {
+                ChartType = GetChartType(),
+                Color = _colors[s % _colors.Length],
+                LineWidth = 2,
+                ShowMarkers = ChartType == "Line" || ChartType == "Scatter",
+                MarkerSize = 6
+            };
+
+            // Generate random data
+            double baseValue = _random.Next(20, 50);
+            for (int i = 0; i < PointCount; i++)
+            {
+                var y = baseValue + _random.Next(-10, 20);
+                series.Points.Add(new SvgDataPoint(i + 1, y));
+                baseValue = y;
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private void GenerateRandomData()
+    {
+        _random = new Random();
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Create a new chart instance
+var chart = new Chart();
+chart.Width = 600;
+chart.Height = 400;
+
+// Create and configure chart area
+var chartArea = new ChartArea(""MainArea"");
+chartArea.BackColor = Color.WhiteSmoke;
+chart.ChartAreas.Add(chartArea);
+
+// Create and configure series dynamically
+for (int s = 0; s < seriesCount; s++)
+{
+    var series = new Series($""Series {s + 1}"");
+    series.ChartType = SeriesChartType.Line;
+    series.ChartArea = ""MainArea"";
+    
+    // Add random data points
+    for (int i = 0; i < pointCount; i++)
+    {
+        series.Points.AddY(random.Next(10, 100));
+    }
+    
+    chart.Series.Add(series);
+}
+
+// Add legend
+chart.Legends.Add(new Legend(""Default""));";
+}

@@ -1,0 +1,168 @@
+@page "/chart-types/pie-charts"
+
+<PageTitle>Pie Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Pie & Doughnut Charts"
+            Description="This sample demonstrates Pie and Doughnut charts for displaying proportional data with various styling options."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="ChartStyle" @bind:after="RefreshCharts">
+                <option value="Pie">Pie</option>
+                <option value="Doughnut">Doughnut</option>
+                <option value="Exploded">Exploded Pie</option>
+                <option value="ExplodedDoughnut">Exploded Doughnut</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Doughnut Hole Size:</label>
+            <select @bind="DoughnutHoleSize" @bind:after="RefreshCharts">
+                <option value="30">30% (Small)</option>
+                <option value="50">50% (Medium)</option>
+                <option value="70">70% (Large)</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Legend:</label>
+            <input type="checkbox" @bind="ShowLegend" @bind:after="RefreshCharts" />
+        </div>
+        <div class="control-group">
+            <label>Show Labels:</label>
+            <input type="checkbox" @bind="ShowLabels" @bind:after="RefreshCharts" />
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-grid-item">
+            <h4>Sales Distribution</h4>
+            <ChartViewer Width="380" Height="320" Configure="@ConfigureSalesChart" />
+        </div>
+        <div class="chart-grid-item">
+            <h4>Market Share</h4>
+            <ChartViewer Width="380" Height="320" Configure="@ConfigureMarketChart" />
+        </div>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string ChartStyle { get; set; } = "Pie";
+    private int DoughnutHoleSize { get; set; } = 50;
+    private bool ShowLegend { get; set; } = true;
+    private bool ShowLabels { get; set; } = true;
+
+    private bool IsDoughnut => ChartStyle.Contains("Doughnut");
+    private bool IsExploded => ChartStyle.Contains("Exploded");
+
+    private void ConfigureSalesChart(SvgChart chart)
+    {
+        chart.Title = "Q4 Sales by Region";
+        chart.ShowLegend = ShowLegend;
+        chart.LegendPosition = SvgLegendPosition.Bottom;
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = SvgChartType.Pie
+        };
+
+        // Add data with exploded slices if selected
+        var data = new (string Label, double Value, bool Explode)[]
+        {
+            ("North America", 35, IsExploded),
+            ("Europe", 28, false),
+            ("Asia Pacific", 22, false),
+            ("Latin America", 10, false),
+            ("Other", 5, false)
+        };
+
+        foreach (var item in data)
+        {
+            series.Points.Add(new SvgDataPoint(series.Points.Count + 1, item.Value, item.Label));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureMarketChart(SvgChart chart)
+    {
+        chart.Title = "Browser Market Share";
+        chart.ShowLegend = ShowLegend;
+        chart.LegendPosition = SvgLegendPosition.Bottom;
+
+        var series = new SvgChartSeries("Browsers")
+        {
+            ChartType = SvgChartType.Pie
+        };
+
+        var data = new (string Label, double Value)[]
+        {
+            ("Chrome", 65),
+            ("Safari", 18),
+            ("Firefox", 10),
+            ("Edge", 5),
+            ("Other", 2)
+        };
+
+        foreach (var item in data)
+        {
+            series.Points.Add(new SvgDataPoint(series.Points.Count + 1, item.Value, item.Label));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshCharts()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Pie chart
+chart1.Series[""Sales""].ChartType = SeriesChartType.Pie;
+
+// Doughnut chart
+chart1.Series[""Sales""].ChartType = SeriesChartType.Doughnut;
+
+// Set doughnut hole size (as percentage)
+chart1.Series[""Sales""][""DoughnutRadius""] = ""50"";
+
+// 3D Pie chart
+chart1.ChartAreas[0].Area3DStyle.Enable3D = true;
+chart1.ChartAreas[0].Area3DStyle.Inclination = 30;
+
+// Custom properties for pie appearance
+chart1.Series[""Sales""][""PieDrawingStyle""] = ""Concave"";
+// Options: Default, Concave, SoftEdge
+
+// Label styles
+chart1.Series[""Sales""][""PieLabelStyle""] = ""Outside"";
+// Options: Inside, Outside, Disabled
+
+// Exploded slice (first slice)
+chart1.Series[""Sales""].Points[0][""Exploded""] = ""true"";
+
+// Explode all slices
+foreach (DataPoint point in chart1.Series[""Sales""].Points)
+{
+    point[""Exploded""] = ""true"";
+}
+
+// Set explosion distance
+chart1.Series[""Sales""][""ExplodedOffset""] = ""15"";
+
+// Add data
+chart1.Series[""Sales""].Points.AddXY(""North America"", 35);
+chart1.Series[""Sales""].Points.AddXY(""Europe"", 28);
+chart1.Series[""Sales""].Points.AddXY(""Asia Pacific"", 22);
+chart1.Series[""Sales""].Points.AddXY(""Latin America"", 10);
+chart1.Series[""Sales""].Points.AddXY(""Other"", 5);
+
+// Pie collected data (group small slices)
+chart1.Series[""Sales""][""CollectedThreshold""] = ""5"";
+chart1.Series[""Sales""][""CollectedLabel""] = ""Other"";
+chart1.Series[""Sales""][""CollectedSliceExploded""] = ""true"";
+
+// Start angle (default is 0 = 3 o'clock)
+chart1.Series[""Sales""][""PieStartAngle""] = ""90""; // Start from top";
+}

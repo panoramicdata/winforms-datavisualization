@@ -1,66 +1,66 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFramework>net10.0-windows</TargetFramework>
-	<AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<CLSCompliant>false</CLSCompliant>
-	<NoWarn>$(NoWarn);618</NoWarn>
-	<DefineConstants>$(DefineConstants);WINFORMS_CONTROL</DefineConstants>
-	<UseWindowsForms>true</UseWindowsForms>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<IncludeSymbols>True</IncludeSymbols>
-	<!-- <Win32Manifest>Resources\System\Windows\Forms\XPThemes.manifest</Win32Manifest> -->
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<AssemblyName>System.Windows.Forms.DataVisualization</AssemblyName>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<CLSCompliant>false</CLSCompliant>
+		<NoWarn>$(NoWarn);618</NoWarn>
+		<DefineConstants>$(DefineConstants);WINFORMS_CONTROL</DefineConstants>
+		<UseWindowsForms>true</UseWindowsForms>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<IncludeSymbols>True</IncludeSymbols>
+		<!-- <Win32Manifest>Resources\System\Windows\Forms\XPThemes.manifest</Win32Manifest> -->
+	</PropertyGroup>
 
-  <!-- NuGet package properties -->
-  <PropertyGroup>
-	<PackageId>PanoramicData.System.Windows.Forms.DataVisualization</PackageId>
-	<Description>This package contains the charting controls for Windows Forms for .NET Core.</Description>
-	<Authors>Microsoft</Authors>
-	<RepositoryUrl>https://github.com/dotnet/winforms-datavisualization</RepositoryUrl>
-	<PackageTags>WinForms Windows Forms DataVisualization DataVisualisation Data Visualization Visualisation</PackageTags>
-  </PropertyGroup>
+	<!-- NuGet package properties -->
+	<PropertyGroup>
+		<PackageId>PanoramicData.System.Windows.Forms.DataVisualization</PackageId>
+		<Description>This package contains the charting controls for Windows Forms for .NET Core.</Description>
+		<Authors>Microsoft</Authors>
+		<RepositoryUrl>https://github.com/dotnet/winforms-datavisualization</RepositoryUrl>
+		<PackageTags>WinForms Windows Forms DataVisualization DataVisualisation Data Visualization Visualisation</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<Compile Remove="Charting\Annotation\AnnotationDesign.cs" />
-	<Compile Remove="Charting\Common\EditorNames.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Charting\Annotation\AnnotationDesign.cs" />
+		<Compile Remove="Charting\Common\EditorNames.cs" />
+	</ItemGroup>
 
-  <ItemGroup Label="Embedded Resources">
-	<EmbeddedResource Update="Charting\Common\SR.resx">
-	  <LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
-	</EmbeddedResource>
-	<EmbeddedResource Update="SR.resx">
-	  <GenerateSource>true</GenerateSource>
-	  <Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace>
-	  <!-- I think you want System here -->
-	</EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup Label="Embedded Resources">
+		<EmbeddedResource Update="Charting\Common\SR.resx">
+			<LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Update="SR.resx">
+			<GenerateSource>true</GenerateSource>
+			<Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace>
+			<!-- I think you want System here -->
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-	<None Include="..\LICENSE.TXT" Pack="true" PackagePath="\" />
-	<None Include="..\THIRD-PARTY-NOTICES.TXT" Pack="true" PackagePath="\" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.TXT" Pack="true" PackagePath="\" />
+		<None Include="..\THIRD-PARTY-NOTICES.TXT" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\System.Windows.Forms.DataVisualization.Core\System.Windows.Forms.DataVisualization.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\System.Windows.Forms.DataVisualization.Core\System.Windows.Forms.DataVisualization.Core.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.9.50">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.9.50">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <!--<ItemGroup>
+	<!--<ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Windows.Extensions" Version="4.6.0-preview.19073.11" />
   </ItemGroup>-->
 
-  <!-- <ItemGroup>
+	<!-- <ItemGroup>
     <EmbeddedResource Update="Resources\SR.resx">
       <GenerateSource>true</GenerateSource>
       <Namespace>System</Namespace>

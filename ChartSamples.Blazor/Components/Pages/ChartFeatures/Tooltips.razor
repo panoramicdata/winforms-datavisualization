@@ -1,0 +1,143 @@
+@page "/chart-features/tooltips"
+
+<PageTitle>Tooltips - Chart Samples</PageTitle>
+
+<SampleBase Title="Chart Tooltips"
+            Description="This sample demonstrates how to configure tooltips for chart data points to display additional information on hover."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Tooltip Style:</label>
+            <select @bind="TooltipStyle" @bind:after="RefreshChart">
+                <option value="Basic">Basic (Value Only)</option>
+                <option value="Detailed">Detailed (Label + Value)</option>
+                <option value="Custom">Custom Format</option>
+                <option value="Percentage">With Percentage</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                <option value="Column">Column</option>
+                <option value="Line">Line</option>
+                <option value="Pie">Pie</option>
+            </select>
+        </div>
+    </div>
+
+    <div style="padding: 20px; text-align: center;">
+        <p style="color: #666; margin-bottom: 15px;">
+            <i class="fa-solid fa-info-circle"></i> 
+            Hover over data points to see tooltip information (browser tooltips shown via SVG title elements)
+        </p>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string TooltipStyle { get; set; } = "Detailed";
+    private string SelectedChartType { get; set; } = "Column";
+
+    private readonly (string Category, double Value, string Extra)[] _data =
+    [
+        ("January", 125, "Q1 Start"),
+        ("February", 150, "Growing"),
+        ("March", 180, "Q1 End"),
+        ("April", 145, "Q2 Start"),
+        ("May", 195, "Peak Month"),
+        ("June", 210, "Q2 End")
+    ];
+
+    private SvgChartType GetChartType() => SelectedChartType switch
+    {
+        "Line" => SvgChartType.Line,
+        "Pie" => SvgChartType.Pie,
+        _ => SvgChartType.Column
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Monthly Sales with Tooltips";
+        chart.ShowLegend = SelectedChartType == "Pie";
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = GetChartType(),
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = SelectedChartType == "Line",
+            MarkerSize = 10
+        };
+
+        double total = _data.Sum(d => d.Value);
+
+        for (int i = 0; i < _data.Length; i++)
+        {
+            var item = _data[i];
+            var label = FormatTooltip(item.Category, item.Value, item.Extra, total);
+            series.Points.Add(new SvgDataPoint(i + 1, item.Value, label));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private string FormatTooltip(string category, double value, string extra, double total)
+    {
+        return TooltipStyle switch
+        {
+            "Basic" => $"{value:N0}",
+            "Detailed" => $"{category}: {value:N0}",
+            "Custom" => $"{category}\n{extra}\nValue: ${value:N0}",
+            "Percentage" => $"{category}: {value:N0} ({value/total:P1})",
+            _ => category
+        };
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Enable tooltips on a series
+chart1.Series[""Sales""].ToolTip = ""#VALX: #VAL{C0}"";
+
+// Tooltip keywords available:
+// #VALX - X value
+// #VAL, #VALY - Y value  
+// #VALY2, #VALY3 - Additional Y values
+// #INDEX - Point index
+// #PERCENT - Percentage (for pie/doughnut)
+// #TOTAL - Total of all Y values
+// #LEGENDTEXT - Legend text
+// #LABEL - Point label
+// #AXISLABEL - Axis label
+// #SERIESNAME - Series name
+
+// Custom tooltip format
+chart1.Series[""Sales""].ToolTip = ""Month: #VALX\nSales: #VAL{C0}\nPercent: #PERCENT"";
+
+// Tooltip for individual points
+chart1.Series[""Sales""].Points[0].ToolTip = ""Custom tooltip for first point"";
+
+// Format tooltip values
+chart1.Series[""Sales""].ToolTip = ""#VAL{N2}""; // Number with 2 decimals
+chart1.Series[""Sales""].ToolTip = ""#VAL{C0}""; // Currency, no decimals
+chart1.Series[""Sales""].ToolTip = ""#VAL{P1}""; // Percentage with 1 decimal
+
+// Disable tooltips
+chart1.Series[""Sales""].ToolTip = """";
+
+// Legend tooltips
+chart1.Series[""Sales""].LegendToolTip = ""Click to toggle visibility"";
+
+// Chart area tooltips  
+chart1.ChartAreas[0].AxisX.Title = ""Month"";
+chart1.ChartAreas[0].AxisX.ToolTip = ""Click to zoom"";
+
+// JavaScript interop for custom tooltips (Blazor)
+// Use @onmouseover and @onmouseout events with JS interop
+// to create rich HTML tooltips";
+}

@@ -1,0 +1,95 @@
+@page "/chart-types/area-charts"
+
+<PageTitle>Area Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Area Charts"
+            Description="This sample demonstrates Area chart types for visualizing cumulative data."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Series Count:</label>
+            <select @bind="SeriesCount" @bind:after="RefreshChart">
+                <option value="1">1 Series</option>
+                <option value="2">2 Series</option>
+                <option value="3">3 Series</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Grid:</label>
+            <input type="checkbox" @bind="ShowGrid" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private int SeriesCount { get; set; } = 2;
+    private bool ShowGrid { get; set; } = true;
+
+    private readonly ChartColor[] _colors =
+    [
+        ChartColor.FromArgb(180, 65, 140, 240),
+        ChartColor.FromArgb(180, 252, 180, 65),
+        ChartColor.FromArgb(180, 224, 64, 10)
+    ];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Area Chart - Website Traffic";
+        chart.ShowLegend = true;
+
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].ShowGrid = ShowGrid;
+        }
+
+        var random = new Random(123);
+        string[] seriesNames = ["Page Views", "Unique Visitors", "New Users"];
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries(seriesNames[s])
+            {
+                ChartType = SvgChartType.Area,
+                Color = _colors[s],
+                LineWidth = 2
+            };
+
+            double baseValue = (3 - s) * 30 + 20;
+            for (int i = 0; i < 12; i++)
+            {
+                baseValue += random.Next(-10, 15);
+                series.Points.Add(new SvgDataPoint(i + 1, Math.Max(10, baseValue)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Area chart
+chart1.Series[""Views""].ChartType = SeriesChartType.Area;
+
+// Spline area (curved)
+chart1.Series[""Views""].ChartType = SeriesChartType.SplineArea;
+
+// Stacked area
+chart1.Series[""Views""].ChartType = SeriesChartType.StackedArea;
+chart1.Series[""Visitors""].ChartType = SeriesChartType.StackedArea;
+
+// Set transparency
+chart1.Series[""Views""].Color = Color.FromArgb(180, 65, 140, 240);
+
+// Add data points
+for (int month = 1; month <= 12; month++)
+{
+    chart1.Series[""Views""].Points.AddXY(month, pageViews[month]);
+}";
+}

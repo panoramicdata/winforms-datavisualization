@@ -1,0 +1,133 @@
+@page "/chart-types/pyramid-funnel-charts"
+
+<PageTitle>Pyramid & Funnel Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Pyramid & Funnel Charts"
+            Description="This sample demonstrates Pyramid and Funnel chart types for visualizing hierarchical or staged data."
+            CSharpCode="@_csharpCode">
+    
+    <div class="chart-grid">
+        <div class="chart-grid-item">
+            <h4>Sales Funnel</h4>
+            <ChartViewer Width="380" Height="320" Configure="@ConfigureFunnelChart" />
+        </div>
+        <div class="chart-grid-item">
+            <h4>Population Pyramid</h4>
+            <ChartViewer Width="380" Height="320" Configure="@ConfigurePyramidChart" />
+        </div>
+    </div>
+
+    <div class="sample-controls">
+        <div class="control-group">
+            <label>Show Values:</label>
+            <input type="checkbox" @bind="ShowValues" @bind:after="RefreshCharts" />
+        </div>
+    </div>
+
+</SampleBase>
+
+@code {
+    private bool ShowValues { get; set; } = true;
+
+    // Funnel data - stages with decreasing values
+    private readonly (string Stage, double Value)[] _funnelData = 
+    [
+        ("Website Visits", 10000),
+        ("Product Views", 5000),
+        ("Added to Cart", 2500),
+        ("Checkout Started", 1200),
+        ("Purchase Complete", 500)
+    ];
+
+    // Pyramid data - hierarchical levels
+    private readonly (string Level, double Value)[] _pyramidData =
+    [
+        ("Executive", 5),
+        ("Management", 25),
+        ("Team Leads", 100),
+        ("Senior Staff", 350),
+        ("Staff", 1200),
+        ("Entry Level", 2000)
+    ];
+
+    private void ConfigureFunnelChart(SvgChart chart)
+    {
+        // Simulate funnel with horizontal bar chart (narrowing bars)
+        chart.Title = "Sales Funnel";
+        chart.ShowLegend = false;
+
+        var series = new SvgChartSeries("Funnel")
+        {
+            ChartType = SvgChartType.Bar,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        var maxValue = _funnelData.Max(d => d.Value);
+
+        for (int i = 0; i < _funnelData.Length; i++)
+        {
+            var item = _funnelData[i];
+            series.Points.Add(new SvgDataPoint(i + 1, item.Value, item.Stage));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigurePyramidChart(SvgChart chart)
+    {
+        // Simulate pyramid with horizontal bar chart
+        chart.Title = "Organization Structure";
+        chart.ShowLegend = false;
+
+        var series = new SvgChartSeries("Pyramid")
+        {
+            ChartType = SvgChartType.Bar,
+            Color = ChartColor.FromArgb(252, 180, 65)
+        };
+
+        for (int i = 0; i < _pyramidData.Length; i++)
+        {
+            var item = _pyramidData[i];
+            series.Points.Add(new SvgDataPoint(i + 1, item.Value, item.Level));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshCharts()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Funnel chart
+chart1.Series[""Funnel""].ChartType = SeriesChartType.Funnel;
+
+// Pyramid chart
+chart1.Series[""Pyramid""].ChartType = SeriesChartType.Pyramid;
+
+// Funnel properties
+chart1.Series[""Funnel""][""FunnelLabelStyle""] = ""Outside"";
+chart1.Series[""Funnel""][""FunnelNeckWidth""] = ""5"";
+chart1.Series[""Funnel""][""FunnelNeckHeight""] = ""5"";
+chart1.Series[""Funnel""][""FunnelMinPointHeight""] = ""2"";
+
+// Pyramid properties
+chart1.Series[""Pyramid""][""PyramidLabelStyle""] = ""Outside"";
+chart1.Series[""Pyramid""][""PyramidMinPointHeight""] = ""2"";
+chart1.Series[""Pyramid""][""PyramidPointGap""] = ""1"";
+
+// Add funnel data (stage progression)
+chart1.Series[""Funnel""].Points.AddXY(""Website Visits"", 10000);
+chart1.Series[""Funnel""].Points.AddXY(""Product Views"", 5000);
+chart1.Series[""Funnel""].Points.AddXY(""Added to Cart"", 2500);
+chart1.Series[""Funnel""].Points.AddXY(""Checkout"", 1200);
+chart1.Series[""Funnel""].Points.AddXY(""Purchase"", 500);
+
+// Add pyramid data (hierarchical levels)
+chart1.Series[""Pyramid""].Points.AddXY(""Executive"", 5);
+chart1.Series[""Pyramid""].Points.AddXY(""Management"", 25);
+chart1.Series[""Pyramid""].Points.AddXY(""Staff"", 200);
+
+// 3D pyramid
+chart1.ChartAreas[0].Area3DStyle.Enable3D = true;";
+}

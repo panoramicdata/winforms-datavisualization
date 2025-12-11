@@ -1,0 +1,127 @@
+@page "/chart-appearance/backgrounds"
+
+<PageTitle>Backgrounds - Chart Samples</PageTitle>
+
+<SampleBase Title="Chart Backgrounds"
+            Description="This sample demonstrates different background styles for charts."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Chart Background:</label>
+            <select @bind="ChartBackground" @bind:after="RefreshChart">
+                <option value="White">White</option>
+                <option value="LightGray">Light Gray</option>
+                <option value="Cream">Cream</option>
+                <option value="Dark">Dark</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Chart Area Background:</label>
+            <select @bind="AreaBackground" @bind:after="RefreshChart">
+                <option value="Default">Default</option>
+                <option value="LightBlue">Light Blue</option>
+                <option value="LightGreen">Light Green</option>
+                <option value="Transparent">Transparent</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string ChartBackground { get; set; } = "LightGray";
+    private string AreaBackground { get; set; } = "Default";
+
+    private ChartColor GetChartBackColor() => ChartBackground switch
+    {
+        "LightGray" => ChartColor.FromArgb(245, 245, 245),
+        "Cream" => ChartColor.FromArgb(255, 253, 245),
+        "Dark" => ChartColor.FromArgb(45, 45, 48),
+        _ => ChartColor.White
+    };
+
+    private ChartColor GetAreaBackColor() => AreaBackground switch
+    {
+        "LightBlue" => ChartColor.FromArgb(240, 248, 255),
+        "LightGreen" => ChartColor.FromArgb(240, 255, 240),
+        "Transparent" => GetChartBackColor(),
+        _ => ChartColor.FromArgb(250, 250, 250)
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Background Styles";
+        chart.BackColor = GetChartBackColor();
+        chart.TitleColor = ChartBackground == "Dark" ? ChartColor.White : ChartColor.FromArgb(26, 59, 105);
+        chart.ShowLegend = true;
+
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].BackColor = GetAreaBackColor();
+            chart.ChartAreas[0].AxisColor = ChartBackground == "Dark" 
+                ? ChartColor.FromArgb(150, 150, 150)
+                : ChartColor.Black;
+            chart.ChartAreas[0].GridColor = ChartBackground == "Dark"
+                ? ChartColor.FromArgb(80, 80, 85)
+                : ChartColor.FromArgb(200, 200, 200);
+        }
+
+        var series1 = new SvgChartSeries("Sales")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        var series2 = new SvgChartSeries("Forecast")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(252, 180, 65),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        var random = new Random(42);
+        for (int i = 0; i < 8; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i + 1, 30 + random.Next(0, 50)));
+            series2.Points.Add(new SvgDataPoint(i + 1, 40 + random.Next(0, 40)));
+        }
+
+        chart.Series.Add(series1);
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Set chart background
+chart1.BackColor = Color.WhiteSmoke;
+
+// Gradient background
+chart1.BackColor = Color.FromArgb(243, 223, 193);
+chart1.BackSecondaryColor = Color.White;
+chart1.BackGradientStyle = GradientStyle.TopBottom;
+
+// Set chart area background
+chart1.ChartAreas[0].BackColor = Color.FromArgb(240, 248, 255);
+chart1.ChartAreas[0].BackSecondaryColor = Color.White;
+chart1.ChartAreas[0].BackGradientStyle = GradientStyle.TopBottom;
+
+// Transparent chart area
+chart1.ChartAreas[0].BackColor = Color.Transparent;
+
+// Border styling
+chart1.BorderlineColor = Color.FromArgb(181, 64, 1);
+chart1.BorderlineDashStyle = ChartDashStyle.Solid;
+chart1.BorderlineWidth = 2;
+chart1.BorderSkin.SkinStyle = BorderSkinStyle.Emboss;";
+}

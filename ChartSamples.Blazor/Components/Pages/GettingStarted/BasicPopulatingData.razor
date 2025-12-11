@@ -1,0 +1,104 @@
+@page "/getting-started/basic-populating-data"
+
+<PageTitle>Basic Populating Data - Chart Samples</PageTitle>
+
+<SampleBase Title="Basic Populating Data"
+            Description="This sample demonstrates how to populate a chart with data using different methods."
+            CSharpCode="@_csharpCode">
+    
+    <div class="chart-grid">
+        <div class="chart-grid-item">
+            <h4>Method 1: Adding Points Individually</h4>
+            <ChartViewer Width="400" Height="300" Configure="@ConfigureAddPointsChart" />
+        </div>
+        <div class="chart-grid-item">
+            <h4>Method 2: Data Binding from Arrays</h4>
+            <ChartViewer Width="400" Height="300" Configure="@ConfigureDataBindChart" />
+        </div>
+    </div>
+
+    <div class="sample-controls">
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="SelectedChartType" @bind:after="RefreshCharts">
+                <option value="Pie">Pie</option>
+                <option value="Column">Column</option>
+                <option value="Line">Line</option>
+            </select>
+        </div>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string SelectedChartType { get; set; } = "Pie";
+
+    // Sample data
+    private readonly string[] _labels = ["A", "B", "C", "D", "E"];
+    private readonly double[] _values = [5, 6, 4, 6, 3];
+
+    private SvgChartType GetChartType() => SelectedChartType switch
+    {
+        "Column" => SvgChartType.Column,
+        "Line" => SvgChartType.Line,
+        _ => SvgChartType.Pie
+    };
+
+    private void ConfigureAddPointsChart(SvgChart chart)
+    {
+        chart.Title = "Adding Points (AddXY)";
+        chart.ShowLegend = false;
+
+        var series = new SvgChartSeries("ByPoint")
+        {
+            ChartType = GetChartType(),
+            Color = ChartColor.FromArgb(65, 140, 240),
+            ShowMarkers = true
+        };
+
+        // Add points individually (simulating AddXY method)
+        for (int i = 0; i < _labels.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, _values[i], _labels[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureDataBindChart(SvgChart chart)
+    {
+        chart.Title = "Data Binding (DataBindXY)";
+        chart.ShowLegend = false;
+
+        var series = new SvgChartSeries("ByArray")
+        {
+            ChartType = GetChartType(),
+            Color = ChartColor.FromArgb(252, 180, 65),
+            ShowMarkers = true
+        };
+
+        // Bind data from arrays (simulating DataBindXY method)
+        for (int i = 0; i < _values.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, _values[i], _labels[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshCharts()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Method 1: Adding points individually with AddXY
+for (int i = 0; i < 5; i++)
+{
+    Chart1.Series[""ByPoint""].Points.AddXY(xval[i], yval[i]);
+}
+
+// Method 2: Data binding from arrays with DataBindXY
+double[] yval = { 5, 6, 4, 6, 3 };
+string[] xval = { ""A"", ""B"", ""C"", ""D"", ""E"" };
+Chart1.Series[""ByArray""].Points.DataBindXY(xval, yval);";
+}

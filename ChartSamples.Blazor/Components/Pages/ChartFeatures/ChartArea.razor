@@ -1,0 +1,218 @@
+@page "/chart-features/chart-area"
+
+<PageTitle>Chart Area - Chart Samples</PageTitle>
+
+<SampleBase Title="Chart Area Features"
+            Description="This sample demonstrates chart area configuration including backgrounds, multiple areas, and positioning."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Feature:</label>
+            <select @bind="SelectedFeature" @bind:after="RefreshChart">
+                <option value="Appearance">Area Appearance</option>
+                <option value="Background">Background Styles</option>
+                <option value="Multiple">Multiple Chart Areas</option>
+                <option value="3DStyle">3D Perspective</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Grid:</label>
+            <input type="checkbox" @bind="ShowGrid" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="450" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string SelectedFeature { get; set; } = "Appearance";
+    private bool ShowGrid { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].ShowGrid = ShowGrid;
+        }
+
+        switch (SelectedFeature)
+        {
+            case "Appearance":
+                ConfigureAppearanceDemo(chart);
+                break;
+            case "Background":
+                ConfigureBackgroundDemo(chart);
+                break;
+            case "Multiple":
+                ConfigureMultipleAreasDemo(chart);
+                break;
+            case "3DStyle":
+                Configure3DDemo(chart);
+                break;
+        }
+    }
+
+    private void ConfigureAppearanceDemo(SvgChart chart)
+    {
+        chart.Title = "Chart Area Appearance";
+        chart.ShowLegend = true;
+
+        var series = new SvgChartSeries("Sales Data")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        var random = new Random(42);
+        for (int i = 0; i < 8; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, 50 + random.Next(0, 50)));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureBackgroundDemo(SvgChart chart)
+    {
+        chart.Title = "Chart Area Backgrounds";
+        chart.ShowLegend = true;
+
+        // Change background color
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].BackColor = ChartColor.FromArgb(240, 248, 255);
+        }
+
+        var series = new SvgChartSeries("Revenue")
+        {
+            ChartType = SvgChartType.Area,
+            Color = ChartColor.FromArgb(150, 65, 140, 240),
+            LineWidth = 2
+        };
+
+        var random = new Random(42);
+        for (int i = 0; i < 12; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, 30 + random.Next(0, 60)));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureMultipleAreasDemo(SvgChart chart)
+    {
+        chart.Title = "Multiple Chart Areas (Simulated)";
+        chart.ShowLegend = true;
+
+        // Top chart area - Price
+        var priceSeries = new SvgChartSeries("Stock Price")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 2,
+            ShowMarkers = false
+        };
+
+        // Bottom chart area - Volume (simulated with lower values)
+        var volumeSeries = new SvgChartSeries("Volume (scaled)")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(150, 252, 180, 65)
+        };
+
+        var random = new Random(42);
+        double price = 100;
+
+        for (int i = 0; i < 20; i++)
+        {
+            price += (random.NextDouble() - 0.45) * 5;
+            priceSeries.Points.Add(new SvgDataPoint(i + 1, price));
+            volumeSeries.Points.Add(new SvgDataPoint(i + 1, 10 + random.Next(0, 20)));
+        }
+
+        chart.Series.Add(volumeSeries);
+        chart.Series.Add(priceSeries);
+    }
+
+    private void Configure3DDemo(SvgChart chart)
+    {
+        chart.Title = "3D Chart Style (2D Representation)";
+        chart.ShowLegend = true;
+
+        // 3D would require custom SVG rendering with perspective
+        // Here we show a 2D representation
+
+        var series1 = new SvgChartSeries("2023")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        var series2 = new SvgChartSeries("2024")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(252, 180, 65)
+        };
+
+        string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+        double[] values2023 = [85, 92, 78, 95];
+        double[] values2024 = [95, 105, 88, 110];
+
+        for (int i = 0; i < quarters.Length; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i + 1, values2023[i], quarters[i]));
+            series2.Points.Add(new SvgDataPoint(i + 1, values2024[i], quarters[i]));
+        }
+
+        chart.Series.Add(series1);
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Chart area appearance
+chart1.ChartAreas[0].BackColor = Color.AliceBlue;
+chart1.ChartAreas[0].BorderColor = Color.Gray;
+chart1.ChartAreas[0].BorderWidth = 1;
+chart1.ChartAreas[0].BorderDashStyle = ChartDashStyle.Solid;
+
+// Gradient background
+chart1.ChartAreas[0].BackSecondaryColor = Color.White;
+chart1.ChartAreas[0].BackGradientStyle = GradientStyle.TopBottom;
+
+// Chart area position
+chart1.ChartAreas[0].Position.X = 5;
+chart1.ChartAreas[0].Position.Y = 5;
+chart1.ChartAreas[0].Position.Width = 90;
+chart1.ChartAreas[0].Position.Height = 85;
+
+// Inner plot position (where data is drawn)
+chart1.ChartAreas[0].InnerPlotPosition.Auto = true;
+
+// Multiple chart areas
+ChartArea area1 = new ChartArea(""PriceArea"");
+area1.Position = new ElementPosition(0, 0, 100, 70);
+chart1.ChartAreas.Add(area1);
+
+ChartArea area2 = new ChartArea(""VolumeArea"");
+area2.Position = new ElementPosition(0, 70, 100, 30);
+chart1.ChartAreas.Add(area2);
+
+// Align chart areas
+chart1.ChartAreas[""VolumeArea""].AlignWithChartArea = ""PriceArea"";
+chart1.ChartAreas[""VolumeArea""].AlignmentOrientation = AreaAlignmentOrientations.Vertical;
+
+// 3D configuration
+chart1.ChartAreas[0].Area3DStyle.Enable3D = true;
+chart1.ChartAreas[0].Area3DStyle.Inclination = 15;
+chart1.ChartAreas[0].Area3DStyle.Rotation = 10;
+chart1.ChartAreas[0].Area3DStyle.Perspective = 10;
+chart1.ChartAreas[0].Area3DStyle.IsRightAngleAxes = true;
+chart1.ChartAreas[0].Area3DStyle.WallWidth = 0;
+chart1.ChartAreas[0].Area3DStyle.IsClustered = false;";
+}

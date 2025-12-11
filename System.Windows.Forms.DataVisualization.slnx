@@ -18,6 +18,7 @@
     <File Path="THIRD-PARTY-NOTICES.TXT" />
     <File Path="version.json" />
   </Folder>
+  <Project Path="ChartSamples.Blazor/ChartSamples.Blazor.csproj" />
   <Project Path="ChartSamples/ChartSamples.csproj" />
   <Project Path="Svg.DataVisualization.Tests/Svg.DataVisualization.Tests.csproj" />
   <Project Path="Svg.DataVisualization/Svg.DataVisualization.csproj" />

@@ -1,0 +1,73 @@
+@* SampleBase.razor - Base layout for sample pages *@
+
+<div class="page-header">
+    <h2>@Title</h2>
+    <p>@Description</p>
+</div>
+
+<div class="sample-container">
+    @if (ShowTabs)
+    {
+        <div class="sample-tabs">
+            <button class="sample-tab @(ActiveTab == "sample" ? "active" : "")" 
+                    @onclick="@(() => ActiveTab = "sample")">
+                Sample
+            </button>
+            @if (!string.IsNullOrEmpty(CSharpCode))
+            {
+                <button class="sample-tab @(ActiveTab == "code" ? "active" : "")" 
+                        @onclick="@(() => ActiveTab = "code")">
+                    C# Code
+                </button>
+            }
+        </div>
+    }
+
+    @if (ActiveTab == "sample" || !ShowTabs)
+    {
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+    }
+    else if (ActiveTab == "code")
+    {
+        <div class="code-viewer">
+            <pre><code>@CSharpCode</code></pre>
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Title of the sample page.
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; } = "Sample";
+
+    /// <summary>
+    /// Description of the sample.
+    /// </summary>
+    [Parameter]
+    public string Description { get; set; } = "";
+
+    /// <summary>
+    /// C# code to display in the code viewer.
+    /// </summary>
+    [Parameter]
+    public string? CSharpCode { get; set; }
+
+    /// <summary>
+    /// Whether to show the tabs (Sample/Code).
+    /// </summary>
+    [Parameter]
+    public bool ShowTabs { get; set; } = true;
+
+    /// <summary>
+    /// The content to render in the sample area.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string ActiveTab { get; set; } = "sample";
+}

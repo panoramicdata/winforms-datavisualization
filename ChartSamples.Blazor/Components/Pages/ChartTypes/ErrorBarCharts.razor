@@ -1,0 +1,161 @@
+@page "/chart-types/error-bar-charts"
+
+<PageTitle>Error Bar Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Error Bar Charts"
+            Description="This sample demonstrates how to create Error Bar charts to display statistical error or uncertainty ranges in data."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Error Type:</label>
+            <select @bind="ErrorType" @bind:after="RefreshChart">
+                <option value="Fixed">Fixed Value</option>
+                <option value="Percentage">Percentage</option>
+                <option value="StdDev">Standard Deviation</option>
+                <option value="StdError">Standard Error</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Error Value:</label>
+            <select @bind="ErrorValue" @bind:after="RefreshChart">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Data Points:</label>
+            <input type="checkbox" @bind="ShowDataPoints" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string ErrorType { get; set; } = "Fixed";
+    private int ErrorValue { get; set; } = 10;
+    private bool ShowDataPoints { get; set; } = true;
+
+    private readonly string[] _categories = ["Sample A", "Sample B", "Sample C", "Sample D", "Sample E", "Sample F"];
+    private readonly double[] _values = [45, 72, 58, 83, 65, 91];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"Error Bar Chart - {ErrorType} Error";
+        chart.ShowLegend = true;
+
+        // Main data series
+        var dataSeries = new SvgChartSeries("Measurements")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        for (int i = 0; i < _categories.Length; i++)
+        {
+            dataSeries.Points.Add(new SvgDataPoint(i + 1, _values[i], _categories[i]));
+        }
+
+        chart.Series.Add(dataSeries);
+
+        // Error bar representation using lines
+        // Since SVG doesn't have native error bars, we simulate with line segments
+        var errorHighSeries = new SvgChartSeries("Error Range (High)")
+        {
+            ChartType = SvgChartType.Scatter,
+            Color = ChartColor.FromArgb(224, 64, 10),
+            MarkerSize = 4
+        };
+
+        var errorLowSeries = new SvgChartSeries("Error Range (Low)")
+        {
+            ChartType = SvgChartType.Scatter,
+            Color = ChartColor.FromArgb(224, 64, 10),
+            MarkerSize = 4
+        };
+
+        for (int i = 0; i < _values.Length; i++)
+        {
+            double error = CalculateError(_values[i]);
+            errorHighSeries.Points.Add(new SvgDataPoint(i + 1, _values[i] + error));
+            errorLowSeries.Points.Add(new SvgDataPoint(i + 1, _values[i] - error));
+        }
+
+        chart.Series.Add(errorHighSeries);
+        chart.Series.Add(errorLowSeries);
+
+        // Connect error bars with vertical lines (center line through data)
+        if (ShowDataPoints)
+        {
+            var centerSeries = new SvgChartSeries("Center Values")
+            {
+                ChartType = SvgChartType.Scatter,
+                Color = ChartColor.FromArgb(0, 0, 0),
+                MarkerSize = 6
+            };
+
+            for (int i = 0; i < _values.Length; i++)
+            {
+                centerSeries.Points.Add(new SvgDataPoint(i + 1, _values[i]));
+            }
+
+            chart.Series.Add(centerSeries);
+        }
+    }
+
+    private double CalculateError(double value)
+    {
+        return ErrorType switch
+        {
+            "Percentage" => value * ErrorValue / 100.0,
+            "StdDev" => ErrorValue * 1.5, // Simulated standard deviation
+            "StdError" => ErrorValue * 0.8, // Simulated standard error
+            _ => ErrorValue // Fixed value
+        };
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Create Error Bar chart
+chart1.Series[""ErrorBar""].ChartType = SeriesChartType.ErrorBar;
+
+// Link to data series
+chart1.Series[""ErrorBar""][""ErrorBarSeries""] = ""DataSeries"";
+
+// Error calculation type
+chart1.Series[""ErrorBar""][""ErrorBarType""] = ""FixedValue"";
+// Options: FixedValue, Percentage, StandardDeviation, StandardError
+
+// Error value
+chart1.Series[""ErrorBar""][""ErrorBarCenterMarkerStyle""] = ""Circle"";
+
+// Customize appearance
+chart1.Series[""ErrorBar""].Color = Color.FromArgb(224, 64, 10);
+chart1.Series[""ErrorBar""].BorderWidth = 2;
+
+// Add data with error values
+// Y values: Center, Low, High
+chart1.Series[""DataSeries""].Points.AddXY(""Sample A"", 45, 35, 55);
+chart1.Series[""DataSeries""].Points.AddXY(""Sample B"", 72, 60, 84);
+chart1.Series[""DataSeries""].Points.AddXY(""Sample C"", 58, 48, 68);
+
+// Alternative: Calculate errors automatically
+chart1.Series[""ErrorBar""][""ErrorBarType""] = ""Percentage"";
+chart1.Series[""ErrorBar""][""ErrorBarPercentage""] = ""10"";
+
+// Standard deviation calculation
+chart1.Series[""ErrorBar""][""ErrorBarType""] = ""StandardDeviation"";
+
+// Standard error calculation
+chart1.Series[""ErrorBar""][""ErrorBarType""] = ""StandardError"";
+
+// Customize error bar style
+chart1.Series[""ErrorBar""][""ErrorBarStyle""] = ""Both""; // Both, UpperError, LowerError";
+}

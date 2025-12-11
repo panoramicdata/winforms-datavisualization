@@ -1,0 +1,140 @@
+@page "/chart-types/histogram-charts"
+
+<PageTitle>Histogram Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Histogram Charts"
+            Description="This sample demonstrates how to create a histogram chart that uses a given number of intervals to show data distribution."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Number of Intervals:</label>
+            <select @bind="IntervalCount" @bind:after="RefreshChart">
+                <option value="4">4 Intervals</option>
+                <option value="10">10 Intervals</option>
+                <option value="20">20 Intervals</option>
+                <option value="30">30 Intervals</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Percent Axis:</label>
+            <input type="checkbox" @bind="ShowPercentAxis" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Data Points:</label>
+            <select @bind="DataPointCount" @bind:after="RefreshChart">
+                <option value="50">50 Points</option>
+                <option value="100">100 Points</option>
+                <option value="200">200 Points</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private int IntervalCount { get; set; } = 10;
+    private bool ShowPercentAxis { get; set; } = true;
+    private int DataPointCount { get; set; } = 100;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Histogram - Data Distribution";
+        chart.ShowLegend = true;
+
+        // Generate random data with normal-like distribution
+        var random = new Random(42);
+        var rawData = new List<double>();
+        
+        for (int i = 0; i < DataPointCount; i++)
+        {
+            // Generate data with a bell-curve-like distribution
+            var value = 50 + (random.NextDouble() + random.NextDouble() + random.NextDouble() - 1.5) * 30;
+            rawData.Add(value);
+        }
+
+        // Calculate histogram bins
+        var minValue = rawData.Min();
+        var maxValue = rawData.Max();
+        var range = maxValue - minValue;
+        var intervalWidth = range / IntervalCount;
+
+        // Count values in each bin
+        var bins = new int[IntervalCount];
+        foreach (var value in rawData)
+        {
+            var binIndex = (int)((value - minValue) / intervalWidth);
+            if (binIndex >= IntervalCount) binIndex = IntervalCount - 1;
+            if (binIndex < 0) binIndex = 0;
+            bins[binIndex]++;
+        }
+
+        // Create histogram series
+        var histogramSeries = new SvgChartSeries("Frequency")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(224, 64, 10)
+        };
+
+        for (int i = 0; i < IntervalCount; i++)
+        {
+            var binCenter = minValue + (i + 0.5) * intervalWidth;
+            var label = $"{minValue + i * intervalWidth:F0}-{minValue + (i + 1) * intervalWidth:F0}";
+            histogramSeries.Points.Add(new SvgDataPoint(i + 1, bins[i], label));
+        }
+
+        chart.Series.Add(histogramSeries);
+
+        // Add distribution curve overlay
+        var curveSeries = new SvgChartSeries("Distribution")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 2,
+            ShowMarkers = false
+        };
+
+        // Smooth curve through bin heights
+        for (int i = 0; i < IntervalCount; i++)
+        {
+            curveSeries.Points.Add(new SvgDataPoint(i + 1, bins[i]));
+        }
+
+        chart.Series.Add(curveSeries);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Create a histogram using HistogramChartHelper
+HistogramChartHelper histogramHelper = new HistogramChartHelper();
+histogramHelper.SegmentIntervalNumber = 10;
+histogramHelper.ShowPercentOnSecondaryYAxis = true;
+histogramHelper.CreateHistogram(chart1, ""RawData"", ""Histogram"");
+
+// Generate random data with distribution
+Random rand = new Random();
+for (int i = 0; i < 100; i++) 
+{
+    int maxValue = (int)Math.Pow(rand.Next(100, 1000) / 100.0, 2.0);
+    double newVal = 100 + rand.Next(0, maxValue);
+    chart1.Series[""RawData""].Points.AddY(newVal);
+}
+
+// Configure histogram appearance
+chart1.Series[""Histogram""].Color = Color.FromArgb(224, 64, 10);
+chart1.Series[""Histogram""].IsValueShownAsLabel = true;
+
+// Set axis properties
+chart1.ChartAreas[0].AxisX.Title = ""Value Range"";
+chart1.ChartAreas[0].AxisY.Title = ""Frequency"";
+chart1.ChartAreas[0].AxisY2.Title = ""Percent"";
+chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
+
+// NOTE: Interval width may be specified instead of interval number
+// histogramHelper.SegmentIntervalWidth = 15;";
+}

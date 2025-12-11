@@ -1,0 +1,184 @@
+@page "/chart-features/labels"
+
+<PageTitle>Labels - Chart Samples</PageTitle>
+
+<SampleBase Title="Data Labels"
+            Description="This sample demonstrates various label configurations including formatting, positioning, and custom labels."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Label Feature:</label>
+            <select @bind="SelectedFeature" @bind:after="RefreshChart">
+                <option value="DataLabels">Data Point Labels</option>
+                <option value="Formatting">Label Formatting</option>
+                <option value="CustomLabels">Custom Axis Labels</option>
+                <option value="SmartLabels">Smart Labels</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Labels:</label>
+            <input type="checkbox" @bind="ShowLabels" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string SelectedFeature { get; set; } = "DataLabels";
+    private bool ShowLabels { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.ShowLegend = true;
+
+        switch (SelectedFeature)
+        {
+            case "DataLabels":
+                ConfigureDataLabelsDemo(chart);
+                break;
+            case "Formatting":
+                ConfigureFormattingDemo(chart);
+                break;
+            case "CustomLabels":
+                ConfigureCustomLabelsDemo(chart);
+                break;
+            case "SmartLabels":
+                ConfigureSmartLabelsDemo(chart);
+                break;
+        }
+    }
+
+    private void ConfigureDataLabelsDemo(SvgChart chart)
+    {
+        chart.Title = "Data Point Labels";
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        string[] products = ["Product A", "Product B", "Product C", "Product D", "Product E"];
+        double[] values = [125, 180, 95, 210, 155];
+
+        for (int i = 0; i < products.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, values[i], products[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureFormattingDemo(SvgChart chart)
+    {
+        chart.Title = "Formatted Labels (Currency)";
+
+        var series = new SvgChartSeries("Revenue")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(34, 139, 34)
+        };
+
+        string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+        double[] revenue = [45000, 62000, 58000, 75000];
+
+        for (int i = 0; i < quarters.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, revenue[i], quarters[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureCustomLabelsDemo(SvgChart chart)
+    {
+        chart.Title = "Custom Axis Labels";
+
+        var series = new SvgChartSeries("Performance")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 2,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        string[] customLabels = ["Poor", "Fair", "Good", "Very Good", "Excellent"];
+        var random = new Random(42);
+
+        for (int i = 0; i < 10; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, 1 + random.NextDouble() * 4));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureSmartLabelsDemo(SvgChart chart)
+    {
+        chart.Title = "Smart Labels (Auto-Positioned)";
+
+        var series = new SvgChartSeries("Data")
+        {
+            ChartType = SvgChartType.Pie,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        // Multiple slices that might have overlapping labels
+        string[] categories = ["Category A", "Category B", "Category C", "Category D", 
+                               "Category E", "Category F", "Category G", "Category H"];
+        double[] values = [15, 8, 12, 5, 18, 7, 10, 25];
+
+        for (int i = 0; i < categories.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, values[i], categories[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Enable data point labels
+chart1.Series[""Sales""].IsValueShownAsLabel = true;
+
+// Label positioning
+chart1.Series[""Sales""][""LabelStyle""] = ""Top"";
+// Options: Top, Bottom, Left, Right, Center, TopLeft, TopRight, BottomLeft, BottomRight
+
+// Label formatting
+chart1.Series[""Sales""].LabelFormat = ""C0""; // Currency, no decimals
+chart1.Series[""Sales""].LabelFormat = ""N2""; // Number with 2 decimals
+chart1.Series[""Sales""].LabelFormat = ""P1""; // Percentage with 1 decimal
+
+// Custom label font
+chart1.Series[""Sales""].Font = new Font(""Arial"", 9, FontStyle.Bold);
+chart1.Series[""Sales""].LabelForeColor = Color.DarkBlue;
+
+// Label keywords
+chart1.Series[""Sales""].Label = ""#VALX: #VAL{C0}""; // X value: formatted Y value
+
+// Custom axis labels
+chart1.ChartAreas[0].AxisY.CustomLabels.Add(0, 1, ""Poor"");
+chart1.ChartAreas[0].AxisY.CustomLabels.Add(1, 2, ""Fair"");
+chart1.ChartAreas[0].AxisY.CustomLabels.Add(2, 3, ""Good"");
+chart1.ChartAreas[0].AxisY.CustomLabels.Add(3, 4, ""Very Good"");
+chart1.ChartAreas[0].AxisY.CustomLabels.Add(4, 5, ""Excellent"");
+
+// Smart labels (prevents overlap)
+chart1.Series[""Data""].SmartLabelStyle.Enabled = true;
+chart1.Series[""Data""].SmartLabelStyle.AllowOutsidePlotArea = LabelOutsidePlotAreaStyle.Yes;
+chart1.Series[""Data""].SmartLabelStyle.CalloutStyle = LabelCalloutStyle.Underlined;
+chart1.Series[""Data""].SmartLabelStyle.CalloutLineColor = Color.Gray;
+
+// Axis label interval and angle
+chart1.ChartAreas[0].AxisX.Interval = 1;
+chart1.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
+chart1.ChartAreas[0].AxisX.LabelStyle.IsStaggered = true;";
+}

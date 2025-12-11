@@ -1,0 +1,98 @@
+@page "/chart-appearance/color-palettes"
+
+<PageTitle>Color Palettes - Chart Samples</PageTitle>
+
+<SampleBase Title="Color Palettes"
+            Description="This sample demonstrates different color palettes available for charts."
+            CSharpCode="@_csharpCode">
+    
+    <div class="chart-grid">
+        @foreach (var palette in _palettes)
+        {
+            <div class="chart-grid-item">
+                <h4>@palette.Name</h4>
+                <ChartViewer Width="380" Height="250" Configure="@(c => ConfigureChart(c, palette.Colors))" />
+            </div>
+        }
+    </div>
+
+</SampleBase>
+
+@code {
+    private record PaletteInfo(string Name, ChartColor[] Colors);
+
+    private readonly PaletteInfo[] _palettes =
+    [
+        new("Default", [
+            ChartColor.FromArgb(65, 140, 240),
+            ChartColor.FromArgb(252, 180, 65),
+            ChartColor.FromArgb(224, 64, 10),
+            ChartColor.FromArgb(5, 100, 146),
+            ChartColor.FromArgb(191, 191, 191)
+        ]),
+        new("Pastel", [
+            ChartColor.FromArgb(174, 198, 207),
+            ChartColor.FromArgb(255, 179, 186),
+            ChartColor.FromArgb(255, 223, 186),
+            ChartColor.FromArgb(186, 255, 201),
+            ChartColor.FromArgb(186, 225, 255)
+        ]),
+        new("Berry", [
+            ChartColor.FromArgb(138, 43, 226),
+            ChartColor.FromArgb(75, 0, 130),
+            ChartColor.FromArgb(199, 21, 133),
+            ChartColor.FromArgb(255, 20, 147),
+            ChartColor.FromArgb(219, 112, 147)
+        ]),
+        new("Earth", [
+            ChartColor.FromArgb(139, 90, 43),
+            ChartColor.FromArgb(85, 107, 47),
+            ChartColor.FromArgb(160, 82, 45),
+            ChartColor.FromArgb(107, 142, 35),
+            ChartColor.FromArgb(188, 143, 143)
+        ])
+    ];
+
+    private void ConfigureChart(SvgChart chart, ChartColor[] colors)
+    {
+        chart.ShowLegend = false;
+
+        var series = new SvgChartSeries("Data")
+        {
+            ChartType = SvgChartType.Pie
+        };
+
+        for (int i = 0; i < 5; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, 20 + i * 5, $"Item {i + 1}"));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private const string _csharpCode = @"// Use built-in palette
+chart1.Palette = ChartColorPalette.BrightPastel;
+
+// Available palettes:
+// - ChartColorPalette.BrightPastel
+// - ChartColorPalette.Berry
+// - ChartColorPalette.Chocolate
+// - ChartColorPalette.EarthTones
+// - ChartColorPalette.Excel
+// - ChartColorPalette.Fire
+// - ChartColorPalette.Grayscale
+// - ChartColorPalette.Light
+// - ChartColorPalette.Pastel
+// - ChartColorPalette.SeaGreen
+// - ChartColorPalette.SemiTransparent
+
+// Use custom palette
+chart1.Palette = ChartColorPalette.None;
+chart1.PaletteCustomColors = new Color[] {
+    Color.FromArgb(65, 140, 240),
+    Color.FromArgb(252, 180, 65),
+    Color.FromArgb(224, 64, 10),
+    Color.FromArgb(5, 100, 146),
+    Color.FromArgb(191, 191, 191)
+};";
+}

@@ -1,0 +1,230 @@
+@page "/chart-features/export"
+@inject IJSRuntime JS
+
+<PageTitle>Export Chart - Chart Samples</PageTitle>
+
+<SampleBase Title="Export & Save Charts"
+            Description="This sample demonstrates how to export charts to SVG or download them as image files."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                <option value="Column">Column Chart</option>
+                <option value="Line">Line Chart</option>
+                <option value="Pie">Pie Chart</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Export Size:</label>
+            <select @bind="ExportWidth" @bind:after="RefreshChart">
+                <option value="600">600 x 400</option>
+                <option value="800">800 x 533</option>
+                <option value="1200">1200 x 800</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <button class="export-btn" @onclick="ExportAsSvg">
+                <i class="fa-solid fa-file-code"></i> Download SVG
+            </button>
+            <button class="export-btn" @onclick="CopySvgToClipboard">
+                <i class="fa-solid fa-copy"></i> Copy SVG
+            </button>
+        </div>
+    </div>
+
+    <div id="chart-container">
+        <ChartViewer @ref="_chartViewer" Width="@ExportWidth" Height="@ExportHeight" Configure="@ConfigureChart" />
+    </div>
+    
+    <div class="sample-info" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <p><strong>Export Options:</strong></p>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li><strong>SVG</strong> - Scalable vector format, perfect for web and print</li>
+            <li><strong>Copy</strong> - Copy SVG markup to clipboard for use in other applications</li>
+        </ul>
+        <p><em>Note: For PNG export, right-click the chart and select "Save image as..." or use browser print to PDF.</em></p>
+    </div>
+
+</SampleBase>
+
+<style>
+    .export-btn {
+        padding: 8px 16px;
+        margin-right: 10px;
+        background: linear-gradient(135deg, #1a3b69, #4a90d9);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .export-btn:hover {
+        background: linear-gradient(135deg, #0d2844, #3a7ac9);
+    }
+</style>
+
+@code {
+    private ChartViewer? _chartViewer;
+    private string SelectedChartType { get; set; } = "Column";
+    private int ExportWidth { get; set; } = 800;
+    private int ExportHeight => (int)(ExportWidth * 0.667);
+
+    private string _svgContent = "";
+
+    private SvgChartType GetChartType() => SelectedChartType switch
+    {
+        "Line" => SvgChartType.Line,
+        "Pie" => SvgChartType.Pie,
+        _ => SvgChartType.Column
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Exportable Chart";
+        chart.ShowLegend = true;
+
+        var chartType = GetChartType();
+
+        if (chartType == SvgChartType.Pie)
+        {
+            var series = new SvgChartSeries("Market Share")
+            {
+                ChartType = SvgChartType.Pie
+            };
+            series.Points.Add(new SvgDataPoint(1, 45, "Product A"));
+            series.Points.Add(new SvgDataPoint(2, 30, "Product B"));
+            series.Points.Add(new SvgDataPoint(3, 15, "Product C"));
+            series.Points.Add(new SvgDataPoint(4, 10, "Other"));
+            chart.Series.Add(series);
+        }
+        else
+        {
+            var series1 = new SvgChartSeries("2023")
+            {
+                ChartType = chartType,
+                Color = ChartColor.FromArgb(65, 140, 240),
+                LineWidth = 3,
+                ShowMarkers = chartType == SvgChartType.Line,
+                MarkerSize = 8
+            };
+
+            var series2 = new SvgChartSeries("2024")
+            {
+                ChartType = chartType,
+                Color = ChartColor.FromArgb(224, 64, 10),
+                LineWidth = 3,
+                ShowMarkers = chartType == SvgChartType.Line,
+                MarkerSize = 8
+            };
+
+            string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+            double[] values2023 = [85, 92, 78, 95, 110, 105];
+            double[] values2024 = [95, 105, 88, 115, 130, 125];
+
+            for (int i = 0; i < months.Length; i++)
+            {
+                series1.Points.Add(new SvgDataPoint(i + 1, values2023[i], months[i]));
+                series2.Points.Add(new SvgDataPoint(i + 1, values2024[i], months[i]));
+            }
+
+            chart.Series.Add(series1);
+            chart.Series.Add(series2);
+        }
+
+        // Store SVG content for export
+        _svgContent = chart.RenderToSvg();
+    }
+
+    private async Task ExportAsSvg()
+    {
+        if (string.IsNullOrEmpty(_svgContent))
+        {
+            // Generate fresh content
+            var chart = new SvgChart { Width = ExportWidth, Height = ExportHeight };
+            ConfigureChart(chart);
+            _svgContent = chart.RenderToSvg();
+        }
+
+        var fileName = $"chart-export-{DateTime.Now:yyyyMMdd-HHmmss}.svg";
+        await DownloadFile(fileName, _svgContent, "image/svg+xml");
+    }
+
+    private async Task CopySvgToClipboard()
+    {
+        if (string.IsNullOrEmpty(_svgContent))
+        {
+            var chart = new SvgChart { Width = ExportWidth, Height = ExportHeight };
+            ConfigureChart(chart);
+            _svgContent = chart.RenderToSvg();
+        }
+
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", _svgContent);
+        }
+        catch
+        {
+            // Clipboard API may not be available
+        }
+    }
+
+    private async Task DownloadFile(string fileName, string content, string mimeType)
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(content);
+        var base64 = Convert.ToBase64String(bytes);
+        await JS.InvokeVoidAsync("eval", $@"
+            var link = document.createElement('a');
+            link.href = 'data:{mimeType};base64,{base64}';
+            link.download = '{fileName}';
+            link.click();
+        ");
+    }
+
+    private void RefreshChart()
+    {
+        _svgContent = ""; // Clear cached content
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Save chart as image file (WinForms)
+chart1.SaveImage(""chart.png"", ChartImageFormat.Png);
+chart1.SaveImage(""chart.jpg"", ChartImageFormat.Jpeg);
+chart1.SaveImage(""chart.bmp"", ChartImageFormat.Bmp);
+chart1.SaveImage(""chart.gif"", ChartImageFormat.Gif);
+chart1.SaveImage(""chart.tiff"", ChartImageFormat.Tiff);
+chart1.SaveImage(""chart.emf"", ChartImageFormat.Emf);
+
+// Save to stream
+using (MemoryStream stream = new MemoryStream())
+{
+    chart1.SaveImage(stream, ChartImageFormat.Png);
+    byte[] imageBytes = stream.ToArray();
+}
+
+// Set image resolution
+chart1.SaveImage(""chart.png"", ChartImageFormat.Png, 300); // 300 DPI
+
+// Copy to clipboard
+using (MemoryStream stream = new MemoryStream())
+{
+    chart1.SaveImage(stream, ChartImageFormat.Png);
+    Image image = Image.FromStream(stream);
+    Clipboard.SetImage(image);
+}
+
+// SVG Export (using Svg.DataVisualization)
+var svgChart = new SvgChart { Width = 800, Height = 600 };
+// Configure chart...
+string svgContent = svgChart.RenderToSvg();
+File.WriteAllText(""chart.svg"", svgContent);
+
+// Blazor: Download SVG
+var bytes = Encoding.UTF8.GetBytes(svgContent);
+var base64 = Convert.ToBase64String(bytes);
+await JS.InvokeVoidAsync(""downloadFile"", fileName, base64);";
+}

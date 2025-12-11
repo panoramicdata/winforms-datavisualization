@@ -1,0 +1,126 @@
+@page "/chart-features/legend-position"
+
+<PageTitle>Legend Position - Chart Samples</PageTitle>
+
+<SampleBase Title="Legend Position & Custom Placement"
+            Description="This sample demonstrates different legend positioning options including docking and custom placement."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Docking Position:</label>
+            <select @bind="DockPosition" @bind:after="RefreshChart">
+                <option value="Right">Right</option>
+                <option value="Bottom">Bottom</option>
+                <option value="Left">Left</option>
+                <option value="Top">Top</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Inside Chart Area:</label>
+            <input type="checkbox" @bind="InsideChartArea" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Alignment:</label>
+            <select @bind="Alignment" @bind:after="RefreshChart">
+                <option value="Near">Near (Start)</option>
+                <option value="Center">Center</option>
+                <option value="Far">Far (End)</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string DockPosition { get; set; } = "Right";
+    private bool InsideChartArea { get; set; } = false;
+    private string Alignment { get; set; } = "Center";
+
+    private SvgLegendPosition GetLegendPosition() => DockPosition switch
+    {
+        "Bottom" => SvgLegendPosition.Bottom,
+        _ => SvgLegendPosition.Right
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        var positionInfo = InsideChartArea ? " (Inside)" : "";
+        chart.Title = $"Legend Docked: {DockPosition}{positionInfo}";
+        chart.ShowLegend = true;
+        chart.LegendPosition = GetLegendPosition();
+
+        // Create sample data with multiple series
+        var random = new Random(42);
+        string[] products = ["Electronics", "Clothing", "Food & Beverage", "Home & Garden"];
+        ChartColor[] colors = [
+            ChartColor.FromArgb(65, 140, 240),
+            ChartColor.FromArgb(252, 180, 65),
+            ChartColor.FromArgb(224, 64, 10),
+            ChartColor.FromArgb(5, 100, 146)
+        ];
+
+        for (int s = 0; s < products.Length; s++)
+        {
+            var series = new SvgChartSeries(products[s])
+            {
+                ChartType = SvgChartType.Column,
+                Color = colors[s]
+            };
+
+            for (int i = 0; i < 4; i++)
+            {
+                string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+                series.Points.Add(new SvgDataPoint(i + 1, 50 + random.Next(0, 80), quarters[i]));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Legend docking positions
+chart1.Legends[0].Docking = Docking.Right;   // Right side
+chart1.Legends[0].Docking = Docking.Bottom;  // Below chart
+chart1.Legends[0].Docking = Docking.Left;    // Left side
+chart1.Legends[0].Docking = Docking.Top;     // Above chart
+
+// Legend alignment within docked area
+chart1.Legends[0].Alignment = StringAlignment.Near;   // Start
+chart1.Legends[0].Alignment = StringAlignment.Center; // Center
+chart1.Legends[0].Alignment = StringAlignment.Far;    // End
+
+// Dock legend inside the chart area
+chart1.Legends[0].IsDockedInsideChartArea = true;
+chart1.Legends[0].DockedToChartArea = ""ChartArea1"";
+
+// Custom position (manual placement)
+chart1.Legends[0].Position.Auto = false;
+chart1.Legends[0].Position.X = 70;      // Percentage from left
+chart1.Legends[0].Position.Y = 5;       // Percentage from top
+chart1.Legends[0].Position.Width = 25;  // Width percentage
+chart1.Legends[0].Position.Height = 20; // Height percentage
+
+// Maximum auto-size
+chart1.Legends[0].MaximumAutoSize = 30; // Max 30% of chart
+
+// Table style for many items
+chart1.Legends[0].LegendStyle = LegendStyle.Table;
+chart1.Legends[0].TableStyle = LegendTableStyle.Wide;
+
+// Scroll bar for long legends
+chart1.Legends[0].InterlacedRows = true;
+chart1.Legends[0].InterlacedRowsColor = Color.FromArgb(20, 0, 0, 0);
+
+// Multiple legends
+Legend legend2 = new Legend(""SecondLegend"");
+legend2.Docking = Docking.Bottom;
+chart1.Legends.Add(legend2);
+chart1.Series[""Series2""].Legend = ""SecondLegend"";";
+}

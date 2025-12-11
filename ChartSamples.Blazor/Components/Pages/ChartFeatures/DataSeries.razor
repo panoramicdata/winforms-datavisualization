@@ -1,0 +1,234 @@
+@page "/chart-features/data-series"
+
+<PageTitle>Data Series - Chart Samples</PageTitle>
+
+<SampleBase Title="Data Series Features"
+            Description="This sample demonstrates data series configuration including appearance, markers, and dynamic series management."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Feature:</label>
+            <select @bind="SelectedFeature" @bind:after="RefreshChart">
+                <option value="Appearance">Series Appearance</option>
+                <option value="Markers">Markers & Symbols</option>
+                <option value="Adding">Adding/Removing Series</option>
+                <option value="Visibility">Show/Hide Series</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Series Count:</label>
+            <select @bind="SeriesCount" @bind:after="RefreshChart">
+                <option value="1">1 Series</option>
+                <option value="2">2 Series</option>
+                <option value="3">3 Series</option>
+                <option value="4">4 Series</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string SelectedFeature { get; set; } = "Appearance";
+    private int SeriesCount { get; set; } = 3;
+
+    private readonly string[] _seriesNames = ["Series A", "Series B", "Series C", "Series D"];
+    private readonly ChartColor[] _colors =
+    [
+        ChartColor.FromArgb(65, 140, 240),
+        ChartColor.FromArgb(252, 180, 65),
+        ChartColor.FromArgb(224, 64, 10),
+        ChartColor.FromArgb(5, 100, 146)
+    ];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.ShowLegend = true;
+
+        switch (SelectedFeature)
+        {
+            case "Appearance":
+                ConfigureAppearanceDemo(chart);
+                break;
+            case "Markers":
+                ConfigureMarkersDemo(chart);
+                break;
+            case "Adding":
+                ConfigureAddingDemo(chart);
+                break;
+            case "Visibility":
+                ConfigureVisibilityDemo(chart);
+                break;
+        }
+    }
+
+    private void ConfigureAppearanceDemo(SvgChart chart)
+    {
+        chart.Title = "Series Appearance Customization";
+
+        var random = new Random(42);
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries(_seriesNames[s])
+            {
+                ChartType = SvgChartType.Line,
+                Color = _colors[s],
+                LineWidth = 2 + s, // Varying line widths
+                ShowMarkers = true,
+                MarkerSize = 6 + s * 2
+            };
+
+            for (int i = 0; i < 8; i++)
+            {
+                series.Points.Add(new SvgDataPoint(i + 1, 20 + s * 15 + random.Next(0, 30)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void ConfigureMarkersDemo(SvgChart chart)
+    {
+        chart.Title = "Marker Styles";
+
+        var random = new Random(42);
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries($"Style {s + 1}")
+            {
+                ChartType = SvgChartType.Line,
+                Color = _colors[s],
+                LineWidth = 2,
+                ShowMarkers = true,
+                MarkerSize = 10 // Larger markers to show style differences
+            };
+
+            for (int i = 0; i < 8; i++)
+            {
+                series.Points.Add(new SvgDataPoint(i + 1, 30 + s * 20 + random.Next(-10, 10)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void ConfigureAddingDemo(SvgChart chart)
+    {
+        chart.Title = $"Dynamic Series ({SeriesCount} active)";
+
+        var random = new Random(42);
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var chartType = s switch
+            {
+                0 => SvgChartType.Column,
+                1 => SvgChartType.Line,
+                2 => SvgChartType.Area,
+                _ => SvgChartType.Scatter
+            };
+
+            var series = new SvgChartSeries(_seriesNames[s])
+            {
+                ChartType = chartType,
+                Color = chartType == SvgChartType.Area 
+                    ? ChartColor.FromArgb(100, _colors[s].R, _colors[s].G, _colors[s].B)
+                    : _colors[s],
+                LineWidth = 2,
+                ShowMarkers = chartType == SvgChartType.Line || chartType == SvgChartType.Scatter,
+                MarkerSize = 8
+            };
+
+            for (int i = 0; i < 6; i++)
+            {
+                series.Points.Add(new SvgDataPoint(i + 1, 20 + s * 10 + random.Next(0, 40)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void ConfigureVisibilityDemo(SvgChart chart)
+    {
+        chart.Title = "Series Visibility Control";
+
+        var random = new Random(42);
+
+        // Show all 4 series but with different visibility states simulated
+        for (int s = 0; s < 4; s++)
+        {
+            // Only show series up to SeriesCount
+            if (s >= SeriesCount) continue;
+
+            var series = new SvgChartSeries(_seriesNames[s])
+            {
+                ChartType = SvgChartType.Line,
+                Color = _colors[s],
+                LineWidth = 2,
+                ShowMarkers = true,
+                MarkerSize = 6
+            };
+
+            for (int i = 0; i < 10; i++)
+            {
+                series.Points.Add(new SvgDataPoint(i + 1, 20 + s * 15 + random.Next(0, 25)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Series appearance
+chart1.Series[""Data""].Color = Color.Blue;
+chart1.Series[""Data""].BorderWidth = 2;
+chart1.Series[""Data""].BorderDashStyle = ChartDashStyle.Solid;
+chart1.Series[""Data""].BackSecondaryColor = Color.LightBlue; // For gradients
+
+// Marker configuration
+chart1.Series[""Data""].MarkerStyle = MarkerStyle.Circle;
+// Options: None, Square, Circle, Diamond, Triangle, Cross, Star4, Star5, Star6, Star10
+chart1.Series[""Data""].MarkerSize = 10;
+chart1.Series[""Data""].MarkerColor = Color.Red;
+chart1.Series[""Data""].MarkerBorderColor = Color.DarkRed;
+chart1.Series[""Data""].MarkerBorderWidth = 1;
+
+// Custom marker image
+chart1.Series[""Data""].MarkerImage = ""marker.png"";
+
+// Adding series dynamically
+Series newSeries = new Series(""NewSeries"");
+newSeries.ChartType = SeriesChartType.Line;
+newSeries.Color = Color.Green;
+chart1.Series.Add(newSeries);
+
+// Adding data points
+newSeries.Points.AddXY(1, 100);
+newSeries.Points.AddY(150);
+newSeries.Points.DataBindXY(xValues, yValues);
+
+// Removing series
+chart1.Series.Remove(chart1.Series[""OldSeries""]);
+chart1.Series.RemoveAt(0);
+chart1.Series.Clear();
+
+// Show/Hide series
+chart1.Series[""Data""].Enabled = false; // Hide
+chart1.Series[""Data""].Enabled = true;  // Show
+
+// Series in legend
+chart1.Series[""Data""].IsVisibleInLegend = true;
+chart1.Series[""Data""].LegendText = ""Custom Legend Text"";
+
+// Series Z-order
+chart1.Series[""Background""].SetCustomProperty(""DrawingStyle"", ""Cylinder"");";
+}

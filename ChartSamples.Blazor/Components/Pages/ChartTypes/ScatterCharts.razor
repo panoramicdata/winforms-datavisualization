@@ -1,0 +1,110 @@
+@page "/chart-types/scatter-charts"
+
+<PageTitle>Scatter Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Scatter / Point Charts"
+            Description="This sample demonstrates Scatter (Point) charts for displaying relationships between variables."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Point Count:</label>
+            <select @bind="PointCount" @bind:after="RefreshChart">
+                <option value="20">20 Points</option>
+                <option value="50">50 Points</option>
+                <option value="100">100 Points</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Marker Size:</label>
+            <select @bind="MarkerSize" @bind:after="RefreshChart">
+                <option value="4">Small</option>
+                <option value="6">Medium</option>
+                <option value="10">Large</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Multiple Series:</label>
+            <input type="checkbox" @bind="ShowMultipleSeries" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private int PointCount { get; set; } = 50;
+    private int MarkerSize { get; set; } = 6;
+    private bool ShowMultipleSeries { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Scatter Plot - Height vs Weight";
+        chart.ShowLegend = ShowMultipleSeries;
+
+        var random = new Random(42);
+
+        // Series 1 - Group A
+        var series1 = new SvgChartSeries("Group A")
+        {
+            ChartType = SvgChartType.Scatter,
+            Color = ChartColor.FromArgb(200, 65, 140, 240),
+            MarkerSize = MarkerSize
+        };
+
+        for (int i = 0; i < PointCount; i++)
+        {
+            var x = 150 + random.NextDouble() * 40; // Height: 150-190 cm
+            var y = 50 + random.NextDouble() * 40;  // Weight: 50-90 kg
+            series1.Points.Add(new SvgDataPoint(x, y));
+        }
+        chart.Series.Add(series1);
+
+        if (ShowMultipleSeries)
+        {
+            // Series 2 - Group B
+            var series2 = new SvgChartSeries("Group B")
+            {
+                ChartType = SvgChartType.Scatter,
+                Color = ChartColor.FromArgb(200, 224, 64, 10),
+                MarkerSize = MarkerSize
+            };
+
+            for (int i = 0; i < PointCount; i++)
+            {
+                var x = 160 + random.NextDouble() * 35;
+                var y = 60 + random.NextDouble() * 35;
+                series2.Points.Add(new SvgDataPoint(x, y));
+            }
+            chart.Series.Add(series2);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Point/Scatter chart
+chart1.Series[""Data""].ChartType = SeriesChartType.Point;
+
+// Configure marker appearance
+chart1.Series[""Data""].MarkerStyle = MarkerStyle.Circle;
+chart1.Series[""Data""].MarkerSize = 8;
+chart1.Series[""Data""].MarkerColor = Color.Blue;
+chart1.Series[""Data""].MarkerBorderColor = Color.DarkBlue;
+chart1.Series[""Data""].MarkerBorderWidth = 1;
+
+// Bubble chart (size varies by third value)
+chart1.Series[""Data""].ChartType = SeriesChartType.Bubble;
+chart1.Series[""Data""].Points.AddXY(x, y, bubbleSize);
+
+// Add scatter data
+for (int i = 0; i < pointCount; i++)
+{
+    double height = 150 + random.NextDouble() * 40;
+    double weight = 50 + random.NextDouble() * 40;
+    chart1.Series[""Data""].Points.AddXY(height, weight);
+}";
+}

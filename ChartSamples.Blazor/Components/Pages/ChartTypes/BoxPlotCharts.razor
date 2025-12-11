@@ -1,0 +1,210 @@
+@page "/chart-types/box-plot-charts"
+
+<PageTitle>Box Plot Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Box Plot Charts"
+            Description="This sample demonstrates how to use a Box Plot chart to display statistical distribution of data including median, quartiles, and outliers."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Whiskers Percentiles:</label>
+            <select @bind="WhiskerPercentile" @bind:after="RefreshChart">
+                <option value="15">15/85th Percentile</option>
+                <option value="10">10/90th Percentile</option>
+                <option value="5">5/95th Percentile</option>
+                <option value="0">0/100th (Min/Max)</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Average Line:</label>
+            <input type="checkbox" @bind="ShowAverage" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Show Median Line:</label>
+            <input type="checkbox" @bind="ShowMedian" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Show Unusual Points:</label>
+            <input type="checkbox" @bind="ShowUnusual" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+    
+    <div class="sample-info" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <p><strong>Note:</strong> The box and its whiskers can use different percentiles of the data series. 
+        Unusual data points, median and average lines can also be shown or hidden.</p>
+    </div>
+
+</SampleBase>
+
+@code {
+    private int WhiskerPercentile { get; set; } = 10;
+    private bool ShowAverage { get; set; } = true;
+    private bool ShowMedian { get; set; } = true;
+    private bool ShowUnusual { get; set; } = true;
+
+    // Sample data
+    private readonly double[] _dataPoints = [55.62, 45.54, 73.45, 9.73, 88.42, 45.9, 63.6, 85.1, 67.2, 23.6, 
+                                              42.5, 78.3, 51.2, 69.8, 35.4, 81.9, 47.6, 59.3, 72.1, 38.7];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Box Plot - Data Distribution Analysis";
+        chart.ShowLegend = true;
+
+        // Calculate box plot statistics
+        var sortedData = _dataPoints.OrderBy(x => x).ToArray();
+        var count = sortedData.Length;
+        
+        var min = sortedData.First();
+        var max = sortedData.Last();
+        var median = GetPercentile(sortedData, 50);
+        var q1 = GetPercentile(sortedData, 25);  // Lower quartile
+        var q3 = GetPercentile(sortedData, 75);  // Upper quartile
+        var average = sortedData.Average();
+        
+        var lowerWhisker = GetPercentile(sortedData, WhiskerPercentile);
+        var upperWhisker = GetPercentile(sortedData, 100 - WhiskerPercentile);
+
+        // Create a visual representation of the box plot using available chart types
+        // Show data points as scatter
+        var dataSeries = new SvgChartSeries("Data Points")
+        {
+            ChartType = SvgChartType.Scatter,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            MarkerSize = 8
+        };
+
+        for (int i = 0; i < _dataPoints.Length; i++)
+        {
+            dataSeries.Points.Add(new SvgDataPoint(1 + (i * 0.1), _dataPoints[i]));
+        }
+
+        chart.Series.Add(dataSeries);
+
+        // Show box as bar representation (simplified)
+        var boxSeries = new SvgChartSeries("IQR Box")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(150, 224, 64, 10)
+        };
+
+        // Show the interquartile range
+        boxSeries.Points.Add(new SvgDataPoint(3.5, q3, $"Q1-Q3: {q1:F1}-{q3:F1}"));
+        chart.Series.Add(boxSeries);
+
+        // Show statistical lines
+        if (ShowMedian)
+        {
+            var medianSeries = new SvgChartSeries($"Median: {median:F1}")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(34, 139, 34),
+                LineWidth = 3
+            };
+            medianSeries.Points.Add(new SvgDataPoint(0.5, median));
+            medianSeries.Points.Add(new SvgDataPoint(4.5, median));
+            chart.Series.Add(medianSeries);
+        }
+
+        if (ShowAverage)
+        {
+            var avgSeries = new SvgChartSeries($"Average: {average:F1}")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(255, 165, 0),
+                LineWidth = 2
+            };
+            avgSeries.Points.Add(new SvgDataPoint(0.5, average));
+            avgSeries.Points.Add(new SvgDataPoint(4.5, average));
+            chart.Series.Add(avgSeries);
+        }
+
+        // Show whisker lines
+        var whiskerSeries = new SvgChartSeries($"Whiskers: {lowerWhisker:F1}-{upperWhisker:F1}")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(100, 100, 100),
+            LineWidth = 1
+        };
+        whiskerSeries.Points.Add(new SvgDataPoint(3.5, lowerWhisker));
+        whiskerSeries.Points.Add(new SvgDataPoint(3.5, upperWhisker));
+        chart.Series.Add(whiskerSeries);
+
+        // Mark unusual points if enabled
+        if (ShowUnusual)
+        {
+            var unusualSeries = new SvgChartSeries("Outliers")
+            {
+                ChartType = SvgChartType.Scatter,
+                Color = ChartColor.FromArgb(255, 0, 0),
+                MarkerSize = 10
+            };
+
+            foreach (var point in _dataPoints)
+            {
+                if (point < lowerWhisker || point > upperWhisker)
+                {
+                    unusualSeries.Points.Add(new SvgDataPoint(3.5, point));
+                }
+            }
+
+            if (unusualSeries.Points.Count > 0)
+            {
+                chart.Series.Add(unusualSeries);
+            }
+        }
+    }
+
+    private double GetPercentile(double[] sortedData, int percentile)
+    {
+        if (percentile <= 0) return sortedData.First();
+        if (percentile >= 100) return sortedData.Last();
+        
+        var index = (percentile / 100.0) * (sortedData.Length - 1);
+        var lower = (int)Math.Floor(index);
+        var upper = (int)Math.Ceiling(index);
+        
+        if (lower == upper) return sortedData[lower];
+        
+        return sortedData[lower] + (index - lower) * (sortedData[upper] - sortedData[lower]);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Create Box Plot chart
+chart1.Series[""BoxPlotSeries""].ChartType = SeriesChartType.BoxPlot;
+
+// Link to data series
+chart1.Series[""BoxPlotSeries""][""BoxPlotSeries""] = ""DataSeries"";
+
+// Set whisker percentile (15, 10, 5, or 0 for min/max)
+chart1.Series[""BoxPlotSeries""][""BoxPlotWhiskerPercentile""] = ""10"";
+
+// Show/Hide Average line
+chart1.Series[""BoxPlotSeries""][""BoxPlotShowAverage""] = ""true"";
+
+// Show/Hide Median line
+chart1.Series[""BoxPlotSeries""][""BoxPlotShowMedian""] = ""true"";
+
+// Show/Hide Unusual (outlier) points
+chart1.Series[""BoxPlotSeries""][""BoxPlotShowUnusualValues""] = ""true"";
+
+// Add data points
+double[] yValues = { 55.62, 45.54, 73.45, 9.73, 88.42, 
+                     45.9, 63.6, 85.1, 67.2, 23.6 };
+chart1.Series[""DataSeries""].Points.DataBindY(yValues);
+
+// Customize appearance
+chart1.Series[""BoxPlotSeries""].Color = Color.FromArgb(224, 64, 10);
+chart1.Series[""BoxPlotSeries""][""PointWidth""] = ""1.2"";
+
+// Add gradient
+chart1.Series[""BoxPlotSeries""].BackGradientStyle = GradientStyle.VerticalCenter;
+chart1.Series[""BoxPlotSeries""].BackSecondaryColor = Color.FromArgb(130, 224, 64, 10);";
+}

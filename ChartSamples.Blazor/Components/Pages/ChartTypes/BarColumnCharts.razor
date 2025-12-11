@@ -1,0 +1,80 @@
+@page "/chart-types/bar-column-charts"
+
+<PageTitle>Bar & Column Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Bar & Column Charts"
+            Description="This sample demonstrates Bar (horizontal) and Column (vertical) chart types."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                <option value="Column">Column (Vertical)</option>
+                <option value="Bar">Bar (Horizontal)</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Number of Items:</label>
+            <select @bind="ItemCount" @bind:after="RefreshChart">
+                <option value="5">5 Items</option>
+                <option value="8">8 Items</option>
+                <option value="10">10 Items</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string SelectedChartType { get; set; } = "Column";
+    private int ItemCount { get; set; } = 5;
+
+    private readonly string[] _categories = ["Product A", "Product B", "Product C", "Product D", "Product E", 
+                                              "Product F", "Product G", "Product H", "Product I", "Product J"];
+    private readonly double[] _values = [65, 78, 52, 89, 73, 61, 84, 47, 92, 56];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"{SelectedChartType} Chart - Sales by Product";
+        chart.ShowLegend = true;
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = SelectedChartType == "Bar" ? SvgChartType.Bar : SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        for (int i = 0; i < ItemCount; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, _values[i], _categories[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Column chart (vertical bars)
+chart1.Series[""Sales""].ChartType = SeriesChartType.Column;
+
+// Bar chart (horizontal bars)
+chart1.Series[""Sales""].ChartType = SeriesChartType.Bar;
+
+// Stacked column chart
+chart1.Series[""Sales""].ChartType = SeriesChartType.StackedColumn;
+chart1.Series[""Returns""].ChartType = SeriesChartType.StackedColumn;
+
+// 100% Stacked column chart
+chart1.Series[""Sales""].ChartType = SeriesChartType.StackedColumn100;
+
+// Add data
+string[] categories = { ""Product A"", ""Product B"", ""Product C"" };
+double[] values = { 65, 78, 52 };
+chart1.Series[""Sales""].Points.DataBindXY(categories, values);";
+}

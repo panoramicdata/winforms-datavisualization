@@ -1,0 +1,161 @@
+@using Microsoft.AspNetCore.Components.Routing
+
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <h1><i class="fa-solid fa-chart-line"></i> Chart Samples</h1>
+        <p>Blazor WebAssembly Edition</p>
+    </div>
+    
+    <div class="nav-menu">
+        <NavLink class="nav-item" href="" Match="NavLinkMatch.All">
+            <i class="fa-solid fa-house"></i> Home
+        </NavLink>
+
+        @* Getting Started *@
+        <div class="nav-group @(IsGroupExpanded("getting-started") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => ToggleGroup("getting-started"))">
+                <i class="fa-solid fa-chevron-right expand-icon"></i>
+                <i class="fa-solid fa-rocket"></i> Getting Started
+            </div>
+            <div class="nav-group-items">
+                <NavLink class="nav-item" href="getting-started/basic-populating-data">
+                    <i class="fa-solid fa-database"></i> Basic Populating Data
+                </NavLink>
+                <NavLink class="nav-item" href="getting-started/dynamic-chart-creation">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Dynamic Chart Creation
+                </NavLink>
+            </div>
+        </div>
+
+        @* Chart Types *@
+        <div class="nav-group @(IsGroupExpanded("chart-types") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => ToggleGroup("chart-types"))">
+                <i class="fa-solid fa-chevron-right expand-icon"></i>
+                <i class="fa-solid fa-chart-simple"></i> Chart Types
+            </div>
+            <div class="nav-group-items">
+                <NavLink class="nav-item" href="chart-types/line-charts">
+                    <i class="fa-solid fa-chart-line"></i> Line Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/bar-column-charts">
+                    <i class="fa-solid fa-chart-column"></i> Bar/Column Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/area-charts">
+                    <i class="fa-solid fa-chart-area"></i> Area Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/pie-charts">
+                    <i class="fa-solid fa-chart-pie"></i> Pie/Doughnut Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/scatter-charts">
+                    <i class="fa-solid fa-braille"></i> Scatter Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/point-charts">
+                    <i class="fa-solid fa-circle"></i> Point/Bubble Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/range-charts">
+                    <i class="fa-solid fa-arrows-up-down"></i> Range Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/stacked-charts">
+                    <i class="fa-solid fa-layer-group"></i> Stacked Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/financial-charts">
+                    <i class="fa-solid fa-money-bill-trend-up"></i> Financial Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/circular-charts">
+                    <i class="fa-solid fa-bullseye"></i> Polar/Radar Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/pyramid-funnel-charts">
+                    <i class="fa-solid fa-filter"></i> Pyramid/Funnel Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/histogram-charts">
+                    <i class="fa-solid fa-chart-bar"></i> Histogram Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/box-plot-charts">
+                    <i class="fa-solid fa-box"></i> Box Plot Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/combinational-charts">
+                    <i class="fa-solid fa-object-group"></i> Combinational Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/error-bar-charts">
+                    <i class="fa-solid fa-arrows-up-down-left-right"></i> Error Bar Charts
+                </NavLink>
+                <NavLink class="nav-item" href="chart-types/pareto-charts">
+                    <i class="fa-solid fa-ranking-star"></i> Pareto Charts
+                </NavLink>
+            </div>
+        </div>
+
+        @* Chart Features *@
+        <div class="nav-group @(IsGroupExpanded("chart-features") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => ToggleGroup("chart-features"))">
+                <i class="fa-solid fa-chevron-right expand-icon"></i>
+                <i class="fa-solid fa-sliders"></i> Chart Features
+            </div>
+            <div class="nav-group-items">
+                <NavLink class="nav-item" href="chart-features/titles-legends">
+                    <i class="fa-solid fa-heading"></i> Titles & Legends
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/legend-appearance">
+                    <i class="fa-solid fa-palette"></i> Legend Appearance
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/legend-position">
+                    <i class="fa-solid fa-arrows-to-dot"></i> Legend Position
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/axis">
+                    <i class="fa-solid fa-ruler-combined"></i> Axis Features
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/labels">
+                    <i class="fa-solid fa-tag"></i> Labels
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/data-series">
+                    <i class="fa-solid fa-list"></i> Data Series
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/chart-area">
+                    <i class="fa-solid fa-expand"></i> Chart Area
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/multiple-series">
+                    <i class="fa-solid fa-layer-group"></i> Multiple Series
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/chart-styling">
+                    <i class="fa-solid fa-brush"></i> Chart Styling
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/tooltips">
+                    <i class="fa-solid fa-comment-dots"></i> Tooltips
+                </NavLink>
+                <NavLink class="nav-item" href="chart-features/export">
+                    <i class="fa-solid fa-file-export"></i> Export & Save
+                </NavLink>
+            </div>
+        </div>
+
+        @* Chart Appearance *@
+        <div class="nav-group @(IsGroupExpanded("chart-appearance") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => ToggleGroup("chart-appearance"))">
+                <i class="fa-solid fa-chevron-right expand-icon"></i>
+                <i class="fa-solid fa-palette"></i> Chart Appearance
+            </div>
+            <div class="nav-group-items">
+                <NavLink class="nav-item" href="chart-appearance/color-palettes">
+                    <i class="fa-solid fa-swatchbook"></i> Color Palettes
+                </NavLink>
+                <NavLink class="nav-item" href="chart-appearance/backgrounds">
+                    <i class="fa-solid fa-fill-drip"></i> Backgrounds
+                </NavLink>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private HashSet<string> _expandedGroups = new() { "getting-started", "chart-types" };
+
+    private bool IsGroupExpanded(string groupName) => _expandedGroups.Contains(groupName);
+
+    private void ToggleGroup(string groupName)
+    {
+        if (_expandedGroups.Contains(groupName))
+            _expandedGroups.Remove(groupName);
+        else
+            _expandedGroups.Add(groupName);
+    }
+}

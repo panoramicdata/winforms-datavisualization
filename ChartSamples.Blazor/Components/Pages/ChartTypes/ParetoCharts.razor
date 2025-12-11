@@ -1,0 +1,193 @@
+@page "/chart-types/pareto-charts"
+
+<PageTitle>Pareto Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Pareto Charts"
+            Description="This sample demonstrates how to create a Pareto chart that combines bar chart with a cumulative line to identify the most significant factors."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Data Set:</label>
+            <select @bind="SelectedDataSet" @bind:after="RefreshChart">
+                <option value="Defects">Manufacturing Defects</option>
+                <option value="Complaints">Customer Complaints</option>
+                <option value="Costs">Cost Categories</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Cumulative Line:</label>
+            <input type="checkbox" @bind="ShowCumulativeLine" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Show 80% Line:</label>
+            <input type="checkbox" @bind="Show80PercentLine" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+    
+    <div class="sample-info" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <p><strong>Pareto Principle (80/20 Rule):</strong> Roughly 80% of effects come from 20% of causes. 
+        The cumulative line helps identify which categories contribute to the majority of the total.</p>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string SelectedDataSet { get; set; } = "Defects";
+    private bool ShowCumulativeLine { get; set; } = true;
+    private bool Show80PercentLine { get; set; } = true;
+
+    private (string Category, double Value)[] GetDataSet() => SelectedDataSet switch
+    {
+        "Complaints" => [
+            ("Shipping Delays", 45),
+            ("Product Quality", 32),
+            ("Wrong Item", 18),
+            ("Billing Errors", 12),
+            ("Customer Service", 8),
+            ("Packaging", 5),
+            ("Other", 3)
+        ],
+        "Costs" => [
+            ("Materials", 150000),
+            ("Labor", 85000),
+            ("Overhead", 45000),
+            ("Marketing", 32000),
+            ("R&D", 28000),
+            ("Admin", 18000),
+            ("Other", 12000)
+        ],
+        _ => [ // Defects
+            ("Scratch", 42),
+            ("Dent", 28),
+            ("Misalignment", 18),
+            ("Color Defect", 12),
+            ("Missing Part", 8),
+            ("Wrong Size", 5),
+            ("Other", 4)
+        ]
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        var data = GetDataSet()
+            .OrderByDescending(x => x.Value)
+            .ToArray();
+
+        chart.Title = $"Pareto Analysis - {SelectedDataSet}";
+        chart.ShowLegend = true;
+
+        // Calculate total and cumulative percentages
+        var total = data.Sum(x => x.Value);
+        var cumulative = 0.0;
+
+        // Bar series for values
+        var barSeries = new SvgChartSeries("Count/Value")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            barSeries.Points.Add(new SvgDataPoint(i + 1, data[i].Value, data[i].Category));
+        }
+
+        chart.Series.Add(barSeries);
+
+        // Cumulative percentage line
+        if (ShowCumulativeLine)
+        {
+            var cumulativeSeries = new SvgChartSeries("Cumulative %")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(224, 64, 10),
+                LineWidth = 3,
+                ShowMarkers = true,
+                MarkerSize = 8
+            };
+
+            cumulative = 0;
+            var maxValue = data.Max(x => x.Value);
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                cumulative += data[i].Value;
+                var cumulativePercent = (cumulative / total) * 100;
+                // Scale to fit on same axis
+                var scaledValue = (cumulativePercent / 100) * maxValue;
+                cumulativeSeries.Points.Add(new SvgDataPoint(i + 1, scaledValue, $"{cumulativePercent:F0}%"));
+            }
+
+            chart.Series.Add(cumulativeSeries);
+        }
+
+        // 80% reference line
+        if (Show80PercentLine)
+        {
+            var refSeries = new SvgChartSeries("80% Line")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(150, 34, 139, 34),
+                LineWidth = 2
+            };
+
+            var maxValue = data.Max(x => x.Value);
+            var line80 = 0.80 * maxValue;
+
+            refSeries.Points.Add(new SvgDataPoint(0.5, line80));
+            refSeries.Points.Add(new SvgDataPoint(data.Length + 0.5, line80));
+
+            chart.Series.Add(refSeries);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Create Pareto chart (combination of Column + Line)
+// First, sort data in descending order
+var sortedData = data.OrderByDescending(x => x.Value).ToArray();
+
+// Add column series for values
+chart1.Series[""Values""].ChartType = SeriesChartType.Column;
+chart1.Series[""Values""].Color = Color.FromArgb(65, 140, 240);
+
+// Add line series for cumulative percentage
+chart1.Series[""Cumulative""].ChartType = SeriesChartType.Line;
+chart1.Series[""Cumulative""].YAxisType = AxisType.Secondary;
+chart1.Series[""Cumulative""].Color = Color.FromArgb(224, 64, 10);
+chart1.Series[""Cumulative""].BorderWidth = 3;
+chart1.Series[""Cumulative""].MarkerStyle = MarkerStyle.Circle;
+chart1.Series[""Cumulative""].MarkerSize = 8;
+
+// Configure secondary Y axis for percentages
+chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
+chart1.ChartAreas[0].AxisY2.Title = ""Cumulative %"";
+chart1.ChartAreas[0].AxisY2.Minimum = 0;
+chart1.ChartAreas[0].AxisY2.Maximum = 100;
+
+// Add data
+double total = data.Sum(x => x.Value);
+double cumulative = 0;
+
+foreach (var item in sortedData)
+{
+    chart1.Series[""Values""].Points.AddXY(item.Category, item.Value);
+    cumulative += item.Value;
+    double cumulativePercent = (cumulative / total) * 100;
+    chart1.Series[""Cumulative""].Points.AddXY(item.Category, cumulativePercent);
+}
+
+// Add 80% reference line (strip line)
+StripLine stripLine = new StripLine();
+stripLine.IntervalOffset = 80;
+stripLine.BorderColor = Color.Green;
+stripLine.BorderDashStyle = ChartDashStyle.Dash;
+stripLine.BorderWidth = 2;
+chart1.ChartAreas[0].AxisY2.StripLines.Add(stripLine);";
+}

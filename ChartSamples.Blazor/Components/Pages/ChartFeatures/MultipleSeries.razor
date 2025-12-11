@@ -1,0 +1,114 @@
+@page "/chart-features/multiple-series"
+
+<PageTitle>Multiple Series - Chart Samples</PageTitle>
+
+<SampleBase Title="Multiple Series"
+            Description="This sample demonstrates how to display multiple data series in a single chart."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Series Count:</label>
+            <select @bind="SeriesCount" @bind:after="RefreshChart">
+                <option value="2">2 Series</option>
+                <option value="3">3 Series</option>
+                <option value="4">4 Series</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="ChartType" @bind:after="RefreshChart">
+                <option value="Line">Line</option>
+                <option value="Column">Column</option>
+                <option value="Area">Area</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private int SeriesCount { get; set; } = 3;
+    private string ChartType { get; set; } = "Line";
+
+    private readonly string[] _seriesNames = ["Revenue", "Expenses", "Profit", "Growth"];
+    private readonly ChartColor[] _colors =
+    [
+        ChartColor.FromArgb(65, 140, 240),
+        ChartColor.FromArgb(252, 180, 65),
+        ChartColor.FromArgb(224, 64, 10),
+        ChartColor.FromArgb(5, 100, 146)
+    ];
+
+    private SvgChartType GetChartType() => ChartType switch
+    {
+        "Column" => SvgChartType.Column,
+        "Area" => SvgChartType.Area,
+        _ => SvgChartType.Line
+    };
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Multi-Series Chart";
+        chart.ShowLegend = true;
+
+        var random = new Random(42);
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries(_seriesNames[s])
+            {
+                ChartType = GetChartType(),
+                Color = ChartType == "Area" 
+                    ? ChartColor.FromArgb(150, _colors[s].R, _colors[s].G, _colors[s].B)
+                    : _colors[s],
+                LineWidth = 2,
+                ShowMarkers = ChartType == "Line",
+                MarkerSize = 6
+            };
+
+            double baseValue = 50 + s * 20;
+            for (int i = 0; i < 8; i++)
+            {
+                baseValue += random.Next(-15, 20);
+                series.Points.Add(new SvgDataPoint(i + 1, Math.Max(10, baseValue)));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Add multiple series to the chart
+chart1.Series.Add(new Series(""Revenue""));
+chart1.Series.Add(new Series(""Expenses""));
+chart1.Series.Add(new Series(""Profit""));
+
+// Configure each series
+foreach (Series series in chart1.Series)
+{
+    series.ChartType = SeriesChartType.Line;
+    series.BorderWidth = 2;
+    series.MarkerStyle = MarkerStyle.Circle;
+}
+
+// Set different colors for each series
+chart1.Series[""Revenue""].Color = Color.FromArgb(65, 140, 240);
+chart1.Series[""Expenses""].Color = Color.FromArgb(252, 180, 65);
+chart1.Series[""Profit""].Color = Color.FromArgb(224, 64, 10);
+
+// Populate data for each series
+foreach (Series series in chart1.Series)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        series.Points.AddY(random.Next(30, 100));
+    }
+}";
+}

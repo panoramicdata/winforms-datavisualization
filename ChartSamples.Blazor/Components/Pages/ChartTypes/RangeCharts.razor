@@ -1,0 +1,145 @@
+@page "/chart-types/range-charts"
+
+<PageTitle>Range Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Range Charts"
+            Description="This sample demonstrates Range chart types showing data with high/low values."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Display Style:</label>
+            <select @bind="DisplayStyle" @bind:after="RefreshChart">
+                <option value="RangeColumn">Range Column</option>
+                <option value="RangeBar">Range Bar</option>
+                <option value="RangeArea">Range Area</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Data Points:</label>
+            <select @bind="DataPointCount" @bind:after="RefreshChart">
+                <option value="6">6 Points</option>
+                <option value="12">12 Points</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string DisplayStyle { get; set; } = "RangeColumn";
+    private int DataPointCount { get; set; } = 6;
+
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                                          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"Temperature Range - {DisplayStyle}";
+        chart.ShowLegend = true;
+
+        // For range charts, we simulate with two series (high and low)
+        var random = new Random(42);
+
+        if (DisplayStyle == "RangeArea")
+        {
+            // Create area chart with two series to show range
+            var highSeries = new SvgChartSeries("High Temp")
+            {
+                ChartType = SvgChartType.Area,
+                Color = ChartColor.FromArgb(150, 224, 64, 10),
+                LineWidth = 2
+            };
+
+            var lowSeries = new SvgChartSeries("Low Temp")
+            {
+                ChartType = SvgChartType.Line,
+                Color = ChartColor.FromArgb(65, 140, 240),
+                LineWidth = 2,
+                ShowMarkers = true,
+                MarkerSize = 6
+            };
+
+            for (int i = 0; i < DataPointCount; i++)
+            {
+                var low = 10 + random.Next(0, 15);
+                var high = low + 10 + random.Next(5, 15);
+                highSeries.Points.Add(new SvgDataPoint(i + 1, high, _months[i]));
+                lowSeries.Points.Add(new SvgDataPoint(i + 1, low, _months[i]));
+            }
+
+            chart.Series.Add(highSeries);
+            chart.Series.Add(lowSeries);
+        }
+        else
+        {
+            // Use column/bar chart to show range values
+            var chartType = DisplayStyle == "RangeBar" ? SvgChartType.Bar : SvgChartType.Column;
+
+            var series = new SvgChartSeries("Temperature Range")
+            {
+                ChartType = chartType,
+                Color = ChartColor.FromArgb(65, 140, 240)
+            };
+
+            for (int i = 0; i < DataPointCount; i++)
+            {
+                var low = 10 + random.Next(0, 15);
+                var high = low + 10 + random.Next(5, 15);
+                // Show the high value (range would need custom rendering)
+                series.Points.Add(new SvgDataPoint(i + 1, high, _months[i]));
+            }
+
+            chart.Series.Add(series);
+
+            // Add low values as second series
+            var lowSeries = new SvgChartSeries("Low Values")
+            {
+                ChartType = chartType,
+                Color = ChartColor.FromArgb(150, 252, 180, 65)
+            };
+
+            random = new Random(42);
+            for (int i = 0; i < DataPointCount; i++)
+            {
+                var low = 10 + random.Next(0, 15);
+                lowSeries.Points.Add(new SvgDataPoint(i + 1, low, _months[i]));
+            }
+
+            chart.Series.Add(lowSeries);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Range chart with high/low values
+chart1.Series[""Temp""].ChartType = SeriesChartType.Range;
+
+// Range column chart
+chart1.Series[""Temp""].ChartType = SeriesChartType.RangeColumn;
+
+// Range bar chart (horizontal)
+chart1.Series[""Temp""].ChartType = SeriesChartType.RangeBar;
+
+// Spline range (smooth curves)
+chart1.Series[""Temp""].ChartType = SeriesChartType.SplineRange;
+
+// Add range data points (X, Low, High)
+string[] months = { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" };
+double[] lows = { 15, 18, 22, 28, 32, 35 };
+double[] highs = { 25, 28, 32, 38, 42, 45 };
+
+for (int i = 0; i < months.Length; i++)
+{
+    chart1.Series[""Temp""].Points.AddXY(months[i], lows[i], highs[i]);
+}
+
+// Customize appearance
+chart1.Series[""Temp""].Color = Color.FromArgb(150, 65, 140, 240);
+chart1.Series[""Temp""].BorderWidth = 1;";
+}

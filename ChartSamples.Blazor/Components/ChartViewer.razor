@@ -1,0 +1,85 @@
+@* ChartViewer.razor - Reusable component for rendering SVG charts *@
+
+<div class="chart-viewer" style="width: @(Width)px; min-height: @(Height)px;">
+    @if (!string.IsNullOrEmpty(_svgContent))
+    {
+        @((MarkupString)_svgContent)
+    }
+    else
+    {
+        <p>Loading chart...</p>
+    }
+</div>
+
+@code {
+    private string _svgContent = string.Empty;
+
+    /// <summary>
+    /// Width of the chart in pixels.
+    /// </summary>
+    [Parameter]
+    public float Width { get; set; } = 600;
+
+    /// <summary>
+    /// Height of the chart in pixels.
+    /// </summary>
+    [Parameter]
+    public float Height { get; set; } = 400;
+
+    /// <summary>
+    /// Action to configure the chart before rendering.
+    /// </summary>
+    [Parameter]
+    public Action<SvgChart>? Configure { get; set; }
+
+    /// <summary>
+    /// Pre-configured SvgChart instance to render (alternative to Configure).
+    /// </summary>
+    [Parameter]
+    public SvgChart? Chart { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        RenderChart();
+    }
+
+    private void RenderChart()
+    {
+        try
+        {
+            if (Chart != null)
+            {
+                // Use provided chart instance
+                _svgContent = Chart.RenderToSvg();
+            }
+            else if (Configure != null)
+            {
+                // Create and configure chart
+                using var chart = new SvgChart
+                {
+                    Width = Width,
+                    Height = Height
+                };
+                Configure.Invoke(chart);
+                _svgContent = chart.RenderToSvg();
+            }
+            else
+            {
+                _svgContent = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            _svgContent = $"<text fill='red'>Error rendering chart: {ex.Message}</text>";
+        }
+    }
+
+    /// <summary>
+    /// Force re-render of the chart.
+    /// </summary>
+    public void Refresh()
+    {
+        RenderChart();
+        StateHasChanged();
+    }
+}

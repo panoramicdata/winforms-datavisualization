@@ -1,0 +1,116 @@
+@page "/chart-types/point-charts"
+
+<PageTitle>Point & Bubble Charts - Chart Samples</PageTitle>
+
+<SampleBase Title="Point & Bubble Charts"
+            Description="This sample demonstrates Point and Bubble chart types for displaying individual data points."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                <option value="Point">Point</option>
+                <option value="Bubble">Bubble</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Point Count:</label>
+            <select @bind="PointCount" @bind:after="RefreshChart">
+                <option value="15">15 Points</option>
+                <option value="30">30 Points</option>
+                <option value="50">50 Points</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Marker Size:</label>
+            <select @bind="MarkerSize" @bind:after="RefreshChart">
+                <option value="6">Small</option>
+                <option value="10">Medium</option>
+                <option value="14">Large</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string SelectedChartType { get; set; } = "Point";
+    private int PointCount { get; set; } = 30;
+    private int MarkerSize { get; set; } = 10;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"{SelectedChartType} Chart Example";
+        chart.ShowLegend = true;
+
+        var random = new Random(42);
+
+        var series = new SvgChartSeries("Data Points")
+        {
+            ChartType = SvgChartType.Scatter,
+            Color = ChartColor.FromArgb(200, 65, 140, 240),
+            MarkerSize = MarkerSize
+        };
+
+        for (int i = 0; i < PointCount; i++)
+        {
+            var x = random.NextDouble() * 100;
+            var y = random.NextDouble() * 100;
+            series.Points.Add(new SvgDataPoint(x, y));
+        }
+
+        chart.Series.Add(series);
+
+        if (SelectedChartType == "Bubble")
+        {
+            // Add second series with different sizes to simulate bubble effect
+            var series2 = new SvgChartSeries("Secondary Data")
+            {
+                ChartType = SvgChartType.Scatter,
+                Color = ChartColor.FromArgb(180, 252, 180, 65),
+                MarkerSize = MarkerSize + 4
+            };
+
+            for (int i = 0; i < PointCount / 2; i++)
+            {
+                var x = random.NextDouble() * 100;
+                var y = random.NextDouble() * 100;
+                series2.Points.Add(new SvgDataPoint(x, y));
+            }
+
+            chart.Series.Add(series2);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Point chart
+chart1.Series[""Data""].ChartType = SeriesChartType.Point;
+chart1.Series[""Data""].MarkerStyle = MarkerStyle.Circle;
+chart1.Series[""Data""].MarkerSize = 10;
+
+// Bubble chart with variable sizes
+chart1.Series[""Data""].ChartType = SeriesChartType.Bubble;
+// Y values array: Y, BubbleSize
+chart1.Series[""Data""].Points.AddXY(x, y, bubbleSize);
+
+// Customize marker appearance
+chart1.Series[""Data""].MarkerColor = Color.Blue;
+chart1.Series[""Data""].MarkerBorderColor = Color.DarkBlue;
+chart1.Series[""Data""].MarkerBorderWidth = 1;
+
+// Add random data points
+Random random = new Random();
+for (int i = 0; i < pointCount; i++)
+{
+    double x = random.NextDouble() * 100;
+    double y = random.NextDouble() * 100;
+    chart1.Series[""Data""].Points.AddXY(x, y);
+}";
+}

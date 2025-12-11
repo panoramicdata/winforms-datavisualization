@@ -1,0 +1,95 @@
+@page "/"
+
+<PageTitle>Chart Samples - Home</PageTitle>
+
+<div class="page-header">
+    <h2>Welcome to Chart Samples</h2>
+    <p>Explore the powerful charting capabilities of the .NET DataVisualization library in your browser.</p>
+</div>
+
+<div class="home-grid">
+    <div class="home-card">
+        <h3><i class="fa-solid fa-rocket"></i> Getting Started</h3>
+        <p>Learn the basics of creating charts with simple examples showing data binding and dynamic chart creation.</p>
+        <a href="getting-started/basic-populating-data">Start Learning <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="home-card">
+        <h3><i class="fa-solid fa-chart-line"></i> Line Charts</h3>
+        <p>Explore line, spline, and step line charts for displaying trends and continuous data.</p>
+        <a href="chart-types/line-charts">View Examples <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="home-card">
+        <h3><i class="fa-solid fa-chart-column"></i> Bar & Column Charts</h3>
+        <p>Create vertical columns and horizontal bars to compare values across categories.</p>
+        <a href="chart-types/bar-column-charts">View Examples <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="home-card">
+        <h3><i class="fa-solid fa-chart-pie"></i> Pie Charts</h3>
+        <p>Display proportional data with pie and doughnut charts in various styles.</p>
+        <a href="chart-types/pie-charts">View Examples <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="home-card">
+        <h3><i class="fa-solid fa-chart-area"></i> Area Charts</h3>
+        <p>Visualize cumulative data and trends with filled area charts.</p>
+        <a href="chart-types/area-charts">View Examples <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="home-card">
+        <h3><i class="fa-solid fa-braille"></i> Scatter Charts</h3>
+        <p>Plot individual data points to show relationships between two variables.</p>
+        <a href="chart-types/scatter-charts">View Examples <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+</div>
+
+<div style="margin-top: 40px;">
+    <div class="sample-container">
+        <div class="sample-header">
+            <h3><i class="fa-solid fa-eye"></i> Quick Preview</h3>
+            <p>A sample of what you can create with the charting library</p>
+        </div>
+        <ChartViewer Width="700" Height="350" Configure="@ConfigurePreviewChart" />
+    </div>
+</div>
+
+@code {
+    private void ConfigurePreviewChart(SvgChart chart)
+    {
+        chart.Title = "Monthly Sales Performance";
+        chart.ShowLegend = true;
+
+        // Sales series
+        var sales = new SvgChartSeries("Sales")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+        sales.Points.Add(new SvgDataPoint(1, 120));
+        sales.Points.Add(new SvgDataPoint(2, 150));
+        sales.Points.Add(new SvgDataPoint(3, 180));
+        sales.Points.Add(new SvgDataPoint(4, 140));
+        sales.Points.Add(new SvgDataPoint(5, 200));
+        sales.Points.Add(new SvgDataPoint(6, 220));
+        chart.Series.Add(sales);
+
+        // Target series
+        var target = new SvgChartSeries("Target")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(224, 64, 10),
+            LineWidth = 2,
+            ShowMarkers = true,
+            MarkerSize = 6
+        };
+        target.Points.Add(new SvgDataPoint(1, 130));
+        target.Points.Add(new SvgDataPoint(2, 140));
+        target.Points.Add(new SvgDataPoint(3, 155));
+        target.Points.Add(new SvgDataPoint(4, 170));
+        target.Points.Add(new SvgDataPoint(5, 185));
+        target.Points.Add(new SvgDataPoint(6, 200));
+        chart.Series.Add(target);
+    }
+}

@@ -1,0 +1,88 @@
+@page "/chart-features/titles-legends"
+
+<PageTitle>Titles & Legends - Chart Samples</PageTitle>
+
+<SampleBase Title="Titles & Legends"
+            Description="This sample demonstrates how to configure chart titles and legends."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Show Title:</label>
+            <input type="checkbox" @bind="ShowTitle" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Show Legend:</label>
+            <input type="checkbox" @bind="ShowLegend" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Legend Position:</label>
+            <select @bind="LegendPosition" @bind:after="RefreshChart">
+                <option value="Right">Right</option>
+                <option value="Bottom">Bottom</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private bool ShowTitle { get; set; } = true;
+    private bool ShowLegend { get; set; } = true;
+    private string LegendPosition { get; set; } = "Right";
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = ShowTitle ? "Quarterly Revenue Report" : "";
+        chart.ShowLegend = ShowLegend;
+        chart.LegendPosition = LegendPosition == "Bottom" ? SvgLegendPosition.Bottom : SvgLegendPosition.Right;
+
+        var series1 = new SvgChartSeries("2023")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+        series1.Points.Add(new SvgDataPoint(1, 120, "Q1"));
+        series1.Points.Add(new SvgDataPoint(2, 150, "Q2"));
+        series1.Points.Add(new SvgDataPoint(3, 180, "Q3"));
+        series1.Points.Add(new SvgDataPoint(4, 200, "Q4"));
+        chart.Series.Add(series1);
+
+        var series2 = new SvgChartSeries("2024")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(252, 180, 65)
+        };
+        series2.Points.Add(new SvgDataPoint(1, 140, "Q1"));
+        series2.Points.Add(new SvgDataPoint(2, 170, "Q2"));
+        series2.Points.Add(new SvgDataPoint(3, 190, "Q3"));
+        series2.Points.Add(new SvgDataPoint(4, 220, "Q4"));
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Add and configure chart title
+Title title = new Title(""Quarterly Revenue Report"");
+title.Font = new Font(""Trebuchet MS"", 14, FontStyle.Bold);
+title.ForeColor = Color.FromArgb(26, 59, 105);
+chart1.Titles.Add(title);
+
+// Configure legend
+chart1.Legends[""Default""].Enabled = true;
+chart1.Legends[""Default""].Docking = Docking.Right;
+chart1.Legends[""Default""].BackColor = Color.Transparent;
+
+// Legend at bottom
+chart1.Legends[""Default""].Docking = Docking.Bottom;
+
+// Custom legend position
+chart1.Legends[""Default""].Position.Auto = false;
+chart1.Legends[""Default""].Position.X = 80;
+chart1.Legends[""Default""].Position.Y = 10;";
+}
