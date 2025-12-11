@@ -399,72 +399,6 @@ public enum DateTimeIntervalType
 }
 
 /// <summary>
-/// An enumeration that specifies value types for various chart properties
-/// </summary>
-public enum ChartValueType
-{
-	/// <summary>
-	/// Property type is set automatically by the Chart control.
-	/// </summary>
-	Auto,
-
-	/// <summary>
-	/// Double value.
-	/// </summary>
-	Double,
-
-	/// <summary>
-	/// Single value.
-	/// </summary>
-	Single,
-
-	/// <summary>
-	/// Int32 value.
-	/// </summary>
-	Int32,
-
-	/// <summary>
-	/// Int64 value.
-	/// </summary>
-	Int64,
-
-	/// <summary>
-	/// UInt32 value.
-	/// </summary>
-	UInt32,
-
-	/// <summary>
-	/// UInt64 value.
-	/// </summary>
-	UInt64,
-
-	/// <summary>
-	/// String value.
-	/// </summary>
-	String,
-
-	/// <summary>
-	/// DateTime value.
-	/// </summary>
-	DateTime,
-
-	/// <summary>
-	/// Date portion of the DateTime value.
-	/// </summary>
-	Date,
-
-	/// <summary>
-	/// Time portion of the DateTime value.
-	/// </summary>
-	Time,
-
-	/// <summary>
-	/// DateTime with offset
-	/// </summary>
-	DateTimeOffset
-};
-
-/// <summary>
 /// An enumeration that specifies a hatching style.
 /// </summary>
 public enum ChartHatchStyle
@@ -847,7 +781,8 @@ public enum GradientStyle
 
 /// <summary>
 /// Common chart helper methods used across different chart elements.
-/// </summary>
+///
+/// <summary>
 internal class ChartHelper
 {
 	#region Fields
@@ -1153,18 +1088,18 @@ internal class ChartHelper
 				switch (type)
 				{
 					case (DateTimeIntervalType.Years): // Ignore hours,...
-						roundedDateValue = new DateTime(dateValue.Year,
-							dateValue.Month, dateValue.Day, 0, 0, 0);
+// 					roundedDateValue = new DateTime(dateValue.Year,
+// 						dateValue.Month, dateValue.Day, 0, 0, 0);
 						break;
 
 					case (DateTimeIntervalType.Months): // Ignore hours,...
-						roundedDateValue = new DateTime(dateValue.Year,
-							dateValue.Month, dateValue.Day, 0, 0, 0);
+// 						roundedDateValue = new DateTime(dateValue.Year,
+// 							dateValue.Month, dateValue.Day, 0, 0, 0);
 						break;
 
 					case (DateTimeIntervalType.Days): // Ignore hours,...
-						roundedDateValue = new DateTime(dateValue.Year,
-							dateValue.Month, dateValue.Day, 0, 0, 0);
+// 						roundedDateValue = new DateTime(dateValue.Year,
+// 							dateValue.Month, dateValue.Day, 0, 0, 0);
 						break;
 
 					case (DateTimeIntervalType.Hours): //

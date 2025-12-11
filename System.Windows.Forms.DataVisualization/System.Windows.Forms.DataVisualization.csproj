@@ -44,6 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\System.Windows.Forms.DataVisualization.Core\System.Windows.Forms.DataVisualization.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.9.50">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

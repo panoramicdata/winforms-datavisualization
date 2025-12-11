@@ -8,14 +8,17 @@
     <File Path="Directory.Build.targets" />
     <File Path="global.json" />
     <File Path="LICENSE.TXT" />
+    <File Path="MASTER_PLAN.md" />
     <File Path="nuget-key.txt" />
     <File Path="NuGet.config" />
     <File Path="README.md" />
     <File Path="sample-screenshot.png" />
     <File Path="SECURITY.md" />
+    <File Path="solution.dic" />
     <File Path="THIRD-PARTY-NOTICES.TXT" />
     <File Path="version.json" />
   </Folder>
   <Project Path="ChartSamples/ChartSamples.csproj" />
+  <Project Path="System.Windows.Forms.DataVisualization.Core/System.Windows.Forms.DataVisualization.Core.csproj" />
   <Project Path="System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj" />
 </Solution>
