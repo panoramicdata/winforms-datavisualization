@@ -16,6 +16,11 @@ public class ChartMatrix : IDisposable, ICloneable, IEquatable<ChartMatrix>
     private readonly float[] _elements;
 
     /// <summary>
+    /// Gets an identity matrix.
+    /// </summary>
+    public static ChartMatrix Identity => new();
+
+    /// <summary>
     /// Gets an array of floating-point values that represents the elements of this ChartMatrix.
     /// </summary>
     /// <remarks>
@@ -73,7 +78,12 @@ public class ChartMatrix : IDisposable, ICloneable, IEquatable<ChartMatrix>
     /// <summary>
     /// Creates an exact copy of this ChartMatrix.
     /// </summary>
-    public object Clone() => new ChartMatrix(_elements);
+    object ICloneable.Clone() => new ChartMatrix(_elements);
+
+    /// <summary>
+    /// Creates an exact copy of this ChartMatrix.
+    /// </summary>
+    public ChartMatrix Clone() => new ChartMatrix(_elements);
 
     /// <summary>
     /// Resets this ChartMatrix to have the elements of the identity matrix.

@@ -19,6 +19,8 @@
     <File Path="version.json" />
   </Folder>
   <Project Path="ChartSamples/ChartSamples.csproj" />
+  <Project Path="Svg.DataVisualization.Tests/Svg.DataVisualization.Tests.csproj" />
+  <Project Path="Svg.DataVisualization/Svg.DataVisualization.csproj" />
   <Project Path="System.Windows.Forms.DataVisualization.Core/System.Windows.Forms.DataVisualization.Core.csproj" />
   <Project Path="System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj" />
 </Solution>
