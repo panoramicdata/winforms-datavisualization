@@ -37,11 +37,6 @@
 	<EmbeddedResource Update="Charting\Common\SR.resx">
 	  <LogicalName>System.Windows.Forms.DataVisualization.Charting.SR.resources</LogicalName>
 	</EmbeddedResource>
-	<EmbeddedResource Update="SR.resx">
-	  <GenerateSource>true</GenerateSource>
-	  <Namespace>System.Windows.Forms.DataVisualization.Charting</Namespace>
-	  <!-- I think you want System here -->
-	</EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
