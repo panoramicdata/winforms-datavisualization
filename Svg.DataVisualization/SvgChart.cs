@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Windows.Forms.DataVisualization.Charting.Adapters;
+using System.Windows.Forms.DataVisualization.Charting.Layout;
 using System.Windows.Forms.DataVisualization.Charting.Rendering;
 
 namespace System.Windows.Forms.DataVisualization.Charting;
@@ -14,6 +16,8 @@ public class SvgChart : IDisposable
 {
     private readonly List<SvgChartSeries> _series;
     private readonly List<SvgChartArea> _chartAreas;
+    private readonly ChartLayoutEngine _layoutEngine;
+    private readonly ChartRenderer _renderer;
     private bool _disposed;
 
     /// <summary>
@@ -28,8 +32,19 @@ public class SvgChart : IDisposable
 
     /// <summary>
     /// Gets or sets the background color of the chart.
+    /// Default matches WinForms cream/tan gradient base color.
     /// </summary>
-    public ChartColor BackColor { get; set; } = ChartColor.White;
+    public ChartColor BackColor { get; set; } = ChartColor.FromArgb(243, 223, 193);
+
+    /// <summary>
+    /// Gets or sets the secondary background color for gradients.
+    /// </summary>
+    public ChartColor BackSecondaryColor { get; set; } = ChartColor.White;
+
+    /// <summary>
+    /// Gets or sets the background gradient style.
+    /// </summary>
+    public ChartGradientStyle BackGradientStyle { get; set; } = ChartGradientStyle.TopBottom;
 
     /// <summary>
     /// Gets or sets the chart title.
@@ -70,9 +85,20 @@ public class SvgChart : IDisposable
     /// Creates a new SvgChart instance.
     /// </summary>
     public SvgChart()
+        : this(SvgTextMeasurer.Instance)
+    {
+    }
+
+    /// <summary>
+    /// Creates a new SvgChart instance with a custom text measurer.
+    /// </summary>
+    /// <param name="textMeasurer">The text measurer to use for layout calculations.</param>
+    public SvgChart(ITextMeasurer textMeasurer)
     {
         _series = [];
         _chartAreas = [new SvgChartArea("Default")];
+        _layoutEngine = new ChartLayoutEngine(textMeasurer ?? SvgTextMeasurer.Instance);
+        _renderer = new ChartRenderer();
     }
 
     /// <summary>
@@ -109,334 +135,19 @@ public class SvgChart : IDisposable
 
     /// <summary>
     /// Renders the chart using the specified rendering engine.
+    /// Uses the Core ChartLayoutEngine and ChartRenderer for consistent output.
     /// </summary>
     /// <param name="engine">The rendering engine to use.</param>
     private void Render(IRenderingEngine engine)
     {
-        // Calculate layout
-        var titleHeight = string.IsNullOrEmpty(Title) ? 0f : 30f;
-        var legendWidth = ShowLegend && LegendPosition == SvgLegendPosition.Right ? 120f : 0f;
-        var legendHeight = ShowLegend && LegendPosition == SvgLegendPosition.Bottom ? 40f : 0f;
-        var padding = 20f;
-
-        var chartArea = new ChartRectangleF(
-            padding,
-            padding + titleHeight,
-            Width - (2 * padding) - legendWidth,
-            Height - (2 * padding) - titleHeight - legendHeight
-        );
-
-        // Draw background
-        using var backBrush = new ChartSolidBrush(BackColor);
-        engine.FillRectangle(backBrush, 0, 0, Width, Height);
-
-        // Draw title
-        if (!string.IsNullOrEmpty(Title))
-        {
-            using var titleBrush = new ChartSolidBrush(TitleColor);
-            var titleFormat = new ChartStringFormat
-            {
-                Alignment = ChartStringAlignment.Center,
-                LineAlignment = ChartStringAlignment.Center
-            };
-            engine.DrawString(Title, TitleFont, titleBrush, new ChartPointF(Width / 2, padding + titleHeight / 2), titleFormat);
-        }
-
-        // Draw chart area background
-        var defaultArea = _chartAreas.FirstOrDefault() ?? new SvgChartArea("Default");
-        using var areaBrush = new ChartSolidBrush(defaultArea.BackColor);
-        engine.FillRectangle(areaBrush, chartArea);
-
-        // Draw axes
-        DrawAxes(engine, chartArea, defaultArea);
-
-        // Calculate data bounds
-        var (minX, maxX, minY, maxY) = CalculateDataBounds();
-
-        // Draw series
-        foreach (var series in _series)
-        {
-            DrawSeries(engine, chartArea, series, minX, maxX, minY, maxY);
-        }
-
-        // Draw legend
-        if (ShowLegend && _series.Count > 0)
-        {
-            DrawLegend(engine, chartArea);
-        }
-    }
-
-    private void DrawAxes(IRenderingEngine engine, ChartRectangleF chartArea, SvgChartArea area)
-    {
-        using var axisPen = new ChartPen(area.AxisColor, 1);
-        using var gridPen = new ChartPen(area.GridColor, 1) { DashStyle = ChartDashStyle.Dot };
-
-        // Draw X axis
-        engine.DrawLine(axisPen, chartArea.Left, chartArea.Bottom, chartArea.Right, chartArea.Bottom);
-
-        // Draw Y axis
-        engine.DrawLine(axisPen, chartArea.Left, chartArea.Top, chartArea.Left, chartArea.Bottom);
-
-        // Draw grid lines
-        if (area.ShowGrid)
-        {
-            const int gridLines = 5;
-
-            // Horizontal grid lines
-            for (int i = 1; i <= gridLines; i++)
-            {
-                var y = chartArea.Top + (chartArea.Height * i / (gridLines + 1));
-                engine.DrawLine(gridPen, chartArea.Left, y, chartArea.Right, y);
-            }
-
-            // Vertical grid lines
-            for (int i = 1; i <= gridLines; i++)
-            {
-                var x = chartArea.Left + (chartArea.Width * i / (gridLines + 1));
-                engine.DrawLine(gridPen, x, chartArea.Top, x, chartArea.Bottom);
-            }
-        }
-    }
-
-    private void DrawSeries(IRenderingEngine engine, ChartRectangleF chartArea, SvgChartSeries series, double minX, double maxX, double minY, double maxY)
-    {
-        if (series.Points.Count == 0)
-            return;
-
-        var rangeX = maxX - minX;
-        var rangeY = maxY - minY;
-
-        // Prevent division by zero
-        if (rangeX == 0) rangeX = 1;
-        if (rangeY == 0) rangeY = 1;
-
-        // Convert data points to pixel coordinates
-        var pixelPoints = series.Points.Select((p, i) =>
-        {
-            var x = chartArea.Left + (float)((p.X - minX) / rangeX * chartArea.Width);
-            var y = chartArea.Bottom - (float)((p.Y - minY) / rangeY * chartArea.Height);
-            return new ChartPointF(x, y);
-        }).ToArray();
-
-        using var pen = new ChartPen(series.Color, series.LineWidth);
-        using var brush = new ChartSolidBrush(series.Color);
-
-        switch (series.ChartType)
-        {
-            case SvgChartType.Line:
-                DrawLineSeries(engine, pixelPoints, pen);
-                if (series.ShowMarkers)
-                    DrawMarkers(engine, pixelPoints, brush, series.MarkerSize);
-                break;
-
-            case SvgChartType.Area:
-                DrawAreaSeries(engine, pixelPoints, chartArea, brush, pen);
-                break;
-
-            case SvgChartType.Bar:
-                DrawBarSeries(engine, chartArea, series, minX, maxX, minY, maxY, brush, pen);
-                break;
-
-            case SvgChartType.Column:
-                DrawColumnSeries(engine, chartArea, series, minX, maxX, minY, maxY, brush, pen);
-                break;
-
-            case SvgChartType.Scatter:
-                DrawMarkers(engine, pixelPoints, brush, series.MarkerSize);
-                break;
-
-            case SvgChartType.Pie:
-                DrawPieSeries(engine, chartArea, series);
-                break;
-        }
-    }
-
-    private static void DrawLineSeries(IRenderingEngine engine, ChartPointF[] points, ChartPen pen)
-    {
-        if (points.Length >= 2)
-        {
-            engine.DrawLines(pen, points);
-        }
-    }
-
-    private static void DrawAreaSeries(IRenderingEngine engine, ChartPointF[] points, ChartRectangleF chartArea, ChartBrush brush, ChartPen pen)
-    {
-        if (points.Length < 2)
-            return;
-
-        // Create polygon points (include bottom corners)
-        var polygonPoints = new ChartPointF[points.Length + 2];
-        polygonPoints[0] = new ChartPointF(points[0].X, chartArea.Bottom);
-        Array.Copy(points, 0, polygonPoints, 1, points.Length);
-        polygonPoints[^1] = new ChartPointF(points[^1].X, chartArea.Bottom);
-
-        engine.FillPolygon(brush, polygonPoints);
-        engine.DrawLines(pen, points);
-    }
-
-    private static void DrawColumnSeries(IRenderingEngine engine, ChartRectangleF chartArea, SvgChartSeries series,
-        double minX, double maxX, double minY, double maxY, ChartBrush brush, ChartPen pen)
-    {
-        var rangeY = maxY - minY;
-        if (rangeY == 0) rangeY = 1;
-
-        var barWidth = chartArea.Width / (series.Points.Count + 1) * 0.8f;
-        var spacing = chartArea.Width / (series.Points.Count + 1);
-
-        for (int i = 0; i < series.Points.Count; i++)
-        {
-            var point = series.Points[i];
-            var x = chartArea.Left + spacing * (i + 0.5f);
-            var barHeight = (float)((point.Y - minY) / rangeY * chartArea.Height);
-            var y = chartArea.Bottom - barHeight;
-
-            engine.FillRectangle(brush, x - barWidth / 2, y, barWidth, barHeight);
-            engine.DrawRectangle(pen, x - barWidth / 2, y, barWidth, barHeight);
-        }
-    }
-
-    private static void DrawBarSeries(IRenderingEngine engine, ChartRectangleF chartArea, SvgChartSeries series,
-        double minX, double maxX, double minY, double maxY, ChartBrush brush, ChartPen pen)
-    {
-        var rangeX = maxX - minX;
-        if (rangeX == 0) rangeX = 1;
-
-        var barHeight = chartArea.Height / (series.Points.Count + 1) * 0.8f;
-        var spacing = chartArea.Height / (series.Points.Count + 1);
-
-        for (int i = 0; i < series.Points.Count; i++)
-        {
-            var point = series.Points[i];
-            var y = chartArea.Top + spacing * (i + 0.5f);
-            var barWidth = (float)((point.Y - minY) / (maxY - minY) * chartArea.Width);
-
-            engine.FillRectangle(brush, chartArea.Left, y - barHeight / 2, barWidth, barHeight);
-            engine.DrawRectangle(pen, chartArea.Left, y - barHeight / 2, barWidth, barHeight);
-        }
-    }
-
-    private void DrawPieSeries(IRenderingEngine engine, ChartRectangleF chartArea, SvgChartSeries series)
-    {
-        if (series.Points.Count == 0)
-            return;
-
-        var total = series.Points.Sum(p => Math.Abs(p.Y));
-        if (total == 0)
-            return;
-
-        var centerX = chartArea.Left + chartArea.Width / 2;
-        var centerY = chartArea.Top + chartArea.Height / 2;
-        var radius = Math.Min(chartArea.Width, chartArea.Height) / 2 * 0.8f;
-
-        var rect = new ChartRectangleF(centerX - radius, centerY - radius, radius * 2, radius * 2);
-        var startAngle = -90f; // Start from top
-
-        var colors = GetDefaultColors();
-        using var borderPen = new ChartPen(ChartColor.White, 1);
-
-        for (int i = 0; i < series.Points.Count; i++)
-        {
-            var point = series.Points[i];
-            var sweepAngle = (float)(Math.Abs(point.Y) / total * 360);
-
-            var color = i < colors.Length ? colors[i] : series.Color;
-            using var brush = new ChartSolidBrush(color);
-
-            engine.FillPie(brush, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
-            engine.DrawPie(borderPen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
-
-            startAngle += sweepAngle;
-        }
-    }
-
-    private static void DrawMarkers(IRenderingEngine engine, ChartPointF[] points, ChartBrush brush, float markerSize)
-    {
-        var halfSize = markerSize / 2;
-        foreach (var point in points)
-        {
-            engine.FillEllipse(brush, point.X - halfSize, point.Y - halfSize, markerSize, markerSize);
-        }
-    }
-
-    private void DrawLegend(IRenderingEngine engine, ChartRectangleF chartArea)
-    {
-        var legendFont = new ChartFont("Arial", 10);
-        var padding = 5f;
-        var itemHeight = 20f;
-        var symbolWidth = 20f;
-
-        float legendX, legendY;
-
-        if (LegendPosition == SvgLegendPosition.Right)
-        {
-            legendX = chartArea.Right + 10;
-            legendY = chartArea.Top;
-        }
-        else
-        {
-            legendX = chartArea.Left;
-            legendY = chartArea.Bottom + 10;
-        }
-
-        using var textBrush = new ChartSolidBrush(ChartColor.Black);
-
-        for (int i = 0; i < _series.Count; i++)
-        {
-            var series = _series[i];
-            var y = legendY + (i * itemHeight) + padding;
-
-            // Draw color symbol
-            using var symbolBrush = new ChartSolidBrush(series.Color);
-            engine.FillRectangle(symbolBrush, legendX, y + 2, symbolWidth - 4, itemHeight - 8);
-
-            // Draw series name
-            engine.DrawString(series.Name, legendFont, textBrush, new ChartPointF(legendX + symbolWidth + padding, y + itemHeight / 2), null);
-        }
-    }
-
-    private (double minX, double maxX, double minY, double maxY) CalculateDataBounds()
-    {
-        double minX = double.MaxValue, maxX = double.MinValue;
-        double minY = 0, maxY = double.MinValue; // Start Y at 0 for most chart types
-
-        foreach (var series in _series)
-        {
-            foreach (var point in series.Points)
-            {
-                minX = Math.Min(minX, point.X);
-                maxX = Math.Max(maxX, point.X);
-                minY = Math.Min(minY, point.Y);
-                maxY = Math.Max(maxY, point.Y);
-            }
-        }
-
-        // Handle empty or single-value cases
-        if (minX == double.MaxValue) minX = 0;
-        if (maxX == double.MinValue) maxX = 1;
-        if (maxY == double.MinValue) maxY = 1;
-
-        // Add some padding
-        var rangeY = maxY - minY;
-        maxY += rangeY * 0.1;
-
-        return (minX, maxX, minY, maxY);
-    }
-
-    private static ChartColor[] GetDefaultColors()
-    {
-        return
-        [
-            ChartColor.FromArgb(65, 140, 240),   // Blue
-            ChartColor.FromArgb(252, 180, 65),   // Orange
-            ChartColor.FromArgb(224, 64, 10),    // Red
-            ChartColor.FromArgb(5, 100, 146),    // Dark Blue
-            ChartColor.FromArgb(191, 191, 191),  // Gray
-            ChartColor.FromArgb(26, 59, 105),    // Navy
-            ChartColor.FromArgb(255, 227, 130),  // Yellow
-            ChartColor.FromArgb(18, 156, 221),   // Light Blue
-            ChartColor.FromArgb(202, 107, 75),   // Brown
-            ChartColor.FromArgb(0, 92, 219),     // Royal Blue
-        ];
+        // Create adapter to wrap this SvgChart as IChartModel
+        var adapter = new SvgChartAdapter(this);
+        
+        // Calculate layout using the Core layout engine
+        var layout = _layoutEngine.CalculateLayout(adapter);
+        
+        // Render using the Core renderer
+        _renderer.Render(engine, adapter, layout);
     }
 
     /// <inheritdoc/>
@@ -485,6 +196,21 @@ public class SvgChartSeries
     /// Gets or sets the marker size.
     /// </summary>
     public float MarkerSize { get; set; } = 6f;
+
+    /// <summary>
+    /// Gets or sets the marker style.
+    /// </summary>
+    public SvgMarkerStyle MarkerStyle { get; set; } = SvgMarkerStyle.Circle;
+
+    /// <summary>
+    /// Gets or sets whether values are shown as labels on data points.
+    /// </summary>
+    public bool IsValueShownAsLabel { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the label style (position relative to data point).
+    /// </summary>
+    public string LabelStyle { get; set; } = "Auto";
 
     /// <summary>
     /// Gets the collection of data points.
@@ -543,23 +269,46 @@ public class SvgChartArea
 
     /// <summary>
     /// Gets or sets the background color.
+    /// Default matches WinForms OldLace color.
     /// </summary>
-    public ChartColor BackColor { get; set; } = ChartColor.FromArgb(245, 245, 245);
+    public ChartColor BackColor { get; set; } = ChartColor.FromArgb(253, 245, 230); // OldLace
+
+    /// <summary>
+    /// Gets or sets the secondary background color for gradients.
+    /// </summary>
+    public ChartColor BackSecondaryColor { get; set; } = ChartColor.White;
+
+    /// <summary>
+    /// Gets or sets the background gradient style.
+    /// </summary>
+    public ChartGradientStyle BackGradientStyle { get; set; } = ChartGradientStyle.TopBottom;
 
     /// <summary>
     /// Gets or sets the axis color.
+    /// Default matches WinForms semi-transparent axis.
     /// </summary>
-    public ChartColor AxisColor { get; set; } = ChartColor.Black;
+    public ChartColor AxisColor { get; set; } = ChartColor.FromArgb(64, 64, 64, 64);
 
     /// <summary>
     /// Gets or sets the grid color.
+    /// Default matches WinForms semi-transparent grid.
     /// </summary>
-    public ChartColor GridColor { get; set; } = ChartColor.LightGray;
+    public ChartColor GridColor { get; set; } = ChartColor.FromArgb(64, 64, 64, 64);
 
     /// <summary>
     /// Gets or sets whether to show grid lines.
     /// </summary>
     public bool ShowGrid { get; set; } = true;
+
+    /// <summary>
+    /// Gets the X axis configuration.
+    /// </summary>
+    public SvgAxis AxisX { get; } = new SvgAxis();
+
+    /// <summary>
+    /// Gets the Y axis configuration.
+    /// </summary>
+    public SvgAxis AxisY { get; } = new SvgAxis();
 
     /// <summary>
     /// Creates a new chart area with the specified name.
@@ -571,15 +320,130 @@ public class SvgChartArea
 }
 
 /// <summary>
+/// Represents axis configuration for an SvgChart.
+/// </summary>
+public class SvgAxis
+{
+    /// <summary>
+    /// Gets or sets whether the axis margin is visible.
+    /// When true, adds spacing at the edges of the axis.
+    /// </summary>
+    public bool IsMarginVisible { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets whether to show the major grid lines.
+    /// </summary>
+    public bool ShowMajorGrid { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether to show tick marks.
+    /// </summary>
+    public bool ShowTickMarks { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether to show labels.
+    /// </summary>
+    public bool ShowLabels { get; set; } = true;
+}
+
+/// <summary>
+/// Represents a circular chart area for Radar and Polar charts.
+/// </summary>
+public class SvgCircularChartArea : SvgChartArea
+{
+    /// <summary>
+    /// Gets or sets the number of sectors (spokes) in the circular chart.
+    /// For Radar charts, this is typically the number of data points.
+    /// For Polar charts, this defaults to 12 (30-degree increments).
+    /// </summary>
+    public int SectorCount { get; set; } = 12;
+
+    /// <summary>
+    /// Gets or sets whether to use polygon (true) or circle (false) for grid lines.
+    /// </summary>
+    public bool UsePolygons { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the labels style for circular axes.
+    /// </summary>
+    public SvgCircularLabelsStyle LabelsStyle { get; set; } = SvgCircularLabelsStyle.Horizontal;
+
+    /// <summary>
+    /// Gets or sets the area drawing style (circle or polygon).
+    /// </summary>
+    public SvgCircularAreaStyle AreaStyle { get; set; } = SvgCircularAreaStyle.Circle;
+
+    /// <summary>
+    /// Gets the list of axis labels (one per sector).
+    /// </summary>
+    public List<string> AxisLabels { get; } = [];
+
+    /// <summary>
+    /// Creates a new circular chart area with the specified name.
+    /// </summary>
+    public SvgCircularChartArea(string name) : base(name)
+    {
+    }
+
+    /// <summary>
+    /// Creates a circular chart area with auto-configured sectors based on data.
+    /// </summary>
+    /// <param name="name">The area name.</param>
+    /// <param name="labels">The labels for each sector.</param>
+    public SvgCircularChartArea(string name, IEnumerable<string> labels) : base(name)
+    {
+        AxisLabels.AddRange(labels);
+        SectorCount = AxisLabels.Count;
+    }
+}
+
+/// <summary>
+/// Labels style for circular chart axes.
+/// </summary>
+public enum SvgCircularLabelsStyle
+{
+    /// <summary>Labels are horizontal.</summary>
+    Horizontal,
+
+    /// <summary>Labels radiate outward from center.</summary>
+    Radial,
+
+    /// <summary>Labels follow the circular path.</summary>
+    Circular
+}
+
+/// <summary>
+/// Area drawing style for circular charts.
+/// </summary>
+public enum SvgCircularAreaStyle
+{
+    /// <summary>Draw as circle.</summary>
+    Circle,
+
+    /// <summary>Draw as polygon matching sector count.</summary>
+    Polygon
+}
+
+/// <summary>
 /// Chart types supported by SvgChart.
+/// These mirror the WinForms SeriesChartType enum for easy migration.
 /// </summary>
 public enum SvgChartType
 {
     /// <summary>Line chart.</summary>
     Line,
 
+    /// <summary>Spline (curved line) chart.</summary>
+    Spline,
+
+    /// <summary>Step line chart.</summary>
+    StepLine,
+
     /// <summary>Area chart.</summary>
     Area,
+
+    /// <summary>Spline area chart.</summary>
+    SplineArea,
 
     /// <summary>Horizontal bar chart.</summary>
     Bar,
@@ -587,11 +451,20 @@ public enum SvgChartType
     /// <summary>Vertical column chart.</summary>
     Column,
 
-    /// <summary>Scatter plot.</summary>
-    Scatter,
+    /// <summary>Point/Scatter chart (matches WinForms SeriesChartType.Point).</summary>
+    Point,
+
+    /// <summary>Scatter chart (alias for Point chart).</summary>
+    Scatter = Point,
 
     /// <summary>Pie chart.</summary>
-    Pie
+    Pie,
+
+    /// <summary>Radar chart (circular with data at sector angles).</summary>
+    Radar,
+
+    /// <summary>Polar chart (circular with X values as angles).</summary>
+    Polar
 }
 
 /// <summary>
@@ -604,4 +477,40 @@ public enum SvgLegendPosition
 
     /// <summary>Legend at the bottom.</summary>
     Bottom
+}
+
+/// <summary>
+/// Marker styles for data points, matching WinForms MarkerStyle enum.
+/// </summary>
+public enum SvgMarkerStyle
+{
+    /// <summary>No marker.</summary>
+    None,
+
+    /// <summary>Square marker.</summary>
+    Square,
+
+    /// <summary>Circle marker.</summary>
+    Circle,
+
+    /// <summary>Diamond marker.</summary>
+    Diamond,
+
+    /// <summary>Triangle marker.</summary>
+    Triangle,
+
+    /// <summary>Cross marker.</summary>
+    Cross,
+
+    /// <summary>4-pointed star marker.</summary>
+    Star4,
+
+    /// <summary>5-pointed star marker.</summary>
+    Star5,
+
+    /// <summary>6-pointed star marker.</summary>
+    Star6,
+
+    /// <summary>10-pointed star marker.</summary>
+    Star10
 }

@@ -1,0 +1,203 @@
+@page "/getting-started/series-and-points"
+
+<PageTitle>Series and Points - Chart Samples</PageTitle>
+
+<SampleBase Title="Series and Points"
+            Description="This overview explains how data series and data points work together to display information in charts."
+            CSharpCode="@_csharpCode">
+    
+    <div class="overview-content" style="padding: 20px; max-width: 800px;">
+        <h3>Understanding Series and Points</h3>
+        
+        <div class="series-section">
+            <h4><i class="fa-solid fa-layer-group"></i> What is a Series?</h4>
+            <p>A Series is a collection of related data points that share common visual properties. 
+            Each series has a name, chart type, color, and other styling options. 
+            Charts can display multiple series to compare different data sets.</p>
+        </div>
+
+        <div class="series-section">
+            <h4><i class="fa-solid fa-circle"></i> What is a Data Point?</h4>
+            <p>A Data Point represents a single value within a series. Each point has:</p>
+            <ul>
+                <li><strong>X Value:</strong> Position on the horizontal axis</li>
+                <li><strong>Y Value:</strong> Position on the vertical axis (the main value)</li>
+                <li><strong>Label:</strong> Optional text displayed on the axis or point</li>
+                <li><strong>Color:</strong> Individual color (or inherited from series)</li>
+                <li><strong>Tooltip:</strong> Information shown on hover</li>
+            </ul>
+        </div>
+
+        <div class="series-section">
+            <h4><i class="fa-solid fa-chart-line"></i> Series Types</h4>
+            <p>Different chart types visualize the same data in different ways:</p>
+            <ul>
+                <li><strong>Line:</strong> Connects points with lines</li>
+                <li><strong>Column/Bar:</strong> Shows points as vertical/horizontal bars</li>
+                <li><strong>Area:</strong> Fills the area below the line</li>
+                <li><strong>Pie:</strong> Shows proportions as slices</li>
+                <li><strong>Scatter:</strong> Shows points without connections</li>
+            </ul>
+        </div>
+
+        <div class="series-section">
+            <h4><i class="fa-solid fa-palette"></i> Series Appearance</h4>
+            <p>Each series can be customized with colors, line styles, markers, and more. 
+            Data points can also override series styling for highlighting specific values.</p>
+        </div>
+    </div>
+
+    <div class="demo-container" style="padding: 20px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <div class="demo-controls" style="margin-bottom: 15px; display: flex; gap: 20px; flex-wrap: wrap;">
+            <div class="control-group">
+                <label>Chart Type:</label>
+                <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                    <option value="Line">Line</option>
+                    <option value="Column">Column</option>
+                    <option value="Area">Area</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Number of Series:</label>
+                <select @bind="SeriesCount" @bind:after="RefreshChart">
+                    <option value="1">1 Series</option>
+                    <option value="2">2 Series</option>
+                    <option value="3">3 Series</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Show Markers:</label>
+                <input type="checkbox" @bind="ShowMarkers" @bind:after="RefreshChart" />
+            </div>
+        </div>
+        <ChartViewer Width="600" Height="350" Configure="@ConfigureChart" />
+    </div>
+
+</SampleBase>
+
+<style>
+    .series-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border-left: 4px solid #4a90d9;
+    }
+    .series-section h4 {
+        margin: 0 0 8px 0;
+        color: #1a3b69;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .series-section p {
+        margin: 0 0 10px 0;
+        color: #555;
+        line-height: 1.6;
+    }
+    .series-section ul {
+        margin: 10px 0 0 0;
+        padding-left: 25px;
+    }
+    .series-section li {
+        margin-bottom: 5px;
+    }
+</style>
+
+@code {
+    private string SelectedChartType { get; set; } = "Line";
+    private int SeriesCount { get; set; } = 2;
+    private bool ShowMarkers { get; set; } = true;
+
+    private SvgChartType GetChartType() => SelectedChartType switch
+    {
+        "Column" => SvgChartType.Column,
+        "Area" => SvgChartType.Area,
+        _ => SvgChartType.Line
+    };
+
+    private readonly ChartColor[] _colors =
+    [
+        ChartColor.FromArgb(65, 140, 240),
+        ChartColor.FromArgb(252, 180, 65),
+        ChartColor.FromArgb(224, 64, 10)
+    ];
+
+    private readonly double[][] _data =
+    [
+        [30, 45, 38, 52, 48],
+        [25, 35, 42, 38, 45],
+        [20, 28, 35, 30, 38]
+    ];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"{SeriesCount} Series with {SelectedChartType} Type";
+        chart.ShowLegend = true;
+
+        string[] labels = ["Jan", "Feb", "Mar", "Apr", "May"];
+
+        for (int s = 0; s < SeriesCount; s++)
+        {
+            var series = new SvgChartSeries($"Series {s + 1}")
+            {
+                ChartType = GetChartType(),
+                Color = _colors[s],
+                LineWidth = 3,
+                ShowMarkers = ShowMarkers && SelectedChartType == "Line",
+                MarkerSize = 8
+            };
+
+            for (int i = 0; i < labels.Length; i++)
+            {
+                series.Points.Add(new SvgDataPoint(i + 1, _data[s][i], labels[i]));
+            }
+
+            chart.Series.Add(series);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Create a series
+Series series = new Series(""Sales"");
+series.ChartType = SeriesChartType.Line;
+series.Color = Color.Blue;
+series.BorderWidth = 2;
+chart1.Series.Add(series);
+
+// Add data points using AddXY
+series.Points.AddXY(""Jan"", 30);
+series.Points.AddXY(""Feb"", 45);
+series.Points.AddXY(""Mar"", 38);
+
+// Add data points using DataPoint object
+DataPoint point = new DataPoint();
+point.XValue = 4;
+point.YValues = new double[] { 52 };
+point.AxisLabel = ""Apr"";
+point.Color = Color.Red; // Highlight this point
+series.Points.Add(point);
+
+// Add multiple series
+Series series2 = new Series(""Costs"");
+series2.ChartType = SeriesChartType.Line;
+series2.Color = Color.Orange;
+chart1.Series.Add(series2);
+
+// Configure markers
+series.MarkerStyle = MarkerStyle.Circle;
+series.MarkerSize = 8;
+series.MarkerColor = Color.Blue;
+
+// Change series type at runtime
+series.ChartType = SeriesChartType.Column;
+
+// Access individual points
+series.Points[0].Color = Color.Green;
+series.Points[0].Label = ""Highest"";
+series.Points[0].IsValueShownAsLabel = true;";
+}

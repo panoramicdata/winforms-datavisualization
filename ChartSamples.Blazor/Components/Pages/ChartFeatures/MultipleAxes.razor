@@ -1,0 +1,225 @@
+@page "/chart-features/multiple-axes"
+
+<PageTitle>Multiple Axes - Chart Samples</PageTitle>
+
+<SampleBase Title="Multiple Axes"
+            Description="This sample demonstrates how to use primary and secondary Y axes to display data with different scales on the same chart."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Secondary Axis:</label>
+            <select @bind="SecondaryAxisType" @bind:after="RefreshChart">
+                <option value="Right">Right Side</option>
+                <option value="Hidden">Hidden</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Data Scenario:</label>
+            <select @bind="DataScenario" @bind:after="RefreshChart">
+                <option value="TempRain">Temperature vs Rainfall</option>
+                <option value="SalesProfit">Sales vs Profit Margin</option>
+                <option value="StockVolume">Stock Price vs Volume</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Grid Lines:</label>
+            <input type="checkbox" @bind="ShowGridLines" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+    
+    <div class="sample-info" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <p><strong>Note:</strong> The primary Y axis (left) uses one scale while the secondary Y axis (right) uses a different scale. 
+        This allows displaying data with vastly different ranges on the same chart.</p>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string SecondaryAxisType { get; set; } = "Right";
+    private string DataScenario { get; set; } = "TempRain";
+    private bool ShowGridLines { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.ShowLegend = true;
+
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].ShowGrid = ShowGridLines;
+        }
+
+        switch (DataScenario)
+        {
+            case "SalesProfit":
+                ConfigureSalesProfitChart(chart);
+                break;
+            case "StockVolume":
+                ConfigureStockVolumeChart(chart);
+                break;
+            default:
+                ConfigureTempRainChart(chart);
+                break;
+        }
+    }
+
+    private void ConfigureTempRainChart(SvgChart chart)
+    {
+        chart.Title = "Monthly Weather Data";
+
+        // Temperature (Primary Y axis) - Column
+        var tempSeries = new SvgChartSeries("Temperature (°C)")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(224, 64, 10)
+        };
+
+        // Rainfall (Secondary Y axis) - Line
+        var rainSeries = new SvgChartSeries("Rainfall (mm)")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+        double[] temps = [5, 7, 12, 16, 20, 24];
+        double[] rain = [80, 65, 55, 45, 40, 35];
+
+        for (int i = 0; i < months.Length; i++)
+        {
+            tempSeries.Points.Add(new SvgDataPoint(i + 1, temps[i], months[i]));
+            // Scale rainfall to fit on chart (different magnitude)
+            rainSeries.Points.Add(new SvgDataPoint(i + 1, rain[i] / 4, months[i]));
+        }
+
+        chart.Series.Add(tempSeries);
+        if (SecondaryAxisType != "Hidden")
+        {
+            chart.Series.Add(rainSeries);
+        }
+    }
+
+    private void ConfigureSalesProfitChart(SvgChart chart)
+    {
+        chart.Title = "Sales Revenue vs Profit Margin";
+
+        // Sales (Primary Y axis) - Column
+        var salesSeries = new SvgChartSeries("Sales ($K)")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        // Profit Margin (Secondary Y axis) - Line
+        var profitSeries = new SvgChartSeries("Profit Margin (%)")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(34, 139, 34),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+        double[] sales = [150, 180, 165, 210];
+        double[] margins = [12, 15, 14, 18];
+
+        for (int i = 0; i < quarters.Length; i++)
+        {
+            salesSeries.Points.Add(new SvgDataPoint(i + 1, sales[i], quarters[i]));
+            // Scale margin to fit on chart
+            profitSeries.Points.Add(new SvgDataPoint(i + 1, margins[i] * 10, quarters[i]));
+        }
+
+        chart.Series.Add(salesSeries);
+        if (SecondaryAxisType != "Hidden")
+        {
+            chart.Series.Add(profitSeries);
+        }
+    }
+
+    private void ConfigureStockVolumeChart(SvgChart chart)
+    {
+        chart.Title = "Stock Price vs Trading Volume";
+
+        // Volume (Primary Y axis) - Column
+        var volumeSeries = new SvgChartSeries("Volume (M)")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(150, 65, 140, 240)
+        };
+
+        // Price (Secondary Y axis) - Line
+        var priceSeries = new SvgChartSeries("Price ($)")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(224, 64, 10),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 6
+        };
+
+        var random = new Random(42);
+        double price = 100;
+
+        for (int i = 0; i < 10; i++)
+        {
+            price += (random.NextDouble() - 0.45) * 5;
+            var volume = 5 + random.Next(0, 10);
+            volumeSeries.Points.Add(new SvgDataPoint(i + 1, volume));
+            priceSeries.Points.Add(new SvgDataPoint(i + 1, price));
+        }
+
+        chart.Series.Add(volumeSeries);
+        if (SecondaryAxisType != "Hidden")
+        {
+            chart.Series.Add(priceSeries);
+        }
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Assign series to primary or secondary Y axis
+chart1.Series[""Temperature""].YAxisType = AxisType.Primary;
+chart1.Series[""Rainfall""].YAxisType = AxisType.Secondary;
+
+// Enable secondary Y axis
+chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
+
+// Configure primary Y axis
+chart1.ChartAreas[0].AxisY.Title = ""Temperature (°C)"";
+chart1.ChartAreas[0].AxisY.TitleForeColor = Color.FromArgb(224, 64, 10);
+chart1.ChartAreas[0].AxisY.LabelStyle.ForeColor = Color.FromArgb(224, 64, 10);
+chart1.ChartAreas[0].AxisY.Minimum = 0;
+chart1.ChartAreas[0].AxisY.Maximum = 30;
+
+// Configure secondary Y axis
+chart1.ChartAreas[0].AxisY2.Title = ""Rainfall (mm)"";
+chart1.ChartAreas[0].AxisY2.TitleForeColor = Color.FromArgb(65, 140, 240);
+chart1.ChartAreas[0].AxisY2.LabelStyle.ForeColor = Color.FromArgb(65, 140, 240);
+chart1.ChartAreas[0].AxisY2.Minimum = 0;
+chart1.ChartAreas[0].AxisY2.Maximum = 100;
+
+// Add data
+string[] months = { ""Jan"", ""Feb"", ""Mar"", ""Apr"", ""May"", ""Jun"" };
+double[] temps = { 5, 7, 12, 16, 20, 24 };
+double[] rain = { 80, 65, 55, 45, 40, 35 };
+
+for (int i = 0; i < months.Length; i++)
+{
+    chart1.Series[""Temperature""].Points.AddXY(months[i], temps[i]);
+    chart1.Series[""Rainfall""].Points.AddXY(months[i], rain[i]);
+}
+
+// Different chart types for each axis
+chart1.Series[""Temperature""].ChartType = SeriesChartType.Column;
+chart1.Series[""Rainfall""].ChartType = SeriesChartType.Line;";
+}

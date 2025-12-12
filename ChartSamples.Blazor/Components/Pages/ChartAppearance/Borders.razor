@@ -1,0 +1,149 @@
+@page "/chart-appearance/borders"
+
+<PageTitle>Chart Borders - Chart Samples</PageTitle>
+
+<SampleBase Title="Chart Borders"
+            Description="This sample demonstrates how to customize chart borders including style, width, color, and skin effects."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Border Style:</label>
+            <select @bind="BorderStyle" @bind:after="RefreshChart">
+                <option value="None">None</option>
+                <option value="Solid">Solid</option>
+                <option value="Dashed">Dashed</option>
+                <option value="Dotted">Dotted</option>
+                <option value="Double">Double</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Border Width:</label>
+            <select @bind="BorderWidth" @bind:after="RefreshChart">
+                <option value="1">1px</option>
+                <option value="2">2px</option>
+                <option value="3">3px</option>
+                <option value="5">5px</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Border Color:</label>
+            <select @bind="BorderColor" @bind:after="RefreshChart">
+                <option value="Dark">Dark Blue</option>
+                <option value="Gray">Gray</option>
+                <option value="Red">Red</option>
+                <option value="Black">Black</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Border Skin:</label>
+            <select @bind="BorderSkin" @bind:after="RefreshChart">
+                <option value="None">None</option>
+                <option value="Emboss">Emboss</option>
+                <option value="Raised">Raised</option>
+                <option value="Sunken">Sunken</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private string BorderStyle { get; set; } = "Solid";
+    private int BorderWidth { get; set; } = 2;
+    private string BorderColor { get; set; } = "Dark";
+    private string BorderSkin { get; set; } = "None";
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"Chart with {BorderStyle} Border";
+        chart.ShowLegend = true;
+
+        // Create sample data
+        var series = new SvgChartSeries("Sales 2024")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        var series2 = new SvgChartSeries("Sales 2023")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(252, 180, 65)
+        };
+
+        string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+        double[] values2024 = [85, 92, 78, 95, 110, 105];
+        double[] values2023 = [75, 82, 70, 88, 95, 92];
+
+        for (int i = 0; i < months.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, values2024[i], months[i]));
+            series2.Points.Add(new SvgDataPoint(i + 1, values2023[i], months[i]));
+        }
+
+        chart.Series.Add(series);
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Chart border line style
+chart1.BorderlineDashStyle = ChartDashStyle.Solid;
+// Options: NotSet, Dash, DashDot, DashDotDot, Dot, Solid
+
+// Border width
+chart1.BorderlineWidth = 2;
+
+// Border color
+chart1.BorderlineColor = Color.FromArgb(26, 59, 105);
+
+// Border skin (3D effect)
+chart1.BorderSkin.SkinStyle = BorderSkinStyle.Emboss;
+// Options: None, Emboss, Raised, Sunken, FrameThin1, FrameThin2,
+//          FrameThin3, FrameThin4, FrameThin5, FrameThin6,
+//          FrameTitle1, FrameTitle2, FrameTitle3, FrameTitle4,
+//          FrameTitle5, FrameTitle6, FrameTitle7, FrameTitle8
+
+// Border skin page color (background)
+chart1.BorderSkin.PageColor = Color.WhiteSmoke;
+
+// Border skin back color
+chart1.BorderSkin.BackColor = Color.White;
+
+// Chart area borders
+chart1.ChartAreas[0].BorderColor = Color.Gray;
+chart1.ChartAreas[0].BorderDashStyle = ChartDashStyle.Solid;
+chart1.ChartAreas[0].BorderWidth = 1;
+
+// Series border
+chart1.Series[""Sales""].BorderColor = Color.DarkBlue;
+chart1.Series[""Sales""].BorderWidth = 1;
+chart1.Series[""Sales""].BorderDashStyle = ChartDashStyle.Solid;
+
+// Data point borders
+foreach (DataPoint point in chart1.Series[""Sales""].Points)
+{
+    point.BorderColor = Color.DarkGray;
+    point.BorderWidth = 1;
+}
+
+// Legend border
+chart1.Legends[0].BorderColor = Color.LightGray;
+chart1.Legends[0].BorderWidth = 1;
+chart1.Legends[0].BorderDashStyle = ChartDashStyle.Solid;
+
+// Title border
+chart1.Titles[0].BorderColor = Color.Transparent;
+chart1.Titles[0].BorderWidth = 0;
+
+// Remove all borders
+chart1.BorderlineWidth = 0;
+chart1.ChartAreas[0].BorderWidth = 0;
+chart1.Legends[0].BorderWidth = 0;";
+}

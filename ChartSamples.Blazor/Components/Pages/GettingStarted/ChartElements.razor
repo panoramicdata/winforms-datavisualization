@@ -1,0 +1,145 @@
+@page "/getting-started/chart-elements"
+
+<PageTitle>Chart Elements - Chart Samples</PageTitle>
+
+<SampleBase Title="Chart Elements Overview"
+            Description="This overview describes the main elements of a chart and how they work together."
+            CSharpCode="@_csharpCode">
+    
+    <div class="overview-content" style="padding: 20px; max-width: 800px;">
+        <h3>Main Chart Elements</h3>
+        
+        <div class="element-section">
+            <h4><i class="fa-solid fa-chart-line"></i> Chart</h4>
+            <p>The Chart is the top-level container that holds all other elements. It manages the overall appearance, 
+            including background color, borders, and the chart area.</p>
+        </div>
+
+        <div class="element-section">
+            <h4><i class="fa-solid fa-expand"></i> Chart Area</h4>
+            <p>The Chart Area is where the actual chart is drawn. A chart can have multiple chart areas, 
+            each with its own axes, series, and appearance settings. Chart areas can be positioned anywhere within the chart.</p>
+        </div>
+
+        <div class="element-section">
+            <h4><i class="fa-solid fa-list"></i> Series</h4>
+            <p>A Series represents a set of related data points. Each series has a chart type (Line, Bar, Pie, etc.), 
+            color, and other visual properties. Charts can display multiple series for comparison.</p>
+        </div>
+
+        <div class="element-section">
+            <h4><i class="fa-solid fa-circle"></i> Data Points</h4>
+            <p>Data Points are the individual values within a series. Each point has X and Y values, 
+            and can have additional properties like labels, colors, and tooltips.</p>
+        </div>
+
+        <div class="element-section">
+            <h4><i class="fa-solid fa-ruler-combined"></i> Axes</h4>
+            <p>Axes define the scale and labels for the chart. Most charts have X (horizontal) and Y (vertical) axes. 
+            Axes can be customized with titles, grid lines, tick marks, and formatting.</p>
+        </div>
+
+        <div class="element-section">
+            <h4><i class="fa-solid fa-list-ul"></i> Legend</h4>
+            <p>The Legend explains what each series represents. It shows the series name and color. 
+            Legends can be positioned and styled in many ways.</p>
+        </div>
+
+        <div class="element-section">
+            <h4><i class="fa-solid fa-heading"></i> Titles</h4>
+            <p>Titles provide context for the chart. Charts can have multiple titles positioned at different locations.</p>
+        </div>
+    </div>
+
+    <div class="diagram-container" style="padding: 20px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <ChartViewer Width="600" Height="350" Configure="@ConfigureChart" />
+    </div>
+
+</SampleBase>
+
+<style>
+    .element-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border-left: 4px solid var(--secondary-color, #4a90d9);
+    }
+    .element-section h4 {
+        margin: 0 0 8px 0;
+        color: #1a3b69;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .element-section p {
+        margin: 0;
+        color: #555;
+        line-height: 1.6;
+    }
+</style>
+
+@code {
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Chart Title";
+        chart.ShowLegend = true;
+
+        var series1 = new SvgChartSeries("Series 1")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        var series2 = new SvgChartSeries("Series 2")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(252, 180, 65)
+        };
+
+        string[] labels = ["Jan", "Feb", "Mar", "Apr", "May"];
+        double[] values1 = [30, 45, 40, 55, 50];
+        double[] values2 = [20, 35, 30, 45, 40];
+
+        for (int i = 0; i < labels.Length; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i + 1, values1[i], labels[i]));
+            series2.Points.Add(new SvgDataPoint(i + 1, values2[i], labels[i]));
+        }
+
+        chart.Series.Add(series2);
+        chart.Series.Add(series1);
+    }
+
+    private const string _csharpCode = @"// Create a chart with basic elements
+Chart chart1 = new Chart();
+
+// Set the title
+chart1.Titles.Add(""Sales Report"");
+
+// Add a chart area
+ChartArea chartArea = new ChartArea(""MainArea"");
+chart1.ChartAreas.Add(chartArea);
+
+// Configure axes
+chartArea.AxisX.Title = ""Month"";
+chartArea.AxisY.Title = ""Revenue"";
+
+// Add a series
+Series series = new Series(""Sales"");
+series.ChartType = SeriesChartType.Line;
+series.ChartArea = ""MainArea"";
+chart1.Series.Add(series);
+
+// Add data points
+series.Points.AddXY(""Jan"", 30);
+series.Points.AddXY(""Feb"", 45);
+series.Points.AddXY(""Mar"", 40);
+
+// Configure legend
+chart1.Legends.Add(new Legend(""MainLegend""));
+series.Legend = ""MainLegend"";";
+}

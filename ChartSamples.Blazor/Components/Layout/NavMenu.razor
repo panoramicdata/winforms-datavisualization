@@ -11,151 +11,445 @@
             <i class="fa-solid fa-house"></i> Home
         </NavLink>
 
-        @* Getting Started *@
-        <div class="nav-group @(IsGroupExpanded("getting-started") ? "expanded" : "")">
-            <div class="nav-group-header" @onclick="@(() => ToggleGroup("getting-started"))">
+        @* ===== CHART TYPES ===== *@
+        <div class="nav-group @(IsExpanded("chart-types") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => Toggle("chart-types"))">
                 <i class="fa-solid fa-chevron-right expand-icon"></i>
-                <i class="fa-solid fa-rocket"></i> Getting Started
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>Chart Types</span>
             </div>
-            <div class="nav-group-items">
-                <NavLink class="nav-item" href="getting-started/basic-populating-data">
-                    <i class="fa-solid fa-database"></i> Basic Populating Data
-                </NavLink>
-                <NavLink class="nav-item" href="getting-started/dynamic-chart-creation">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> Dynamic Chart Creation
-                </NavLink>
+            <div class="nav-group-content">
+                @* Advanced Financial Charts *@
+                <div class="nav-subgroup @(IsExpanded("adv-financial") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("adv-financial"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Advanced Financial Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/financial-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="chart-types/financial-charts">Stock and Candlestick Charts</NavLink>
+                    </div>
+                </div>
+
+                @* Price Change Financial Charts *@
+                <div class="nav-subgroup @(IsExpanded("price-financial") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("price-financial"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Price Change Financial Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/price-financial-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/kagi">Kagi Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/renko">Renko Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/point-figure">Point and Figure Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart/types/three-line-break">Three Line Break Chart</NavLink>
+                    </div>
+                </div>
+
+                @* Bar and Column Charts *@
+                <div class="nav-subgroup @(IsExpanded("bar-column") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("bar-column"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Bar and Column Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/bar-column-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/3d-bar-column">3D Bar and Column Charts</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/3d-cylinder">3D Cylinder Chart</NavLink>
+                        <NavLink class="nav-item" href="chart-types/bar-column-charts">Bar and Column Charts</NavLink>
+                        <NavLink class="nav-item" href="chart-types/stacked-charts">Stacked Bar and Column Charts</NavLink>
+                    </div>
+                </div>
+
+                @* Line Charts *@
+                <div class="nav-subgroup @(IsExpanded("line-charts") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("line-charts"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Line Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/line-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="chart-types/line-charts">Line, Step Line and Curve Charts</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/fast-line">Fast Line Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/3d-line">3D Line and Curve Charts</NavLink>
+                    </div>
+                </div>
+
+                @* Point Charts *@
+                <div class="nav-subgroup @(IsExpanded("point-charts") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("point-charts"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Point Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/point-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="chart-types/point-charts">Bubble Charts</NavLink>
+                        <NavLink class="nav-item" href="chart-types/scatter-charts">Point Charts</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/fast-point">Fast Point Chart</NavLink>
+                    </div>
+                </div>
+
+                @* Pie and Doughnut Charts *@
+                <div class="nav-subgroup @(IsExpanded("pie-doughnut") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("pie-doughnut"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Pie and Doughnut Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/pie-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/doughnut-in-doughnut">Doughnut Chart in Doughnut</NavLink>
+                        <NavLink class="nav-item" href="chart-types/pie-charts">Pie and Doughnut Charts</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart/types/pie-collected">Collecting Small Pie Segments</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/supplemental-pie">Supplemental Pie Charts</NavLink>
+                    </div>
+                </div>
+
+                @* Area Charts *@
+                <div class="nav-subgroup @(IsExpanded("area-charts") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("area-charts"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Area Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/area-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/3d-area">3D Area and Spline Area Charts</NavLink>
+                        <NavLink class="nav-item" href="chart-types/area-charts">Area and Spline Area Charts</NavLink>
+                    </div>
+                </div>
+
+                @* Range Charts *@
+                <div class="nav-subgroup @(IsExpanded("range-charts") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("range-charts"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Range Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/range-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="chart-types/range-charts">Range and Spline Range Charts</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/3d-range">3D Range and Spline Range Charts</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/range-bar">Range Bar Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart/types/3d-range-bar">3D Range Bar Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/range-column">Range Column Chart</NavLink>
+                    </div>
+                </div>
+
+                @* Circular Charts *@
+                <div class="nav-subgroup @(IsExpanded("circular-charts") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("circular-charts"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Circular Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="chart-types/circular-charts">Gallery</NavLink>
+                        <NavLink class="nav-item" href="chart-types/polar-chart">Polar Chart</NavLink>
+                        <NavLink class="nav-item" href="chart-types/radar-chart">Radar Chart</NavLink>
+                    </div>
+                </div>
+
+                @* Combinational Charts *@
+                <div class="nav-subgroup @(IsExpanded("combinational") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("combinational"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Combinational Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/combinational-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="chart-types/combinational-charts">Combination of Chart Types</NavLink>
+                        <NavLink class="nav-item" href="chart-types/pareto-charts">Pareto Chart</NavLink>
+                    </div>
+                </div>
+
+                @* Data Distribution Charts *@
+                <div class="nav-subgroup @(IsExpanded("distribution") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("distribution"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Data Distribution Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="chart-types/box-plot-charts">Box Plot Chart</NavLink>
+                        <NavLink class="nav-item" href="chart-types/histogram-charts">Histogram Chart</NavLink>
+                    </div>
+                </div>
+
+                @* Accumulation Charts *@
+                <div class="nav-subgroup @(IsExpanded("accumulation") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("accumulation"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Accumulation Charts</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/chart-types/accumulation-gallery">Gallery</NavLink>
+                        <NavLink class="nav-item" href="chart-types/pyramid-funnel-charts">Funnel Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/chart-types/pyramid">Pyramid Chart</NavLink>
+                    </div>
+                </div>
+
+                @* Error Bar Chart - Top level *@
+                <NavLink class="nav-item top-level" href="chart-types/error-bar-charts">Error Bar Chart</NavLink>
             </div>
         </div>
 
-        @* Chart Types *@
-        <div class="nav-group @(IsGroupExpanded("chart-types") ? "expanded" : "")">
-            <div class="nav-group-header" @onclick="@(() => ToggleGroup("chart-types"))">
+        @* ===== GETTING STARTED ===== *@
+        <div class="nav-group @(IsExpanded("getting-started") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => Toggle("getting-started"))">
                 <i class="fa-solid fa-chevron-right expand-icon"></i>
-                <i class="fa-solid fa-chart-simple"></i> Chart Types
+                <i class="fa-solid fa-rocket"></i>
+                <span>Getting Started</span>
             </div>
-            <div class="nav-group-items">
-                <NavLink class="nav-item" href="chart-types/line-charts">
-                    <i class="fa-solid fa-chart-line"></i> Line Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/bar-column-charts">
-                    <i class="fa-solid fa-chart-column"></i> Bar/Column Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/area-charts">
-                    <i class="fa-solid fa-chart-area"></i> Area Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/pie-charts">
-                    <i class="fa-solid fa-chart-pie"></i> Pie/Doughnut Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/scatter-charts">
-                    <i class="fa-solid fa-braille"></i> Scatter Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/point-charts">
-                    <i class="fa-solid fa-circle"></i> Point/Bubble Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/range-charts">
-                    <i class="fa-solid fa-arrows-up-down"></i> Range Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/stacked-charts">
-                    <i class="fa-solid fa-layer-group"></i> Stacked Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/financial-charts">
-                    <i class="fa-solid fa-money-bill-trend-up"></i> Financial Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/circular-charts">
-                    <i class="fa-solid fa-bullseye"></i> Polar/Radar Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/pyramid-funnel-charts">
-                    <i class="fa-solid fa-filter"></i> Pyramid/Funnel Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/histogram-charts">
-                    <i class="fa-solid fa-chart-bar"></i> Histogram Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/box-plot-charts">
-                    <i class="fa-solid fa-box"></i> Box Plot Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/combinational-charts">
-                    <i class="fa-solid fa-object-group"></i> Combinational Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/error-bar-charts">
-                    <i class="fa-solid fa-arrows-up-down-left-right"></i> Error Bar Charts
-                </NavLink>
-                <NavLink class="nav-item" href="chart-types/pareto-charts">
-                    <i class="fa-solid fa-ranking-star"></i> Pareto Charts
-                </NavLink>
+            <div class="nav-group-content">
+                <NavLink class="nav-item" href="getting-started/chart-elements">Chart Elements</NavLink>
+                <NavLink class="nav-item" href="getting-started/coordinate-system">Coordinate System</NavLink>
+                <NavLink class="nav-item" href="getting-started/text-elements">Text Elements</NavLink>
+                <NavLink class="nav-item" href="getting-started/series-and-points">Series and Points</NavLink>
+                <NavLink class="nav-item" href="getting-started/basic-populating-data">Basic Data Population</NavLink>
+                <NavLink class="nav-item" href="getting-started/dynamic-chart-creation">Creating a Chart Dynamically</NavLink>
             </div>
         </div>
 
-        @* Chart Features *@
-        <div class="nav-group @(IsGroupExpanded("chart-features") ? "expanded" : "")">
-            <div class="nav-group-header" @onclick="@(() => ToggleGroup("chart-features"))">
+        @* ===== APPEARANCE ===== *@
+        <div class="nav-group @(IsExpanded("appearance") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => Toggle("appearance"))">
                 <i class="fa-solid fa-chevron-right expand-icon"></i>
-                <i class="fa-solid fa-sliders"></i> Chart Features
+                <i class="fa-solid fa-palette"></i>
+                <span>Appearance</span>
             </div>
-            <div class="nav-group-items">
-                <NavLink class="nav-item" href="chart-features/titles-legends">
-                    <i class="fa-solid fa-heading"></i> Titles & Legends
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/legend-appearance">
-                    <i class="fa-solid fa-palette"></i> Legend Appearance
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/legend-position">
-                    <i class="fa-solid fa-arrows-to-dot"></i> Legend Position
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/axis">
-                    <i class="fa-solid fa-ruler-combined"></i> Axis Features
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/labels">
-                    <i class="fa-solid fa-tag"></i> Labels
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/data-series">
-                    <i class="fa-solid fa-list"></i> Data Series
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/chart-area">
-                    <i class="fa-solid fa-expand"></i> Chart Area
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/multiple-series">
-                    <i class="fa-solid fa-layer-group"></i> Multiple Series
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/chart-styling">
-                    <i class="fa-solid fa-brush"></i> Chart Styling
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/tooltips">
-                    <i class="fa-solid fa-comment-dots"></i> Tooltips
-                </NavLink>
-                <NavLink class="nav-item" href="chart-features/export">
-                    <i class="fa-solid fa-file-export"></i> Export & Save
-                </NavLink>
+            <div class="nav-group-content">
+                <NavLink class="nav-item" href="not-implemented/appearance/plotting-area">Plotting Area Appearance</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/anti-aliasing">Anti Aliasing</NavLink>
+                <NavLink class="nav-item" href="chart-appearance/backgrounds">Chart Background Appearance</NavLink>
+                <NavLink class="nav-item" href="chart-appearance/borders">Border Appearance</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/3d-gap-depth">3D Point Gap and Depth</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/3d-perspective">3D Perspective</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/axis-line">Axis Line Appearance</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/strip-line">Strip Line Appearance</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/3d-rotation">3D Rotation and Elevation</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/series">Series Appearance</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/cursor">Cursor Appearance</NavLink>
+                <NavLink class="nav-item" href="not-implemented/appearance/scrollbar">Scrollbar Appearance</NavLink>
+                <NavLink class="nav-item" href="chart-features/legend-appearance">Legend Appearance</NavLink>
             </div>
         </div>
 
-        @* Chart Appearance *@
-        <div class="nav-group @(IsGroupExpanded("chart-appearance") ? "expanded" : "")">
-            <div class="nav-group-header" @onclick="@(() => ToggleGroup("chart-appearance"))">
+        @* ===== CHART FEATURES ===== *@
+        <div class="nav-group @(IsExpanded("chart-features") ? "expanded" : "")">
+            <div class="nav-group-header" @onclick="@(() => Toggle("chart-features"))">
                 <i class="fa-solid fa-chevron-right expand-icon"></i>
-                <i class="fa-solid fa-palette"></i> Chart Appearance
+                <i class="fa-solid fa-sliders"></i>
+                <span>Chart Features</span>
             </div>
-            <div class="nav-group-items">
-                <NavLink class="nav-item" href="chart-appearance/color-palettes">
-                    <i class="fa-solid fa-swatchbook"></i> Color Palettes
-                </NavLink>
-                <NavLink class="nav-item" href="chart-appearance/backgrounds">
-                    <i class="fa-solid fa-fill-drip"></i> Backgrounds
-                </NavLink>
+            <div class="nav-group-content">
+                @* Data Series *@
+                <div class="nav-subgroup @(IsExpanded("data-series") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("data-series"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Data Series</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="chart-features/data-series">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/series-chart-areas">Series and Chart Areas</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/adding-series">Adding and Removing Series</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/hiding-series">Hiding Series</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/indexed-x">Indexed X Values</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/point-width-depth">Points Width and 3D Depth</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/secondary-y">Secondary Y Axis</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/series-z-order">Series Z Order</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/series-appearance">Series Appearance</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/using-labels">Using Labels</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/using-markers">Using Markers</NavLink>
+                        <NavLink class="nav-item" href="chart-features/custom-tooltips">Custom ToolTips</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/smart-labels">Smart Labels</NavLink>
+                    </div>
+                </div>
+
+                @* Chart Areas *@
+                <div class="nav-subgroup @(IsExpanded("chart-areas") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("chart-areas"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Chart Areas</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="chart-features/chart-area">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/chart-area-position">Chart Area Position</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/plotting-appearance">Plotting Area Appearance</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/alignment-types">Alignment Types</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/mini-chart">Mini-Chart in Data Points</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/doughnut-in-doughnut">Doughnut Chart in Doughnut</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/z-order">Z Order</NavLink>
+                    </div>
+                </div>
+
+                @* Axes *@
+                <div class="nav-subgroup @(IsExpanded("axes") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("axes"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Axes</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="chart-features/axis">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/axis-appearance">Axis Line Appearance</NavLink>
+                        <NavLink class="nav-item" href="chart-features/multiple-axes">Multiple Y Axes</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/axis-title">Axis Title</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/axis-margins">Axis Margins</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/axis-scale">Axis Scale</NavLink>
+                        <NavLink class="nav-item" href="chart-features/logarithmic-scale">Logarithmic Scale</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/scale-breaks">Scale Breaks</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/crossing-reverse">Crossing and Reverse</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/grid-tick">Grid Lines and Tick Marks</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/primary-secondary">Primary and Secondary Axes</NavLink>
+                    </div>
+                </div>
+
+                @* Legends *@
+                <div class="nav-subgroup @(IsExpanded("legends") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("legends"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Legends</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="chart-features/titles-legends">Overview</NavLink>
+                        <NavLink class="nav-item" href="chart-features/legend-appearance">Appearance</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/interactive-legend">Interactive Legend</NavLink>
+                        <NavLink class="nav-item" href="chart-features/legend-position">Style and Auto Positioning</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/legend-columns">Setting Multiple Columns</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/legend-font">Legend Font</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/legend-title">Adding a Legend Title</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/legend-assignment">Series Legend Assignment</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/legend-explicit">Explicit Positioning</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/multiple-legends">Multiple Legends</NavLink>
+                    </div>
+                </div>
+
+                @* Labels *@
+                <div class="nav-subgroup @(IsExpanded("labels") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("labels"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Labels</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="chart-features/labels">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/smart-labels">Smart Labels</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/axis-data-labels">Axis and Data Point Labels</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/label-interval">Axis Labels Interval</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/label-style">Labels Text Style</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/label-formatting">Formatting Labels</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/label-keywords">Using Keywords in Labels</NavLink>
+                    </div>
+                </div>
+
+                @* Titles *@
+                <div class="nav-subgroup @(IsExpanded("titles") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("titles"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Titles</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/features/titles-overview">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/chart-title">Chart Title</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/legend-title">Legend Title</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/axis-title">Axis Title</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/strip-line-titles">Strip Line Titles</NavLink>
+                        <NavLink class="nav-item" href="chart-features/multiple-titles">Multiple Titles</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/title-positioning">Explicit Positioning</NavLink>
+                    </div>
+                </div>
+
+                @* Annotations *@
+                <div class="nav-subgroup @(IsExpanded("annotations") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("annotations"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Annotations</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/features/annotations-overview">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/annotation-appearance">Annotation Appearance</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/annotation-types">Annotation Types</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/annotation-smart">Annotation Smart Labels</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/annotation-anchoring">Annotation Anchoring</NavLink>
+                    </div>
+                </div>
+
+                @* Customization and Events *@
+                <div class="nav-subgroup @(IsExpanded("customization") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("customization"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Customization and Events</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/features/custom-overview">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/prepaint-postpaint">PrePaint and PostPaint Events</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/custom-image">Custom Painting an Image</NavLink>
+                        <NavLink class="nav-item" href="chart-features/custom-tooltips">Custom ToolTips</NavLink>
+                    </div>
+                </div>
+
+                @* Interactive Charting *@
+                <div class="nav-subgroup @(IsExpanded("interactive") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("interactive"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Interactive Charting</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/features/interactive-overview">Overview</NavLink>
+                        <div class="nav-section-header">Selection</div>
+                        <NavLink class="nav-item" href="chart-features/drill-down">Drill Down</NavLink>
+                        <NavLink class="nav-item" href="chart-features/interactive-pie">Interactive Pie Chart</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/dragging">Changing Values by Dragging</NavLink>
+                        <NavLink class="nav-item" href="chart-features/selection">Selection of Data Points</NavLink>
+                        <div class="nav-section-header">Zooming and Scrolling</div>
+                        <NavLink class="nav-item" href="chart-features/zooming">Basic Zooming</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/scrollbar-appearance">Scrollbar Appearance</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/keyboard-scrolling">Keyboard Scrolling</NavLink>
+                        <div class="nav-section-header">Tooltips</div>
+                        <NavLink class="nav-item" href="chart-features/tooltips">Standard ToolTips</NavLink>
+                        <NavLink class="nav-item" href="chart-features/custom-tooltips">Custom ToolTips</NavLink>
+                    </div>
+                </div>
+
+                @* Printing *@
+                <div class="nav-subgroup @(IsExpanded("printing") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("printing"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Printing</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/features/printing-overview">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/print-preview">Printing and Previewing</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/print-settings">Programmatic Print Settings</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/printer-friendly">Printer Friendly Charts</NavLink>
+                    </div>
+                </div>
+
+                @* Serialization *@
+                <div class="nav-subgroup @(IsExpanded("serialization") ? "expanded" : "")">
+                    <div class="nav-subgroup-header" @onclick:stopPropagation @onclick="@(() => Toggle("serialization"))">
+                        <i class="fa-solid fa-chevron-right expand-icon"></i>
+                        <span>Serialization</span>
+                    </div>
+                    <div class="nav-subgroup-content">
+                        <NavLink class="nav-item" href="not-implemented/features/serialization-overview">Overview</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/basic-serialization">Basic Serialization</NavLink>
+                        <NavLink class="nav-item" href="not-implemented/features/templates">Using Templates</NavLink>
+                    </div>
+                </div>
+
+                @* Top-level feature items *@
+                <NavLink class="nav-item top-level" href="chart-appearance/color-palettes">Palettes</NavLink>
+                <NavLink class="nav-item top-level" href="chart-features/export">Saving And Copying Images</NavLink>
             </div>
         </div>
     </div>
 </nav>
 
 @code {
-    private HashSet<string> _expandedGroups = new() { "getting-started", "chart-types" };
+    private HashSet<string> _expanded = new() { "chart-types" };
 
-    private bool IsGroupExpanded(string groupName) => _expandedGroups.Contains(groupName);
+    private bool IsExpanded(string key) => _expanded.Contains(key);
 
-    private void ToggleGroup(string groupName)
+    private void Toggle(string key)
     {
-        if (_expandedGroups.Contains(groupName))
-            _expandedGroups.Remove(groupName);
+        if (_expanded.Contains(key))
+            _expanded.Remove(key);
         else
-            _expandedGroups.Add(groupName);
+            _expanded.Add(key);
     }
 }

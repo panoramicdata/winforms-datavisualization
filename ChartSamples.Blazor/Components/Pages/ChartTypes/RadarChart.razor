@@ -1,0 +1,125 @@
+@page "/chart-types/radar-chart"
+
+<PageTitle>Radar Chart - Chart Samples</PageTitle>
+
+<SampleBase Title="Radar Chart Type"
+            Description="This sample displays a Radar chart, which is a circular graph used primarily as a comparative tool. A 3D effect can also be added to the area background."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-layout">
+        <div class="chart-panel">
+            <ChartViewer Width="412" Height="288" Configure="@ConfigureChart" />
+        </div>
+        <div class="control-panel">
+            <div class="control-group">
+                <label>Radar Style:</label>
+                <select @bind="RadarStyle" @bind:after="RefreshChart">
+                    <option value="Area">Area</option>
+                    <option value="Line">Line</option>
+                    <option value="Marker">Marker</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Area Drawing Style:</label>
+                <select @bind="AreaDrawingStyle" @bind:after="RefreshChart">
+                    <option value="Circle">Circle</option>
+                    <option value="Polygon">Polygon</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Labels Style:</label>
+                <select @bind="LabelsStyle" @bind:after="RefreshChart">
+                    <option value="Horizontal">Horizontal</option>
+                    <option value="Circular">Circular</option>
+                    <option value="Radial">Radial</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="sample-note">
+        <p>Try different styles for the radar, area drawing and labels.</p>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string RadarStyle { get; set; } = "Area";
+    private string AreaDrawingStyle { get; set; } = "Circle";
+    private string LabelsStyle { get; set; } = "Horizontal";
+
+    private readonly string[] _categories = ["France", "Canada", "Germany", "USA", "Italy", "Spain", "Russia", "Sweden", "Japan"];
+    private readonly double[] _values1 = [65.62, 75.54, 60.45, 34.73, 85.42, 55.9, 63.6, 55.1, 77.2];
+    private readonly double[] _values2 = [76.45, 23.78, 86.45, 30.76, 23.79, 35.67, 89.56, 67.45, 38.98];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Radar Chart";
+        chart.ShowLegend = true;
+
+        // Series 1
+        var series1 = new SvgChartSeries("Series1")
+        {
+            ChartType = SvgChartType.Radar,
+            Color = RadarStyle == "Area" 
+                ? ChartColor.FromArgb(180, 65, 140, 240)
+                : ChartColor.FromArgb(220, 65, 140, 240),
+            LineWidth = RadarStyle == "Area" ? 1 : 2,
+            ShowMarkers = RadarStyle != "Area",
+            MarkerSize = 9,
+            MarkerStyle = SvgMarkerStyle.Circle
+        };
+
+        // Series 2
+        var series2 = new SvgChartSeries("Series2")
+        {
+            ChartType = SvgChartType.Radar,
+            Color = RadarStyle == "Area"
+                ? ChartColor.FromArgb(180, 252, 180, 65)
+                : ChartColor.FromArgb(220, 252, 180, 65),
+            LineWidth = RadarStyle == "Area" ? 1 : 2,
+            ShowMarkers = RadarStyle != "Area",
+            MarkerSize = 9,
+            MarkerStyle = SvgMarkerStyle.Circle
+        };
+
+        // Add data points with category labels
+        for (int i = 0; i < _categories.Length; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i, _values1[i], _categories[i]));
+            series2.Points.Add(new SvgDataPoint(i, _values2[i], _categories[i]));
+        }
+
+        chart.Series.Add(series1);
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Set chart type to Radar
+chart1.Series[""Series1""].ChartType = SeriesChartType.Radar;
+chart1.Series[""Series2""].ChartType = SeriesChartType.Radar;
+
+// Set radar drawing style
+chart1.Series[""Series1""][""RadarDrawingStyle""] = ""Area"";
+// Options: Area, Line, Marker
+
+// Set area drawing style
+chart1.Series[""Series1""][""AreaDrawingStyle""] = ""Circle"";
+// Options: Circle, Polygon
+
+// Set circular labels style
+chart1.Series[""Series1""][""CircularLabelsStyle""] = ""Horizontal"";
+// Options: Circular, Radial, Horizontal
+
+// Populate data with category labels
+string[] categories = { ""France"", ""Canada"", ""Germany"", ""USA"", ""Italy"", ""Spain"", ""Russia"", ""Sweden"", ""Japan"" };
+double[] values1 = { 65.62, 75.54, 60.45, 34.73, 85.42, 55.9, 63.6, 55.1, 77.2 };
+double[] values2 = { 76.45, 23.78, 86.45, 30.76, 23.79, 35.67, 89.56, 67.45, 38.98 };
+
+chart1.Series[""Series1""].Points.DataBindXY(categories, values1);
+chart1.Series[""Series2""].Points.DataBindXY(categories, values2);";
+}

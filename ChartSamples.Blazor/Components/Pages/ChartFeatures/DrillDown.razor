@@ -1,0 +1,290 @@
+@page "/chart-features/drill-down"
+
+<PageTitle>Drill Down - Chart Samples</PageTitle>
+
+<SampleBase Title="Drill Down Charts"
+            Description="This sample demonstrates drill-down functionality to navigate from summary to detailed data views."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Current Level:</label>
+            <span class="level-indicator">
+                @for (int i = 0; i <= CurrentLevel; i++)
+                {
+                    @if (i > 0) { <span> ? </span> }
+                    <span class="@(i == CurrentLevel ? "current-level" : "")">@GetLevelName(i)</span>
+                }
+            </span>
+        </div>
+        <div class="control-group">
+            @if (CurrentLevel > 0)
+            {
+                <button class="drill-btn" @onclick="DrillUp">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </button>
+            }
+            <button class="drill-btn" @onclick="ResetDrill">
+                <i class="fa-solid fa-home"></i> Reset
+            </button>
+        </div>
+    </div>
+
+    <div style="padding: 10px; text-align: center; color: #666;">
+        <i class="fa-solid fa-hand-pointer"></i> Select a category below to drill down
+    </div>
+
+    <ChartViewer Width="700" Height="380" Configure="@ConfigureChart" />
+    
+    <div class="drill-options" style="padding: 15px; background: #f0f0f0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+        @foreach (var item in GetCurrentLevelData())
+        {
+            <button class="category-btn" @onclick="@(() => DrillInto(item.Label))">
+                @item.Label: $@(item.Value.ToString("N0"))K
+            </button>
+        }
+    </div>
+
+</SampleBase>
+
+<style>
+    .drill-btn {
+        padding: 6px 12px;
+        margin-right: 8px;
+        background: linear-gradient(135deg, #1a3b69, #4a90d9);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .drill-btn:hover {
+        background: linear-gradient(135deg, #0d2844, #3a7ac9);
+    }
+    .category-btn {
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+    }
+    .category-btn:hover {
+        background: #e8f4fc;
+        border-color: #4a90d9;
+    }
+    .level-indicator {
+        font-weight: 500;
+    }
+    .current-level {
+        color: #1a3b69;
+        font-weight: bold;
+    }
+</style>
+
+@code {
+    private int CurrentLevel { get; set; } = 0;
+    private string SelectedRegion { get; set; } = "";
+    private string SelectedProduct { get; set; } = "";
+
+    // Hierarchical data structure
+    private readonly Dictionary<string, Dictionary<string, double[]>> _data = new()
+    {
+        ["North"] = new() {
+            ["Electronics"] = [45, 52, 48, 55],
+            ["Clothing"] = [32, 38, 35, 42],
+            ["Food"] = [28, 30, 32, 35]
+        },
+        ["South"] = new() {
+            ["Electronics"] = [38, 42, 40, 48],
+            ["Clothing"] = [25, 28, 30, 32],
+            ["Food"] = [22, 25, 28, 30]
+        },
+        ["East"] = new() {
+            ["Electronics"] = [52, 58, 55, 62],
+            ["Clothing"] = [40, 45, 42, 48],
+            ["Food"] = [35, 38, 40, 42]
+        },
+        ["West"] = new() {
+            ["Electronics"] = [48, 55, 52, 58],
+            ["Clothing"] = [35, 40, 38, 45],
+            ["Food"] = [30, 35, 32, 38]
+        }
+    };
+
+    private string GetLevelName(int level)
+    {
+        return level switch
+        {
+            0 => "Regions",
+            1 => SelectedRegion,
+            2 => SelectedProduct,
+            _ => ""
+        };
+    }
+
+    private (string Label, double Value)[] GetCurrentLevelData()
+    {
+        if (CurrentLevel == 0)
+        {
+            return _data.Select(r => (r.Key, r.Value.Values.SelectMany(v => v).Sum())).ToArray();
+        }
+        else if (CurrentLevel == 1 && _data.ContainsKey(SelectedRegion))
+        {
+            return _data[SelectedRegion].Select(p => (p.Key, p.Value.Sum())).ToArray();
+        }
+        else if (CurrentLevel == 2 && _data.ContainsKey(SelectedRegion) && _data[SelectedRegion].ContainsKey(SelectedProduct))
+        {
+            var quarters = new[] { "Q1", "Q2", "Q3", "Q4" };
+            var values = _data[SelectedRegion][SelectedProduct];
+            return quarters.Zip(values, (q, v) => (q, v)).ToArray();
+        }
+        return [];
+    }
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        var levelData = GetCurrentLevelData();
+        chart.Title = $"Sales by {GetLevelName(CurrentLevel)}";
+        chart.ShowLegend = false;
+
+        ChartColor[] colors = [
+            ChartColor.FromArgb(65, 140, 240),
+            ChartColor.FromArgb(252, 180, 65),
+            ChartColor.FromArgb(224, 64, 10),
+            ChartColor.FromArgb(5, 100, 146)
+        ];
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = CurrentLevel == 2 ? SvgChartType.Line : SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = CurrentLevel == 2,
+            MarkerSize = 10
+        };
+
+        for (int i = 0; i < levelData.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, levelData[i].Value, levelData[i].Label));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void DrillInto(string label)
+    {
+        if (CurrentLevel == 0)
+        {
+            SelectedRegion = label;
+            CurrentLevel = 1;
+        }
+        else if (CurrentLevel == 1)
+        {
+            SelectedProduct = label;
+            CurrentLevel = 2;
+        }
+        StateHasChanged();
+    }
+
+    private void DrillUp()
+    {
+        if (CurrentLevel > 0)
+        {
+            CurrentLevel--;
+            if (CurrentLevel == 0)
+            {
+                SelectedRegion = "";
+                SelectedProduct = "";
+            }
+            else if (CurrentLevel == 1)
+            {
+                SelectedProduct = "";
+            }
+        }
+        StateHasChanged();
+    }
+
+    private void ResetDrill()
+    {
+        CurrentLevel = 0;
+        SelectedRegion = "";
+        SelectedProduct = "";
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Handle chart click for drill-down
+chart1.MouseClick += (sender, e) =>
+{
+    HitTestResult result = chart1.HitTest(e.X, e.Y);
+    
+    if (result.ChartElementType == ChartElementType.DataPoint)
+    {
+        DataPoint point = chart1.Series[0].Points[result.PointIndex];
+        string category = point.AxisLabel;
+        
+        // Drill down to next level
+        LoadDetailData(category);
+    }
+};
+
+// Track drill level
+int drillLevel = 0;
+Stack<string> drillPath = new Stack<string>();
+
+void DrillDown(string category)
+{
+    drillPath.Push(category);
+    drillLevel++;
+    LoadDataForLevel(drillLevel, category);
+}
+
+void DrillUp()
+{
+    if (drillPath.Count > 0)
+    {
+        drillPath.Pop();
+        drillLevel--;
+        string parent = drillPath.Count > 0 ? drillPath.Peek() : null;
+        LoadDataForLevel(drillLevel, parent);
+    }
+}
+
+void ResetDrill()
+{
+    drillPath.Clear();
+    drillLevel = 0;
+    LoadTopLevelData();
+}
+
+// Load data based on level
+void LoadDataForLevel(int level, string category)
+{
+    chart1.Series[0].Points.Clear();
+    
+    switch (level)
+    {
+        case 0: // Top level - Regions
+            LoadRegionData();
+            break;
+        case 1: // Products in region
+            LoadProductData(category);
+            break;
+        case 2: // Quarterly detail
+            LoadQuarterlyData(category);
+            break;
+    }
+    
+    chart1.Titles[0].Text = GetTitleForLevel(level, category);
+}
+
+// Show breadcrumb navigation
+void UpdateBreadcrumb()
+{
+    string path = string.Join("" > "", drillPath.Reverse());
+    lblBreadcrumb.Text = path.Length > 0 ? $""Home > {path}"" : ""Home"";
+}";
+}

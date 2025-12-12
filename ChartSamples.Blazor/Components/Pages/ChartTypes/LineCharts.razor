@@ -2,125 +2,162 @@
 
 <PageTitle>Line Charts - Chart Samples</PageTitle>
 
-<SampleBase Title="Line Charts"
-            Description="This sample demonstrates Line, Spline, StepLine, and FastLine chart types for displaying connected data points."
+<SampleBase Title="Line, Step Line and Curve Chart Types"
+            Description="This sample demonstrates the Line, Spline and, StepLine chart types."
             CSharpCode="@_csharpCode">
     
-    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
-        <div class="control-group">
-            <label>Chart Type:</label>
-            <select @bind="SelectedLineType" @bind:after="RefreshChart">
-                <option value="Line">Line</option>
-                <option value="Spline">Spline (Curved)</option>
-                <option value="StepLine">Step Line</option>
-                <option value="FastLine">Fast Line (Many Points)</option>
-            </select>
+    <div class="sample-layout">
+        <div class="chart-panel">
+            <ChartViewer Width="412" Height="296" Configure="@ConfigureChart" />
         </div>
-        <div class="control-group">
-            <label>Show Markers:</label>
-            <input type="checkbox" @bind="ShowMarkers" @bind:after="RefreshChart" />
-        </div>
-        <div class="control-group">
-            <label>Line Width:</label>
-            <select @bind="LineWidth" @bind:after="RefreshChart">
-                <option value="1">1px</option>
-                <option value="2">2px</option>
-                <option value="3">3px</option>
-                <option value="4">4px</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label>Data Points:</label>
-            <select @bind="DataPointCount" @bind:after="RefreshChart">
-                <option value="10">10 Points</option>
-                <option value="20">20 Points</option>
-                <option value="50">50 Points</option>
-                <option value="100">100 Points (FastLine)</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label>Show Second Series:</label>
-            <input type="checkbox" @bind="ShowSecondSeries" @bind:after="RefreshChart" />
+        
+        <div class="control-panel">
+            <div class="control-group">
+                <label>Chart Type:</label>
+                <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                    <option value="Line">Line</option>
+                    <option value="Spline">Spline</option>
+                    <option value="StepLine">StepLine</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Point Labels:</label>
+                <select @bind="PointLabels" @bind:after="RefreshChart">
+                    <option value="None">None</option>
+                    <option value="Auto">Auto</option>
+                    <option value="TopLeft">TopLeft</option>
+                    <option value="Top">Top</option>
+                    <option value="TopRight">TopRight</option>
+                    <option value="Right">Right</option>
+                    <option value="BottomRight">BottomRight</option>
+                    <option value="Bottom">Bottom</option>
+                    <option value="BottomLeft">BottomLeft</option>
+                    <option value="Left">Left</option>
+                    <option value="Center">Center</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Show X Axis Margin:</label>
+                <input type="checkbox" @bind="ShowXAxisMargin" @bind:after="RefreshChart" />
+            </div>
+            <div class="control-group">
+                <label>Display chart as 3D:</label>
+                <input type="checkbox" @bind="Show3D" @bind:after="RefreshChart" disabled title="3D not yet supported" />
+            </div>
         </div>
     </div>
-
-    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+    
+    <div class="sample-note">
+        The label style can be set using the LabelStyle custom attribute, and the ShowMarkers 
+        custom attribute is used to display data point markers when the chart area is set to 3D.
+    </div>
 
 </SampleBase>
 
+<style>
+    .sample-layout {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+    }
+    .chart-panel {
+        flex: 0 0 auto;
+    }
+    .control-panel {
+        flex: 0 0 280px;
+        padding: 10px;
+    }
+    .sample-note {
+        padding: 15px 20px;
+        background: #f9f9f9;
+        border-top: 1px solid #e0e0e0;
+        font-size: 13px;
+        color: #555;
+        line-height: 1.5;
+    }
+</style>
+
 @code {
-    private string SelectedLineType { get; set; } = "Line";
-    private bool ShowMarkers { get; set; } = true;
-    private int LineWidth { get; set; } = 3;
-    private int DataPointCount { get; set; } = 10;
-    private bool ShowSecondSeries { get; set; } = true;
+    private string SelectedChartType { get; set; } = "Line";
+    private string PointLabels { get; set; } = "None";
+    private bool ShowXAxisMargin { get; set; } = false;
+    private bool Show3D { get; set; } = false;
+    
+    // Randomize seed - increment to get different deterministic data sets
+    private int RandomizeSeed { get; set; } = 0;
 
     private void ConfigureChart(SvgChart chart)
     {
-        chart.Title = $"{SelectedLineType} Chart Example";
-        chart.ShowLegend = ShowSecondSeries;
+        // Match WinForms styling
+        chart.Title = "";
+        chart.ShowLegend = false;
+        
+        // Set chart background gradient to match WinForms
+        // WinForms: BackColor = Color.FromArgb(243, 223, 193), BackGradientStyle = TopBottom
+        chart.BackColor = ChartColor.FromArgb(243, 223, 193);
+        chart.BackSecondaryColor = ChartColor.White;
+        chart.BackGradientStyle = ChartGradientStyle.TopBottom;
+        
+        // Configure chart area to match WinForms styling
+        // WinForms: BackColor = OldLace, BackSecondaryColor = White, BackGradientStyle = TopBottom
+        var chartArea = chart.ChartAreas[0];
+        chartArea.BackColor = ChartColor.FromArgb(253, 245, 230);  // OldLace
+        chartArea.BackSecondaryColor = ChartColor.White;
+        chartArea.BackGradientStyle = ChartGradientStyle.TopBottom;
+        chartArea.AxisColor = ChartColor.FromArgb(64, 64, 64, 64); // Semi-transparent
+        chartArea.GridColor = ChartColor.FromArgb(64, 64, 64, 64); // Semi-transparent
 
-        // Disable markers for FastLine with many points
-        var effectiveShowMarkers = ShowMarkers && (SelectedLineType != "FastLine" || DataPointCount <= 20);
+        // Set X axis margin based on checkbox
+        chartArea.AxisX.IsMarginVisible = ShowXAxisMargin;
 
-        // Series 1
-        var series1 = new SvgChartSeries("Series 1")
+        // Parse selected chart type to SvgChartType enum
+        var chartType = SelectedChartType switch
         {
-            ChartType = SvgChartType.Line,
-            Color = ChartColor.FromArgb(220, 65, 140, 240),
-            LineWidth = LineWidth,
-            ShowMarkers = effectiveShowMarkers,
-            MarkerSize = 8
+            "Spline" => SvgChartType.Spline,
+            "StepLine" => SvgChartType.StepLine,
+            _ => SvgChartType.Line
         };
 
-        var random = new Random(42); // Fixed seed for consistency
-        double value1 = 50;
-        
-        for (int i = 0; i < DataPointCount; i++)
+        // Use seeded random for deterministic but realistic data
+        var random = new Random(RandomizeSeed);
+
+        // Series 1 - Blue line with Circle markers (matches WinForms)
+        var series1 = new SvgChartSeries("Series1")
         {
-            if (SelectedLineType == "StepLine")
-            {
-                // Step line looks better with discrete jumps
-                value1 = 30 + random.Next(0, 50);
-            }
-            else
-            {
-                // Smooth random walk for other types
-                value1 += (random.NextDouble() - 0.5) * 15;
-                value1 = Math.Max(10, Math.Min(90, value1));
-            }
-            series1.Points.Add(new SvgDataPoint(i + 1, value1));
+            ChartType = chartType,
+            Color = ChartColor.FromArgb(220, 65, 140, 240),  // Matches WinForms series1.Color
+            LineWidth = 3,                                    // Matches BorderWidth = 3
+            ShowMarkers = true,
+            MarkerSize = 8,                                   // Matches MarkerSize = 8
+            MarkerStyle = SvgMarkerStyle.Circle,              // Matches MarkerStyle.Circle
+            IsValueShownAsLabel = PointLabels != "None",
+            LabelStyle = PointLabels
+        };
+
+        // Series 2 - Orange/Red line with Diamond markers (matches WinForms)
+        var series2 = new SvgChartSeries("Series2")
+        {
+            ChartType = chartType,
+            Color = ChartColor.FromArgb(220, 224, 64, 10),   // Matches WinForms series2.Color
+            LineWidth = 3,                                    // Matches BorderWidth = 3
+            ShowMarkers = true,
+            MarkerSize = 9,                                   // Matches MarkerSize = 9
+            MarkerStyle = SvgMarkerStyle.Diamond,             // Matches MarkerStyle.Diamond
+            IsValueShownAsLabel = PointLabels != "None",
+            LabelStyle = PointLabels
+        };
+
+        // Add data points using same ranges as WinForms:
+        // Series1: random.Next(45, 95)
+        // Series2: random.Next(5, 65)
+        for (int i = 0; i < 10; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i + 1, random.Next(45, 95)));
+            series2.Points.Add(new SvgDataPoint(i + 1, random.Next(5, 65)));
         }
+
         chart.Series.Add(series1);
-
-        // Series 2
-        if (ShowSecondSeries)
-        {
-            var series2 = new SvgChartSeries("Series 2")
-            {
-                ChartType = SvgChartType.Line,
-                Color = ChartColor.FromArgb(220, 224, 64, 10),
-                LineWidth = LineWidth,
-                ShowMarkers = effectiveShowMarkers,
-                MarkerSize = 8
-            };
-
-            double value2 = 30;
-            for (int i = 0; i < DataPointCount; i++)
-            {
-                if (SelectedLineType == "StepLine")
-                {
-                    value2 = 10 + random.Next(0, 40);
-                }
-                else
-                {
-                    value2 += (random.NextDouble() - 0.5) * 12;
-                    value2 = Math.Max(5, Math.Min(60, value2));
-                }
-                series2.Points.Add(new SvgDataPoint(i + 1, value2));
-            }
-            chart.Series.Add(series2);
-        }
+        chart.Series.Add(series2);
     }
 
     private void RefreshChart()
@@ -128,36 +165,49 @@
         StateHasChanged();
     }
 
-    private const string _csharpCode = @"// Configure line chart series
+    private const string _csharpCode = @"// Set series chart type (Line, Spline, or StepLine)
 chart1.Series[""Series1""].ChartType = SeriesChartType.Line;
-chart1.Series[""Series1""].BorderWidth = 3;
-chart1.Series[""Series1""].MarkerStyle = MarkerStyle.Circle;
-chart1.Series[""Series1""].MarkerSize = 8;
+chart1.Series[""Series2""].ChartType = SeriesChartType.Line;
 
-// Change to Spline for curved lines
-chart1.Series[""Series1""].ChartType = SeriesChartType.Spline;
-
-// Change to StepLine for step pattern
-chart1.Series[""Series1""].ChartType = SeriesChartType.StepLine;
-
-// Use FastLine for large datasets (better performance)
-chart1.Series[""Series1""].ChartType = SeriesChartType.FastLine;
-// Note: FastLine doesn't support markers
-
-// Populate with random data
+// Populate series data
 Random random = new Random();
-for (int i = 0; i < pointCount; i++)
+for (int pointIndex = 0; pointIndex < 10; pointIndex++)
 {
     chart1.Series[""Series1""].Points.AddY(random.Next(45, 95));
     chart1.Series[""Series2""].Points.AddY(random.Next(5, 65));
 }
 
-// Customize line appearance
-chart1.Series[""Series1""].Color = Color.FromArgb(65, 140, 240);
-chart1.Series[""Series1""].BorderDashStyle = ChartDashStyle.Solid;
-// Options: Solid, Dash, Dot, DashDot, DashDotDot
+// Configure marker styles
+chart1.Series[""Series1""].MarkerStyle = MarkerStyle.Circle;
+chart1.Series[""Series1""].MarkerSize = 8;
+chart1.Series[""Series2""].MarkerStyle = MarkerStyle.Diamond;
+chart1.Series[""Series2""].MarkerSize = 9;
 
-// Enable/disable markers
-chart1.Series[""Series1""].MarkerStyle = MarkerStyle.None;
-// Options: None, Square, Circle, Diamond, Triangle, Cross, Star4, Star5, Star6, Star10";
+// Configure line width
+chart1.Series[""Series1""].BorderWidth = 3;
+chart1.Series[""Series2""].BorderWidth = 3;
+
+// Configure colors
+chart1.Series[""Series1""].Color = Color.FromArgb(220, 65, 140, 240);
+chart1.Series[""Series2""].Color = Color.FromArgb(220, 224, 64, 10);
+
+// Set point labels (optional)
+if (comboBoxPointLabels.Text != ""None"")
+{
+    chart1.Series[""Series1""].IsValueShownAsLabel = true;
+    chart1.Series[""Series2""].IsValueShownAsLabel = true;
+    if (comboBoxPointLabels.Text != ""Auto"")
+    {
+        chart1.Series[""Series1""][""LabelStyle""] = comboBoxPointLabels.Text;
+        chart1.Series[""Series2""][""LabelStyle""] = comboBoxPointLabels.Text;
+    }
+}
+
+// Set X axis margin
+chart1.ChartAreas[""Default""].AxisX.IsMarginVisible = checkBoxShowMargin.Checked;
+
+// Enable 3D mode (optional)
+chart1.ChartAreas[0].Area3DStyle.Enable3D = checkBoxShow3D.Checked;
+chart1.ChartAreas[0].Area3DStyle.Inclination = 40;
+chart1.ChartAreas[0].Area3DStyle.Rotation = 25;";
 }

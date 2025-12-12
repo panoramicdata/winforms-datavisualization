@@ -1,0 +1,227 @@
+@page "/chart-features/interactive-pie"
+
+<PageTitle>Interactive Pie Chart - Chart Samples</PageTitle>
+
+<SampleBase Title="Interactive Pie Chart"
+            Description="This sample demonstrates interactive features for pie charts including slice selection, explosion, and rotation."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Selected Slice:</label>
+            <select @bind="SelectedSlice" @bind:after="RefreshChart">
+                <option value="-1">None</option>
+                @for (int i = 0; i < _sliceData.Length; i++)
+                {
+                    <option value="@i">@_sliceData[i].Label</option>
+                }
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Explode Selected:</label>
+            <input type="checkbox" @bind="ExplodeSelected" @bind:after="RefreshChart" />
+        </div>
+        <div class="control-group">
+            <label>Start Angle:</label>
+            <select @bind="StartAngle" @bind:after="RefreshChart">
+                <option value="0">0° (Right)</option>
+                <option value="90">90° (Top)</option>
+                <option value="180">180° (Left)</option>
+                <option value="270">270° (Bottom)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="chart-container" style="display: flex; gap: 20px; padding: 20px;">
+        <div style="flex: 1;">
+            <ChartViewer Width="400" Height="350" Configure="@ConfigureChart" />
+        </div>
+        <div class="slice-list" style="flex: 0 0 250px; padding: 10px;">
+            <h4 style="margin-top: 0;">Click to Select:</h4>
+            @for (int i = 0; i < _sliceData.Length; i++)
+            {
+                var index = i;
+                var isSelected = SelectedSlice == index;
+                <div class="slice-item @(isSelected ? "selected" : "")" 
+                     @onclick="@(() => SelectSlice(index))">
+                    <span class="slice-color" style="background-color: @GetColorHex(index);"></span>
+                    <span class="slice-label">@_sliceData[index].Label</span>
+                    <span class="slice-value">@_sliceData[index].Value%</span>
+                </div>
+            }
+        </div>
+    </div>
+    
+    @if (SelectedSlice >= 0)
+    {
+        <div class="selection-detail" style="padding: 15px; background: #e8f4fc; border-top: 1px solid #c0d8e8;">
+            <strong>Selected: @_sliceData[SelectedSlice].Label</strong> - 
+            @_sliceData[SelectedSlice].Value% of total
+            (@(_sliceData[SelectedSlice].Value * 10):C0 million)
+        </div>
+    }
+
+</SampleBase>
+
+<style>
+    .slice-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        margin-bottom: 6px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .slice-item:hover {
+        background: #e0e0e0;
+    }
+    .slice-item.selected {
+        background: #1a3b69;
+        color: white;
+    }
+    .slice-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    .slice-label {
+        flex: 1;
+        font-weight: 500;
+    }
+    .slice-value {
+        font-weight: bold;
+    }
+</style>
+
+@code {
+    private int SelectedSlice { get; set; } = -1;
+    private bool ExplodeSelected { get; set; } = true;
+    private int StartAngle { get; set; } = 0;
+
+    private readonly (string Label, double Value)[] _sliceData =
+    [
+        ("North America", 35),
+        ("Europe", 28),
+        ("Asia Pacific", 22),
+        ("Latin America", 10),
+        ("Middle East", 5)
+    ];
+
+    private readonly ChartColor[] _sliceColors =
+    [
+        ChartColor.FromArgb(65, 140, 240),
+        ChartColor.FromArgb(252, 180, 65),
+        ChartColor.FromArgb(224, 64, 10),
+        ChartColor.FromArgb(5, 100, 146),
+        ChartColor.FromArgb(191, 191, 191)
+    ];
+
+    private string GetColorHex(int index)
+    {
+        var c = _sliceColors[index % _sliceColors.Length];
+        return $"rgb({c.R},{c.G},{c.B})";
+    }
+
+    private void SelectSlice(int index)
+    {
+        SelectedSlice = SelectedSlice == index ? -1 : index;
+        StateHasChanged();
+    }
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Regional Sales Distribution";
+        chart.ShowLegend = false; // Using custom legend
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = SvgChartType.Pie
+        };
+
+        for (int i = 0; i < _sliceData.Length; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, _sliceData[i].Value, _sliceData[i].Label));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Handle pie slice click
+chart1.MouseClick += (sender, e) =>
+{
+    HitTestResult result = chart1.HitTest(e.X, e.Y);
+    
+    if (result.ChartElementType == ChartElementType.DataPoint)
+    {
+        int sliceIndex = result.PointIndex;
+        DataPoint point = chart1.Series[0].Points[sliceIndex];
+        
+        // Toggle explosion
+        if (point[""Exploded""] == ""true"")
+            point[""Exploded""] = ""false"";
+        else
+            point[""Exploded""] = ""true"";
+        
+        // Show details
+        ShowSliceDetails(point.AxisLabel, point.YValues[0]);
+    }
+};
+
+// Explode a specific slice
+chart1.Series[""Sales""].Points[0][""Exploded""] = ""true"";
+
+// Explode all slices
+foreach (DataPoint point in chart1.Series[""Sales""].Points)
+{
+    point[""Exploded""] = ""true"";
+}
+
+// Set explosion distance
+chart1.Series[""Sales""][""ExplodedOffset""] = ""15"";
+
+// Set start angle (0 = 3 o'clock, rotates clockwise)
+chart1.Series[""Sales""][""PieStartAngle""] = ""90""; // Start from 12 o'clock
+
+// Highlight selected slice
+void HighlightSlice(int index)
+{
+    // Reset all slices
+    foreach (DataPoint point in chart1.Series[""Sales""].Points)
+    {
+        point[""Exploded""] = ""false"";
+        point.BorderWidth = 0;
+    }
+    
+    // Highlight selected
+    DataPoint selected = chart1.Series[""Sales""].Points[index];
+    selected[""Exploded""] = ""true"";
+    selected.BorderWidth = 3;
+    selected.BorderColor = Color.Black;
+}
+
+// Get slice under mouse (for hover effects)
+chart1.MouseMove += (sender, e) =>
+{
+    HitTestResult result = chart1.HitTest(e.X, e.Y);
+    
+    if (result.ChartElementType == ChartElementType.DataPoint)
+    {
+        // Show tooltip or highlight
+        toolTip.Show(result.Series.Points[result.PointIndex].AxisLabel, chart1);
+    }
+};
+
+// Rotate pie chart
+void RotatePie(int angle)
+{
+    chart1.Series[""Sales""][""PieStartAngle""] = angle.ToString();
+}";
+}

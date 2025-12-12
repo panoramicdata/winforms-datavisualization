@@ -1,0 +1,122 @@
+@page "/chart-types/polar-chart"
+
+<PageTitle>Polar Chart - Chart Samples</PageTitle>
+
+<SampleBase Title="Polar Chart Type"
+            Description="This sample displays a polar chart, which is a circular graph on which data points are displayed using the angle and distance from the center point."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-layout">
+        <div class="chart-panel">
+            <ChartViewer Width="412" Height="296" Configure="@ConfigureChart" />
+        </div>
+        <div class="control-panel">
+            <div class="control-group">
+                <label>Polar Style:</label>
+                <select @bind="PolarStyle" @bind:after="RefreshChart">
+                    <option value="Marker">Marker</option>
+                    <option value="Line">Line</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Area Drawing Style:</label>
+                <select @bind="AreaDrawingStyle" @bind:after="RefreshChart">
+                    <option value="Circle">Circle</option>
+                    <option value="Polygon">Polygon</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Labels Style:</label>
+                <select @bind="LabelsStyle" @bind:after="RefreshChart">
+                    <option value="Horizontal">Horizontal</option>
+                    <option value="Circular">Circular</option>
+                    <option value="Radial">Radial</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="sample-note">
+        <p>Try different settings for the chart's polar, label, and area drawing styles.</p>
+        <p>By default, the Y-axis radiates outward from the center, and the X-axis goes clockwise from the 
+        12 o'clock position. You can specify a different starting point for the X-axis using its Crossing 
+        property. For example, to move the X and Y axis crossing at 3 o'clock, set the Crossing 
+        property to 90 (degrees).</p>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string PolarStyle { get; set; } = "Marker";
+    private string AreaDrawingStyle { get; set; } = "Circle";
+    private string LabelsStyle { get; set; } = "Horizontal";
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Polar Chart";
+        chart.ShowLegend = true;
+
+        // Series 1 - sine wave shifted by 90 degrees
+        var series1 = new SvgChartSeries("Series1")
+        {
+            ChartType = SvgChartType.Polar,
+            Color = ChartColor.FromArgb(220, 65, 140, 240),
+            LineWidth = PolarStyle == "Line" ? 2 : 1,
+            ShowMarkers = PolarStyle == "Marker" || PolarStyle == "Line",
+            MarkerSize = 7,
+            MarkerStyle = SvgMarkerStyle.Circle
+        };
+
+        // Series 2 - sine wave shifted by 270 degrees
+        var series2 = new SvgChartSeries("Series2")
+        {
+            ChartType = SvgChartType.Polar,
+            Color = ChartColor.FromArgb(220, 252, 180, 65),
+            LineWidth = PolarStyle == "Line" ? 2 : 1,
+            ShowMarkers = PolarStyle == "Marker" || PolarStyle == "Line",
+            MarkerSize = 7,
+            MarkerStyle = SvgMarkerStyle.Circle
+        };
+
+        // Generate polar data using sine wave
+        for (double angle = 0.0; angle <= 360.0; angle += 10.0)
+        {
+            double yValue = (1.0 + Math.Sin(angle / 180.0 * Math.PI)) * 10.0;
+            series1.Points.Add(new SvgDataPoint(angle + 90.0, yValue));
+            series2.Points.Add(new SvgDataPoint(angle + 270.0, yValue));
+        }
+
+        chart.Series.Add(series1);
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Set chart type to Polar
+chart1.Series[""Series1""].ChartType = SeriesChartType.Polar;
+chart1.Series[""Series2""].ChartType = SeriesChartType.Polar;
+
+// Set polar drawing style (Marker or Line)
+chart1.Series[""Series1""][""PolarDrawingStyle""] = ""Marker"";
+// Options: Marker, Line
+
+// Set area drawing style
+chart1.Series[""Series1""][""AreaDrawingStyle""] = ""Circle"";
+// Options: Circle, Polygon
+
+// Set circular labels style
+chart1.Series[""Series1""][""CircularLabelsStyle""] = ""Horizontal"";
+// Options: Circular, Radial, Horizontal
+
+// Generate polar data (angle, distance from center)
+for (double angle = 0.0; angle <= 360.0; angle += 10.0)
+{
+    double yValue = (1.0 + Math.Sin(angle / 180.0 * Math.PI)) * 10.0;
+    chart1.Series[""Series1""].Points.AddXY(angle + 90.0, yValue);
+    chart1.Series[""Series2""].Points.AddXY(angle + 270.0, yValue);
+}";
+
+}

@@ -1,0 +1,26 @@
+/*
+	This is a configuration file for the SwitchStartupProject Visual Studio Extension
+	See https://heptapod.host/thirteen/switchstartupproject/blob/branch/current/Configuration.md
+*/
+{
+	/*  Configuration File Version  */
+	"Version": 3,
+
+	/*  Create an item in the dropdown list for each project in the solution?  */
+	"ListAllProjects": false,
+
+	"MultiProjectConfigurations": {
+		"Both Demos": {
+			"Projects": {
+				"ChartSamples": {
+				},
+				"ChartSamples.Blazor": {
+					"CommandLineArguments": "",
+					"StartExternalUrl": "http://localhost:5280/chart-types/line-charts",
+					"StartProject": true,
+					"LaunchProfile": "http"
+				}
+			}
+		}
+	}
+}

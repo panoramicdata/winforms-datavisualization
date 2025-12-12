@@ -1,0 +1,114 @@
+@page "/not-implemented"
+@page "/not-implemented/{Category}"
+@page "/not-implemented/{Category}/{Sample}"
+
+<PageTitle>Not Yet Implemented - Chart Samples</PageTitle>
+
+<div class="not-implemented-container">
+    <div class="not-implemented-icon">
+        <i class="fa-solid fa-code"></i>
+    </div>
+    <h2>Sample Not Yet Implemented</h2>
+    <p class="sample-path">@GetSamplePath()</p>
+    <p class="description">
+        This sample is planned for implementation but hasn't been completed yet.
+        Check back soon or contribute to the project!
+    </p>
+    <div class="actions">
+        <a href="/" class="btn-primary">
+            <i class="fa-solid fa-home"></i> Back to Home
+        </a>
+        <a href="https://github.com/panoramicdata/winforms-datavisualization" target="_blank" class="btn-secondary">
+            <i class="fa-brands fa-github"></i> View on GitHub
+        </a>
+    </div>
+</div>
+
+<style>
+    .not-implemented-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        text-align: center;
+        padding: 40px;
+    }
+    
+    .not-implemented-icon {
+        font-size: 64px;
+        color: #ccc;
+        margin-bottom: 20px;
+    }
+    
+    .not-implemented-container h2 {
+        color: #1a3b69;
+        margin: 0 0 10px 0;
+        font-size: 28px;
+    }
+    
+    .sample-path {
+        font-family: 'Consolas', monospace;
+        background: #f5f5f5;
+        padding: 8px 16px;
+        border-radius: 4px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+    
+    .description {
+        color: #666;
+        max-width: 500px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+    
+    .actions {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #1a3b69, #4a90d9);
+        color: white;
+    }
+    
+    .btn-secondary {
+        background: #f5f5f5;
+        color: #333;
+        border: 1px solid #ddd;
+    }
+    
+    .btn-primary:hover, .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string? Category { get; set; }
+    
+    [Parameter]
+    public string? Sample { get; set; }
+    
+    private string GetSamplePath()
+    {
+        if (string.IsNullOrEmpty(Category))
+            return "/not-implemented";
+        if (string.IsNullOrEmpty(Sample))
+            return $"/{Category}";
+        return $"/{Category}/{Sample}";
+    }
+}

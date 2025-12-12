@@ -1,0 +1,218 @@
+@page "/chart-features/logarithmic-scale"
+
+<PageTitle>Logarithmic Scale - Chart Samples</PageTitle>
+
+<SampleBase Title="Logarithmic Scale"
+            Description="This sample demonstrates how to use logarithmic scale on axes for displaying data with exponential growth or wide value ranges."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Scale Type:</label>
+            <select @bind="ScaleType" @bind:after="RefreshChart">
+                <option value="Linear">Linear Scale</option>
+                <option value="Log10">Logarithmic (Base 10)</option>
+                <option value="Log2">Logarithmic (Base 2)</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Data Type:</label>
+            <select @bind="DataType" @bind:after="RefreshChart">
+                <option value="Exponential">Exponential Growth</option>
+                <option value="Population">Population Data</option>
+                <option value="Magnitude">Order of Magnitude</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Grid Lines:</label>
+            <input type="checkbox" @bind="ShowGridLines" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+    
+    <div class="sample-info" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <p><strong>When to use logarithmic scale:</strong></p>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>Data spans multiple orders of magnitude (e.g., 1 to 1,000,000)</li>
+            <li>Exponential growth patterns (e.g., compound interest, viral spread)</li>
+            <li>Scientific data with wide ranges (e.g., sound levels, earthquake magnitudes)</li>
+        </ul>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string ScaleType { get; set; } = "Log10";
+    private string DataType { get; set; } = "Exponential";
+    private bool ShowGridLines { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.ShowLegend = true;
+
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].ShowGrid = ShowGridLines;
+        }
+
+        switch (DataType)
+        {
+            case "Population":
+                ConfigurePopulationChart(chart);
+                break;
+            case "Magnitude":
+                ConfigureMagnitudeChart(chart);
+                break;
+            default:
+                ConfigureExponentialChart(chart);
+                break;
+        }
+    }
+
+    private void ConfigureExponentialChart(SvgChart chart)
+    {
+        chart.Title = $"Exponential Growth ({ScaleType} Scale)";
+
+        var series = new SvgChartSeries("2^x")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 8
+        };
+
+        // Generate exponential data: 2^x
+        for (int x = 0; x <= 10; x++)
+        {
+            var y = Math.Pow(2, x);
+            // Apply log transformation for display if needed
+            var displayY = TransformValue(y);
+            series.Points.Add(new SvgDataPoint(x, displayY, $"x={x}"));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigurePopulationChart(SvgChart chart)
+    {
+        chart.Title = $"World Population by Continent ({ScaleType} Scale)";
+
+        var series = new SvgChartSeries("Population (millions)")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(224, 64, 10)
+        };
+
+        var data = new (string Label, double Value)[]
+        {
+            ("Vatican", 0.0008),
+            ("Monaco", 0.039),
+            ("Iceland", 0.37),
+            ("Luxembourg", 0.64),
+            ("Singapore", 5.5),
+            ("Switzerland", 8.7),
+            ("Australia", 26),
+            ("Canada", 38),
+            ("UK", 67),
+            ("Germany", 83),
+            ("USA", 331),
+            ("Indonesia", 273),
+            ("China", 1400),
+            ("India", 1400)
+        };
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            var displayY = TransformValue(data[i].Value);
+            series.Points.Add(new SvgDataPoint(i + 1, displayY, data[i].Label));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ConfigureMagnitudeChart(SvgChart chart)
+    {
+        chart.Title = $"Order of Magnitude Comparison ({ScaleType} Scale)";
+
+        var series = new SvgChartSeries("Value")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(34, 139, 34)
+        };
+
+        var data = new (string Label, double Value)[]
+        {
+            ("Atom", 0.0000001),
+            ("Bacteria", 0.001),
+            ("Ant", 1),
+            ("Human", 70),
+            ("Elephant", 5000),
+            ("Blue Whale", 150000),
+            ("Building", 500000000),
+            ("Mountain", 10000000000000.0)
+        };
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            var displayY = TransformValue(data[i].Value);
+            series.Points.Add(new SvgDataPoint(i + 1, displayY, data[i].Label));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private double TransformValue(double value)
+    {
+        if (value <= 0) return 0;
+        
+        return ScaleType switch
+        {
+            "Log10" => Math.Log10(value) * 20 + 50, // Scale for display
+            "Log2" => Math.Log2(value) * 10 + 50,
+            _ => value // Linear
+        };
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Enable logarithmic scale on Y axis
+chart1.ChartAreas[0].AxisY.IsLogarithmic = true;
+
+// Set logarithm base (default is 10)
+chart1.ChartAreas[0].AxisY.LogarithmBase = 10;
+
+// Base 2 logarithm
+chart1.ChartAreas[0].AxisY.LogarithmBase = 2;
+
+// Natural logarithm (base e)
+chart1.ChartAreas[0].AxisY.LogarithmBase = Math.E;
+
+// Configure axis range for log scale
+chart1.ChartAreas[0].AxisY.Minimum = 1;    // Must be > 0 for log scale
+chart1.ChartAreas[0].AxisY.Maximum = 10000;
+
+// Log scale on X axis
+chart1.ChartAreas[0].AxisX.IsLogarithmic = true;
+chart1.ChartAreas[0].AxisX.LogarithmBase = 10;
+
+// Add exponential data
+for (int x = 0; x <= 10; x++)
+{
+    double y = Math.Pow(2, x);
+    chart1.Series[""Exponential""].Points.AddXY(x, y);
+}
+
+// Customize grid lines for log scale
+chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
+chart1.ChartAreas[0].AxisY.MinorGrid.Enabled = true;
+chart1.ChartAreas[0].AxisY.MinorGrid.LineColor = Color.LightGray;
+chart1.ChartAreas[0].AxisY.MinorGrid.LineDashStyle = ChartDashStyle.Dot;
+
+// Label format for log scale
+chart1.ChartAreas[0].AxisY.LabelStyle.Format = ""E1""; // Scientific notation";
+}

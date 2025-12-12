@@ -1,0 +1,155 @@
+@page "/getting-started/text-elements"
+
+<PageTitle>Text Elements - Chart Samples</PageTitle>
+
+<SampleBase Title="Text Elements"
+            Description="This overview describes the various text elements available in charts including titles, labels, and legends."
+            CSharpCode="@_csharpCode">
+    
+    <div class="overview-content" style="padding: 20px; max-width: 800px;">
+        <h3>Text Elements in Charts</h3>
+        
+        <div class="text-section">
+            <h4><i class="fa-solid fa-heading"></i> Chart Titles</h4>
+            <p>Titles appear at the top of the chart and describe the overall content. 
+            Charts can have multiple titles with different alignments and styles.</p>
+        </div>
+
+        <div class="text-section">
+            <h4><i class="fa-solid fa-ruler-combined"></i> Axis Titles</h4>
+            <p>Axis titles describe what each axis represents. They are typically placed 
+            adjacent to the axis with appropriate rotation for vertical axes.</p>
+        </div>
+
+        <div class="text-section">
+            <h4><i class="fa-solid fa-list-ol"></i> Axis Labels</h4>
+            <p>Axis labels show the values at regular intervals along each axis. 
+            They can be formatted for numbers, dates, currencies, and more.</p>
+        </div>
+
+        <div class="text-section">
+            <h4><i class="fa-solid fa-tag"></i> Data Labels</h4>
+            <p>Data labels display values directly on or near data points. 
+            They help readers understand exact values without needing to reference the axis.</p>
+        </div>
+
+        <div class="text-section">
+            <h4><i class="fa-solid fa-list-ul"></i> Legend Text</h4>
+            <p>Legend text identifies each series in the chart. 
+            It appears in the legend area alongside color-coded symbols.</p>
+        </div>
+
+        <div class="text-section">
+            <h4><i class="fa-solid fa-comment-dots"></i> ToolTips</h4>
+            <p>ToolTips display additional information when users hover over data points. 
+            They can include formatted values, labels, and custom text.</p>
+        </div>
+    </div>
+
+    <div class="demo-container" style="padding: 20px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <div class="demo-controls" style="margin-bottom: 15px; display: flex; gap: 20px; flex-wrap: wrap;">
+            <div class="control-group">
+                <label>Show Title:</label>
+                <input type="checkbox" @bind="ShowTitle" @bind:after="RefreshChart" />
+            </div>
+            <div class="control-group">
+                <label>Show Legend:</label>
+                <input type="checkbox" @bind="ShowLegend" @bind:after="RefreshChart" />
+            </div>
+        </div>
+        <ChartViewer Width="600" Height="350" Configure="@ConfigureChart" />
+    </div>
+
+</SampleBase>
+
+<style>
+    .text-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border-left: 4px solid #4a90d9;
+    }
+    .text-section h4 {
+        margin: 0 0 8px 0;
+        color: #1a3b69;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .text-section p {
+        margin: 0;
+        color: #555;
+        line-height: 1.6;
+    }
+</style>
+
+@code {
+    private bool ShowTitle { get; set; } = true;
+    private bool ShowLegend { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = ShowTitle ? "Quarterly Sales Report 2024" : "";
+        chart.ShowLegend = ShowLegend;
+
+        var series1 = new SvgChartSeries("Product A")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        var series2 = new SvgChartSeries("Product B")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(252, 180, 65)
+        };
+
+        string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+        double[] valuesA = [125, 145, 138, 165];
+        double[] valuesB = [95, 110, 105, 130];
+
+        for (int i = 0; i < quarters.Length; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i + 1, valuesA[i], quarters[i]));
+            series2.Points.Add(new SvgDataPoint(i + 1, valuesB[i], quarters[i]));
+        }
+
+        chart.Series.Add(series1);
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Add chart title
+Title title = new Title();
+title.Text = ""Quarterly Sales Report"";
+title.Font = new Font(""Verdana"", 14, FontStyle.Bold);
+title.ForeColor = Color.FromArgb(26, 59, 105);
+chart1.Titles.Add(title);
+
+// Add axis titles
+chart1.ChartAreas[0].AxisX.Title = ""Quarter"";
+chart1.ChartAreas[0].AxisX.TitleFont = new Font(""Verdana"", 10);
+chart1.ChartAreas[0].AxisY.Title = ""Revenue ($K)"";
+chart1.ChartAreas[0].AxisY.TitleFont = new Font(""Verdana"", 10);
+
+// Format axis labels
+chart1.ChartAreas[0].AxisX.LabelStyle.Font = new Font(""Arial"", 9);
+chart1.ChartAreas[0].AxisY.LabelStyle.Format = ""C0""; // Currency
+
+// Enable data labels
+chart1.Series[""Sales""].IsValueShownAsLabel = true;
+chart1.Series[""Sales""].LabelFormat = ""N0"";
+chart1.Series[""Sales""].LabelForeColor = Color.Black;
+
+// Configure legend
+chart1.Legends[0].Font = new Font(""Verdana"", 9);
+chart1.Legends[0].Docking = Docking.Bottom;
+
+// Set tooltips
+chart1.Series[""Sales""].ToolTip = ""#VALX: #VAL{C0}"";";
+}

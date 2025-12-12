@@ -18,7 +18,7 @@
 		<RepositoryUrl>https://github.com/dotnet/winforms-datavisualization</RepositoryUrl>
 		<PackageTags>DataVisualization DataVisualisation Data Visualization Visualisation Core</PackageTags>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<None Include="..\LICENSE.TXT" Pack="true" PackagePath="\" />
 		<None Include="..\THIRD-PARTY-NOTICES.TXT" Pack="true" PackagePath="\" />

@@ -1,0 +1,161 @@
+@page "/getting-started/coordinate-system"
+
+<PageTitle>Coordinate System - Chart Samples</PageTitle>
+
+<SampleBase Title="Coordinate System"
+            Description="This overview explains how the coordinate system works in charts and how data points are positioned."
+            CSharpCode="@_csharpCode">
+    
+    <div class="overview-content" style="padding: 20px; max-width: 800px;">
+        <h3>Understanding the Coordinate System</h3>
+        
+        <div class="concept-section">
+            <h4><i class="fa-solid fa-arrows-up-down-left-right"></i> X and Y Axes</h4>
+            <p>Charts use a Cartesian coordinate system with X (horizontal) and Y (vertical) axes. 
+            The X-axis typically represents categories or time, while the Y-axis represents values.</p>
+        </div>
+
+        <div class="concept-section">
+            <h4><i class="fa-solid fa-ruler-horizontal"></i> Axis Scale</h4>
+            <p>The axis scale determines how values are mapped to positions. The scale can be:</p>
+            <ul>
+                <li><strong>Linear:</strong> Values are evenly distributed</li>
+                <li><strong>Logarithmic:</strong> For data spanning multiple orders of magnitude</li>
+                <li><strong>DateTime:</strong> For time-based data</li>
+            </ul>
+        </div>
+
+        <div class="concept-section">
+            <h4><i class="fa-solid fa-circle-dot"></i> Data Point Positioning</h4>
+            <p>Each data point has X and Y values that determine its position on the chart. 
+            The chart automatically scales the axes to fit all data points.</p>
+        </div>
+
+        <div class="concept-section">
+            <h4><i class="fa-solid fa-table-cells"></i> Grid Lines</h4>
+            <p>Grid lines help readers understand values by providing visual reference lines 
+            at regular intervals along both axes.</p>
+        </div>
+
+        <div class="concept-section">
+            <h4><i class="fa-solid fa-arrows-left-right"></i> Primary and Secondary Axes</h4>
+            <p>Charts can have secondary axes (Y2, X2) to display data with different scales 
+            on the same chart area.</p>
+        </div>
+    </div>
+
+    <div class="demo-container" style="padding: 20px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <div class="demo-controls" style="margin-bottom: 15px; display: flex; gap: 20px;">
+            <div class="control-group">
+                <label>Show Grid Lines:</label>
+                <input type="checkbox" @bind="ShowGridLines" @bind:after="RefreshChart" />
+            </div>
+            <div class="control-group">
+                <label>X Range:</label>
+                <select @bind="XRange" @bind:after="RefreshChart">
+                    <option value="5">0 - 5</option>
+                    <option value="10">0 - 10</option>
+                    <option value="20">0 - 20</option>
+                </select>
+            </div>
+        </div>
+        <ChartViewer Width="600" Height="350" Configure="@ConfigureChart" />
+    </div>
+
+</SampleBase>
+
+<style>
+    .concept-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border-left: 4px solid #4a90d9;
+    }
+    .concept-section h4 {
+        margin: 0 0 8px 0;
+        color: #1a3b69;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .concept-section p {
+        margin: 0 0 10px 0;
+        color: #555;
+        line-height: 1.6;
+    }
+    .concept-section ul {
+        margin: 10px 0 0 0;
+        padding-left: 25px;
+    }
+    .concept-section li {
+        margin-bottom: 5px;
+    }
+</style>
+
+@code {
+    private bool ShowGridLines { get; set; } = true;
+    private int XRange { get; set; } = 10;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Coordinate System Demo";
+        chart.ShowLegend = true;
+
+        if (chart.ChartAreas.Count > 0)
+        {
+            chart.ChartAreas[0].ShowGrid = ShowGridLines;
+        }
+
+        var series = new SvgChartSeries("y = x²")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = true,
+            MarkerSize = 6
+        };
+
+        // Plot y = x² curve
+        for (int x = 0; x <= XRange; x++)
+        {
+            double y = x * x;
+            series.Points.Add(new SvgDataPoint(x, y, $"({x}, {y})"));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Configure axis scale
+chart1.ChartAreas[0].AxisX.Minimum = 0;
+chart1.ChartAreas[0].AxisX.Maximum = 10;
+chart1.ChartAreas[0].AxisY.Minimum = 0;
+chart1.ChartAreas[0].AxisY.Maximum = 100;
+
+// Set axis intervals
+chart1.ChartAreas[0].AxisX.Interval = 1;
+chart1.ChartAreas[0].AxisY.Interval = 10;
+
+// Configure grid lines
+chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
+chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
+chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+
+// Set axis titles
+chart1.ChartAreas[0].AxisX.Title = ""X Values"";
+chart1.ChartAreas[0].AxisY.Title = ""Y Values"";
+
+// Use logarithmic scale (optional)
+chart1.ChartAreas[0].AxisY.IsLogarithmic = true;
+chart1.ChartAreas[0].AxisY.LogarithmBase = 10;
+
+// Enable secondary axis
+chart1.ChartAreas[0].AxisY2.Enabled = AxisEnabled.True;
+chart1.Series[""Series2""].YAxisType = AxisType.Secondary;";
+}

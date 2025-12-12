@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -307,7 +307,7 @@ namespace ChartSamples
 			checkBoxShow3D.Checked = false;
 
 			// Populate series data
-			Random	random = new Random();
+			Random random = new Random(0);
 			for(int pointIndex = 0; pointIndex < 10; pointIndex++)
 			{
 				chart1.Series["Series1"].Points.AddY(random.Next(45, 95));

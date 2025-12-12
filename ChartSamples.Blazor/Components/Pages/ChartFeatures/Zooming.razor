@@ -1,0 +1,218 @@
+@page "/chart-features/zooming"
+
+<PageTitle>Zooming & Scrolling - Chart Samples</PageTitle>
+
+<SampleBase Title="Zooming & Scrolling"
+            Description="This sample demonstrates chart zooming and scrolling functionality for exploring large datasets."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>View Range:</label>
+            <select @bind="ViewRange" @bind:after="RefreshChart">
+                <option value="All">All Data (1-100)</option>
+                <option value="First25">First 25 Points</option>
+                <option value="Middle">Middle 25 Points</option>
+                <option value="Last25">Last 25 Points</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Data Points:</label>
+            <select @bind="DataPointCount" @bind:after="RefreshChart">
+                <option value="50">50 Points</option>
+                <option value="100">100 Points</option>
+                <option value="200">200 Points</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <button class="zoom-btn" @onclick="ZoomIn">
+                <i class="fa-solid fa-magnifying-glass-plus"></i> Zoom In
+            </button>
+            <button class="zoom-btn" @onclick="ZoomOut">
+                <i class="fa-solid fa-magnifying-glass-minus"></i> Zoom Out
+            </button>
+            <button class="zoom-btn" @onclick="ResetZoom">
+                <i class="fa-solid fa-arrows-rotate"></i> Reset
+            </button>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+    
+    <div class="sample-info" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <p><strong>In WinForms:</strong> Use mouse drag to select zoom region, scroll wheel to zoom, and scrollbars to pan. 
+        The SVG version simulates this with range selection controls.</p>
+    </div>
+
+</SampleBase>
+
+<style>
+    .zoom-btn {
+        padding: 6px 12px;
+        margin-right: 8px;
+        background: linear-gradient(135deg, #1a3b69, #4a90d9);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .zoom-btn:hover {
+        background: linear-gradient(135deg, #0d2844, #3a7ac9);
+    }
+</style>
+
+@code {
+    private string ViewRange { get; set; } = "All";
+    private int DataPointCount { get; set; } = 100;
+    private int ZoomLevel { get; set; } = 1;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"Data Viewer - Zoom Level {ZoomLevel}x";
+        chart.ShowLegend = false;
+
+        var series = new SvgChartSeries("Data")
+        {
+            ChartType = SvgChartType.Line,
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 2,
+            ShowMarkers = DataPointCount <= 50,
+            MarkerSize = 4
+        };
+
+        // Generate random walk data
+        var random = new Random(42);
+        double value = 50;
+        var allData = new List<double>();
+
+        for (int i = 0; i < DataPointCount; i++)
+        {
+            value += (random.NextDouble() - 0.5) * 5;
+            value = Math.Max(10, Math.Min(90, value));
+            allData.Add(value);
+        }
+
+        // Apply view range filter
+        int startIndex = 0;
+        int endIndex = allData.Count;
+        int pointsToShow = Math.Min(25 * ZoomLevel, allData.Count);
+
+        switch (ViewRange)
+        {
+            case "First25":
+                endIndex = Math.Min(pointsToShow, allData.Count);
+                break;
+            case "Middle":
+                startIndex = Math.Max(0, (allData.Count - pointsToShow) / 2);
+                endIndex = Math.Min(startIndex + pointsToShow, allData.Count);
+                break;
+            case "Last25":
+                startIndex = Math.Max(0, allData.Count - pointsToShow);
+                break;
+            default:
+                // Show all based on zoom level
+                if (ZoomLevel > 1)
+                {
+                    endIndex = Math.Min(allData.Count / ZoomLevel, allData.Count);
+                }
+                break;
+        }
+
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            series.Points.Add(new SvgDataPoint(i + 1, allData[i]));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void ZoomIn()
+    {
+        if (ZoomLevel < 4)
+        {
+            ZoomLevel++;
+            RefreshChart();
+        }
+    }
+
+    private void ZoomOut()
+    {
+        if (ZoomLevel > 1)
+        {
+            ZoomLevel--;
+            RefreshChart();
+        }
+    }
+
+    private void ResetZoom()
+    {
+        ZoomLevel = 1;
+        ViewRange = "All";
+        RefreshChart();
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Enable zooming with cursor
+chart1.ChartAreas[0].CursorX.IsUserEnabled = true;
+chart1.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+chart1.ChartAreas[0].CursorY.IsUserEnabled = true;
+chart1.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+
+// Enable zoom reset button
+chart1.ChartAreas[0].CursorX.AutoScroll = true;
+chart1.ChartAreas[0].CursorY.AutoScroll = true;
+
+// Configure scrollbars
+chart1.ChartAreas[0].AxisX.ScrollBar.Enabled = true;
+chart1.ChartAreas[0].AxisY.ScrollBar.Enabled = true;
+chart1.ChartAreas[0].AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
+
+// Set initial zoom view
+chart1.ChartAreas[0].AxisX.ScaleView.Zoom(0, 25); // Show points 0-25
+
+// Programmatic zoom
+chart1.ChartAreas[0].AxisX.ScaleView.Position = 10;
+chart1.ChartAreas[0].AxisX.ScaleView.Size = 20;
+chart1.ChartAreas[0].AxisX.ScaleView.SizeType = DateTimeIntervalType.Number;
+
+// Zoom reset
+chart1.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+chart1.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+
+// Zoom extents
+chart1.ChartAreas[0].AxisX.ScaleView.MinSize = 10;
+chart1.ChartAreas[0].AxisX.ScaleView.MinSizeType = DateTimeIntervalType.Number;
+
+// Zoom with mouse wheel
+chart1.MouseWheel += (sender, e) => 
+{
+    var chart = (Chart)sender;
+    var xAxis = chart.ChartAreas[0].AxisX;
+    
+    if (e.Delta > 0) // Zoom in
+    {
+        double xMin = xAxis.ScaleView.ViewMinimum;
+        double xMax = xAxis.ScaleView.ViewMaximum;
+        double range = (xMax - xMin) / 4;
+        xAxis.ScaleView.Zoom(xMin + range, xMax - range);
+    }
+    else // Zoom out
+    {
+        xAxis.ScaleView.ZoomReset();
+    }
+};
+
+// Handle selection changed event
+chart1.SelectionRangeChanged += (sender, e) =>
+{
+    Console.WriteLine($""Selected: {e.Axis.ScaleView.Position} to {e.Axis.ScaleView.Position + e.Axis.ScaleView.Size}"");
+};";
+}

@@ -1,0 +1,178 @@
+@page "/chart-features/custom-tooltips"
+
+<PageTitle>Custom Tooltips - Chart Samples</PageTitle>
+
+<SampleBase Title="Custom Tooltips"
+            Description="This sample demonstrates how to create custom-formatted tooltips with rich content and styling."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Tooltip Format:</label>
+            <select @bind="TooltipFormat" @bind:after="RefreshChart">
+                <option value="Simple">Simple (Value only)</option>
+                <option value="Standard">Standard (Label: Value)</option>
+                <option value="Detailed">Detailed (Multi-line)</option>
+                <option value="Comparison">With Comparison</option>
+                <option value="Percentage">With Percentage</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Chart Type:</label>
+            <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                <option value="Column">Column</option>
+                <option value="Line">Line</option>
+                <option value="Pie">Pie</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Include Icon:</label>
+            <input type="checkbox" @bind="IncludeIcon" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <div style="padding: 10px; text-align: center; color: #666;">
+        <i class="fa-solid fa-info-circle"></i> 
+        Hover over data points to see custom tooltips (displayed via SVG title elements)
+    </div>
+
+    <ChartViewer Width="700" Height="380" Configure="@ConfigureChart" />
+    
+    <div class="tooltip-preview" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+        <strong>Tooltip Preview for first data point:</strong>
+        <div style="margin-top: 10px; padding: 10px; background: #333; color: white; border-radius: 4px; display: inline-block; white-space: pre-line;">
+            @GetPreviewTooltip()
+        </div>
+    </div>
+
+</SampleBase>
+
+@code {
+    private string TooltipFormat { get; set; } = "Detailed";
+    private string SelectedChartType { get; set; } = "Column";
+    private bool IncludeIcon { get; set; } = true;
+
+    private readonly (string Label, double Value, double PrevValue, string Category)[] _data =
+    [
+        ("Jan", 125, 110, "Q1"),
+        ("Feb", 145, 130, "Q1"),
+        ("Mar", 138, 125, "Q1"),
+        ("Apr", 162, 148, "Q2"),
+        ("May", 178, 155, "Q2"),
+        ("Jun", 195, 170, "Q2")
+    ];
+
+    private SvgChartType GetChartType() => SelectedChartType switch
+    {
+        "Line" => SvgChartType.Line,
+        "Pie" => SvgChartType.Pie,
+        _ => SvgChartType.Column
+    };
+
+    private string GetPreviewTooltip()
+    {
+        return FormatTooltip(_data[0]);
+    }
+
+    private string FormatTooltip((string Label, double Value, double PrevValue, string Category) item)
+    {
+        var icon = IncludeIcon ? "?? " : "";
+        var total = _data.Sum(d => d.Value);
+        var change = item.Value - item.PrevValue;
+        var changePercent = (change / item.PrevValue) * 100;
+        var percentOfTotal = (item.Value / total) * 100;
+
+        return TooltipFormat switch
+        {
+            "Simple" => $"{item.Value:N0}",
+            "Standard" => $"{icon}{item.Label}: ${item.Value:N0}K",
+            "Detailed" => $"{icon}{item.Label} ({item.Category})\nSales: ${item.Value:N0}K\nPrevious: ${item.PrevValue:N0}K\nChange: {(change >= 0 ? "+" : "")}{change:N0}K",
+            "Comparison" => $"{icon}{item.Label}\nCurrent: ${item.Value:N0}K\nPrevious: ${item.PrevValue:N0}K\nGrowth: {(changePercent >= 0 ? "?" : "?")} {Math.Abs(changePercent):F1}%",
+            "Percentage" => $"{icon}{item.Label}\n${item.Value:N0}K\n{percentOfTotal:F1}% of total",
+            _ => item.Label
+        };
+    }
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = "Monthly Sales with Custom Tooltips";
+        chart.ShowLegend = SelectedChartType == "Pie";
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = GetChartType(),
+            Color = ChartColor.FromArgb(65, 140, 240),
+            LineWidth = 3,
+            ShowMarkers = SelectedChartType == "Line",
+            MarkerSize = 10
+        };
+
+        for (int i = 0; i < _data.Length; i++)
+        {
+            var tooltip = FormatTooltip(_data[i]);
+            series.Points.Add(new SvgDataPoint(i + 1, _data[i].Value, tooltip));
+        }
+
+        chart.Series.Add(series);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Basic tooltip
+chart1.Series[""Sales""].ToolTip = ""#VALX: #VAL"";
+
+// Custom formatted tooltip
+chart1.Series[""Sales""].ToolTip = 
+    ""Month: #VALX\n"" +
+    ""Sales: #VAL{C0}\n"" +
+    ""Percentage: #PERCENT{P1}"";
+
+// Individual point tooltips
+for (int i = 0; i < data.Length; i++)
+{
+    var point = chart1.Series[""Sales""].Points[i];
+    point.ToolTip = $@""
+{data[i].Label} ({data[i].Category})
+Sales: ${data[i].Value:N0}K
+Previous: ${data[i].PrevValue:N0}K
+Change: {(data[i].Value - data[i].PrevValue >= 0 ? ""+"" : """")}{data[i].Value - data[i].PrevValue:N0}K"";
+}
+
+// Tooltip keywords
+// #VALX - X value
+// #VAL, #VALY - Y value
+// #VALY2 - Second Y value (for range charts)
+// #INDEX - Point index
+// #PERCENT - Percentage of total
+// #TOTAL - Sum of all Y values
+// #LEGENDTEXT - Legend text
+// #LABEL - Point label
+// #AXISLABEL - Axis label
+// #SERIESNAME - Series name
+// #AVG - Average of all Y values
+// #MAX - Maximum Y value
+// #MIN - Minimum Y value
+// #FIRST - First Y value
+// #LAST - Last Y value
+
+// Format specifiers
+chart1.Series[""Sales""].ToolTip = ""#VAL{C2}""; // Currency
+chart1.Series[""Sales""].ToolTip = ""#VAL{N0}""; // Number
+chart1.Series[""Sales""].ToolTip = ""#VAL{P1}""; // Percentage
+chart1.Series[""Sales""].ToolTip = ""#VALX{d}""; // Date
+
+// Conditional tooltips
+foreach (DataPoint point in chart1.Series[""Sales""].Points)
+{
+    if (point.YValues[0] > 150)
+        point.ToolTip = ""? High Performer: #VAL{C0}"";
+    else
+        point.ToolTip = ""Standard: #VAL{C0}"";
+}
+
+// HTML-like tooltips (for web scenarios)
+// In Blazor, use JavaScript interop for rich HTML tooltips";
+}

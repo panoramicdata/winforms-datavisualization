@@ -2,162 +2,130 @@
 
 <PageTitle>Circular Charts - Chart Samples</PageTitle>
 
-<SampleBase Title="Polar & Radar Charts"
-            Description="This sample demonstrates circular chart types including Polar and Radar charts."
+<SampleBase Title="Circular Charts Gallery"
+            Description="This sample provides an overview of circular chart types available. Click on a chart type below to see detailed samples."
             CSharpCode="@_csharpCode">
     
-    <div class="chart-grid">
-        <div class="chart-grid-item">
-            <h4>Polar Chart - Performance Metrics</h4>
-            <ChartViewer Width="380" Height="300" Configure="@ConfigurePolarChart" />
+    <div class="chart-type-gallery">
+        <div class="gallery-item">
+            <h4>Polar Chart</h4>
+            <p>A circular graph on which data points are displayed using angle and distance from center.</p>
+            <ChartViewer Width="300" Height="220" Configure="@ConfigurePolarChart" />
+            <a href="/chart-types/polar-chart" class="btn-sample">View Sample</a>
         </div>
-        <div class="chart-grid-item">
-            <h4>Radar Chart - Skill Assessment</h4>
-            <ChartViewer Width="380" Height="300" Configure="@ConfigureRadarChart" />
-        </div>
-    </div>
-
-    <div class="sample-controls">
-        <div class="control-group">
-            <label>Data Categories:</label>
-            <select @bind="CategoryCount" @bind:after="RefreshCharts">
-                <option value="5">5 Categories</option>
-                <option value="6">6 Categories</option>
-                <option value="8">8 Categories</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label>Show Multiple Series:</label>
-            <input type="checkbox" @bind="ShowMultipleSeries" @bind:after="RefreshCharts" />
+        <div class="gallery-item">
+            <h4>Radar Chart</h4>
+            <p>A circular graph used primarily as a comparative tool for multiple data series.</p>
+            <ChartViewer Width="300" Height="220" Configure="@ConfigureRadarChart" />
+            <a href="/chart-types/radar-chart" class="btn-sample">View Sample</a>
         </div>
     </div>
 
 </SampleBase>
 
+<style>
+    .chart-type-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        padding: 16px 0;
+    }
+    .gallery-item {
+        flex: 1;
+        min-width: 320px;
+        max-width: 400px;
+        padding: 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background: #fafafa;
+    }
+    .gallery-item h4 {
+        margin: 0 0 8px 0;
+        color: #1a365d;
+    }
+    .gallery-item p {
+        margin: 0 0 12px 0;
+        color: #666;
+        font-size: 0.9em;
+    }
+    .btn-sample {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 8px 16px;
+        background: #2d5a87;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .btn-sample:hover {
+        background: #1a365d;
+    }
+</style>
+
 @code {
-    private int CategoryCount { get; set; } = 6;
-    private bool ShowMultipleSeries { get; set; } = true;
-
-    private readonly string[] _allCategories = ["Speed", "Power", "Accuracy", "Endurance", "Agility", "Strategy", "Defense", "Technique"];
-    private readonly string[] _skills = ["Communication", "Technical", "Leadership", "Problem Solving", "Creativity", "Teamwork", "Adaptability", "Time Management"];
-
     private void ConfigurePolarChart(SvgChart chart)
     {
-        // Simulate polar chart with line chart (radial display would need custom SVG)
-        chart.Title = "Performance Analysis";
-        chart.ShowLegend = ShowMultipleSeries;
+        chart.Title = "Polar Chart";
+        chart.ShowLegend = false;
 
-        var random = new Random(42);
-
-        var series1 = new SvgChartSeries("Current")
+        var series1 = new SvgChartSeries("Series1")
         {
-            ChartType = SvgChartType.Line,
-            Color = ChartColor.FromArgb(65, 140, 240),
+            ChartType = SvgChartType.Polar,
+            Color = ChartColor.FromArgb(220, 65, 140, 240),
             LineWidth = 2,
             ShowMarkers = true,
-            MarkerSize = 8
+            MarkerSize = 5
         };
 
-        for (int i = 0; i < CategoryCount; i++)
+        // Generate polar data using sine wave
+        for (double angle = 0.0; angle <= 360.0; angle += 15.0)
         {
-            series1.Points.Add(new SvgDataPoint(i + 1, 50 + random.Next(0, 50), _allCategories[i]));
+            double yValue = (1.0 + Math.Sin(angle / 180.0 * Math.PI)) * 10.0;
+            series1.Points.Add(new SvgDataPoint(angle + 90.0, yValue));
         }
-        // Close the loop
-        series1.Points.Add(new SvgDataPoint(CategoryCount + 1, series1.Points[0].Y, _allCategories[0]));
 
         chart.Series.Add(series1);
-
-        if (ShowMultipleSeries)
-        {
-            var series2 = new SvgChartSeries("Target")
-            {
-                ChartType = SvgChartType.Line,
-                Color = ChartColor.FromArgb(224, 64, 10),
-                LineWidth = 2,
-                ShowMarkers = true,
-                MarkerSize = 6
-            };
-
-            for (int i = 0; i < CategoryCount; i++)
-            {
-                series2.Points.Add(new SvgDataPoint(i + 1, 70 + random.Next(0, 25), _allCategories[i]));
-            }
-            series2.Points.Add(new SvgDataPoint(CategoryCount + 1, series2.Points[0].Y, _allCategories[0]));
-
-            chart.Series.Add(series2);
-        }
     }
 
     private void ConfigureRadarChart(SvgChart chart)
     {
-        // Simulate radar chart with area chart
-        chart.Title = "Skills Assessment";
-        chart.ShowLegend = ShowMultipleSeries;
+        chart.Title = "Radar Chart";
+        chart.ShowLegend = false;
 
-        var random = new Random(123);
-
-        var series1 = new SvgChartSeries("Employee A")
+        var series1 = new SvgChartSeries("Series1")
         {
-            ChartType = SvgChartType.Area,
-            Color = ChartColor.FromArgb(120, 65, 140, 240),
-            LineWidth = 2
+            ChartType = SvgChartType.Radar,
+            Color = ChartColor.FromArgb(180, 65, 140, 240),
+            LineWidth = 1,
+            ShowMarkers = false
         };
 
-        for (int i = 0; i < CategoryCount; i++)
+        string[] categories = ["Speed", "Power", "Accuracy", "Endurance", "Agility"];
+        double[] values = [85, 70, 92, 78, 88];
+
+        for (int i = 0; i < categories.Length; i++)
         {
-            series1.Points.Add(new SvgDataPoint(i + 1, 40 + random.Next(0, 55), _skills[i]));
+            series1.Points.Add(new SvgDataPoint(i, values[i], categories[i]));
         }
 
         chart.Series.Add(series1);
-
-        if (ShowMultipleSeries)
-        {
-            var series2 = new SvgChartSeries("Employee B")
-            {
-                ChartType = SvgChartType.Area,
-                Color = ChartColor.FromArgb(120, 252, 180, 65),
-                LineWidth = 2
-            };
-
-            for (int i = 0; i < CategoryCount; i++)
-            {
-                series2.Points.Add(new SvgDataPoint(i + 1, 30 + random.Next(0, 60), _skills[i]));
-            }
-
-            chart.Series.Add(series2);
-        }
     }
 
-    private void RefreshCharts()
-    {
-        StateHasChanged();
-    }
-
-    private const string _csharpCode = @"// Polar chart
+    private const string _csharpCode = @"// Polar chart - X values are angles, Y values are distance from center
 chart1.Series[""Data""].ChartType = SeriesChartType.Polar;
+for (double angle = 0.0; angle <= 360.0; angle += 10.0)
+{
+    double yValue = (1.0 + Math.Sin(angle / 180.0 * Math.PI)) * 10.0;
+    chart1.Series[""Data""].Points.AddXY(angle, yValue);
+}
 
-// Radar chart (filled polygon)
+// Radar chart - X values are category indices, Y values are the data
 chart1.Series[""Data""].ChartType = SeriesChartType.Radar;
-
-// Configure polar/radar chart area
-chart1.ChartAreas[0].AxisX.Interval = 1;
-chart1.ChartAreas[0].AxisY.Minimum = 0;
-chart1.ChartAreas[0].AxisY.Maximum = 100;
-
-// Add categories and values
 string[] categories = { ""Speed"", ""Power"", ""Accuracy"", ""Endurance"", ""Agility"" };
 double[] values = { 85, 70, 92, 78, 88 };
-
-for (int i = 0; i < categories.Length; i++)
-{
-    chart1.Series[""Data""].Points.AddXY(categories[i], values[i]);
-}
+chart1.Series[""Data""].Points.DataBindXY(categories, values);
 
 // Customize radar appearance
 chart1.Series[""Data""][""RadarDrawingStyle""] = ""Area"";
-// Options: Line, Area, Marker
-
-// Multiple series for comparison
-chart1.Series[""Target""].ChartType = SeriesChartType.Radar;
-chart1.Series[""Target""].Color = Color.FromArgb(150, 255, 100, 100);";
+// Options: Area, Line, Marker";
 }

@@ -1,0 +1,200 @@
+@page "/chart-features/selection"
+
+<PageTitle>Data Point Selection - Chart Samples</PageTitle>
+
+<SampleBase Title="Data Point Selection"
+            Description="This sample demonstrates how to enable selection of data points and series in a chart."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Selection Mode:</label>
+            <select @bind="SelectionMode" @bind:after="RefreshChart">
+                <option value="None">None</option>
+                <option value="Single">Single Point</option>
+                <option value="Multiple">Multiple Points</option>
+                <option value="Series">Entire Series</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Selected Point:</label>
+            <select @bind="SelectedPointIndex" @bind:after="RefreshChart">
+                @for (int i = 0; i < 8; i++)
+                {
+                    <option value="@i">Point @(i + 1)</option>
+                }
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Highlight Style:</label>
+            <select @bind="HighlightStyle" @bind:after="RefreshChart">
+                <option value="Color">Color Change</option>
+                <option value="Size">Size Increase</option>
+                <option value="Both">Color + Size</option>
+            </select>
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
+    
+    <div class="selection-info" style="padding: 15px; background: #e8f4fc; border-top: 1px solid #c0d8e8;">
+        <strong>Selected Data:</strong> 
+        @if (SelectionMode != "None" && _selectedData != null)
+        {
+            <span>@_selectedData</span>
+        }
+        else
+        {
+            <span style="color: #999;">No selection</span>
+        }
+    </div>
+
+</SampleBase>
+
+@code {
+    private string SelectionMode { get; set; } = "Single";
+    private int SelectedPointIndex { get; set; } = 3;
+    private string HighlightStyle { get; set; } = "Both";
+    private string? _selectedData;
+
+    private readonly string[] _categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
+    private readonly double[] _values = [65, 78, 52, 91, 83, 67, 74, 88];
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        chart.Title = $"Sales Data - {SelectionMode} Selection";
+        chart.ShowLegend = true;
+
+        var series = new SvgChartSeries("Sales")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        _selectedData = null;
+
+        for (int i = 0; i < _categories.Length; i++)
+        {
+            bool isSelected = IsPointSelected(i);
+            
+            if (isSelected)
+            {
+                _selectedData = $"{_categories[i]}: ${_values[i]:N0}K";
+            }
+
+            series.Points.Add(new SvgDataPoint(i + 1, _values[i], _categories[i]));
+        }
+
+        chart.Series.Add(series);
+
+        // Add a "selected" series to highlight selected points
+        if (SelectionMode != "None")
+        {
+            var selectedSeries = new SvgChartSeries("Selected")
+            {
+                ChartType = SvgChartType.Column,
+                Color = GetHighlightColor()
+            };
+
+            for (int i = 0; i < _categories.Length; i++)
+            {
+                if (IsPointSelected(i))
+                {
+                    selectedSeries.Points.Add(new SvgDataPoint(i + 1, _values[i], _categories[i]));
+                }
+            }
+
+            if (selectedSeries.Points.Count > 0)
+            {
+                chart.Series.Add(selectedSeries);
+            }
+        }
+    }
+
+    private bool IsPointSelected(int index)
+    {
+        return SelectionMode switch
+        {
+            "Single" => index == SelectedPointIndex,
+            "Multiple" => index == SelectedPointIndex || index == SelectedPointIndex + 1 || index == SelectedPointIndex - 1,
+            "Series" => true,
+            _ => false
+        };
+    }
+
+    private ChartColor GetHighlightColor()
+    {
+        return HighlightStyle switch
+        {
+            "Color" => ChartColor.FromArgb(224, 64, 10),
+            "Size" => ChartColor.FromArgb(65, 140, 240),
+            _ => ChartColor.FromArgb(255, 200, 0) // Gold for both
+        };
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Enable selection on chart area
+chart1.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+chart1.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+
+// Handle point click for selection
+chart1.MouseClick += (sender, e) =>
+{
+    HitTestResult result = chart1.HitTest(e.X, e.Y);
+    
+    if (result.ChartElementType == ChartElementType.DataPoint)
+    {
+        DataPoint point = chart1.Series[result.Series.Name].Points[result.PointIndex];
+        
+        // Toggle selection
+        if (point.Color == Color.Gold)
+            point.Color = Color.Blue; // Deselect
+        else
+            point.Color = Color.Gold; // Select
+    }
+};
+
+// Get selected points
+List<DataPoint> selectedPoints = new List<DataPoint>();
+foreach (DataPoint point in chart1.Series[""Sales""].Points)
+{
+    if (point.Color == Color.Gold)
+    {
+        selectedPoints.Add(point);
+    }
+}
+
+// Select point programmatically
+chart1.Series[""Sales""].Points[3].Color = Color.Gold;
+chart1.Series[""Sales""].Points[3].MarkerSize = 12;
+chart1.Series[""Sales""].Points[3].BorderWidth = 3;
+chart1.Series[""Sales""].Points[3].BorderColor = Color.DarkGoldenrod;
+
+// Select entire series
+foreach (DataPoint point in chart1.Series[""Sales""].Points)
+{
+    point.Color = Color.Gold;
+}
+
+// Clear selection
+foreach (DataPoint point in chart1.Series[""Sales""].Points)
+{
+    point.Color = Color.Blue;
+    point.MarkerSize = 8;
+}
+
+// Selection changed event
+chart1.SelectionRangeChanged += (sender, e) =>
+{
+    double start = e.Axis.ScaleView.Position;
+    double end = start + e.Axis.ScaleView.Size;
+    MessageBox.Show($""Selected range: {start} to {end}"");
+};
+
+// Explode selected pie slice
+chart1.Series[""Pie""].Points[0][""Exploded""] = ""true"";";
+}

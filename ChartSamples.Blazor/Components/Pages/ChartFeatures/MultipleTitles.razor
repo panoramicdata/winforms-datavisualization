@@ -1,0 +1,150 @@
+@page "/chart-features/multiple-titles"
+
+<PageTitle>Multiple Titles - Chart Samples</PageTitle>
+
+<SampleBase Title="Multiple Titles"
+            Description="This sample demonstrates how to add multiple titles to a chart with different positions and styles."
+            CSharpCode="@_csharpCode">
+    
+    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
+        <div class="control-group">
+            <label>Title Count:</label>
+            <select @bind="TitleCount" @bind:after="RefreshChart">
+                <option value="1">1 Title</option>
+                <option value="2">2 Titles</option>
+                <option value="3">3 Titles</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Title Position:</label>
+            <select @bind="TitlePosition" @bind:after="RefreshChart">
+                <option value="Top">Top</option>
+                <option value="TopAndBottom">Top & Bottom</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>Show Subtitle:</label>
+            <input type="checkbox" @bind="ShowSubtitle" @bind:after="RefreshChart" />
+        </div>
+    </div>
+
+    <ChartViewer Width="700" Height="420" Configure="@ConfigureChart" />
+
+</SampleBase>
+
+@code {
+    private int TitleCount { get; set; } = 2;
+    private string TitlePosition { get; set; } = "Top";
+    private bool ShowSubtitle { get; set; } = true;
+
+    private void ConfigureChart(SvgChart chart)
+    {
+        // Build title based on options
+        var titleParts = new List<string>();
+        
+        titleParts.Add("Quarterly Sales Report");
+        
+        if (TitleCount >= 2 && ShowSubtitle)
+        {
+            titleParts.Add("FY 2024");
+        }
+        
+        if (TitleCount >= 3)
+        {
+            titleParts.Add("All Regions");
+        }
+
+        chart.Title = string.Join(" - ", titleParts);
+        chart.ShowLegend = true;
+
+        // Create sample data
+        var series1 = new SvgChartSeries("North Region")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(65, 140, 240)
+        };
+
+        var series2 = new SvgChartSeries("South Region")
+        {
+            ChartType = SvgChartType.Column,
+            Color = ChartColor.FromArgb(224, 64, 10)
+        };
+
+        string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+        double[] northData = [120, 145, 135, 160];
+        double[] southData = [95, 110, 125, 140];
+
+        for (int i = 0; i < quarters.Length; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i + 1, northData[i], quarters[i]));
+            series2.Points.Add(new SvgDataPoint(i + 1, southData[i], quarters[i]));
+        }
+
+        chart.Series.Add(series1);
+        chart.Series.Add(series2);
+    }
+
+    private void RefreshChart()
+    {
+        StateHasChanged();
+    }
+
+    private const string _csharpCode = @"// Add primary title
+Title title1 = new Title();
+title1.Text = ""Quarterly Sales Report"";
+title1.Font = new Font(""Arial"", 14, FontStyle.Bold);
+title1.Docking = Docking.Top;
+title1.Alignment = ContentAlignment.MiddleCenter;
+chart1.Titles.Add(title1);
+
+// Add subtitle
+Title title2 = new Title();
+title2.Text = ""Fiscal Year 2024"";
+title2.Font = new Font(""Arial"", 11, FontStyle.Italic);
+title2.Docking = Docking.Top;
+title2.Alignment = ContentAlignment.MiddleCenter;
+title2.ForeColor = Color.Gray;
+chart1.Titles.Add(title2);
+
+// Add footer title
+Title footer = new Title();
+footer.Text = ""Source: Sales Database"";
+footer.Font = new Font(""Arial"", 8);
+footer.Docking = Docking.Bottom;
+footer.Alignment = ContentAlignment.MiddleRight;
+footer.ForeColor = Color.DarkGray;
+chart1.Titles.Add(footer);
+
+// Title with custom position
+Title customTitle = new Title();
+customTitle.Text = ""Custom Position"";
+customTitle.Position.Auto = false;
+customTitle.Position.X = 50;  // Percentage from left
+customTitle.Position.Y = 95;  // Percentage from top
+customTitle.Position.Width = 40;
+customTitle.Position.Height = 5;
+chart1.Titles.Add(customTitle);
+
+// Title docked to chart area
+Title areaTitle = new Title();
+areaTitle.Text = ""Chart Area Title"";
+areaTitle.DockedToChartArea = ""ChartArea1"";
+areaTitle.IsDockedInsideChartArea = true;
+chart1.Titles.Add(areaTitle);
+
+// Title appearance
+title1.BackColor = Color.LightGray;
+title1.BorderColor = Color.Black;
+title1.BorderWidth = 1;
+title1.BorderDashStyle = ChartDashStyle.Solid;
+title1.ShadowOffset = 2;
+title1.ShadowColor = Color.FromArgb(64, 0, 0, 0);
+
+// Title text wrapping
+title1.TextStyle = TextStyle.Default;
+// Options: Default, Frame, Shadow, Emboss
+
+// Remove titles
+chart1.Titles.Clear();
+chart1.Titles.RemoveAt(0);";
+}

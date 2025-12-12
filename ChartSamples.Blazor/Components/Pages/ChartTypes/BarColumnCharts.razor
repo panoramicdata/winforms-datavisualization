@@ -2,57 +2,106 @@
 
 <PageTitle>Bar & Column Charts - Chart Samples</PageTitle>
 
-<SampleBase Title="Bar & Column Charts"
-            Description="This sample demonstrates Bar (horizontal) and Column (vertical) chart types."
+<SampleBase Title="Bar and Column Chart Types"
+            Description="This sample demonstrates the Column and Bar chart types."
             CSharpCode="@_csharpCode">
     
-    <div class="sample-controls" style="border-bottom: 1px solid #e0e0e0;">
-        <div class="control-group">
-            <label>Chart Type:</label>
-            <select @bind="SelectedChartType" @bind:after="RefreshChart">
-                <option value="Column">Column (Vertical)</option>
-                <option value="Bar">Bar (Horizontal)</option>
-            </select>
+    <div class="sample-layout">
+        <div class="chart-panel">
+            <ChartViewer Width="412" Height="296" Configure="@ConfigureChart" />
         </div>
-        <div class="control-group">
-            <label>Number of Items:</label>
-            <select @bind="ItemCount" @bind:after="RefreshChart">
-                <option value="5">5 Items</option>
-                <option value="8">8 Items</option>
-                <option value="10">10 Items</option>
-            </select>
+        
+        <div class="control-panel">
+            <div class="control-group">
+                <label>Chart Type:</label>
+                <select @bind="SelectedChartType" @bind:after="RefreshChart">
+                    <option value="Column">Column</option>
+                    <option value="Bar">Bar</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Point Width:</label>
+                <select @bind="PointWidth" @bind:after="RefreshChart">
+                    <option value="1.0">1.0</option>
+                    <option value="0.8">0.8</option>
+                    <option value="0.6">0.6</option>
+                    <option value="0.4">0.4</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Drawing Style:</label>
+                <select @bind="DrawingStyle" @bind:after="RefreshChart">
+                    <option value="Default">Default</option>
+                    <option value="Emboss">Emboss</option>
+                    <option value="Cylinder">Cylinder</option>
+                    <option value="Wedge">Wedge</option>
+                    <option value="LightToDark">LightToDark</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Display chart as 3D:</label>
+                <input type="checkbox" @bind="Show3D" @bind:after="RefreshChart" disabled title="3D not yet supported" />
+            </div>
         </div>
     </div>
 
-    <ChartViewer Width="700" Height="400" Configure="@ConfigureChart" />
-
 </SampleBase>
+
+<style>
+    .sample-layout {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+    }
+    .chart-panel {
+        flex: 0 0 auto;
+    }
+    .control-panel {
+        flex: 0 0 280px;
+        padding: 10px;
+    }
+</style>
 
 @code {
     private string SelectedChartType { get; set; } = "Column";
-    private int ItemCount { get; set; } = 5;
+    private string PointWidth { get; set; } = "0.8";
+    private string DrawingStyle { get; set; } = "Default";
+    private bool Show3D { get; set; } = false;
 
-    private readonly string[] _categories = ["Product A", "Product B", "Product C", "Product D", "Product E", 
-                                              "Product F", "Product G", "Product H", "Product I", "Product J"];
-    private readonly double[] _values = [65, 78, 52, 89, 73, 61, 84, 47, 92, 56];
+    // Data matching WinForms sample (DateTime values converted to labels)
+    private readonly string[] _labels = ["01-01", "01-02", "01-03", "01-04", "01-05", "01-06", "01-07"];
+    private readonly double[] _series1Data = [32, 56, 35, 12, 35, 6, 23];
+    private readonly double[] _series2Data = [67, 24, 12, 8, 46, 14, 76];
 
     private void ConfigureChart(SvgChart chart)
     {
-        chart.Title = $"{SelectedChartType} Chart - Sales by Product";
-        chart.ShowLegend = true;
+        chart.Title = $"{SelectedChartType} Chart";
+        chart.ShowLegend = false;
 
-        var series = new SvgChartSeries("Sales")
+        var chartType = SelectedChartType == "Bar" ? SvgChartType.Bar : SvgChartType.Column;
+
+        // Series 1
+        var series1 = new SvgChartSeries("Series1")
         {
-            ChartType = SelectedChartType == "Bar" ? SvgChartType.Bar : SvgChartType.Column,
-            Color = ChartColor.FromArgb(65, 140, 240)
+            ChartType = chartType,
+            Color = ChartColor.FromArgb(255, 65, 140, 240)
         };
 
-        for (int i = 0; i < ItemCount; i++)
+        // Series 2
+        var series2 = new SvgChartSeries("Series2")
         {
-            series.Points.Add(new SvgDataPoint(i + 1, _values[i], _categories[i]));
+            ChartType = chartType,
+            Color = ChartColor.FromArgb(255, 252, 180, 65)
+        };
+
+        for (int i = 0; i < 7; i++)
+        {
+            series1.Points.Add(new SvgDataPoint(i + 1, _series1Data[i], _labels[i]));
+            series2.Points.Add(new SvgDataPoint(i + 1, _series2Data[i], _labels[i]));
         }
 
-        chart.Series.Add(series);
+        chart.Series.Add(series1);
+        chart.Series.Add(series2);
     }
 
     private void RefreshChart()
@@ -60,21 +109,33 @@
         StateHasChanged();
     }
 
-    private const string _csharpCode = @"// Column chart (vertical bars)
-chart1.Series[""Sales""].ChartType = SeriesChartType.Column;
+    private const string _csharpCode = @"// Set series chart type
+if (comboBoxChartType.SelectedItem.ToString() == ""Bar"")
+{
+    series.ChartType = SeriesChartType.Bar;
+    chart1.Titles[0].Text = ""Bar Chart"";
+}
+else
+{
+    series.ChartType = SeriesChartType.Column;
+    chart1.Titles[0].Text = ""Column Chart"";
+}
 
-// Bar chart (horizontal bars)
-chart1.Series[""Sales""].ChartType = SeriesChartType.Bar;
+// Set point width of the series
+series[""PointWidth""] = comboBoxPointWidth.Text;
 
-// Stacked column chart
-chart1.Series[""Sales""].ChartType = SeriesChartType.StackedColumn;
-chart1.Series[""Returns""].ChartType = SeriesChartType.StackedColumn;
+// Set drawing style
+series[""DrawingStyle""] = comboBoxDrawingStyle.Text;
 
-// 100% Stacked column chart
-chart1.Series[""Sales""].ChartType = SeriesChartType.StackedColumn100;
+// Enable 3D mode
+chart1.ChartAreas[0].Area3DStyle.Enable3D = checkBoxShow3D.Checked;
 
-// Add data
-string[] categories = { ""Product A"", ""Product B"", ""Product C"" };
-double[] values = { 65, 78, 52 };
-chart1.Series[""Sales""].Points.DataBindXY(categories, values);";
+// Configure axis labels
+chart1.ChartAreas[0].AxisX.LabelStyle.Format = ""MM-dd"";
+chart1.ChartAreas[0].AxisY.LabelStyle.Format = ""C0"";
+
+// Add data points
+series1.Points.Add(new DataPoint(36890, 32)); // Date + Value
+series1.Points.Add(new DataPoint(36891, 56));
+series1.Points.Add(new DataPoint(36892, 35));";
 }

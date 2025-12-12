@@ -11,10 +11,12 @@
     <File Path="MASTER_PLAN.md" />
     <File Path="nuget-key.txt" />
     <File Path="NuGet.config" />
+    <File Path="PHASE4_PLAN.md" />
     <File Path="README.md" />
     <File Path="sample-screenshot.png" />
     <File Path="SECURITY.md" />
     <File Path="solution.dic" />
+    <File Path="System.Windows.Forms.DataVisualization.slnx.startup.json" />
     <File Path="THIRD-PARTY-NOTICES.TXT" />
     <File Path="version.json" />
   </Folder>
@@ -22,6 +24,7 @@
   <Project Path="ChartSamples/ChartSamples.csproj" />
   <Project Path="Svg.DataVisualization.Tests/Svg.DataVisualization.Tests.csproj" />
   <Project Path="Svg.DataVisualization/Svg.DataVisualization.csproj" />
+  <Project Path="System.Windows.Forms.DataVisualization.Core.Tests/System.Windows.Forms.DataVisualization.Core.Tests.csproj" />
   <Project Path="System.Windows.Forms.DataVisualization.Core/System.Windows.Forms.DataVisualization.Core.csproj" />
   <Project Path="System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj" />
 </Solution>
