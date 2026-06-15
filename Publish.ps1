@@ -42,12 +42,12 @@ Write-Host "Git working directory is clean." -ForegroundColor Green
 
 # Step 2: Determine the Nerdbank GitVersioning version
 Write-Host "Determining Nerdbank GitVersioning version..." -ForegroundColor Cyan
-$nbgvOutput = nbgv get-version --format json 2>&1
+$project = Join-Path $PSScriptRoot 'System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj'
+$buildOutput = dotnet build $project -t:GetBuildVersion --getProperty:NuGetPackageVersion -nologo -v:quiet -p:TreatWarningsAsErrors=false
 if ($LASTEXITCODE -ne 0) {
-    Exit-WithError "Failed to get Nerdbank GitVersioning version. Ensure nbgv is installed (dotnet tool install -g nbgv). Error: $nbgvOutput"
+    Exit-WithError "Failed to determine version from Nerdbank GitVersioning.`n$buildOutput"
 }
-$versionInfo = $nbgvOutput | ConvertFrom-Json
-$nugetVersion = $versionInfo.NuGetPackageVersion
+$nugetVersion = ($buildOutput | Select-Object -Last 1).ToString().Trim()
 if (-not $nugetVersion) {
     Exit-WithError "Could not determine NuGet package version from Nerdbank GitVersioning."
 }
