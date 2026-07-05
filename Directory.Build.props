@@ -1,14 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-
   <!-- workaround for package downgrade in Microsoft.NetCore.Platforms -->
   <PropertyGroup>
     <DisableImplicitNETCorePlatformsReference>true</DisableImplicitNETCorePlatformsReference>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup>
     <Deterministic>true</Deterministic>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
-
 </Project>
