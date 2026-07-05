@@ -4,6 +4,7 @@
   <PropertyGroup>
     <DisableImplicitNETCorePlatformsReference>true</DisableImplicitNETCorePlatformsReference>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NuGetAuditMode>All</NuGetAuditMode>
   </PropertyGroup>
   <PropertyGroup>
     <Deterministic>true</Deterministic>
