@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[![Codacy Badge](https://app.codacy.com/project/badge/grade/winforms-datavisualization)](https://app.codacy.com/gh/panoramicdata/winforms-datavisualization/dashboard)
+
 
 This fork has been updated to target dotnet 5 and the Microsoft.Data.SqlClient dependency:
 
