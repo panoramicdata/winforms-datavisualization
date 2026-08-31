@@ -1,11 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="GettingStarted\CreatingFirstChart\**" />
     <Compile Remove="Utilities\SampleMain\**" />
@@ -14,19 +13,15 @@
     <None Remove="GettingStarted\CreatingFirstChart\**" />
     <None Remove="Utilities\SampleMain\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="SampleMain\MainForm - Copy.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Remove="SampleMain\MainForm - Copy.resx" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\System.Windows.Forms.DataVisualization\System.Windows.Forms.DataVisualization.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="ChartFeatures\Annotations\AnnotationAnchoring\AnnotationAnchoring.resx">
       <LogicalName>ChartSamples.AnnotationAnchoring.resources</LogicalName>
@@ -128,7 +123,6 @@
       <LogicalName>ChartSamples.MainForm.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="App.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -2036,5 +2030,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>
