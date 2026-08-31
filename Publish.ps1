@@ -1,111 +1,127 @@
-<#
-.SYNOPSIS
-    Publishes the NuGet package to nuget.org.
-
-.DESCRIPTION
-    This script performs the following steps:
-    1. Checks for uncommitted git changes (porcelain)
-    2. Determines the Nerdbank GitVersioning version
-    3. Validates nuget-key.txt exists, has content, and is gitignored
-    4. Runs unit tests (unless -SkipTests is specified)
-    5. Publishes the package to nuget.org
-
-.PARAMETER SkipTests
-    Skip running unit tests.
-
-.EXAMPLE
-    .\Publish.ps1
-    .\Publish.ps1 -SkipTests
-#>
-
-[CmdletBinding()]
 param(
-    [switch]$SkipTests
+	# Skips waiting for the release run. The tag is still pushed, but nothing confirms a package
+	# reached nuget.org — use it only if you are checking the run yourself.
+	[switch]$SkipPublishVerification
 )
 
-$ErrorActionPreference = 'Stop'
-
-# Helper function to exit with error
-function Exit-WithError {
-    param([string]$Message)
-    Write-Error $Message
-    exit 1
+# Ensure we are on the main branch
+$branch = git rev-parse --abbrev-ref HEAD
+if ($branch -ne 'main') {
+	Write-Error "Not on main branch. Current branch: $branch"
+	exit 1
 }
 
-# Step 1: Check for uncommitted git changes
-Write-Host "Checking for uncommitted git changes..." -ForegroundColor Cyan
-$gitStatus = git status --porcelain
-if ($gitStatus) {
-    Exit-WithError "There are uncommitted changes in the repository. Please commit or stash them before publishing."
+# Ensure working tree is clean
+$status = git status --porcelain
+if ($status) {
+	Write-Error "Working tree is not clean."
+	exit 1
 }
-Write-Host "Git working directory is clean." -ForegroundColor Green
 
-# Step 2: Determine the Nerdbank GitVersioning version
-Write-Host "Determining Nerdbank GitVersioning version..." -ForegroundColor Cyan
-$project = Join-Path $PSScriptRoot 'System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj'
-$buildOutput = dotnet build $project -t:GetBuildVersion --getProperty:NuGetPackageVersion -nologo -v:quiet -p:TreatWarningsAsErrors=false
+# Ensure we are up to date with origin
+git fetch origin main --quiet
+$behind = git rev-list --count HEAD..origin/main
+if ($behind -gt 0) {
+	Write-Error "Local branch is behind origin/main by $behind commit(s)."
+	exit 1
+}
+
+# Checked before anything is pushed, because pushing the tag is the step that cannot be taken back.
+# Without the GitHub CLI there is no way to confirm the release run succeeded, and an unverified
+# publish is how repositories end up months behind their newest tag with nobody noticing.
+if (-not $SkipPublishVerification) {
+	$gh = Get-Command gh -ErrorAction SilentlyContinue
+	if (-not $gh) {
+		Write-Error "The GitHub CLI (gh) is required to verify that the package publishes. Install it from https://cli.github.com, or re-run with -SkipPublishVerification to publish without verification."
+		exit 1
+	}
+
+	gh auth status 2>&1 | Out-Null
+	if ($LASTEXITCODE -ne 0) {
+		Write-Error "The GitHub CLI is not authenticated. Run 'gh auth login', or re-run with -SkipPublishVerification to publish without verification."
+		exit 1
+	}
+}
+
+# Get version from Nerdbank.GitVersioning via the project's MSBuild targets (the
+# referenced NuGet package), so this does not depend on the global 'nbgv' CLI tool
+# being installed or on PATH.
+$packableProject = Get-ChildItem -Recurse -Filter *.csproj |
+	Where-Object { $_.FullName -notmatch '[\\/]obj[\\/]' -and (Get-Content $_.FullName -Raw) -match 'Nerdbank\.GitVersioning' } |
+	Select-Object -First 1
+if (-not $packableProject) {
+	Write-Error "Could not find a packable project referencing Nerdbank.GitVersioning."
+	exit 1
+}
+$buildOutput = dotnet build $packableProject.FullName -t:GetBuildVersion --getProperty:NuGetPackageVersion -nologo -v:quiet -p:TreatWarningsAsErrors=false
 if ($LASTEXITCODE -ne 0) {
-    Exit-WithError "Failed to determine version from Nerdbank GitVersioning.`n$buildOutput"
+	Write-Error "Failed to determine version from Nerdbank.GitVersioning.`n$buildOutput"
+	exit 1
 }
-$nugetVersion = ($buildOutput | Select-Object -Last 1).ToString().Trim()
-if (-not $nugetVersion) {
-    Exit-WithError "Could not determine NuGet package version from Nerdbank GitVersioning."
-}
-Write-Host "NuGet Package Version: $nugetVersion" -ForegroundColor Green
+$version = ($buildOutput | Select-Object -Last 1).ToString().Trim()
+Write-Host "Version: $version"
 
-# Step 3: Check that nuget-key.txt exists, has content, and is gitignored
-Write-Host "Validating nuget-key.txt..." -ForegroundColor Cyan
-$nugetKeyPath = Join-Path $PSScriptRoot "nuget-key.txt"
-
-if (-not (Test-Path $nugetKeyPath)) {
-    Exit-WithError "nuget-key.txt does not exist. Please create it with your NuGet API key."
+# Check if tag already exists
+$existingTag = git tag -l $version
+if ($existingTag) {
+	Write-Error "Tag $version already exists."
+	exit 1
 }
 
-$nugetKey = (Get-Content $nugetKeyPath -Raw).Trim()
-if ([string]::IsNullOrWhiteSpace($nugetKey)) {
-    Exit-WithError "nuget-key.txt is empty. Please add your NuGet API key."
+# Create and push tag
+git tag $version
+git push origin $version
+Write-Host "Tag $version pushed."
+
+if ($SkipPublishVerification) {
+	Write-Warning "Not waiting for the release run (-SkipPublishVerification). Nothing has confirmed that a package reached nuget.org."
+	exit 0
 }
 
-# Check if nuget-key.txt is gitignored
-$gitCheckIgnore = git check-ignore "nuget-key.txt" 2>&1
-if ($LASTEXITCODE -ne 0) {
-    Exit-WithError "nuget-key.txt is not gitignored. Please add it to .gitignore to prevent accidental exposure of your API key."
-}
-Write-Host "nuget-key.txt is valid and gitignored." -ForegroundColor Green
+# The repository the run belongs to, read from the remote rather than assumed.
+$originUrl = git remote get-url origin
+$repoFullName = ($originUrl -replace '^.*github\.com[:/]', '') -replace '\.git$', ''
 
-# Step 4: Run unit tests (unless -SkipTests is specified)
-if (-not $SkipTests) {
-    Write-Host "Running unit tests..." -ForegroundColor Cyan
-    dotnet test --configuration Release --no-restore
-    if ($LASTEXITCODE -ne 0) {
-        Exit-WithError "Unit tests failed."
-    }
-    Write-Host "Unit tests passed." -ForegroundColor Green
-} else {
-    Write-Host "Skipping unit tests." -ForegroundColor Yellow
+Write-Host "Waiting for the release run for $version..."
+
+# The run takes a few seconds to appear after the tag push.
+$runId = $null
+for ($attempt = 1; $attempt -le 12 -and -not $runId; $attempt++) {
+	Start-Sleep -Seconds 5
+	$runListJson = gh run list --repo $repoFullName --branch $version --limit 1 --json databaseId 2>$null
+	if ($LASTEXITCODE -eq 0 -and $runListJson) {
+		$runList = $runListJson | ConvertFrom-Json
+		if ($runList.Count -gt 0) { $runId = $runList[0].databaseId }
+	}
 }
 
-# Step 5: Build and pack the project
-Write-Host "Building and packing the project..." -ForegroundColor Cyan
-$projectPath = Join-Path $PSScriptRoot "System.Windows.Forms.DataVisualization\System.Windows.Forms.DataVisualization.csproj"
-dotnet pack $projectPath --configuration Release --no-restore
-if ($LASTEXITCODE -ne 0) {
-    Exit-WithError "Failed to build/pack the project."
-}
-Write-Host "Project packed successfully." -ForegroundColor Green
-
-# Step 6: Publish to nuget.org
-Write-Host "Publishing to nuget.org..." -ForegroundColor Cyan
-$nupkgPath = Join-Path $PSScriptRoot "System.Windows.Forms.DataVisualization\bin\Release\PanoramicData.System.Windows.Forms.DataVisualization.$nugetVersion.nupkg"
-
-if (-not (Test-Path $nupkgPath)) {
-    Exit-WithError "NuGet package not found at: $nupkgPath"
+if (-not $runId) {
+	Write-Error "Tag $version was pushed but no run appeared for it. Check https://github.com/$repoFullName/actions — the workflow may not trigger on tags."
+	exit 1
 }
 
-dotnet nuget push $nupkgPath --api-key $nugetKey --source https://api.nuget.org/v3/index.json
-if ($LASTEXITCODE -ne 0) {
-    Exit-WithError "Failed to publish package to nuget.org."
+Write-Host "Run: https://github.com/$repoFullName/actions/runs/$runId"
+gh run watch $runId --repo $repoFullName --exit-status --interval 20
+$runExitCode = $LASTEXITCODE
+
+if ($runExitCode -ne 0) {
+	Write-Host ""
+	Write-Host "The release run did not succeed: https://github.com/$repoFullName/actions/runs/$runId" -ForegroundColor Red
+
+	# A refused job — an exhausted Actions budget, for instance — fails before any step runs, so it
+	# has no failed step to report. The check-run annotation is the only place the reason appears.
+	$jobId = gh api "repos/$repoFullName/actions/runs/$runId/jobs" --jq '.jobs[0].id' 2>$null
+	if ($LASTEXITCODE -eq 0 -and $jobId) {
+		$annotation = gh api "repos/$repoFullName/check-runs/$jobId/annotations" --jq '.[0].message' 2>$null
+		if ($LASTEXITCODE -eq 0 -and $annotation) {
+			Write-Host "Reason: $annotation" -ForegroundColor Red
+		}
+	}
+
+	Write-Host ""
+	Write-Host "Tag $version is pushed but no package was published. Once the cause is fixed:" -ForegroundColor Yellow
+	Write-Host "  gh run rerun $runId --repo $repoFullName --failed" -ForegroundColor Cyan
+	exit 1
 }
 
-Write-Host "Successfully published PanoramicData.System.Windows.Forms.DataVisualization $nugetVersion to nuget.org!" -ForegroundColor Green
-exit 0
+Write-Host "Package $version published." -ForegroundColor Green
