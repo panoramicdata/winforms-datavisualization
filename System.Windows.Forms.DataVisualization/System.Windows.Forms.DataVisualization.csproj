@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -19,7 +19,7 @@
     <PackageId>PanoramicData.System.Windows.Forms.DataVisualization</PackageId>
     <Description>This package contains the charting controls for Windows Forms for .NET Core.</Description>
     <Authors>Microsoft</Authors>
-    <RepositoryUrl>https://github.com/dotnet/winforms-datavisualization</RepositoryUrl>
+    <RepositoryUrl>https://github.com/panoramicdata/winforms-datavisualization</RepositoryUrl>
     <PackageTags>WinForms Windows Forms DataVisualization DataVisualisation Data Visualization Visualisation</PackageTags>
   </PropertyGroup>
   <ItemGroup>
