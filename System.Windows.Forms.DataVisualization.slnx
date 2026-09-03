@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
@@ -19,6 +20,10 @@
     <File Path="System.Windows.Forms.DataVisualization.slnx.startup.json" />
     <File Path="THIRD-PARTY-NOTICES.TXT" />
     <File Path="version.json" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Packages.props" />
+    <File Path="LICENSE" />
+    <File Path="Publish.ps1" />
   </Folder>
   <Project Path="ChartSamples.Blazor/ChartSamples.Blazor.csproj" />
   <Project Path="ChartSamples/ChartSamples.csproj" />
