@@ -18,6 +18,7 @@
     <Description>SVG rendering engine for the DataVisualization charting library. Generates SVG output from chart data without WinForms dependencies.</Description>
     <Authors>Microsoft</Authors>
     <RepositoryUrl>https://github.com/panoramicdata/winforms-datavisualization</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/panoramicdata/winforms-datavisualization</PackageProjectUrl>
     <PackageTags>DataVisualization DataVisualisation Data Visualization Visualisation SVG Chart Charting</PackageTags>
   </PropertyGroup>
   <ItemGroup>

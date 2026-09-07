@@ -18,6 +18,7 @@
     <Description>Core platform-agnostic types and interfaces for the DataVisualization charting library.</Description>
     <Authors>Microsoft</Authors>
     <RepositoryUrl>https://github.com/panoramicdata/winforms-datavisualization</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/panoramicdata/winforms-datavisualization</PackageProjectUrl>
     <PackageTags>DataVisualization DataVisualisation Data Visualization Visualisation Core</PackageTags>
   </PropertyGroup>
   <ItemGroup>
