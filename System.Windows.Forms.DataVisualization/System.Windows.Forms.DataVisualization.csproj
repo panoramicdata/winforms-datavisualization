@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -13,6 +13,7 @@
     <!-- <Win32Manifest>Resources\System\Windows\Forms\XPThemes.manifest</Win32Manifest> -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <!-- NuGet package properties -->
   <PropertyGroup>
