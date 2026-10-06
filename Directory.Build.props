@@ -9,6 +9,7 @@
     <Authors>Panoramic Data Limited</Authors>
     <Company>Panoramic Data Limited</Company>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup>
     <Deterministic>true</Deterministic>
