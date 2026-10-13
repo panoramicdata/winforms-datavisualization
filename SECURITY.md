@@ -2,14 +2,32 @@
 
 ## Supported Versions
 
-The .NET Core and ASP.NET Core support policy, including supported versions can be found at the [.NET Core Support Policy Page](https://dotnet.microsoft.com/platform/support/policy/dotnet-core).
+Only the latest released version is supported with security updates.
 
 ## Reporting a Vulnerability
 
-Security issues and bugs should be reported privately to the Microsoft Security Response Center (MSRC), either by emailing secure@microsoft.com or via the portal at https://msrc.microsoft.com. 
-You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your 
-original message. Further information, including the MSRC PGP key, can be found in the [MSRC Report an Issue FAQ](https://www.microsoft.com/en-us/msrc/faqs-report-an-issue).
+If you discover a security vulnerability, please report it responsibly.
 
-Reports via MSRC may qualify for the .NET Core Bug Bounty. Details of the .NET Core Bug Bounty including terms and conditions are at [https://aka.ms/corebounty](https://aka.ms/corebounty).
+**Do not open a public GitHub issue.**
 
-Please do not open issues for anything you think might have a security implication.
+Instead, use GitHub's private vulnerability reporting: open this repository's **Security** tab
+and choose **Report a vulnerability**, or go straight to
+https://github.com/panoramicdata/winforms-datavisualization/security/advisories/new
+
+Please include:
+
+- A description of the vulnerability
+- Steps to reproduce the issue
+- Any relevant logs or screenshots
+
+We will acknowledge receipt within 48 hours and aim to provide a fix or mitigation within 7 business days.
+
+## Disclosure Policy
+
+We follow a coordinated disclosure process. We ask that you:
+
+1. Allow us reasonable time to investigate and address the issue
+2. Avoid exploiting the vulnerability beyond what is necessary to demonstrate it
+3. Do not disclose the issue publicly until we have released a fix
+
+Thank you for helping keep our software and users safe.
