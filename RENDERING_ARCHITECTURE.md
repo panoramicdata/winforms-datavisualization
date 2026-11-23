@@ -490,4 +490,4 @@ public class SvgChart : IChartModel
 
 - **`MASTER_PLAN.md`** - Overall modernization plan (Phase 4.5 section)
 - **`PHASE4_PLAN.md`** - Blazor samples and Phase 4.5 tracking
-- **`.github/copilot-instructions.md`** - Development guidelines
+- **`AGENTS.md`** - Development guidelines
